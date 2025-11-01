@@ -1,1 +1,1415 @@
 [INFO ] PyDI.fusion.analysis - Analyzed 20 attributes across 3 datasets
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 6440 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 3081 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 917 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 443827 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 121 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 127 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 107 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 6440 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 3081 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 917 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 443827 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 121 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 127 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 107 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 6440 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 3081 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 917 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 443827 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] sentence_transformers.SentenceTransformer - Use pytorch device_name: cpu
+[INFO ] sentence_transformers.SentenceTransformer - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Loaded sentence transformer model: sentence-transformers/all-MiniLM-L6-v2
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - created 384d embeddings for first dataset
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - created 384d embeddings for second dataset
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - created similarity index with 63469 vectors, metric=cosine
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Debug results written to file: output/blocking-evaluation\debugResultsBlocking_EmbeddingBlocker.csv
+[INFO ] root - Starting batched blocking evaluation...
+[INFO ] root - Processed 10 batches, 10000 pairs, 0 true matches
+[INFO ] root - Processed 20 batches, 20000 pairs, 0 true matches
+[INFO ] root - Processed 30 batches, 30000 pairs, 0 true matches
+[INFO ] root - Processed 40 batches, 40000 pairs, 0 true matches
+[INFO ] root - Processed 50 batches, 50000 pairs, 0 true matches
+[INFO ] root - Processed 60 batches, 60000 pairs, 0 true matches
+[INFO ] root - Processed 70 batches, 70000 pairs, 0 true matches
+[INFO ] root - Processed 80 batches, 80000 pairs, 0 true matches
+[INFO ] root - Processed 90 batches, 90000 pairs, 0 true matches
+[INFO ] root - Processed 100 batches, 100000 pairs, 0 true matches
+[INFO ] root - Processed 110 batches, 110000 pairs, 0 true matches
+[INFO ] root - Processed 120 batches, 120000 pairs, 0 true matches
+[INFO ] root - Processed 130 batches, 130000 pairs, 0 true matches
+[INFO ] root - Processed 140 batches, 140000 pairs, 0 true matches
+[INFO ] root - Processed 150 batches, 150000 pairs, 0 true matches
+[INFO ] root - Processed 160 batches, 160000 pairs, 0 true matches
+[INFO ] root - Processed 170 batches, 170000 pairs, 0 true matches
+[INFO ] root - Processed 180 batches, 180000 pairs, 0 true matches
+[INFO ] root - Processed 190 batches, 190000 pairs, 0 true matches
+[INFO ] root - Processed 200 batches, 200000 pairs, 0 true matches
+[INFO ] root - Processed 210 batches, 210000 pairs, 0 true matches
+[INFO ] root - Processed 220 batches, 220000 pairs, 0 true matches
+[INFO ] root - Processed 230 batches, 230000 pairs, 0 true matches
+[INFO ] root - Processed 240 batches, 240000 pairs, 0 true matches
+[INFO ] root - Processed 250 batches, 250000 pairs, 0 true matches
+[INFO ] root - Processed 260 batches, 260000 pairs, 0 true matches
+[INFO ] root - Processed 270 batches, 270000 pairs, 0 true matches
+[INFO ] root - Processed 280 batches, 280000 pairs, 0 true matches
+[INFO ] root - Processed 290 batches, 290000 pairs, 0 true matches
+[INFO ] root - Processed 300 batches, 300000 pairs, 0 true matches
+[INFO ] root - Processed 310 batches, 310000 pairs, 0 true matches
+[INFO ] root - Processed 320 batches, 320000 pairs, 0 true matches
+[INFO ] root - Processed 330 batches, 330000 pairs, 0 true matches
+[INFO ] root - Processed 340 batches, 340000 pairs, 0 true matches
+[INFO ] root - Processed 350 batches, 350000 pairs, 0 true matches
+[INFO ] root - Processed 360 batches, 360000 pairs, 0 true matches
+[INFO ] root - Processed 370 batches, 370000 pairs, 0 true matches
+[INFO ] root - Processed 380 batches, 380000 pairs, 0 true matches
+[INFO ] root - Processed 390 batches, 390000 pairs, 0 true matches
+[INFO ] root - Processed 400 batches, 400000 pairs, 0 true matches
+[INFO ] root - Processed 410 batches, 410000 pairs, 0 true matches
+[INFO ] root - Processed 420 batches, 420000 pairs, 0 true matches
+[INFO ] root - Processed 430 batches, 430000 pairs, 0 true matches
+[INFO ] root - Processed 440 batches, 440000 pairs, 0 true matches
+[INFO ] root - Processed 450 batches, 450000 pairs, 0 true matches
+[INFO ] root - Processed 460 batches, 460000 pairs, 0 true matches
+[INFO ] root - Processed 470 batches, 470000 pairs, 0 true matches
+[INFO ] root - Processed 480 batches, 480000 pairs, 0 true matches
+[INFO ] root - Processed 490 batches, 490000 pairs, 0 true matches
+[INFO ] root - Processed 500 batches, 500000 pairs, 0 true matches
+[INFO ] root - Processed 510 batches, 510000 pairs, 0 true matches
+[INFO ] root - Processed 520 batches, 520000 pairs, 0 true matches
+[INFO ] root - Processed 530 batches, 530000 pairs, 0 true matches
+[INFO ] root - Processed 540 batches, 540000 pairs, 0 true matches
+[INFO ] root - Processed 550 batches, 550000 pairs, 0 true matches
+[INFO ] root - Processed 560 batches, 560000 pairs, 0 true matches
+[INFO ] root - Processed 570 batches, 570000 pairs, 0 true matches
+[INFO ] root - Processed 580 batches, 580000 pairs, 0 true matches
+[INFO ] root - Processed 590 batches, 590000 pairs, 0 true matches
+[INFO ] root - Processed 600 batches, 600000 pairs, 0 true matches
+[INFO ] root - Processed 610 batches, 610000 pairs, 0 true matches
+[INFO ] root - Processed 620 batches, 620000 pairs, 0 true matches
+[INFO ] root - Processed 630 batches, 630000 pairs, 0 true matches
+[INFO ] root - Processed 640 batches, 640000 pairs, 0 true matches
+[INFO ] root - Processed 650 batches, 650000 pairs, 0 true matches
+[INFO ] root - Processed 660 batches, 660000 pairs, 0 true matches
+[INFO ] root - Processed 670 batches, 670000 pairs, 0 true matches
+[INFO ] root - Processed 680 batches, 680000 pairs, 0 true matches
+[INFO ] root - Processed 690 batches, 690000 pairs, 0 true matches
+[INFO ] root - Processed 700 batches, 700000 pairs, 0 true matches
+[INFO ] root - Processed 710 batches, 710000 pairs, 0 true matches
+[INFO ] root - Processed 720 batches, 720000 pairs, 0 true matches
+[INFO ] root - Processed 730 batches, 730000 pairs, 0 true matches
+[INFO ] root - Processed 740 batches, 740000 pairs, 0 true matches
+[INFO ] root - Processed 750 batches, 750000 pairs, 0 true matches
+[INFO ] root - Processed 760 batches, 760000 pairs, 0 true matches
+[INFO ] root - Processed 770 batches, 770000 pairs, 0 true matches
+[INFO ] root - Processed 780 batches, 780000 pairs, 0 true matches
+[INFO ] root - Processed 790 batches, 790000 pairs, 0 true matches
+[INFO ] root - Processed 800 batches, 800000 pairs, 0 true matches
+[INFO ] root - Processed 810 batches, 810000 pairs, 0 true matches
+[INFO ] root - Processed 820 batches, 820000 pairs, 0 true matches
+[INFO ] root - Processed 830 batches, 830000 pairs, 0 true matches
+[INFO ] root - Processed 840 batches, 840000 pairs, 0 true matches
+[INFO ] root - Processed 850 batches, 850000 pairs, 0 true matches
+[INFO ] root - Processed 860 batches, 860000 pairs, 0 true matches
+[INFO ] root - Processed 870 batches, 870000 pairs, 0 true matches
+[INFO ] root - Processed 880 batches, 880000 pairs, 0 true matches
+[INFO ] root - Processed 890 batches, 890000 pairs, 0 true matches
+[INFO ] root - Processed 900 batches, 900000 pairs, 0 true matches
+[INFO ] root - Processed 910 batches, 910000 pairs, 0 true matches
+[INFO ] root - Processed 920 batches, 920000 pairs, 0 true matches
+[INFO ] root - Processed 930 batches, 930000 pairs, 0 true matches
+[INFO ] root - Processed 940 batches, 940000 pairs, 0 true matches
+[INFO ] root - Processed 950 batches, 950000 pairs, 0 true matches
+[INFO ] root - Processed 960 batches, 960000 pairs, 0 true matches
+[INFO ] root - Processed 970 batches, 970000 pairs, 0 true matches
+[INFO ] root - Processed 980 batches, 980000 pairs, 0 true matches
+[INFO ] root - Processed 990 batches, 990000 pairs, 0 true matches
+[INFO ] root - Processed 1000 batches, 1000000 pairs, 0 true matches
+[INFO ] root - Processed 1010 batches, 1010000 pairs, 0 true matches
+[INFO ] root - Processed 1020 batches, 1020000 pairs, 0 true matches
+[INFO ] root - Processed 1030 batches, 1030000 pairs, 0 true matches
+[INFO ] root - Processed 1040 batches, 1040000 pairs, 0 true matches
+[INFO ] root - Processed 1050 batches, 1050000 pairs, 0 true matches
+[INFO ] root - Processed 1060 batches, 1060000 pairs, 0 true matches
+[INFO ] root - Processed 1070 batches, 1070000 pairs, 0 true matches
+[INFO ] root - Processed 1080 batches, 1080000 pairs, 0 true matches
+[INFO ] root - Processed 1090 batches, 1090000 pairs, 0 true matches
+[INFO ] root - Processed 1100 batches, 1100000 pairs, 0 true matches
+[INFO ] root - Processed 1110 batches, 1110000 pairs, 0 true matches
+[INFO ] root - Processed 1120 batches, 1120000 pairs, 0 true matches
+[INFO ] root - Processed 1130 batches, 1130000 pairs, 0 true matches
+[INFO ] root - Processed 1140 batches, 1140000 pairs, 0 true matches
+[INFO ] root - Processed 1150 batches, 1150000 pairs, 0 true matches
+[INFO ] root - Processed 1160 batches, 1160000 pairs, 0 true matches
+[INFO ] root - Processed 1170 batches, 1170000 pairs, 0 true matches
+[INFO ] root - Processed 1180 batches, 1180000 pairs, 0 true matches
+[INFO ] root - Processed 1190 batches, 1190000 pairs, 0 true matches
+[INFO ] root - Processed 1200 batches, 1200000 pairs, 0 true matches
+[INFO ] root - Processed 1210 batches, 1210000 pairs, 0 true matches
+[INFO ] root - Processed 1220 batches, 1220000 pairs, 0 true matches
+[INFO ] root - Processed 1230 batches, 1230000 pairs, 0 true matches
+[INFO ] root - Processed 1240 batches, 1240000 pairs, 0 true matches
+[INFO ] root - Processed 1250 batches, 1250000 pairs, 0 true matches
+[INFO ] root - Processed 1260 batches, 1260000 pairs, 0 true matches
+[INFO ] root - Processed 1270 batches, 1270000 pairs, 0 true matches
+[INFO ] root - Processed 1280 batches, 1280000 pairs, 0 true matches
+[INFO ] root - Processed 1290 batches, 1290000 pairs, 0 true matches
+[INFO ] root - Processed 1300 batches, 1300000 pairs, 0 true matches
+[INFO ] root - Processed 1310 batches, 1310000 pairs, 0 true matches
+[INFO ] root - Processed 1320 batches, 1320000 pairs, 0 true matches
+[INFO ] root - Processed 1330 batches, 1330000 pairs, 0 true matches
+[INFO ] root - Processed 1340 batches, 1340000 pairs, 0 true matches
+[INFO ] root - Processed 1350 batches, 1350000 pairs, 0 true matches
+[INFO ] root - Processed 1360 batches, 1360000 pairs, 0 true matches
+[INFO ] root - Processed 1370 batches, 1370000 pairs, 0 true matches
+[INFO ] root - Processed 1380 batches, 1380000 pairs, 0 true matches
+[INFO ] root - Processed 1390 batches, 1390000 pairs, 0 true matches
+[INFO ] root - Processed 1400 batches, 1400000 pairs, 0 true matches
+[INFO ] root - Processed 1410 batches, 1410000 pairs, 0 true matches
+[INFO ] root - Processed 1420 batches, 1420000 pairs, 0 true matches
+[INFO ] root - Processed 1430 batches, 1430000 pairs, 0 true matches
+[INFO ] root - Processed 1440 batches, 1440000 pairs, 0 true matches
+[INFO ] root - Processed 1450 batches, 1450000 pairs, 0 true matches
+[INFO ] root - Processed 1460 batches, 1460000 pairs, 0 true matches
+[INFO ] root - Processed 1470 batches, 1470000 pairs, 0 true matches
+[INFO ] root - Processed 1480 batches, 1480000 pairs, 0 true matches
+[INFO ] root - Processed 1490 batches, 1490000 pairs, 0 true matches
+[INFO ] root - Processed 1500 batches, 1500000 pairs, 0 true matches
+[INFO ] root - Processed 1510 batches, 1510000 pairs, 0 true matches
+[INFO ] root - Processed 1520 batches, 1520000 pairs, 0 true matches
+[INFO ] root - Processed 1530 batches, 1530000 pairs, 0 true matches
+[INFO ] root - Processed 1540 batches, 1540000 pairs, 0 true matches
+[INFO ] root - Processed 1550 batches, 1550000 pairs, 0 true matches
+[INFO ] root - Processed 1560 batches, 1560000 pairs, 0 true matches
+[INFO ] root - Processed 1570 batches, 1570000 pairs, 0 true matches
+[INFO ] root - Processed 1580 batches, 1580000 pairs, 0 true matches
+[INFO ] root - Processed 1590 batches, 1590000 pairs, 0 true matches
+[INFO ] root - Processed 1600 batches, 1600000 pairs, 0 true matches
+[INFO ] root - Processed 1610 batches, 1610000 pairs, 0 true matches
+[INFO ] root - Processed 1620 batches, 1620000 pairs, 0 true matches
+[INFO ] root - Processed 1630 batches, 1630000 pairs, 0 true matches
+[INFO ] root - Processed 1640 batches, 1640000 pairs, 0 true matches
+[INFO ] root - Processed 1650 batches, 1650000 pairs, 0 true matches
+[INFO ] root - Processed 1660 batches, 1660000 pairs, 0 true matches
+[INFO ] root - Processed 1670 batches, 1670000 pairs, 0 true matches
+[INFO ] root - Processed 1680 batches, 1680000 pairs, 0 true matches
+[INFO ] root - Processed 1690 batches, 1690000 pairs, 0 true matches
+[INFO ] root - Processed 1700 batches, 1700000 pairs, 0 true matches
+[INFO ] root - Processed 1710 batches, 1710000 pairs, 0 true matches
+[INFO ] root - Processed 1720 batches, 1720000 pairs, 0 true matches
+[INFO ] root - Processed 1730 batches, 1730000 pairs, 0 true matches
+[INFO ] root - Processed 1740 batches, 1740000 pairs, 0 true matches
+[INFO ] root - Processed 1750 batches, 1750000 pairs, 0 true matches
+[INFO ] root - Processed 1760 batches, 1760000 pairs, 0 true matches
+[INFO ] root - Processed 1770 batches, 1770000 pairs, 0 true matches
+[INFO ] root - Processed 1780 batches, 1780000 pairs, 0 true matches
+[INFO ] root - Processed 1790 batches, 1790000 pairs, 0 true matches
+[INFO ] root - Processed 1800 batches, 1800000 pairs, 0 true matches
+[INFO ] root - Processed 1810 batches, 1810000 pairs, 0 true matches
+[INFO ] root - Processed 1820 batches, 1820000 pairs, 0 true matches
+[INFO ] root - Processed 1830 batches, 1830000 pairs, 0 true matches
+[INFO ] root - Processed 1840 batches, 1840000 pairs, 0 true matches
+[INFO ] root - Processed 1850 batches, 1850000 pairs, 0 true matches
+[INFO ] root - Processed 1860 batches, 1860000 pairs, 0 true matches
+[INFO ] root - Processed 1870 batches, 1870000 pairs, 0 true matches
+[INFO ] root - Processed 1880 batches, 1880000 pairs, 0 true matches
+[INFO ] root - Processed 1890 batches, 1890000 pairs, 0 true matches
+[INFO ] root - Processed 1900 batches, 1900000 pairs, 0 true matches
+[INFO ] root - Processed 1910 batches, 1910000 pairs, 0 true matches
+[INFO ] root - Processed 1920 batches, 1920000 pairs, 0 true matches
+[INFO ] root - Processed 1930 batches, 1930000 pairs, 0 true matches
+[INFO ] root - Processed 1940 batches, 1940000 pairs, 0 true matches
+[INFO ] root - Processed 1950 batches, 1950000 pairs, 0 true matches
+[INFO ] root - Processed 1960 batches, 1960000 pairs, 0 true matches
+[INFO ] root - Processed 1970 batches, 1970000 pairs, 0 true matches
+[INFO ] root - Processed 1980 batches, 1980000 pairs, 0 true matches
+[INFO ] root - Processed 1990 batches, 1990000 pairs, 0 true matches
+[INFO ] root - Processed 2000 batches, 2000000 pairs, 0 true matches
+[INFO ] root - Processed 2010 batches, 2010000 pairs, 0 true matches
+[INFO ] root - Processed 2020 batches, 2020000 pairs, 0 true matches
+[INFO ] root - Processed 2030 batches, 2030000 pairs, 0 true matches
+[INFO ] root - Processed 2040 batches, 2040000 pairs, 0 true matches
+[INFO ] root - Processed 2050 batches, 2050000 pairs, 0 true matches
+[INFO ] root - Processed 2060 batches, 2060000 pairs, 0 true matches
+[INFO ] root - Processed 2070 batches, 2070000 pairs, 0 true matches
+[INFO ] root - Processed 2080 batches, 2080000 pairs, 0 true matches
+[INFO ] root - Processed 2090 batches, 2090000 pairs, 0 true matches
+[INFO ] root - Processed 2100 batches, 2100000 pairs, 0 true matches
+[INFO ] root - Processed 2110 batches, 2110000 pairs, 0 true matches
+[INFO ] root - Processed 2120 batches, 2120000 pairs, 0 true matches
+[INFO ] root - Processed 2130 batches, 2130000 pairs, 0 true matches
+[INFO ] root - Processed 2140 batches, 2140000 pairs, 0 true matches
+[INFO ] root - Processed 2150 batches, 2150000 pairs, 0 true matches
+[INFO ] root - Processed 2160 batches, 2160000 pairs, 0 true matches
+[INFO ] root - Processed 2170 batches, 2170000 pairs, 0 true matches
+[INFO ] root - Processed 2180 batches, 2180000 pairs, 0 true matches
+[INFO ] root - Processed 2190 batches, 2190000 pairs, 0 true matches
+[INFO ] root - Processed 2200 batches, 2200000 pairs, 0 true matches
+[INFO ] root - Processed 2210 batches, 2210000 pairs, 0 true matches
+[INFO ] root - Processed 2220 batches, 2220000 pairs, 0 true matches
+[INFO ] root - Processed 2230 batches, 2230000 pairs, 0 true matches
+[INFO ] root - Processed 2240 batches, 2240000 pairs, 0 true matches
+[INFO ] root - Processed 2250 batches, 2250000 pairs, 0 true matches
+[INFO ] root - Processed 2260 batches, 2260000 pairs, 0 true matches
+[INFO ] root - Processed 2270 batches, 2270000 pairs, 0 true matches
+[INFO ] root - Processed 2280 batches, 2280000 pairs, 0 true matches
+[INFO ] root - Processed 2290 batches, 2290000 pairs, 0 true matches
+[INFO ] root - Processed 2300 batches, 2300000 pairs, 0 true matches
+[INFO ] root - Processed 2310 batches, 2310000 pairs, 0 true matches
+[INFO ] root - Processed 2320 batches, 2320000 pairs, 0 true matches
+[INFO ] root - Processed 2330 batches, 2330000 pairs, 0 true matches
+[INFO ] root - Processed 2340 batches, 2340000 pairs, 0 true matches
+[INFO ] root - Processed 2350 batches, 2350000 pairs, 0 true matches
+[INFO ] root - Processed 2360 batches, 2360000 pairs, 0 true matches
+[INFO ] root - Processed 2370 batches, 2370000 pairs, 0 true matches
+[INFO ] root - Processed 2380 batches, 2380000 pairs, 0 true matches
+[INFO ] root - Processed 2390 batches, 2390000 pairs, 0 true matches
+[INFO ] root - Processed 2400 batches, 2400000 pairs, 0 true matches
+[INFO ] root - Processed 2410 batches, 2410000 pairs, 0 true matches
+[INFO ] root - Processed 2420 batches, 2420000 pairs, 0 true matches
+[INFO ] root - Processed 2430 batches, 2430000 pairs, 0 true matches
+[INFO ] root - Processed 2440 batches, 2440000 pairs, 0 true matches
+[INFO ] root - Processed 2450 batches, 2450000 pairs, 0 true matches
+[INFO ] root - Processed 2460 batches, 2460000 pairs, 0 true matches
+[INFO ] root - Processed 2470 batches, 2470000 pairs, 0 true matches
+[INFO ] root - Processed 2480 batches, 2480000 pairs, 0 true matches
+[INFO ] root - Processed 2490 batches, 2490000 pairs, 0 true matches
+[INFO ] root - Processed 2500 batches, 2500000 pairs, 0 true matches
+[INFO ] root - Processed 2510 batches, 2510000 pairs, 0 true matches
+[INFO ] root - Processed 2520 batches, 2520000 pairs, 0 true matches
+[INFO ] root - Processed 2530 batches, 2530000 pairs, 0 true matches
+[INFO ] root - Processed 2540 batches, 2540000 pairs, 0 true matches
+[INFO ] root - Processed 2550 batches, 2550000 pairs, 0 true matches
+[INFO ] root - Processed 2560 batches, 2560000 pairs, 0 true matches
+[INFO ] root - Processed 2570 batches, 2570000 pairs, 0 true matches
+[INFO ] root - Processed 2580 batches, 2580000 pairs, 0 true matches
+[INFO ] root - Processed 2590 batches, 2590000 pairs, 0 true matches
+[INFO ] root - Processed 2600 batches, 2600000 pairs, 0 true matches
+[INFO ] root - Processed 2610 batches, 2610000 pairs, 0 true matches
+[INFO ] root - Processed 2620 batches, 2620000 pairs, 0 true matches
+[INFO ] root - Processed 2630 batches, 2630000 pairs, 0 true matches
+[INFO ] root - Processed 2640 batches, 2640000 pairs, 0 true matches
+[INFO ] root - Processed 2650 batches, 2650000 pairs, 0 true matches
+[INFO ] root - Processed 2660 batches, 2660000 pairs, 0 true matches
+[INFO ] root - Processed 2670 batches, 2670000 pairs, 0 true matches
+[INFO ] root - Processed 2680 batches, 2680000 pairs, 0 true matches
+[INFO ] root - Processed 2690 batches, 2690000 pairs, 0 true matches
+[INFO ] root - Processed 2700 batches, 2700000 pairs, 0 true matches
+[INFO ] root - Processed 2710 batches, 2710000 pairs, 0 true matches
+[INFO ] root - Processed 2720 batches, 2720000 pairs, 0 true matches
+[INFO ] root - Processed 2730 batches, 2730000 pairs, 0 true matches
+[INFO ] root - Processed 2740 batches, 2740000 pairs, 0 true matches
+[INFO ] root - Processed 2750 batches, 2750000 pairs, 0 true matches
+[INFO ] root - Processed 2760 batches, 2760000 pairs, 0 true matches
+[INFO ] root - Processed 2770 batches, 2770000 pairs, 0 true matches
+[INFO ] root - Processed 2780 batches, 2780000 pairs, 0 true matches
+[INFO ] root - Processed 2790 batches, 2790000 pairs, 0 true matches
+[INFO ] root - Processed 2800 batches, 2800000 pairs, 0 true matches
+[INFO ] root - Processed 2810 batches, 2810000 pairs, 0 true matches
+[INFO ] root - Processed 2820 batches, 2820000 pairs, 0 true matches
+[INFO ] root - Processed 2830 batches, 2830000 pairs, 0 true matches
+[INFO ] root - Processed 2840 batches, 2840000 pairs, 0 true matches
+[INFO ] root - Processed 2850 batches, 2850000 pairs, 0 true matches
+[INFO ] root - Processed 2860 batches, 2860000 pairs, 0 true matches
+[INFO ] root - Processed 2870 batches, 2870000 pairs, 0 true matches
+[INFO ] root - Processed 2880 batches, 2880000 pairs, 0 true matches
+[INFO ] root - Processed 2890 batches, 2890000 pairs, 0 true matches
+[INFO ] root - Processed 2900 batches, 2900000 pairs, 0 true matches
+[INFO ] root - Processed 2910 batches, 2910000 pairs, 0 true matches
+[INFO ] root - Processed 2920 batches, 2920000 pairs, 0 true matches
+[INFO ] root - Processed 2930 batches, 2930000 pairs, 0 true matches
+[INFO ] root - Processed 2940 batches, 2940000 pairs, 0 true matches
+[INFO ] root - Processed 2950 batches, 2950000 pairs, 0 true matches
+[INFO ] root - Processed 2960 batches, 2960000 pairs, 0 true matches
+[INFO ] root - Processed 2970 batches, 2970000 pairs, 0 true matches
+[INFO ] root - Processed 2980 batches, 2980000 pairs, 0 true matches
+[INFO ] root - Processed 2990 batches, 2990000 pairs, 0 true matches
+[INFO ] root - Processed 3000 batches, 3000000 pairs, 0 true matches
+[INFO ] root - Processed 3010 batches, 3010000 pairs, 0 true matches
+[INFO ] root - Processed 3020 batches, 3020000 pairs, 0 true matches
+[INFO ] root - Processed 3030 batches, 3030000 pairs, 0 true matches
+[INFO ] root - Processed 3040 batches, 3040000 pairs, 0 true matches
+[INFO ] root - Processed 3050 batches, 3050000 pairs, 0 true matches
+[INFO ] root - Processed 3060 batches, 3060000 pairs, 0 true matches
+[INFO ] root - Processed 3070 batches, 3070000 pairs, 0 true matches
+[INFO ] root - Processed 3080 batches, 3080000 pairs, 0 true matches
+[INFO ] root - Processed 3090 batches, 3090000 pairs, 0 true matches
+[INFO ] root - Processed 3100 batches, 3100000 pairs, 0 true matches
+[INFO ] root - Processed 3110 batches, 3110000 pairs, 0 true matches
+[INFO ] root - Processed 3120 batches, 3120000 pairs, 0 true matches
+[INFO ] root - Processed 3130 batches, 3130000 pairs, 0 true matches
+[INFO ] root - Processed 3140 batches, 3140000 pairs, 0 true matches
+[INFO ] root - Processed 3150 batches, 3150000 pairs, 0 true matches
+[INFO ] root - Processed 3160 batches, 3160000 pairs, 0 true matches
+[INFO ] root - Processed 3170 batches, 3170000 pairs, 0 true matches
+[INFO ] root - Processed 3180 batches, 3180000 pairs, 0 true matches
+[INFO ] root - Processed 3190 batches, 3190000 pairs, 0 true matches
+[INFO ] root - Processed 3200 batches, 3200000 pairs, 0 true matches
+[INFO ] root - Processed 3210 batches, 3210000 pairs, 0 true matches
+[INFO ] root - Processed 3220 batches, 3220000 pairs, 0 true matches
+[INFO ] root - Processed 3230 batches, 3230000 pairs, 0 true matches
+[INFO ] root - Processed 3240 batches, 3240000 pairs, 0 true matches
+[INFO ] root - Processed 3250 batches, 3250000 pairs, 0 true matches
+[INFO ] root - Processed 3260 batches, 3260000 pairs, 0 true matches
+[INFO ] root - Processed 3270 batches, 3270000 pairs, 0 true matches
+[INFO ] root - Processed 3280 batches, 3280000 pairs, 0 true matches
+[INFO ] root - Processed 3290 batches, 3290000 pairs, 0 true matches
+[INFO ] root - Processed 3300 batches, 3300000 pairs, 0 true matches
+[INFO ] root - Processed 3310 batches, 3310000 pairs, 0 true matches
+[INFO ] root - Processed 3320 batches, 3320000 pairs, 0 true matches
+[INFO ] root - Processed 3330 batches, 3330000 pairs, 0 true matches
+[INFO ] root - Processed 3340 batches, 3340000 pairs, 0 true matches
+[INFO ] root - Processed 3350 batches, 3350000 pairs, 0 true matches
+[INFO ] root - Processed 3360 batches, 3360000 pairs, 0 true matches
+[INFO ] root - Processed 3370 batches, 3370000 pairs, 0 true matches
+[INFO ] root - Processed 3380 batches, 3380000 pairs, 0 true matches
+[INFO ] root - Processed 3390 batches, 3390000 pairs, 0 true matches
+[INFO ] root - Processed 3400 batches, 3400000 pairs, 0 true matches
+[INFO ] root - Processed 3410 batches, 3410000 pairs, 0 true matches
+[INFO ] root - Processed 3420 batches, 3420000 pairs, 0 true matches
+[INFO ] root - Processed 3430 batches, 3430000 pairs, 0 true matches
+[INFO ] root - Processed 3440 batches, 3440000 pairs, 0 true matches
+[INFO ] root - Processed 3450 batches, 3450000 pairs, 0 true matches
+[INFO ] root - Processed 3460 batches, 3460000 pairs, 0 true matches
+[INFO ] root - Processed 3470 batches, 3470000 pairs, 0 true matches
+[INFO ] root - Processed 3480 batches, 3480000 pairs, 0 true matches
+[INFO ] root - Processed 3490 batches, 3490000 pairs, 0 true matches
+[INFO ] root - Processed 3500 batches, 3500000 pairs, 0 true matches
+[INFO ] root - Processed 3510 batches, 3510000 pairs, 0 true matches
+[INFO ] root - Processed 3520 batches, 3520000 pairs, 0 true matches
+[INFO ] root - Processed 3530 batches, 3530000 pairs, 0 true matches
+[INFO ] root - Processed 3540 batches, 3540000 pairs, 0 true matches
+[INFO ] root - Processed 3550 batches, 3550000 pairs, 0 true matches
+[INFO ] root - Processed 3560 batches, 3560000 pairs, 0 true matches
+[INFO ] root - Processed 3570 batches, 3570000 pairs, 0 true matches
+[INFO ] root - Processed 3580 batches, 3580000 pairs, 0 true matches
+[INFO ] root - Processed 3590 batches, 3590000 pairs, 0 true matches
+[INFO ] root - Processed 3600 batches, 3600000 pairs, 0 true matches
+[INFO ] root - Processed 3610 batches, 3610000 pairs, 0 true matches
+[INFO ] root - Processed 3620 batches, 3620000 pairs, 0 true matches
+[INFO ] root - Processed 3630 batches, 3630000 pairs, 0 true matches
+[INFO ] root - Processed 3640 batches, 3640000 pairs, 0 true matches
+[INFO ] root - Processed 3650 batches, 3650000 pairs, 0 true matches
+[INFO ] root - Processed 3660 batches, 3660000 pairs, 0 true matches
+[INFO ] root - Processed 3670 batches, 3670000 pairs, 0 true matches
+[INFO ] root - Processed 3680 batches, 3680000 pairs, 0 true matches
+[INFO ] root - Processed 3690 batches, 3690000 pairs, 0 true matches
+[INFO ] root - Processed 3700 batches, 3700000 pairs, 0 true matches
+[INFO ] root - Processed 3710 batches, 3710000 pairs, 0 true matches
+[INFO ] root - Processed 3720 batches, 3720000 pairs, 0 true matches
+[INFO ] root - Processed 3730 batches, 3730000 pairs, 0 true matches
+[INFO ] root - Processed 3740 batches, 3740000 pairs, 0 true matches
+[INFO ] root - Processed 3750 batches, 3750000 pairs, 0 true matches
+[INFO ] root - Processed 3760 batches, 3760000 pairs, 0 true matches
+[INFO ] root - Processed 3770 batches, 3770000 pairs, 0 true matches
+[INFO ] root - Processed 3780 batches, 3780000 pairs, 0 true matches
+[INFO ] root - Processed 3790 batches, 3790000 pairs, 0 true matches
+[INFO ] root - Processed 3800 batches, 3800000 pairs, 0 true matches
+[INFO ] root - Processed 3810 batches, 3810000 pairs, 0 true matches
+[INFO ] root - Processed 3820 batches, 3820000 pairs, 0 true matches
+[INFO ] root - Processed 3830 batches, 3830000 pairs, 0 true matches
+[INFO ] root - Processed 3840 batches, 3840000 pairs, 0 true matches
+[INFO ] root - Processed 3850 batches, 3850000 pairs, 0 true matches
+[INFO ] root - Processed 3860 batches, 3860000 pairs, 0 true matches
+[INFO ] root - Processed 3870 batches, 3870000 pairs, 0 true matches
+[INFO ] root - Processed 3880 batches, 3880000 pairs, 0 true matches
+[INFO ] root - Processed 3890 batches, 3890000 pairs, 0 true matches
+[INFO ] root - Processed 3900 batches, 3900000 pairs, 0 true matches
+[INFO ] root - Processed 3910 batches, 3910000 pairs, 0 true matches
+[INFO ] root - Processed 3920 batches, 3920000 pairs, 0 true matches
+[INFO ] root - Processed 3930 batches, 3930000 pairs, 0 true matches
+[INFO ] root - Processed 3940 batches, 3940000 pairs, 0 true matches
+[INFO ] root - Processed 3950 batches, 3950000 pairs, 0 true matches
+[INFO ] root - Processed 3960 batches, 3960000 pairs, 0 true matches
+[INFO ] root - Processed 3970 batches, 3970000 pairs, 0 true matches
+[INFO ] root - Processed 3980 batches, 3980000 pairs, 0 true matches
+[INFO ] root - Processed 3990 batches, 3990000 pairs, 0 true matches
+[INFO ] root - Processed 4000 batches, 4000000 pairs, 0 true matches
+[INFO ] root - Processed 4010 batches, 4010000 pairs, 0 true matches
+[INFO ] root - Processed 4020 batches, 4020000 pairs, 0 true matches
+[INFO ] root - Processed 4030 batches, 4030000 pairs, 0 true matches
+[INFO ] root - Processed 4040 batches, 4040000 pairs, 0 true matches
+[INFO ] root - Processed 4050 batches, 4050000 pairs, 0 true matches
+[INFO ] root - Processed 4060 batches, 4060000 pairs, 0 true matches
+[INFO ] root - Processed 4070 batches, 4070000 pairs, 0 true matches
+[INFO ] root - Processed 4080 batches, 4080000 pairs, 0 true matches
+[INFO ] root - Processed 4090 batches, 4090000 pairs, 0 true matches
+[INFO ] root - Processed 4100 batches, 4100000 pairs, 0 true matches
+[INFO ] root - Processed 4110 batches, 4110000 pairs, 0 true matches
+[INFO ] root - Processed 4120 batches, 4120000 pairs, 0 true matches
+[INFO ] root - Processed 4130 batches, 4130000 pairs, 0 true matches
+[INFO ] root - Processed 4140 batches, 4140000 pairs, 0 true matches
+[INFO ] root - Processed 4150 batches, 4150000 pairs, 0 true matches
+[INFO ] root - Processed 4160 batches, 4160000 pairs, 0 true matches
+[INFO ] root - Processed 4170 batches, 4170000 pairs, 0 true matches
+[INFO ] root - Processed 4180 batches, 4180000 pairs, 0 true matches
+[INFO ] root - Processed 4190 batches, 4190000 pairs, 0 true matches
+[INFO ] root - Processed 4200 batches, 4200000 pairs, 0 true matches
+[INFO ] root - Processed 4210 batches, 4210000 pairs, 0 true matches
+[INFO ] root - Processed 4220 batches, 4220000 pairs, 0 true matches
+[INFO ] root - Processed 4230 batches, 4230000 pairs, 0 true matches
+[INFO ] root - Processed 4240 batches, 4240000 pairs, 0 true matches
+[INFO ] root - Processed 4250 batches, 4250000 pairs, 0 true matches
+[INFO ] root - Processed 4260 batches, 4260000 pairs, 0 true matches
+[INFO ] root - Processed 4270 batches, 4270000 pairs, 0 true matches
+[INFO ] root - Processed 4280 batches, 4280000 pairs, 0 true matches
+[INFO ] root - Processed 4290 batches, 4290000 pairs, 0 true matches
+[INFO ] root - Processed 4300 batches, 4300000 pairs, 0 true matches
+[INFO ] root - Processed 4310 batches, 4310000 pairs, 0 true matches
+[INFO ] root - Processed 4320 batches, 4320000 pairs, 0 true matches
+[INFO ] root - Processed 4330 batches, 4330000 pairs, 0 true matches
+[INFO ] root - Processed 4340 batches, 4340000 pairs, 0 true matches
+[INFO ] root - Processed 4350 batches, 4350000 pairs, 0 true matches
+[INFO ] root - Processed 4360 batches, 4360000 pairs, 0 true matches
+[INFO ] root - Processed 4370 batches, 4370000 pairs, 0 true matches
+[INFO ] root - Processed 4380 batches, 4380000 pairs, 0 true matches
+[INFO ] root - Processed 4390 batches, 4390000 pairs, 0 true matches
+[INFO ] root - Processed 4400 batches, 4400000 pairs, 0 true matches
+[INFO ] root - Processed 4410 batches, 4410000 pairs, 0 true matches
+[INFO ] root - Processed 4420 batches, 4420000 pairs, 0 true matches
+[INFO ] root - Processed 4430 batches, 4430000 pairs, 0 true matches
+[INFO ] root - Processed 4440 batches, 4440000 pairs, 0 true matches
+[INFO ] root - Processed 4450 batches, 4450000 pairs, 0 true matches
+[INFO ] root - Processed 4460 batches, 4460000 pairs, 0 true matches
+[INFO ] root - Processed 4470 batches, 4470000 pairs, 0 true matches
+[INFO ] root - Processed 4480 batches, 4480000 pairs, 0 true matches
+[INFO ] root - Processed 4490 batches, 4490000 pairs, 0 true matches
+[INFO ] root - Processed 4500 batches, 4500000 pairs, 0 true matches
+[INFO ] root - Processed 4510 batches, 4510000 pairs, 0 true matches
+[INFO ] root - Processed 4520 batches, 4520000 pairs, 0 true matches
+[INFO ] root - Processed 4530 batches, 4530000 pairs, 0 true matches
+[INFO ] root - Processed 4540 batches, 4540000 pairs, 0 true matches
+[INFO ] root - Processed 4550 batches, 4550000 pairs, 0 true matches
+[INFO ] root - Processed 4560 batches, 4560000 pairs, 0 true matches
+[INFO ] root - Processed 4570 batches, 4570000 pairs, 0 true matches
+[INFO ] root - Processed 4580 batches, 4580000 pairs, 0 true matches
+[INFO ] root - Processed 4590 batches, 4590000 pairs, 0 true matches
+[INFO ] root - Processed 4600 batches, 4600000 pairs, 0 true matches
+[INFO ] root - Processed 4610 batches, 4610000 pairs, 0 true matches
+[INFO ] root - Processed 4620 batches, 4620000 pairs, 0 true matches
+[INFO ] root - Processed 4630 batches, 4630000 pairs, 0 true matches
+[INFO ] root - Processed 4640 batches, 4640000 pairs, 0 true matches
+[INFO ] root - Processed 4650 batches, 4650000 pairs, 0 true matches
+[INFO ] root - Processed 4660 batches, 4660000 pairs, 0 true matches
+[INFO ] root - Processed 4670 batches, 4670000 pairs, 0 true matches
+[INFO ] root - Processed 4680 batches, 4680000 pairs, 0 true matches
+[INFO ] root - Processed 4690 batches, 4690000 pairs, 0 true matches
+[INFO ] root - Processed 4700 batches, 4700000 pairs, 0 true matches
+[INFO ] root - Processed 4710 batches, 4710000 pairs, 0 true matches
+[INFO ] root - Processed 4720 batches, 4720000 pairs, 0 true matches
+[INFO ] root - Processed 4730 batches, 4730000 pairs, 0 true matches
+[INFO ] root - Processed 4740 batches, 4740000 pairs, 0 true matches
+[INFO ] root - Processed 4750 batches, 4750000 pairs, 0 true matches
+[INFO ] root - Processed 4760 batches, 4760000 pairs, 0 true matches
+[INFO ] root - Processed 4770 batches, 4770000 pairs, 0 true matches
+[INFO ] root - Processed 4780 batches, 4780000 pairs, 0 true matches
+[INFO ] root - Processed 4790 batches, 4790000 pairs, 0 true matches
+[INFO ] root - Processed 4800 batches, 4800000 pairs, 0 true matches
+[INFO ] root - Processed 4810 batches, 4810000 pairs, 0 true matches
+[INFO ] root - Processed 4820 batches, 4820000 pairs, 0 true matches
+[INFO ] root - Processed 4830 batches, 4830000 pairs, 0 true matches
+[INFO ] root - Processed 4840 batches, 4840000 pairs, 0 true matches
+[INFO ] root - Processed 4850 batches, 4850000 pairs, 0 true matches
+[INFO ] root - Processed 4860 batches, 4860000 pairs, 0 true matches
+[INFO ] root - Processed 4870 batches, 4870000 pairs, 0 true matches
+[INFO ] root - Processed 4880 batches, 4880000 pairs, 0 true matches
+[INFO ] root - Processed 4890 batches, 4890000 pairs, 0 true matches
+[INFO ] root - Processed 4900 batches, 4900000 pairs, 0 true matches
+[INFO ] root - Processed 4910 batches, 4910000 pairs, 0 true matches
+[INFO ] root - Processed 4920 batches, 4920000 pairs, 0 true matches
+[INFO ] root - Processed 4930 batches, 4930000 pairs, 0 true matches
+[INFO ] root - Processed 4940 batches, 4940000 pairs, 0 true matches
+[INFO ] root - Processed 4950 batches, 4950000 pairs, 0 true matches
+[INFO ] root - Processed 4960 batches, 4960000 pairs, 0 true matches
+[INFO ] root - Processed 4970 batches, 4970000 pairs, 0 true matches
+[INFO ] root - Processed 4980 batches, 4980000 pairs, 0 true matches
+[INFO ] root - Processed 4990 batches, 4990000 pairs, 0 true matches
+[INFO ] root - Processed 5000 batches, 5000000 pairs, 0 true matches
+[INFO ] root - Processed 5010 batches, 5010000 pairs, 0 true matches
+[INFO ] root - Processed 5020 batches, 5020000 pairs, 0 true matches
+[INFO ] root - Processed 5030 batches, 5030000 pairs, 0 true matches
+[INFO ] root - Processed 5040 batches, 5040000 pairs, 0 true matches
+[INFO ] root - Processed 5050 batches, 5050000 pairs, 0 true matches
+[INFO ] root - Processed 5060 batches, 5060000 pairs, 0 true matches
+[INFO ] root - Processed 5070 batches, 5070000 pairs, 0 true matches
+[INFO ] root - Processed 5080 batches, 5080000 pairs, 0 true matches
+[INFO ] root - Processed 5090 batches, 5090000 pairs, 0 true matches
+[INFO ] root - Processed 5100 batches, 5100000 pairs, 0 true matches
+[INFO ] root - Processed 5110 batches, 5110000 pairs, 0 true matches
+[INFO ] root - Processed 5120 batches, 5120000 pairs, 0 true matches
+[INFO ] root - Processed 5130 batches, 5130000 pairs, 0 true matches
+[INFO ] root - Processed 5140 batches, 5140000 pairs, 0 true matches
+[INFO ] root - Processed 5150 batches, 5150000 pairs, 0 true matches
+[INFO ] root - Processed 5160 batches, 5160000 pairs, 0 true matches
+[INFO ] root - Processed 5170 batches, 5170000 pairs, 0 true matches
+[INFO ] root - Processed 5180 batches, 5180000 pairs, 0 true matches
+[INFO ] root - Processed 5190 batches, 5190000 pairs, 0 true matches
+[INFO ] root - Processed 5200 batches, 5200000 pairs, 0 true matches
+[INFO ] root - Processed 5210 batches, 5210000 pairs, 0 true matches
+[INFO ] root - Processed 5220 batches, 5220000 pairs, 0 true matches
+[INFO ] root - Processed 5230 batches, 5230000 pairs, 0 true matches
+[INFO ] root - Processed 5240 batches, 5240000 pairs, 0 true matches
+[INFO ] root - Processed 5250 batches, 5250000 pairs, 0 true matches
+[INFO ] root - Processed 5260 batches, 5260000 pairs, 0 true matches
+[INFO ] root - Processed 5270 batches, 5270000 pairs, 0 true matches
+[INFO ] root - Processed 5280 batches, 5280000 pairs, 0 true matches
+[INFO ] root - Processed 5290 batches, 5290000 pairs, 0 true matches
+[INFO ] root - Processed 5300 batches, 5300000 pairs, 0 true matches
+[INFO ] root - Processed 5310 batches, 5310000 pairs, 0 true matches
+[INFO ] root - Processed 5320 batches, 5320000 pairs, 0 true matches
+[INFO ] root - Processed 5330 batches, 5330000 pairs, 0 true matches
+[INFO ] root - Processed 5340 batches, 5340000 pairs, 0 true matches
+[INFO ] root - Processed 5350 batches, 5350000 pairs, 0 true matches
+[INFO ] root - Processed 5360 batches, 5360000 pairs, 0 true matches
+[INFO ] root - Processed 5370 batches, 5370000 pairs, 0 true matches
+[INFO ] root - Processed 5380 batches, 5380000 pairs, 0 true matches
+[INFO ] root - Processed 5390 batches, 5390000 pairs, 0 true matches
+[INFO ] root - Processed 5400 batches, 5400000 pairs, 0 true matches
+[INFO ] root - Processed 5410 batches, 5410000 pairs, 0 true matches
+[INFO ] root - Processed 5420 batches, 5420000 pairs, 0 true matches
+[INFO ] root - Processed 5430 batches, 5430000 pairs, 0 true matches
+[INFO ] root - Processed 5440 batches, 5440000 pairs, 0 true matches
+[INFO ] root - Processed 5450 batches, 5450000 pairs, 0 true matches
+[INFO ] root - Processed 5460 batches, 5460000 pairs, 0 true matches
+[INFO ] root - Processed 5470 batches, 5470000 pairs, 0 true matches
+[INFO ] root - Processed 5480 batches, 5480000 pairs, 0 true matches
+[INFO ] root - Processed 5490 batches, 5490000 pairs, 0 true matches
+[INFO ] root - Processed 5500 batches, 5500000 pairs, 0 true matches
+[INFO ] root - Processed 5510 batches, 5510000 pairs, 0 true matches
+[INFO ] root - Processed 5520 batches, 5520000 pairs, 0 true matches
+[INFO ] root - Processed 5530 batches, 5530000 pairs, 0 true matches
+[INFO ] root - Processed 5540 batches, 5540000 pairs, 0 true matches
+[INFO ] root - Processed 5550 batches, 5550000 pairs, 0 true matches
+[INFO ] root - Processed 5560 batches, 5560000 pairs, 0 true matches
+[INFO ] root - Processed 5570 batches, 5570000 pairs, 0 true matches
+[INFO ] root - Processed 5580 batches, 5580000 pairs, 0 true matches
+[INFO ] root - Processed 5590 batches, 5590000 pairs, 0 true matches
+[INFO ] root - Processed 5600 batches, 5600000 pairs, 0 true matches
+[INFO ] root - Processed 5610 batches, 5610000 pairs, 0 true matches
+[INFO ] root - Processed 5620 batches, 5620000 pairs, 0 true matches
+[INFO ] root - Processed 5630 batches, 5630000 pairs, 0 true matches
+[INFO ] root - Processed 5640 batches, 5640000 pairs, 0 true matches
+[INFO ] root - Processed 5650 batches, 5650000 pairs, 0 true matches
+[INFO ] root - Processed 5660 batches, 5660000 pairs, 0 true matches
+[INFO ] root - Processed 5670 batches, 5670000 pairs, 0 true matches
+[INFO ] root - Processed 5680 batches, 5680000 pairs, 0 true matches
+[INFO ] root - Processed 5690 batches, 5690000 pairs, 0 true matches
+[INFO ] root - Processed 5700 batches, 5700000 pairs, 0 true matches
+[INFO ] root - Processed 5710 batches, 5710000 pairs, 0 true matches
+[INFO ] root - Processed 5720 batches, 5720000 pairs, 0 true matches
+[INFO ] root - Processed 5730 batches, 5730000 pairs, 0 true matches
+[INFO ] root - Processed 5740 batches, 5740000 pairs, 0 true matches
+[WARNING] root - Record not found: 'id1'
+[WARNING] root - Record not found: 'yelp-94790'
+[WARNING] root - Record not found: 'yelp-26998'
+[WARNING] root - Record not found: 'yelp-22224'
+[WARNING] root - Record not found: 'yelp-16987'
+[WARNING] root - Record not found: 'yelp-00487'
+[WARNING] root - Record not found: 'yelp-02356'
+[WARNING] root - Record not found: 'yelp-02094'
+[WARNING] root - Record not found: 'yelp-94313'
+[WARNING] root - Record not found: 'yelp-85241'
+[WARNING] root - Record not found: 'yelp-96086'
+[WARNING] root - Record not found: 'yelp-76742'
+[WARNING] root - Record not found: 'yelp-99388'
+[WARNING] root - Record not found: 'yelp-92347'
+[WARNING] root - Record not found: 'yelp-43604'
+[WARNING] root - Record not found: 'yelp-06622'
+[WARNING] root - Record not found: 'yelp-62364'
+[WARNING] root - Record not found: 'yelp-89678'
+[WARNING] root - Record not found: 'yelp-11647'
+[WARNING] root - Record not found: 'yelp-41196'
+[WARNING] root - Record not found: 'yelp-36265'
+[WARNING] root - Record not found: 'yelp-83843'
+[WARNING] root - Record not found: 'yelp-33454'
+[WARNING] root - Record not found: 'yelp-61524'
+[WARNING] root - Record not found: 'yelp-70741'
+[WARNING] root - Record not found: 'yelp-79176'
+[WARNING] root - Record not found: 'yelp-35517'
+[WARNING] root - Record not found: 'yelp-85219'
+[WARNING] root - Record not found: 'yelp-87648'
+[WARNING] root - Record not found: 'yelp-89201'
+[WARNING] root - Record not found: 'yelp-28566'
+[WARNING] root - Record not found: 'yelp-89176'
+[WARNING] root - Record not found: 'yelp-45522'
+[WARNING] root - Record not found: 'yelp-87141'
+[WARNING] root - Record not found: 'yelp-27248'
+[WARNING] root - Record not found: 'yelp-23370'
+[WARNING] root - Record not found: 'yelp-74419'
+[WARNING] root - Record not found: 'yelp-43292'
+[WARNING] root - Record not found: 'yelp-45443'
+[WARNING] root - Record not found: 'yelp-38654'
+[WARNING] root - Record not found: 'yelp-43612'
+[WARNING] root - Record not found: 'yelp-83681'
+[WARNING] root - Record not found: 'yelp-62564'
+[WARNING] root - Record not found: 'yelp-66911'
+[WARNING] root - Record not found: 'yelp-97122'
+[WARNING] root - Record not found: 'yelp-44559'
+[WARNING] root - Record not found: 'yelp-24312'
+[WARNING] root - Record not found: 'yelp-83862'
+[WARNING] root - Record not found: 'yelp-74586'
+[WARNING] root - Record not found: 'yelp-47840'
+[WARNING] root - Record not found: 'yelp-41862'
+[WARNING] root - Record not found: 'yelp-50852'
+[WARNING] root - Record not found: 'yelp-16371'
+[WARNING] root - Record not found: 'yelp-74723'
+[WARNING] root - Record not found: 'yelp-79950'
+[WARNING] root - Record not found: 'yelp-62145'
+[WARNING] root - Record not found: 'yelp-59948'
+[WARNING] root - Record not found: 'yelp-51328'
+[WARNING] root - Record not found: 'yelp-42996'
+[WARNING] root - Record not found: 'yelp-71997'
+[WARNING] root - Record not found: 'yelp-06389'
+[WARNING] root - Record not found: 'yelp-90931'
+[WARNING] root - Record not found: 'yelp-70085'
+[WARNING] root - Record not found: 'yelp-44312'
+[WARNING] root - Record not found: 'yelp-89685'
+[WARNING] root - Record not found: 'yelp-02361'
+[WARNING] root - Record not found: 'yelp-07720'
+[WARNING] root - Record not found: 'yelp-46437'
+[WARNING] root - Record not found: 'yelp-12691'
+[WARNING] root - Record not found: 'yelp-69826'
+[WARNING] root - Record not found: 'yelp-19877'
+[WARNING] root - Record not found: 'yelp-22104'
+[WARNING] root - Record not found: 'yelp-80747'
+[WARNING] root - Record not found: 'yelp-64906'
+[WARNING] root - Record not found: 'yelp-91442'
+[WARNING] root - Record not found: 'yelp-07781'
+[WARNING] root - Record not found: 'yelp-47559'
+[WARNING] root - Record not found: 'yelp-17601'
+[WARNING] root - Record not found: 'yelp-77481'
+[WARNING] root - Record not found: 'yelp-31080'
+[WARNING] root - Record not found: 'yelp-41969'
+[WARNING] root - Record not found: 'yelp-82305'
+[WARNING] root - Record not found: 'yelp-30157'
+[WARNING] root - Record not found: 'yelp-63359'
+[WARNING] root - Record not found: 'yelp-88323'
+[WARNING] root - Record not found: 'yelp-03362'
+[WARNING] root - Record not found: 'yelp-32404'
+[WARNING] root - Record not found: 'yelp-43612'
+[WARNING] root - Record not found: 'yelp-67665'
+[WARNING] root - Record not found: 'yelp-18775'
+[WARNING] root - Record not found: 'yelp-73437'
+[WARNING] root - Record not found: 'yelp-13010'
+[WARNING] root - Record not found: 'yelp-32387'
+[WARNING] root - Record not found: 'yelp-02031'
+[WARNING] root - Record not found: 'yelp-32860'
+[WARNING] root - Record not found: 'yelp-86793'
+[WARNING] root - Record not found: 'yelp-26998'
+[WARNING] root - Record not found: 'yelp-74333'
+[WARNING] root - Record not found: 'yelp-97509'
+[WARNING] root - Record not found: 'yelp-98002'
+[WARNING] root - Record not found: 'yelp-80990'
+[WARNING] root - Record not found: 'yelp-34149'
+[WARNING] root - Record not found: 'yelp-08052'
+[WARNING] root - Record not found: 'yelp-22626'
+[WARNING] root - Record not found: 'yelp-97898'
+[WARNING] root - Record not found: 'yelp-66537'
+[WARNING] root - Record not found: 'yelp-93567'
+[WARNING] root - Record not found: 'yelp-91013'
+[WARNING] root - Record not found: 'yelp-36443'
+[WARNING] root - Record not found: 'yelp-21222'
+[WARNING] root - Record not found: 'yelp-61658'
+[WARNING] root - Record not found: 'yelp-86563'
+[WARNING] root - Record not found: 'yelp-16724'
+[WARNING] root - Record not found: 'yelp-62022'
+[WARNING] root - Record not found: 'yelp-06513'
+[WARNING] root - Record not found: 'yelp-75069'
+[WARNING] root - Record not found: 'yelp-43292'
+[WARNING] root - Record not found: 'yelp-75747'
+[WARNING] root - Record not found: 'yelp-06495'
+[WARNING] root - Record not found: 'yelp-94548'
+[WARNING] root - Record not found: 'yelp-74114'
+[WARNING] root - Record not found: 'yelp-20108'
+[WARNING] root - Record not found: 'yelp-71302'
+[WARNING] root - Record not found: 'yelp-22470'
+[WARNING] root - Record not found: 'yelp-14438'
+[WARNING] root - Record not found: 'yelp-07191'
+[WARNING] root - Record not found: 'yelp-49156'
+[WARNING] root - Record not found: 'yelp-01990'
+[WARNING] root - Record not found: 'yelp-28566'
+[WARNING] root - Record not found: 'yelp-72779'
+[WARNING] root - Record not found: 'yelp-67233'
+[WARNING] root - Record not found: 'yelp-75715'
+[WARNING] root - Record not found: 'yelp-32860'
+[WARNING] root - Record not found: 'yelp-09561'
+[WARNING] root - Record not found: 'yelp-43529'
+[WARNING] root - Record not found: 'yelp-50225'
+[WARNING] root - Record not found: 'yelp-48454'
+[WARNING] root - Record not found: 'yelp-35548'
+[WARNING] root - Record not found: 'yelp-23064'
+[WARNING] root - Record not found: 'yelp-50852'
+[WARNING] root - Record not found: 'yelp-72498'
+[WARNING] root - Record not found: 'yelp-78735'
+[WARNING] root - Record not found: 'yelp-53080'
+[WARNING] root - Record not found: 'yelp-85181'
+[WARNING] root - Record not found: 'yelp-14452'
+[WARNING] root - Record not found: 'yelp-05379'
+[WARNING] root - Record not found: 'yelp-76849'
+[WARNING] root - Record not found: 'yelp-64399'
+[WARNING] root - Record not found: 'yelp-57136'
+[WARNING] root - Record not found: 'yelp-42825'
+[WARNING] root - Record not found: 'yelp-01834'
+[WARNING] root - Record not found: 'yelp-16224'
+[WARNING] root - Record not found: 'yelp-65941'
+[WARNING] root - Record not found: 'yelp-33289'
+[WARNING] root - Record not found: 'yelp-90138'
+[WARNING] root - Record not found: 'yelp-32470'
+[WARNING] root - Record not found: 'yelp-32346'
+[WARNING] root - Record not found: 'yelp-36898'
+[WARNING] root - Record not found: 'yelp-95898'
+[WARNING] root - Record not found: 'yelp-39778'
+[WARNING] root - Record not found: 'yelp-50464'
+[WARNING] root - Record not found: 'yelp-27026'
+[WARNING] root - Record not found: 'yelp-14546'
+[WARNING] root - Record not found: 'yelp-74740'
+[WARNING] root - Record not found: 'yelp-35294'
+[WARNING] root - Record not found: 'yelp-30627'
+[WARNING] root - Record not found: 'yelp-04066'
+[WARNING] root - Record not found: 'yelp-24240'
+[WARNING] root - Record not found: 'yelp-79134'
+[WARNING] root - Record not found: 'yelp-99413'
+[WARNING] root - Record not found: 'yelp-30096'
+[WARNING] root - Record not found: 'yelp-89156'
+[WARNING] root - Record not found: 'yelp-23451'
+[WARNING] root - Record not found: 'yelp-22591'
+[WARNING] root - Record not found: 'yelp-39602'
+[WARNING] root - Record not found: 'yelp-82137'
+[WARNING] root - Record not found: 'yelp-13365'
+[WARNING] root - Record not found: 'yelp-92942'
+[WARNING] root - Record not found: 'yelp-22055'
+[WARNING] root - Record not found: 'yelp-47134'
+[WARNING] root - Record not found: 'yelp-71800'
+[WARNING] root - Record not found: 'yelp-65892'
+[WARNING] root - Record not found: 'yelp-25561'
+[WARNING] root - Record not found: 'yelp-90994'
+[WARNING] root - Record not found: 'yelp-71997'
+[WARNING] root - Record not found: 'yelp-33538'
+[WARNING] root - Record not found: 'yelp-77802'
+[WARNING] root - Record not found: 'yelp-27140'
+[WARNING] root - Record not found: 'yelp-25854'
+[WARNING] root - Record not found: 'yelp-78927'
+[WARNING] root - Record not found: 'yelp-93520'
+[WARNING] root - Record not found: 'yelp-76675'
+[WARNING] root - Record not found: 'yelp-70100'
+[WARNING] root - Record not found: 'yelp-04010'
+[WARNING] root - Record not found: 'yelp-93408'
+[WARNING] root - Record not found: 'yelp-18683'
+[WARNING] root - Record not found: 'yelp-62013'
+[WARNING] root - Record not found: 'yelp-75713'
+[WARNING] root - Record not found: 'yelp-89790'
+[WARNING] root - Record not found: 'yelp-13003'
+[WARNING] root - Record not found: 'yelp-64138'
+[WARNING] root - Record not found: 'yelp-34504'
+[WARNING] root - Record not found: 'yelp-50852'
+[WARNING] root - Record not found: 'yelp-87040'
+[WARNING] root - Record not found: 'yelp-41126'
+[WARNING] root - Record not found: 'yelp-12607'
+[WARNING] root - Record not found: 'yelp-79501'
+[WARNING] root - Record not found: 'yelp-76587'
+[WARNING] root - Record not found: 'yelp-91864'
+[WARNING] root - Record not found: 'yelp-54747'
+[WARNING] root - Record not found: 'yelp-16661'
+[WARNING] root - Record not found: 'yelp-08685'
+[WARNING] root - Record not found: 'yelp-50844'
+[WARNING] root - Record not found: 'yelp-21257'
+[WARNING] root - Record not found: 'yelp-30171'
+[WARNING] root - Record not found: 'yelp-40108'
+[WARNING] root - Record not found: 'yelp-36101'
+[WARNING] root - Record not found: 'yelp-51189'
+[WARNING] root - Record not found: 'yelp-58397'
+[WARNING] root - Record not found: 'yelp-24560'
+[WARNING] root - Record not found: 'yelp-93741'
+[WARNING] root - Record not found: 'yelp-29711'
+[WARNING] root - Record not found: 'yelp-58984'
+[WARNING] root - Record not found: 'yelp-35541'
+[WARNING] root - Record not found: 'yelp-45618'
+[WARNING] root - Record not found: 'yelp-33273'
+[WARNING] root - Record not found: 'yelp-16592'
+[WARNING] root - Record not found: 'yelp-63847'
+[WARNING] root - Record not found: 'yelp-16320'
+[WARNING] root - Record not found: 'yelp-97509'
+[WARNING] root - Record not found: 'yelp-47134'
+[WARNING] root - Record not found: 'yelp-64128'
+[WARNING] root - Record not found: 'yelp-90204'
+[WARNING] root - Record not found: 'yelp-18751'
+[WARNING] root - Record not found: 'yelp-98653'
+[WARNING] root - Record not found: 'yelp-15601'
+[WARNING] root - Record not found: 'yelp-30336'
+[WARNING] root - Record not found: 'yelp-75902'
+[WARNING] root - Record not found: 'yelp-06495'
+[WARNING] root - Record not found: 'yelp-24704'
+[WARNING] root - Record not found: 'yelp-62359'
+[WARNING] root - Record not found: 'yelp-97847'
+[WARNING] root - Record not found: 'yelp-72486'
+[WARNING] root - Record not found: 'yelp-71626'
+[WARNING] root - Record not found: 'yelp-23566'
+[WARNING] root - Record not found: 'yelp-01287'
+[WARNING] root - Record not found: 'yelp-07608'
+[WARNING] root - Record not found: 'yelp-87591'
+[WARNING] root - Record not found: 'yelp-94117'
+[WARNING] root - Record not found: 'yelp-33433'
+[WARNING] root - Record not found: 'yelp-26998'
+[WARNING] root - Record not found: 'yelp-00847'
+[WARNING] root - Record not found: 'yelp-90138'
+[WARNING] root - Record not found: 'yelp-16336'
+[WARNING] root - Record not found: 'yelp-18775'
+[WARNING] root - Record not found: 'yelp-23605'
+[WARNING] root - Record not found: 'yelp-75908'
+[WARNING] root - Record not found: 'yelp-80502'
+[WARNING] root - Record not found: 'yelp-16993'
+[WARNING] root - Record not found: 'yelp-18775'
+[WARNING] root - Record not found: 'yelp-96424'
+[WARNING] root - Record not found: 'yelp-84776'
+[WARNING] root - Record not found: 'yelp-77362'
+[WARNING] root - Record not found: 'yelp-71965'
+[WARNING] root - Record not found: 'yelp-55288'
+[WARNING] root - Record not found: 'yelp-72329'
+[WARNING] root - Record not found: 'yelp-12065'
+[WARNING] root - Record not found: 'yelp-14438'
+[WARNING] root - Record not found: 'yelp-15644'
+[WARNING] root - Record not found: 'yelp-72756'
+[WARNING] root - Record not found: 'yelp-77406'
+[WARNING] root - Record not found: 'yelp-36830'
+[WARNING] root - Record not found: 'yelp-52646'
+[WARNING] root - Record not found: 'yelp-80984'
+[WARNING] root - Record not found: 'yelp-73148'
+[WARNING] root - Record not found: 'yelp-74375'
+[WARNING] root - Record not found: 'yelp-03491'
+[WARNING] root - Record not found: 'yelp-13606'
+[WARNING] root - Record not found: 'yelp-90946'
+[WARNING] root - Record not found: 'yelp-92568'
+[WARNING] root - Record not found: 'yelp-07406'
+[WARNING] root - Record not found: 'yelp-17028'
+[WARNING] root - Record not found: 'yelp-10581'
+[WARNING] root - Record not found: 'yelp-90268'
+[WARNING] root - Record not found: 'yelp-33452'
+[WARNING] root - Record not found: 'yelp-14416'
+[WARNING] root - Record not found: 'yelp-29912'
+[WARNING] root - Record not found: 'yelp-33248'
+[WARNING] root - Record not found: 'yelp-41784'
+[WARNING] root - Record not found: 'yelp-49019'
+[WARNING] root - Record not found: 'yelp-57698'
+[WARNING] root - Record not found: 'yelp-50688'
+[WARNING] root - Record not found: 'yelp-34274'
+[WARNING] root - Record not found: 'yelp-93758'
+[WARNING] root - Record not found: 'yelp-43612'
+[WARNING] root - Record not found: 'yelp-89197'
+[WARNING] root - Record not found: 'yelp-94457'
+[WARNING] root - Record not found: 'yelp-55288'
+[WARNING] root - Record not found: 'yelp-32310'
+[WARNING] root - Record not found: 'yelp-36992'
+[WARNING] root - Record not found: 'yelp-65841'
+[WARNING] root - Record not found: 'yelp-94488'
+[WARNING] root - Record not found: 'yelp-59645'
+[WARNING] root - Record not found: 'yelp-92435'
+[WARNING] root - Record not found: 'yelp-80465'
+[WARNING] root - Record not found: 'yelp-36269'
+[WARNING] root - Record not found: 'yelp-52982'
+[WARNING] root - Record not found: 'yelp-65736'
+[WARNING] root - Record not found: 'yelp-54143'
+[WARNING] root - Record not found: 'yelp-16900'
+[WARNING] root - Record not found: 'yelp-84710'
+[WARNING] root - Record not found: 'yelp-28482'
+[WARNING] root - Record not found: 'yelp-42996'
+[WARNING] root - Record not found: 'yelp-56748'
+[WARNING] root - Record not found: 'yelp-93207'
+[WARNING] root - Record not found: 'yelp-65054'
+[WARNING] root - Record not found: 'yelp-29739'
+[WARNING] root - Record not found: 'yelp-03787'
+[WARNING] root - Record not found: 'yelp-37095'
+[WARNING] root - Record not found: 'yelp-82054'
+[WARNING] root - Record not found: 'yelp-15657'
+[WARNING] root - Record not found: 'yelp-74811'
+[WARNING] root - Record not found: 'yelp-07980'
+[WARNING] root - Record not found: 'yelp-27769'
+[WARNING] root - Record not found: 'yelp-18775'
+[WARNING] root - Record not found: 'yelp-88019'
+[WARNING] root - Record not found: 'yelp-86487'
+[WARNING] root - Record not found: 'yelp-86116'
+[WARNING] root - Record not found: 'yelp-90994'
+[WARNING] root - Record not found: 'yelp-55488'
+[WARNING] root - Record not found: 'yelp-85241'
+[WARNING] root - Record not found: 'yelp-23585'
+[WARNING] root - Record not found: 'yelp-53020'
+[WARNING] root - Record not found: 'yelp-80572'
+[WARNING] root - Record not found: 'yelp-91013'
+[WARNING] root - Record not found: 'yelp-02528'
+[WARNING] root - Record not found: 'yelp-88019'
+[WARNING] root - Record not found: 'yelp-55450'
+[WARNING] root - Record not found: 'yelp-85877'
+[WARNING] root - Record not found: 'yelp-60432'
+[WARNING] root - Record not found: 'yelp-53187'
+[WARNING] root - Record not found: 'yelp-05815'
+[WARNING] root - Record not found: 'yelp-88453'
+[WARNING] root - Record not found: 'yelp-67991'
+[WARNING] root - Record not found: 'yelp-79938'
+[WARNING] root - Record not found: 'yelp-72447'
+[WARNING] root - Record not found: 'yelp-60454'
+[WARNING] root - Record not found: 'yelp-98969'
+[WARNING] root - Record not found: 'yelp-02035'
+[WARNING] root - Record not found: 'yelp-77963'
+[WARNING] root - Record not found: 'yelp-11215'
+[WARNING] root - Record not found: 'yelp-01268'
+[WARNING] root - Record not found: 'yelp-97165'
+[WARNING] root - Record not found: 'yelp-51726'
+[WARNING] root - Record not found: 'yelp-47371'
+[WARNING] root - Record not found: 'yelp-31278'
+[WARNING] root - Record not found: 'yelp-95546'
+[WARNING] root - Record not found: 'yelp-14195'
+[WARNING] root - Record not found: 'yelp-36898'
+[WARNING] root - Record not found: 'yelp-31120'
+[WARNING] root - Record not found: 'yelp-45959'
+[WARNING] root - Record not found: 'yelp-23237'
+[WARNING] root - Record not found: 'yelp-17407'
+[WARNING] root - Record not found: 'yelp-24087'
+[WARNING] root - Record not found: 'yelp-23239'
+[WARNING] root - Record not found: 'yelp-77406'
+[WARNING] root - Record not found: 'yelp-97163'
+[WARNING] root - Record not found: 'yelp-26450'
+[WARNING] root - Record not found: 'yelp-73951'
+[WARNING] root - Record not found: 'yelp-43687'
+[WARNING] root - Record not found: 'yelp-28361'
+[WARNING] root - Record not found: 'yelp-82275'
+[WARNING] root - Record not found: 'yelp-85685'
+[WARNING] root - Record not found: 'yelp-01950'
+[WARNING] root - Record not found: 'yelp-90145'
+[WARNING] root - Record not found: 'yelp-73148'
+[WARNING] root - Record not found: 'yelp-45282'
+[WARNING] root - Record not found: 'yelp-65629'
+[WARNING] root - Record not found: 'yelp-96086'
+[WARNING] root - Record not found: 'yelp-14656'
+[WARNING] root - Record not found: 'yelp-24886'
+[WARNING] root - Record not found: 'yelp-67991'
+[WARNING] root - Record not found: 'yelp-86484'
+[WARNING] root - Record not found: 'yelp-44985'
+[WARNING] root - Record not found: 'yelp-99440'
+[WARNING] root - Record not found: 'yelp-02374'
+[WARNING] root - Record not found: 'yelp-03330'
+[WARNING] root - Record not found: 'yelp-43251'
+[WARNING] root - Record not found: 'yelp-64392'
+[WARNING] root - Record not found: 'yelp-92887'
+[WARNING] root - Record not found: 'yelp-86031'
+[WARNING] root - Record not found: 'yelp-23609'
+[WARNING] root - Record not found: 'yelp-75111'
+[WARNING] root - Record not found: 'yelp-50452'
+[WARNING] root - Record not found: 'yelp-76304'
+[WARNING] root - Record not found: 'yelp-65689'
+[WARNING] root - Record not found: 'yelp-33959'
+[WARNING] root - Record not found: 'yelp-96553'
+[WARNING] root - Record not found: 'yelp-73582'
+[WARNING] root - Record not found: 'yelp-77916'
+[WARNING] root - Record not found: 'yelp-35541'
+[WARNING] root - Record not found: 'yelp-52433'
+[WARNING] root - Record not found: 'yelp-67409'
+[WARNING] root - Record not found: 'yelp-33862'
+[WARNING] root - Record not found: 'yelp-62127'
+[WARNING] root - Record not found: 'yelp-25865'
+[WARNING] root - Record not found: 'yelp-14386'
+[WARNING] root - Record not found: 'yelp-94261'
+[WARNING] root - Record not found: 'yelp-25631'
+[WARNING] root - Record not found: 'yelp-26160'
+[WARNING] root - Record not found: 'yelp-57833'
+[WARNING] root - Record not found: 'yelp-63799'
+[WARNING] root - Record not found: 'yelp-28701'
+[WARNING] root - Record not found: 'yelp-27813'
+[WARNING] root - Record not found: 'yelp-77496'
+[WARNING] root - Record not found: 'yelp-45132'
+[WARNING] root - Record not found: 'yelp-35594'
+[WARNING] root - Record not found: 'yelp-46714'
+[WARNING] root - Record not found: 'yelp-19038'
+[WARNING] root - Record not found: 'yelp-00173'
+[WARNING] root - Record not found: 'yelp-85193'
+[WARNING] root - Record not found: 'yelp-04935'
+[WARNING] root - Record not found: 'yelp-57704'
+[WARNING] root - Record not found: 'yelp-76455'
+[WARNING] root - Record not found: 'yelp-66478'
+[WARNING] root - Record not found: 'yelp-12982'
+[WARNING] root - Record not found: 'yelp-68153'
+[WARNING] root - Record not found: 'yelp-33982'
+[WARNING] root - Record not found: 'yelp-51851'
+[WARNING] root - Record not found: 'yelp-73740'
+[WARNING] root - Record not found: 'yelp-08976'
+[WARNING] root - Record not found: 'yelp-47721'
+[WARNING] root - Record not found: 'yelp-26025'
+[WARNING] root - Record not found: 'yelp-33862'
+[WARNING] root - Record not found: 'yelp-02350'
+[WARNING] root - Record not found: 'yelp-78445'
+[WARNING] root - Record not found: 'yelp-19913'
+[WARNING] root - Record not found: 'yelp-10590'
+[WARNING] root - Record not found: 'yelp-59737'
+[WARNING] root - Record not found: 'yelp-73756'
+[WARNING] root - Record not found: 'yelp-35556'
+[WARNING] root - Record not found: 'yelp-86793'
+[WARNING] root - Record not found: 'yelp-46490'
+[WARNING] root - Record not found: 'yelp-14866'
+[WARNING] root - Record not found: 'yelp-15532'
+[WARNING] root - Record not found: 'yelp-93867'
+[WARNING] root - Record not found: 'yelp-33349'
+[WARNING] root - Record not found: 'yelp-86839'
+[WARNING] root - Record not found: 'yelp-03816'
+[WARNING] root - Record not found: 'yelp-02016'
+[WARNING] root - Record not found: 'yelp-91393'
+[WARNING] root - Record not found: 'yelp-85795'
+[WARNING] root - Record not found: 'yelp-99422'
+[WARNING] root - Record not found: 'yelp-33813'
+[WARNING] root - Record not found: 'yelp-04358'
+[WARNING] root - Record not found: 'yelp-86791'
+[WARNING] root - Record not found: 'yelp-78945'
+[WARNING] root - Record not found: 'yelp-38079'
+[WARNING] root - Record not found: 'yelp-64965'
+[WARNING] root - Record not found: 'yelp-69372'
+[WARNING] root - Record not found: 'yelp-35198'
+[WARNING] root - Record not found: 'yelp-66635'
+[WARNING] root - Record not found: 'yelp-71513'
+[WARNING] root - Record not found: 'yelp-44902'
+[WARNING] root - Record not found: 'yelp-50193'
+[WARNING] root - Record not found: 'yelp-09785'
+[WARNING] root - Record not found: 'yelp-63351'
+[WARNING] root - Record not found: 'yelp-67332'
+[WARNING] root - Record not found: 'yelp-94983'
+[WARNING] root - Record not found: 'yelp-32680'
+[WARNING] root - Record not found: 'yelp-16405'
+[WARNING] root - Record not found: 'yelp-40246'
+[WARNING] root - Record not found: 'yelp-97260'
+[WARNING] root - Record not found: 'yelp-45222'
+[WARNING] root - Record not found: 'yelp-83223'
+[WARNING] root - Record not found: 'yelp-80008'
+[WARNING] root - Record not found: 'yelp-94534'
+[WARNING] root - Record not found: 'yelp-08347'
+[WARNING] root - Record not found: 'yelp-97165'
+[WARNING] root - Record not found: 'yelp-92291'
+[WARNING] root - Record not found: 'yelp-43687'
+[WARNING] root - Record not found: 'yelp-97895'
+[WARNING] root - Record not found: 'yelp-15923'
+[WARNING] root - Record not found: 'yelp-77338'
+[WARNING] root - Record not found: 'yelp-52689'
+[WARNING] root - Record not found: 'yelp-33602'
+[WARNING] root - Record not found: 'yelp-84863'
+[WARNING] root - Record not found: 'yelp-03310'
+[WARNING] root - Record not found: 'yelp-21983'
+[WARNING] root - Record not found: 'yelp-31572'
+[WARNING] root - Record not found: 'yelp-65736'
+[WARNING] root - Record not found: 'yelp-39945'
+[WARNING] root - Record not found: 'yelp-79093'
+[WARNING] root - Record not found: 'yelp-90931'
+[WARNING] root - Record not found: 'yelp-58191'
+[WARNING] root - Record not found: 'yelp-11580'
+[WARNING] root - Record not found: 'yelp-78152'
+[WARNING] root - Record not found: 'yelp-17369'
+[WARNING] root - Record not found: 'yelp-75902'
+[WARNING] root - Record not found: 'yelp-64983'
+[WARNING] root - Record not found: 'yelp-30798'
+[WARNING] root - Record not found: 'yelp-87062'
+[WARNING] root - Record not found: 'yelp-41210'
+[WARNING] root - Record not found: 'yelp-70997'
+[WARNING] root - Record not found: 'yelp-35561'
+[WARNING] root - Record not found: 'yelp-38288'
+[WARNING] root - Record not found: 'yelp-77603'
+[WARNING] root - Record not found: 'yelp-88441'
+[WARNING] root - Record not found: 'yelp-07045'
+[WARNING] root - Record not found: 'yelp-07682'
+[WARNING] root - Record not found: 'yelp-64379'
+[WARNING] root - Record not found: 'yelp-83223'
+[WARNING] root - Record not found: 'yelp-91699'
+[WARNING] root - Record not found: 'yelp-71800'
+[WARNING] root - Record not found: 'yelp-75721'
+[WARNING] root - Record not found: 'yelp-88323'
+[WARNING] root - Record not found: 'yelp-63636'
+[WARNING] root - Record not found: 'yelp-71177'
+[WARNING] root - Record not found: 'yelp-16409'
+[WARNING] root - Record not found: 'yelp-52601'
+[WARNING] root - Record not found: 'yelp-96458'
+[WARNING] root - Record not found: 'yelp-74788'
+[WARNING] root - Record not found: 'yelp-24797'
+[WARNING] root - Record not found: 'yelp-81634'
+[WARNING] root - Record not found: 'yelp-91442'
+[WARNING] root - Record not found: 'yelp-95932'
+[WARNING] root - Record not found: 'yelp-94269'
+[WARNING] root - Record not found: 'yelp-95021'
+[WARNING] root - Record not found: 'yelp-69039'
+[WARNING] root - Record not found: 'yelp-92942'
+[WARNING] root - Record not found: 'yelp-61298'
+[WARNING] root - Record not found: 'yelp-63359'
+[WARNING] root - Record not found: 'yelp-03787'
+[WARNING] root - Record not found: 'yelp-53892'
+[WARNING] root - Record not found: 'yelp-41338'
+[WARNING] root - Record not found: 'yelp-06638'
+[WARNING] root - Record not found: 'yelp-69464'
+[WARNING] root - Record not found: 'yelp-19140'
+[WARNING] root - Record not found: 'yelp-88134'
+[WARNING] root - Record not found: 'yelp-29527'
+[WARNING] root - Record not found: 'yelp-65897'
+[WARNING] root - Record not found: 'yelp-38270'
+[WARNING] root - Record not found: 'yelp-73420'
+[WARNING] root - Record not found: 'yelp-19838'
+[WARNING] root - Record not found: 'yelp-34227'
+[WARNING] root - Record not found: 'yelp-88453'
+[WARNING] root - Record not found: 'yelp-91064'
+[WARNING] root - Record not found: 'yelp-43436'
+[WARNING] root - Record not found: 'yelp-74517'
+[WARNING] root - Record not found: 'yelp-78579'
+[WARNING] root - Record not found: 'yelp-93310'
+[WARNING] root - Record not found: 'yelp-87620'
+[WARNING] root - Record not found: 'yelp-79176'
+[WARNING] root - Record not found: 'yelp-33869'
+[WARNING] root - Record not found: 'yelp-40766'
+[WARNING] root - Record not found: 'yelp-56955'
+[WARNING] root - Record not found: 'yelp-96715'
+[WARNING] root - Record not found: 'yelp-23810'
+[WARNING] root - Record not found: 'yelp-03475'
+[WARNING] root - Record not found: 'yelp-03310'
+[WARNING] root - Record not found: 'yelp-75747'
+[WARNING] root - Record not found: 'yelp-13634'
+[WARNING] root - Record not found: 'yelp-86803'
+[WARNING] root - Record not found: 'yelp-61524'
+[WARNING] root - Record not found: 'yelp-68548'
+[WARNING] root - Record not found: 'yelp-98166'
+[WARNING] root - Record not found: 'yelp-86062'
+[WARNING] root - Record not found: 'yelp-47981'
+[WARNING] root - Record not found: 'yelp-07592'
+[WARNING] root - Record not found: 'yelp-32408'
+[WARNING] root - Record not found: 'yelp-32306'
+[WARNING] root - Record not found: 'yelp-39524'
+[WARNING] root - Record not found: 'yelp-91410'
+[WARNING] root - Record not found: 'yelp-75774'
+[WARNING] root - Record not found: 'yelp-27528'
+[WARNING] root - Record not found: 'yelp-62127'
+[WARNING] root - Record not found: 'yelp-75866'
+[WARNING] root - Record not found: 'yelp-67054'
+[WARNING] root - Record not found: 'yelp-64983'
+[WARNING] root - Record not found: 'yelp-91629'
+[WARNING] root - Record not found: 'yelp-44462'
+[WARNING] root - Record not found: 'yelp-21733'
+[WARNING] root - Record not found: 'yelp-37043'
+[WARNING] root - Record not found: 'yelp-95809'
+[WARNING] root - Record not found: 'yelp-23564'
+[WARNING] root - Record not found: 'yelp-62211'
+[WARNING] root - Record not found: 'yelp-04944'
+[WARNING] root - Record not found: 'yelp-72374'
+[WARNING] root - Record not found: 'yelp-27375'
+[WARNING] root - Record not found: 'yelp-62211'
+[WARNING] root - Record not found: 'yelp-49197'
+[WARNING] root - Record not found: 'yelp-46330'
+[WARNING] root - Record not found: 'yelp-04205'
+[WARNING] root - Record not found: 'yelp-98558'
+[WARNING] root - Record not found: 'yelp-97874'
+[WARNING] root - Record not found: 'yelp-09364'
+[WARNING] root - Record not found: 'yelp-94206'
+[WARNING] root - Record not found: 'yelp-66805'
+[WARNING] root - Record not found: 'yelp-17631'
+[WARNING] root - Record not found: 'yelp-24506'
+[WARNING] root - Record not found: 'yelp-35578'
+[WARNING] root - Record not found: 'yelp-69910'
+[WARNING] root - Record not found: 'yelp-65857'
+[WARNING] root - Record not found: 'yelp-09272'
+[WARNING] root - Record not found: 'yelp-25800'
+[WARNING] root - Record not found: 'yelp-56868'
+[WARNING] root - Record not found: 'yelp-83743'
+[WARNING] root - Record not found: 'yelp-74462'
+[WARNING] root - Record not found: 'yelp-30096'
+[WARNING] root - Record not found: 'yelp-91587'
+[WARNING] root - Record not found: 'yelp-43330'
+[WARNING] root - Record not found: 'yelp-23064'
+[WARNING] root - Record not found: 'yelp-64194'
+[WARNING] root - Record not found: 'yelp-28552'
+[WARNING] root - Record not found: 'yelp-70484'
+[WARNING] root - Record not found: 'yelp-27210'
+[WARNING] root - Record not found: 'yelp-89777'
+[WARNING] root - Record not found: 'yelp-35895'
+[WARNING] root - Record not found: 'yelp-97139'
+[WARNING] root - Record not found: 'yelp-69163'
+[WARNING] root - Record not found: 'yelp-71929'
+[WARNING] root - Record not found: 'yelp-47981'
+[WARNING] root - Record not found: 'yelp-00932'
+[WARNING] root - Record not found: 'yelp-72477'
+[WARNING] root - Record not found: 'yelp-93744'
+[WARNING] root - Record not found: 'yelp-97122'
+[WARNING] root - Record not found: 'yelp-54348'
+[WARNING] root - Record not found: 'yelp-73415'
+[WARNING] root - Record not found: 'yelp-02361'
+[WARNING] root - Record not found: 'yelp-05299'
+[WARNING] root - Record not found: 'yelp-23709'
+[WARNING] root - Record not found: 'yelp-96086'
+[WARNING] root - Record not found: 'yelp-25836'
+[WARNING] root - Record not found: 'yelp-90982'
+[WARNING] root - Record not found: 'yelp-37259'
+[WARNING] root - Record not found: 'yelp-63637'
+[WARNING] root - Record not found: 'yelp-35571'
+[WARNING] root - Record not found: 'yelp-30744'
+[WARNING] root - Record not found: 'yelp-90906'
+[WARNING] root - Record not found: 'yelp-72867'
+[WARNING] root - Record not found: 'yelp-84807'
+[WARNING] root - Record not found: 'yelp-98314'
+[WARNING] root - Record not found: 'yelp-21601'
+[WARNING] root - Record not found: 'yelp-30934'
+[WARNING] root - Record not found: 'yelp-04755'
+[WARNING] root - Record not found: 'yelp-82052'
+[WARNING] root - Record not found: 'yelp-21218'
+[WARNING] root - Record not found: 'yelp-24384'
+[WARNING] root - Record not found: 'yelp-23564'
+[WARNING] root - Record not found: 'yelp-72804'
+[WARNING] root - Record not found: 'yelp-45062'
+[WARNING] root - Record not found: 'yelp-87260'
+[WARNING] root - Record not found: 'yelp-21204'
+[WARNING] root - Record not found: 'yelp-91586'
+[WARNING] root - Record not found: 'yelp-23810'
+[WARNING] root - Record not found: 'yelp-31835'
+[WARNING] root - Record not found: 'yelp-67307'
+[WARNING] root - Record not found: 'yelp-48589'
+[WARNING] root - Record not found: 'yelp-74811'
+[WARNING] root - Record not found: 'yelp-43529'
+[WARNING] root - Record not found: 'yelp-66911'
+[WARNING] root - Record not found: 'yelp-50852'
+[WARNING] root - Record not found: 'yelp-95932'
+[WARNING] root - Record not found: 'yelp-92347'
+[WARNING] root - Record not found: 'yelp-23467'
+[WARNING] root - Record not found: 'yelp-91709'
+[WARNING] root - Record not found: 'yelp-65753'
+[WARNING] root - Record not found: 'yelp-73951'
+[WARNING] root - Record not found: 'yelp-01987'
+[WARNING] root - Record not found: 'yelp-12714'
+[WARNING] root - Record not found: 'yelp-96637'
+[WARNING] root - Record not found: 'yelp-37228'
+[WARNING] root - Record not found: 'yelp-33987'
+[WARNING] root - Record not found: 'yelp-66640'
+[WARNING] root - Record not found: 'yelp-38652'
+[WARNING] root - Record not found: 'yelp-80021'
+[WARNING] root - Record not found: 'yelp-63268'
+[WARNING] root - Record not found: 'yelp-39466'
+[WARNING] root - Record not found: 'yelp-02368'
+[WARNING] root - Record not found: 'yelp-68348'
+[WARNING] root - Record not found: 'yelp-40233'
+[WARNING] root - Record not found: 'yelp-75938'
+[WARNING] root - Record not found: 'yelp-03362'
+[WARNING] root - Record not found: 'yelp-74114'
+[WARNING] root - Record not found: 'yelp-17634'
+[WARNING] root - Record not found: 'yelp-46459'
+[WARNING] root - Record not found: 'yelp-65897'
+[WARNING] root - Record not found: 'yelp-21870'
+[WARNING] root - Record not found: 'yelp-74612'
+[WARNING] root - Record not found: 'yelp-94935'
+[WARNING] root - Record not found: 'yelp-78927'
+[WARNING] root - Record not found: 'yelp-12236'
+[WARNING] root - Record not found: 'yelp-18693'
+[WARNING] root - Record not found: 'yelp-65843'
+[WARNING] root - Record not found: 'yelp-63351'
+[WARNING] root - Record not found: 'yelp-69912'
+[WARNING] root - Record not found: 'yelp-16224'
+[WARNING] root - Record not found: 'yelp-30421'
+[WARNING] root - Record not found: 'yelp-19877'
+[WARNING] root - Record not found: 'yelp-82900'
+[WARNING] root - Record not found: 'yelp-89434'
+[WARNING] root - Record not found: 'yelp-23909'
+[WARNING] root - Record not found: 'yelp-26998'
+[WARNING] root - Record not found: 'yelp-73756'
+[WARNING] root - Record not found: 'yelp-32860'
+[WARNING] root - Record not found: 'yelp-93066'
+[WARNING] root - Record not found: 'yelp-00936'
+[WARNING] root - Record not found: 'yelp-62616'
+[WARNING] root - Record not found: 'yelp-83862'
+[WARNING] root - Record not found: 'yelp-15632'
+[WARNING] root - Record not found: 'yelp-93867'
+[WARNING] root - Record not found: 'yelp-82207'
+[WARNING] root - Record not found: 'yelp-83193'
+[WARNING] root - Record not found: 'yelp-40230'
+[WARNING] root - Record not found: 'yelp-01805'
+[WARNING] root - Record not found: 'yelp-16993'
+[WARNING] root - Record not found: 'yelp-90777'
+[WARNING] root - Record not found: 'yelp-35574'
+[WARNING] root - Record not found: 'yelp-87786'
+[WARNING] root - Record not found: 'yelp-66371'
+[WARNING] root - Record not found: 'yelp-74298'
+[WARNING] root - Record not found: 'yelp-85724'
+[WARNING] root - Record not found: 'yelp-15532'
+[WARNING] root - Record not found: 'yelp-19462'
+[WARNING] root - Record not found: 'yelp-80653'
+[WARNING] root - Record not found: 'yelp-14656'
+[WARNING] root - Record not found: 'yelp-90994'
+[WARNING] root - Record not found: 'yelp-33248'
+[WARNING] root - Record not found: 'yelp-22293'
+[WARNING] root - Record not found: 'yelp-69139'
+[WARNING] root - Record not found: 'yelp-37526'
+[WARNING] root - Record not found: 'yelp-56589'
+[WARNING] root - Record not found: 'yelp-28808'
+[WARNING] root - Record not found: 'yelp-89153'
+[WARNING] root - Record not found: 'yelp-64128'
+[WARNING] root - Record not found: 'yelp-77534'
+[WARNING] root - Record not found: 'yelp-43292'
+[WARNING] root - Record not found: 'yelp-52066'
+[WARNING] root - Record not found: 'yelp-74740'
+[WARNING] root - Record not found: 'yelp-12163'
+[WARNING] root - Record not found: 'yelp-97702'
+[WARNING] root - Record not found: 'yelp-14361'
+[WARNING] root - Record not found: 'yelp-31088'
+[WARNING] root - Record not found: 'yelp-73465'
+[WARNING] root - Record not found: 'yelp-07944'
+[WARNING] root - Record not found: 'yelp-91013'
+[WARNING] root - Record not found: 'yelp-26998'
+[WARNING] root - Record not found: 'yelp-27792'
+[WARNING] root - Record not found: 'yelp-47710'
+[WARNING] root - Record not found: 'yelp-91013'
+[WARNING] root - Record not found: 'yelp-81193'
+[WARNING] root - Record not found: 'yelp-35571'
+[WARNING] root - Record not found: 'yelp-74765'
+[WARNING] root - Record not found: 'yelp-35572'
+[WARNING] root - Record not found: 'yelp-85156'
+[WARNING] root - Record not found: 'yelp-19418'
+[WARNING] root - Record not found: 'yelp-15745'
+[WARNING] root - Record not found: 'yelp-16993'
+[WARNING] root - Record not found: 'yelp-81078'
+[WARNING] root - Record not found: 'yelp-47854'
+[WARNING] root - Record not found: 'yelp-09199'
+[WARNING] root - Record not found: 'yelp-36265'
+[WARNING] root - Record not found: 'yelp-07186'
+[WARNING] root - Record not found: 'yelp-02031'
+[WARNING] root - Record not found: 'yelp-37606'
+[WARNING] root - Record not found: 'yelp-75774'
+[WARNING] root - Record not found: 'yelp-85948'
+[WARNING] root - Record not found: 'yelp-99404'
+[WARNING] root - Record not found: 'yelp-18044'
+[WARNING] root - Record not found: 'yelp-32355'
+[WARNING] root - Record not found: 'yelp-12607'
+[WARNING] root - Record not found: 'yelp-33575'
+[WARNING] root - Record not found: 'yelp-89467'
+[WARNING] root - Record not found: 'yelp-94269'
+[WARNING] root - Record not found: 'yelp-35546'
+[WARNING] root - Record not found: 'yelp-24297'
+[WARNING] root - Record not found: 'yelp-51021'
+[WARNING] root - Record not found: 'yelp-83223'
+[WARNING] root - Record not found: 'yelp-39498'
+[WARNING] root - Record not found: 'yelp-32860'
+[WARNING] root - Record not found: 'yelp-61665'
+[WARNING] root - Record not found: 'yelp-97345'
+[WARNING] root - Record not found: 'yelp-21544'
+[WARNING] root - Record not found: 'yelp-07587'
+[WARNING] root - Record not found: 'yelp-87942'
+[WARNING] root - Record not found: 'yelp-00423'
+[WARNING] root - Record not found: 'yelp-83153'
+[WARNING] root - Record not found: 'yelp-38294'
+[WARNING] root - Record not found: 'yelp-83256'
+[WARNING] root - Record not found: 'yelp-32920'
+[WARNING] root - Record not found: 'yelp-98653'
+[WARNING] root - Record not found: 'yelp-02091'
+[WARNING] root - Record not found: 'yelp-74810'
+[WARNING] root - Record not found: 'yelp-76088'
+[WARNING] root - Record not found: 'yelp-05849'
+[WARNING] root - Record not found: 'yelp-08184'
+[WARNING] root - Record not found: 'yelp-14355'
+[WARNING] root - Record not found: 'yelp-22470'
+[WARNING] root - Record not found: 'yelp-64564'
+[WARNING] root - Record not found: 'yelp-72756'
+[WARNING] root - Record not found: 'yelp-77941'
+[WARNING] root - Record not found: 'id1'
