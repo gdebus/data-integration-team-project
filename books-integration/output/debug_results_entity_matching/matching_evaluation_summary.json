@@ -1,0 +1,14 @@
+{
+  "precision": 1.0,
+  "recall": 0.20454545454545456,
+  "f1": 0.339622641509434,
+  "accuracy": 0.825,
+  "true_positives": 9,
+  "false_positives": 0,
+  "false_negatives": 35,
+  "true_negatives": 156,
+  "threshold_used": 0.0,
+  "total_correspondences": 5925,
+  "filtered_correspondences": 5925,
+  "evaluation_timestamp": "2025-11-03T01:10:59.220068"
+}

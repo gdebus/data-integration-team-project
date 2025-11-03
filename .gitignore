@@ -4,3 +4,7 @@
 datasets/*
 
 out_parquet/*
+
+.DS_Store
+
+.venv
