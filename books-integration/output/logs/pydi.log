@@ -28044,3 +28044,786 @@
 [INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1268 token keys for second dataset
 [INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1266 blocks from token keys
 [INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/abd/Developer/team_project_data_integration/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.fusion.analysis - Analyzed 18 attributes across 3 datasets
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 248239 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 20475 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 248239 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 20475 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] root -   Pair Completeness: 0.415
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 51/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.927
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 114/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 248239 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 20475 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 245803 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 22962 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] root -   Pair Completeness: 0.415
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 51/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.927
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 114/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.415
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 51/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.415
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 51/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.480
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 59/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 248239 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 20475 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] root -   Pair Completeness: 0.415
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 51/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.585
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 72/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.927
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 114/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root - Label distribution: 123 positive, 476 negative
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[WARNING] root - Column 'pages' not found in one or both records
+[INFO ] root - Label distribution: 132 positive, 466 negative
+[INFO ] root - Label distribution: 123 positive, 476 negative
+[INFO ] root - Label distribution: 132 positive, 466 negative
+[INFO ] root - Label distribution: 123 positive, 476 negative
+[INFO ] root - Label distribution: 132 positive, 466 negative
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 248239 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 20475 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 248239 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 20475 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] root -   Pair Completeness: 0.415
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 51/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.585
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 72/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.935
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 115/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.935
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 115/123
+[INFO ] root - Blocking evaluation complete!
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 52384 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 4112 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 51247 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 4262 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 587637 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 587637 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1290 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1151 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1151 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
