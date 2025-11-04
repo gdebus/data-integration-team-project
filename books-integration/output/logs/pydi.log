@@ -28827,3 +28827,227 @@
 [INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1151 token keys for second dataset
 [INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1151 blocks from token keys
 [INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 245803 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 22962 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=10, threshold=0.3
+[INFO ] sentence_transformers.SentenceTransformer - Use pytorch device_name: mps
+[INFO ] sentence_transformers.SentenceTransformer - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Loaded sentence transformer model: sentence-transformers/all-MiniLM-L6-v2
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 245803 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 22962 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=10, threshold=0.3
+[INFO ] sentence_transformers.SentenceTransformer - Use pytorch device_name: mps
+[INFO ] sentence_transformers.SentenceTransformer - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Loaded sentence transformer model: sentence-transformers/all-MiniLM-L6-v2
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 245803 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 22962 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 245803 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 22962 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 507818 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 236280 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 31220 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 806519 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 28965 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 21893 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 20741 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=10, threshold=0.3
+[INFO ] root -   Pair Completeness: 0.470
+[INFO ] root -   Pair Quality:      0.002
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 77/164
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.567
+[INFO ] root -   Pair Quality:      0.001
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 93/164
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.927
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 152/164
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.927
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 152/164
+[INFO ] root - Blocking evaluation complete!
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 52384 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 4112 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 51247 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 4262 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 518708 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 52384 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 4112 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 517669 blocking keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 51247 blocking keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - created 4262 blocks from blocking keys
+[INFO ] PyDI.entitymatching.blocking.standard.StandardBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_StandardBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 20
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 587637 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created sorted neighbourhood with window size 25
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - created 1 sorted sequence from 587637 records
+[INFO ] PyDI.entitymatching.blocking.sorted_neighbourhood.SortedNeighbourhoodBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_SortedNeighbourhoodBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1290 token keys for first dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1151 token keys for second dataset
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - created 1151 blocks from token keys
+[INFO ] PyDI.entitymatching.blocking.token_blocking.TokenBlocker - Debug results written to file: /Users/onurcanmemis/Desktop/data-integration-team-project/books-integration/output/blocking_evaluation/debugResultsBlocking_TokenBlocker.csv
+[INFO ] PyDI.entitymatching.blocking.embedding.EmbeddingBlocker - Initialized EmbeddingBlocker with sklearn backend, top_k=20, threshold=0.3
+[INFO ] root -   Pair Completeness: 0.000
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 0/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.000
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 0/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.000
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 0/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.000
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 0/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.188
+[INFO ] root -   Pair Quality:      0.006
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 33/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.188
+[INFO ] root -   Pair Quality:      0.002
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 33/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.932
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 164/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] root -   Pair Completeness: 0.932
+[INFO ] root -   Pair Quality:      0.000
+[INFO ] root -   Reduction Ratio:   1.000
+[INFO ] root -   True Matches Found: 164/176
+[INFO ] root - Blocking evaluation complete!
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Starting Entity Matching
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Blocking 535159 x 271360 elements
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Matching 535159 x 271360 elements after 0:00:3.744; 6731058 blocked pairs (reduction ratio: 0.9999536494738233)
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Entity Matching finished after 0:00:1030.988; found 109696 correspondences.
+[INFO ] root - Confusion Matrix:
+[INFO ] root -   True Positives:  127
+[INFO ] root -   True Negatives:  628
+[INFO ] root -   False Positives: 7
+[INFO ] root -   False Negatives: 37
+[INFO ] root - Performance Metrics:
+[INFO ] root -   Accuracy:  0.945
+[INFO ] root -   Precision: 0.948
+[INFO ] root -   Recall:    0.774
+[INFO ] root -   F1-Score:  0.852
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Starting Entity Matching
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Blocking 535159 x 52478 elements
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Matching 535159 x 52478 elements after 0:00:0.995; 1797032 blocked pairs (reduction ratio: 0.9999360124175761)
+[INFO ] PyDI.entitymatching.rule_based.RuleBasedMatcher - Entity Matching finished after 0:00:317.310; found 14419 correspondences.
+[INFO ] root - Confusion Matrix:
+[INFO ] root -   True Positives:  103
+[INFO ] root -   True Negatives:  620
+[INFO ] root -   False Positives: 2
+[INFO ] root -   False Negatives: 73
+[INFO ] root - Performance Metrics:
+[INFO ] root -   Accuracy:  0.906
+[INFO ] root -   Precision: 0.981
+[INFO ] root -   Recall:    0.585
+[INFO ] root -   F1-Score:  0.733
+[INFO ] root - Label distribution: 164 positive, 635 negative
+[INFO ] root - Label distribution: 176 positive, 622 negative
+[INFO ] root - Label distribution: 164 positive, 635 negative
+[INFO ] root - Label distribution: 176 positive, 622 negative
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Starting Entity Matching
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Blocking 535159 x 271360 elements
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Matching 535159 x 271360 elements after 0:00:2.176; 6731058 blocked pairs (reduction ratio: 0.9999536494738233)
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Entity Matching finished after 0:00:2029.259; found 147758 correspondences.
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Starting Entity Matching
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Blocking 535159 x 52478 elements
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Matching 535159 x 52478 elements after 0:00:2.339; 1797032 blocked pairs (reduction ratio: 0.9999360124175761)
+[INFO ] PyDI.entitymatching.ml_based.MLBasedMatcher - Entity Matching finished after 0:00:647.147; found 35593 correspondences.
+[INFO ] root - Confusion Matrix:
+[INFO ] root -   True Positives:  125
+[INFO ] root -   True Negatives:  629
+[INFO ] root -   False Positives: 6
+[INFO ] root -   False Negatives: 39
+[INFO ] root - Performance Metrics:
+[INFO ] root -   Accuracy:  0.944
+[INFO ] root -   Precision: 0.954
+[INFO ] root -   Recall:    0.762
+[INFO ] root -   F1-Score:  0.847
+[INFO ] root - Confusion Matrix:
+[INFO ] root -   True Positives:  129
+[INFO ] root -   True Negatives:  609
+[INFO ] root -   False Positives: 13
+[INFO ] root -   False Negatives: 47
+[INFO ] root - Performance Metrics:
+[INFO ] root -   Accuracy:  0.925
+[INFO ] root -   Precision: 0.908
+[INFO ] root -   Recall:    0.733
+[INFO ] root -   F1-Score:  0.811
