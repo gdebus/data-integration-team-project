@@ -1,0 +1,31 @@
+{
+  "rows": 63469,
+  "columns": 11,
+  "nulls_total": 68006,
+  "nulls_per_column": {
+    "id": 0,
+    "position": 0,
+    "name": 0,
+    "score": 28167,
+    "ratings": 28167,
+    "category": 85,
+    "price_range": 10617,
+    "full_address": 453,
+    "zip_code": 517,
+    "lat": 0,
+    "lng": 0
+  },
+  "dtypes": {
+    "id": "int64",
+    "position": "int64",
+    "name": "object",
+    "score": "float64",
+    "ratings": "float64",
+    "category": "object",
+    "price_range": "object",
+    "full_address": "object",
+    "zip_code": "object",
+    "lat": "float64",
+    "lng": "float64"
+  }
+}
