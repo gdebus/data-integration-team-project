@@ -8,6 +8,8 @@ out_parquet/*
 .DS_Store
 
 .venv
+.env
+
 
 books_data_fusion_rb_stblocking_pipeline.ipynb
 books_data_fusion_rb_snblocking_pipeline.ipynb
