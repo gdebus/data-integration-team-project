@@ -1,0 +1,6 @@
+langgraph==0.6.11
+langchain==0.3.27
+langchain-groq==0.3.8
+langchain-google-genai==2.1.12
+fastparquet
+uma-pydi
