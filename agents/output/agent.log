@@ -7343,3 +7343,708 @@ rb_fused_standard_blocker = engine.run(
 rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
 ```
 20:43:01,879 root INFO Leaving pipeline_adaption
+21:08:16,558 langchain_google_genai._function_utils WARNING convert_to_genai_function_declarations expects a Sequence and not a single tool.
+21:08:16,560 root INFO ----------------------- Entering profile_data -----------------------
+21:08:16,560 root INFO Input Message:[SystemMessage(content='\n            You are a data scientist tasked with the integration of several datasets.\n            For each dataset path provided, call the tool `profile_dataset` with the path\n            (one tool call per dataset).\n        ', additional_kwargs={}, response_metadata={}), HumanMessage(content='Please profile these datasets (one call per dataset):\ninput/datasets/amazon_small.parquet\ninput/datasets/goodreads_small.parquet\ninput/datasets/metabooks_small.parquet', additional_kwargs={}, response_metadata={})]
+21:08:17,555 root INFO RESULT:content='' additional_kwargs={'function_call': {'name': 'profile_dataset', 'arguments': '{"__arg1": "input/datasets/metabooks_small.parquet"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.0-flash', 'safety_ratings': []} id='run--52f65d44-ff51-40e8-9f2f-70407cd1cecb-0' tool_calls=[{'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/amazon_small.parquet'}, 'id': 'e49439b5-073a-480a-b592-936e8017ca27', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/goodreads_small.parquet'}, 'id': '7a9731d0-d2fe-45f2-aa27-86b57e1b0a27', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/metabooks_small.parquet'}, 'id': '42a014fc-b209-4808-ad0b-9d63349b3c9f', 'type': 'tool_call'}] usage_metadata={'input_tokens': 143, 'output_tokens': 48, 'total_tokens': 191, 'input_token_details': {'cache_read': 0}}
+21:08:17,555 root INFO Tool Calls:[{'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/amazon_small.parquet'}, 'id': 'e49439b5-073a-480a-b592-936e8017ca27', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/goodreads_small.parquet'}, 'id': '7a9731d0-d2fe-45f2-aa27-86b57e1b0a27', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/metabooks_small.parquet'}, 'id': '42a014fc-b209-4808-ad0b-9d63349b3c9f', 'type': 'tool_call'}]
+21:08:17,597 root INFO Leaving profile_data
+21:08:17,597 root INFO ----------------------- Entering pipeline_adaption -----------------------
+21:08:17,616 root INFO Input Message:[SystemMessage(content='\n        You are a data scientist tasked with the integration of several datasets.\n        You are provided with the following inputs:\n\n        1. An example integration pipeline (Python code using PyDI library):\n        from PyDI.io import load_parquet, load_csv, load_xml\n\nfrom PyDI.entitymatching import StandardBlocker, EmbeddingBlocker\nfrom PyDI.entitymatching import StringComparator, NumericComparator\nfrom PyDI.entitymatching import RuleBasedMatcher\n\nfrom PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust\nfrom PyDI.fusion import DataFusionEvaluator, tokenized_match\n\nfrom PyDI.schemamatching import LLMBasedSchemaMatcher\nfrom langchain_google_genai import ChatGoogleGenerativeAI\n\nimport pandas as pd\nimport numpy as np\nimport os\n\n# --------------------------------\n# Prepare Data\n# Important: Use the correct loader (load_parquet, load_csv, load_xml)\n# --------------------------------\n\n# Define dataset paths\nDATA_DIR = "datasets/"\n\n# Define API Key\n\nos.environ["GOOGLE_API_KEY"] = "<API-KEY>"\n\n# Load the first dataset\ngood_dataset_name_1 = load_parquet(\n    DATA_DIR + "<path-and-file-name-of-dataset-1>.parquet",\n    name="dataset_name_1",\n)\n\n# Load Uber Eats dataset  \ngood_dataset_name_2 = load_parquet(\n    DATA_DIR + "path-and-file-name-of-dataset-2.parquet",\n    name="dataset_name_2",\n)\n\n# Load Yelp dataset\ngood_dataset_name_3 = load_parquet(\n    DATA_DIR + "path-and-file-name-of-dataset-3.parquet",\n    name="dataset_name_3",\n)\n\n\n\ndatasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]\n\n# --------------------------------\n# Perform Schema Matching (LLM-based matching)\n# --------------------------------\n\nllm = ChatGoogleGenerativeAI(\n    model="gemini-2.0-flash",\n    temperature=0,\n    max_tokens=None,\n    timeout=None,\n    max_retries=2,\n)\n\nmatcher = LLMBasedSchemaMatcher(\n    chat_model=llm,\n    num_rows=10,\n    debug=True\n)\n\n# match schema of good_dataset_name_1 with good_dataset_name_2 and rename schema of good_dataset_name_2\nschema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_2)\nrename_map = (\n    schema_correspondences\n    .set_index("target_column")["source_column"]\n    .to_dict()\n)\ngood_dataset_name_2 = good_dataset_name_2.rename(columns=rename_map)\n\n# match schema of good_dataset_name_1 with good_dataset_name_3 and rename schema of good_dataset_name_3\nschema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_3)\nrename_map = (\n    schema_correspondences\n    .set_index("target_column")["source_column"]\n    .to_dict()\n)\ngood_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)\n\n# --------------------------------\n# Perform Entity Matching\n# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker\n# --------------------------------\n\n# Example of an Embedding blocker:\n# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(\n#    good_dataset_name_1, good_dataset_name_2, # name of the datasets\n#    text_cols=[\'city\'], # column which should be used to perform the blocking on\n#    model="sentence-transformers/all-MiniLM-L6-v2",\n#    index_backend="sklearn",\n#    top_k=20,          # Top 20 most similar\n#    batch_size=500,\n#    output_dir="output/blocking-evaluation",\n#    id_column=\'id\'\n#)\n\n# Example of a Standard blocker:\n# blocker_k2u = StandardBlocker(\n#    good_dataset_name_1, good_dataset_name_2,\n#    on=[\'city\'], # column which should be used to perform the blocking on\n#    batch_size=1000,\n#    output_dir="output/blocking-evaluation",\n#    id_column=\'id\'\n#)\n\n# define blocking in this example using the standard blocker\nblocker_k2u = StandardBlocker(\n    good_dataset_name_1, good_dataset_name_2,\n    on=[\'city\'],\n    batch_size=1000,\n    output_dir="output/blocking-evaluation",\n    id_column=\'id\'\n)\n\nblocker_k2y = StandardBlocker(\n    good_dataset_name_1, good_dataset_name_3,\n    on=[\'city\'],\n    batch_size=1000,\n    output_dir="output/blocking-evaluation",\n    id_column=\'id\'\n)\n\n# define comparators\n# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. \ncomparators = [\n    # Name similarity\n    StringComparator(\n        column=\'name_norm\',\n        similarity_function=\'jaccard\', \n        # no preprocessing needed\n    ),\n    \n    # street name similarity\n    StringComparator(\n        column=\'street\',\n        similarity_function=\'jaccard\', \n        preprocess=str.lower,\n    ),\n\n    # house number similarity\n    NumericComparator(\n        column=\'house_number\',\n        max_difference=2,\n    ),\n\n    # category similarity - supporting evidence\n    StringComparator(\n        column=\'categories\',\n        similarity_function=\'jaccard\',\n        preprocess=str.lower,\n        list_strategy=\'concatenate\' # Handle list attribute by concatenation\n    )\n]\n\n# Initialize Rule-Based Matcher\nmatcher = RuleBasedMatcher()\n\nrb_correspondences_k2u = matcher.match(\n    df_left=good_dataset_name_1,\n    df_right=good_dataset_name_2, \n    candidates=blocker_k2u,\n    comparators=comparators,\n    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense\n    threshold=0.7,\n    id_column=\'id\'\n)\n\nrb_correspondences_k2y = matcher.match(\n    df_left=good_dataset_name_1,\n    df_right=good_dataset_name_3, \n    candidates=blocker_k2y,\n    comparators=comparators,\n    weights=[0.5, 0.2, 0.2, 0.1],  \n    threshold=0.7,\n    id_column=\'id\'\n)\n\n# --------------------------------\n# Data Fusion\n# --------------------------------\n# set trust scores. You may draw your own assumptions about which dataset should be trusted most\ngood_dataset_name_1.attrs["trust_score"] = 3\ngood_dataset_name_2.attrs["trust_score"] = 2\ngood_dataset_name_3.attrs["trust_score"] = 1\n\n# merge rule based correspondences\nall_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y], ignore_index=True)\n\n# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union\nstrategy = DataFusionStrategy(\'usa_restaurant_fusion_strategy\')\n\nstrategy.add_attribute_fuser(\'name\', longest_string)\nstrategy.add_attribute_fuser(\'street\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'house_number\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'city\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'state\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'postal_code\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'country\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'latitude\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'longitude\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'categories\', union)\n\n# run fusion\nengine = DataFusionEngine(strategy, debug=True, debug_format=\'json\',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")\n\n# fuse rule based matches\nrb_fused_standard_blocker = engine.run(\n    datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],\n    correspondences=all_rb_correspondences,\n    id_column="id",\n    include_singletons=False,\n)\n\n# write output\nrb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)\n\n        2. A list of dataset file locations:\n        [\n  "input/datasets/amazon_small.parquet",\n  "input/datasets/goodreads_small.parquet",\n  "input/datasets/metabooks_small.parquet"\n]\n\n        3. The first row of each dataset to help understand the structure:\n        {\n  "input/datasets/amazon_small.parquet": {\n    "id": "amazon_1",\n    "title": "classical mythology",\n    "book-author": "mark p o morford",\n    "year-of-publication": 2002,\n    "publisher": "Oxford University Press",\n    "isbn_clean": "0195153448"\n  },\n  "input/datasets/goodreads_small.parquet": {\n    "id": "goodreads_1",\n    "title": "the hunger games",\n    "author": "suzanne collins",\n    "rating": 4.33,\n    "numratings": 6376780,\n    "language": "English",\n    "genres": "[\'Young Adult\', \'Fiction\', \'Dystopia\', \'Fantasy\', \'Science Fiction\', \'Romance\', \'Adventure\', \'Teen\', \'Post Apocalyptic\', \'Action\']",\n    "bookformat": "Hardcover",\n    "edition": "First Edition",\n    "page_count": 374,\n    "publisher": "Scholastic Press",\n    "publish_year": 2008,\n    "price": 5.090000152587891,\n    "isbn_clean": "0439023483"\n  },\n  "input/datasets/metabooks_small.parquet": {\n    "id": "metabooks_1",\n    "title": "alvis the story of the red triangle",\n    "author_name": "kenneth day",\n    "rating": 4.1,\n    "num_rating": 3,\n    "language": "English",\n    "genres": "[\'Engineering\', \'Transportation\', \'Automotive\']",\n    "publisher": "Haynes Pubns",\n    "page_count": 400,\n    "price": 112.30000305175781,\n    "publish_year": null,\n    "isbn_clean": "1844255247"\n  }\n}\n\n        4. A dictionary containing the profile data of the datasets\n        (including nulls_per_column and dtypes of the columns):\n        {\n  "input/datasets/amazon_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 6, \\"nulls_total\\": 0, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"book-author\\": 0, \\"year-of-publication\\": 0, \\"publisher\\": 0, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"book-author\\": \\"object\\", \\"year-of-publication\\": \\"Int16\\", \\"publisher\\": \\"object\\", \\"isbn_clean\\": \\"object\\"}}",\n  "input/datasets/goodreads_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 14, \\"nulls_total\\": 2151, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"author\\": 0, \\"rating\\": 0, \\"numratings\\": 0, \\"language\\": 0, \\"genres\\": 0, \\"bookformat\\": 0, \\"edition\\": 0, \\"page_count\\": 131, \\"publisher\\": 0, \\"publish_year\\": 83, \\"price\\": 1937, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"author\\": \\"object\\", \\"rating\\": \\"float64\\", \\"numratings\\": \\"Int64\\", \\"language\\": \\"object\\", \\"genres\\": \\"object\\", \\"bookformat\\": \\"object\\", \\"edition\\": \\"object\\", \\"page_count\\": \\"Int32\\", \\"publisher\\": \\"object\\", \\"publish_year\\": \\"Int16\\", \\"price\\": \\"float64\\", \\"isbn_clean\\": \\"object\\"}}",\n  "input/datasets/metabooks_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 12, \\"nulls_total\\": 8371, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"author_name\\": 0, \\"rating\\": 0, \\"num_rating\\": 0, \\"language\\": 58, \\"genres\\": 615, \\"publisher\\": 240, \\"page_count\\": 953, \\"price\\": 1187, \\"publish_year\\": 5318, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"author_name\\": \\"object\\", \\"rating\\": \\"float64\\", \\"num_rating\\": \\"Int64\\", \\"language\\": \\"object\\", \\"genres\\": \\"object\\", \\"publisher\\": \\"object\\", \\"page_count\\": \\"Int32\\", \\"price\\": \\"float32\\", \\"publish_year\\": \\"Int16\\", \\"isbn_clean\\": \\"object\\"}}"\n}\n\n        Your task is to **create a similar integration pipeline** so that it works with\n        the datasets provided. Output should only consist of the relevant Python code\n        for the integration pipeline.\n        ', additional_kwargs={}, response_metadata={}), HumanMessage(content='Please adjust the example integration pipeline accordingly.', additional_kwargs={}, response_metadata={})]
+21:08:27,636 root INFO RESULT:```python
+from PyDI.io import load_parquet, load_csv, load_xml
+
+from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
+from PyDI.entitymatching import StringComparator, NumericComparator
+from PyDI.entitymatching import RuleBasedMatcher
+
+from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
+from PyDI.fusion import DataFusionEvaluator, tokenized_match
+
+from PyDI.schemamatching import LLMBasedSchemaMatcher
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+import pandas as pd
+import numpy as np
+import os
+
+# --------------------------------
+# Prepare Data
+# Important: Use the correct loader (load_parquet, load_csv, load_xml)
+# --------------------------------
+
+# Define dataset paths
+DATA_DIR = "input/datasets/"
+
+# Define API Key
+
+os.environ["GOOGLE_API_KEY"] = "<API-KEY>"
+
+# Load the first dataset
+amazon_small = load_parquet(
+    DATA_DIR + "amazon_small.parquet",
+    name="amazon_small",
+)
+
+# Load Uber Eats dataset  
+goodreads_small = load_parquet(
+    DATA_DIR + "goodreads_small.parquet",
+    name="goodreads_small",
+)
+
+# Load Yelp dataset
+metabooks_small = load_parquet(
+    DATA_DIR + "metabooks_small.parquet",
+    name="metabooks_small",
+)
+
+
+
+datasets = [amazon_small, goodreads_small, metabooks_small]
+
+# --------------------------------
+# Perform Schema Matching (LLM-based matching)
+# --------------------------------
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+)
+
+matcher = LLMBasedSchemaMatcher(
+    chat_model=llm,
+    num_rows=10,
+    debug=True
+)
+
+# match schema of amazon_small with goodreads_small and rename schema of goodreads_small
+schema_correspondences = matcher.match(amazon_small, goodreads_small)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+goodreads_small = goodreads_small.rename(columns=rename_map)
+
+# match schema of amazon_small with metabooks_small and rename schema of metabooks_small
+schema_correspondences = matcher.match(amazon_small, metabooks_small)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+metabooks_small = metabooks_small.rename(columns=rename_map)
+
+# --------------------------------
+# Perform Entity Matching
+# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker
+# --------------------------------
+
+# Example of an Embedding blocker:
+# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
+#    amazon_small, goodreads_small, # name of the datasets
+#    text_cols=['title'], # column which should be used to perform the blocking on
+#    model="sentence-transformers/all-MiniLM-L6-v2",
+#    index_backend="sklearn",
+#    top_k=20,          # Top 20 most similar
+#    batch_size=500,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# Example of a Standard blocker:
+# blocker_k2u = StandardBlocker(
+#    amazon_small, goodreads_small,
+#    on=['title'], # column which should be used to perform the blocking on
+#    batch_size=1000,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# define blocking in this example using the standard blocker
+blocker_a2g = StandardBlocker(
+    amazon_small, goodreads_small,
+    on=['title'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+blocker_a2m = StandardBlocker(
+    amazon_small, metabooks_small,
+    on=['title'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+# define comparators
+# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. 
+comparators = [
+    # Name similarity
+    StringComparator(
+        column='title',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
+    # author name similarity
+    StringComparator(
+        column='book-author',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # year of publication similarity
+    NumericComparator(
+        column='year-of-publication',
+        max_difference=2,
+    ),
+
+    # publisher similarity - supporting evidence
+    StringComparator(
+        column='publisher',
+        similarity_function='jaccard',
+        preprocess=str.lower,
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+# Initialize Rule-Based Matcher
+matcher = RuleBasedMatcher()
+
+rb_correspondences_a2g = matcher.match(
+    df_left=amazon_small,
+    df_right=goodreads_small, 
+    candidates=blocker_a2g,
+    comparators=comparators,
+    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense
+    threshold=0.7,
+    id_column='id'
+)
+
+rb_correspondences_a2m = matcher.match(
+    df_left=amazon_small,
+    df_right=metabooks_small, 
+    candidates=blocker_a2m,
+    comparators=comparators,
+    weights=[0.5, 0.2, 0.2, 0.1],  
+    threshold=0.7,
+    id_column='id'
+)
+
+# --------------------------------
+# Data Fusion
+# --------------------------------
+# set trust scores. You may draw your own assumptions about which dataset should be trusted most
+amazon_small.attrs["trust_score"] = 3
+goodreads_small.attrs["trust_score"] = 2
+metabooks_small.attrs["trust_score"] = 1
+
+# merge rule based correspondences
+all_rb_correspondences = pd.concat([rb_correspondences_a2g, rb_correspondences_a2m], ignore_index=True)
+
+# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union
+strategy = DataFusionStrategy('book_fusion_strategy')
+
+strategy.add_attribute_fuser('title', longest_string)
+strategy.add_attribute_fuser('book-author', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('year-of-publication', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('publisher', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('isbn_clean', prefer_higher_trust, trust_key="trust_score")
+# Assuming genres is present in all datasets after schema matching, and it's a list
+strategy.add_attribute_fuser('genres', union)
+
+# run fusion
+engine = DataFusionEngine(strategy, debug=True, debug_format='json',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")
+
+# fuse rule based matches
+rb_fused_standard_blocker = engine.run(
+    datasets=[amazon_small, goodreads_small, metabooks_small],
+    correspondences=all_rb_correspondences,
+    id_column="id",
+    include_singletons=False,
+)
+
+# write output
+rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
+```
+21:08:27,636 root INFO Leaving pipeline_adaption
+21:19:00,399 langchain_google_genai._function_utils WARNING convert_to_genai_function_declarations expects a Sequence and not a single tool.
+21:19:00,400 root INFO ----------------------- Entering profile_data -----------------------
+21:19:00,400 root INFO Input Message:[SystemMessage(content='\n            You are a data scientist tasked with the integration of several datasets.\n            For each dataset path provided, call the tool `profile_dataset` with the path\n            (one tool call per dataset).\n        ', additional_kwargs={}, response_metadata={}), HumanMessage(content='Please profile these datasets (one call per dataset):\ninput/datasets/amazon_small.parquet\ninput/datasets/goodreads_small.parquet\ninput/datasets/metabooks_small.parquet', additional_kwargs={}, response_metadata={})]
+21:19:01,402 root INFO RESULT:content='' additional_kwargs={'function_call': {'name': 'profile_dataset', 'arguments': '{"__arg1": "input/datasets/metabooks_small.parquet"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.0-flash', 'safety_ratings': []} id='run--127b1c4b-8de4-4cba-bb1e-a63a468ecd8d-0' tool_calls=[{'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/amazon_small.parquet'}, 'id': 'e4608275-ed08-40d9-ae6f-512d925138f0', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/goodreads_small.parquet'}, 'id': '16caeefa-5146-4ae0-affd-bd97207f2583', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/metabooks_small.parquet'}, 'id': '0a1246d3-c1b0-4167-a37c-8ebd35ff2d56', 'type': 'tool_call'}] usage_metadata={'input_tokens': 143, 'output_tokens': 48, 'total_tokens': 191, 'input_token_details': {'cache_read': 0}}
+21:19:01,402 root INFO Tool Calls:[{'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/amazon_small.parquet'}, 'id': 'e4608275-ed08-40d9-ae6f-512d925138f0', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/goodreads_small.parquet'}, 'id': '16caeefa-5146-4ae0-affd-bd97207f2583', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/metabooks_small.parquet'}, 'id': '0a1246d3-c1b0-4167-a37c-8ebd35ff2d56', 'type': 'tool_call'}]
+21:19:01,439 root INFO Leaving profile_data
+21:19:01,439 root INFO ----------------------- Entering pipeline_adaption -----------------------
+21:19:01,465 root INFO Input Message:[SystemMessage(content='\n        You are a data scientist tasked with the integration of several datasets.\n        You are provided with the following inputs:\n\n        1. An example integration pipeline (Python code using PyDI library):\n        from PyDI.io import load_parquet, load_csv, load_xml\n\nfrom PyDI.entitymatching import StandardBlocker, EmbeddingBlocker\nfrom PyDI.entitymatching import StringComparator, NumericComparator\nfrom PyDI.entitymatching import RuleBasedMatcher\n\nfrom PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust\nfrom PyDI.fusion import DataFusionEvaluator, tokenized_match\n\nfrom PyDI.schemamatching import LLMBasedSchemaMatcher\nfrom langchain_google_genai import ChatGoogleGenerativeAI\n\nimport pandas as pd\nimport numpy as np\nimport os\n\n# --------------------------------\n# Prepare Data\n# Important: Use the correct loader (load_parquet, load_csv, load_xml)\n# --------------------------------\n\n# Define dataset paths\nDATA_DIR = "datasets/"\n\n# Define API Key\n\nos.environ["GOOGLE_API_KEY"] = "<API-KEY>"\n\n# Load the first dataset\ngood_dataset_name_1 = load_parquet(\n    DATA_DIR + "<path-and-file-name-of-dataset-1>.parquet",\n    name="dataset_name_1",\n)\n\n# Load Uber Eats dataset  \ngood_dataset_name_2 = load_parquet(\n    DATA_DIR + "path-and-file-name-of-dataset-2.parquet",\n    name="dataset_name_2",\n)\n\n# Load Yelp dataset\ngood_dataset_name_3 = load_parquet(\n    DATA_DIR + "path-and-file-name-of-dataset-3.parquet",\n    name="dataset_name_3",\n)\n\n\n\ndatasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]\n\n# --------------------------------\n# Perform Schema Matching (LLM-based matching)\n# --------------------------------\n\nprint("Matching Schema")\n\nllm = ChatGoogleGenerativeAI(\n    model="gemini-2.0-flash",\n    temperature=0,\n    max_tokens=None,\n    timeout=None,\n    max_retries=2,\n)\n\nmatcher = LLMBasedSchemaMatcher(\n    chat_model=llm,\n    num_rows=10,\n    debug=True\n)\n\n# match schema of good_dataset_name_1 with good_dataset_name_2 and rename schema of good_dataset_name_2\nschema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_2)\nrename_map = (\n    schema_correspondences\n    .set_index("target_column")["source_column"]\n    .to_dict()\n)\ngood_dataset_name_2 = good_dataset_name_2.rename(columns=rename_map)\n\n# match schema of good_dataset_name_1 with good_dataset_name_3 and rename schema of good_dataset_name_3\nschema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_3)\nrename_map = (\n    schema_correspondences\n    .set_index("target_column")["source_column"]\n    .to_dict()\n)\ngood_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)\n\n# --------------------------------\n# Perform Entity Matching\n# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker\n# --------------------------------\n\nprint("Performing Blocking")\n\n# Example of an Embedding blocker:\n# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(\n#    good_dataset_name_1, good_dataset_name_2, # name of the datasets\n#    text_cols=[\'city\'], # column which should be used to perform the blocking on\n#    model="sentence-transformers/all-MiniLM-L6-v2",\n#    index_backend="sklearn",\n#    top_k=20,          # Top 20 most similar\n#    batch_size=500,\n#    output_dir="output/blocking-evaluation",\n#    id_column=\'id\'\n#)\n\n# Example of a Standard blocker:\n# blocker_k2u = StandardBlocker(\n#    good_dataset_name_1, good_dataset_name_2,\n#    on=[\'city\'], # column which should be used to perform the blocking on\n#    batch_size=1000,\n#    output_dir="output/blocking-evaluation",\n#    id_column=\'id\'\n#)\n\n# define blocking in this example using the standard blocker\nblocker_k2u = StandardBlocker(\n    good_dataset_name_1, good_dataset_name_2,\n    on=[\'city\'],\n    batch_size=1000,\n    output_dir="output/blocking-evaluation",\n    id_column=\'id\'\n)\n\nblocker_k2y = StandardBlocker(\n    good_dataset_name_1, good_dataset_name_3,\n    on=[\'city\'],\n    batch_size=1000,\n    output_dir="output/blocking-evaluation",\n    id_column=\'id\'\n)\n\n# define comparators\n# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. \ncomparators = [\n    # Name similarity\n    StringComparator(\n        column=\'name_norm\',\n        similarity_function=\'jaccard\', \n        # no preprocessing needed\n    ),\n    \n    # street name similarity\n    StringComparator(\n        column=\'street\',\n        similarity_function=\'jaccard\', \n        preprocess=str.lower,\n    ),\n\n    # house number similarity\n    NumericComparator(\n        column=\'house_number\',\n        max_difference=2,\n    ),\n\n    # category similarity - supporting evidence\n    StringComparator(\n        column=\'categories\',\n        similarity_function=\'jaccard\',\n        preprocess=str.lower,\n        list_strategy=\'concatenate\' # Handle list attribute by concatenation\n    )\n]\n\nprint("Matching Entities")\n\n# Initialize Rule-Based Matcher\nmatcher = RuleBasedMatcher()\n\nrb_correspondences_k2u = matcher.match(\n    df_left=good_dataset_name_1,\n    df_right=good_dataset_name_2, \n    candidates=blocker_k2u,\n    comparators=comparators,\n    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense\n    threshold=0.7,\n    id_column=\'id\'\n)\n\nrb_correspondences_k2y = matcher.match(\n    df_left=good_dataset_name_1,\n    df_right=good_dataset_name_3, \n    candidates=blocker_k2y,\n    comparators=comparators,\n    weights=[0.5, 0.2, 0.2, 0.1],  \n    threshold=0.7,\n    id_column=\'id\'\n)\n\nprint("Fusing Data")\n\n# --------------------------------\n# Data Fusion\n# --------------------------------\n# set trust scores. You may draw your own assumptions about which dataset should be trusted most\ngood_dataset_name_1.attrs["trust_score"] = 3\ngood_dataset_name_2.attrs["trust_score"] = 2\ngood_dataset_name_3.attrs["trust_score"] = 1\n\n# merge rule based correspondences\nall_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y], ignore_index=True)\n\n# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union\nstrategy = DataFusionStrategy(\'usa_restaurant_fusion_strategy\')\n\nstrategy.add_attribute_fuser(\'name\', longest_string)\nstrategy.add_attribute_fuser(\'street\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'house_number\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'city\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'state\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'postal_code\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'country\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'latitude\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'longitude\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'categories\', union)\n\n# run fusion\nengine = DataFusionEngine(strategy, debug=True, debug_format=\'json\',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")\n\n# fuse rule based matches\nrb_fused_standard_blocker = engine.run(\n    datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],\n    correspondences=all_rb_correspondences,\n    id_column="id",\n    include_singletons=False,\n)\n\n# write output\nrb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)\n\n        2. A list of dataset file locations:\n        [\n  "input/datasets/amazon_small.parquet",\n  "input/datasets/goodreads_small.parquet",\n  "input/datasets/metabooks_small.parquet"\n]\n\n        3. The first row of each dataset to help understand the structure:\n        {\n  "input/datasets/amazon_small.parquet": {\n    "id": "amazon_1",\n    "title": "classical mythology",\n    "book-author": "mark p o morford",\n    "year-of-publication": 2002,\n    "publisher": "Oxford University Press",\n    "isbn_clean": "0195153448"\n  },\n  "input/datasets/goodreads_small.parquet": {\n    "id": "goodreads_1",\n    "title": "the hunger games",\n    "author": "suzanne collins",\n    "rating": 4.33,\n    "numratings": 6376780,\n    "language": "English",\n    "genres": "[\'Young Adult\', \'Fiction\', \'Dystopia\', \'Fantasy\', \'Science Fiction\', \'Romance\', \'Adventure\', \'Teen\', \'Post Apocalyptic\', \'Action\']",\n    "bookformat": "Hardcover",\n    "edition": "First Edition",\n    "page_count": 374,\n    "publisher": "Scholastic Press",\n    "publish_year": 2008,\n    "price": 5.090000152587891,\n    "isbn_clean": "0439023483"\n  },\n  "input/datasets/metabooks_small.parquet": {\n    "id": "metabooks_1",\n    "title": "alvis the story of the red triangle",\n    "author_name": "kenneth day",\n    "rating": 4.1,\n    "num_rating": 3,\n    "language": "English",\n    "genres": "[\'Engineering\', \'Transportation\', \'Automotive\']",\n    "publisher": "Haynes Pubns",\n    "page_count": 400,\n    "price": 112.30000305175781,\n    "publish_year": null,\n    "isbn_clean": "1844255247"\n  }\n}\n\n        4. A dictionary containing the profile data of the datasets\n        (including nulls_per_column and dtypes of the columns):\n        {\n  "input/datasets/amazon_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 6, \\"nulls_total\\": 0, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"book-author\\": 0, \\"year-of-publication\\": 0, \\"publisher\\": 0, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"book-author\\": \\"object\\", \\"year-of-publication\\": \\"Int16\\", \\"publisher\\": \\"object\\", \\"isbn_clean\\": \\"object\\"}}",\n  "input/datasets/goodreads_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 14, \\"nulls_total\\": 2151, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"author\\": 0, \\"rating\\": 0, \\"numratings\\": 0, \\"language\\": 0, \\"genres\\": 0, \\"bookformat\\": 0, \\"edition\\": 0, \\"page_count\\": 131, \\"publisher\\": 0, \\"publish_year\\": 83, \\"price\\": 1937, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"author\\": \\"object\\", \\"rating\\": \\"float64\\", \\"numratings\\": \\"Int64\\", \\"language\\": \\"object\\", \\"genres\\": \\"object\\", \\"bookformat\\": \\"object\\", \\"edition\\": \\"object\\", \\"page_count\\": \\"Int32\\", \\"publisher\\": \\"object\\", \\"publish_year\\": \\"Int16\\", \\"price\\": \\"float64\\", \\"isbn_clean\\": \\"object\\"}}",\n  "input/datasets/metabooks_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 12, \\"nulls_total\\": 8371, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"author_name\\": 0, \\"rating\\": 0, \\"num_rating\\": 0, \\"language\\": 58, \\"genres\\": 615, \\"publisher\\": 240, \\"page_count\\": 953, \\"price\\": 1187, \\"publish_year\\": 5318, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"author_name\\": \\"object\\", \\"rating\\": \\"float64\\", \\"num_rating\\": \\"Int64\\", \\"language\\": \\"object\\", \\"genres\\": \\"object\\", \\"publisher\\": \\"object\\", \\"page_count\\": \\"Int32\\", \\"price\\": \\"float32\\", \\"publish_year\\": \\"Int16\\", \\"isbn_clean\\": \\"object\\"}}"\n}\n\n        Your task is to **create a similar integration pipeline** so that it works with\n        the datasets provided. Output should only consist of the relevant Python code\n        for the integration pipeline.\n        ', additional_kwargs={}, response_metadata={}), HumanMessage(content='Please adjust the example integration pipeline accordingly.', additional_kwargs={}, response_metadata={})]
+21:19:12,862 root INFO RESULT:```python
+from PyDI.io import load_parquet, load_csv, load_xml
+
+from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
+from PyDI.entitymatching import StringComparator, NumericComparator
+from PyDI.entitymatching import RuleBasedMatcher
+
+from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
+from PyDI.fusion import DataFusionEvaluator, tokenized_match
+
+from PyDI.schemamatching import LLMBasedSchemaMatcher
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+import pandas as pd
+import numpy as np
+import os
+
+# --------------------------------
+# Prepare Data
+# Important: Use the correct loader (load_parquet, load_csv, load_xml)
+# --------------------------------
+
+# Define dataset paths
+DATA_DIR = "input/datasets/"
+
+# Define API Key
+
+os.environ["GOOGLE_API_KEY"] = "<API-KEY>"
+
+# Load the first dataset
+amazon_small = load_parquet(
+    DATA_DIR + "amazon_small.parquet",
+    name="amazon_small",
+)
+
+# Load goodreads dataset  
+goodreads_small = load_parquet(
+    DATA_DIR + "goodreads_small.parquet",
+    name="goodreads_small",
+)
+
+# Load metabooks dataset
+metabooks_small = load_parquet(
+    DATA_DIR + "metabooks_small.parquet",
+    name="metabooks_small",
+)
+
+
+
+datasets = [amazon_small, goodreads_small, metabooks_small]
+
+# --------------------------------
+# Perform Schema Matching (LLM-based matching)
+# --------------------------------
+
+print("Matching Schema")
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+)
+
+matcher = LLMBasedSchemaMatcher(
+    chat_model=llm,
+    num_rows=10,
+    debug=True
+)
+
+# match schema of amazon_small with goodreads_small and rename schema of goodreads_small
+schema_correspondences = matcher.match(amazon_small, goodreads_small)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+goodreads_small = goodreads_small.rename(columns=rename_map)
+
+# match schema of amazon_small with metabooks_small and rename schema of metabooks_small
+schema_correspondences = matcher.match(amazon_small, metabooks_small)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+metabooks_small = metabooks_small.rename(columns=rename_map)
+
+# --------------------------------
+# Perform Entity Matching
+# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker
+# --------------------------------
+
+print("Performing Blocking")
+
+# Example of an Embedding blocker:
+# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
+#    amazon_small, goodreads_small, # name of the datasets
+#    text_cols=['title'], # column which should be used to perform the blocking on
+#    model="sentence-transformers/all-MiniLM-L6-v2",
+#    index_backend="sklearn",
+#    top_k=20,          # Top 20 most similar
+#    batch_size=500,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# Example of a Standard blocker:
+# blocker_k2u = StandardBlocker(
+#    amazon_small, goodreads_small,
+#    on=['title'], # column which should be used to perform the blocking on
+#    batch_size=1000,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# define blocking in this example using the standard blocker
+blocker_a2g = StandardBlocker(
+    amazon_small, goodreads_small,
+    on=['title'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+blocker_a2m = StandardBlocker(
+    amazon_small, metabooks_small,
+    on=['title'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+# define comparators
+# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. 
+comparators = [
+    # Name similarity
+    StringComparator(
+        column='title',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
+    # author name similarity
+    StringComparator(
+        column='book-author',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # year similarity
+    NumericComparator(
+        column='year-of-publication',
+        max_difference=2,
+    ),
+
+    # publisher similarity - supporting evidence
+    StringComparator(
+        column='publisher',
+        similarity_function='jaccard',
+        preprocess=str.lower,
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+print("Matching Entities")
+
+# Initialize Rule-Based Matcher
+matcher = RuleBasedMatcher()
+
+rb_correspondences_a2g = matcher.match(
+    df_left=amazon_small,
+    df_right=goodreads_small, 
+    candidates=blocker_a2g,
+    comparators=comparators,
+    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense
+    threshold=0.7,
+    id_column='id'
+)
+
+rb_correspondences_a2m = matcher.match(
+    df_left=amazon_small,
+    df_right=metabooks_small, 
+    candidates=blocker_a2m,
+    comparators=comparators,
+    weights=[0.5, 0.2, 0.2, 0.1],  
+    threshold=0.7,
+    id_column='id'
+)
+
+print("Fusing Data")
+
+# --------------------------------
+# Data Fusion
+# --------------------------------
+# set trust scores. You may draw your own assumptions about which dataset should be trusted most
+amazon_small.attrs["trust_score"] = 3
+goodreads_small.attrs["trust_score"] = 2
+metabooks_small.attrs["trust_score"] = 1
+
+# merge rule based correspondences
+all_rb_correspondences = pd.concat([rb_correspondences_a2g, rb_correspondences_a2m], ignore_index=True)
+
+# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union
+strategy = DataFusionStrategy('book_fusion_strategy')
+
+strategy.add_attribute_fuser('title', longest_string)
+strategy.add_attribute_fuser('book-author', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('year-of-publication', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('publisher', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('isbn_clean', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('genres', union)
+
+# run fusion
+engine = DataFusionEngine(strategy, debug=True, debug_format='json',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")
+
+# fuse rule based matches
+rb_fused_standard_blocker = engine.run(
+    datasets=[amazon_small, goodreads_small, metabooks_small],
+    correspondences=all_rb_correspondences,
+    id_column="id",
+    include_singletons=False,
+)
+
+# write output
+rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
+```
+21:19:12,863 root INFO Leaving pipeline_adaption
+21:59:03,341 langchain_google_genai._function_utils WARNING convert_to_genai_function_declarations expects a Sequence and not a single tool.
+21:59:03,354 root INFO ----------------------- Entering profile_data -----------------------
+21:59:03,354 root INFO Input Message:[SystemMessage(content='\n            You are a data scientist tasked with the integration of several datasets.\n            For each dataset path provided, call the tool `profile_dataset` with the path\n            (one tool call per dataset).\n        ', additional_kwargs={}, response_metadata={}), HumanMessage(content='Please profile these datasets (one call per dataset):\ninput/datasets/amazon_small.parquet\ninput/datasets/goodreads_small.parquet\ninput/datasets/metabooks_small.parquet', additional_kwargs={}, response_metadata={})]
+21:59:04,345 root INFO RESULT:content='' additional_kwargs={'function_call': {'name': 'profile_dataset', 'arguments': '{"__arg1": "input/datasets/metabooks_small.parquet"}'}} response_metadata={'prompt_feedback': {'block_reason': 0, 'safety_ratings': []}, 'finish_reason': 'STOP', 'model_name': 'gemini-2.0-flash', 'safety_ratings': []} id='run--dc2f5631-58c8-4534-9155-917023e773c3-0' tool_calls=[{'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/amazon_small.parquet'}, 'id': 'ce362109-2fe8-4427-bb6a-470c6f48182b', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/goodreads_small.parquet'}, 'id': 'd76dfad8-7942-4cc8-a9fe-7bf848b211cd', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/metabooks_small.parquet'}, 'id': '2b5b785f-64d5-499d-a696-2198ed41d7ed', 'type': 'tool_call'}] usage_metadata={'input_tokens': 143, 'output_tokens': 48, 'total_tokens': 191, 'input_token_details': {'cache_read': 0}}
+21:59:04,346 root INFO Tool Calls:[{'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/amazon_small.parquet'}, 'id': 'ce362109-2fe8-4427-bb6a-470c6f48182b', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/goodreads_small.parquet'}, 'id': 'd76dfad8-7942-4cc8-a9fe-7bf848b211cd', 'type': 'tool_call'}, {'name': 'profile_dataset', 'args': {'__arg1': 'input/datasets/metabooks_small.parquet'}, 'id': '2b5b785f-64d5-499d-a696-2198ed41d7ed', 'type': 'tool_call'}]
+21:59:04,595 parquet DEBUG Using orjson encoder/decoder
+21:59:04,644 root INFO Leaving profile_data
+21:59:04,644 root INFO ----------------------- Entering pipeline_adaption -----------------------
+21:59:04,677 root INFO Input Message:[SystemMessage(content='\n        You are a data scientist tasked with the integration of several datasets.\n        You are provided with the following inputs:\n\n        1. An example integration pipeline (Python code using PyDI library):\n        from PyDI.io import load_parquet, load_csv, load_xml\n\nfrom PyDI.entitymatching import StandardBlocker, EmbeddingBlocker\nfrom PyDI.entitymatching import StringComparator, NumericComparator\nfrom PyDI.entitymatching import RuleBasedMatcher\n\nfrom PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust\nfrom PyDI.fusion import DataFusionEvaluator, tokenized_match\n\nfrom PyDI.schemamatching import LLMBasedSchemaMatcher\nfrom langchain_google_genai import ChatGoogleGenerativeAI\n\nimport pandas as pd\nimport numpy as np\nimport os\n\n# --------------------------------\n# Prepare Data\n# Important: Use the correct loader (load_parquet, load_csv, load_xml)\n# --------------------------------\n\n# Define dataset paths\nDATA_DIR = "datasets/"\n\n# Define API Key\n\nos.environ["GOOGLE_API_KEY"] = "<API-KEY>"\n\n# Load the first dataset\ngood_dataset_name_1 = load_parquet(\n    DATA_DIR + "<path-and-file-name-of-dataset-1>.parquet",\n    name="dataset_name_1",\n)\n\n# Load Uber Eats dataset  \ngood_dataset_name_2 = load_parquet(\n    DATA_DIR + "path-and-file-name-of-dataset-2.parquet",\n    name="dataset_name_2",\n)\n\n# Load Yelp dataset\ngood_dataset_name_3 = load_parquet(\n    DATA_DIR + "path-and-file-name-of-dataset-3.parquet",\n    name="dataset_name_3",\n)\n\n\n\ndatasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]\n\n# --------------------------------\n# Perform Schema Matching (LLM-based matching)\n# --------------------------------\n\nprint("Matching Schema")\n\nllm = ChatGoogleGenerativeAI(\n    model="gemini-2.0-flash",\n    temperature=0,\n    max_tokens=None,\n    timeout=None,\n    max_retries=2,\n)\n\nmatcher = LLMBasedSchemaMatcher(\n    chat_model=llm,\n    num_rows=10,\n    debug=True\n)\n\n# match schema of good_dataset_name_1 with good_dataset_name_2 and rename schema of good_dataset_name_2\nschema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_2)\nrename_map = (\n    schema_correspondences\n    .set_index("target_column")["source_column"]\n    .to_dict()\n)\ngood_dataset_name_2 = good_dataset_name_2.rename(columns=rename_map)\n\n# match schema of good_dataset_name_1 with good_dataset_name_3 and rename schema of good_dataset_name_3\nschema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_3)\nrename_map = (\n    schema_correspondences\n    .set_index("target_column")["source_column"]\n    .to_dict()\n)\ngood_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)\n\n# --------------------------------\n# Perform Entity Matching\n# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker\n# --------------------------------\n\nprint("Performing Blocking")\n\n# Example of an Embedding blocker:\n# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(\n#    good_dataset_name_1, good_dataset_name_2, # name of the datasets\n#    text_cols=[\'city\'], # column which should be used to perform the blocking on\n#    model="sentence-transformers/all-MiniLM-L6-v2",\n#    index_backend="sklearn",\n#    top_k=20,          # Top 20 most similar\n#    batch_size=500,\n#    output_dir="output/blocking-evaluation",\n#    id_column=\'id\'\n#)\n\n# Example of a Standard blocker:\n# blocker_k2u = StandardBlocker(\n#    good_dataset_name_1, good_dataset_name_2,\n#    on=[\'city\'], # column which should be used to perform the blocking on\n#    batch_size=1000,\n#    output_dir="output/blocking-evaluation",\n#    id_column=\'id\'\n#)\n\n# define blocking in this example using the standard blocker\nblocker_k2u = StandardBlocker(\n    good_dataset_name_1, good_dataset_name_2,\n    on=[\'city\'],\n    batch_size=1000,\n    output_dir="output/blocking-evaluation",\n    id_column=\'id\'\n)\n\nblocker_k2y = StandardBlocker(\n    good_dataset_name_1, good_dataset_name_3,\n    on=[\'city\'],\n    batch_size=1000,\n    output_dir="output/blocking-evaluation",\n    id_column=\'id\'\n)\n\n# define comparators\n# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. \ncomparators = [\n    # Name similarity\n    StringComparator(\n        column=\'name_norm\',\n        similarity_function=\'jaccard\', \n        # no preprocessing needed\n    ),\n    \n    # street name similarity\n    StringComparator(\n        column=\'street\',\n        similarity_function=\'jaccard\', \n        preprocess=str.lower,\n    ),\n\n    # house number similarity\n    NumericComparator(\n        column=\'house_number\',\n        max_difference=2,\n    ),\n\n    # category similarity - supporting evidence\n    StringComparator(\n        column=\'categories\',\n        similarity_function=\'jaccard\',\n        preprocess=str.lower,\n        list_strategy=\'concatenate\' # Handle list attribute by concatenation\n    )\n]\n\nprint("Matching Entities")\n\n# Initialize Rule-Based Matcher\nmatcher = RuleBasedMatcher()\n\nrb_correspondences_k2u = matcher.match(\n    df_left=good_dataset_name_1,\n    df_right=good_dataset_name_2, \n    candidates=blocker_k2u,\n    comparators=comparators,\n    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense\n    threshold=0.7,\n    id_column=\'id\'\n)\n\nrb_correspondences_k2y = matcher.match(\n    df_left=good_dataset_name_1,\n    df_right=good_dataset_name_3, \n    candidates=blocker_k2y,\n    comparators=comparators,\n    weights=[0.5, 0.2, 0.2, 0.1],  \n    threshold=0.7,\n    id_column=\'id\'\n)\n\nprint("Fusing Data")\n\n# --------------------------------\n# Data Fusion\n# --------------------------------\n# set trust scores. You may draw your own assumptions about which dataset should be trusted most\ngood_dataset_name_1.attrs["trust_score"] = 3\ngood_dataset_name_2.attrs["trust_score"] = 2\ngood_dataset_name_3.attrs["trust_score"] = 1\n\n# merge rule based correspondences\nall_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y], ignore_index=True)\n\n# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union\nstrategy = DataFusionStrategy(\'usa_restaurant_fusion_strategy\')\n\nstrategy.add_attribute_fuser(\'name\', longest_string)\nstrategy.add_attribute_fuser(\'street\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'house_number\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'city\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'state\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'postal_code\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'country\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'latitude\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'longitude\', prefer_higher_trust, trust_key="trust_score")\nstrategy.add_attribute_fuser(\'categories\', union)\n\n# run fusion\nengine = DataFusionEngine(strategy, debug=True, debug_format=\'json\',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")\n\n# fuse rule based matches\nrb_fused_standard_blocker = engine.run(\n    datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],\n    correspondences=all_rb_correspondences,\n    id_column="id",\n    include_singletons=False,\n)\n\n# write output\nrb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)\n\n        2. A list of dataset file locations:\n        [\n  "input/datasets/amazon_small.parquet",\n  "input/datasets/goodreads_small.parquet",\n  "input/datasets/metabooks_small.parquet"\n]\n\n        3. The first row of each dataset to help understand the structure:\n        {\n  "input/datasets/amazon_small.parquet": {\n    "id": "amazon_1",\n    "title": "classical mythology",\n    "book-author": "mark p o morford",\n    "year-of-publication": 2002,\n    "publisher": "Oxford University Press",\n    "isbn_clean": "0195153448"\n  },\n  "input/datasets/goodreads_small.parquet": {\n    "id": "goodreads_1",\n    "title": "the hunger games",\n    "author": "suzanne collins",\n    "rating": 4.33,\n    "numratings": 6376780,\n    "language": "English",\n    "genres": "[\'Young Adult\', \'Fiction\', \'Dystopia\', \'Fantasy\', \'Science Fiction\', \'Romance\', \'Adventure\', \'Teen\', \'Post Apocalyptic\', \'Action\']",\n    "bookformat": "Hardcover",\n    "edition": "First Edition",\n    "page_count": 374,\n    "publisher": "Scholastic Press",\n    "publish_year": 2008,\n    "price": 5.090000152587891,\n    "isbn_clean": "0439023483"\n  },\n  "input/datasets/metabooks_small.parquet": {\n    "id": "metabooks_1",\n    "title": "alvis the story of the red triangle",\n    "author_name": "kenneth day",\n    "rating": 4.1,\n    "num_rating": 3,\n    "language": "English",\n    "genres": "[\'Engineering\', \'Transportation\', \'Automotive\']",\n    "publisher": "Haynes Pubns",\n    "page_count": 400,\n    "price": 112.30000305175781,\n    "publish_year": null,\n    "isbn_clean": "1844255247"\n  }\n}\n\n        4. A dictionary containing the profile data of the datasets\n        (including nulls_per_column and dtypes of the columns):\n        {\n  "input/datasets/amazon_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 6, \\"nulls_total\\": 0, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"book-author\\": 0, \\"year-of-publication\\": 0, \\"publisher\\": 0, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"book-author\\": \\"object\\", \\"year-of-publication\\": \\"Int16\\", \\"publisher\\": \\"object\\", \\"isbn_clean\\": \\"object\\"}}",\n  "input/datasets/goodreads_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 14, \\"nulls_total\\": 2151, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"author\\": 0, \\"rating\\": 0, \\"numratings\\": 0, \\"language\\": 0, \\"genres\\": 0, \\"bookformat\\": 0, \\"edition\\": 0, \\"page_count\\": 131, \\"publisher\\": 0, \\"publish_year\\": 83, \\"price\\": 1937, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"author\\": \\"object\\", \\"rating\\": \\"float64\\", \\"numratings\\": \\"Int64\\", \\"language\\": \\"object\\", \\"genres\\": \\"object\\", \\"bookformat\\": \\"object\\", \\"edition\\": \\"object\\", \\"page_count\\": \\"Int32\\", \\"publisher\\": \\"object\\", \\"publish_year\\": \\"Int16\\", \\"price\\": \\"float64\\", \\"isbn_clean\\": \\"object\\"}}",\n  "input/datasets/metabooks_small.parquet": "{\\"rows\\": 10000, \\"columns\\": 12, \\"nulls_total\\": 8371, \\"nulls_per_column\\": {\\"id\\": 0, \\"title\\": 0, \\"author_name\\": 0, \\"rating\\": 0, \\"num_rating\\": 0, \\"language\\": 58, \\"genres\\": 615, \\"publisher\\": 240, \\"page_count\\": 953, \\"price\\": 1187, \\"publish_year\\": 5318, \\"isbn_clean\\": 0}, \\"dtypes\\": {\\"id\\": \\"object\\", \\"title\\": \\"object\\", \\"author_name\\": \\"object\\", \\"rating\\": \\"float64\\", \\"num_rating\\": \\"Int64\\", \\"language\\": \\"object\\", \\"genres\\": \\"object\\", \\"publisher\\": \\"object\\", \\"page_count\\": \\"Int32\\", \\"price\\": \\"float32\\", \\"publish_year\\": \\"Int16\\", \\"isbn_clean\\": \\"object\\"}}"\n}\n\n        Your task is to **create a similar integration pipeline** so that it works with\n        the datasets provided. Output should only consist of the relevant Python code\n        for the integration pipeline.\n        ', additional_kwargs={}, response_metadata={}), HumanMessage(content='Please adjust the example integration pipeline accordingly.', additional_kwargs={}, response_metadata={})]
+21:59:14,710 root INFO RESULT:```python
+from PyDI.io import load_parquet, load_csv, load_xml
+
+from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
+from PyDI.entitymatching import StringComparator, NumericComparator
+from PyDI.entitymatching import RuleBasedMatcher
+
+from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
+from PyDI.fusion import DataFusionEvaluator, tokenized_match
+
+from PyDI.schemamatching import LLMBasedSchemaMatcher
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+import pandas as pd
+import numpy as np
+import os
+
+# --------------------------------
+# Prepare Data
+# Important: Use the correct loader (load_parquet, load_csv, load_xml)
+# --------------------------------
+
+# Define dataset paths
+DATA_DIR = "input/datasets/"
+
+# Define API Key
+
+os.environ["GOOGLE_API_KEY"] = "<API-KEY>"
+
+# Load the first dataset
+amazon_small = load_parquet(
+    DATA_DIR + "amazon_small.parquet",
+    name="amazon_small",
+)
+
+# Load goodreads dataset  
+goodreads_small = load_parquet(
+    DATA_DIR + "goodreads_small.parquet",
+    name="goodreads_small",
+)
+
+# Load metabooks dataset
+metabooks_small = load_parquet(
+    DATA_DIR + "metabooks_small.parquet",
+    name="metabooks_small",
+)
+
+
+
+datasets = [amazon_small, goodreads_small, metabooks_small]
+
+# --------------------------------
+# Perform Schema Matching (LLM-based matching)
+# --------------------------------
+
+print("Matching Schema")
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+)
+
+matcher = LLMBasedSchemaMatcher(
+    chat_model=llm,
+    num_rows=10,
+    debug=True
+)
+
+# match schema of amazon_small with goodreads_small and rename schema of goodreads_small
+schema_correspondences = matcher.match(amazon_small, goodreads_small)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+goodreads_small = goodreads_small.rename(columns=rename_map)
+
+# match schema of amazon_small with metabooks_small and rename schema of metabooks_small
+schema_correspondences = matcher.match(amazon_small, metabooks_small)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+metabooks_small = metabooks_small.rename(columns=rename_map)
+
+# --------------------------------
+# Perform Entity Matching
+# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker
+# --------------------------------
+
+print("Performing Blocking")
+
+# Example of an Embedding blocker:
+# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
+#    amazon_small, goodreads_small, # name of the datasets
+#    text_cols=['title'], # column which should be used to perform the blocking on
+#    model="sentence-transformers/all-MiniLM-L6-v2",
+#    index_backend="sklearn",
+#    top_k=20,          # Top 20 most similar
+#    batch_size=500,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# Example of a Standard blocker:
+# blocker_k2u = StandardBlocker(
+#    amazon_small, goodreads_small,
+#    on=['title'], # column which should be used to perform the blocking on
+#    batch_size=1000,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# define blocking in this example using the standard blocker
+blocker_a2g = StandardBlocker(
+    amazon_small, goodreads_small,
+    on=['title'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+blocker_a2m = StandardBlocker(
+    amazon_small, metabooks_small,
+    on=['title'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+# define comparators
+# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. 
+comparators = [
+    # Name similarity
+    StringComparator(
+        column='title',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
+    # author name similarity
+    StringComparator(
+        column='book-author',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # year similarity
+    NumericComparator(
+        column='year-of-publication',
+        max_difference=2,
+    ),
+
+    # publisher similarity - supporting evidence
+    StringComparator(
+        column='publisher',
+        similarity_function='jaccard',
+        preprocess=str.lower,
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+print("Matching Entities")
+
+# Initialize Rule-Based Matcher
+matcher = RuleBasedMatcher()
+
+rb_correspondences_a2g = matcher.match(
+    df_left=amazon_small,
+    df_right=goodreads_small, 
+    candidates=blocker_a2g,
+    comparators=comparators,
+    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense
+    threshold=0.7,
+    id_column='id'
+)
+
+rb_correspondences_a2m = matcher.match(
+    df_left=amazon_small,
+    df_right=metabooks_small, 
+    candidates=blocker_a2m,
+    comparators=comparators,
+    weights=[0.5, 0.2, 0.2, 0.1],  
+    threshold=0.7,
+    id_column='id'
+)
+
+print("Fusing Data")
+
+# --------------------------------
+# Data Fusion
+# --------------------------------
+# set trust scores. You may draw your own assumptions about which dataset should be trusted most
+amazon_small.attrs["trust_score"] = 3
+goodreads_small.attrs["trust_score"] = 2
+metabooks_small.attrs["trust_score"] = 1
+
+# merge rule based correspondences
+all_rb_correspondences = pd.concat([rb_correspondences_a2g, rb_correspondences_a2m], ignore_index=True)
+
+# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union
+strategy = DataFusionStrategy('book_fusion_strategy')
+
+strategy.add_attribute_fuser('title', longest_string)
+strategy.add_attribute_fuser('book-author', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('year-of-publication', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('publisher', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('isbn_clean', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('genres', union)
+
+# run fusion
+engine = DataFusionEngine(strategy, debug=True, debug_format='json',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")
+
+# fuse rule based matches
+rb_fused_standard_blocker = engine.run(
+    datasets=[amazon_small, goodreads_small, metabooks_small],
+    correspondences=all_rb_correspondences,
+    id_column="id",
+    include_singletons=False,
+)
+
+# write output
+rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
+```
+21:59:14,710 root INFO Leaving pipeline_adaption

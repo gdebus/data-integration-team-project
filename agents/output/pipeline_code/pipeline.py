@@ -1,3 +1,4 @@
+```python
 from PyDI.io import load_parquet, load_csv, load_xml
 
 from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
@@ -20,7 +21,7 @@ import os
 # --------------------------------
 
 # Define dataset paths
-DATA_DIR = "../../input/datasets/"
+DATA_DIR = "input/datasets/"
 
 # Define API Key
 
@@ -224,3 +225,4 @@ rb_fused_standard_blocker = engine.run(
 
 # write output
 rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
+```
