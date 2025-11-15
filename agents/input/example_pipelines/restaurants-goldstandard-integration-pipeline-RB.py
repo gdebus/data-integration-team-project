@@ -7,8 +7,12 @@ from PyDI.entitymatching import RuleBasedMatcher
 from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
 from PyDI.fusion import DataFusionEvaluator, tokenized_match
 
+from PyDI.schemamatching import LLMBasedSchemaMatcher
+from langchain_google_genai import ChatGoogleGenerativeAI
+
 import pandas as pd
 import numpy as np
+import os
 
 # --------------------------------
 # Prepare Data
@@ -17,6 +21,10 @@ import numpy as np
 
 # Define dataset paths
 DATA_DIR = "datasets/"
+
+# Define API Key
+
+os.environ["GOOGLE_API_KEY"] = "<API-KEY>"
 
 # Load the first dataset
 good_dataset_name_1 = load_parquet(
@@ -36,18 +44,54 @@ good_dataset_name_3 = load_parquet(
     name="dataset_name_3",
 )
 
-# create a column called ´id´ for further processing if such a column does not already exist
-good_dataset_name_1['id'] = good_dataset_name_1['kaggle380k_id']
-good_dataset_name_2['id'] = good_dataset_name_2['uber_eats_id']
-good_dataset_name_3['id'] = good_dataset_name_3['yelp_id']
+
 
 datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
 # --------------------------------
+# Perform Schema Matching (LLM-based matching)
+# --------------------------------
+
+print("Matching Schema")
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+)
+
+matcher = LLMBasedSchemaMatcher(
+    chat_model=llm,
+    num_rows=10,
+    debug=True
+)
+
+# match schema of good_dataset_name_1 with good_dataset_name_2 and rename schema of good_dataset_name_2
+schema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_2)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+good_dataset_name_2 = good_dataset_name_2.rename(columns=rename_map)
+
+# match schema of good_dataset_name_1 with good_dataset_name_3 and rename schema of good_dataset_name_3
+schema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_3)
+rename_map = (
+    schema_correspondences
+    .set_index("target_column")["source_column"]
+    .to_dict()
+)
+good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
+
+# --------------------------------
 # Perform Entity Matching
 # Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker
-# Important: Perform the blocking on a o
 # --------------------------------
+
+print("Performing Blocking")
 
 # Example of an Embedding blocker:
 # embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
@@ -119,6 +163,8 @@ comparators = [
     )
 ]
 
+print("Matching Entities")
+
 # Initialize Rule-Based Matcher
 matcher = RuleBasedMatcher()
 
@@ -141,6 +187,8 @@ rb_correspondences_k2y = matcher.match(
     threshold=0.7,
     id_column='id'
 )
+
+print("Fusing Data")
 
 # --------------------------------
 # Data Fusion
