@@ -1,14 +1,14 @@
 {
-  "precision": 1.0,
-  "recall": 0.775,
-  "f1": 0.8732394366197184,
-  "accuracy": 0.955,
-  "true_positives": 31,
-  "false_positives": 0,
-  "false_negatives": 9,
-  "true_negatives": 160,
+  "precision": 0.972972972972973,
+  "recall": 0.9,
+  "f1": 0.935064935064935,
+  "accuracy": 0.975,
+  "true_positives": 36,
+  "false_positives": 1,
+  "false_negatives": 4,
+  "true_negatives": 159,
   "threshold_used": 0.0,
-  "total_correspondences": 8797,
-  "filtered_correspondences": 8797,
-  "evaluation_timestamp": "2025-11-12T17:18:53.974664"
+  "total_correspondences": 10017,
+  "filtered_correspondences": 10017,
+  "evaluation_timestamp": "2025-11-18T17:58:59.364344"
 }
