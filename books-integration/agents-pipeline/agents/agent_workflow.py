@@ -1,8 +1,6 @@
 import os
 import re
-import json
 import textwrap
-import traceback
 import pandas as pd
 from pathlib import Path
 from typing import List, Dict, Tuple
@@ -10,7 +8,7 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from data_loader import LoaderProfiler
-from reference_db import query_pydi_reference, load_reference_db, build_reference_db
+from reference_db import query_pydi_reference
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -126,14 +124,12 @@ class IntegrationAgent:
 
         The script must:
           - Follow the structure of the one-shot example.
-          - Load data from Parquet files using `PyDI.io.load_parquet`.
-          - Normalize column names to lowercase and remove underscores.
+          - Load data from files using proper loader `PyDI.io.load_parquet` or `PyDI.io.load_csv` or `PyDI.io.load_xml`.
           - Define a unified schema based on the provided dataset profiles.
-          - Normalize each dataset to the unified schema, adding missing columns and casting types.
-          - Concatenate the normalized datasets into a single DataFrame.
-          - Perform blocking on the concatenated DataFrame using `PyDI.entitymatching.TokenBlocker` with the 'title' column.
-          - Perform matching using `PyDI.entitymatching.RuleBasedMatcher` with `StringComparator`s for 'title', 'author', and 'isbnclean'.
-          - Perform data fusion using `PyDI.fusion.DataFusionEngine` and a `DataFusionStrategy` with appropriate fusers for 'title', 'author', 'rating', 'numratings', 'publisher', and 'publishyear'.
+          - Normalize each dataset to the unified schema.
+          - Perform blocking on the DataFrames with the columns.
+          - Perform entity matching.
+          - Perform data fusion using `PyDI.fusion.DataFusionEngine` and a `DataFusionStrategy`.
           - Define a `main()` function that accepts a list of file paths as an argument.
           - Include a `if __name__ == "__main__":` block to call the `main` function with the correct Parquet file paths.
 
