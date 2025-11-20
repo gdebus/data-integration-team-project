@@ -6,10 +6,10 @@ datasets/*
 out_parquet/*
 
 .DS_Store
-
+__pycache__
 .venv
 .env
-
+pydi_reference_db
 
 books_data_fusion_rb_stblocking_pipeline.ipynb
 books_data_fusion_rb_snblocking_pipeline.ipynb

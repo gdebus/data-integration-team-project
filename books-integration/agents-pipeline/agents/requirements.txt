@@ -1,0 +1,10 @@
+uma-pydi
+fastparquet
+pyarrow
+langgraph==0.6.11
+langchain==0.3.27
+langchain-groq==0.3.8
+chromadb==1.0.21
+langchain-chroma==0.2.6
+langchain-community==0.3.29
+langchain-huggingface==0.3.1
