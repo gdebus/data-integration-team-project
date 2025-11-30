@@ -1,3 +1,7 @@
+# --------------------------------
+# CRITICAL GENERAL INSTRUCTION FOR AGENTS: Do not adjust the names of the output files
+# --------------------------------
+
 from PyDI.io import load_parquet, load_csv, load_xml
 
 from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
@@ -12,6 +16,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 import pandas as pd
 import numpy as np
+from dotenv import load_dotenv
 import os
 
 # --------------------------------
@@ -20,11 +25,12 @@ import os
 # --------------------------------
 
 # Define dataset paths
-DATA_DIR = "datasets/"
+DATA_DIR = "../../input/datasets/"
 
 # Define API Key
 
-os.environ["GOOGLE_API_KEY"] = "<API-KEY>"
+load_dotenv()
+os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
 # Load the first dataset
 good_dataset_name_1 = load_parquet(
@@ -34,13 +40,13 @@ good_dataset_name_1 = load_parquet(
 
 # Load Uber Eats dataset  
 good_dataset_name_2 = load_parquet(
-    DATA_DIR + "path-and-file-name-of-dataset-2.parquet",
+    DATA_DIR + "<path-and-file-name-of-dataset-2>.parquet",
     name="dataset_name_2",
 )
 
 # Load Yelp dataset
 good_dataset_name_3 = load_parquet(
-    DATA_DIR + "path-and-file-name-of-dataset-3.parquet",
+    DATA_DIR + "<path-and-file-name-of-dataset-3>.parquet",
     name="dataset_name_3",
 )
 
@@ -50,6 +56,9 @@ datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
 # --------------------------------
 # Perform Schema Matching (LLM-based matching)
+# CRITICAL INSTRUCTION FOR AGENTS:
+# The here implemented schema matching will match the schema of dataset2 and dataset3 to the schema of dataset1. Therefore, the resulting columns for all
+# datasets will have the schema of dataset1.
 # --------------------------------
 
 print("Matching Schema")
@@ -88,13 +97,16 @@ good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 
 # --------------------------------
 # Perform Entity Matching
-# Employ the embedding Blocker per default. If the size of the datasets is too large, use the StandardBlocker
+# CRITICAL INSTRUCTION FOR AGENTS:
+# 1. Employ the Embedding blocker per default. 
+# 2. If the number of rows in one of the datasets is larger than 5k use StandardBlocker.
+# 3. VERY IMPORTANT: For comparators use only columns that exist in all datasets
 # --------------------------------
 
 print("Performing Blocking")
 
-# Example of an Embedding blocker:
-# embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
+# Embedding blocker:
+#embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
 #    good_dataset_name_1, good_dataset_name_2, # name of the datasets
 #    text_cols=['city'], # column which should be used to perform the blocking on
 #    model="sentence-transformers/all-MiniLM-L6-v2",
@@ -105,16 +117,18 @@ print("Performing Blocking")
 #    id_column='id'
 #)
 
-# Example of a Standard blocker:
-# blocker_k2u = StandardBlocker(
-#    good_dataset_name_1, good_dataset_name_2,
-#    on=['city'], # column which should be used to perform the blocking on
-#    batch_size=1000,
+#embedding_blocker_dataset1_2_dataset3 = EmbeddingBlocker(
+#    good_dataset_name_1, good_dataset_name_3, # name of the datasets
+#    text_cols=['city'], # column which should be used to perform the blocking on
+#    model="sentence-transformers/all-MiniLM-L6-v2",
+#    index_backend="sklearn",
+#    top_k=20,          # Top 20 most similar
+#    batch_size=500,
 #    output_dir="output/blocking-evaluation",
 #    id_column='id'
 #)
 
-# define blocking in this example using the standard blocker
+# Standard blocker:
 blocker_k2u = StandardBlocker(
     good_dataset_name_1, good_dataset_name_2,
     on=['city'],
@@ -132,7 +146,6 @@ blocker_k2y = StandardBlocker(
 )
 
 # define comparators
-# Which and how many comparators to use is open to you. Use them so they make sense in the context of the data within the dataset. 
 comparators = [
     # Name similarity
     StringComparator(
@@ -154,7 +167,7 @@ comparators = [
         max_difference=2,
     ),
 
-    # category similarity - supporting evidence
+    # category similarity
     StringComparator(
         column='categories',
         similarity_function='jaccard',
@@ -171,7 +184,7 @@ matcher = RuleBasedMatcher()
 rb_correspondences_k2u = matcher.match(
     df_left=good_dataset_name_1,
     df_right=good_dataset_name_2, 
-    candidates=blocker_k2u,
+    candidates=embedding_blocker_dataset1_2_dataset2,
     comparators=comparators,
     weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense
     threshold=0.7,
@@ -181,7 +194,7 @@ rb_correspondences_k2u = matcher.match(
 rb_correspondences_k2y = matcher.match(
     df_left=good_dataset_name_1,
     df_right=good_dataset_name_3, 
-    candidates=blocker_k2y,
+    candidates=embedding_blocker_dataset1_2_dataset3,
     comparators=comparators,
     weights=[0.5, 0.2, 0.2, 0.1],  
     threshold=0.7,
@@ -192,27 +205,28 @@ print("Fusing Data")
 
 # --------------------------------
 # Data Fusion
+# There are following conflict resolution functions available:
+# For strings: longest_string, shortest_string, most_complete
+# For numerics: average, median, maximum, minimum, sum_values
+# For dates: most_recent, earliest
+# For lists/sets: union
 # --------------------------------
-# set trust scores. You may draw your own assumptions about which dataset should be trusted most
-good_dataset_name_1.attrs["trust_score"] = 3
-good_dataset_name_2.attrs["trust_score"] = 2
-good_dataset_name_3.attrs["trust_score"] = 1
 
 # merge rule based correspondences
 all_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y], ignore_index=True)
 
-# define data fusion strategy. You should merge the datasets so that it makes sense. Also keep in mind to merge list attributes using union
+# define data fusion strategy
 strategy = DataFusionStrategy('usa_restaurant_fusion_strategy')
 
 strategy.add_attribute_fuser('name', longest_string)
-strategy.add_attribute_fuser('street', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('house_number', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('city', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('state', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('postal_code', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('country', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('latitude', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('longitude', prefer_higher_trust, trust_key="trust_score")
+strategy.add_attribute_fuser('street', longest_string)
+strategy.add_attribute_fuser('house_number', longest_string)
+strategy.add_attribute_fuser('city', longest_string)
+strategy.add_attribute_fuser('state', longest_string)
+strategy.add_attribute_fuser('postal_code', longest_string)
+strategy.add_attribute_fuser('country', longest_string)
+strategy.add_attribute_fuser('latitude', longest_string)
+strategy.add_attribute_fuser('longitude', longest_string)
 strategy.add_attribute_fuser('categories', union)
 
 # run fusion

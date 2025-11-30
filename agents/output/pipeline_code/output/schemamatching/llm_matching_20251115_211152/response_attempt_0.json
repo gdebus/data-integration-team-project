@@ -1,9 +1,0 @@
-{
-  "response_text": "```json\n{\n  \"column_mappings\": [\n    [\"id\", \"id\"],\n    [\"title\", \"title\"],\n    [\"book-author\", \"author_name\"],\n    [\"year-of-publication\", \"publish_year\"],\n    [\"publisher\", \"publisher\"],\n    [\"isbn_clean\", \"isbn_clean\"]\n  ]\n}\n```",
-  "metadata": {
-    "model": "unknown",
-    "temperature": 0.0,
-    "attempt": 0,
-    "duration_ms": 730.231523513794
-  }
-}
