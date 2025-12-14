@@ -1,6 +1,4 @@
-\# Architecture
+# Architecture
 
 
-
-!\[Architecture Overview](docs/architecture.png)
-
+![Architecture Overview](docs/architecture.png)
