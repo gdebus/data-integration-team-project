@@ -12,7 +12,7 @@ from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, un
 from PyDI.fusion import DataFusionEvaluator, tokenized_match
 
 from PyDI.schemamatching import LLMBasedSchemaMatcher
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 import pandas as pd
 import numpy as np
@@ -25,12 +25,12 @@ import os
 # --------------------------------
 
 # Define dataset paths
-DATA_DIR = "../../input/datasets/"
+DATA_DIR = "input/datasets/"
 
 # Define API Key
 
 load_dotenv()
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
 # Load the first dataset
 good_dataset_name_1 = load_parquet(
@@ -63,12 +63,10 @@ datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
 print("Matching Schema")
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash",
+llm = ChatOpenAI(
+    model="gpt-5.1",
     temperature=0,
     max_tokens=None,
-    timeout=None,
-    max_retries=2,
 )
 
 matcher = LLMBasedSchemaMatcher(
@@ -99,7 +97,7 @@ good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 # Perform Entity Matching
 # CRITICAL INSTRUCTION FOR AGENTS:
 # 1. Employ the Embedding blocker per default. 
-# 2. If the number of rows in one of the datasets is larger than 5k use StandardBlocker.
+# 2. If the number of rows in one of the datasets is larger than 20k use StandardBlocker.
 # 3. VERY IMPORTANT: For comparators use only columns that exist in all datasets
 # --------------------------------
 
