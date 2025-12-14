@@ -2,5 +2,5 @@
 
 
 
-!\[Architecture Overview](docs/architecture.svg)
+!\[Architecture Overview](docs/architecture.png)
 
