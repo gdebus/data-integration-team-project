@@ -3,13 +3,16 @@ import re
 import textwrap
 import pandas as pd
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 from langchain_groq import ChatGroq
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
 from data_loader import LoaderProfiler
 from reference_db import query_pydi_reference
 from dotenv import load_dotenv
+import subprocess
+import traceback
+from pydantic import BaseModel, Field
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
 
@@ -26,14 +29,113 @@ def extract_code_from_response(llm_output: str) -> str:
     m = re.search(r"```(?:python)?\s*([\s\S]*?)```", llm_output)
     if m:
         return m.group(1).strip()
+
     return llm_output.strip()
 
 
+class AgentState(BaseModel):
+    dataset_paths: List[str]
+    generated_code_path: Path
+    execution_output: Optional[str] = None
+    execution_error: Optional[str] = None
+    retries: int = 0
+    max_retries: int = 2
+
+
+llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.2)
+
+output_parser = StrOutputParser()
+
+
+def execute_generated_code(state: AgentState) -> AgentState:
+    try:
+        print(f"Running: {state.generated_code_path}")
+
+        result = subprocess.run(
+            ["python", str(state.generated_code_path)],
+            capture_output=True,
+            text=True,
+        )
+
+        if result.returncode == 0:
+            state.execution_output = result.stdout
+            state.execution_error = None
+            print("Execution Successful!")
+        else:
+            state.execution_output = result.stdout
+            state.execution_error = result.stderr
+            print("Execution Failed!")
+
+    except Exception:
+        state.execution_error = traceback.format_exc()
+
+    return state
+
+
+def fix_code_errors(state: AgentState) -> AgentState:
+    if not state.execution_error:
+        print("No errors to fix.")
+        return state
+
+    print("Fixing Errors...")
+
+    prompt = ChatPromptTemplate.from_template(
+        """
+        You are a Python debugging expert. The following code has errors.
+        Fix the code **ONLY USING PyDI library** for a data integration pipeline.
+
+        --- Code ---
+        {code}
+
+        --- Error Log ---
+        {error}
+
+        Rewrite the entire corrected Python code. Return ONLY the code.
+        """
+    )
+
+    with open(state.generated_code_path, "r") as f:
+        broken_code = f.read()
+
+    chain = prompt | llm | output_parser
+    fixed_code = chain.invoke({"code": broken_code, "error": state.execution_error})
+
+    # Save the updated code
+    state.generated_code_path.write_text(fixed_code)
+
+    state.retries += 1
+    print(f"Retries Used: {state.retries}")
+
+    return state
+
+
+def code_execution(state: AgentState) -> AgentState:
+    while state.retries <= state.max_retries:
+
+        # 1: Run generated code
+        state = execute_generated_code(state)
+
+        # Stop if success
+        if not state.execution_error:
+            print("\nPipeline executed successfully!")
+            return state
+
+        # 2: Fix the issues if any
+        if state.retries < state.max_retries:
+            state = fix_code_errors(state)
+        else:
+            print("\nMax retries reached — pipeline failed.")
+            return state
+
+    return state
+
+
 class IntegrationAgent:
-    def __init__(self, work_dir: str = "agent_work"):
+    def __init__(self, work_dir: str = "agent_work", max_retries: int = 3):
         self.work_dir = Path(work_dir)
         self.work_dir.mkdir(parents=True, exist_ok=True)
         self.llm = build_agent()
+        self.max_retries = max_retries
 
         self.system_prompt = (
             "You are an expert PyDI developer. You must produce valid Python code that uses only the PyDI "
@@ -43,16 +145,43 @@ class IntegrationAgent:
             "Keep code minimal and focused on the requested task (schema matching / blocking / fusion etc.)."
         )
 
-    def load_and_profile(
-        self, file_paths: List[str]
-    ) -> Tuple[Dict[str, pd.DataFrame], Dict[str, str]]:
+    def generate_and_execute(
+        self,
+        file_paths: List[str],
+        task_description: str,
+        output_py_path: str,
+        include_reference: bool = True,
+    ):
+        # Load and profile datasets
+        print(">> Loading & profiling datasets...")
+        profiles = self.load_and_profile(file_paths)
+
+        # Generate code
+        saved_path, _ = self.generate_pydi_code(
+            profiles=profiles,
+            task_description=task_description,
+            output_py_path=output_py_path,
+            include_reference=include_reference,
+        )
+
+        # Execute and debug the code
+        initial_state = AgentState(
+            dataset_paths=file_paths,
+            generated_code_path=Path(saved_path),
+            max_retries=self.max_retries,
+        )
+        final_state = code_execution(initial_state)
+
+        return final_state
+
+    def load_and_profile(self, file_paths: List[str]) -> Dict[str, str]:
         """
         Use LoaderProfiler to load & profile input datasets.
-        Returns (dataframes dict, profiles dict).
+        Returns (profiles dict).
         """
         profiler = LoaderProfiler(file_paths)
-        dataframes, profiles = profiler.run()
-        return dataframes, profiles
+        _, profiles = profiler.run()
+        return profiles
 
     def query_reference(self, query: str) -> str:
         """
@@ -91,7 +220,7 @@ class IntegrationAgent:
         if include_reference:
             try:
                 ref_text = self.query_reference(
-                    "Show examples of PyDI data loading, profiling, Entity Matching usage, blocking, matching and data fusion usage."
+                    "Show examples of PyDI data loading, Identity resolution usage, usage of blockers, matchers and data fusion usage."
                 )
 
                 if ref_text:
@@ -130,8 +259,6 @@ class IntegrationAgent:
           - Perform blocking on the DataFrames with the columns.
           - Perform entity matching.
           - Perform data fusion using `PyDI.fusion.DataFusionEngine` and a `DataFusionStrategy`.
-          - Define a `main()` function that accepts a list of file paths as an argument.
-          - Include a `if __name__ == "__main__":` block to call the `main` function with the correct Parquet file paths.
 
         Dataset profiles:
         {profile_section}
@@ -197,11 +324,8 @@ def main():
     - building reference DB
     - loading & profiling 2+ datasets
     - generating PyDI integration code and saving it to disk
+    - executing and debugging the generated code
     """
-
-    GROQ_API_KEY = os.environ.get("GROQ_API_KEY", None)
-    if not GROQ_API_KEY:
-        raise RuntimeError("Set GROQ_API_KEY in environment before running.")
 
     # paths to datasets
     ROOT = Path.cwd()
@@ -217,10 +341,6 @@ def main():
     # create agent
     agent = IntegrationAgent()
 
-    # load & profile datasets
-    print(">> Loading & profiling datasets...")
-    dataframes, profiles = agent.load_and_profile(datasets)
-
     # task description
     task_description = (
         "Create a PyDI-based script that reads the given datasets, performs schema matching to a unified "
@@ -229,15 +349,16 @@ def main():
         "and matching; rely on PyDI's TokenBlocker and matchers. Include provenance in the output."
     )
 
-    # generate code and save
+    # generate, execute and debug code
     save_path = str(OUTPUT_DIR / "generated_pydi_pipeline4.py")
-    saved_path, code = agent.generate_pydi_code(
-        profiles=profiles, task_description=task_description, output_py_path=save_path
+    final_state = agent.generate_and_execute(
+        file_paths=datasets,
+        task_description=task_description,
+        output_py_path=save_path,
     )
 
-    print("\n=== Generated code saved ===")
-    print(saved_path)
-    print(code[:1000])
+    print("\n=== Final State ===")
+    print(final_state)
 
 
 if __name__ == "__main__":

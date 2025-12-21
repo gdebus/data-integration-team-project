@@ -4,8 +4,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
-# from langchain.tools import tool
-
 
 DB_DIR = "./pydi_reference_db"
 
@@ -71,7 +69,6 @@ def load_reference_db():
     )
 
 
-# @tool("query_pydi_reference", return_direct=False)
 def query_pydi_reference(query: str) -> str:
     """
     Search the PyDI reference text document for relevant content.

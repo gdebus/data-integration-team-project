@@ -10,7 +10,8 @@ __pycache__
 .venv
 .env
 pydi_reference_db
-
+GEMINI.md
+.gemini
 books_data_fusion_rb_stblocking_pipeline.ipynb
 books_data_fusion_rb_snblocking_pipeline.ipynb
 books_data_fusion_rb_emblocking_pipeline.ipynb
