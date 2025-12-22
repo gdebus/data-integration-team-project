@@ -16,6 +16,16 @@
       "pair_completeness": 0.9636363636363636
     },
     "discogs_musicbrainz": {
+      "strategy": "exact_match_multi",
+      "columns": [
+        "artist",
+        "tracks_track_name"
+      ],
+      "top_k": 20,
+      "threshold": 0.3,
+      "pair_completeness": 0.28205128205128205
+    },
+    "musicbrainz_lastfm": {
       "strategy": "semantic_similarity",
       "columns": [
         "name",
@@ -23,17 +33,7 @@
       ],
       "top_k": 20,
       "threshold": 0.3,
-      "pair_completeness": 0.9743589743589743
-    },
-    "musicbrainz_lastfm": {
-      "strategy": "exact_match_multi",
-      "columns": [
-        "artist",
-        "duration"
-      ],
-      "top_k": 20,
-      "threshold": 0.3,
-      "pair_completeness": 0.05063291139240506
+      "pair_completeness": 0.9493670886075949
     }
   }
 }

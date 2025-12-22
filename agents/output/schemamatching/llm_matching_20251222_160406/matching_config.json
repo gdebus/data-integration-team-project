@@ -1,0 +1,9 @@
+{
+  "model": "gpt-5.1",
+  "num_rows": 20,
+  "effective_num_rows": 20,
+  "temperature": 0.0,
+  "max_retries": 1,
+  "system_prompt": "You are an expert at aligning table schemas.\n\nGiven Table A and Table B, identify the matching columns between them. For every column in Table A, specify the corresponding column in Table B. If a column in Table A has no match in Table B, map it to null. Represent each mapping as a two-item list like [\"Table A column\", \"Table B column\" or null].\n\nReturn the final answer strictly as JSON in the format {{\"column_mappings\": [[\"Table A column\", \"Table B column\"], [\"Table A column\", null], ...]}} with no additional commentary.",
+  "user_prompt_template": "Description: Please identify the matching columns between Table A and Table B. For each column in Table A, specify the corresponding column in Table B. If a column in Table A has no corresponding column in Table B, map it to null. Represent every mapping using a pair [Table A column, Table B column or null]. Provide a mapping for each column in Table A.\n\nQuestion:\nTable A (source: {source_name})\n{source_metadata}\n{source_table}\n\nTable B (source: {target_name})\n{target_metadata}\n{target_table}\n\nReturn the final result as JSON in the format {{\"column_mappings\": [[\"Table A column\", \"Table B column\"], [\"Table A column\", null], ...]}}."
+}
