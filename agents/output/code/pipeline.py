@@ -1,5 +1,4 @@
 from PyDI.io import load_xml
-from PyDI.schemamatching import LLMBasedSchemaMatcher
 from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
 from PyDI.entitymatching import StringComparator, NumericComparator
 from PyDI.entitymatching import RuleBasedMatcher
@@ -8,13 +7,16 @@ from PyDI.fusion import (
     DataFusionEngine,
     longest_string,
     union,
+    prefer_higher_trust,
 )
+from PyDI.fusion import DataFusionEvaluator
+from PyDI.schemamatching import LLMBasedSchemaMatcher
 from langchain_openai import ChatOpenAI
 
 import pandas as pd
+import numpy as np
 from dotenv import load_dotenv
 import os
-import re
 
 # --------------------------------
 # Prepare Data
@@ -30,10 +32,12 @@ discogs = load_xml(
     DATA_DIR + "discogs.xml",
     name="discogs",
 )
+
 lastfm = load_xml(
     DATA_DIR + "lastfm.xml",
     name="lastfm",
 )
+
 musicbrainz = load_xml(
     DATA_DIR + "musicbrainz.xml",
     name="musicbrainz",
@@ -42,22 +46,8 @@ musicbrainz = load_xml(
 datasets = [discogs, lastfm, musicbrainz]
 
 # --------------------------------
-# Light preprocessing BEFORE schema matching
-# --------------------------------
-
-def _normalize_whitespace(s):
-    if not isinstance(s, str):
-        return s
-    return re.sub(r"\s+", " ", s).strip()
-
-# Normalize key textual columns to help LLM schema matching & comparators
-for df in [discogs, lastfm, musicbrainz]:
-    for col in ["name", "artist", "release-country"]:
-        if col in df.columns:
-            df[col] = df[col].astype(str).map(_normalize_whitespace)
-
-# --------------------------------
-# Schema Matching (align to Discogs schema)
+# Schema Matching
+# Schema of lastfm and musicbrainz will be mapped to discogs
 # --------------------------------
 
 print("Matching Schema")
@@ -70,191 +60,239 @@ llm = ChatOpenAI(
 
 matcher = LLMBasedSchemaMatcher(
     chat_model=llm,
-    num_rows=20,   # give matcher more context
+    num_rows=10,
     debug=True,
 )
 
-# Match discogs ↔ lastfm
+# match discogs with lastfm
 schema_correspondences = matcher.match(discogs, lastfm)
 rename_map = (
-    schema_correspondences
-    .set_index("target_column")["source_column"]
-    .to_dict()
+    schema_correspondences.set_index("target_column")["source_column"].to_dict()
 )
 lastfm = lastfm.rename(columns=rename_map)
 
-# Match discogs ↔ musicbrainz
+# match discogs with musicbrainz
 schema_correspondences = matcher.match(discogs, musicbrainz)
 rename_map = (
-    schema_correspondences
-    .set_index("target_column")["source_column"]
-    .to_dict()
+    schema_correspondences.set_index("target_column")["source_column"].to_dict()
 )
 musicbrainz = musicbrainz.rename(columns=rename_map)
 
+# Rebuild datasets list after renaming
+datasets = [discogs, lastfm, musicbrainz]
+
 # --------------------------------
-# Entity Matching – Blocking (using provided optimal strategies)
+# Preprocessing / Normalization
+# --------------------------------
+
+for df in datasets:
+    # normalize name and artist
+    if "name" in df.columns:
+        df["name_norm"] = (
+            df["name"]
+            .astype(str)
+            .str.lower()
+            .str.replace(r"\s+", " ", regex=True)
+            .str.strip()
+        )
+    else:
+        df["name_norm"] = ""
+
+    if "artist" in df.columns:
+        df["artist_norm"] = (
+            df["artist"]
+            .astype(str)
+            .str.lower()
+            .str.replace(r"\s+", " ", regex=True)
+            .str.strip()
+        )
+    else:
+        df["artist_norm"] = ""
+
+    # normalize label, release-country, genre
+    for col in ["label", "release-country", "genre"]:
+        if col in df.columns:
+            df[col] = (
+                df[col]
+                .astype(str)
+                .str.lower()
+                .str.replace(r"\s+", " ", regex=True)
+                .str.strip()
+            )
+
+    # normalize release-date to string (no heavy parsing to avoid errors)
+    if "release-date" in df.columns:
+        df["release-date"] = (
+            df["release-date"]
+            .astype(str)
+            .str.strip()
+        )
+
+    # duration and track durations to numeric where possible
+    if "duration" in df.columns:
+        df["duration"] = pd.to_numeric(df["duration"], errors="coerce")
+
+    for col in [
+        "tracks_track_name",
+        "tracks_track_position",
+        "tracks_track_duration",
+    ]:
+        if col in df.columns:
+            df[col] = df[col].apply(
+                lambda x: x if isinstance(x, (list, tuple)) else ([] if pd.isna(x) else [x])
+            )
+
+# --------------------------------
+# Entity Blocking (using provided optimal strategies)
 # --------------------------------
 
 print("Performing Blocking")
 
-discogs_id_col = "id"
-lastfm_id_col = "id"
-musicbrainz_id_col = "id"
-
-# discogs ↔ lastfm: semantic similarity on ["name", "artist"]
-embedding_blocker_discogs_lastfm = EmbeddingBlocker(
+# discogs - lastfm: exact_match_single on 'artist'
+blocker_discogs_lastfm = StandardBlocker(
     discogs,
     lastfm,
-    text_cols=["name", "artist"],
-    model="sentence-transformers/all-MiniLM-L6-v2",
-    index_backend="sklearn",
-    top_k=20,
-    batch_size=256,
+    on=["artist"],
+    batch_size=1000,
     output_dir="output/blocking-evaluation",
-    id_column=discogs_id_col,
+    id_column="id",
 )
 
-# discogs ↔ musicbrainz: exact match on ["artist", "tracks_track_name"]
+# discogs - musicbrainz: exact_match_multi on ['artist', 'name']
 blocker_discogs_musicbrainz = StandardBlocker(
     discogs,
     musicbrainz,
-    on=["artist", "tracks_track_name"],
+    on=["artist", "name"],
     batch_size=1000,
     output_dir="output/blocking-evaluation",
-    id_column=discogs_id_col,
+    id_column="id",
 )
 
-# musicbrainz ↔ lastfm: semantic similarity on ["name", "artist"]
-embedding_blocker_musicbrainz_lastfm = EmbeddingBlocker(
+# musicbrainz - lastfm: semantic_similarity on ['name'] -> use EmbeddingBlocker
+embedding_blocker_mb_lfm = EmbeddingBlocker(
     musicbrainz,
     lastfm,
-    text_cols=["name", "artist"],
+    text_cols=["name"],
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
     top_k=20,
     batch_size=256,
     output_dir="output/blocking-evaluation",
-    id_column=musicbrainz_id_col,
+    id_column="id",
 )
 
 # --------------------------------
-# Entity Matching – Comparators & Rule-Based Matcher
+# Comparators
+# Use similarity functions supported by PyDI (no token_sort_ratio).
+# Emphasize jaro_winkler for title/artist; allow tolerant numeric duration.
 # --------------------------------
 
-print("Matching Entities")
-
-def _lower_strip(x):
-    return x.lower().strip() if isinstance(x, str) else ""
-
-def _strip(x):
-    return x.strip() if isinstance(x, str) else ""
-
-def _normalize_country(x):
-    if not isinstance(x, str):
-        return ""
-    x = x.lower().strip()
-    mappings = {
-        "united kingdom of great britain and northern ireland": "uk",
-        "united kingdom": "uk",
-        "u.k.": "uk",
-        "england": "uk",
-    }
-    return mappings.get(x, x)
-
-def _normalize_date(x):
-    if not isinstance(x, str):
-        return ""
-    x = x.strip()
-    # keep only YYYY-MM-DD or YYYY
-    m = re.match(r"(\d{4})(-\d{2})?(-\d{2})?", x)
-    return m.group(0) if m else x
-
-# Core comparators with tuned preprocessing:
-comparators_core = [
-    # Name similarity – normalize spaces and case
+comparators_discogs_lastfm = [
+    # Title similarity
     StringComparator(
         column="name",
-        similarity_function="cosine",  # more tolerant than jaccard for long titles
-        preprocess=_lower_strip,
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
     ),
     # Artist similarity
     StringComparator(
         column="artist",
-        similarity_function="jaccard",
-        preprocess=_lower_strip,
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
     ),
-    # Track list similarity (list → concatenated string)
-    StringComparator(
-        column="tracks_track_name",
-        similarity_function="jaccard",
-        preprocess=_lower_strip,
-        list_strategy="concatenate",
-    ),
-    # Track positions similarity
-    StringComparator(
-        column="tracks_track_position",
-        similarity_function="jaccard",
-        preprocess=_strip,
-        list_strategy="concatenate",
-    ),
-    # Duration similarity (numeric tolerance)
+    # Duration numeric similarity (allow some difference)
     NumericComparator(
         column="duration",
-        max_difference=60,  # tighten slightly to reduce wrong merges
+        max_difference=90,  # seconds tolerance
     ),
 ]
 
-# Extended comparators for sources with release info
-comparators_with_release = comparators_core + [
+comparators_discogs_musicbrainz = [
+    StringComparator(
+        column="name",
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
+    ),
+    StringComparator(
+        column="artist",
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
+    ),
+    NumericComparator(
+        column="duration",
+        max_difference=120,
+    ),
+    # Release date similarity (string-based)
     StringComparator(
         column="release-date",
-        similarity_function="jaccard",
-        preprocess=_normalize_date,
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).strip(),
     ),
+    # Release country (string similarity to correct UK vs full name)
     StringComparator(
         column="release-country",
-        similarity_function="jaccard",
-        preprocess=_normalize_country,
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
     ),
 ]
+
+comparators_musicbrainz_lastfm = [
+    StringComparator(
+        column="name",
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
+    ),
+    StringComparator(
+        column="artist",
+        similarity_function="jaro_winkler",
+        preprocess=lambda x: str(x).lower().strip(),
+    ),
+    NumericComparator(
+        column="duration",
+        max_difference=120,
+    ),
+]
+
+# --------------------------------
+# Rule-Based Matching
+# --------------------------------
+
+print("Matching Entities")
 
 matcher = RuleBasedMatcher()
 
-# discogs ↔ lastfm
-rb_correspondences_discogs_lastfm = matcher.match(
+# Discogs - LastFM
+rb_correspondences_d_l = matcher.match(
     df_left=discogs,
     df_right=lastfm,
-    candidates=embedding_blocker_discogs_lastfm,
-    comparators=comparators_core,
-    # weights: name, artist, tracks_name, tracks_pos, duration
-    # put more emphasis on tracks_* to improve track-related accuracy
-    weights=[0.25, 0.2, 0.25, 0.2, 0.1],
-    threshold=0.78,  # slightly higher to reduce false positives
-    id_column=discogs_id_col,
+    candidates=blocker_discogs_lastfm,
+    comparators=comparators_discogs_lastfm,
+    # Put higher weight on name and artist; keep threshold moderate to improve recall
+    weights=[0.45, 0.45, 0.10],
+    threshold=0.7,
+    id_column="id",
 )
 
-# discogs ↔ musicbrainz
-rb_correspondences_discogs_musicbrainz = matcher.match(
+# Discogs - MusicBrainz
+rb_correspondences_d_m = matcher.match(
     df_left=discogs,
     df_right=musicbrainz,
     candidates=blocker_discogs_musicbrainz,
-    comparators=comparators_with_release,
-    # weights: name, artist, tracks_name, tracks_pos, duration, rel-date, rel-country
-    weights=[0.2, 0.15, 0.25, 0.15, 0.05, 0.1, 0.1],
-    threshold=0.8,
-    id_column=discogs_id_col,
+    comparators=comparators_discogs_musicbrainz,
+    weights=[0.35, 0.35, 0.10, 0.10, 0.10],
+    threshold=0.7,
+    id_column="id",
 )
 
-# musicbrainz ↔ lastfm
-rb_correspondences_musicbrainz_lastfm = matcher.match(
+# MusicBrainz - LastFM
+rb_correspondences_m_l = matcher.match(
     df_left=musicbrainz,
     df_right=lastfm,
-    candidates=embedding_blocker_musicbrainz_lastfm,
-    comparators=comparators_core,
-    weights=[0.25, 0.2, 0.25, 0.2, 0.1],
-    threshold=0.78,
-    id_column=musicbrainz_id_col,
+    candidates=embedding_blocker_mb_lfm,
+    comparators=comparators_musicbrainz_lastfm,
+    weights=[0.45, 0.35, 0.20],
+    threshold=0.7,
+    id_column="id",
 )
 
 # --------------------------------
@@ -263,73 +301,46 @@ rb_correspondences_musicbrainz_lastfm = matcher.match(
 
 print("Fusing Data")
 
-all_correspondences = pd.concat(
-    [
-        rb_correspondences_discogs_lastfm,
-        rb_correspondences_discogs_musicbrainz,
-        rb_correspondences_musicbrainz_lastfm,
-    ],
+all_rb_correspondences = pd.concat(
+    [rb_correspondences_d_l, rb_correspondences_d_m, rb_correspondences_m_l],
     ignore_index=True,
 )
 
-def prefer_discogs_then_musicbrainz(values_with_provenance):
-    priority = ["discogs", "musicbrainz"]
-    for source in priority:
-        for v, prov in values_with_provenance:
-            if prov == source and v not in (None, "", []):
-                return v
-    return longest_string([v for v, _ in values_with_provenance])
-
-def prefer_musicbrainz_then_discogs(values_with_provenance):
-    priority = ["musicbrainz", "discogs"]
-    for source in priority:
-        for v, prov in values_with_provenance:
-            if prov == source and v not in (None, "", []):
-                return v
-    return longest_string([v for v, _ in values_with_provenance])
-
-def average_duration(values_with_provenance):
-    nums = []
-    for v, _ in values_with_provenance:
-        if v in (None, "", []):
-            continue
-        try:
-            num = float(v)
-            if num > 0:
-                nums.append(num)
-        except Exception:
-            continue
-    if not nums:
-        return longest_string([v for v, _ in values_with_provenance])
-    return str(int(round(sum(nums) / len(nums))))
-
-def prefer_discogs_tracks_then_union(values_with_provenance):
-    # try Discogs first as it often has canonical track listing / positions
-    ordered_sources = ["discogs", "musicbrainz", "lastfm"]
-    for src in ordered_sources:
-        vals = [v for v, prov in values_with_provenance if prov == src and v not in (None, "", [])]
-        if vals:
-            return vals[0]
-    # fall back to union
-    raw_vals = [v for v, _ in values_with_provenance]
-    return union(raw_vals)
+# Assign trust scores: prefer Discogs and MusicBrainz over LastFM
+trust_scores = {
+    "discogs": 0.9,
+    "musicbrainz": 0.85,
+    "lastfm": 0.7,
+}
 
 strategy = DataFusionStrategy("music_release_fusion_strategy")
 
-# Core fields
-strategy.add_attribute_fuser("name", prefer_discogs_then_musicbrainz)
-strategy.add_attribute_fuser("artist", prefer_discogs_then_musicbrainz)
-strategy.add_attribute_fuser("release-date", prefer_musicbrainz_then_discogs)
-strategy.add_attribute_fuser("release-country", prefer_musicbrainz_then_discogs)
-strategy.add_attribute_fuser("label", prefer_discogs_then_musicbrainz)
-strategy.add_attribute_fuser("genre", prefer_discogs_then_musicbrainz)
-strategy.add_attribute_fuser("duration", average_duration)
+# Helper fuser to prefer higher trust, then longest string
+def trusted_string_fuser(values, sources):
+    # Delegate to prefer_higher_trust, then longest_string as fallback
+    return prefer_higher_trust(values, sources, trust_scores, fallback=longest_string)
 
-# Track-related fields:
-# Prefer trusted structured sources for sequences, not a blind union.
-strategy.add_attribute_fuser("tracks_track_name", prefer_discogs_tracks_then_union)
-strategy.add_attribute_fuser("tracks_track_position", prefer_discogs_then_musicbrainz)
-strategy.add_attribute_fuser("tracks_track_duration", prefer_musicbrainz_then_discogs)
+# Basic string attributes
+for attr in ["name", "artist", "label", "release-country", "release-date", "genre"]:
+    if attr in discogs.columns:
+        strategy.add_attribute_fuser(attr, trusted_string_fuser)
+
+# Duration: prefer higher trust then median as fallback
+def duration_fuser(values, sources):
+    numeric_vals = [v for v in values if pd.notna(v)]
+    if not numeric_vals:
+        return np.nan
+    # first try trust-based resolution
+    return prefer_higher_trust(numeric_vals, sources, trust_scores)
+
+strategy.add_attribute_fuser("duration", duration_fuser)
+
+# Track-level attributes:
+# - names and durations: union to improve recall
+# - positions: union as well (keeps all seen positions)
+for attr in ["tracks_track_name", "tracks_track_position", "tracks_track_duration"]:
+    if attr in discogs.columns:
+        strategy.add_attribute_fuser(attr, union)
 
 engine = DataFusionEngine(
     strategy,
@@ -340,7 +351,7 @@ engine = DataFusionEngine(
 
 rb_fused_standard_blocker = engine.run(
     datasets=[discogs, lastfm, musicbrainz],
-    correspondences=all_correspondences,
+    correspondences=all_rb_correspondences,
     id_column="id",
     include_singletons=False,
 )
@@ -350,6 +361,5 @@ rb_fused_standard_blocker = engine.run(
 # --------------------------------
 
 rb_fused_standard_blocker.to_csv(
-    "output/data_fusion/fusion_rb_standard_blocker.csv",
-    index=False,
+    "output/data_fusion/fusion_rb_standard_blocker.csv", index=False
 )
