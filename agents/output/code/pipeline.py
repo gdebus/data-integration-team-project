@@ -1,18 +1,16 @@
 from PyDI.io import load_xml
-
-from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
+from PyDI.entitymatching import EmbeddingBlocker, StandardBlocker
 from PyDI.entitymatching import StringComparator, NumericComparator
 from PyDI.entitymatching import RuleBasedMatcher
-
 from PyDI.fusion import (
     DataFusionStrategy,
     DataFusionEngine,
     longest_string,
     union,
+    most_recent,
+    prefer_higher_trust,
 )
-
 from PyDI.fusion import DataFusionEvaluator, tokenized_match
-
 from PyDI.schemamatching import LLMBasedSchemaMatcher
 from langchain_openai import ChatOpenAI
 
@@ -20,6 +18,7 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 import os
+import re
 
 # --------------------------------
 # Prepare Data
@@ -30,7 +29,7 @@ DATA_DIR = "input/datasets/"
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
-# Load datasets (XML)
+# Load datasets (XML!)
 discogs = load_xml(
     DATA_DIR + "discogs.xml",
     name="discogs",
@@ -49,7 +48,8 @@ musicbrainz = load_xml(
 datasets = [discogs, lastfm, musicbrainz]
 
 # --------------------------------
-# Schema Matching (align schemas of lastfm & musicbrainz to discogs)
+# Schema Matching
+# Match lastfm & musicbrainz to discogs schema
 # --------------------------------
 
 print("Matching Schema")
@@ -62,26 +62,11 @@ llm = ChatOpenAI(
 
 matcher = LLMBasedSchemaMatcher(
     chat_model=llm,
-    num_rows=10,
+    num_rows=25,
     debug=True,
-    system_prompt=(
-        "You match music release schemas. Map semantically identical attributes:\n"
-        "- 'id' is the record identifier.\n"
-        "- 'name' is the release / album / single title.\n"
-        "- 'artist' is the main artist.\n"
-        "- 'duration' is total duration in seconds when it is a positive integer. "
-        "If there are multiple duration-like fields, map the total release duration "
-        "to 'duration'.\n"
-        "- 'release-date' is the release date.\n"
-        "- 'release-country' is the country of release (prefer ISO-like or short names).\n"
-        "- Track-level columns: 'tracks_track_name', 'tracks_track_position', "
-        "'tracks_track_duration' represent, respectively, per-track title, index, "
-        "and duration in seconds. Map any equivalent track fields to these.\n"
-        "Do not invent new column names. Use Discogs column names as target."
-    ),
 )
 
-# match schema of discogs with lastfm and rename lastfm
+# Match discogs (source) -> lastfm (target), rename lastfm to discogs schema
 schema_correspondences = matcher.match(discogs, lastfm)
 rename_map = (
     schema_correspondences
@@ -90,7 +75,7 @@ rename_map = (
 )
 lastfm = lastfm.rename(columns=rename_map)
 
-# match schema of discogs with musicbrainz and rename musicbrainz
+# Match discogs (source) -> musicbrainz (target), rename musicbrainz to discogs schema
 schema_correspondences = matcher.match(discogs, musicbrainz)
 rename_map = (
     schema_correspondences
@@ -99,167 +84,377 @@ rename_map = (
 )
 musicbrainz = musicbrainz.rename(columns=rename_map)
 
+# Ensure critical columns exist across datasets
+for df in [discogs, lastfm, musicbrainz]:
+    for col in [
+        "id",
+        "name",
+        "artist",
+        "release-date",
+        "release-country",
+        "duration",
+        "label",
+        "genre",
+        "tracks_track_name",
+        "tracks_track_position",
+        "tracks_track_duration",
+    ]:
+        if col not in df.columns:
+            df[col] = np.nan
+
 # --------------------------------
-# Preprocessing before matching
+# Preprocessing for better matching & fusion
 # --------------------------------
 
-def to_numeric_duration(series):
-    s = pd.to_numeric(series, errors="coerce")
-    # Treat 0 and negative values as missing (placeholder / invalid)
-    s = s.mask(s <= 0)
+def normalize_text(s):
+    if isinstance(s, (list, tuple, np.ndarray)):
+        # Join lists (e.g. track names) into a single string
+        s = " | ".join(map(str, s))
+    if pd.isna(s):
+        return s
+    s = str(s)
+    s = s.strip().lower()
+    s = re.sub(r"\s+", " ", s)
     return s
 
-def normalize_text(col: pd.Series) -> pd.Series:
-    return (
-        col.astype(str)
-        .str.lower()
-        .str.replace(r"\s+", " ", regex=True)
-        .str.strip()
-    )
+def normalize_country(c):
+    if pd.isna(c):
+        return c
+    c = str(c).strip()
+    mapping = {
+        "uk": "United Kingdom of Great Britain and Northern Ireland",
+        "u.k.": "United Kingdom of Great Britain and Northern Ireland",
+        "united kingdom": "United Kingdom of Great Britain and Northern Ireland",
+        "england": "United Kingdom of Great Britain and Northern Ireland",
+    }
+    key = c.lower()
+    return mapping.get(key, c)
+
+# Helper to safely convert durations to numeric seconds
+def to_seconds(x):
+    # Handle list-like durations (e.g. per-track) by ignoring them for release-level duration
+    if isinstance(x, (list, tuple, np.ndarray)):
+        return np.nan
+    if pd.isna(x):
+        return np.nan
+    try:
+        return float(x)
+    except Exception:
+        # Try to parse formats like "mm:ss"
+        s = str(x)
+        if re.match(r"^\d+:\d{2}$", s):
+            m, s_sec = s.split(":")
+            try:
+                return int(m) * 60 + int(s_sec)
+            except Exception:
+                return np.nan
+        return np.nan
 
 for df in [discogs, lastfm, musicbrainz]:
-    if "duration" in df.columns:
-        df["duration"] = to_numeric_duration(df["duration"])
+    # Normalize title and artist
+    df["name_norm"] = (
+        df["name"]
+        .astype(str)
+        .str.replace(r"\s+", " ", regex=True)
+        .str.strip()
+        .str.lower()
+    )
+    df["artist_norm"] = df["artist"].astype(str).str.strip().str.lower()
 
-    # Normalize artist / name for better blocking & similarity
-    if "artist" in df.columns:
-        df["artist_norm"] = normalize_text(df["artist"])
-    if "name" in df.columns:
-        df["name_norm"] = normalize_text(df["name"])
+    # Create a "clean" name that drops leading artist prefixes like "Artist - "
+    df["name_clean"] = df["name"].astype(str)
 
-    # Normalize track names for better fusion & evaluation
-    if "tracks_track_name" in df.columns:
-        df["tracks_track_name_norm"] = df["tracks_track_name"].apply(
-            lambda x: [t.strip().lower() for t in x] if isinstance(x, (list, tuple)) else x
-        )
+    def strip_artist_prefix(row):
+        name = str(row["name"])
+        artist = str(row["artist"])
+        name_l = name.lower()
+        artist_l = artist.lower()
+        # patterns like "artist - title" or "artist: title"
+        if name_l.startswith(artist_l + " - "):
+            return name[len(artist) + 3 :].strip()
+        if name_l.startswith(artist_l + " : "):
+            return name[len(artist) + 3 :].strip()
+        if name_l.startswith(artist_l + " – "):  # en dash
+            return name[len(artist) + 3 :].strip()
+        return name
+
+    df["name_clean"] = df.apply(strip_artist_prefix, axis=1)
+    df["name_clean_norm"] = df["name_clean"].astype(str).str.lower().str.replace(
+        r"\s+", " ", regex=True
+    ).str.strip()
+
+    # Track concatenation for similarity; keep ordering stable
+    def concat_tracks(x):
+        if isinstance(x, (list, tuple, np.ndarray)):
+            return " | ".join(map(str, x))
+        if pd.isna(x):
+            return ""
+        return str(x)
+
+    df["tracks_concat"] = df["tracks_track_name"].apply(concat_tracks).str.lower()
+
+    # Numeric duration in seconds (release-level)
+    df["duration_sec"] = df["duration"].apply(to_seconds)
+
+    # Normalize country text for better fusion consistency
+    df["release-country-norm"] = df["release-country"].apply(normalize_country)
 
 # --------------------------------
-# Entity Matching / Blocking
+# Blocking (use provided configuration)
 # --------------------------------
 
 print("Performing Blocking")
 
-# discogs has > 20k rows, so use StandardBlocker per instructions
-# Block on artist first, then on name; intersect candidate sets implicitly by
-# requiring good similarity on both in the rule-based matcher.
+id_columns = {
+    "discogs": "id",
+    "lastfm": "id",
+    "musicbrainz": "id",
+}
 
-blocker_discogs_lastfm_artist = StandardBlocker(
-    discogs,
-    lastfm,
-    on=["artist_norm"],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column="id",
-)
+blocking_strategies = {
+    "discogs_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": ["name", "artist"],
+        "top_k": 20,
+        "threshold": 0.3,
+    },
+    "discogs_musicbrainz": {
+        "strategy": "semantic_similarity",
+        "columns": ["name", "artist"],
+        "top_k": 20,
+        "threshold": 0.3,
+    },
+    "musicbrainz_lastfm": {
+        "strategy": "exact_match_multi",
+        "columns": ["artist", "duration"],
+        "top_k": 20,
+        "threshold": 0.3,
+    },
+}
 
-blocker_discogs_musicbrainz_artist = StandardBlocker(
-    discogs,
+# For 20k+ rows, prefer StandardBlocker as per instructions
+use_standard_for_discogs = len(discogs) > 20000 or len(lastfm) > 20000
+use_standard_for_discogs_mb = len(discogs) > 20000 or len(musicbrainz) > 20000
+
+if use_standard_for_discogs:
+    embedding_blocker_discogs_lastfm = StandardBlocker(
+        discogs,
+        lastfm,
+        on=blocking_strategies["discogs_lastfm"]["columns"],
+        batch_size=1000,
+        output_dir="output/blocking-evaluation",
+        id_column=id_columns["discogs"],
+    )
+else:
+    embedding_blocker_discogs_lastfm = EmbeddingBlocker(
+        discogs,
+        lastfm,
+        text_cols=blocking_strategies["discogs_lastfm"]["columns"],
+        model="sentence-transformers/all-MiniLM-L6-v2",
+        index_backend="sklearn",
+        top_k=blocking_strategies["discogs_lastfm"]["top_k"],
+        batch_size=500,
+        output_dir="output/blocking-evaluation",
+        id_column=id_columns["discogs"],
+    )
+
+if use_standard_for_discogs_mb:
+    embedding_blocker_discogs_musicbrainz = StandardBlocker(
+        discogs,
+        musicbrainz,
+        on=blocking_strategies["discogs_musicbrainz"]["columns"],
+        batch_size=1000,
+        output_dir="output/blocking-evaluation",
+        id_column=id_columns["discogs"],
+    )
+else:
+    embedding_blocker_discogs_musicbrainz = EmbeddingBlocker(
+        discogs,
+        musicbrainz,
+        text_cols=blocking_strategies["discogs_musicbrainz"]["columns"],
+        model="sentence-transformers/all-MiniLM-L6-v2",
+        index_backend="sklearn",
+        top_k=blocking_strategies["discogs_musicbrainz"]["top_k"],
+        batch_size=500,
+        output_dir="output/blocking-evaluation",
+        id_column=id_columns["discogs"],
+    )
+
+# StandardBlocker for exact_match_multi (artist + duration)
+standard_blocker_mbrainz_lastfm = StandardBlocker(
     musicbrainz,
-    on=["artist_norm"],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column="id",
-)
-
-blocker_discogs_lastfm_name = StandardBlocker(
-    discogs,
     lastfm,
-    on=["name_norm"],
+    on=blocking_strategies["musicbrainz_lastfm"]["columns"],
     batch_size=1000,
     output_dir="output/blocking-evaluation",
-    id_column="id",
-)
-
-blocker_discogs_musicbrainz_name = StandardBlocker(
-    discogs,
-    musicbrainz,
-    on=["name_norm"],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column="id",
+    id_column=id_columns["musicbrainz"],
 )
 
 # --------------------------------
-# Define Comparators (only columns present in all datasets after schema matching)
+# Comparators
 # --------------------------------
 
-comparators = [
-    # Title similarity (releases often differ only slightly in formatting)
+# Emphasize name/artist, use tracks more strongly to improve track-related accuracy
+
+comparators_discogs_lastfm = [
     StringComparator(
-        column="name_norm",
+        column="name_clean_norm",
         similarity_function="jaccard",
-        preprocess=None,
     ),
-
-    # Artist similarity (highly reliable)
     StringComparator(
         column="artist_norm",
         similarity_function="jaccard",
-        preprocess=None,
     ),
-
-    # Duration similarity with a moderate tolerance
+    StringComparator(
+        column="tracks_concat",
+        similarity_function="cosine",
+    ),
     NumericComparator(
-        column="duration",
-        max_difference=45,  # slightly stricter than before
+        column="duration_sec",
+        max_difference=60,  # allow more noise across sources
     ),
 ]
 
+comparators_discogs_musicbrainz = [
+    StringComparator(
+        column="name_clean_norm",
+        similarity_function="jaccard",
+    ),
+    StringComparator(
+        column="artist_norm",
+        similarity_function="jaccard",
+    ),
+    StringComparator(
+        column="tracks_concat",
+        similarity_function="cosine",
+    ),
+    NumericComparator(
+        column="duration_sec",
+        max_difference=60,
+    ),
+]
+
+comparators_mbrainz_lastfm = [
+    StringComparator(
+        column="name_clean_norm",
+        similarity_function="jaccard",
+    ),
+    StringComparator(
+        column="artist_norm",
+        similarity_function="jaccard",
+    ),
+    StringComparator(
+        column="tracks_concat",
+        similarity_function="cosine",
+    ),
+    NumericComparator(
+        column="duration_sec",
+        max_difference=60,
+    ),
+]
+
+# --------------------------------
+# Entity Matching
+# --------------------------------
+
 print("Matching Entities")
 
-matcher_rb = RuleBasedMatcher()
+matcher = RuleBasedMatcher()
 
-# Use the stricter blocking on both artist and name:
-rb_correspondences_discogs_lastfm = matcher_rb.match(
+# Raise weight of tracks to help track-related attributes; keep reasonable threshold
+weights = [0.4, 0.35, 0.2, 0.05]
+threshold = 0.78
+
+# Discogs - LastFM
+rb_correspondences_discogs_lastfm = matcher.match(
     df_left=discogs,
     df_right=lastfm,
-    candidates=blocker_discogs_lastfm_artist,
-    comparators=comparators,
-    # stronger weight on exact text fields, slightly reduced duration effect
-    weights=[0.50, 0.45, 0.05],
-    threshold=0.86,
-    id_column="id",
+    candidates=embedding_blocker_discogs_lastfm,
+    comparators=comparators_discogs_lastfm,
+    weights=weights,
+    threshold=threshold,
+    id_column=id_columns["discogs"],
 )
 
-rb_correspondences_discogs_musicbrainz = matcher_rb.match(
+# Discogs - MusicBrainz
+rb_correspondences_discogs_musicbrainz = matcher.match(
     df_left=discogs,
     df_right=musicbrainz,
-    candidates=blocker_discogs_musicbrainz_artist,
-    comparators=comparators,
-    weights=[0.50, 0.45, 0.05],
-    threshold=0.86,
-    id_column="id",
+    candidates=embedding_blocker_discogs_musicbrainz,
+    comparators=comparators_discogs_musicbrainz,
+    weights=weights,
+    threshold=threshold,
+    id_column=id_columns["discogs"],
 )
+
+# MusicBrainz - LastFM
+rb_correspondences_mbrainz_lastfm = matcher.match(
+    df_left=musicbrainz,
+    df_right=lastfm,
+    candidates=standard_blocker_mbrainz_lastfm,
+    comparators=comparators_mbrainz_lastfm,
+    weights=weights,
+    threshold=threshold,
+    id_column=id_columns["musicbrainz"],
+)
+
+# --------------------------------
+# Data Fusion
+# --------------------------------
 
 print("Fusing Data")
 
+# Merge correspondences
 all_rb_correspondences = pd.concat(
-    [rb_correspondences_discogs_lastfm, rb_correspondences_discogs_musicbrainz],
+    [
+        rb_correspondences_discogs_lastfm,
+        rb_correspondences_discogs_musicbrainz,
+        rb_correspondences_mbrainz_lastfm,
+    ],
     ignore_index=True,
 )
+
+# Source trust scores: musicbrainz > discogs > lastfm
+source_trust = {
+    "musicbrainz": 0.9,
+    "discogs": 0.8,
+    "lastfm": 0.6,
+}
+
+def prefer_musicbrainz_then_discogs(values, provenance):
+    return prefer_higher_trust(values, provenance, trust_scores=source_trust)
 
 strategy = DataFusionStrategy("music_release_fusion_strategy")
 
 # Core attributes
 strategy.add_attribute_fuser("name", longest_string)
-strategy.add_attribute_fuser("artist", longest_string)
+strategy.add_attribute_fuser("artist", prefer_musicbrainz_then_discogs)
+strategy.add_attribute_fuser("release-date", most_recent)
 
-# Duration: prefer the longest non-null value (usually most complete)
-strategy.add_attribute_fuser("duration", longest_string)
+# Use normalized country to reduce variation; then output canonical country field
+def fuse_release_country(values, provenance):
+    fused = prefer_higher_trust(values, provenance, trust_scores=source_trust)
+    return normalize_country(fused)
 
-# Release info
-strategy.add_attribute_fuser("release-date", longest_string)
-strategy.add_attribute_fuser("release-country", longest_string)
+strategy.add_attribute_fuser("release-country", fuse_release_country)
 
-# Additional metadata
-strategy.add_attribute_fuser("label", longest_string)
+# For duration, prefer higher-trust source instead of averaging
+def fuse_duration(values, provenance):
+    chosen = prefer_higher_trust(values, provenance, trust_scores=source_trust)
+    return chosen
+
+strategy.add_attribute_fuser("duration", fuse_duration)
+
+strategy.add_attribute_fuser("label", prefer_musicbrainz_then_discogs)
 strategy.add_attribute_fuser("genre", union)
 
-# Track-level attributes: keep union across sources
+# Track-level attributes:
+# Union but evaluation will use tokenized_match for robustness.
 strategy.add_attribute_fuser("tracks_track_name", union)
 strategy.add_attribute_fuser("tracks_track_position", union)
 strategy.add_attribute_fuser("tracks_track_duration", union)
 
+# Run fusion
 engine = DataFusionEngine(
     strategy,
     debug=True,
@@ -274,34 +469,5 @@ rb_fused_standard_blocker = engine.run(
     include_singletons=False,
 )
 
-# --------------------------------
-# Optional: Evaluate fusion quality if gold standard is available
-# (expects a CSV with a 'id' column matching fused ids)
-# --------------------------------
-
-gold_path = "input/gold/music_gold.csv"
-if os.path.exists(gold_path):
-    gold_df = pd.read_csv(gold_path)
-
-    evaluator = DataFusionEvaluator(
-        fused_dataset=rb_fused_standard_blocker,
-        gold_dataset=gold_df,
-        id_column="id",
-        match_function=tokenized_match,
-    )
-
-    eval_results = evaluator.evaluate()
-    eval_results.to_json(
-        "output/data_fusion/fusion_rb_standard_blocker_evaluation.json",
-        orient="records",
-        lines=True,
-    )
-
-# --------------------------------
-# Write Output
-# --------------------------------
-
-rb_fused_standard_blocker.to_csv(
-    "output/data_fusion/fusion_rb_standard_blocker.csv",
-    index=False,
-)
+# Write output (file name must remain unchanged)
+rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)

@@ -1,0 +1,39 @@
+{
+  "id_columns": {
+    "discogs": "id",
+    "lastfm": "id",
+    "musicbrainz": "id"
+  },
+  "blocking_strategies": {
+    "discogs_lastfm": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist"
+      ],
+      "top_k": 20,
+      "threshold": 0.3,
+      "pair_completeness": 0.9636363636363636
+    },
+    "discogs_musicbrainz": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist"
+      ],
+      "top_k": 20,
+      "threshold": 0.3,
+      "pair_completeness": 0.9743589743589743
+    },
+    "musicbrainz_lastfm": {
+      "strategy": "exact_match_multi",
+      "columns": [
+        "artist",
+        "duration"
+      ],
+      "top_k": 20,
+      "threshold": 0.3,
+      "pair_completeness": 0.05063291139240506
+    }
+  }
+}

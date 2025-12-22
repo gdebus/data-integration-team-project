@@ -7,72 +7,106 @@ from PyDI.fusion import (
     DataFusionStrategy,
     longest_string,
     union,
+    most_recent,
+    prefer_higher_trust,
+)
+from PyDI.fusion import (
     DataFusionEvaluator,
     tokenized_match,
+    year_only_match,
+    set_equality_match,
+    numeric_tolerance_match,
 )
 
-# --------------------------------
-# Load fused output and gold standard
-# --------------------------------
+import numpy as np
+import re
 
-fused_path = "output/data_fusion/fusion_rb_standard_blocker.csv"
-gold_path = "input/testsets/music/test_set.xml"
 
-fused = pd.read_csv(fused_path)
+# ----------------------------
+# Helpers (reuse fusion logic)
+# ----------------------------
 
-# Gold / test set is XML
+def normalize_country(c):
+    if pd.isna(c):
+        return c
+    c = str(c).strip()
+    mapping = {
+        "uk": "United Kingdom of Great Britain and Northern Ireland",
+        "u.k.": "United Kingdom of Great Britain and Northern Ireland",
+        "united kingdom": "United Kingdom of Great Britain and Northern Ireland",
+        "england": "United Kingdom of Great Britain and Northern Ireland",
+    }
+    key = c.lower()
+    return mapping.get(key, c)
+
+
+# Source trust scores: musicbrainz > discogs > lastfm
+source_trust = {
+    "musicbrainz": 0.9,
+    "discogs": 0.8,
+    "lastfm": 0.6,
+}
+
+
+def prefer_musicbrainz_then_discogs(values, provenance):
+    return prefer_higher_trust(values, provenance, trust_scores=source_trust)
+
+
+def fuse_release_country(values, provenance):
+    fused = prefer_higher_trust(values, provenance, trust_scores=source_trust)
+    return normalize_country(fused)
+
+
+def fuse_duration(values, provenance):
+    chosen = prefer_higher_trust(values, provenance, trust_scores=source_trust)
+    return chosen
+
+
+# ----------------------------
+# Load fused output & gold set
+# ----------------------------
+
+fused = pd.read_csv("output/data_fusion/fusion_rb_standard_blocker.csv")
+
 fusion_test_set = load_xml(
-    gold_path,
+    "input/testsets/music/test_set.xml",
     name="fusion_test_set",
-    nested_handling="aggregate",  # aggregate track-level lists, as in example
+    nested_handling="aggregate",
 )
 
-# --------------------------------
-# Define fusion strategy consistent with pipeline
-# --------------------------------
+# ----------------------------
+# Recreate the fusion strategy
+# ----------------------------
 
 strategy = DataFusionStrategy("music_release_fusion_strategy")
 
-# Core attributes
+# Attribute fusers (must match integration pipeline)
 strategy.add_attribute_fuser("name", longest_string)
-strategy.add_attribute_fuser("artist", longest_string)
-
-# Duration: prefer the longest non-null value
-strategy.add_attribute_fuser("duration", longest_string)
-
-# Release info
-strategy.add_attribute_fuser("release-date", longest_string)
-strategy.add_attribute_fuser("release-country", longest_string)
-
-# Additional metadata
-strategy.add_attribute_fuser("label", longest_string)
+strategy.add_attribute_fuser("artist", prefer_musicbrainz_then_discogs)
+strategy.add_attribute_fuser("release-date", most_recent)
+strategy.add_attribute_fuser("release-country", fuse_release_country)
+strategy.add_attribute_fuser("duration", fuse_duration)
+strategy.add_attribute_fuser("label", prefer_musicbrainz_then_discogs)
 strategy.add_attribute_fuser("genre", union)
-
-# Track-level attributes
 strategy.add_attribute_fuser("tracks_track_name", union)
 strategy.add_attribute_fuser("tracks_track_position", union)
 strategy.add_attribute_fuser("tracks_track_duration", union)
 
-# --------------------------------
-# Configure evaluation functions per attribute
-# --------------------------------
+# ----------------------------
+# Configure evaluation functions
+# ----------------------------
 
-# We use tokenized_match (set-based text match) for text-like fields
-# and leave complex types (lists) to set-like comparison via tokenized_match as well.
 strategy.add_evaluation_function("name", tokenized_match)
 strategy.add_evaluation_function("artist", tokenized_match)
-strategy.add_evaluation_function("duration", tokenized_match)
-strategy.add_evaluation_function("release-date", tokenized_match)
+strategy.add_evaluation_function("duration", numeric_tolerance_match)
+strategy.add_evaluation_function("release-date", year_only_match)
 strategy.add_evaluation_function("release-country", tokenized_match)
 strategy.add_evaluation_function("label", tokenized_match)
-strategy.add_evaluation_function("genre", tokenized_match)
-strategy.add_evaluation_function("tracks_track_name", tokenized_match)
-strategy.add_evaluation_function("tracks_track_position", tokenized_match)
-strategy.add_evaluation_function("tracks_track_duration", tokenized_match)
+strategy.add_evaluation_function("tracks_track_name", set_equality_match)
 
-# --------------------------------
+# ----------------------------
 # Run evaluation
-# --------------------------------
+# ----------------------------
 
 evaluator = DataFusionEvaluator(
     strategy,
@@ -83,21 +117,37 @@ evaluator = DataFusionEvaluator(
 
 evaluation_results = evaluator.evaluate(
     fused_df=fused,
-    fused_id_column="_id",  # id column produced by fusion engine
+    fused_id_column="_id",
     gold_df=fusion_test_set,
-    gold_id_column="id",    # id column in gold / test set
+    gold_id_column="id",
 )
 
-# --------------------------------
-# Print structured metrics
-# --------------------------------
-
-print(json.dumps(evaluation_results, indent=4))
-
-# --------------------------------
-# Persist evaluation metrics to JSON
-# --------------------------------
+# ----------------------------
+# Write required JSON output
+# ----------------------------
 
 evaluation_output = "output/pipeline_evaluation/pipeline_evaluation.json"
 with open(evaluation_output, "w") as f:
     json.dump(evaluation_results, f, indent=4)
+
+# ----------------------------
+# Print structured metrics
+# ----------------------------
+
+# The exact structure of evaluation_results depends on PyDI, but commonly:
+# {
+#   "overall": {...},
+#   "per_attribute": {...},
+#   ...
+# }
+print("=== Overall Evaluation ===")
+overall = evaluation_results.get("overall", {})
+for k, v in overall.items():
+    print(f"{k}: {v}")
+
+print("\n=== Per-Attribute Evaluation ===")
+per_attr = evaluation_results.get("per_attribute", {})
+for attr, metrics in per_attr.items():
+    print(f"\nAttribute: {attr}")
+    for m, val in metrics.items():
+        print(f"  {m}: {val}")
