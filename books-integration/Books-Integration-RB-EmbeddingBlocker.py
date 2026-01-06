@@ -5,6 +5,9 @@ from PyDI.entitymatching import RuleBasedMatcher
 from PyDI.entitymatching import StringComparator, NumericComparator
 from PyDI.entitymatching import MaximumBipartiteMatching
 
+from pathlib import Path
+import pandas as pd
+from PyDI.io import load_parquet
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 25)
 pd.set_option('display.max_colwidth', 100)
@@ -19,6 +22,7 @@ CORR_DIR = OUTPUT_DIR / "correspondences"
 
 PIPELINE_DIR = OUTPUT_DIR / "data_fusion"
 PIPELINE_DIR.mkdir(parents=True, exist_ok=True)
+
 amazon_sample = load_parquet(
     DATA_DIR / "amazon_sample.parquet",
     name="amazon_sample"
@@ -33,6 +37,28 @@ metabooks_sample = load_parquet(
   DATA_DIR / "metabooks_sample.parquet",
   name="metabooks_sample"
 )
+
+import re
+
+def clean_text(t):
+  t = str(t).lower()
+  t = re.sub(r'<.*?>', '', t)
+  t = re.sub(r'[^a-z0-9\s]', '', t)
+  t = re.sub(r'\s+', ' ', t).strip()
+  return t
+
+amazon_sample['clean_title'] = amazon_sample['title'].apply(clean_text)
+goodreads_sample['clean_title'] = goodreads_sample['title'].apply(clean_text)
+metabooks_sample['clean_title'] = metabooks_sample['title'].apply(clean_text)
+# Clean Author
+amazon_sample["clean_author"] = amazon_sample["author"].apply(clean_text)
+goodreads_sample["clean_author"] = goodreads_sample["author"].apply(clean_text)
+metabooks_sample["clean_author"] = metabooks_sample["author"].apply(clean_text)
+#Clean Publisher
+amazon_sample["clean_publisher"] = amazon_sample["publisher"].apply(clean_text)
+metabooks_sample["clean_publisher"] = metabooks_sample["publisher"].apply(clean_text)
+goodreads_sample["clean_publisher"] = goodreads_sample["publisher"].apply(clean_text)
+
 from PyDI.io import load_csv
 
 train_m2a = load_csv(
@@ -66,14 +92,15 @@ test_m2g = load_csv(
     names=['id1', 'id2', 'label'],
     add_index=False
 )
+
 from PyDI.entitymatching import EmbeddingBlocker
 
 embedding_blocker_m2a = EmbeddingBlocker(
     metabooks_sample, amazon_sample,
-    text_cols=['title', 'author'],
+    text_cols=['clean_title', 'clean_author','publish_year'],
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
-    top_k=20,
+    top_k=10,
     batch_size=200,
     output_dir=BLOCK_EVAL_DIR,
     id_column='id'
@@ -82,10 +109,10 @@ embedding_blocker_m2a = EmbeddingBlocker(
 
 embedding_blocker_m2g = EmbeddingBlocker(
     metabooks_sample, goodreads_sample,
-    text_cols=['title', 'author'],
+    text_cols=['clean_title', 'clean_author','publish_year'],
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
-    top_k=20,
+    top_k=10,
     batch_size=200,
     output_dir=BLOCK_EVAL_DIR,
     id_column='id'
@@ -94,42 +121,52 @@ embedding_blocker_m2g = EmbeddingBlocker(
 embedding_candidates_m2a = embedding_blocker_m2a.materialize()
 embedding_candidates_m2g = embedding_blocker_m2g.materialize()
 
-comparators_m2a = [
-    StringComparator(column='title',similarity_function='cosine'),
-    StringComparator(column='author',similarity_function='cosine', preprocess=str.lower),
-    StringComparator(column='publisher',similarity_function='cosine', preprocess=str.lower),
-    NumericComparator(column='publish_year'),
+from PyDI.entitymatching import RuleBasedMatcher
+from PyDI.entitymatching import StringComparator, NumericComparator
+
+# Base comparators used by both combos
+comparators_base = [
+    StringComparator(column="clean_title", similarity_function="cosine"),
+    NumericComparator(column="publish_year", method="absolute_difference", max_difference=2),
+    StringComparator(column="clean_publisher", similarity_function="cosine"),
 ]
-comparators_m2g=comparators_m2a+[
-    NumericComparator(column="page_count", max_difference=10),
+
+comparators_m2a = comparators_base + [
+    StringComparator(column="clean_author", similarity_function="cosine"),
+]
+
+comparators_m2g = comparators_base + [
+    StringComparator(column="clean_author", similarity_function="jaro_winkler"),
+    NumericComparator(column="page_count", max_difference=5),
 ]
 
 matcher = RuleBasedMatcher()
 
 # matching metabooks > amazon
-correspondences_m2a = matcher.match(
+correspondences_m2a,debug_m2a = matcher.match(
     df_left=metabooks_sample,
     df_right=amazon_sample, 
     candidates=embedding_blocker_m2a,
     comparators=comparators_m2a,
-    weights=[0.45, 0.25, 0.25,0.1], 
-    threshold=0.7,
+    debug=True,
+    weights=[0.5, 0.1, 0.15,0.25], 
+    threshold=0.4,
     id_column='id'
 )
 
 # matching metabooks > goodreads
-correspondences_m2g = matcher.match(
+correspondences_m2g,debug_m2g = matcher.match(
     df_left=metabooks_sample,
     df_right=goodreads_sample, 
     candidates=embedding_blocker_m2g,
     comparators=comparators_m2g,
-
-    weights=[0.5, 0.2, 0.15, 0.1,0.05], 
-    threshold=0.7,
+    debug=True,
+    weights=[0.5, 0.1,0.1,0.2,0.05], 
+    threshold=0.4,
     id_column='id'
 )
 
-
+from PyDI.entitymatching import MaximumBipartiteMatching
 
 # We are using Maxmimum Bipartite Matching to refine results to 1:1 matches
 clusterer = MaximumBipartiteMatching()
@@ -152,7 +189,6 @@ strategy.add_attribute_fuser('publisher', prefer_higher_trust, trust_key="trust_
 strategy.add_attribute_fuser('language', prefer_higher_trust, trust_key="trust_score")
 strategy.add_attribute_fuser('price', prefer_higher_trust, trust_key="trust_score")
 strategy.add_attribute_fuser('page_count', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('numratings', prefer_higher_trust, trust_key="trust_score")
 strategy.add_attribute_fuser('genres',union)
 
 engine = DataFusionEngine(strategy, debug=True, debug_format='json',
@@ -164,10 +200,6 @@ fused_rb_emblocker = engine.run(
     id_column="id",
     include_singletons=False
 )
-
-print(f'Fused rows: {len(fused_rb_emblocker):,}')
-
-fused_rb_emblocker.to_parquet(PIPELINE_DIR / "fused_rb_emblocker.parquet")
 
 from PyDI.fusion import tokenized_match, boolean_match,numeric_tolerance_match,set_equality_match
 
@@ -208,7 +240,6 @@ strategy.add_evaluation_function("title", tokenized_match)
 strategy.add_evaluation_function("author", tokenized_match)
 strategy.add_evaluation_function("publisher", tokenized_match)
 strategy.add_evaluation_function("publish_year", numeric_tolerance_match)
-strategy.add_evaluation_function("numratings", numeric_tolerance_match)
 strategy.add_evaluation_function("price", numeric_tolerance_match)
 strategy.add_evaluation_function("page_count", numeric_tolerance_match)
 strategy.add_evaluation_function("language", tokenized_match)

@@ -1,10 +1,10 @@
 {
-  "pair_completeness": 0.9875,
-  "pair_quality": 0.0002265703981472851,
-  "reduction_ratio": 0.9994307306122449,
-  "total_candidates": 697355,
-  "total_possible_pairs": 1225000000,
-  "true_positives_found": 158,
-  "total_true_pairs": 160,
-  "evaluation_timestamp": "2025-11-20T14:55:37.917413"
+  "pair_completeness": 0.96,
+  "pair_quality": 0.007911596508578063,
+  "reduction_ratio": 0.9999428579618512,
+  "total_candidates": 69771,
+  "total_possible_pairs": 1221010000,
+  "true_positives_found": 552,
+  "total_true_pairs": 575,
+  "evaluation_timestamp": "2025-12-20T02:42:18.198147"
 }

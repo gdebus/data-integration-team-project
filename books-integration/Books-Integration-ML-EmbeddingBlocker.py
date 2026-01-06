@@ -18,6 +18,9 @@ from PyDI.fusion import tokenized_match, boolean_match,numeric_tolerance_match,s
 import numpy as np
 import re, ast
 
+from pathlib import Path
+import pandas as pd
+from PyDI.io import load_parquet
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 25)
 pd.set_option('display.max_colwidth', 100)
@@ -47,6 +50,29 @@ metabooks_sample = load_parquet(
   DATA_DIR / "metabooks_sample.parquet",
   name="metabooks_sample"
 )
+
+import re
+
+def clean_text(t):
+  t = str(t).lower()
+  t = re.sub(r'<.*?>', '', t)
+  t = re.sub(r'[^a-z0-9\s]', '', t)
+  t = re.sub(r'\s+', ' ', t).strip()
+  return t
+
+amazon_sample['clean_title'] = amazon_sample['title'].apply(clean_text)
+goodreads_sample['clean_title'] = goodreads_sample['title'].apply(clean_text)
+metabooks_sample['clean_title'] = metabooks_sample['title'].apply(clean_text)
+# Clean Author
+amazon_sample["clean_author"] = amazon_sample["author"].apply(clean_text)
+goodreads_sample["clean_author"] = goodreads_sample["author"].apply(clean_text)
+metabooks_sample["clean_author"] = metabooks_sample["author"].apply(clean_text)
+#Clean Publisher
+amazon_sample["clean_publisher"] = amazon_sample["publisher"].apply(clean_text)
+metabooks_sample["clean_publisher"] = metabooks_sample["publisher"].apply(clean_text)
+goodreads_sample["clean_publisher"] = goodreads_sample["publisher"].apply(clean_text)
+
+from PyDI.io import load_csv
 
 train_m2a = load_csv(
     MLDS_DIR / "train_MA.csv",
@@ -84,10 +110,10 @@ from PyDI.entitymatching import EmbeddingBlocker
 
 embedding_blocker_m2a = EmbeddingBlocker(
     metabooks_sample, amazon_sample,
-    text_cols=['title', 'author'],
+    text_cols=['clean_title', 'clean_author','publish_year'],
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
-    top_k=20,
+    top_k=10,
     batch_size=200,
     output_dir=BLOCK_EVAL_DIR,
     id_column='id'
@@ -96,10 +122,10 @@ embedding_blocker_m2a = EmbeddingBlocker(
 
 embedding_blocker_m2g = EmbeddingBlocker(
     metabooks_sample, goodreads_sample,
-    text_cols=['title', 'author'],
+    text_cols=['clean_title', 'clean_author','publish_year'],
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
-    top_k=20,
+    top_k=10,
     batch_size=200,
     output_dir=BLOCK_EVAL_DIR,
     id_column='id'
@@ -109,35 +135,34 @@ embedding_candidates_m2a = embedding_blocker_m2a.materialize()
 embedding_candidates_m2g = embedding_blocker_m2g.materialize()
 
 from PyDI.entitymatching import StringComparator, NumericComparator
-
-comparators = [
-    StringComparator(column='title',similarity_function='cosine'),
-    StringComparator(column='title',tokenization="char",similarity_function='jaccard'),
-    StringComparator(column='title',similarity_function='jaro_winkler'),
-
-    StringComparator(column='author',similarity_function='cosine', ),
-    StringComparator(column='author',similarity_function='jaccard', ),
-
-
-    StringComparator(column='publisher',similarity_function='jaro_winkler', preprocess=str.lower),
-    StringComparator(column='publisher',similarity_function='cosine', preprocess=str.lower),
-    
-
-    NumericComparator(column='publish_year',max_difference=1.0),
-
-
-    NumericComparator(column="page_count", max_difference=10),
-]
-
 from PyDI.entitymatching import FeatureExtractor
 
-feature_extractor = FeatureExtractor(comparators)
+comparators_m2a = [
+    # Title similarity
+    StringComparator(column='clean_title',similarity_function='cosine'),
+    StringComparator(column='clean_title',similarity_function='jaro_winkler'),
+    
+    # author similarity
+    StringComparator(column='clean_author',similarity_function='cosine'),
+    StringComparator(column='clean_author',similarity_function='jaro_winkler'),
 
-train_features_m2a = feature_extractor.create_features(
+    StringComparator(column='clean_publisher',similarity_function='cosine'),
+    # publish year similarity
+    NumericComparator(column='publish_year',method="absolute_difference",max_difference=2)
+    ]
+comparators_m2g = comparators_m2a + [
+    NumericComparator(column="page_count", method="within_range", max_difference=10),
+]
+
+feature_extractor_m2a = FeatureExtractor(comparators_m2a)
+feature_extractor_m2g = FeatureExtractor(comparators_m2g)
+
+
+train_features_m2a = feature_extractor_m2a.create_features(
     metabooks_sample, amazon_sample, train_m2a[['id1', 'id2']], labels=train_m2a['label'], id_column='id'
 )
 
-train_features_m2g = feature_extractor.create_features(
+train_features_m2g = feature_extractor_m2g.create_features(
     metabooks_sample, goodreads_sample, train_m2g[['id1', 'id2']], labels=train_m2g['label'], id_column='id'
 )
 
@@ -151,6 +176,12 @@ y_train_m2g = train_features_m2g['label']
 
 training_datasets = [(X_train_m2a, y_train_m2a),(X_train_m2g, y_train_m2g)]
 
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import make_scorer, f1_score
+import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 # classifiers
 classifiers = {
@@ -188,10 +219,6 @@ param_grids = {
 scorer = make_scorer(f1_score)
 cv_folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-training_datasets = [
-    (X_train_m2a, y_train_m2a),
-    (X_train_m2g, y_train_m2g),
-]
 
 best_models = []  # one best model per dataset
 
@@ -234,26 +261,30 @@ for (X_train, y_train) in training_datasets:
     print(f"Best model for this dataset: {best_model_name} with F1={best_overall_score:.4f}")
     best_models.append(best_overall_model)
 
+from PyDI.entitymatching import MLBasedMatcher
 
 
-ml_matcher = MLBasedMatcher(feature_extractor)
+ml_matcher_m2a = MLBasedMatcher(feature_extractor_m2a)
+ml_matcher_m2g = MLBasedMatcher(feature_extractor_m2g)
 
-correspondences_m2a = ml_matcher.match(
+correspondences_m2a = ml_matcher_m2a.match(
     metabooks_sample, amazon_sample,
-    candidates=embedding_blocker_m2a,
+    candidates=embedding_candidates_m2a,
+    threshold=0.7,
     id_column='id',
-    trained_classifier=best_models[0],
+    trained_classifier=best_models[0]
 )
 
-correspondences_m2g = ml_matcher.match(
+correspondences_m2g = ml_matcher_m2g.match(
     metabooks_sample, goodreads_sample,
-    candidates=embedding_blocker_m2g,
+    candidates=embedding_candidates_m2g,
+    threshold=0.7,
     id_column='id',
     trained_classifier=best_models[1]
 )
 
-debug_output_dir = OUTPUT_DIR / "debug_results_entity_matching"
-debug_output_dir.mkdir(parents=True, exist_ok=True)
+
+from PyDI.entitymatching import MaximumBipartiteMatching, StableMatching
 
 # We are using Maxmimum Bipartite Matching to refine results to 1:1 matches
 clusterer = MaximumBipartiteMatching()
@@ -261,7 +292,8 @@ mbm_correspondences_m2a = clusterer.cluster(correspondences_m2a)
 mbm_correspondences_m2g = clusterer.cluster(correspondences_m2g)
 all_correspondences = pd.concat([mbm_correspondences_m2a, mbm_correspondences_m2g], ignore_index=True)
 
-
+from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
+import pandas as pd
 
 metabooks_sample.attrs["trust_score"] = 3
 goodreads_sample.attrs["trust_score"] = 2
@@ -275,7 +307,6 @@ strategy.add_attribute_fuser('publisher', prefer_higher_trust, trust_key="trust_
 strategy.add_attribute_fuser('language', prefer_higher_trust, trust_key="trust_score")
 strategy.add_attribute_fuser('price', prefer_higher_trust, trust_key="trust_score")
 strategy.add_attribute_fuser('page_count', prefer_higher_trust, trust_key="trust_score")
-strategy.add_attribute_fuser('numratings', prefer_higher_trust, trust_key="trust_score")
 strategy.add_attribute_fuser('genres',union)
 
 engine = DataFusionEngine(strategy, debug=True, debug_format='json',
@@ -289,6 +320,12 @@ fused_ml_emblocker = engine.run(
 )
 fused_ml_emblocker.to_parquet(PIPELINE_DIR / "fused_ml_emblocker.parquet")
 print(f'Fused rows: {len(fused_ml_emblocker):,}')
+
+
+from PyDI.fusion import tokenized_match,numeric_tolerance_match
+
+import numpy as np
+import re, ast, numpy as np, pandas as pd
 
 
 def categories_set_equal(a, b) -> bool:
@@ -319,7 +356,6 @@ strategy.add_evaluation_function("title", tokenized_match)
 strategy.add_evaluation_function("author", tokenized_match)
 strategy.add_evaluation_function("publisher", tokenized_match)
 strategy.add_evaluation_function("publish_year", numeric_tolerance_match)
-strategy.add_evaluation_function("numratings", numeric_tolerance_match)
 strategy.add_evaluation_function("price", numeric_tolerance_match)
 strategy.add_evaluation_function("page_count", numeric_tolerance_match)
 strategy.add_evaluation_function("language", tokenized_match)
@@ -328,8 +364,10 @@ strategy.add_evaluation_function("genres", categories_set_equal)
 fused_dataset = pd.read_parquet(PIPELINE_DIR / "fused_ml_emblocker.parquet")
 fused_dataset["publish_year"] = fused_dataset["publish_year"].astype("Int16")
 fused_dataset["page_count"] = fused_dataset["page_count"].astype("Int32")
-golden_fused_dataset= pd.read_parquet(MLDS_DIR / "golden_fused_books.parquet")
+golden_fused_dataset= pd.read_csv(MLDS_DIR / "golden_fused_books.csv")
 
+
+from PyDI.fusion import DataFusionEvaluator
 fused_dataset.drop_duplicates(subset='isbn_clean', keep='first',inplace=True)
 # Create evaluator with our fusion strategy
 evaluator = DataFusionEvaluator(strategy, debug=True, debug_file=OUTPUT_DIR / "data_fusion" / "debug_fusion_eval.jsonl", debug_format="json")
