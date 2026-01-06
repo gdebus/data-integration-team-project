@@ -5,22 +5,20 @@ import json
 from PyDI.io import load_xml
 from PyDI.fusion import (
     DataFusionStrategy,
-    DataFusionEvaluator,
     longest_string,
     union,
-    prefer_higher_trust,
 )
 from PyDI.fusion import (
+    DataFusionEvaluator,
     tokenized_match,
     year_only_match,
-    set_equality_match,
     numeric_tolerance_match,
+    set_equality_match,
 )
-import numpy as np
 
-# ----------------------------------------------------
-# Load fused output and gold standard test set
-# ----------------------------------------------------
+# --------------------------------
+# Load fused output and gold test set
+# --------------------------------
 
 fused = pd.read_csv("output/data_fusion/fusion_rb_standard_blocker.csv")
 
@@ -30,54 +28,55 @@ fusion_test_set = load_xml(
     nested_handling="aggregate",
 )
 
-# ----------------------------------------------------
+# --------------------------------
 # Recreate the fusion strategy used in the pipeline
-# ----------------------------------------------------
-
-trust_scores = {
-    "discogs": 0.9,
-    "musicbrainz": 0.85,
-    "lastfm": 0.7,
-}
+# --------------------------------
 
 strategy = DataFusionStrategy("music_release_fusion_strategy")
 
-# Helper fuser to prefer higher trust, then longest string
-def trusted_string_fuser(values, sources):
-    return prefer_higher_trust(values, sources, trust_scores, fallback=longest_string)
+# Attribute fusers (must match the integration pipeline)
 
-# String attributes (as in the pipeline)
-for attr in ["name", "artist", "label", "release-country", "release-date", "genre"]:
-    strategy.add_attribute_fuser(attr, trusted_string_fuser)
+# Titles & artist
+strategy.add_attribute_fuser("name", longest_string)
+strategy.add_attribute_fuser("artist", longest_string)
 
-# Duration fuser (trust-based numeric)
-def duration_fuser(values, sources):
-    numeric_vals = [v for v in values if pd.notna(v)]
-    if not numeric_vals:
-        return np.nan
-    return prefer_higher_trust(numeric_vals, sources, trust_scores)
+# Dates & countries
+strategy.add_attribute_fuser("release-date", longest_string)
+strategy.add_attribute_fuser("release-country", longest_string)
 
-strategy.add_attribute_fuser("duration", duration_fuser)
+# Duration and label
+strategy.add_attribute_fuser("duration", longest_string)
+strategy.add_attribute_fuser("label", longest_string)
 
-# Track-level attributes: union
-for attr in ["tracks_track_name", "tracks_track_position", "tracks_track_duration"]:
-    strategy.add_attribute_fuser(attr, union)
+# Genre: union
+strategy.add_attribute_fuser("genre", union)
 
-# ----------------------------------------------------
-# Add evaluation / comparison functions
-# ----------------------------------------------------
+# Track-level attributes
+strategy.add_attribute_fuser("tracks_track_name", longest_string)
+strategy.add_attribute_fuser("tracks_track_position", longest_string)
+strategy.add_attribute_fuser("tracks_track_duration", longest_string)
 
+# --------------------------------
+# Configure evaluation functions
+# --------------------------------
+
+# Token-based equality for string-like attributes
 strategy.add_evaluation_function("name", tokenized_match)
 strategy.add_evaluation_function("artist", tokenized_match)
-strategy.add_evaluation_function("duration", numeric_tolerance_match)
-strategy.add_evaluation_function("release-date", year_only_match)
 strategy.add_evaluation_function("release-country", tokenized_match)
 strategy.add_evaluation_function("label", tokenized_match)
+strategy.add_evaluation_function("genre", tokenized_match)
 strategy.add_evaluation_function("tracks_track_name", set_equality_match)
 
-# ----------------------------------------------------
+# Dates: compare only the year component
+strategy.add_evaluation_function("release-date", year_only_match)
+
+# Numeric tolerance for duration (seconds)
+strategy.add_evaluation_function("duration", numeric_tolerance_match)
+
+# --------------------------------
 # Run evaluation
-# ----------------------------------------------------
+# --------------------------------
 
 evaluator = DataFusionEvaluator(
     strategy,
@@ -88,20 +87,17 @@ evaluator = DataFusionEvaluator(
 
 evaluation_results = evaluator.evaluate(
     fused_df=fused,
-    fused_id_column="_id",  # ID column from fusion output
+    fused_id_column="_id",   # ID column in fused output
     gold_df=fusion_test_set,
-    gold_id_column="id",    # ID column in gold standard
+    gold_id_column="id",     # ID column in gold standard
 )
 
-# ----------------------------------------------------
-# Print structured evaluation metrics
-# ----------------------------------------------------
-
+# Print structured metrics to stdout
 print(json.dumps(evaluation_results, indent=4))
 
-# ----------------------------------------------------
-# Save evaluation output to JSON file (as required)
-# ----------------------------------------------------
+# --------------------------------
+# Write evaluation results to file (REQUIRED)
+# --------------------------------
 
 evaluation_output = "output/pipeline_evaluation/pipeline_evaluation.json"
 with open(evaluation_output, "w") as f:
