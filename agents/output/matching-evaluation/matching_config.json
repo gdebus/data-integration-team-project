@@ -9,45 +9,42 @@
       "comparators": [
         {
           "type": "string",
-          "column": "name",
-          "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "column": "artist",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
         },
         {
           "type": "string",
-          "column": "artist",
-          "similarity_function": "jaro_winkler",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "column": "name",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip"
         },
         {
           "type": "string",
           "column": "tracks_track_name",
-          "similarity_function": "cosine",
+          "similarity_function": "jaccard",
           "preprocess": "lower_strip",
           "list_strategy": "set_jaccard"
+        },
+        {
+          "type": "numeric",
+          "column": "duration",
+          "max_difference": 30.0
         }
       ],
       "weights": [
-        0.45,
         0.3,
-        0.25
+        0.35,
+        0.25,
+        0.1
       ],
-      "threshold": 0.75,
-      "f1": 0.6419753086419753
+      "threshold": 0.6,
+      "f1": 0.8247422680412371
     },
     "discogs_musicbrainz": {
       "comparators": [
         {
           "type": "string",
-          "column": "name",
-          "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
-        },
-        {
-          "type": "string",
           "column": "artist",
           "similarity_function": "jaro_winkler",
           "preprocess": "lower_strip",
@@ -55,8 +52,15 @@
         },
         {
           "type": "string",
-          "column": "tracks_track_name",
+          "column": "name",
           "similarity_function": "cosine",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "tracks_track_name",
+          "similarity_function": "jaccard",
           "preprocess": "lower_strip",
           "list_strategy": "set_jaccard"
         },
@@ -68,18 +72,18 @@
         {
           "type": "numeric",
           "column": "duration",
-          "max_difference": 30.0
+          "max_difference": 60.0
         }
       ],
       "weights": [
+        0.25,
         0.3,
         0.25,
-        0.25,
-        0.15,
-        0.05
+        0.1,
+        0.1
       ],
-      "threshold": 0.75,
-      "f1": 0.8270676691729323
+      "threshold": 0.78,
+      "f1": 0.8
     },
     "musicbrainz_lastfm": {
       "comparators": [
@@ -87,37 +91,35 @@
           "type": "string",
           "column": "artist",
           "similarity_function": "jaro_winkler",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "preprocess": "lower_strip"
         },
         {
           "type": "string",
           "column": "name",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "preprocess": "lower_strip"
         },
         {
           "type": "string",
           "column": "tracks_track_name",
-          "similarity_function": "cosine",
+          "similarity_function": "jaccard",
           "preprocess": "lower_strip",
           "list_strategy": "set_jaccard"
         },
         {
           "type": "numeric",
           "column": "duration",
-          "max_difference": 120.0
+          "max_difference": 300.0
         }
       ],
       "weights": [
         0.25,
         0.35,
-        0.25,
-        0.15
+        0.3,
+        0.1
       ],
-      "threshold": 0.68,
-      "f1": 0.6495726495726496
+      "threshold": 0.72,
+      "f1": 0.6722689075630253
     }
   }
 }

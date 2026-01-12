@@ -3,32 +3,32 @@
     "discogs_lastfm": {
       "strategy": "semantic_similarity",
       "columns": [
-        "name",
-        "artist"
+        "artist",
+        "name"
       ],
       "params": {
         "min_token_len": 4,
         "ngram_size": 4,
         "window": 15,
-        "top_k": 15
+        "top_k": 10
       },
       "pair_completeness": 0.9636363636363636,
-      "num_candidates": 338125
+      "num_candidates": 225643
     },
     "discogs_musicbrainz": {
       "strategy": "semantic_similarity",
       "columns": [
-        "name",
-        "artist"
+        "artist",
+        "name"
       ],
       "params": {
         "min_token_len": 4,
         "ngram_size": 4,
         "window": 15,
-        "top_k": 15
+        "top_k": 10
       },
       "pair_completeness": 0.9615384615384616,
-      "num_candidates": 335204
+      "num_candidates": 224256
     }
   },
   "id_columns": {
