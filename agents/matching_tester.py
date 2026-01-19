@@ -14,10 +14,14 @@ from PyDI.entitymatching import (
     SortedNeighbourhoodBlocker,
     EntityMatchingEvaluator,
     RuleBasedMatcher,
+    MLBasedMatcher,
+    FeatureExtractor,
     StringComparator,
     NumericComparator,
     DateComparator,
 )
+
+from sklearn.linear_model import LogisticRegression
 
 
 def load_dataset(path: str) -> pd.DataFrame:
@@ -53,9 +57,10 @@ class MatchingTester:
         blocking_config: Optional[Dict[str, Any]] = None,
         output_dir: str = "output/matching-evaluation",
         f1_threshold: float = 0.75,
-        max_attempts: int = 3,
+        max_attempts: int = 4,
         max_error_retries: int = 2,
         verbose: bool = True,
+        matcher_mode: str = "ml",
         previous_failures: Optional[List[Dict[str, Any]]] = None,
     ):
         self.llm = llm
@@ -67,6 +72,7 @@ class MatchingTester:
         self.evaluator = EntityMatchingEvaluator()
         self.results_history: List[Dict[str, Any]] = []
         self.previous_failures = previous_failures or []
+        self.matcher_mode = matcher_mode
 
         self.blocking_config = blocking_config or {}
         self.blocking_strategies = self.blocking_config.get("blocking_strategies", {})
@@ -432,6 +438,7 @@ class MatchingTester:
         self,
         analysis: Dict[str, Any],
         blocking_columns: List[str],
+        matcher_mode: str,
         previous_attempts: List[Dict[str, Any]] = None,
         last_error: str = None,
     ) -> Dict[str, Any]:
@@ -467,11 +474,14 @@ Guidance:
 - If blocking columns are provided, include at least one comparator using them unless they are clearly low quality.
 - Weights should be non-negative, sum to 1, and match the number of comparators.
 - Set threshold to balance precision/recall based on data quality (higher for strong identifiers, lower for noisy text).
+- If prior attempts fail or error, fall back to a simpler RuleBasedMatcher config.
+- If matcher_mode is ml, prefer fewer informative columns; more columns does not always improve results.
 """
 
         human_content = (
             f"Dataset pair: {analysis['left_dataset']} <-> {analysis['right_dataset']}\n"
             f"Blocking columns: {blocking_columns}\n"
+            f"Matcher mode: {matcher_mode}\n"
             f"Common columns: {analysis['common_columns']}\n"
             f"Column details: {json.dumps(analysis['column_details'], indent=2)}"
         )
@@ -541,6 +551,18 @@ Guidance:
                 comparators.append(StringComparator(**kwargs))
         return comparators
 
+    def _filter_ml_comparators(
+        self,
+        comparator_configs: List[Dict[str, Any]],
+        common_columns: List[str],
+        column_types: Dict[str, str],
+        blocking_columns: List[str],
+    ) -> List[Dict[str, Any]]:
+        filtered = [c for c in comparator_configs if c.get("column") in common_columns]
+        if not filtered:
+            filtered = self._default_comparators(common_columns, column_types, blocking_columns)
+        return filtered
+
     def _normalize_metrics(self, metrics: Any) -> Dict[str, Any]:
         if isinstance(metrics, dict):
             return metrics
@@ -609,6 +631,82 @@ Guidance:
         except Exception as e:
             return None, f"{type(e).__name__}: {str(e)}"
 
+    def _try_execute_ml_matcher(
+        self,
+        name_left: str,
+        name_right: str,
+        blocker,
+        id_column: str,
+        choice: Dict[str, Any],
+        gold: pd.DataFrame,
+    ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+        if "label" not in gold.columns:
+            return None, "ML matcher requires labeled pairs with both positive and negative examples"
+        gold = gold.dropna(subset=["label", "id1", "id2"]).copy()
+        if gold["label"].nunique() < 2:
+            return None, "ML matcher requires labeled pairs with both positive and negative examples"
+        try:
+            print("    [ML] Building comparators")
+            comparators = self._build_comparators(choice["comparators"])
+            print(f"    [ML] Comparators count: {len(comparators)}")
+            feature_extractor = FeatureExtractor(comparators)
+            print("    [ML] Creating features")
+            left_df = self.datasets_loaded[name_left]
+            right_df = self.datasets_loaded[name_right]
+            if id_column not in left_df.columns or id_column not in right_df.columns:
+                return None, f"ML matcher id column missing: {id_column}"
+            left_ids = set(left_df[id_column].dropna().tolist())
+            right_ids = set(right_df[id_column].dropna().tolist())
+            before_count = len(gold)
+            gold = gold[gold["id1"].isin(left_ids) & gold["id2"].isin(right_ids)].copy()
+            gold = gold.reset_index(drop=True)
+            print(f"    [ML] Gold pairs filtered: {before_count} -> {len(gold)}")
+            if gold.empty:
+                return None, "ML matcher has no gold pairs after ID filtering"
+            features = feature_extractor.create_features(
+                left_df,
+                right_df,
+                gold[["id1", "id2"]],
+                labels=gold["label"].reset_index(drop=True),
+                id_column=id_column,
+            )
+            print(f"    [ML] Feature rows: {len(features)}")
+            feature_cols = [c for c in features.columns if c not in ["id1", "id2", "label"]]
+            if not feature_cols:
+                return None, "ML matcher could not derive feature columns"
+            print(f"    [ML] Feature columns: {len(feature_cols)}")
+            X_train = features[feature_cols]
+            y_train = features["label"]
+            if y_train.nunique() < 2:
+                return None, "ML matcher needs at least two label classes"
+            print("    [ML] Training classifier")
+            classifier = LogisticRegression(random_state=42, max_iter=1000, class_weight="balanced")
+            classifier.fit(X_train, y_train)
+            ml_matcher = MLBasedMatcher(feature_extractor)
+            print("    [ML] Matching candidates")
+            correspondences = ml_matcher.match(
+                self.datasets_loaded[name_left],
+                self.datasets_loaded[name_right],
+                candidates=blocker,
+                id_column=id_column,
+                trained_classifier=classifier,
+            )
+            print(f"    [ML] Correspondences: {len(correspondences)}")
+            metrics = self.evaluator.evaluate_matching(
+                correspondences=correspondences,
+                test_pairs=gold,
+            )
+            print("    [ML] Evaluation complete")
+            metrics = self._normalize_metrics(metrics)
+            result = {
+                "precision": metrics.get("precision"),
+                "recall": metrics.get("recall"),
+                "f1": self._extract_f1(metrics),
+            }
+            return result, None
+        except Exception as e:
+            return None, f"{type(e).__name__}: {str(e)}"
+
     def run_pair_with_llm(self, name_left: str, name_right: str, id_column: str = None) -> Dict[str, Any]:
         pair_key = (name_left, name_right)
         reverse_key = (name_right, name_left)
@@ -633,23 +731,67 @@ Guidance:
             name_left, name_right, id_column, analysis["common_columns"], blocking_cfg
         )
 
+        matcher_mode = self.matcher_mode
+        if matcher_mode == "auto":
+            matcher_mode = "ml" if "label" in gold.columns and gold["label"].nunique() >= 2 else "rule_based"
+
         previous_attempts, best_result = [], None
 
         for attempt in range(1, self.max_attempts + 1):
             print(f"\n--- Attempt {attempt}/{self.max_attempts} ---")
-            choice = self._ask_llm_for_matcher(analysis, blocking_columns, previous_attempts if attempt > 1 else None)
-            print(f"Comparators: {[c['column'] for c in choice['comparators']]}")
+            choice = self._ask_llm_for_matcher(
+                analysis,
+                blocking_columns,
+                matcher_mode,
+                previous_attempts if attempt > 1 else None,
+            )
+            active_choice = choice
+            if matcher_mode == "ml":
+                active_choice = dict(choice)
+                active_choice["comparators"] = self._filter_ml_comparators(
+                    choice["comparators"],
+                    analysis["common_columns"],
+                    analysis["column_types"],
+                    blocking_columns,
+                )
+                if active_choice["comparators"] != choice["comparators"]:
+                    print(
+                        f"ML comparators filtered to: {[c['column'] for c in active_choice['comparators']]}"
+                    )
+            comparator_info = []
+            for comp in active_choice["comparators"]:
+                sim = comp.get("similarity_function") or comp.get("max_difference") or comp.get("max_days_difference")
+                comparator_info.append(f"{comp.get('column')}:{sim}")
+            print(f"Comparators: {comparator_info}")
+            if matcher_mode != "ml":
+                print(f"Weights: {choice['weights']}")
+            print(f"Threshold: {choice['threshold']}")
             print(f"    Reasoning: {choice['reasoning']}")
 
             last_error = None
             for error_retry in range(self.max_error_retries + 1):
                 if error_retry > 0:
                     print(f"    Retry {error_retry}: fixing error...")
-                    choice = self._ask_llm_for_matcher(analysis, blocking_columns, last_error=last_error)
+                    choice = self._ask_llm_for_matcher(
+                        analysis,
+                        blocking_columns,
+                        matcher_mode,
+                        last_error=last_error,
+                    )
 
-                metrics, error = self._try_execute_matcher(
-                    name_left, name_right, blocker, id_column, choice, gold
-                )
+                if matcher_mode == "ml":
+                    metrics, error = self._try_execute_ml_matcher(
+                        name_left, name_right, blocker, id_column, active_choice, gold
+                    )
+                    if error:
+                        print(f"    ML error: {error[:100]}... Falling back to RuleBasedMatcher.")
+                        matcher_mode = "rule_based"
+                        error = None
+                        continue
+                else:
+                    metrics, error = self._try_execute_matcher(
+                        name_left, name_right, blocker, id_column, active_choice, gold
+                    )
                 if error:
                     print(f"    ERROR: {error[:100]}...")
                     last_error = error
@@ -667,10 +809,11 @@ Guidance:
                 f1 = metrics.get("f1", 0.0)
                 result = {
                     "pair": f"{name_left}_{name_right}",
-                    "comparators": choice["comparators"],
+                    "comparators": active_choice["comparators"],
                     "weights": choice["weights"],
                     "threshold": choice["threshold"],
                     "reasoning": choice["reasoning"],
+                    "matcher_type": matcher_mode,
                     "blocking_strategy": blocking_cfg.get("strategy") if blocking_cfg else "fallback",
                     "blocking_columns": blocking_columns,
                     "attempt": attempt,

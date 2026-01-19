@@ -82,6 +82,7 @@ Available blocking strategies (ranked by computational cost):
    - Speed: ⚡⚡⚡⚡ SLOWEST (requires embedding computation)
    - Parameters: columns (1+ columns), top_k (INTEGER 10-100, default 20)
    - Best for: Semantic variations, different wording for same entity
+   - RECOMMENDATION: Use multiple informative columns (e.g., title + author + year) to improve PC
    - Candidate pairs: Controlled by top_k (predictable: left_size × top_k)
 
 COMPUTATIONAL GUIDELINES:
@@ -253,7 +254,10 @@ RULES:
 - For sorted_neighbourhood: use 1 column with natural ordering (dates, years, sortable names)
 - For token_blocking/ngram_blocking: only first column is used
 - If not used use semantic similarity as for your last attempt
-- Use semantic_similarity with top_k equal to 10 at all times.
+- Use semantic_similarity with top_k equal to 20 by default.
+- If candidate pairs are too many, reduce top_k to 15 or 10.
+- For semantic_similarity: prefer multiple informative columns when available (not just a single title/name)
+- STRICT: If PC threshold is not met after 4 attempts, use a final semantic_similarity attempt on 2–3 most informative columns.
 - min_token_len: INTEGER between 3-10 (only for token_blocking)
 - ngram_size: INTEGER between 3-6 (only for ngram_blocking)
 - window: INTEGER between 5-50 (only for sorted_neighbourhood)
@@ -439,7 +443,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                                               window=kwargs.get('window', 15), batch_size=1000, **common_params)
         elif blocker_type == 'embedding':
             return EmbeddingBlocker(df_left, df_right, text_cols=kwargs.get('text_cols', []), 
-                                   top_k=kwargs.get('top_k', 10), batch_size=1000, **common_params)
+                                   top_k=kwargs.get('top_k', 20), batch_size=1000, **common_params)
         elif blocker_type == 'token':
             return TokenBlocker(df_left, df_right, column=kwargs.get('column', 'name'), 
                                min_token_len=kwargs.get('min_token_len', 4), batch_size=1000, **common_params)
@@ -458,7 +462,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         if pc >= self.pc_threshold and num_candidates <= hard_limit:
             return True, "perfect"
         
-        if pc >= self.pc_threshold + 0.10 and num_candidates <= soft_limit:
+        if pc >= self.pc_threshold + 0.05 and num_candidates <= soft_limit:
             return True, "acceptable_with_tolerance"
         
         if num_candidates > soft_limit:
@@ -468,7 +472,13 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         else:
             return False, "low_pc"
     
-    def evaluate_blocker(self, blocker, gold_standard: pd.DataFrame, name: str = "blocker") -> Dict[str, Any]:
+    def evaluate_blocker(
+        self,
+        blocker,
+        gold_standard: pd.DataFrame,
+        name: str = "blocker",
+        allow_overflow: bool = False,
+    ) -> Dict[str, Any]:
         """Evaluate a blocker against ground truth."""
         candidates = blocker.materialize()
         num_candidates = len(candidates)
@@ -478,7 +488,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         
         hard_limit = int(self.max_candidates * (1 + self.candidate_tolerance))
         
-        if num_candidates > hard_limit:
+        if num_candidates > hard_limit and not allow_overflow:
             if self.verbose:
                 print(f"    ⛔ SKIPPING EVALUATION: {num_candidates:,} > {hard_limit:,} (hard limit)")
                 print(f"    💡 Try increasing min_token_len or ngram_size, or use a more selective column")
@@ -520,9 +530,77 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             print(f"    {status} PC={pc:.4f}, RR={rr:.4f}")
         
         return result
+
+    def _select_informative_columns(self, common_columns: List[str], column_details: Dict[str, Any]) -> List[str]:
+        """Pick 2–3 informative columns for semantic similarity fallback."""
+        if not common_columns:
+            return []
+
+        if self.llm is not None:
+            try:
+                system_prompt = (
+                    "You select the 2 or 3 most informative columns for semantic similarity blocking. "
+                    "Return ONLY a JSON list of column names."
+                )
+                human_content = (
+                    f"Common columns: {common_columns}\n"
+                    f"Column details: {json.dumps(column_details, indent=2)}\n"
+                    "Pick 2 or 3 columns that best identify entities."
+                )
+                response = self.llm.invoke(
+                    [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
+                )
+                raw = response.content if hasattr(response, "content") else str(response)
+                cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", raw.strip())
+                parsed = json.loads(cleaned)
+                if isinstance(parsed, list):
+                    picked = [c for c in parsed if c in common_columns]
+                    if 2 <= len(picked) <= 3:
+                        return picked
+            except Exception:
+                pass
+
+        keywords = ["title", "name", "artist", "author", "year", "date", "publish", "album", "track"]
+        scored = []
+        for col in common_columns:
+            score = 0
+            col_lower = col.lower()
+            for key in keywords:
+                if key in col_lower:
+                    score += 5
+            details = column_details.get(col, {})
+            try:
+                avg_tokens = float(details.get("avg_tokens", 0) or 0)
+            except (TypeError, ValueError):
+                avg_tokens = 0
+            score += min(avg_tokens, 5)
+            scored.append((score, col))
+        scored.sort(reverse=True)
+        picked = [col for _, col in scored[:3]]
+        return picked[:3]
+
+    def _strategy_params(self, strategy_choice: Dict[str, Any]) -> Dict[str, Any]:
+        """Return only the relevant params for the chosen strategy."""
+        strategy = strategy_choice.get("strategy")
+        if strategy == "token_blocking":
+            return {"min_token_len": strategy_choice.get("min_token_len")}
+        if strategy == "ngram_blocking":
+            return {"ngram_size": strategy_choice.get("ngram_size")}
+        if strategy == "sorted_neighbourhood":
+            return {"window": strategy_choice.get("window")}
+        if strategy == "semantic_similarity":
+            return {"top_k": strategy_choice.get("top_k")}
+        return {}
     
-    def _try_execute_strategy(self, strategy_choice: Dict, name_left: str, name_right: str, 
-                              gold: pd.DataFrame, id_column: str) -> Tuple[Optional[Dict], Optional[str]]:
+    def _try_execute_strategy(
+        self,
+        strategy_choice: Dict,
+        name_left: str,
+        name_right: str,
+        gold: pd.DataFrame,
+        id_column: str,
+        allow_overflow: bool = False,
+    ) -> Tuple[Optional[Dict], Optional[str]]:
         """Try to execute a blocking strategy."""
         config = self._strategy_to_config(strategy_choice)
         blocker_type = config.pop('type')
@@ -531,18 +609,18 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         try:
             blocker = self.create_blocker(name_left, name_right, blocker_type=blocker_type, 
                                          id_column=id_column, **config)
-            result = self.evaluate_blocker(blocker, gold, name=blocker_name)
+            result = self.evaluate_blocker(
+                blocker,
+                gold,
+                name=blocker_name,
+                allow_overflow=allow_overflow,
+            )
             result.update({
                 'pair': f"{name_left}_{name_right}", 
                 'strategy': strategy_choice['strategy'],
                 'columns': strategy_choice['columns'], 
                 'reasoning': strategy_choice['reasoning'],
-                'params': {
-                    'min_token_len': strategy_choice.get('min_token_len'),
-                    'ngram_size': strategy_choice.get('ngram_size'),
-                    'window': strategy_choice.get('window'),
-                    'top_k': strategy_choice.get('top_k')
-                }
+                'params': self._strategy_params(strategy_choice)
             })
             return result, None
         except Exception as e:
@@ -593,7 +671,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             
             strategy_choice = self._ask_llm_for_strategy(analysis, previous_attempts if attempt > 0 else None)
             print(f"LLM chose: {strategy_choice['strategy']} on {strategy_choice['columns']}")
-            print(f"  Params: min_token_len={strategy_choice['min_token_len']}, ngram_size={strategy_choice['ngram_size']}, window={strategy_choice['window']}, top_k={strategy_choice['top_k']}")
+            params = self._strategy_params(strategy_choice)
+            print(f"  Params: {params}")
             print(f"  Reasoning: {strategy_choice['reasoning'][:100]}...")
             
             error_retries = 0
@@ -620,12 +699,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 previous_attempts.append({
                     'strategy': strategy_choice['strategy'],
                     'columns': strategy_choice['columns'],
-                    'params': {
-                        'min_token_len': strategy_choice.get('min_token_len'),
-                        'ngram_size': strategy_choice.get('ngram_size'),
-                        'window': strategy_choice.get('window'),
-                        'top_k': strategy_choice.get('top_k')
-                    },
+                    'params': self._strategy_params(strategy_choice),
                     'error': True
                 })
                 continue
@@ -633,12 +707,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             previous_attempts.append({
                 'strategy': strategy_choice['strategy'],
                 'columns': strategy_choice['columns'],
-                'params': {
-                    'min_token_len': strategy_choice.get('min_token_len'),
-                    'ngram_size': strategy_choice.get('ngram_size'),
-                    'window': strategy_choice.get('window'),
-                    'top_k': strategy_choice.get('top_k')
-                },
+                'params': self._strategy_params(strategy_choice),
                 'pair_completeness': result.get('pair_completeness', 0),
                 'num_candidates': result.get('num_candidates', 0),
                 'error': False
@@ -662,7 +731,31 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 'num_candidates': 0,
                 'is_acceptable': False
             }
-        
+
+        if not best_result.get('is_acceptable', False):
+            fallback_cols = self._select_informative_columns(
+                analysis.get("common_columns", []),
+                analysis.get("column_details", {})
+            )
+            if fallback_cols:
+                print("⚠️ Forcing final semantic_similarity fallback with informative columns")
+                fallback_choice = {
+                    "strategy": "semantic_similarity",
+                    "columns": fallback_cols[:3],
+                    "top_k": 20,
+                    "reasoning": "forced fallback after 4 attempts"
+                }
+                fallback_result, _ = self._try_execute_strategy(
+                    fallback_choice,
+                    name_left,
+                    name_right,
+                    gold,
+                    id_column,
+                    allow_overflow=True,
+                )
+                if fallback_result:
+                    best_result = fallback_result
+
         self.results_history.append(best_result)
         return best_result
     
@@ -677,15 +770,15 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         for (name_left, name_right) in self.gold_standards.keys():
             result = self.run_pair_with_llm(name_left, name_right)
             all_results.append(result)
-            
-            if result.get('is_acceptable', False):
-                discovered_config["blocking_strategies"][f"{name_left}_{name_right}"] = {
-                    "strategy": result['strategy'],
-                    "columns": result['columns'],
-                    "params": result.get('params', {}),
-                    "pair_completeness": result.get('pair_completeness', 0),
-                    "num_candidates": result.get('num_candidates', 0)
-                }
+
+            discovered_config["blocking_strategies"][f"{name_left}_{name_right}"] = {
+                "strategy": result.get('strategy'),
+                "columns": result.get('columns', []),
+                "params": result.get('params', {}),
+                "pair_completeness": result.get('pair_completeness', 0),
+                "num_candidates": result.get('num_candidates', 0),
+                "is_acceptable": result.get('is_acceptable', False)
+            }
         
         for name, df in self.datasets_loaded.items():
             for col in df.columns:
