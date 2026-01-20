@@ -3,6 +3,8 @@
 
 datasets/*
 
+agents/output/*
+
 out_parquet/*
 
 .DS_Store
