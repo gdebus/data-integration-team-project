@@ -1,1 +1,0 @@
-{"column_mappings": [["id", "id"], ["name", "name"], ["artist", "artist"], ["release-date", "release-date"], ["release-country", "release-country"], ["duration", "duration"], ["label", null], ["genre", null], ["tracks_track_name", "tracks_track_name"], ["tracks_track_position", "tracks_track_position"], ["tracks_track_duration", "tracks_track_duration"]]}

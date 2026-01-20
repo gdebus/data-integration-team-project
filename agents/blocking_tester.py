@@ -1,6 +1,8 @@
 import json
+import math
 import os
 import re
+import statistics
 from typing import Dict, List, Tuple, Any, Optional
 
 import pandas as pd
@@ -137,6 +139,35 @@ class BlockingTester:
             if self.verbose:
                 print(f"[*] Loading gold standard for {pair[0]} <-> {pair[1]}")
             self.gold_standards[pair] = self._load_gold_standard(path)
+
+        self._set_adaptive_max_candidates()
+
+    def _set_adaptive_max_candidates(self) -> None:
+        """Set max_candidates using median-scaled pair size heuristic."""
+        r = 0.0035
+        pair_sizes = []
+        for name_left, name_right in self.gold_standards.keys():
+            if name_left not in self.datasets_loaded or name_right not in self.datasets_loaded:
+                continue
+            left_size = len(self.datasets_loaded[name_left])
+            right_size = len(self.datasets_loaded[name_right])
+            pair_sizes.append(left_size * right_size)
+
+        if not pair_sizes:
+            return
+
+        median_pairs = statistics.median(pair_sizes)
+        base = math.ceil(median_pairs * r)
+        scaled = [math.ceil(base * math.sqrt(size / median_pairs)) for size in pair_sizes]
+        adaptive_max = max(scaled)
+
+        if self.verbose:
+            print(
+                f"[*] Adaptive max_candidates set to {adaptive_max:,} "
+                f"(r={r:.2%}, median_pairs={int(median_pairs):,})"
+            )
+
+        self.max_candidates = adaptive_max
     
     def _load_gold_standard(self, path: str) -> pd.DataFrame:
         """Load and prepare gold standard CSV."""
@@ -189,8 +220,8 @@ class BlockingTester:
         for col in common_cols:
             left_col, right_col = df_left[col], df_right[col]
             try:
-                sample_left = [str(x)[:50] for x in left_col.dropna().head(2).tolist()]
-                sample_right = [str(x)[:50] for x in right_col.dropna().head(2).tolist()]
+                sample_left = [str(x)[:50] for x in left_col.dropna().head(5).tolist()]
+                sample_right = [str(x)[:50] for x in right_col.dropna().head(5).tolist()]
                 avg_tokens = 0
                 if left_col.dtype == 'object':
                     avg_tokens = left_col.dropna().head(100).apply(lambda x: len(str(x).split())).mean()
@@ -213,7 +244,10 @@ class BlockingTester:
                 "unique_left": unique_left,
                 "unique_right": unique_right,
                 "avg_tokens": round(avg_tokens, 1),
-                "samples": sample_left[:1] + sample_right[:1]
+                "samples": {
+                    "left": sample_left,
+                    "right": sample_right
+                }
             }
         
         return {
@@ -540,11 +574,12 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             try:
                 system_prompt = (
                     "You select the 2 or 3 most informative columns for semantic similarity blocking. "
-                    "Return ONLY a JSON list of column names."
+                    "Return ONLY a JSON list of column names. Too many columns does not mean higher PC."
                 )
                 human_content = (
                     f"Common columns: {common_columns}\n"
                     f"Column details: {json.dumps(column_details, indent=2)}\n"
+                    "Use column names and sample values (from column_details) to choose.\n"
                     "Pick 2 or 3 columns that best identify entities."
                 )
                 response = self.llm.invoke(
@@ -754,7 +789,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                     allow_overflow=True,
                 )
                 if fallback_result:
-                    best_result = fallback_result
+                    if fallback_result.get('pair_completeness', 0) >= best_result.get('pair_completeness', 0):
+                        best_result = fallback_result
 
         self.results_history.append(best_result)
         return best_result

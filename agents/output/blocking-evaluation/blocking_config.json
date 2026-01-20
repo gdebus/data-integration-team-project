@@ -1,34 +1,42 @@
 {
   "blocking_strategies": {
     "discogs_lastfm": {
-      "strategy": "semantic_similarity",
+      "strategy": "token_blocking",
       "columns": [
-        "artist",
-        "name"
+        "artist"
       ],
       "params": {
-        "min_token_len": 4,
-        "ngram_size": 4,
-        "window": 15,
-        "top_k": 10
+        "min_token_len": 5
       },
-      "pair_completeness": 0.9636363636363636,
-      "num_candidates": 225643
+      "pair_completeness": 0.8545454545454545,
+      "num_candidates": 143818,
+      "is_acceptable": false
     },
     "discogs_musicbrainz": {
       "strategy": "semantic_similarity",
       "columns": [
+        "name",
         "artist",
+        "release-date"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 0.9487179487179487,
+      "num_candidates": 450205,
+      "is_acceptable": true
+    },
+    "musicbrainz_lastfm": {
+      "strategy": "token_blocking",
+      "columns": [
         "name"
       ],
       "params": {
-        "min_token_len": 4,
-        "ngram_size": 4,
-        "window": 15,
-        "top_k": 10
+        "min_token_len": 5
       },
-      "pair_completeness": 0.9615384615384616,
-      "num_candidates": 224256
+      "pair_completeness": 0.8987341772151899,
+      "num_candidates": 451805,
+      "is_acceptable": false
     }
   },
   "id_columns": {
