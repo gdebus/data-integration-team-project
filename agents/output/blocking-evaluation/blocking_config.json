@@ -1,15 +1,17 @@
 {
   "blocking_strategies": {
     "discogs_lastfm": {
-      "strategy": "token_blocking",
+      "strategy": "semantic_similarity",
       "columns": [
-        "artist"
+        "artist",
+        "name",
+        "tracks_track_name"
       ],
       "params": {
-        "min_token_len": 5
+        "top_k": 20
       },
-      "pair_completeness": 0.8545454545454545,
-      "num_candidates": 143818,
+      "pair_completeness": 0.7090909090909091,
+      "num_candidates": 451918,
       "is_acceptable": false
     },
     "discogs_musicbrainz": {
@@ -32,11 +34,11 @@
         "name"
       ],
       "params": {
-        "min_token_len": 5
+        "min_token_len": 4
       },
-      "pair_completeness": 0.8987341772151899,
-      "num_candidates": 451805,
-      "is_acceptable": false
+      "pair_completeness": 0.9113924050632911,
+      "num_candidates": 505108,
+      "is_acceptable": true
     }
   },
   "id_columns": {

@@ -96,37 +96,44 @@ good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 # --------------------------------
 # Perform Entity Matching
 # CRITICAL INSTRUCTION FOR AGENTS:
-# 1. Employ the Embedding blocker per default. 
-# 2. If the number of rows in one of the datasets is larger than 20k use StandardBlocker.
-# 3. VERY IMPORTANT: For comparators use only columns that exist in all datasets
+# You MUST use the blocking configuration provided to you under "5. **BLOCKING CONFIGURATION**"
 # --------------------------------
 
 print("Performing Blocking")
 
-# Embedding blocker:
+# Embedding blocker example:
 #embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
 #    good_dataset_name_1, good_dataset_name_2, # name of the datasets
 #    text_cols=['city'], # column which should be used to perform the blocking on
 #    model="sentence-transformers/all-MiniLM-L6-v2",
 #    index_backend="sklearn",
 #    top_k=20,          # Top 20 most similar
-#    batch_size=500,
+#    batch_size=1000,
 #    output_dir="output/blocking-evaluation",
 #    id_column='id'
 #)
 
-#embedding_blocker_dataset1_2_dataset3 = EmbeddingBlocker(
-#    good_dataset_name_1, good_dataset_name_3, # name of the datasets
-#    text_cols=['city'], # column which should be used to perform the blocking on
-#    model="sentence-transformers/all-MiniLM-L6-v2",
-#    index_backend="sklearn",
-#    top_k=20,          # Top 20 most similar
-#    batch_size=500,
-#    output_dir="output/blocking-evaluation",
-#    id_column='id'
+# Sorted NeighbourhoodBlocker example
+#blocker = SortedNeighbourhoodBlocker(
+#    df_left, df_right,
+#    key="name",
+#    window=20,
+#    id_column="id",
+#    output_dir="output/blocking"
 #)
 
-# Standard blocker:
+# TokenBlocker example
+#blocker = TokenBlocker(
+#    df_left, df_right,
+#    column="name",
+#    min_token_len=3,
+#    ngram_size=2,
+#    ngram_type="word",
+#    id_column="id",
+#    output_dir="output/blocking"
+#)
+
+# Standard blocker example:
 blocker_k2u = StandardBlocker(
     good_dataset_name_1, good_dataset_name_2,
     on=['city'],
@@ -143,8 +150,79 @@ blocker_k2y = StandardBlocker(
     id_column='id'
 )
 
-# define comparators
-comparators = [
+blocker_u2y = StandardBlocker(
+    good_dataset_name_2, good_dataset_name_3,
+    on=['city'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
+
+# --------------------------------
+# CRITICAL INSTRUCTION FOR AGENTS:
+# You MUST use the matching configuration supplied to you under "6. **MATCHING CONFIGURATION**" to set the correct comparators in the following.
+# --------------------------------
+comparators_k2u = [
+    # Name similarity
+    StringComparator(
+        column='name_norm',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
+    # street name similarity
+    StringComparator(
+        column='street',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # house number similarity
+    NumericComparator(
+        column='house_number',
+        max_difference=2,
+    ),
+
+    # category similarity
+    StringComparator(
+        column='categories',
+        similarity_function='jaccard',
+        preprocess=str.lower,
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+comparators_k2y = [
+    # Name similarity
+    StringComparator(
+        column='name_norm',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
+    # street name similarity
+    StringComparator(
+        column='street',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # house number similarity
+    NumericComparator(
+        column='house_number',
+        max_difference=2,
+    ),
+
+    # category similarity
+    StringComparator(
+        column='categories',
+        similarity_function='jaccard',
+        preprocess=str.lower,
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+comparators_u2y = [
     # Name similarity
     StringComparator(
         column='name_norm',
@@ -182,8 +260,8 @@ matcher = RuleBasedMatcher()
 rb_correspondences_k2u = matcher.match(
     df_left=good_dataset_name_1,
     df_right=good_dataset_name_2, 
-    candidates=embedding_blocker_dataset1_2_dataset2,
-    comparators=comparators,
+    candidates=blocker_k2u,
+    comparators=comparators_k2u,
     weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense
     threshold=0.7,
     id_column='id'
@@ -192,8 +270,18 @@ rb_correspondences_k2u = matcher.match(
 rb_correspondences_k2y = matcher.match(
     df_left=good_dataset_name_1,
     df_right=good_dataset_name_3, 
-    candidates=embedding_blocker_dataset1_2_dataset3,
-    comparators=comparators,
+    candidates=blocker_k2y,
+    comparators=comparators_k2y,
+    weights=[0.5, 0.2, 0.2, 0.1],  
+    threshold=0.7,
+    id_column='id'
+)
+
+rb_correspondences_u2y = matcher.match(
+    df_left=good_dataset_name_2,
+    df_right=good_dataset_name_3, 
+    candidates=blocker_u2y,
+    comparators=comparators_u2y,
     weights=[0.5, 0.2, 0.2, 0.1],  
     threshold=0.7,
     id_column='id'
@@ -211,10 +299,10 @@ print("Fusing Data")
 # --------------------------------
 
 # merge rule based correspondences
-all_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y], ignore_index=True)
+all_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y, rb_correspondences_u2y], ignore_index=True)
 
 # define data fusion strategy
-strategy = DataFusionStrategy('usa_restaurant_fusion_strategy')
+strategy = DataFusionStrategy('rule_based_fusion_strategy')
 
 strategy.add_attribute_fuser('name', longest_string)
 strategy.add_attribute_fuser('street', longest_string)

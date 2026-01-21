@@ -105,76 +105,70 @@ good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 # --------------------------------
 # Perform Entity Matching
 # CRITICAL INSTRUCTION FOR AGENTS:
-# 1. Employ the Embedding blocker per default. 
-# 2. If the number of rows in one of the datasets is larger than 20k use StandardBlocker.
-# 3. VERY IMPORTANT: For comparators use only columns that exist in all datasets
+# You MUST use the blocking configuration provided to you under "5. **BLOCKING CONFIGURATION**"
 # --------------------------------
 
 print("Performing Blocking")
 
-# Embedding blocker (optional):
+# Embedding blocker example:
 #embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
+#    good_dataset_name_1, good_dataset_name_2, # name of the datasets
+#    text_cols=['city'], # column which should be used to perform the blocking on
+#    model="sentence-transformers/all-MiniLM-L6-v2",
+#    index_backend="sklearn",
+#    top_k=20,          # Top 20 most similar
+#    batch_size=1000,
+#    output_dir="output/blocking-evaluation",
+#    id_column='id'
+#)
+
+# Standard blocker example:
+#blocker_1_2 = StandardBlocker(
 #    good_dataset_name_1, good_dataset_name_2,
-#    text_cols=['city'],
-#    model="sentence-transformers/all-MiniLM-L6-v2",
-#    index_backend="sklearn",
-#    top_k=20,
-#    batch_size=500,
+#    on=['city'],
+#    batch_size=1000,
 #    output_dir="output/blocking-evaluation",
 #    id_column='id'
 #)
 
-#embedding_blocker_dataset1_2_dataset3 = EmbeddingBlocker(
+# TokenBlocker example
+#blocker_1_3 = TokenBlocker(
 #    good_dataset_name_1, good_dataset_name_3,
-#    text_cols=['city'],
-#    model="sentence-transformers/all-MiniLM-L6-v2",
-#    index_backend="sklearn",
-#    top_k=20,
-#    batch_size=500,
-#    output_dir="output/blocking-evaluation",
-#    id_column='id'
+#    column="name",
+#    min_token_len=3,
+#    ngram_size=2,
+#    ngram_type="word",
+#    id_column="id",
+#    output_dir="output/blocking"
 #)
 
-# Standard blocker:
-blocker_1_2 = StandardBlocker(
-    good_dataset_name_1, good_dataset_name_2,
-    on=['city'],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column='id'
-)
+# Sorted NeighbourhoodBlocker example
+#blocker = SortedNeighbourhoodBlocker(
+#    good_dataset_name_2, good_dataset_name_3,
+#    key="name",
+#    window=20,
+#    id_column="id",
+#    output_dir="output/blocking"
+#)
 
-blocker_1_3 = StandardBlocker(
-    good_dataset_name_1, good_dataset_name_3,
-    on=['city'],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column='id'
-)
-
-blocker_2_3 = StandardBlocker(
-    good_dataset_name_2, good_dataset_name_3,
-    on=['city'],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column='id'
-)
 
 # --------------------------------
-# Feature Extraction (ML-based matching)
+# CRITICAL INSTRUCTION FOR AGENTS:
+# You MUST use the matching configuration supplied to you under "6. **MATCHING CONFIGURATION**" to set the correct comparators in the following.
 # --------------------------------
 
-similarity_comparators = [
-    # Name similarity features
-    StringComparator("name_norm", similarity_function="jaro_winkler", preprocess=str.lower),
-    StringComparator("name_norm", similarity_function="levenshtein", preprocess=str.lower),
-    StringComparator("name_norm", similarity_function="cosine", preprocess=str.lower),
-    StringComparator("name_norm", similarity_function="jaccard", preprocess=str.lower),
-
+comparators_1_2 = [
+    # Name similarity
+    StringComparator(
+        column='name_norm',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
     # street name similarity
     StringComparator(
         column='street',
-        similarity_function='jaccard',
+        similarity_function='jaccard', 
         preprocess=str.lower,
     ),
 
@@ -189,54 +183,107 @@ similarity_comparators = [
         column='categories',
         similarity_function='jaccard',
         preprocess=str.lower,
-        list_strategy='concatenate'
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+comparators_1_3 = [
+    # Name similarity
+    StringComparator(
+        column='name_norm',
+        similarity_function='jaccard', 
+        # no preprocessing needed
     ),
+    
+    # street name similarity
+    StringComparator(
+        column='street',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # house number similarity
+    NumericComparator(
+        column='house_number',
+        max_difference=2,
+    ),
+
+    # category similarity
     StringComparator(
         column='categories',
         similarity_function='jaccard',
         preprocess=str.lower,
-        list_strategy='best_match'
+        list_strategy='concatenate' # Handle list attribute by concatenation
     )
 ]
 
-feature_extractor = FeatureExtractor(similarity_comparators)
+comparators_2_3 = [
+    # Name similarity
+    StringComparator(
+        column='name_norm',
+        similarity_function='jaccard', 
+        # no preprocessing needed
+    ),
+    
+    # street name similarity
+    StringComparator(
+        column='street',
+        similarity_function='jaccard', 
+        preprocess=str.lower,
+    ),
+
+    # house number similarity
+    NumericComparator(
+        column='house_number',
+        max_difference=2,
+    ),
+
+    # category similarity
+    StringComparator(
+        column='categories',
+        similarity_function='jaccard',
+        preprocess=str.lower,
+        list_strategy='concatenate' # Handle list attribute by concatenation
+    )
+]
+
+feature_extractor_1_2 = FeatureExtractor(comparators_1_2)
+feature_extractor_1_3 = FeatureExtractor(comparators_1_3)
+feature_extractor_2_3 = FeatureExtractor(comparators_2_3)
 
 # Load ground truth correspondences (ML training/test)
+# use the entity matching testsets provided to you
+# dataset1 <-> dataset2 training/test pairs
 train_1_2 = load_csv(
-    "ml-datasets/<ground_truth_df1_df2_train.csv>",
+    "testsets/usecase/<ground_truth_df1_df2_train.csv>",
     name="ground_truth_df1_df2_train",
-    header=None,
-    names=['id1', 'id2', 'label'],
     add_index=False
 )
 
+# dataset1 <-> dataset3 training/test pairs
 train_1_3 = load_csv(
-    "ml-datasets/<ground_truth_df1_df3_train.csv>",
+    "testsets/usecase/<ground_truth_df1_df3_train.csv>",
     name="ground_truth_df1_df3_train",
-    header=None,
-    names=['id1', 'id2', 'label'],
     add_index=False
 )
 
 # dataset2 <-> dataset3 training/test pairs
 train_2_3 = load_csv(
-    "ml-datasets/<ground_truth_df2_df3_train.csv>",
+    "testsets/usecase/<ground_truth_df2_df3_train.csv>",
     name="ground_truth_df2_df3_train",
-    header=None,
-    names=['id1', 'id2', 'label'],
     add_index=False
 )
 
 # Extract features
-train_1_2_features = feature_extractor.create_features(
+train_1_2_features = feature_extractor_1_2.create_features(
     good_dataset_name_1, good_dataset_name_2, train_1_2[['id1', 'id2']], labels=train_1_2['label'], id_column='id'
 )
 
-train_1_3_features = feature_extractor.create_features(
+train_1_3_features = feature_extractor_1_3.create_features(
     good_dataset_name_1, good_dataset_name_3, train_1_3[['id1', 'id2']], labels=train_1_3['label'], id_column='id'
 )
 
-train_2_3_features = feature_extractor.create_features(
+train_2_3_features = feature_extractor_2_3.create_features(
     good_dataset_name_2, good_dataset_name_3, train_2_3[['id1', 'id2']], labels=train_2_3['label'], id_column='id'
 )
 
@@ -322,17 +369,25 @@ for dataset in training_datasets:
 
 print("Matching Entities")
 
-ml_matcher = MLBasedMatcher(feature_extractor)
+# --------------------------------
+# CRITICAL INSTRUCTION FOR AGENTS:
+# the order of good_dataset_name_<num1> and good_dataset_name_<num2> in ml_correspondences_<num1>_<num2> is very important because it must correspond
+# to the order of columns within the testsets. The order of columns within the testset is indicated by the filename of the testset file.
+# --------------------------------
 
-ml_correspondences_1_2 = ml_matcher.match(
+ml_matcher_1_2 = MLBasedMatcher(feature_extractor_1_2)
+ml_matcher_1_3 = MLBasedMatcher(feature_extractor_1_3)
+ml_matcher_2_3 = MLBasedMatcher(feature_extractor_2_3)
+
+ml_correspondences_1_2 = ml_matcher_1_2.match(
     good_dataset_name_1, good_dataset_name_2, candidates=blocker_1_2, id_column='id', trained_classifier=best_models[0]
 )
 
-ml_correspondences_1_3 = ml_matcher.match(
+ml_correspondences_1_3 = ml_matcher_1_2.match(
     good_dataset_name_1, good_dataset_name_3, candidates=blocker_1_3, id_column='id', trained_classifier=best_models[1]
 )
 
-ml_correspondences_2_3 = ml_matcher.match(
+ml_correspondences_2_3 = ml_matcher_2_3.match(
     good_dataset_name_2, good_dataset_name_3, candidates=blocker_2_3, id_column='id', trained_classifier=best_models[2]
 )
 
