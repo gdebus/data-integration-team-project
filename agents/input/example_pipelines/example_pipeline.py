@@ -94,9 +94,8 @@ rename_map = (
 good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 
 # --------------------------------
-# Perform Entity Matching
 # CRITICAL INSTRUCTION FOR AGENTS:
-# You MUST use the blocking configuration provided to you under "5. **BLOCKING CONFIGURATION**"
+# YOU MUST!!! USE THE PRECOMPUTED BLOCKERS PROVIEDED TO YOU UNDER "5. **BLOCKING CONFIGURATION**"!
 # --------------------------------
 
 print("Performing Blocking")

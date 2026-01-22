@@ -103,53 +103,53 @@ rename_map = (
 good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 
 # --------------------------------
-# Perform Entity Matching
 # CRITICAL INSTRUCTION FOR AGENTS:
-# You MUST use the blocking configuration provided to you under "5. **BLOCKING CONFIGURATION**"
+# YOU MUST USE THE PROCOMPUTED BLOCKER TYPES AND PARAMETER SETTINGS PROVIDED TO YOU LATER IN JSON UNDER "5. **BLOCKING CONFIGURATION**"!
+# In the following are only implementation EXAMPLES (NOT THE PROCOMPUTED BLOCKER TYPES). YOU MUST USE THE PROCOMPUTED BLOCKER TYPES AND PARAMETER SETTINGS WHICH ARE PROVIDED TO YOU LATER IN THIS PROMT IN JSON
 # --------------------------------
 
 print("Performing Blocking")
 
-# Embedding blocker example:
-#embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
-#    good_dataset_name_1, good_dataset_name_2, # name of the datasets
-#    text_cols=['city'], # column which should be used to perform the blocking on
-#    model="sentence-transformers/all-MiniLM-L6-v2",
-#    index_backend="sklearn",
-#    top_k=20,          # Top 20 most similar
-#    batch_size=1000,
-#    output_dir="output/blocking-evaluation",
-#    id_column='id'
-#)
+# Embedding blocker (semantic_similarity) example:
+embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
+    good_dataset_name_1, good_dataset_name_2, # name of the datasets
+    text_cols=['city'], # column which should be used to perform the blocking on
+    model="sentence-transformers/all-MiniLM-L6-v2",
+    index_backend="sklearn",
+    top_k=20,          # Top 20 most similar
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
 
 # Standard blocker example:
-#blocker_1_2 = StandardBlocker(
-#    good_dataset_name_1, good_dataset_name_2,
-#    on=['city'],
-#    batch_size=1000,
-#    output_dir="output/blocking-evaluation",
-#    id_column='id'
-#)
+blocker_1_2 = StandardBlocker(
+    good_dataset_name_1, good_dataset_name_2,
+    on=['city'],
+    batch_size=1000,
+    output_dir="output/blocking-evaluation",
+    id_column='id'
+)
 
-# TokenBlocker example
-#blocker_1_3 = TokenBlocker(
-#    good_dataset_name_1, good_dataset_name_3,
-#    column="name",
-#    min_token_len=3,
-#    ngram_size=2,
-#    ngram_type="word",
-#    id_column="id",
-#    output_dir="output/blocking"
-#)
+# TokenBlocker example (token_blocking)
+blocker_1_3 = TokenBlocker(
+    good_dataset_name_1, good_dataset_name_3,
+    column="name",
+    min_token_len=3,
+    ngram_size=2,
+    ngram_type="word",
+    id_column="id",
+    output_dir="output/blocking"
+)
 
 # Sorted NeighbourhoodBlocker example
-#blocker = SortedNeighbourhoodBlocker(
-#    good_dataset_name_2, good_dataset_name_3,
-#    key="name",
-#    window=20,
-#    id_column="id",
-#    output_dir="output/blocking"
-#)
+blocker = SortedNeighbourhoodBlocker(
+    good_dataset_name_2, good_dataset_name_3,
+    key="name",
+    window=20,
+    id_column="id",
+    output_dir="output/blocking"
+)
 
 
 # --------------------------------
@@ -320,7 +320,7 @@ param_grids = {
         'model': LogisticRegression(random_state=42, max_iter=1000),
         'params': {
             'C': [0.1, 1.0, 10.0],
-            'penalty': ['l2'],
+            'l1_ratio': [0],
             'class_weight': ['balanced', None]
         }
     },
@@ -423,7 +423,7 @@ strategy.add_attribute_fuser('longitude', longest_string)
 strategy.add_attribute_fuser('categories', union)
 
 # run fusion
-engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_ml_standard_blocker.jsonl")
+engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")
 
 ml_fused_standard_blocker = engine.run(
     datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
@@ -433,4 +433,4 @@ ml_fused_standard_blocker = engine.run(
 )
 
 # write output
-ml_fused_standard_blocker.to_csv("output/data_fusion/fusion_ml_standard_blocker.csv", index=False)
+ml_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
