@@ -1,0 +1,255 @@
+id_a,id_b,name_a,name_b,artist_a,artist_b,release-date_a,release-country_a,duration_a,duration_b,tracks_a,tracks_b,score,bucket,label,block_key,sim_name,sim_artist,sim_duration
+mbrainz_5030,lastFM_10450,The Execution of All Things,The Execution  All Things,Rilo Kiley,Rilo Kiley,2002-10-01,United States of America,2846,2204.0,"
+			","
+			",0.8523,high,0,classics,0.8,1.0,0.7744202389318342
+mbrainz_22973,lastFM_58292,Cult of the Purple Sun,Wolf Omega -  Cult of the Purple Sun,Wolf Omega,Wolf Omega,2014-05-01,,1005,1005.0,"
+			","
+			",0.85,high,0,broken,0.625,1.0,1.0
+mbrainz_10889,lastFM_23319,Candy Apple Daydreams, Apple Daydreams,Hyperbubble,Hyperbubble,2010-01-01,United States of America,1834,1828.0,"
+			","
+			",0.8657,high,0,volume,0.6666666666666666,1.0,0.9967284623773174
+mbrainz_2190,lastFM_4750,Chrome Babies,Chrome Babies,Apoll,Apoll,2005-01-01,Switzerland,0,350.0,"
+			","
+			",0.7,mid,1,blue,1.0,1.0,0.0
+mbrainz_17543,lastFM_41616,Hints of Innuendo,Hints of Innuendo,Queen,Queen,1991-01-07,United States of America,1018,2761.0,"
+			","
+			",0.8106,mid,1,volume,1.0,1.0,0.3687069902209344
+mbrainz_82,lastFM_108,Classics 2,Classics ,Ten City,Ten City,2001-01-01,United States of America,1167,934.0,"
+			","
+			",0.7401,mid,0,classics,0.5,1.0,0.8003427592116539
+mbrainz_26628,lastFM_66759,The Photo Album (orig.), Photo Album,Wordsworth,Wordsworth,2012-06-12,United States of America,3759,3759.0,"
+			","
+			",0.8,mid,1,classics,0.5,1.0,1.0
+mbrainz_13330,lastFM_28795,Replica,Replica,Afrojack,Afrojack,2010-12-07,Netherlands,450,0.0,"
+			",,0.7,mid,1,volume,1.0,1.0,0.0
+mbrainz_13645,lastFM_29580,Until We Surrender,Until  Surrender,Heartsounds,HeartSounds,2010-06-15,United States of America,2388,1497.0,"
+			","
+			",0.7547,mid,1,future,0.6666666666666666,1.0,0.6268844221105527
+mbrainz_9567,lastFM_7844,She Comes in Colors,Comes in Colours,Love,Love,2005-01-01,United Kingdom of Great Britain and Northern Ireland,2932,3379.0,"
+			","
+			",0.7203,mid,0,volume,0.4,1.0,0.8677123409292691
+mbrainz_28750,lastFM_71867,The Confessions Tour (album),The Confessions ,Madonna,Madonna,2007-01-29,United Kingdom of Great Britain and Northern Ireland,5082,3927.0,"
+			","
+			",0.7318,mid,0,volume,0.5,1.0,0.7727272727272727
+mbrainz_221,lastFM_385,Bang Bang You're Mine,Bang Bang You're Mine,Bang the Party,Bang The Party,1989-01-01,United Kingdom of Great Britain and Northern Ireland,1408,,"
+			",,0.7,mid,1,future,1.0,1.0,0.0
+mbrainz_22860,lastFM_57992,Grinderman,Album: Grinderman,Grinderman,Grinderman,2007-03-05,United Kingdom of Great Britain and Northern Ireland,2398,2899.0,"
+			","
+			",0.7482,mid,1,,0.5,1.0,0.8271817868230424
+mbrainz_17820,lastFM_42755,Standing Ovation: The Greatest Songs from the Stage,Standing Ovation: The Greatest Songs From The Stage,"Boyle, Susan",S. Boyle,2012-11-19,United Kingdom of Great Britain and Northern Ireland,2617,2617.0,"
+			","
+			",0.7,mid,1,blue,1.0,0.0,1.0
+mbrainz_8534,lastFM_18215,The First Days of Spring,Noah and the Whale -  The First Days Of Spring,Noah and the Whale,Noah and the Whale,2009-10-06,United States of America,2568,2145.0,"
+			","
+			",0.7728,mid,1,classics,0.5555555555555556,1.0,0.8352803738317757
+mbrainz_5717,lastFM_12062,Supermodels (album),Supermodels,Peter and the Test Tube Babies,Peter and the Test Tube Babies,2002-01-01,United Kingdom of Great Britain and Northern Ireland,2451,2449.0,"
+			","
+			",0.7998,mid,1,,0.5,1.0,0.9991840065279478
+mbrainz_4809,lastFM_9959,Elements Beyond,Osunlade -  Elements Beyond,Osunlade,Osunlade,2007-07-07,United Kingdom of Great Britain and Northern Ireland,4239,3896.0,"
+			","
+			",0.7757,mid,1,future,0.5,1.0,0.9190846897853268
+mbrainz_875,lastFM_2038,In the Future,In the Future,Mad Traxx,M. Traxx,2001-01-01,France,1020,1020.0,"
+			","
+			",0.7,mid,1,future,1.0,0.0,1.0
+mbrainz_14145,lastFM_30819,Unplugged,Unplugged,Green Day,Green Day,2001-01-01,,0,3422.0,"
+			","
+			",0.7,mid,1,volume,1.0,1.0,0.0
+mbrainz_26955,lastFM_67548,The Singles, Singles,Camouflage,Camouflage,2014-02-07,Germany,4502,4614.0,"
+			","
+			",0.7927,mid,1,volume,0.5,1.0,0.975726051148678
+mbrainz_891,lastFM_2071,It's the Music,It's The Music,Wiley,Wiley,2000-09-15,United States of America,0,440.0,"
+			","
+			",0.7,mid,1,broken,1.0,1.0,0.0
+mbrainz_15482,lastFM_34083,Noisy Spirit, Spirit,Otehi,OTEHI,2011-01-01,Italy,2254,1558.0,"
+			","
+			",0.7074,mid,0,future,0.5,1.0,0.6912156166814551
+mbrainz_29127,lastFM_72672,Echoes,*popular* Echoes,Anggun,Anggun,2011-05-27,Indonesia,3877,3454.0,"
+			","
+			",0.7673,mid,1,blue,0.5,1.0,0.8908950219241681
+mbrainz_7250,lastFM_15470,Human Experience, Experience,Infectious Organisms,Infectious Organisms,,,3586,3355.0,"
+			","
+			",0.7807,mid,0,blue,0.5,1.0,0.9355828220858896
+mbrainz_31688,lastFM_78815,Full Colors,FULL COLORS,Casiopea,Casiopea,1991-05-25,Japan,2717,0.0,"
+			","
+			",0.7,mid,1,blue,1.0,1.0,0.0
+mbrainz_21621,lastFM_54770,The Music Behind the Voice 4 (release), Music Behind the Voice 2,Matell,Matell,2014-02-06,,2575,2045.0,"
+			","
+			",0.7668,mid,0,broken,0.5714285714285714,1.0,0.7941747572815534
+mbrainz_12065,lastFM_25984,Funeral Empire,Funeral Empire,GravewÃ¼rm,GravewÃƒÂ¼rm,2009-04,Poland,4109,4109.0,"
+			","
+			",0.7,mid,1,classics,1.0,0.0,1.0
+mbrainz_13253,lastFM_28598,Visions In Bloodred,Visions In Bloodred,Absorbed,Absorbed,2002-01-01,Germany,2068,0.0,"
+			","
+			",0.7,mid,1,blue,1.0,1.0,0.0
+mbrainz_3514,lastFM_7352,Monster Party,Monster Party,"Brickbats, The",T. Brickbats,,,2371,2371.0,"
+			","
+			",0.7,mid,1,broken,1.0,0.0,1.0
+mbrainz_27773,lastFM_6451,17 Years in the Life of Metallica,[explicit] This is a Process of a Still Life,Metallica,This is a Process of a Still Life,,,4727,1427.0,"
+			","
+			",0.1521,low,0,classics,0.1538461538461538,0.0,0.301882800930823
+mbrainz_11882,lastFM_45038,Wrap Your Troubles in Dreams, Your Innerself,"69 Eyes, The",Killa Kela,1997-02-10,Finland,2390,,"
+			",,0.0667,low,0,blue,0.1666666666666666,0.0,0.0
+mbrainz_14073,lastFM_46804,Spirit of Sacrifice,Spirit of Ballcan,Arditi,D. Weetech,2011-01-01,Portugal,2659,,"
+			",,0.2,low,0,future,0.5,0.0,0.0
+mbrainz_583,lastFM_34340,Feel the Music,Above  Music,Sound of Music,Noam Weinstein,1992-01-01,United States of America,1576,1363.0,"
+			","
+			",0.3595,low,0,broken,0.25,0.0,0.8648477157360406
+mbrainz_28159,lastFM_6455,Spirit of the Rainforest,The Spirit,"Oldfield, Terry",Bass Is Base,1990-01-01,United Kingdom of Great Britain and Northern Ireland,3341,,"
+			",,0.2,low,0,future,0.5,0.0,0.0
+mbrainz_6100,lastFM_6392,Visions From the Inside,Selections from Ghost Reveries,"Spell Inside, A",Opeth,1995-01-01,Germany,2908,1029.0,"
+			","
+			",0.1633,low,0,blue,0.1428571428571428,0.0,0.3538514442916093
+mbrainz_13961,lastFM_75438,"Glee: The Music, Volume 6",Music  The Connection,Glee Cast feat.,Freddie Redd,2011-06-06,United Kingdom of Great Britain and Northern Ireland,3875,2258.0,"
+			","
+			",0.232,low,0,broken,0.1428571428571428,0.0,0.5827096774193549
+mbrainz_27071,lastFM_40196,The Music of Irving Berlin,Armenian Medieval Spiritual Music,"Black, Stanley",Ãâ€ºÃ‘Æ’Ã‘?ÃÂ¸ÃÂ½Ã‘? Ãâ€”ÃÂ°ÃÂºÃÂ°Ã‘â‚¬Ã‘?ÃÂ½,1954-01-01,United Kingdom of Great Britain and Northern Ireland,2216,1371.0,"
+			","
+			",0.2356,low,0,broken,0.125,0.0,0.6186823104693141
+mbrainz_159,lastFM_33761,The Traveller,Traveller,"Bartz, Richard",Stormrage,1998-11,Germany,1088,,"
+			",,0.2,low,0,blue,0.5,0.0,0.0
+mbrainz_6258,lastFM_37497,Sunrise,[explicit] Mango Sunrise,Eire Apparent,F. Pyramid,1993-01-12,United Kingdom of Great Britain and Northern Ireland,2488,2688.0,"
+			","
+			",0.411,low,0,blue,0.3333333333333333,0.0,0.925595238095238
+mbrainz_17788,lastFM_32543,Songs of Love and Empire,The Empire Strikes Back,"Ritter, Julie",B. Element,,,2870,2873.0,"
+			","
+			",0.3497,low,0,classics,0.125,0.0,0.998955795335886
+mbrainz_24059,lastFM_28992,Beyond the Shell,Pressure 2004  Sight Beyond 2004,Odd Crew,John B,2012-06-09,Bulgaria,4262,,"
+			",,0.0667,low,0,future,0.1666666666666666,0.0,0.0
+mbrainz_26403,lastFM_68696,Broken Social Scene,- new - BROKEN DREAMS,Broken Social Scene,Storm Of Damnation,2005-10-04,United States of America,3789,,"
+			",,0.0667,low,0,classics,0.1666666666666666,0.0,0.0
+mbrainz_2453,lastFM_34359,Kill Your Girlfriend,A Best Man  My Girlfriend On Fire),Theatre of Ice,AM/FM,1987-01-01,United States of America,755,,"
+			",,0.0444,low,0,volume,0.1111111111111111,0.0,0.0
+mbrainz_3557,lastFM_1656,The Aerial EP,Aerial Riverseries,Ricky Force,Frank Bretschneider,2006-07-18,,1425,1860.0,"
+			","
+			",0.3298,low,0,volume,0.25,0.0,0.7661290322580645
+mbrainz_2056,lastFM_4517,Analogue Waves,Analogue ,"Omega Syndicate, The",The Omega Syndicate,2004-01-01,United Kingdom of Great Britain and Northern Ireland,4533,3313.0,"
+			","
+			",0.4193,low,0,blue,0.5,0.0,0.7308625634237811
+mbrainz_3537,lastFM_69851,In The Spirit,Spirit of Darkness,"Nesby, Ann",Nekromanteion,,,3286,847.0,"
+			","
+			",0.1573,low,0,future,0.2,0.0,0.2577601947656726
+mbrainz_16582,lastFM_33457,Purple Reign in Blood,Purple ,Fenix TX,Pascal Mulot,2005-11-08,United States of America,3067,3092.0,"
+			","
+			",0.3976,low,0,broken,0.25,0.0,0.9919146183699872
+mbrainz_96,lastFM_64426,Life in the Savage Garden E.P. (album),Album: Nocturne,"Curtin, Dan",Angelica S,1997-01-01,United Kingdom of Great Britain and Northern Ireland,0,,"
+			",,0.0,low,0,classics,0.0,0.0,0.0
+mbrainz_20422,lastFM_15581,World Music,Let The Music (Lift You Up),Ahnnu,Darlene Lewis,2013-09-03,,1187,,"
+			",,0.0571,low,0,broken,0.1428571428571428,0.0,0.0
+mbrainz_1448,lastFM_1490,Daydream,This Is Not a Daydream,"Carey, Mariah",Alien Factory,1995-01-01,Spain,2797,1497.0,"
+			","
+			",0.2406,low,0,volume,0.2,0.0,0.5352163031819808
+mbrainz_8994,lastFM_5953,Broken Records,Broken ,Broken Records,Hypnoskull,2007-01-01,United Kingdom of Great Britain and Northern Ireland,1059,,"
+			",,0.2,low,0,broken,0.5,0.0,0.0
+mbrainz_11263,lastFM_39682,Drum 'n Bass Singles 2003 - 2004,The Singles 1992 - 2003,Counterstrike,N. Doubt,2009-01-15,South Africa,5742,,"
+			",,0.1333,low,0,volume,0.3333333333333333,0.0,0.0
+mbrainz_3051,lastFM_11536,Visions of a Peaceful Planet,Neuromantic Visions,Ancient Future,Andrea Priora,1980-01-01,United States of America,782,3078.0,"
+			","
+			",0.1429,low,0,blue,0.1666666666666666,0.0,0.2540610786224822
+mbrainz_5549,lastFM_38882,Sunrise,Sunrise Breeze,"Jones, Norah",Changer,2004-01-01,United Kingdom of Great Britain and Northern Ireland,199,,"
+			",,0.2,low,0,blue,0.5,0.0,0.0
+mbrainz_18743,lastFM_52646,Love in Another Language,Phelia Fogg -  Where's The Love - The Music Of Michel Legrand,Ann-Louise,Phelia Fogg,2003-01-01,Denmark,2543,,"
+			",,0.0308,low,0,classics,0.0769230769230769,0.0,0.0
+mbrainz_24437,lastFM_27616,Goon Show Classics 2,Remixes/Classics,"Goons, The",Fragile S.,,,3168,8480.0,"
+			","
+			",0.1121,low,0,blue,0.0,0.0,0.3735849056603774
+mbrainz_10428,lastFM_83598,Its Time to Testify... Brothers and Sisters,Time Crisis EP,"Flaming Sideburns, The",Kije,1999-01-01,,2412,,"
+			",,0.0444,low,0,blue,0.1111111111111111,0.0,0.0
+mbrainz_11308,lastFM_22233,Beyond Within and So On,Beyond the Gates,Iszoloscope feat.,L. Raelon,2010-09-07,,4019,,"
+			",,0.0571,low,0,future,0.1428571428571428,0.0,0.0
+mbrainz_28153,lastFM_1051,Sunrise on the Radio,Ibiza Sunrise,"Cyrus Clarke Band, The",Labworks,1997-01-01,United States of America,2688,,"
+			",,0.08,low,0,blue,0.2,0.0,0.0
+mbrainz_14073,lastFM_78491,Spirit of Sacrifice,Eyeblast -  Until My Spirit Goes,Arditi,Eyeblast,2011-01-01,Portugal,2659,,"
+			",,0.05,low,0,future,0.125,0.0,0.0
+mbrainz_6746,lastFM_88,I Call It Trouble,Trouble / Daylight,"Acklin, Barbara",Q Project,1973-01-01,United States of America,2071,381.0,"
+			","
+			",0.1219,low,0,classics,0.1666666666666666,0.0,0.183969097054563
+mbrainz_2754,lastFM_3276,Monster,Monster ,Steppenwolf,Monster Dvd,2013-04-24,Japan,2683,2087.0,"
+			","
+			",0.6334,low,0,blue,1.0,0.0,0.7778606038017145
+mbrainz_21182,lastFM_652,The Music of Your Life (release),Turn Up The Music (The Remixes),Zuzu's Petals,Dr. Baker,1994-01-01,United States of America,2046,,"
+			",,0.08,low,0,broken,0.2,0.0,0.0
+mbrainz_18401,lastFM_2220,This Place That Contains My Spirit,Acetate -  Spirit Remixes,Woman Is the Earth,Acetate,2012-06,United States of America,2858,,"
+			",,0.0444,low,0,future,0.1111111111111111,0.0,0.0
+mbrainz_835,lastFM_36435,Electronic Music From the Swedish Leftcoast,Miles From Nowhere EP,Plej,The Valentinos,2005-01-01,United Kingdom of Great Britain and Northern Ireland,2731,1374.0,"
+			","
+			",0.1954,low,0,blue,0.1111111111111111,0.0,0.5031124130355181
+mbrainz_31892,lastFM_72089,The Dance of the Elves, Of The Dance,Windwalker,S. Carter,1997-01-01,Sweden,2631,,"
+			",,0.3,low,0,future,0.75,0.0,0.0
+mbrainz_16745,lastFM_37350,Taking the Music Back,1984-1989 DÃ…ÂºwiÃ„â„¢ki Zebrane  Ultra Music Box (Arc_Hiv Positiv) No. 1,Anthrax,PaweÃ…â€š Paulus Mazur,2003-09-03,United Kingdom of Great Britain and Northern Ireland,666,,"
+			",,0.0308,low,0,broken,0.0769230769230769,0.0,0.0
+mbrainz_7650,lastFM_54302,The Fallen Empire,The Suffocating Fallen,Altaria,Through The Struggle,2006-03-24,Finland,3227,,"
+			",,0.2,low,0,classics,0.5,0.0,0.0
+mbrainz_3299,lastFM_26043,From Beyond Thematics,From The Beyond: The  Songs Of Death,Ellipsis,Kryptik,2004-01-01,France,3223,,"
+			",,0.05,low,0,future,0.125,0.0,0.0
+mbrainz_14657,lastFM_20432,Killing Monsters,Monsters  Miasmas,H.EXE,The Renderers,2011-05-14,Poland,3316,3102.0,"
+			","
+			",0.414,low,0,volume,0.3333333333333333,0.0,0.9354644149577804
+mbrainz_5960,lastFM_63816,Misadventures of a Broken Man,Broken,"Surgens, The",Daley,2008-02-28,United Kingdom of Great Britain and Northern Ireland,2718,211.0,"
+			","
+			",0.1033,low,0,broken,0.2,0.0,0.0776306107431935
+mbrainz_8540,lastFM_71083,Sarangi: The Music of India,"The Music From ""The Connection""","Khan, Sultan",Freddie R. Quartet,1988-01-01,United States of America,2749,,"
+			",,0.1,low,0,broken,0.25,0.0,0.0
+mbrainz_1279,lastFM_12698,Tuffest Man Alive (orig.),Kiss Kiss Bang  (Jonny L Remix) / Nobody Gets Out Alive,Fila Fresh Crew,High Contrast,1988-01-01,United States of America,2004,,"
+			",,0.0308,low,0,future,0.0769230769230769,0.0,0.0
+mbrainz_12763,lastFM_7887,Remedy for My Soul,Remedy,Corrugated Tunnel,Kendi,2010-07-19,United Kingdom of Great Britain and Northern Ireland,2464,,"
+			",,0.1,low,0,volume,0.25,0.0,0.0
+mbrainz_25191,lastFM_69716,Obscure the Future,Future Classics,Somatic Responses,V. Vici,2014-09-21,,6890,,"
+			",,0.1,low,0,broken,0.25,0.0,0.0
+mbrainz_20422,lastFM_5371,World Music,Plays the Music,Ahnnu,T. Unireverse,2013-09-03,,1187,4143.0,"
+			","
+			",0.186,low,0,broken,0.25,0.0,0.2865073618151098
+mbrainz_1873,lastFM_45023,Just Let Go (The Remixes),- new - Outside (Remixes),Fischerspooner,George Michael,2005-07-05,Germany,616,,"
+			",,0.0,low,0,classics,0.0,0.0,0.0
+mbrainz_1487,lastFM_56105,Prehispanic Music for the Forgotten Spirits (orig.),B. King -  Let The Good Times Roll The Music Of Louis Jordan,"Reyes, Jorge",B. King,1994-01-01,,2354,,"
+			",,0.0471,low,0,broken,0.1176470588235294,0.0,0.0
+mbrainz_9373,lastFM_11287,"Glee: The Music, Volume 1",Rockin'  the Music,Glee Cast,Black B.,2009-11-03,United States of America,3610,838.0,"
+			","
+			",0.1268,low,0,broken,0.1428571428571428,0.0,0.2321329639889197
+mbrainz_19537,lastFM_59873,Bass of the Resistance,Barbra Streisand -  Grand Prix 20,Hippie Werewolves,Barbra Streisand,,,2169,3607.0,"
+			","
+			",0.1803992237316329,random_negative,0,,,,
+mbrainz_29437,lastFM_7245,Funky Contraptions,Spirit Of Life,FOXAPET,Voodoo Suite,2010-01-26,France,2735,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_11986,lastFM_50723,Fallen Angel (orig.),In the Woods EP,"Bouchet, SÃ©bastien",K-Chaos,2010-11-01,Germany,1513,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_31206,lastFM_60683,The Best of the Ames Brothers,The Dancer,"Ames Brothers, The",Secret Service,,,2673,,"
+			",,0.0666666666666666,random_negative,0,,,,
+mbrainz_13604,lastFM_36750,Damn Yankees,Electric Soup - The  Collection,Damn Yankees (and others),Hoodoo Gurus,1990-01-01,United States of America,2737,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_9716,lastFM_7651,Paper Monsters Remixes,Oranger -  Homesleep Singles Club 3,"Gahan, Dave",Oranger,2003-01-01,Russian Federation,3341,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_19198,lastFM_12741,Encore,Painful Epic Ep,"Louvin Brothers, The",Le Jad,1961-01-01,United States of America,0,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_9062,lastFM_46667,Echoes of Yul,Elephants In Amsterdam,Echoes of Yul,Eiffel 65,2009-01-01,Poland,4589,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_2034,lastFM_36273,Train of Thought,Mike Stevens -  Set The Spirit Free,Dream Theater,Mike Stevens,2003-11-08,United Kingdom of Great Britain and Northern Ireland,4159,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_26302,lastFM_41254,That Dreaded Monster What If,Visions,Kid iD,Robert O.,,,2428,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_11272,lastFM_14633,Twilight of the Renegades,Waiting For The Sunrise,"Webb, Jimmy",D. Vandervelde,2005-01-01,,0,2810.0,"
+			","
+			",0.0571428571428571,random_negative,0,,,,
+mbrainz_32512,lastFM_70578,Spirit of the Blues,Purple Sunday,"McDonald, Forrest",Deefo,,,3432,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_14271,lastFM_14768,The Moonlight Butterfly,Initials -  Message In The Music,"Sea and Cake, The",Initials,2011-05-10,United States of America,2002,,"
+			",,0.05,random_negative,0,,,,
+mbrainz_4126,lastFM_15937,Usual Tragedy, Empire,Karelia feat.,WestBam,2004-02-24,Germany,3027,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_7048,lastFM_34679,ART OF LIFE (orig.),"Yonder Go That Old Black Dog: Blues, Spirituals And Folksongs From Rural Georgia By Eddie Lee Jones And Family",X JAPAN,"Eddie Lee ""Mustright"" Jones",1993-08-25,Japan,1740,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_24101,lastFM_45539,Liebe Mutter,Eaten By The Monster Of Love,Heino,Sparks,1972-01-01,Germany,2578,,"
+			",,0.0,random_negative,0,,,,
+mbrainz_248,lastFM_24609,Inside the Outside,Nowhere,Trans-Dimensional Voice,T. Divided Circle,2000-01-01,United States of America,3897,1053.0,"
+			","
+			",0.0810623556581986,random_negative,0,,,,
+mbrainz_70,lastFM_12330,Spirit (album),*popular* California Ax,"Williams, Cunnie",S. Spacek,2001-01-01,Germany,0,8476.0,"
+			","
+			",0.0,random_negative,0,,,,
+mbrainz_23552,lastFM_13689,Band of Brothers,The Shape Of  To Come (A Chimerical Bombination In 12 Bursts),"Nelson, Willie",Refused,2014-06-16,United States of America,2846,,"
+			",,0.0307692307692307,random_negative,0,,,,
+mbrainz_18860,lastFM_65592,Same Trailer Different Park,Colors of the East,"Musgraves, Kacey",Karunesh,2013-01-01,United States of America,2413,2827.0,"
+			","
+			",0.2560665015917934,random_negative,0,,,,
+mbrainz_12553,lastFM_17574,On Rising Spirits,The Connection,"Faitelson, Dalia (and others)",D. TAGS,1997-01-01,Denmark,3027,950.0,"
+			","
+			",0.0941526263627353,random_negative,0,,,,
