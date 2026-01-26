@@ -143,7 +143,7 @@ blocker_1_3 = TokenBlocker(
 )
 
 # Sorted NeighbourhoodBlocker example
-blocker = SortedNeighbourhoodBlocker(
+blocker_2_3 = SortedNeighbourhoodBlocker(
     good_dataset_name_2, good_dataset_name_3,
     key="name",
     window=20,

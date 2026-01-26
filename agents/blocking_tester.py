@@ -122,6 +122,7 @@ class BlockingTester:
         self.evaluator = EntityMatchingEvaluator()
         self.results_history: List[Dict[str, Any]] = []
         self.previous_failures = previous_failures or []
+        self.id_columns: Dict[str, str] = {}
         
         os.makedirs(self.output_dir, exist_ok=True)
         
@@ -169,9 +170,14 @@ class BlockingTester:
 
         self.max_candidates = adaptive_max
     
+    def _read_gold_standard(self, path: str) -> pd.DataFrame:
+        if path.lower().endswith((".txt", ".tsv")):
+            return pd.read_csv(path, sep=None, engine="python")
+        return pd.read_csv(path)
+
     def _load_gold_standard(self, path: str) -> pd.DataFrame:
         """Load and prepare gold standard CSV."""
-        gs = pd.read_csv(path)
+        gs = self._read_gold_standard(path)
         col_mapping = {}
         for col in gs.columns:
             col_lower = col.lower()
@@ -201,6 +207,91 @@ class BlockingTester:
                 except TypeError:
                     pass
         return df.columns[0]
+
+    def _candidate_id_columns(self, df: pd.DataFrame) -> List[str]:
+        candidates = []
+        for col in df.columns:
+            if "id" in col.lower():
+                candidates.append(col)
+        for col in df.columns:
+            if col in candidates:
+                continue
+            try:
+                if df[col].nunique() == len(df):
+                    candidates.append(col)
+            except TypeError:
+                pass
+        if not candidates:
+            candidates = [df.columns[0]]
+        return candidates[:5]
+
+    def _sample_values(self, series: pd.Series, n: int = 3) -> List[str]:
+        vals = series.dropna().astype(str).unique().tolist()
+        return vals[:n]
+
+    def _align_ids_with_gold(
+        self,
+        name_left: str,
+        name_right: str,
+        gold: pd.DataFrame,
+    ) -> Tuple[pd.DataFrame, str, str]:
+        df_left = self.datasets_loaded[name_left]
+        df_right = self.datasets_loaded[name_right]
+
+        left_id = self._detect_id_column(df_left)
+        right_id = self._detect_id_column(df_right)
+        gold_id1_source = "left"
+
+        if self.llm is not None:
+            try:
+                left_candidates = self._candidate_id_columns(df_left)
+                right_candidates = self._candidate_id_columns(df_right)
+                left_samples = {c: self._sample_values(df_left[c]) for c in left_candidates}
+                right_samples = {c: self._sample_values(df_right[c]) for c in right_candidates}
+                gold_samples = {
+                    "id1": self._sample_values(gold["id1"]),
+                    "id2": self._sample_values(gold["id2"]),
+                }
+
+                system_prompt = (
+                    "You map gold testset ID columns (id1/id2) to dataset ID columns. "
+                    "Return ONLY JSON with keys: left_id_col, right_id_col, gold_id1_source "
+                    "where gold_id1_source is 'left' or 'right'."
+                )
+                human_content = (
+                    f"Left dataset: {name_left}\n"
+                    f"Left ID candidates (sample values): {json.dumps(left_samples, indent=2)}\n\n"
+                    f"Right dataset: {name_right}\n"
+                    f"Right ID candidates (sample values): {json.dumps(right_samples, indent=2)}\n\n"
+                    f"Gold id1/id2 samples: {json.dumps(gold_samples, indent=2)}\n"
+                    "Pick the best left/right ID columns and indicate whether gold id1 belongs to left or right."
+                )
+                response = self.llm.invoke(
+                    [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
+                )
+                raw = response.content if hasattr(response, "content") else str(response)
+                cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", raw.strip())
+                parsed = json.loads(cleaned)
+                left_choice = parsed.get("left_id_col")
+                right_choice = parsed.get("right_id_col")
+                gold_id1_source = parsed.get("gold_id1_source", "left")
+                if left_choice in df_left.columns:
+                    left_id = left_choice
+                if right_choice in df_right.columns:
+                    right_id = right_choice
+                if gold_id1_source == "right":
+                    gold = gold.rename(columns={"id1": "id2", "id2": "id1"})
+            except Exception:
+                pass
+
+        self.id_columns[name_left] = left_id
+        self.id_columns[name_right] = right_id
+        self.last_id_alignment = {
+            "left_id": left_id,
+            "right_id": right_id,
+            "gold_id1_source": gold_id1_source,
+        }
+        return gold, left_id, right_id
     
     def _analyze_columns_for_pair(self, name_left: str, name_right: str, id_column: str = None) -> Dict[str, Any]:
         """Analyze columns for a dataset pair with computational estimates."""
@@ -682,17 +773,27 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         print(f"Candidate limit: {self.max_candidates:,} (hard: {soft_limit:,} with tolerance)")
         
         if id_column is None:
-            id_col_left = self._detect_id_column(self.datasets_loaded[name_left])
-            id_col_right = self._detect_id_column(self.datasets_loaded[name_right])
-            
+            gold, id_col_left, id_col_right = self._align_ids_with_gold(name_left, name_right, gold)
             if id_col_left != id_col_right:
-                print(f"    ID columns differ ({id_col_left}/{id_col_right}), renaming to 'record_id'")
-                self.datasets_loaded[name_left] = self.datasets_loaded[name_left].rename(columns={id_col_left: 'record_id'})
-                self.datasets_loaded[name_right] = self.datasets_loaded[name_right].rename(columns={id_col_right: 'record_id'})
-                id_column = 'record_id'
+                self.datasets_loaded[name_left]["__record_id__"] = self.datasets_loaded[name_left][id_col_left]
+                self.datasets_loaded[name_right]["__record_id__"] = self.datasets_loaded[name_right][id_col_right]
+                id_column = "__record_id__"
+                print(f"    Using ID columns: left={id_col_left}, right={id_col_right} (alias __record_id__)")
             else:
                 id_column = id_col_left
-            print(f"    Using ID column: '{id_column}'")
+                print(f"    Using ID column: '{id_column}'")
+            alignment = getattr(self, "last_id_alignment", None)
+            if alignment:
+                if alignment.get("gold_id1_source") == "right":
+                    print(
+                        f"    Gold id1 -> right({alignment.get('right_id')}), "
+                        f"id2 -> left({alignment.get('left_id')})"
+                    )
+                else:
+                    print(
+                        f"    Gold id1 -> left({alignment.get('left_id')}), "
+                        f"id2 -> right({alignment.get('right_id')})"
+                    )
         
         analysis = self._analyze_columns_for_pair(name_left, name_right, id_column)
         print(f"Dataset sizes: {analysis['left_size']:,} × {analysis['right_size']:,} = {analysis['potential_pairs']:,} potential pairs")
@@ -817,6 +918,9 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             }
         
         for name, df in self.datasets_loaded.items():
+            if name in self.id_columns:
+                discovered_config["id_columns"][name] = self.id_columns[name]
+                continue
             for col in df.columns:
                 if 'id' in col.lower():
                     discovered_config["id_columns"][name] = col

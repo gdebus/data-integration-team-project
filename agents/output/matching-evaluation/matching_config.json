@@ -9,39 +9,36 @@
       "comparators": [
         {
           "type": "string",
-          "column": "artist",
-          "similarity_function": "jaro_winkler",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "column": "name",
+          "similarity_function": "cosine",
+          "preprocess": "lower"
         },
         {
           "type": "string",
-          "column": "name",
+          "column": "tracks_track_position",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "preprocess": "lower"
+        },
+        {
+          "type": "numeric",
+          "column": "duration",
+          "max_difference": 5
         },
         {
           "type": "string",
           "column": "tracks_track_name",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "set_jaccard"
-        },
-        {
-          "type": "numeric",
-          "column": "duration",
-          "max_difference": 10.0
+          "preprocess": "lower"
         }
       ],
       "weights": [
-        0.3,
-        0.3,
-        0.3,
-        0.1
+        0.25,
+        0.25,
+        0.25,
+        0.25
       ],
-      "threshold": 0.72,
-      "f1": 0.8
+      "threshold": 0.75,
+      "f1": 0.8867924528301886
     },
     "discogs_musicbrainz": {
       "comparators": [
@@ -49,15 +46,13 @@
           "type": "string",
           "column": "name",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "preprocess": "lower"
         },
         {
           "type": "string",
           "column": "artist",
-          "similarity_function": "jaro_winkler",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "similarity_function": "cosine",
+          "preprocess": "lower"
         },
         {
           "type": "date",
@@ -66,26 +61,19 @@
         },
         {
           "type": "string",
-          "column": "tracks_track_name",
+          "column": "tracks_track_position",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "set_jaccard"
-        },
-        {
-          "type": "numeric",
-          "column": "duration",
-          "max_difference": 10.0
+          "preprocess": "lower"
         }
       ],
       "weights": [
-        0.3,
         0.25,
-        0.2,
-        0.15,
-        0.1
+        0.25,
+        0.25,
+        0.25
       ],
       "threshold": 0.75,
-      "f1": 0.9387755102040816
+      "f1": 0.9743589743589743
     },
     "musicbrainz_lastfm": {
       "comparators": [
@@ -93,37 +81,35 @@
           "type": "string",
           "column": "name",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "preprocess": "lower"
         },
         {
           "type": "string",
-          "column": "artist",
-          "similarity_function": "jaro_winkler",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
+          "column": "tracks_track_position",
+          "similarity_function": "cosine",
+          "preprocess": "lower"
+        },
+        {
+          "type": "string",
+          "column": "duration",
+          "similarity_function": "cosine",
+          "preprocess": "lower"
         },
         {
           "type": "string",
           "column": "tracks_track_name",
           "similarity_function": "cosine",
-          "preprocess": "lower_strip",
-          "list_strategy": "set_jaccard"
-        },
-        {
-          "type": "numeric",
-          "column": "duration",
-          "max_difference": 10.0
+          "preprocess": "lower"
         }
       ],
       "weights": [
-        0.4,
         0.25,
         0.25,
-        0.1
+        0.25,
+        0.25
       ],
       "threshold": 0.75,
-      "f1": 0.912751677852349
+      "f1": 0.918918918918919
     }
   }
 }

@@ -1,60 +1,44 @@
 from PyDI.io import load_csv
-
-from PyDI.entitymatching import (
-    StandardBlocker,
-    EmbeddingBlocker,
-    TokenBlocker,
-    RuleBasedMatcher,
-    StringComparator,
-    NumericComparator,
-    DateComparator,
-)
-
-from PyDI.fusion import (
-    DataFusionStrategy,
-    DataFusionEngine,
-    longest_string,
-    union,
-)
-
+from PyDI.entitymatching import FeatureExtractor
+from PyDI.entitymatching import StringComparator, NumericComparator, DateComparator
+from PyDI.entitymatching import StandardBlocker, TokenBlocker, SortedNeighbourhoodBlocker, EmbeddingBlocker
+from PyDI.entitymatching import MLBasedMatcher
+from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union
 from PyDI.schemamatching import LLMBasedSchemaMatcher
 from langchain_openai import ChatOpenAI
-
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.metrics import make_scorer, f1_score
 import pandas as pd
-from dotenv import load_dotenv
 import os
+import sys
+
+# Increase recursion limit
+sys.setrecursionlimit(3000)
 
 # --------------------------------
 # Prepare Data
 # --------------------------------
 
+# Define dataset paths
 DATA_DIR = "output/schema-matching/"
 
-# Load API key
-load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+# Load the datasets
+discogs = load_csv(DATA_DIR + "discogs.csv", name="discogs")
+lastfm = load_csv(DATA_DIR + "lastfm.csv", name="lastfm")
+musicbrainz = load_csv(DATA_DIR + "musicbrainz.csv", name="musicbrainz")
 
-# Load datasets
-discogs = load_csv(
-    DATA_DIR + "discogs.csv",
-    name="discogs",
-)
-
-lastfm = load_csv(
-    DATA_DIR + "lastfm.csv",
-    name="lastfm",
-)
-
-musicbrainz = load_csv(
-    DATA_DIR + "musicbrainz.csv",
-    name="musicbrainz",
-)
+# create id columns
+discogs["id"] = discogs["id"]
+lastfm["id"] = lastfm["id"]
+musicbrainz["id"] = musicbrainz["id"]
 
 datasets = [discogs, lastfm, musicbrainz]
 
 # --------------------------------
-# Schema Matching
-# Match lastfm and musicbrainz schema to discogs schema
+# Perform Schema Matching (LLM-based matching)
 # --------------------------------
 
 print("Matching Schema")
@@ -68,10 +52,10 @@ llm = ChatOpenAI(
 matcher = LLMBasedSchemaMatcher(
     chat_model=llm,
     num_rows=10,
-    debug=True,
+    debug=True
 )
 
-# lastfm -> discogs schema
+# match schema of discogs with lastfm and rename schema of lastfm
 schema_correspondences = matcher.match(discogs, lastfm)
 rename_map = (
     schema_correspondences
@@ -80,7 +64,7 @@ rename_map = (
 )
 lastfm = lastfm.rename(columns=rename_map)
 
-# musicbrainz -> discogs schema
+# match schema of discogs with musicbrainz and rename schema of musicbrainz
 schema_correspondences = matcher.match(discogs, musicbrainz)
 rename_map = (
     schema_correspondences
@@ -90,185 +74,229 @@ rename_map = (
 musicbrainz = musicbrainz.rename(columns=rename_map)
 
 # --------------------------------
-# Blocking (use provided blocking configuration)
+# Blocking
 # --------------------------------
 
 print("Performing Blocking")
 
-# id columns from config
-discogs_id_col = "id"
-lastfm_id_col = "id"
-musicbrainz_id_col = "id"
+# Blocking configuration
+blocking_config = {
+    "discogs_lastfm": {
+        "strategy": "sorted_neighbourhood",
+        "columns": ["name"],
+        "params": {"window": 20}
+    },
+    "discogs_musicbrainz": {
+        "strategy": "semantic_similarity",
+        "columns": ["name", "artist", "release-date"],
+        "params": {"top_k": 20}
+    },
+    "musicbrainz_lastfm": {
+        "strategy": "token_blocking",
+        "columns": ["name"],
+        "params": {"min_token_len": 4}
+    }
+}
 
-# discogs - lastfm: semantic_similarity on [artist, name, tracks_track_name], top_k=20
-blocker_discogs_lastfm = EmbeddingBlocker(
-    discogs,
-    lastfm,
-    text_cols=["artist", "name", "tracks_track_name"],
-    model="sentence-transformers/all-MiniLM-L6-v2",
-    index_backend="sklearn",
-    top_k=20,
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column=discogs_id_col,
+# Sorted NeighbourhoodBlocker for discogs and lastfm
+blocker_discogs_lastfm = SortedNeighbourhoodBlocker(
+    discogs, lastfm,
+    key="name",
+    window=20,
+    id_column="id",
+    output_dir="output/blocking"
 )
 
-# discogs - musicbrainz: semantic_similarity on [name, artist, release-date], top_k=20
+# EmbeddingBlocker for discogs and musicbrainz
 blocker_discogs_musicbrainz = EmbeddingBlocker(
-    discogs,
-    musicbrainz,
+    discogs, musicbrainz,
     text_cols=["name", "artist", "release-date"],
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
     top_k=20,
     batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column=discogs_id_col,
+    output_dir="output/blocking",
+    id_column="id"
 )
 
-# musicbrainz - lastfm: token_blocking on [name], min_token_len=4
+# TokenBlocker for musicbrainz and lastfm
 blocker_musicbrainz_lastfm = TokenBlocker(
-    musicbrainz,
-    lastfm,
+    musicbrainz, lastfm,
     column="name",
     min_token_len=4,
-    ngram_size=1,
+    ngram_size=2,
     ngram_type="word",
-    id_column=musicbrainz_id_col,
-    output_dir="output/blocking-evaluation",
+    id_column="id",
+    output_dir="output/blocking"
 )
 
 # --------------------------------
-# Matching (use provided matching configuration)
+# Matching
 # --------------------------------
 
 print("Matching Entities")
 
-def lower_strip(x):
-    return str(x).lower().strip() if x is not None else ""
+# Matching configuration
+matching_config = {
+    "discogs_lastfm": [
+        StringComparator(column="name", similarity_function="cosine", preprocess=str.lower),
+        StringComparator(column="tracks_track_position", similarity_function="cosine", preprocess=str.lower),
+        NumericComparator(column="duration", max_difference=5),
+        StringComparator(column="tracks_track_name", similarity_function="cosine", preprocess=str.lower)
+    ],
+    "discogs_musicbrainz": [
+        StringComparator(column="name", similarity_function="cosine", preprocess=str.lower),
+        StringComparator(column="artist", similarity_function="cosine", preprocess=str.lower),
+        DateComparator(column="release-date", max_days_difference=365),
+        StringComparator(column="tracks_track_position", similarity_function="cosine", preprocess=str.lower)
+    ],
+    "musicbrainz_lastfm": [
+        StringComparator(column="name", similarity_function="cosine", preprocess=str.lower),
+        StringComparator(column="tracks_track_position", similarity_function="cosine", preprocess=str.lower),
+        StringComparator(column="duration", similarity_function="cosine", preprocess=str.lower),
+        StringComparator(column="tracks_track_name", similarity_function="cosine", preprocess=str.lower)
+    ]
+}
 
-# discogs - lastfm comparators
-comparators_discogs_lastfm = [
-    StringComparator(
-        column="artist",
-        similarity_function="jaro_winkler",
-        preprocess=lower_strip,
-        list_strategy="concatenate",
-    ),
-    StringComparator(
-        column="name",
-        similarity_function="cosine",
-        preprocess=lower_strip,
-        list_strategy="concatenate",
-    ),
-    StringComparator(
-        column="tracks_track_name",
-        similarity_function="cosine",
-        preprocess=lower_strip,
-        list_strategy="set_jaccard",
-    ),
-    NumericComparator(
-        column="duration",
-        max_difference=10.0,
-    ),
-]
+# Feature extractors
+feature_extractor_discogs_lastfm = FeatureExtractor(matching_config["discogs_lastfm"])
+feature_extractor_discogs_musicbrainz = FeatureExtractor(matching_config["discogs_musicbrainz"])
+feature_extractor_musicbrainz_lastfm = FeatureExtractor(matching_config["musicbrainz_lastfm"])
 
-weights_discogs_lastfm = [0.3, 0.3, 0.3, 0.1]
-threshold_discogs_lastfm = 0.72
-
-# discogs - musicbrainz comparators
-comparators_discogs_musicbrainz = [
-    StringComparator(
-        column="name",
-        similarity_function="cosine",
-        preprocess=lower_strip,
-        list_strategy="concatenate",
-    ),
-    StringComparator(
-        column="artist",
-        similarity_function="jaro_winkler",
-        preprocess=lower_strip,
-        list_strategy="concatenate",
-    ),
-    DateComparator(
-        column="release-date",
-        max_days_difference=365,
-    ),
-    StringComparator(
-        column="tracks_track_name",
-        similarity_function="cosine",
-        preprocess=lower_strip,
-        list_strategy="set_jaccard",
-    ),
-    NumericComparator(
-        column="duration",
-        max_difference=10.0,
-    ),
-]
-
-weights_discogs_musicbrainz = [0.3, 0.25, 0.2, 0.15, 0.1]
-threshold_discogs_musicbrainz = 0.75
-
-# musicbrainz - lastfm comparators
-comparators_musicbrainz_lastfm = [
-    StringComparator(
-        column="name",
-        similarity_function="cosine",
-        preprocess=lower_strip,
-        list_strategy="concatenate",
-    ),
-    StringComparator(
-        column="artist",
-        similarity_function="jaro_winkler",
-        preprocess=lower_strip,
-        list_strategy="concatenate",
-    ),
-    StringComparator(
-        column="tracks_track_name",
-        similarity_function="cosine",
-        preprocess=lower_strip,
-        list_strategy="set_jaccard",
-    ),
-    NumericComparator(
-        column="duration",
-        max_difference=10.0,
-    ),
-]
-
-weights_musicbrainz_lastfm = [0.4, 0.25, 0.25, 0.1]
-threshold_musicbrainz_lastfm = 0.75
-
-# Initialize Rule-Based Matcher
-rb_matcher = RuleBasedMatcher()
-
-rb_correspondences_discogs_lastfm = rb_matcher.match(
-    df_left=discogs,
-    df_right=lastfm,
-    candidates=blocker_discogs_lastfm,
-    comparators=comparators_discogs_lastfm,
-    weights=weights_discogs_lastfm,
-    threshold=threshold_discogs_lastfm,
-    id_column=discogs_id_col,
+# Load ground truth correspondences (ML training/test)
+train_discogs_lastfm = load_csv(
+    "input/datasets/music/testsets/discogs_lastfm_goldstandard_blocking.csv",
+    name="ground_truth_discogs_lastfm",
+    add_index=False
 )
 
-rb_correspondences_discogs_musicbrainz = rb_matcher.match(
-    df_left=discogs,
-    df_right=musicbrainz,
-    candidates=blocker_discogs_musicbrainz,
-    comparators=comparators_discogs_musicbrainz,
-    weights=weights_discogs_musicbrainz,
-    threshold=threshold_discogs_musicbrainz,
-    id_column=discogs_id_col,
+train_discogs_musicbrainz = load_csv(
+    "input/datasets/music/testsets/discogs_musicbrainz_goldstandard_blocking.csv",
+    name="ground_truth_discogs_musicbrainz",
+    add_index=False
 )
 
-rb_correspondences_musicbrainz_lastfm = rb_matcher.match(
-    df_left=musicbrainz,
-    df_right=lastfm,
-    candidates=blocker_musicbrainz_lastfm,
-    comparators=comparators_musicbrainz_lastfm,
-    weights=weights_musicbrainz_lastfm,
-    threshold=threshold_musicbrainz_lastfm,
-    id_column=musicbrainz_id_col,
+train_musicbrainz_lastfm = load_csv(
+    "input/datasets/music/testsets/musicbrainz_lastfm_goldstandard_blocking.csv",
+    name="ground_truth_musicbrainz_lastfm",
+    add_index=False
+)
+
+# Extract features
+train_discogs_lastfm_features = feature_extractor_discogs_lastfm.create_features(
+    discogs, lastfm, train_discogs_lastfm[['id1', 'id2']], labels=train_discogs_lastfm['label'], id_column='id'
+)
+
+train_discogs_musicbrainz_features = feature_extractor_discogs_musicbrainz.create_features(
+    discogs, musicbrainz, train_discogs_musicbrainz[['id1', 'id2']], labels=train_discogs_musicbrainz['label'], id_column='id'
+)
+
+train_musicbrainz_lastfm_features = feature_extractor_musicbrainz_lastfm.create_features(
+    musicbrainz, lastfm, train_musicbrainz_lastfm[['id1', 'id2']], labels=train_musicbrainz_lastfm['label'], id_column='id'
+)
+
+# Prepare data for ML training
+feat_cols_discogs_lastfm = [col for col in train_discogs_lastfm_features.columns if col not in ['id1', 'id2', 'label']]
+X_train_discogs_lastfm = train_discogs_lastfm_features[feat_cols_discogs_lastfm]
+y_train_discogs_lastfm = train_discogs_lastfm_features['label']
+
+feat_cols_discogs_musicbrainz = [col for col in train_discogs_musicbrainz_features.columns if col not in ['id1', 'id2', 'label']]
+X_train_discogs_musicbrainz = train_discogs_musicbrainz_features[feat_cols_discogs_musicbrainz]
+y_train_discogs_musicbrainz = train_discogs_musicbrainz_features['label']
+
+feat_cols_musicbrainz_lastfm = [col for col in train_musicbrainz_lastfm_features.columns if col not in ['id1', 'id2', 'label']]
+X_train_musicbrainz_lastfm = train_musicbrainz_lastfm_features[feat_cols_musicbrainz_lastfm]
+y_train_musicbrainz_lastfm = train_musicbrainz_lastfm_features['label']
+
+training_datasets = [
+    (X_train_discogs_lastfm, y_train_discogs_lastfm),
+    (X_train_discogs_musicbrainz, y_train_discogs_musicbrainz),
+    (X_train_musicbrainz_lastfm, y_train_musicbrainz_lastfm)
+]
+
+# --------------------------------
+# Select Best Model
+# --------------------------------
+
+param_grids = {
+    'RandomForest': {
+        'model': RandomForestClassifier(random_state=42),
+        'params': {
+            'n_estimators': [50, 100, 200],
+            'max_depth': [5, 10, None],
+            'min_samples_split': [2, 5],
+            'class_weight': ['balanced', None]
+        }
+    },
+    'LogisticRegression': {
+        'model': LogisticRegression(random_state=42, max_iter=1000),
+        'params': {
+            'C': [0.1, 1.0, 10.0],
+            'penalty': ['l2'],
+            'class_weight': ['balanced', None]
+        }
+    },
+    'GradientBoosting': {
+        'model': GradientBoostingClassifier(random_state=42),
+        'params': {
+            'n_estimators': [50, 100],
+            'learning_rate': [0.1, 0.2],
+            'max_depth': [3, 5],
+        }
+    },
+    'SVM': {
+        'model': SVC(random_state=42, probability=True),
+        'params': {
+            'C': [0.1, 1.0, 10.0],
+            'kernel': ['rbf', 'linear'],
+            'class_weight': ['balanced', None]
+        }
+    }
+}
+
+scorer = make_scorer(f1_score)
+cv_folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+best_models = []
+
+for dataset in training_datasets:
+    best_overall_score = -1
+    best_overall_model = None
+
+    for model_name, config in param_grids.items():
+        grid_search = GridSearchCV(
+            estimator=config['model'],
+            param_grid=config['params'],
+            scoring=scorer,
+            cv=cv_folds,
+            n_jobs=-1,
+            verbose=0
+        )
+        grid_search.fit(dataset[0], dataset[1])
+        if grid_search.best_score_ > best_overall_score:
+            best_overall_model = grid_search.best_estimator_
+            best_overall_score = grid_search.best_score_
+
+    best_models.append(best_overall_model)
+
+# --------------------------------
+# Match Entities
+# --------------------------------
+
+ml_matcher_discogs_lastfm = MLBasedMatcher(feature_extractor_discogs_lastfm)
+ml_matcher_discogs_musicbrainz = MLBasedMatcher(feature_extractor_discogs_musicbrainz)
+ml_matcher_musicbrainz_lastfm = MLBasedMatcher(feature_extractor_musicbrainz_lastfm)
+
+ml_correspondences_discogs_lastfm = ml_matcher_discogs_lastfm.match(
+    discogs, lastfm, candidates=blocker_discogs_lastfm, id_column='id', trained_classifier=best_models[0]
+)
+
+ml_correspondences_discogs_musicbrainz = ml_matcher_discogs_musicbrainz.match(
+    discogs, musicbrainz, candidates=blocker_discogs_musicbrainz, id_column='id', trained_classifier=best_models[1]
+)
+
+ml_correspondences_musicbrainz_lastfm = ml_matcher_musicbrainz_lastfm.match(
+    musicbrainz, lastfm, candidates=blocker_musicbrainz_lastfm, id_column='id', trained_classifier=best_models[2]
 )
 
 # --------------------------------
@@ -277,50 +305,35 @@ rb_correspondences_musicbrainz_lastfm = rb_matcher.match(
 
 print("Fusing Data")
 
-all_rb_correspondences = pd.concat(
-    [
-        rb_correspondences_discogs_lastfm,
-        rb_correspondences_discogs_musicbrainz,
-        rb_correspondences_musicbrainz_lastfm,
-    ],
-    ignore_index=True,
+# merge ML-based correspondences
+all_ml_correspondences = pd.concat(
+    [ml_correspondences_discogs_lastfm, ml_correspondences_discogs_musicbrainz, ml_correspondences_musicbrainz_lastfm],
+    ignore_index=True
 )
 
-strategy = DataFusionStrategy("music_fusion_strategy")
+# define data fusion strategy
+strategy = DataFusionStrategy('ml_fusion_strategy')
 
-# Core attributes
-strategy.add_attribute_fuser("name", longest_string)
-strategy.add_attribute_fuser("artist", longest_string)
-strategy.add_attribute_fuser("release-date", longest_string)
-strategy.add_attribute_fuser("release-country", longest_string)
-strategy.add_attribute_fuser("duration", longest_string)
-strategy.add_attribute_fuser("label", longest_string)
-strategy.add_attribute_fuser("genre", longest_string)
+strategy.add_attribute_fuser('name', longest_string)
+strategy.add_attribute_fuser('artist', longest_string)
+strategy.add_attribute_fuser('release-date', longest_string)
+strategy.add_attribute_fuser('release-country', longest_string)
+strategy.add_attribute_fuser('duration', longest_string)
+strategy.add_attribute_fuser('label', longest_string)
+strategy.add_attribute_fuser('genre', longest_string)
+strategy.add_attribute_fuser('tracks_track_name', union)
+strategy.add_attribute_fuser('tracks_track_position', union)
+strategy.add_attribute_fuser('tracks_track_duration', union)
 
-# Track-level attributes as list-like
-strategy.add_attribute_fuser("tracks_track_name", union)
-strategy.add_attribute_fuser("tracks_track_position", union)
-strategy.add_attribute_fuser("tracks_track_duration", union)
+# run fusion
+engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_music.jsonl")
 
-engine = DataFusionEngine(
-    strategy,
-    debug=True,
-    debug_format="json",
-    debug_file="output/data_fusion/debug_fusion_rb_standard_blocker.jsonl",
-)
-
-rb_fused_standard_blocker = engine.run(
+ml_fused_music = engine.run(
     datasets=[discogs, lastfm, musicbrainz],
-    correspondences=all_rb_correspondences,
+    correspondences=all_ml_correspondences,
     id_column="id",
     include_singletons=False,
 )
 
-# --------------------------------
-# Write Output
-# --------------------------------
-
-rb_fused_standard_blocker.to_csv(
-    "output/data_fusion/fusion_rb_standard_blocker.csv",
-    index=False,
-)
+# write output
+ml_fused_music.to_csv("output/data_fusion/fusion_music.csv", index=False)

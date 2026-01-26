@@ -21,7 +21,12 @@ from PyDI.entitymatching import (
     DateComparator,
 )
 
+from sklearn.base import clone
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score, make_scorer
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.svm import SVC
 
 
 def load_dataset(path: str) -> pd.DataFrame:
@@ -93,8 +98,13 @@ class MatchingTester:
                 print(f"[*] Loading matching gold standard for {pair[0]} <-> {pair[1]}")
             self.gold_standards[pair] = self._load_gold_standard(path)
 
+    def _read_gold_standard(self, path: str) -> pd.DataFrame:
+        if path.lower().endswith((".txt", ".tsv")):
+            return pd.read_csv(path, sep=None, engine="python")
+        return pd.read_csv(path)
+
     def _load_gold_standard(self, path: str) -> pd.DataFrame:
-        gs = pd.read_csv(path)
+        gs = self._read_gold_standard(path)
         col_mapping = {}
         for col in gs.columns:
             col_lower = col.lower()
@@ -123,6 +133,95 @@ class MatchingTester:
                 except TypeError:
                     pass
         return df.columns[0]
+
+    def _candidate_id_columns(self, df: pd.DataFrame) -> List[str]:
+        candidates = []
+        for col in df.columns:
+            if "id" in col.lower():
+                candidates.append(col)
+        for col in df.columns:
+            if col in candidates:
+                continue
+            try:
+                if df[col].nunique() == len(df):
+                    candidates.append(col)
+            except TypeError:
+                pass
+        if not candidates:
+            candidates = [df.columns[0]]
+        return candidates[:5]
+
+    def _sample_values(self, series: pd.Series, n: int = 3) -> List[str]:
+        vals = series.dropna().astype(str).unique().tolist()
+        return vals[:n]
+
+    def _align_ids_with_gold(
+        self,
+        name_left: str,
+        name_right: str,
+        gold: pd.DataFrame,
+    ) -> Tuple[pd.DataFrame, str]:
+        df_left = self.datasets_loaded[name_left]
+        df_right = self.datasets_loaded[name_right]
+
+        left_id = self._detect_id_column(df_left)
+        right_id = self._detect_id_column(df_right)
+        gold_id1_source = "left"
+
+        if self.llm is not None:
+            try:
+                left_candidates = self._candidate_id_columns(df_left)
+                right_candidates = self._candidate_id_columns(df_right)
+                left_samples = {c: self._sample_values(df_left[c]) for c in left_candidates}
+                right_samples = {c: self._sample_values(df_right[c]) for c in right_candidates}
+                gold_samples = {
+                    "id1": self._sample_values(gold["id1"]),
+                    "id2": self._sample_values(gold["id2"]),
+                }
+
+                system_prompt = (
+                    "You map gold testset ID columns (id1/id2) to dataset ID columns. "
+                    "Return ONLY JSON with keys: left_id_col, right_id_col, gold_id1_source "
+                    "where gold_id1_source is 'left' or 'right'."
+                )
+                human_content = (
+                    f"Left dataset: {name_left}\n"
+                    f"Left ID candidates (sample values): {json.dumps(left_samples, indent=2)}\n\n"
+                    f"Right dataset: {name_right}\n"
+                    f"Right ID candidates (sample values): {json.dumps(right_samples, indent=2)}\n\n"
+                    f"Gold id1/id2 samples: {json.dumps(gold_samples, indent=2)}\n"
+                    "Pick the best left/right ID columns and indicate whether gold id1 belongs to left or right."
+                )
+                response = self.llm.invoke(
+                    [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
+                )
+                raw = response.content if hasattr(response, "content") else str(response)
+                cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", raw.strip())
+                parsed = json.loads(cleaned)
+                left_choice = parsed.get("left_id_col")
+                right_choice = parsed.get("right_id_col")
+                gold_id1_source = parsed.get("gold_id1_source", "left")
+                if left_choice in df_left.columns:
+                    left_id = left_choice
+                if right_choice in df_right.columns:
+                    right_id = right_choice
+                if gold_id1_source == "right":
+                    gold = gold.rename(columns={"id1": "id2", "id2": "id1"})
+            except Exception:
+                pass
+
+        self.id_columns[name_left] = left_id
+        self.id_columns[name_right] = right_id
+        self.last_id_alignment = {
+            "left_id": left_id,
+            "right_id": right_id,
+            "gold_id1_source": gold_id1_source,
+        }
+        if left_id != right_id:
+            self.datasets_loaded[name_left]["__record_id__"] = self.datasets_loaded[name_left][left_id]
+            self.datasets_loaded[name_right]["__record_id__"] = self.datasets_loaded[name_right][right_id]
+            return gold, "__record_id__"
+        return gold, left_id
 
     def _resolve_id_column(self, name_left: str, name_right: str, id_column: str = None) -> str:
         if id_column:
@@ -406,11 +505,11 @@ class MatchingTester:
         weights = parsed.get("weights", [])
         weights = self._normalize_weights(weights, len(cleaned_comps))
 
-        threshold = parsed.get("threshold", 0.7)
+        threshold = parsed.get("threshold", 0.75)
         try:
             threshold = float(threshold)
         except (TypeError, ValueError):
-            threshold = 0.7
+            threshold = 0.75
         threshold = max(0.0, min(1.0, threshold))
 
         return {
@@ -430,7 +529,7 @@ class MatchingTester:
         return {
             "comparators": comps,
             "weights": self._normalize_weights([], len(comps)),
-            "threshold": 0.7,
+            "threshold": 0.75,
             "reasoning": "default heuristic",
         }
 
@@ -679,8 +778,10 @@ Guidance:
             y_train = features["label"]
             if y_train.nunique() < 2:
                 return None, "ML matcher needs at least two label classes"
+            print("    [ML] Selecting model")
+            classifier, model_name, model_params = self._select_best_ml_model(X_train, y_train)
+            print(f"    [ML] Found best model: {model_name} ({model_params})")
             print("    [ML] Training classifier")
-            classifier = LogisticRegression(random_state=42, max_iter=1000, class_weight="balanced")
             classifier.fit(X_train, y_train)
             ml_matcher = MLBasedMatcher(feature_extractor)
             print("    [ML] Matching candidates")
@@ -707,6 +808,58 @@ Guidance:
         except Exception as e:
             return None, f"{type(e).__name__}: {str(e)}"
 
+    def _select_best_ml_model(self, X_train: pd.DataFrame, y_train: pd.Series):
+        scorer = make_scorer(f1_score)
+        cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+        candidates = [
+            (
+                "LogisticRegression",
+                LogisticRegression(random_state=42, max_iter=1000, class_weight="balanced"),
+                [{"C": 0.1}, {"C": 1.0}],
+            ),
+            (
+                "RandomForestClassifier",
+                RandomForestClassifier(random_state=42, class_weight="balanced"),
+                [{"n_estimators": 50, "max_depth": None}, {"n_estimators": 100, "max_depth": 10}],
+            ),
+            (
+                "SVC",
+                SVC(random_state=42, probability=True, class_weight="balanced"),
+                [{"C": 1.0, "kernel": "rbf"}, {"C": 1.0, "kernel": "linear"}],
+            ),
+        ]
+
+        best_score = -1.0
+        best_model = None
+        best_name = ""
+        best_params = {}
+
+        for name, base_model, grid in candidates:
+            for params in grid:
+                model = clone(base_model)
+                model.set_params(**params)
+                try:
+                    scores = cross_val_score(model, X_train, y_train, scoring=scorer, cv=cv, n_jobs=1)
+                except Exception as exc:
+                    print(f"    [ML] CV failed for {name} {params}: {exc}")
+                    continue
+                if scores is None or len(scores) == 0:
+                    continue
+                score = float(scores.mean())
+                print(f"    [ML] CV {name} {params}: mean={score:.4f}, std={scores.std():.4f}")
+                if score > best_score:
+                    best_score = score
+                    best_model = model
+                    best_name = name
+                    best_params = params
+
+        if best_model is None:
+            best_model = LogisticRegression(random_state=42, max_iter=1000, class_weight="balanced")
+            best_name = "LogisticRegression"
+            best_params = {}
+
+        return best_model, best_name, best_params
+
     def run_pair_with_llm(self, name_left: str, name_right: str, id_column: str = None) -> Dict[str, Any]:
         pair_key = (name_left, name_right)
         reverse_key = (name_right, name_left)
@@ -719,8 +872,28 @@ Guidance:
             raise ValueError(f"No matching gold standard found for pair: {pair_key}")
 
         print(f"\n{'='*50}\nMATCHING: {name_left} <-> {name_right}\n{'='*50}")
-        id_column = self._resolve_id_column(name_left, name_right, id_column)
+        if id_column is None:
+            gold, id_column = self._align_ids_with_gold(name_left, name_right, gold)
         print(f"    Using ID column: '{id_column}'")
+        alignment = getattr(self, "last_id_alignment", None)
+        if alignment:
+            if alignment.get("left_id") != alignment.get("right_id"):
+                print(
+                    f"    Using ID columns: left={alignment.get('left_id')}, "
+                    f"right={alignment.get('right_id')} (alias {id_column})"
+                )
+            else:
+                print(f"    Using ID column: '{alignment.get('left_id')}'")
+            if alignment.get("gold_id1_source") == "right":
+                print(
+                    f"    Gold id1 -> right({alignment.get('right_id')}), "
+                    f"id2 -> left({alignment.get('left_id')})"
+                )
+            else:
+                print(
+                    f"    Gold id1 -> left({alignment.get('left_id')}), "
+                    f"id2 -> right({alignment.get('right_id')})"
+                )
 
         analysis = self._analyze_columns_for_pair(name_left, name_right, id_column)
         blocking_cfg, _ = self._get_blocking_config(name_left, name_right)
@@ -767,6 +940,7 @@ Guidance:
                 print(f"Weights: {choice['weights']}")
             print(f"Threshold: {choice['threshold']}")
             print(f"    Reasoning: {choice['reasoning']}")
+            print(f"    Reasoning (100c): {choice['reasoning'][:100]}")
 
             last_error = None
             for error_retry in range(self.max_error_retries + 1):
