@@ -1,13 +1,42 @@
+# Setup
+
+To set up the virtual environment run the following commands:
+
+**Following step is only required, if your Python is 3.13 or higher.**
+
+```
+py -3.12 --install
+```
+
+**Set up your virtual environment**
+
+```
+py -3.12.9 -m venv venv
+```
+
+```
+.\venv\Scripts\activate
+```
+
+```
+pip install -r .\requirements.txt
+```
+
+# API Key
+
+Save the API key as shown below under `agents/.env`:
+
+```
+OPENAI_API_KEY=<API-KEY>
+```
+
 # Architecture
 
 <img width="883" height="694" alt="architecture" src="docs/architecture_v0.2.png" />
 
-# Current Results
+# Current Experiment Results
 
-| Use Case      | Approach                                    | Overall Accuracy (RB) | Overall Accuracy (ML) |
-|---------------|---------------------------------------------|-----------------------------|-----------------------------|
-| Music         | [AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb](#agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)  | TBD                  | TBD                  |
-| Restaurant (Test sets currently do not fit datasets)    | [AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb](#agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)  | 26.408%                  | 28.661%                  |
+Current expermint results can be found [here](#ExperimentRestults.md).
 
 # Requirements
 
