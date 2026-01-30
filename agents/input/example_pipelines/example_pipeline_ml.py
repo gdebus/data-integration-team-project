@@ -13,6 +13,7 @@ from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, un
 from PyDI.fusion import DataFusionEvaluator, tokenized_match
 
 from PyDI.schemamatching import LLMBasedSchemaMatcher
+from PyDI.entitymatching import MaximumBipartiteMatching
 from langchain_openai import ChatOpenAI
 
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
@@ -393,8 +394,16 @@ ml_correspondences_2_3 = ml_matcher_2_3.match(
 
 print("Fusing Data")
 
-# --------------------------------
-# Data Fusion
+# MaximumBipartiteMatching example:
+# This will ensure that each entity is matched to at most one entity in the other dataset
+clusterer = MaximumBipartiteMatching()
+ml_correspondences_1_2 = clusterer.cluster(ml_correspondences_1_2)
+ml_correspondences_1_3 = clusterer.cluster(ml_correspondences_1_3)
+ml_correspondences_2_3 = clusterer.cluster(ml_correspondences_2_3)
+
+print("Fusing Data")
+
+# -------------- Data Fusion ------------------
 # There are following conflict resolution functions available:
 # For strings: longest_string, shortest_string, most_complete
 # For numerics: average, median, maximum, minimum, sum_values
@@ -423,7 +432,7 @@ strategy.add_attribute_fuser('longitude', longest_string)
 strategy.add_attribute_fuser('categories', union)
 
 # run fusion
-engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")
+engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_ml.jsonl")
 
 ml_fused_standard_blocker = engine.run(
     datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
@@ -433,4 +442,4 @@ ml_fused_standard_blocker = engine.run(
 )
 
 # write output
-ml_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
+ml_fused_standard_blocker.to_csv("output/data_fusion/fusion_ml.csv", index=False)

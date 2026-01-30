@@ -413,7 +413,7 @@ ml_correspondences_1_2 = ml_matcher_1_2.match(
     trained_classifier=best_models[0],
 )
 
-ml_correspondences_1_3 = ml_matcher_1_2.match(
+ml_correspondences_1_3 = ml_matcher_1_3.match(
     good_dataset_name_1,
     good_dataset_name_3,
     candidates=blocker_1_3,
