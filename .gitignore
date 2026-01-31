@@ -4,6 +4,7 @@
 datasets/*
 
 agents/output/*
+!agents/output/results/
 .vscode
 out_parquet/*
 

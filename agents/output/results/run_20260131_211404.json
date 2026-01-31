@@ -1,0 +1,296 @@
+{
+  "timestamp": "20260131_211404",
+  "datasets": ["kaggle_small", "uber_eats_small", "yelp_small"],
+  "matcher_mode": "rulebased",
+  "fusion_testset": "Restaurant_Fusion_Test_Set.csv",
+  "blocking_metrics": {
+    "kaggle_small_uber_eats_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 199719,
+      "stategy": "semantic_similarity",
+      "columns": ["name_norm", "city", "state"]
+    },
+    "kaggle_small_yelp_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 179,
+      "stategy": "exact_match_multi",
+      "columns": ["phone_e164", "postal_code"]
+    },
+    "uber_eats_small_yelp_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 199972,
+      "stategy": "semantic_similarity",
+      "columns": ["name_norm", "street", "city"]
+    }
+  },
+  "matching_metrics": {
+    "kaggle_small_uber_eats_small": {
+      "f1_score": 0.8947368421052632
+    },
+    "kaggle_small_yelp_small": {
+      "f1_score": 0.983050847457627
+    },
+    "uber_eats_small_yelp_small": {
+      "f1_score": 0.9302325581395349
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.493116395494368,
+    "macro_accuracy": 0.5024788862913587,
+    "num_evaluated_records": 40,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 799,
+    "total_correct": 394,
+    "country_accuracy": 0.55,
+    "country_count": 40,
+    "rating_count_accuracy": 0.5588235294117647,
+    "rating_count_count": 34,
+    "map_url_accuracy": 0.55,
+    "map_url_count": 40,
+    "address_line1_accuracy": 0.55,
+    "address_line1_count": 40,
+    "phone_raw_accuracy": 0.55,
+    "phone_raw_count": 40,
+    "phone_e164_accuracy": 0.55,
+    "phone_e164_count": 40,
+    "source_accuracy": 0.55,
+    "source_count": 40,
+    "city_accuracy": 0.55,
+    "city_count": 40,
+    "name_norm_accuracy": 0.55,
+    "name_norm_count": 40,
+    "website_accuracy": 0.5789473684210527,
+    "website_count": 38,
+    "street_accuracy": 0.45,
+    "street_count": 40,
+    "name_accuracy": 0.55,
+    "name_count": 40,
+    "postal_code_accuracy": 0.0,
+    "postal_code_count": 40,
+    "longitude_accuracy": 0.55,
+    "longitude_count": 40,
+    "state_accuracy": 0.55,
+    "state_count": 40,
+    "latitude_accuracy": 0.55,
+    "latitude_count": 40,
+    "rating_accuracy": 0.55,
+    "rating_count": 40,
+    "id_accuracy": 0.55,
+    "id_count": 40,
+    "address_line2_accuracy": 0.7142857142857143,
+    "address_line2_count": 7,
+    "categories_accuracy": 0.55,
+    "categories_count": 40,
+    "house_number_accuracy": 0.0,
+    "house_number_count": 40
+  },
+  "overall_accuracy": 0.493116395494368,
+  "blocking_config": {
+    "blocking_strategies": {
+      "kaggle_small_uber_eats_small": {
+        "strategy": "semantic_similarity",
+        "columns": ["name_norm", "city", "state"],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 199719,
+        "is_acceptable": true
+      },
+      "kaggle_small_yelp_small": {
+        "strategy": "exact_match_multi",
+        "columns": ["phone_e164", "postal_code"],
+        "params": {},
+        "pair_completeness": 1.0,
+        "num_candidates": 179,
+        "is_acceptable": true
+      },
+      "uber_eats_small_yelp_small": {
+        "strategy": "semantic_similarity",
+        "columns": ["name_norm", "street", "city"],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 199972,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "kaggle_small": "id",
+      "uber_eats_small": "id",
+      "yelp_small": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "kaggle_small": "id",
+      "uber_eats_small": "id",
+      "yelp_small": "id"
+    },
+    "matching_strategies": {
+      "kaggle_small_uber_eats_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "street",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "state",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.01
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.01
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [0.35, 0.12, 0.08, 0.05, 0.16, 0.16, 0.08],
+        "threshold": 0.75,
+        "f1": 0.8947368421052632
+      },
+      "kaggle_small_yelp_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "phone_e164",
+            "similarity_function": "jaro_winkler",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "postal_code",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [0.2, 0.25, 0.15, 0.1, 0.1, 0.1, 0.1],
+        "threshold": 0.75,
+        "f1": 0.983050847457627
+      },
+      "uber_eats_small_yelp_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "street",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [0.28, 0.16, 0.12, 0.16, 0.16, 0.12],
+        "threshold": 0.72,
+        "f1": 0.9302325581395349
+      }
+    }
+  },
+  "token_usage": {
+    "prompt_tokens": 124791,
+    "completion_tokens": 15996,
+    "total_tokens": 140787,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "execution_attempts": 0,
+    "evaluation_attempts": 3,
+    "matcher_mode": "rulebased"
+  },
+  "evaluation_analysis": "1. Dominant error types (fusion-level)\n\nFrom the metrics and debug log:\n\n- Overall / macro accuracy ≈ 0.35 → fusion is systematically wrong for many attributes.\n- Many attributes are stuck at ≈0.45 accuracy (name, address_line1, city, state, country, etc.).\n  - That ~0.45 suggests: in almost every fused record, **only 1 of 2 gold rows is being matched**, or a similar systematic pattern, not random noise.\n- Some attributes have **0 accuracy**: `phone_raw`, `phone_e164`, `house_number`, `postal_code`.\n- Debug events for `map_url`, `source`, `website`:\n  - Every mismatch shows `fused_id: NaN`, `fused_value: null`, `reason: \"missing_fused_value\"`.\n  - So these are **false negatives due to missing fused values** (attribute not present at all in fused output, not a bad value).\n\nTherefore, dominant error types:\n\n- **False negatives from missing attributes** in the fused dataset:\n  - `map_url`, `source`, `website`, phones, house_number, postal_code, rating, rating_count, etc. are not being fused or not populated.\n- **False negatives from missing entities (clusters not produced)**:\n  - `fused_id` appears as `NaN` all through the debug log → for these gold `_id`s there is no fused record at all.\n- Very little evidence of **false positives** or over‑fusion:\n  - Cluster analysis shows small, clean clusters; no large messy many-to-many groups.\n  - Blocking/matching F1s are high; cluster sizes look healthy.\n\n2. Likely root causes\n\nGiven:\n\n- Blocking configs have pair_completeness = 1.0 for all pairs.\n- Matching configs have high F1 (0.89–0.98).\n- Cluster analysis: mainly size‑2 clusters (clean 1–1), occasional 3–6 clusters; no sign of over-matching.\n\nThat strongly indicates:\n\n- **Blocking is not the issue.**\n- **Matching is not the issue.**\n- Errors are almost entirely caused by:\n\n  a) **Fusion logic (pipeline code)**  \n  b) **Schema / preprocessing choices in fusion (not entity matching)**\n\nConcretely:\n\na) Fusion logic issues\n\n- You call:\n\n  ```python\n  rb_fused_standard_blocker = engine.run(\n      datasets=[kaggle_small, uber_eats_small, yelp_small],\n      correspondences=all_rb_correspondences,\n      id_column=\"id\",\n      include_singletons=False,\n  )\n  ```\n\n  Key problems:\n\n  - `include_singletons=False`  \n    → Any record that did not end up in a matched cluster is **simply dropped** from fused output.  \n    → If the test set uses gold `_id`s from any dataset (kaggle, uber, yelp) that are *singletons* in your correspondences graph, you will have no fused record for them → `fused_id: NaN` in debug.\n    - This directly explains the pattern where many gold `_id`s have no fused row.\n\n  - Only a subset of attributes are configured in fusion:\n\n    ```python\n    strategy.add_attribute_fuser(\"name\", longest_string)\n    strategy.add_attribute_fuser(\"street\", longest_string)\n    strategy.add_attribute_fuser(\"house_number\", longest_string)\n    strategy.add_attribute_fuser(\"city\", longest_string)\n    strategy.add_attribute_fuser(\"state\", longest_string)\n    strategy.add_attribute_fuser(\"postal_code\", longest_string)\n    strategy.add_attribute_fuser(\"country\", longest_string)\n    strategy.add_attribute_fuser(\"latitude\", longest_string)\n    strategy.add_attribute_fuser(\"longitude\", longest_string)\n    strategy.add_attribute_fuser(\"categories\", union)\n    ```\n\n    Attributes **present in the gold set but not fused at all**:\n\n    - `map_url`, `source`, `website`, `phone_raw`, `phone_e164`, `name_norm`, `address_line1`, `address_line2`, `id`, `_fusion_sources`, `_fusion_source_datasets`, `rating`, `rating_count`, etc. (depending on what’s in your source data).\n    - For such attributes, PyDI will either omit them or fill with nulls, leading to `missing_fused_value` in evaluation.\n\n- Fusion function choices:\n\n  - `longest_string` is crude. For structured fields like `postal_code`, `house_number`, `phone_*`, it can:\n    - Prefer a longer, but wrong, version.\n    - Fail to reconcile small variants.\n  - Numeric attributes (`latitude`, `longitude`) are fused with `longest_string` (string-based) rather than numeric logic (e.g., average, pick most frequent, or trust certain sources). This may lead to:\n    - Wrong types, or string comparisons instead of numeric.\n    - Inconsistent lat/lon values across the cluster that fail numeric tolerance in evaluation.\n\nb) Schema / preprocessing issues (fusion-specific)\n\n- Schema matching step: you rename columns in uber_eats_small and yelp_small based on LLMBasedSchemaMatcher, but **fusion strategy is hard-coded to specific attribute names** (`name`, `street`, etc.).\n  - If schema matcher mapped, say, `website` to a slightly different name or didn’t unify it exactly across all three datasets, that attribute will not be picked up by the fusion strategy; it will remain as separate columns per dataset or be absent.\n  - That can yield systematically missing fused values for `website`, `map_url`, `source` if names don’t match across all datasets.\n\n- The evaluation debug entries show `inputs: []` for every mismatch:\n  - This suggests that, in the evaluator’s view, **no fused record** is found for those gold IDs, so it cannot even retrieve the fused attribute values (hence `inputs` empty).\n  - Again, consistent with clusters not covering those IDs (`include_singletons=False`) or fused id column not aligning to gold `_id`s.\n\n3. Cluster analysis – what it tells us\n\n- For all three correspondence files, cluster sizes are mostly 2, sometimes 3–6:\n  - “strict 1-to-1 pairing with no large or messy clusters”, “generally healthy clustering”.\n- Combined with high F1s for matchers:\n  - The **correspondence graph is good**.\n  - Fusion errors are not due to mis-matched entities (bad matches) or missed true matches (false negatives in matching stage) at scale.\n- A moderate cluster size of 6 in uber_eats_small_yelp_small:\n  - Could represent several brands/locations collapsed or genuine many-to-one; but the report explicitly says: “no clear signs of severe over-matching”.\n  - Not a primary driver of the very low fusion accuracy.\n\nConclusion from cluster analysis: **focus on fusion configuration and evaluation alignment, not on blocking/matching.**\n\n4. Concrete, actionable improvements for next pipeline iteration\n\nFocus solely on fusion and evaluation alignment as requested.\n\nA. Ensure all evaluated attributes are fused\n\nAdd fusers for every attribute that appears in the gold test set and in your sources:\n\n```python\nfrom PyDI.fusion import most_frequent, source_priority  # if available, or implement custom\n\nstrategy = DataFusionStrategy(\"rule_based_fusion_strategy\")\n\n# Core identity / address fields\nstrategy.add_attribute_fuser(\"name\", longest_string)\nstrategy.add_attribute_fuser(\"name_norm\", longest_string)\nstrategy.add_attribute_fuser(\"street\", longest_string)\nstrategy.add_attribute_fuser(\"house_number\", longest_string)\nstrategy.add_attribute_fuser(\"address_line1\", longest_string)\nstrategy.add_attribute_fuser(\"address_line2\", longest_string)\nstrategy.add_attribute_fuser(\"city\", longest_string)\nstrategy.add_attribute_fuser(\"state\", longest_string)\nstrategy.add_attribute_fuser(\"postal_code\", longest_string)\nstrategy.add_attribute_fuser(\"country\", longest_string)\n\n# Contact / web\nstrategy.add_attribute_fuser(\"phone_raw\", longest_string)\nstrategy.add_attribute_fuser(\"phone_e164\", longest_string)\nstrategy.add_attribute_fuser(\"website\", longest_string)\nstrategy.add_attribute_fuser(\"map_url\", longest_string)\n\n# Ratings (numeric)\nstrategy.add_attribute_fuser(\"rating\", longest_string)        # better: numeric/weighted fusion\nstrategy.add_attribute_fuser(\"rating_count\", longest_string)  # same remark\n\n# Geospatial (consider numeric logic instead of longest_string)\nstrategy.add_attribute_fuser(\"latitude\", longest_string)\nstrategy.add_attribute_fuser(\"longitude\", longest_string)\n\n# Categories (union is good)\nstrategy.add_attribute_fuser(\"categories\", union)\n\n# Provenance / IDs\nstrategy.add_attribute_fuser(\"id\", longest_string)\nstrategy.add_attribute_fuser(\"_fusion_sources\", union)\nstrategy.add_attribute_fuser(\"_fusion_source_datasets\", union)\nstrategy.add_attribute_fuser(\"source\", union)  # or most_frequent if schema provides it\n```\n\nIf some of these columns are not present in all three datasets, PyDI will simply use available ones in each cluster, but you must define fusers so they appear in the fused frame.\n\nB. Include singletons in fusion\n\nTo avoid missing fused records for gold `_id`s that are not in multi-dataset clusters:\n\n```python\nrb_fused_standard_blocker = engine.run(\n    datasets=[kaggle_small, uber_eats_small, yelp_small],\n    correspondences=all_rb_correspondences,\n    id_column=\"id\",\n    include_singletons=True,  # changed\n)\n```\n\nThis will:\n\n- Produce a fused row for **every input entity**, even if it has no matches in other datasets.\n- Greatly reduce `fused_id: NaN` and `inputs: []` situations in evaluation (since now almost all gold `_id`s should map to some fused row).\n\nC. Align fused ID with gold `_id`\n\nYour evaluator uses `gold_id_column=\"_id\"`. You set:\n\n```python\nfused_id_column = \"_id\" if \"_id\" in fused.columns else \"id\"\n```\n\nBut the fused DataFusionEngine output may have its own internal `_id` that does **not** equal any of the original source IDs; instead, the original IDs may be in a provenance column (e.g., `_fusion_sources`). To make evaluation align:\n\n1. Inspect a sample of `fusion_data.csv` and confirm:\n   - Does it contain a column `_id`?\n   - Does that `_id` correspond to the gold `_id` in `fusion_test_set`?\n   - Or does it contain original IDs (kaggle / uber / yelp) in other columns?\n\n2. If the gold `_id` is, say, the id from kaggle_small, you should:\n\n   - Ensure each fused row carries the kaggle id for that cluster:\n\n     ```python\n     # After fusion, map back a canonical id, e.g. kaggle id if present, else uber, else yelp\n     def choose_canonical_id(row):\n         # Pseudocode; adapt to actual column names in fused output\n         if 'kaggle_small.id' in row and pd.notna(row['kaggle_small.id']):\n             return row['kaggle_small.id']\n         if 'uber_eats_small.id' in row and pd.notna(row['uber_eats_small.id']):\n             return row['uber_eats_small.id']\n         if 'yelp_small.id' in row and pd.notna(row['yelp_small.id']):\n             return row['yelp_small.id']\n         return None\n\n     fused = pd.read_csv(\"output/data_fusion/fusion_data.csv\")\n     fused['id'] = fused.apply(choose_canonical_id, axis=1)\n     fused.to_csv(\"output/data_fusion/fusion_data_aligned.csv\", index=False)\n     ```\n\n   - Then in evaluation, use `fused_id_column=\"id\"` and have `gold_id_column` match the same id system.\n\n3. Alternatively, if your gold `_id` is *already* the DataFusionEngine’s `_id` (less likely), then ensure you use `fused_id_column=\"_id\"` and don’t overwrite it.\n\nMisalignment between fused ID and gold `_id` manifests exactly as we see: evaluation uses `_id` keys that do not exist in fused → “fused_id: NaN”.\n\nD. Improve fusion rules (quality, not just coverage)\n\nAfter fixing coverage, you can refine attribute-specific fusion:\n\n- **Latitude/longitude**:\n  - Replace `longest_string` with a numeric strategy (e.g., average or most frequent; or “trust kaggle if present, else others”):\n    - If PyDI doesn’t include such an out-of-the-box fuser, implement a custom one that:\n      - Converts to floats, discards outliers, chooses median or mean.\n\n- **Postal code / house number / phone**:\n  - Use `most_frequent` or `source_priority` (e.g., prefer yelp / kaggle if they are known to be cleaner) instead of `longest_string`.\n  - `longest_string` can reward formatting noise (“(555) 123-4567 ext. 2”) over a clean, correct value.\n\n- **Rating / rating_count**:\n  - If available across sources, you may want:\n    - `rating`: average or source priority.\n    - `rating_count`: max or sum (depending on semantics in gold test set).\n\nE. Double-check schema matching for critical attributes\n\nSince fusion depends on consistent column names across datasets:\n\n- Print the columns of all three datasets after schema matching:\n\n  ```python\n  print(kaggle_small.columns)\n  print(uber_eats_small.columns)\n  print(yelp_small.columns)\n  ```\n\n- Explicitly verify that for all attributes you want to evaluate (`phone_e164`, `website`, `map_url`, `rating`, `rating_count`, etc.), the column names are **identical** across datasets and match the names you pass to `add_attribute_fuser`.\n\n- If schema matcher uses slightly different names or introduced mismatches, override them manually for critical columns instead of relying purely on the LLM mapping.\n\nF. Re-run evaluation and inspect debug\n\nAfter applying A–E:\n\n- Re-run fusion, then evaluation.\n- Inspect new debug JSONL:\n  - You should no longer see `fused_id: NaN` or `inputs: []` for most rows.\n  - Remaining errors will then point to actual fusion-value disagreements rather than missing records.\n\nSummary of main diagnosis\n\n- Blocking and matching are already near-optimal and not the main source of errors.\n- The dominant errors are **false negatives due to:**\n  - Missing fused records (exclude singletons; ID mismatch).\n  - Missing fused values for many attributes (no fusers; schema misalignment).\n- Fix by:\n  - Enabling `include_singletons=True`.\n  - Adding attribute fusers for all evaluated attributes.\n  - Ensuring fused ID aligns with gold `_id`.\n  - Adjusting fusion logic for numeric and structured fields.\n  - Verifying schema names across datasets for all critical columns.",
+  "integration_pipeline_code_length": 15345,
+  "evaluation_code_length": 4079
+}

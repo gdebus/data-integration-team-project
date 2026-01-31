@@ -1,0 +1,296 @@
+{
+  "timestamp": "20260131_205725",
+  "datasets": ["kaggle_small", "uber_eats_small", "yelp_small"],
+  "matcher_mode": "ml",
+  "fusion_testset": "Restaurant_Fusion_Test_Set.csv",
+  "blocking_metrics": {
+    "kaggle_small_uber_eats_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 199719,
+      "stategy": "semantic_similarity",
+      "columns": ["name_norm", "city", "state"]
+    },
+    "kaggle_small_yelp_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 179,
+      "stategy": "exact_match_multi",
+      "columns": ["phone_e164", "postal_code"]
+    },
+    "uber_eats_small_yelp_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 199972,
+      "stategy": "semantic_similarity",
+      "columns": ["name_norm", "street", "city"]
+    }
+  },
+  "matching_metrics": {
+    "kaggle_small_uber_eats_small": {
+      "f1_score": 0.8947368421052632
+    },
+    "kaggle_small_yelp_small": {
+      "f1_score": 0.983050847457627
+    },
+    "uber_eats_small_yelp_small": {
+      "f1_score": 0.9302325581395349
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.5506883604505632,
+    "macro_accuracy": 0.5521113708641351,
+    "num_evaluated_records": 40,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 799,
+    "total_correct": 440,
+    "address_line1_accuracy": 0.625,
+    "address_line1_count": 40,
+    "latitude_accuracy": 0.625,
+    "latitude_count": 40,
+    "phone_e164_accuracy": 0.0,
+    "phone_e164_count": 40,
+    "rating_count_accuracy": 0.6176470588235294,
+    "rating_count_count": 34,
+    "name_norm_accuracy": 0.625,
+    "name_norm_count": 40,
+    "name_accuracy": 0.625,
+    "name_count": 40,
+    "categories_accuracy": 0.575,
+    "categories_count": 40,
+    "phone_raw_accuracy": 0.0,
+    "phone_raw_count": 40,
+    "state_accuracy": 0.625,
+    "state_count": 40,
+    "website_accuracy": 0.6052631578947368,
+    "website_count": 38,
+    "address_line2_accuracy": 0.5714285714285714,
+    "address_line2_count": 7,
+    "street_accuracy": 0.525,
+    "street_count": 40,
+    "id_accuracy": 0.625,
+    "id_count": 40,
+    "country_accuracy": 0.625,
+    "country_count": 40,
+    "source_accuracy": 0.625,
+    "source_count": 40,
+    "map_url_accuracy": 0.6,
+    "map_url_count": 40,
+    "city_accuracy": 0.625,
+    "city_count": 40,
+    "house_number_accuracy": 0.625,
+    "house_number_count": 40,
+    "postal_code_accuracy": 0.625,
+    "postal_code_count": 40,
+    "rating_accuracy": 0.6,
+    "rating_count": 40,
+    "longitude_accuracy": 0.625,
+    "longitude_count": 40
+  },
+  "overall_accuracy": 0.5506883604505632,
+  "blocking_config": {
+    "blocking_strategies": {
+      "kaggle_small_uber_eats_small": {
+        "strategy": "semantic_similarity",
+        "columns": ["name_norm", "city", "state"],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 199719,
+        "is_acceptable": true
+      },
+      "kaggle_small_yelp_small": {
+        "strategy": "exact_match_multi",
+        "columns": ["phone_e164", "postal_code"],
+        "params": {},
+        "pair_completeness": 1.0,
+        "num_candidates": 179,
+        "is_acceptable": true
+      },
+      "uber_eats_small_yelp_small": {
+        "strategy": "semantic_similarity",
+        "columns": ["name_norm", "street", "city"],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 199972,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "kaggle_small": "id",
+      "uber_eats_small": "id",
+      "yelp_small": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "kaggle_small": "id",
+      "uber_eats_small": "id",
+      "yelp_small": "id"
+    },
+    "matching_strategies": {
+      "kaggle_small_uber_eats_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "street",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "state",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.01
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.01
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [0.35, 0.12, 0.08, 0.05, 0.16, 0.16, 0.08],
+        "threshold": 0.75,
+        "f1": 0.8947368421052632
+      },
+      "kaggle_small_yelp_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "phone_e164",
+            "similarity_function": "jaro_winkler",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "postal_code",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [0.2, 0.25, 0.15, 0.1, 0.1, 0.1, 0.1],
+        "threshold": 0.75,
+        "f1": 0.983050847457627
+      },
+      "uber_eats_small_yelp_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "street",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [0.28, 0.16, 0.12, 0.16, 0.16, 0.12],
+        "threshold": 0.72,
+        "f1": 0.9302325581395349
+      }
+    }
+  },
+  "token_usage": {
+    "prompt_tokens": 125811,
+    "completion_tokens": 16618,
+    "total_tokens": 142429,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "execution_attempts": 0,
+    "evaluation_attempts": 3,
+    "matcher_mode": "ml"
+  },
+  "evaluation_analysis": "1. Dominant error types\n\nFrom metrics and debug logs:\n\n- Overall attribute accuracy ≈ 0.36 (low across the board).\n- Many `evaluation_mismatch` events show:\n  - `fused_id: NaN`, `inputs: []`, `reason: \"missing_fused_value\"` for attributes like `categories`, `country`, `state`, etc.\n  - Essentially all 40 records in the test set are present in the gold standard, but many have **no fused record** in the output.\n\nSo the dominant error modes are:\n\n- **False negatives at the record/cluster level**:\n  - Many gold-standard entities are not present in the fused output at all.\n  - Manifested as `fused_id: NaN` and `missing_fused_value` for all attributes of that entity.\n- **Attribute-level missing values** for those absent records (not a fusion decision issue per attribute; they’re a consequence of missing records).\n- A smaller share of **value mismatches** for attributes of existing fused records (e.g. categories for `yelp-02004` and `uber_eats-00284`).\n\nThere is **no evidence of large clusters or over-matching** from the cluster analysis: all matching files are pure size-2 clusters.\n\n2. Likely root causes\n\nGiven the constraints (“blocking and matching strategies have already been evaluated, focus on fusion”):\n\na) Blocking too restrictive / too loose?  \n- Optimal blocking config shows:\n  - Pair completeness = 1.0 for all three pairs.\n  - Candidate volumes are substantial but acceptable.\n- Cluster analysis:\n  - All three correspondence files have size-2 clusters only, no large messy clusters or singletons.\n- Conclusion: **Blocking is not the primary cause** of errors in the fusion evaluation.\n\nb) Matching thresholds / comparator choices?  \n- Optimal matching config has very high F1 on pairwise matching (0.89–0.98).\n- Pipeline uses essentially the same comparators, but wrapped in ML-based models:\n  - However, even if ML thresholds differed slightly, this would at worst introduce some FP/FN pairs.\n  - That would not explain **why the evaluation sees so many `fused_id = NaN` with `inputs: []`** unless whole entities never appear in any correspondence cluster.\n- There might be some match loss compared to the optimal weighted-scoring approach, but again, cluster analysis shows lots of nice size-2 pairs.\n- Conclusion: **Matching is mostly fine; not the dominant issue for the current evaluation**, though it might differ from the optimal config.\n\nc) Schema or preprocessing issues?  \n- LLMBasedSchemaMatcher is applied before matching; renames are stored, so the core attributes exist.\n- Fusion strategy only defines fusers for:\n  - `name`, `street`, `house_number`, `city`, `state`, `postal_code`, `country`,\n    `latitude`, `longitude`, `categories`\n- Evaluation expects many more attributes:\n  - `address_line1`, `address_line2`, `phone_e164`, `phone_raw`, `website`, `map_url`,\n    `name_norm`, `source`, `rating`, `rating_count`, etc.\n- For attributes not defined in the fusion strategy:\n  - DataFusionEngine will not populate them from inputs (or may leave them missing).\n  - This contributes to poor per-attribute accuracies (esp. 0.0 for phones, address_line2).\n- But that still does not explain `fused_id: NaN` and `inputs: []` for entities that should exist.\n- Conclusion: **Schema/fusion-config mismatch contributes to attribute-level errors**, but the main problem is at the entity/cluster level.\n\nd) Logic in the current pipeline code (fusion-level issues)\n\nThe key fusion invocation:\n\n```python\nml_fused_standard_blocker = engine.run(\n    datasets=[kaggle_small, uber_eats_small, yelp_small],\n    correspondences=all_ml_correspondences,\n    id_column=\"id\",\n    include_singletons=False,\n)\n```\n\nCritical observations:\n\n- `include_singletons=False`:\n  - Any entity that does **not** participate in a matched pair across datasets is **completely dropped** from the fused output.\n  - The gold fusion test set contains 40 records; many of them may:\n    - Be singletons in your universe (i.e., only appear in one of Kaggle / Uber / Yelp), or\n    - Not have been matched by the ML matcher at all (even if they reappear in another dataset but the matcher missed them).\n  - Those gold entities are then **absent from `fusion_data.csv`**.\n  - In evaluation, these become `fused_id: NaN`, `inputs: []`, `reason: \"missing_fused_value\"` for every attribute.\n  - This is exactly what we see in the debug logs for `categories`, `country`, `state`, etc.\n\n- That means:\n  - The dominant error is **false negatives caused by fusion discarding all singletons and unmatched records**, not blocking/matching itself.\n\n- Additionally, for entities that do get fused:\n  - You only fuse a small subset of attributes; everything else is absent or defaulted.\n  - For example, `phone_e164_accuracy = 0.0`, `phone_raw_accuracy = 0.0`, `address_line2_accuracy = 0.0`:\n    - Likely because these columns are never fused or not even present in the fused output.\n  - Categories mismatches:\n    - For `uber_eats-00284`, gold expects:\n      - `['American restaurant', 'Chicken wings restaurant', 'Hamburger restaurant']`, and original side-categories as `['Burgers', 'American', 'Sandwiches']`\n    - Fused value is:\n      - `['Burgers', 'American', 'Sandwiches']`, plus unrelated other side categories.\n    - Because:\n      - You use `union` as the fusion rule for `categories`.\n      - Evaluator uses `set_equality_match` (exact equality), so any extra/missing category in union leads to mismatch.\n    - So the categories logic is **too naive with respect to evaluation criteria.**\n\nSummary of root causes:\n\n- **Primary**: Fusion engine discards singletons (`include_singletons=False`) → many gold entities never appear in fused output → large number of “missing_fused_value” errors across attributes.\n- **Secondary**:\n  - Fusion strategy covers only a subset of attributes evaluated → systematic zeros on some columns.\n  - Fusion function choices (e.g. `categories = union`) conflict with strict evaluation rules (`set_equality_match`), leading to mismatches even where input information exists.\n\n3. Analysis of Cluster Analysis report\n\nCluster analysis shows:\n\n- For all three pairwise correspondence files:\n  - 100% of clusters are size 2.\n  - No larger clusters, no singletons within those pairwise-link sets.\n- Diagnosis: Pairwise matching is **clean and strictly 1-to-1**.\n\nInterpretation in context of errors:\n\n- The pairwise match graphs between each dataset pair are tidy; the issue is **not messy many-to-many graphs**.\n- However:\n  - Fusion operates over the **union** of these pairwise correspondences across three datasets.\n  - You do not perform **global clustering across all sources**; instead you:\n    - First run MaximumBipartiteMatching on each pair (K↔U, K↔Y, U↔Y),\n    - Then just concatenate all correspondences.\n  - This can produce disconnected segments such as:\n    - K ↔ U, and K ↔ Y, but no direct U ↔ Y; or\n    - U ↔ Y only, with no Kaggle.\n  - The engine will still form clusters from that graph, but:\n    - Because `include_singletons=False`, any node not linked in any pair is dropped.\n- The cluster analysis confirms **quality of pairwise correspondences**, not completeness of fused coverage vs. gold fusion test set.\n\nImplication:\n\n- Matching / cluster structure is not “messy”; the big gap is **coverage** and **fusion design**, not over- or under-clustering in the matching stage.\n\n4. Concrete, actionable improvements (fusion-focused)\n\nBelow are the specific changes to implement in the next iteration.\n\n### 4.1. Include singletons in fusion\n\nChange:\n\n```python\nml_fused_standard_blocker = engine.run(\n    datasets=[kaggle_small, uber_eats_small, yelp_small],\n    correspondences=all_ml_correspondences,\n    id_column=\"id\",\n    include_singletons=False,\n)\n```\n\nto:\n\n```python\nml_fused_standard_blocker = engine.run(\n    datasets=[kaggle_small, uber_eats_small, yelp_small],\n    correspondences=all_ml_correspondences,\n    id_column=\"id\",\n    include_singletons=True,  # IMPORTANT\n)\n```\n\nExpected effect:\n\n- Any entity appearing in exactly one dataset (or not matched at all) will still appear as a **singleton fused record**.\n- This will eliminate `fused_id: NaN` for those gold-standard records that are present in your input but had no matches.\n- Overall record coverage and attribute accuracies (country/state/city/etc.) should jump substantially.\n\nIf you want to ensure that **all test-set ids** appear in the fused output:\n\n- After fusion, you can explicitly check:\n\n```python\nmissing_ids = set(fusion_test_set[\"id\"]) - set(ml_fused_standard_blocker[\"_id\"])\n```\n\nand debug which inputs aren’t there.\n\n---\n\n### 4.2. Expand fusion strategy to all evaluated attributes\n\nCurrently you only fuse:\n\n- name, street, house_number, city, state, postal_code,\n  country, latitude, longitude, categories\n\nBut evaluation includes:\n\n- `address_line1`, `address_line2`, `map_url`\n- `phone_e164`, `phone_raw`\n- `website`\n- `name_norm`\n- `rating`, `rating_count`\n- `source` (present in metrics)\n- `id` mapping (implicit; via `_id`)\n\nAdd appropriate fusers in the fusion strategy; for example:\n\n```python\nfrom PyDI.fusion import (\n    DataFusionStrategy,\n    DataFusionEngine,\n    longest_string,\n    union,\n    most_frequent,        # if available in PyDI; else define a custom one\n    # etc.\n)\n\nstrategy = DataFusionStrategy(\"ml_fusion_strategy\")\n\n# Existing fusers...\nstrategy.add_attribute_fuser(\"name\", longest_string)\nstrategy.add_attribute_fuser(\"name_norm\", longest_string)  # NEW\nstrategy.add_attribute_fuser(\"street\", longest_string)\nstrategy.add_attribute_fuser(\"house_number\", longest_string)\nstrategy.add_attribute_fuser(\"address_line1\", longest_string)  # NEW\nstrategy.add_attribute_fuser(\"address_line2\", longest_string)  # NEW\nstrategy.add_attribute_fuser(\"city\", longest_string)\nstrategy.add_attribute_fuser(\"state\", longest_string)\nstrategy.add_attribute_fuser(\"postal_code\", longest_string)\nstrategy.add_attribute_fuser(\"country\", longest_string)\nstrategy.add_attribute_fuser(\"phone_e164\", longest_string)  # NEW\nstrategy.add_attribute_fuser(\"phone_raw\", longest_string)   # NEW\nstrategy.add_attribute_fuser(\"website\", longest_string)     # NEW\nstrategy.add_attribute_fuser(\"map_url\", longest_string)     # NEW\nstrategy.add_attribute_fuser(\"latitude\", longest_string)\nstrategy.add_attribute_fuser(\"longitude\", longest_string)\nstrategy.add_attribute_fuser(\"rating\", longest_string)       # NEW (or numeric rule)\nstrategy.add_attribute_fuser(\"rating_count\", longest_string) # NEW (or numeric rule)\nstrategy.add_attribute_fuser(\"source\", longest_string)       # if present\nstrategy.add_attribute_fuser(\"categories\", union)\n```\n\nIf PyDI provides better numeric fusers (e.g., average, max confidence source), prefer them for `rating` and `rating_count`.\n\nExpected effect:\n\n- Attributes that were previously systematically missing (phones, website, map_url, etc.) will now be populated when present in any source, vastly improving their accuracies.\n\n---\n\n### 4.3. Align category fusion with evaluation criteria\n\nCurrently:\n\n- Fusion: `categories = union`\n- Evaluation: `set_equality_match` (exact equality)\n\nUnion is good for recall but poor for exact-match evaluation. Two options:\n\n**Option A: Use intersection or most-frequent categories**\n\nIf the test set reflects “consensus” categories across sources, use a more conservative rule:\n\n```python\nfrom PyDI.fusion import union  # and define your own intersection if needed\n\ndef intersection_or_majority(values):\n    # values: list of category lists/sets from sources\n    sets = []\n    for v in values:\n        if v is None:\n            continue\n        if isinstance(v, str):\n            # parse / split if necessary\n            # ... custom logic ...\n            pass\n        # convert v to Python set\n        # ...\n    if not sets:\n        return None\n    # Simple intersection\n    inter = set.intersection(*sets) if len(sets) > 1 else sets[0]\n    if inter:\n        return list(inter)\n    # fallback: majority voting across union\n    from collections import Counter\n    c = Counter()\n    for s in sets:\n        c.update(s)\n    max_count = max(c.values())\n    return [cat for cat, cnt in c.items() if cnt == max_count]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser(\"categories\", intersection_or_majority)\n```\n\n**Option B: Keep union but relax evaluation**\n\nIf you prefer to keep union semantics (collect all known categories), you might:\n\n- Adjust the evaluation rule from strict `set_equality_match` to something tolerant, e.g., Jaccard ≥ 0.7.  \n  However, in your current setup you stated that evaluation functions are fixed, so the better change is in the fusion logic.\n\nExpected effect:\n\n- Fewer category mismatches where all correct categories *are* present but extra noise from union breaks exact equality.\n\n---\n\n### 4.4. Ensure multi-dataset clustering is global and consistent\n\nYou currently:\n\n```python\nclusterer = MaximumBipartiteMatching()\nml_correspondences_kaggle_uber = clusterer.cluster(ml_correspondences_kaggle_uber)\nml_correspondences_kaggle_yelp = clusterer.cluster(ml_correspondences_kaggle_yelp)\nml_correspondences_uber_yelp = clusterer.cluster(ml_correspondences_uber_yelp)\n\nall_ml_correspondences = pd.concat([...])\n```\n\nPotential issues:\n\n- MaximumBipartiteMatching is applied independently per pair.\n- When you concatenate correspondences, you may create:\n  - Disconnected components that nonetheless represent the same restaurant across 3 sources, but you rely on the fusion engine to re-cluster based on this graph.\n- Check how `DataFusionEngine` interprets `correspondences`:\n  - It typically treats them as edges in an undirected graph and builds connected components.\n  - That should be fine in principle.\n- The main risk is: if your ML matcher under-matches some pairs (e.g., misses K↔Y), you may only have 2-way clusters instead of 3-way, but that’s not catastrophic for fusion.\n\nAction:\n\n- No immediate change required based on the cluster analysis (clusters are clean).\n- Just ensure that:\n  - The `correspondences` DataFrame is in the correct format: columns like `id1`, `id2`, `source_dataset`, `target_dataset` or whatever PyDI expects.\n  - There is no further filtering that might be dropping correspondences used by the fusion engine.\n\n---\n\n### 4.5. Sanity checks & diagnostics for next iteration\n\nTo quickly verify impact:\n\n1. **Coverage vs. test set**:\n   - After fusion (with `include_singletons=True`):\n     ```python\n     fused_ids = set(ml_fused_standard_blocker[\"_id\"])\n     gold_ids = set(fusion_test_set[\"id\"])\n     print(\"Gold size:\", len(gold_ids))\n     print(\"Fused size:\", len(fused_ids))\n     print(\"Missing in fused:\", len(gold_ids - fused_ids))\n     ```\n   - Goal: `len(gold_ids - fused_ids)` should be near 0.\n\n2. **Attribute presence**:\n   - Check columns in `fusion_data.csv`:\n     ```python\n     print(fused.columns)\n     fused[[\"phone_e164\", \"phone_raw\", \"website\", \"categories\"]].head()\n     ```\n   - Ensure new fusers actually filled these fields.\n\n3. **Re-run evaluation**:\n   - Expect:\n     - Strong increases in `country`, `state`, `city`, `postal_code`, `categories` accuracy.\n     - Non-zero accuracies for phones, address_line2, etc.\n\n---\n\n5. Consolidated answers to your questions\n\n1) Dominant error types:\n\n- **Record-level false negatives**: many gold entities never appear in fused output (seen as `fused_id: NaN`, `inputs: []`).\n- **Attribute-level missing values** for those absent entities.\n- **Secondary value mismatches** for categories (due to `union` vs. `set_equality_match`).\n\n2) Main causes:\n\n- Not blocking or matching (they’re already strong and cluster analysis is clean).\n- **Fusion design:**\n  - `include_singletons=False` dropping all unmatched entities.\n  - Fusion strategy not covering all evaluated attributes.\n  - Category fuser (`union`) misaligned with exact-match evaluation.\n\n3) Cluster analysis implications:\n\n- Pairwise correspondences are tidy 1-to-1; no evidence of over-matching or messy clusters.\n- Errors are not from clustering but from how fused records are constructed and filtered.\n\n4) Concrete improvements for the next pipeline iteration:\n\n- Set `include_singletons=True` when running `DataFusionEngine.run`.\n- Extend `DataFusionStrategy` to fuse all attributes used in evaluation (phones, website, map_url, address_line1/2, name_norm, rating, rating_count, source).\n- Replace `categories = union` with a more conservative or consensus-based fuser (intersection/majority) to align with `set_equality_match`.\n- Add quick diagnostics to verify fused coverage against the gold test set.\n\nImplementing these fusion-centric changes should significantly raise both overall accuracy and per-attribute metrics without modifying the already-validated blocking and matching configurations.",
+  "integration_pipeline_code_length": 14849,
+  "evaluation_code_length": 4839
+}
