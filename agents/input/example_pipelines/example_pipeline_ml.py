@@ -432,7 +432,7 @@ strategy.add_attribute_fuser('longitude', longest_string)
 strategy.add_attribute_fuser('categories', union)
 
 # run fusion
-engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_ml.jsonl")
+engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_data.jsonl")
 
 ml_fused_standard_blocker = engine.run(
     datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
@@ -442,4 +442,4 @@ ml_fused_standard_blocker = engine.run(
 )
 
 # write output
-ml_fused_standard_blocker.to_csv("output/data_fusion/fusion_ml.csv", index=False)
+ml_fused_standard_blocker.to_csv("output/data_fusion/fusion_data.csv", index=False)

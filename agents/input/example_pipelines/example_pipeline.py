@@ -4,7 +4,7 @@
 
 from PyDI.io import load_parquet, load_csv, load_xml
 
-from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
+from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker, SortedNeighbourhoodBlocker, TokenBlocker
 from PyDI.entitymatching import StringComparator, NumericComparator
 from PyDI.entitymatching import RuleBasedMatcher
 
@@ -315,7 +315,7 @@ strategy.add_attribute_fuser('longitude', longest_string)
 strategy.add_attribute_fuser('categories', union)
 
 # run fusion
-engine = DataFusionEngine(strategy, debug=True, debug_format='json',debug_file= "output/data_fusion/debug_fusion_rb_standard_blocker.jsonl")
+engine = DataFusionEngine(strategy, debug=True, debug_format='json',debug_file= "output/data_fusion/debug_fusion_data.jsonl")
 
 # fuse rule based matches
 rb_fused_standard_blocker = engine.run(
@@ -326,4 +326,4 @@ rb_fused_standard_blocker = engine.run(
 )
 
 # write output
-rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_rb_standard_blocker.csv", index=False)
+rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_data.csv", index=False)
