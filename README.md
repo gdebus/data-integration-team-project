@@ -1,3 +1,7 @@
+# Current Experiment Results
+
+Current expermint results can be found [here](https://github.com/gdebus/data-integration-team-project/blob/main/ExperimentResults.md).
+
 # Setup
 
 To set up the virtual environment run the following commands:
@@ -33,10 +37,6 @@ OPENAI_API_KEY=<API-KEY>
 # Architecture
 
 <img width="883" height="694" alt="architecture" src="docs/architecture_v0.2.png" />
-
-# Current Experiment Results
-
-Current expermint results can be found [here](#ExperimentRestults.md).
 
 # Requirements
 
