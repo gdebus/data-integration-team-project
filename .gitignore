@@ -4,7 +4,7 @@
 datasets/*
 
 agents/output/*
-
+.vscode
 out_parquet/*
 
 .DS_Store

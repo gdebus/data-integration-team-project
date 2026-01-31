@@ -1,141 +1,51 @@
 {
-  "correspondences_musicbrainz_lastfm.csv": {
-    "analysis": "The distribution is extremely concentrated at cluster size 2 (99.64%), with no singletons and no clusters larger than 4. This does not resemble a healthy long tail and strongly suggests an overly restrictive or pairwise-only matching behavior: the system is effectively producing almost exclusively 1:1 matches and rarely allowing multi-record clusters. This pattern is consistent with under-matching (failing to link additional true duplicates) and/or a clustering step that is preventing transitive closure or collapsing matches into only pairs.",
-    "suggestions": "Verify the clustering logic: ensure transitive closure/connected-components clustering is enabled so that if A matches B and B matches C, all three can form one cluster. If transitive clustering is already enabled, relax the match threshold slightly or add additional recall-oriented comparators (e.g., token-based name similarity, nickname/alias handling, address normalization) to allow more than one match per entity. Also check for a hard cap or constraint enforcing one-to-one linking (bipartite matching, dedupe-as-pairs) that would force outputs into size-2 clusters.",
-    "total_clusters": 2501,
-    "max_cluster_size": 4,
-    "cluster_distribution": [
-      {
-        "cluster_size": 2,
-        "frequency": 2492,
-        "percentage": 99.64014394242304
-      },
-      {
-        "cluster_size": 3,
-        "frequency": 8,
-        "percentage": 0.3198720511795282
-      },
-      {
-        "cluster_size": 4,
-        "frequency": 1,
-        "percentage": 0.03998400639744103
-      }
-    ]
-  },
-  "correspondences_discogs_lastfm.csv": {
-    "analysis": "The distribution is extremely concentrated at cluster size 2 (85.3%), with a small long tail up to size 16 and very few clusters of size 10+ (~0.41%). There are no giant clusters, so there is no obvious sign of runaway transitive closure or severe over-matching. However, the dominance of pairs far exceeds the typical healthy pattern (~42% at size 2) and suggests the matcher is mostly forming simple one-to-one links while failing to merge additional related records into larger groups. This points to likely under-clustering/under-matching across more than two records (e.g., duplicates not being connected due to thresholds, missing blocking recall, or overly strict comparators), even though the matches it does make may be precise.",
-    "suggestions": "Review whether the pipeline is suppressing transitive closure or limiting clusters to pairs; if so, enable full clustering/connected-components merging. If clustering is correct, increase recall by loosening match thresholds slightly and/or adding additional match rules that allow near-matches (e.g., name+city, email/phone normalization). Improve blocking to avoid missing links (add alternative blocking keys, phonetic keys, normalized address/postcode keys). Revisit overly strict comparators on noisy fields (address/company name) and add normalization (casefolding, punctuation/whitespace removal, common abbreviation handling) so records that should form size 3+ clusters can connect.",
-    "total_clusters": 2414,
-    "max_cluster_size": 16,
-    "cluster_distribution": [
-      {
-        "cluster_size": 2,
-        "frequency": 2060,
-        "percentage": 85.33554266777134
-      },
-      {
-        "cluster_size": 3,
-        "frequency": 194,
-        "percentage": 8.036454018227008
-      },
-      {
-        "cluster_size": 4,
-        "frequency": 88,
-        "percentage": 3.645401822700911
-      },
-      {
-        "cluster_size": 5,
-        "frequency": 23,
-        "percentage": 0.9527754763877383
-      },
-      {
-        "cluster_size": 6,
-        "frequency": 11,
-        "percentage": 0.4556752278376139
-      },
-      {
-        "cluster_size": 7,
-        "frequency": 15,
-        "percentage": 0.6213753106876554
-      },
-      {
-        "cluster_size": 8,
-        "frequency": 8,
-        "percentage": 0.33140016570008285
-      },
-      {
-        "cluster_size": 9,
-        "frequency": 5,
-        "percentage": 0.2071251035625518
-      },
-      {
-        "cluster_size": 10,
-        "frequency": 3,
-        "percentage": 0.12427506213753108
-      },
-      {
-        "cluster_size": 11,
-        "frequency": 2,
-        "percentage": 0.08285004142502071
-      },
-      {
-        "cluster_size": 13,
-        "frequency": 2,
-        "percentage": 0.08285004142502071
-      },
-      {
-        "cluster_size": 14,
-        "frequency": 1,
-        "percentage": 0.041425020712510356
-      },
-      {
-        "cluster_size": 15,
-        "frequency": 1,
-        "percentage": 0.041425020712510356
-      },
-      {
-        "cluster_size": 16,
-        "frequency": 1,
-        "percentage": 0.041425020712510356
-      }
-    ]
-  },
-  "correspondences_discogs_musicbrainz.csv": {
-    "analysis": "The distribution is extremely concentrated in very small clusters: ~90% of clusters are size 2 and the maximum cluster size is only 7. There are no size-1 clusters reported, which suggests the stats may be filtered to only matched/linked entities or singletons were excluded. Assuming this is the full post-clustering output, it indicates under-matching and/or overly conservative linkage that mostly forms isolated pairs rather than recovering larger real-world entity groups. The absence of any long tail beyond size 3\u20134 and the very low proportion of 5+ clusters (~0.7%) suggests limited transitive merging and likely missed links between records that should connect these pairs into larger clusters.",
-    "suggestions": "Verify whether size-1 clusters were excluded from the report; if many singletons exist, treat it as further evidence of under-matching. If under-matching is confirmed: lower the match threshold slightly or add secondary \"softer\" rules (e.g., allow near-matches on name with DOB/phone/email) to connect pairs into multi-record clusters; relax overly strict comparators (exact-only matches) on key fields by using fuzzy/phonetic comparators for names and normalized comparators for addresses; improve blocking to ensure candidates that should match are compared (add additional blocking keys and normalization so variants fall into the same blocks); review which attributes are required for a match\u2014reduce the number of required exact agreements and instead use weighted scoring with a calibrated cutoff.",
-    "total_clusters": 2437,
-    "max_cluster_size": 7,
-    "cluster_distribution": [
-      {
-        "cluster_size": 2,
-        "frequency": 2192,
-        "percentage": 89.94665572425113
-      },
-      {
-        "cluster_size": 3,
-        "frequency": 192,
-        "percentage": 7.8785391875256465
-      },
-      {
-        "cluster_size": 4,
-        "frequency": 36,
-        "percentage": 1.4772260976610587
-      },
-      {
-        "cluster_size": 5,
-        "frequency": 12,
-        "percentage": 0.4924086992203529
-      },
-      {
-        "cluster_size": 6,
-        "frequency": 3,
-        "percentage": 0.12310217480508823
-      },
-      {
-        "cluster_size": 7,
-        "frequency": 2,
-        "percentage": 0.08206811653672548
-      }
-    ]
-  }
+    "correspondences_metabooks_small_goodreads_small.csv": {
+        "diagnosis": "The cluster distribution is very clean: nearly all clusters are size 2 with only three small size-3 clusters and no large or messy components. This indicates a healthy, mostly 1-to-1 matching structure with no obvious signs of over-matching or under-clustering.",
+        "recommended_strategy": "None",
+        "parameters": {},
+        "error": null,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 752,
+                "percentage": 99.60264900662251
+            },
+            {
+                "cluster_size": 3,
+                "frequency": 3,
+                "percentage": 0.3973509933774834
+            }
+        ]
+    },
+    "correspondences_metabooks_small_amazon_small.csv": {
+        "diagnosis": "The cluster distribution is highly healthy and almost perfectly 1-to-1, with nearly all clusters of size 2 and only 2 small clusters of size 3. There is no strong evidence of large over-matched clusters or systemic issues requiring post-processing.",
+        "recommended_strategy": "None",
+        "parameters": {},
+        "error": null,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 2345,
+                "percentage": 99.91478483170005
+            },
+            {
+                "cluster_size": 3,
+                "frequency": 2,
+                "percentage": 0.08521516829995739
+            }
+        ]
+    },
+    "correspondences_goodreads_small_amazon_small.csv": {
+        "diagnosis": "All clusters are size-2 pairs, indicating that a strict 1-to-1 constraint has already been fully enforced with no larger or messy clusters present. The cluster distribution appears healthy and does not suggest over-matching or under-clustering.",
+        "recommended_strategy": "None",
+        "parameters": {},
+        "error": null,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 495,
+                "percentage": 100.0
+            }
+        ]
+    }
 }

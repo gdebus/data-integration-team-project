@@ -3,6 +3,7 @@ import json
 import os
 import shutil
 from typing import Dict, Any, List
+import networkx as nx
 
 from PyDI.entitymatching import EntityMatchingEvaluator
 from PyDI.io import load_xml, load_parquet, load_csv
@@ -156,12 +157,7 @@ class AdvancedClusterTester:
                 "error": f"LLM response was not valid JSON: {response_text}",
             }
 
-    def run(
-        self,
-        correspondences_paths: List[str],
-        datasets: Dict[str, pd.DataFrame],
-        id_columns: Dict[str, str],
-    ) -> Dict[str, Any]:
+    def run(self, correspondences_paths: List[str]) -> Dict[str, Any]:
         """
         Loads correspondences, analyzes cluster quality, and returns an aggregated report with recommendations.
         """
@@ -171,7 +167,7 @@ class AdvancedClusterTester:
             return {}
 
         all_reports = {}
-
+        print("\n")
         print("===================")
         print(" CLUSTER ANALYSIS")
         print("===================")
@@ -210,31 +206,13 @@ class AdvancedClusterTester:
                 max_cluster_size = int(cluster_dist_df["cluster_size"].max())
 
                 if self.verbose:
-                    print(
-                        f"    Total clusters: {total_clusters}, Max size: {max_cluster_size}"
-                    )
-
-                large_cluster_examples = {}
-                if max_cluster_size > 10:  # Threshold to consider a cluster "large"
-                    largest_clusters = (
-                        correspondences.groupby("cluster_id").size().nlargest(3).index
-                    )
-                    for cid in largest_clusters:
-                        try:
-                            examples = self._get_cluster_examples(
-                                correspondences, datasets, id_columns, cid
-                            )
-                            large_cluster_examples[f"Cluster ID {cid}"] = examples
-                        except NameError:
-                            large_cluster_examples[f"Cluster ID {cid}"] = (
-                                "Could not retrieve examples."
-                            )
+                    print(f"    Total clusters: {total_clusters}")
+                    print(f"    Max cluster size: {max_cluster_size}")
+                    print("    Cluster Distribution:")
+                    print(cluster_dist_df.to_string(index=False))
 
                 recommendation = self._get_llm_recommendation(
-                    cluster_dist_df,
-                    total_clusters,
-                    max_cluster_size,
-                    large_cluster_examples,
+                    cluster_dist_df, total_clusters, max_cluster_size
                 )
 
                 if self.verbose:
@@ -251,7 +229,6 @@ class AdvancedClusterTester:
                 "parameters": recommendation.get("parameters"),
                 "error": recommendation.get("error"),
                 "cluster_distribution": cluster_dist_df.to_dict("records"),
-                "large_cluster_examples": large_cluster_examples,
             }
             all_reports[os.path.basename(path)] = report
 
@@ -263,45 +240,3 @@ class AdvancedClusterTester:
             print(f"\n    Aggregated cluster analysis report saved to {report_path}")
 
         return all_reports
-
-    def _get_cluster_examples(
-        self,
-        correspondences: pd.DataFrame,
-        datasets: Dict[str, pd.DataFrame],
-        id_columns: Dict[str, str],
-        cluster_id: Any,
-    ) -> List[Dict]:
-        """Samples records from a specific cluster for analysis."""
-        cluster_records = []
-
-        cluster_correspondences = correspondences[
-            correspondences["cluster_id"] == cluster_id
-        ]
-
-        entity_ids = pd.unique(
-            cluster_correspondences[["id_left", "id_right"]].values.ravel("K")
-        )
-
-        for entity_id in entity_ids:
-            if pd.isna(entity_id):
-                continue
-
-            for name, df in datasets.items():
-                id_col = id_columns.get(name)
-                if id_col and id_col in df.columns:
-                    record_series = df[df[id_col] == entity_id]
-                    if not record_series.empty:
-                        record = record_series.iloc[0].to_dict()
-                        record = {
-                            k: str(v)[:100] for k, v in record.items() if pd.notna(v)
-                        }
-                        cluster_records.append(
-                            {
-                                "dataset_name": name,
-                                "record_id": entity_id,
-                                "record_data": record,
-                            }
-                        )
-                        break
-
-        return cluster_records

@@ -9,7 +9,13 @@ from PyDI.entitymatching import StringComparator, NumericComparator
 from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker
 from PyDI.entitymatching import MLBasedMatcher
 
-from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
+from PyDI.fusion import (
+    DataFusionStrategy,
+    DataFusionEngine,
+    longest_string,
+    union,
+    prefer_higher_trust,
+)
 from PyDI.fusion import DataFusionEvaluator, tokenized_match
 
 from PyDI.schemamatching import LLMBasedSchemaMatcher
@@ -79,28 +85,20 @@ llm = ChatOpenAI(
     max_tokens=None,
 )
 
-matcher = LLMBasedSchemaMatcher(
-    chat_model=llm,
-    num_rows=10,
-    debug=True
-)
+matcher = LLMBasedSchemaMatcher(chat_model=llm, num_rows=10, debug=True)
 
 # match schema of good_dataset_name_1 with good_dataset_name_2 and rename schema of good_dataset_name_2
 schema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_2)
-rename_map = (
-    schema_correspondences
-    .set_index("target_column")["source_column"]
-    .to_dict()
-)
+rename_map = schema_correspondences.set_index("target_column")[
+    "source_column"
+].to_dict()
 good_dataset_name_2 = good_dataset_name_2.rename(columns=rename_map)
 
 # match schema of good_dataset_name_1 with good_dataset_name_3 and rename schema of good_dataset_name_3
 schema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_3)
-rename_map = (
-    schema_correspondences
-    .set_index("target_column")["source_column"]
-    .to_dict()
-)
+rename_map = schema_correspondences.set_index("target_column")[
+    "source_column"
+].to_dict()
 good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
 
 # --------------------------------
@@ -113,43 +111,47 @@ print("Performing Blocking")
 
 # Embedding blocker (semantic_similarity) example:
 embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
-    good_dataset_name_1, good_dataset_name_2, # name of the datasets
-    text_cols=['city'], # column which should be used to perform the blocking on
+    good_dataset_name_1,
+    good_dataset_name_2,  # name of the datasets
+    text_cols=["city"],  # column which should be used to perform the blocking on
     model="sentence-transformers/all-MiniLM-L6-v2",
     index_backend="sklearn",
-    top_k=20,          # Top 20 most similar
+    top_k=20,  # Top 20 most similar
     batch_size=1000,
     output_dir="output/blocking-evaluation",
-    id_column='id'
+    id_column="id",
 )
 
 # Standard blocker example:
 blocker_1_2 = StandardBlocker(
-    good_dataset_name_1, good_dataset_name_2,
-    on=['city'],
+    good_dataset_name_1,
+    good_dataset_name_2,
+    on=["city"],
     batch_size=1000,
     output_dir="output/blocking-evaluation",
-    id_column='id'
+    id_column="id",
 )
 
 # TokenBlocker example (token_blocking)
 blocker_1_3 = TokenBlocker(
-    good_dataset_name_1, good_dataset_name_3,
+    good_dataset_name_1,
+    good_dataset_name_3,
     column="name",
     min_token_len=3,
     ngram_size=2,
     ngram_type="word",
     id_column="id",
-    output_dir="output/blocking"
+    output_dir="output/blocking",
 )
 
 # Sorted NeighbourhoodBlocker example
 blocker_2_3 = SortedNeighbourhoodBlocker(
-    good_dataset_name_2, good_dataset_name_3,
+    good_dataset_name_2,
+    good_dataset_name_3,
     key="name",
     window=20,
     id_column="id",
-    output_dir="output/blocking"
+    output_dir="output/blocking",
 )
 
 
@@ -161,91 +163,82 @@ blocker_2_3 = SortedNeighbourhoodBlocker(
 comparators_1_2 = [
     # Name similarity
     StringComparator(
-        column='name_norm',
-        similarity_function='jaccard', 
+        column="name_norm",
+        similarity_function="jaccard",
         # no preprocessing needed
     ),
-    
     # street name similarity
     StringComparator(
-        column='street',
-        similarity_function='jaccard', 
+        column="street",
+        similarity_function="jaccard",
         preprocess=str.lower,
     ),
-
     # house number similarity
     NumericComparator(
-        column='house_number',
+        column="house_number",
         max_difference=2,
     ),
-
     # category similarity
     StringComparator(
-        column='categories',
-        similarity_function='jaccard',
+        column="categories",
+        similarity_function="jaccard",
         preprocess=str.lower,
-        list_strategy='concatenate' # Handle list attribute by concatenation
-    )
+        list_strategy="concatenate",  # Handle list attribute by concatenation
+    ),
 ]
 
 comparators_1_3 = [
     # Name similarity
     StringComparator(
-        column='name_norm',
-        similarity_function='jaccard', 
+        column="name_norm",
+        similarity_function="jaccard",
         # no preprocessing needed
     ),
-    
     # street name similarity
     StringComparator(
-        column='street',
-        similarity_function='jaccard', 
+        column="street",
+        similarity_function="jaccard",
         preprocess=str.lower,
     ),
-
     # house number similarity
     NumericComparator(
-        column='house_number',
+        column="house_number",
         max_difference=2,
     ),
-
     # category similarity
     StringComparator(
-        column='categories',
-        similarity_function='jaccard',
+        column="categories",
+        similarity_function="jaccard",
         preprocess=str.lower,
-        list_strategy='concatenate' # Handle list attribute by concatenation
-    )
+        list_strategy="concatenate",  # Handle list attribute by concatenation
+    ),
 ]
 
 comparators_2_3 = [
     # Name similarity
     StringComparator(
-        column='name_norm',
-        similarity_function='jaccard', 
+        column="name_norm",
+        similarity_function="jaccard",
         # no preprocessing needed
     ),
-    
     # street name similarity
     StringComparator(
-        column='street',
-        similarity_function='jaccard', 
+        column="street",
+        similarity_function="jaccard",
         preprocess=str.lower,
     ),
-
     # house number similarity
     NumericComparator(
-        column='house_number',
+        column="house_number",
         max_difference=2,
     ),
-
     # category similarity
     StringComparator(
-        column='categories',
-        similarity_function='jaccard',
+        column="categories",
+        similarity_function="jaccard",
         preprocess=str.lower,
-        list_strategy='concatenate' # Handle list attribute by concatenation
-    )
+        list_strategy="concatenate",  # Handle list attribute by concatenation
+    ),
 ]
 
 feature_extractor_1_2 = FeatureExtractor(comparators_1_2)
@@ -258,89 +251,111 @@ feature_extractor_2_3 = FeatureExtractor(comparators_2_3)
 train_1_2 = load_csv(
     "testsets/usecase/<ground_truth_df1_df2_train.csv>",
     name="ground_truth_df1_df2_train",
-    add_index=False
+    add_index=False,
 )
 
 # dataset1 <-> dataset3 training/test pairs
 train_1_3 = load_csv(
     "testsets/usecase/<ground_truth_df1_df3_train.csv>",
     name="ground_truth_df1_df3_train",
-    add_index=False
+    add_index=False,
 )
 
 # dataset2 <-> dataset3 training/test pairs
 train_2_3 = load_csv(
     "testsets/usecase/<ground_truth_df2_df3_train.csv>",
     name="ground_truth_df2_df3_train",
-    add_index=False
+    add_index=False,
 )
 
 # Extract features
 train_1_2_features = feature_extractor_1_2.create_features(
-    good_dataset_name_1, good_dataset_name_2, train_1_2[['id1', 'id2']], labels=train_1_2['label'], id_column='id'
+    good_dataset_name_1,
+    good_dataset_name_2,
+    train_1_2[["id1", "id2"]],
+    labels=train_1_2["label"],
+    id_column="id",
 )
 
 train_1_3_features = feature_extractor_1_3.create_features(
-    good_dataset_name_1, good_dataset_name_3, train_1_3[['id1', 'id2']], labels=train_1_3['label'], id_column='id'
+    good_dataset_name_1,
+    good_dataset_name_3,
+    train_1_3[["id1", "id2"]],
+    labels=train_1_3["label"],
+    id_column="id",
 )
 
 train_2_3_features = feature_extractor_2_3.create_features(
-    good_dataset_name_2, good_dataset_name_3, train_2_3[['id1', 'id2']], labels=train_2_3['label'], id_column='id'
+    good_dataset_name_2,
+    good_dataset_name_3,
+    train_2_3[["id1", "id2"]],
+    labels=train_2_3["label"],
+    id_column="id",
 )
 
 # Prepare data for ML training
-feat_cols_1_2 = [col for col in train_1_2_features.columns if col not in ['id1', 'id2', 'label']]
+feat_cols_1_2 = [
+    col for col in train_1_2_features.columns if col not in ["id1", "id2", "label"]
+]
 X_train_1_2 = train_1_2_features[feat_cols_1_2]
-y_train_1_2 = train_1_2_features['label']
+y_train_1_2 = train_1_2_features["label"]
 
-feat_cols_1_3 = [col for col in train_1_3_features.columns if col not in ['id1', 'id2', 'label']]
+feat_cols_1_3 = [
+    col for col in train_1_3_features.columns if col not in ["id1", "id2", "label"]
+]
 X_train_1_3 = train_1_3_features[feat_cols_1_3]
-y_train_1_3 = train_1_3_features['label']
+y_train_1_3 = train_1_3_features["label"]
 
-feat_cols_2_3 = [col for col in train_2_3_features.columns if col not in ['id1', 'id2', 'label']]
+feat_cols_2_3 = [
+    col for col in train_2_3_features.columns if col not in ["id1", "id2", "label"]
+]
 X_train_2_3 = train_2_3_features[feat_cols_2_3]
-y_train_2_3 = train_2_3_features['label']
+y_train_2_3 = train_2_3_features["label"]
 
-training_datasets = [(X_train_1_2, y_train_1_2), (X_train_1_3, y_train_1_3), (X_train_2_3, y_train_2_3)]
+training_datasets = [
+    (X_train_1_2, y_train_1_2),
+    (X_train_1_3, y_train_1_3),
+    (X_train_2_3, y_train_2_3),
+]
 
 # --------------------------------
 # Select Best Model
 # --------------------------------
 
 param_grids = {
-    'RandomForest': {
-        'model': RandomForestClassifier(random_state=42),
-        'params': {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [5, 10, None],
-            'min_samples_split': [2, 5],
-            'class_weight': ['balanced', None]
-        }
+    "RandomForest": {
+        "model": RandomForestClassifier(random_state=42),
+        "params": {
+            "n_estimators": [50, 100, 200],
+            "max_depth": [5, 10, None],
+            "min_samples_split": [2, 5],
+            "class_weight": ["balanced", None],
+        },
     },
-    'LogisticRegression': {
-        'model': LogisticRegression(random_state=42, max_iter=1000),
-        'params': {
-            'C': [0.1, 1.0, 10.0],
-            'l1_ratio': [0],
-            'class_weight': ['balanced', None]
-        }
+    "LogisticRegression": {
+        "model": LogisticRegression(random_state=42, max_iter=1000),
+        "params": {
+            "C": [0.1, 1.0, 10.0],
+            "l1_ratio": [0],
+            "class_weight": ["balanced", None],
+        },
     },
-    'GradientBoosting': {
-        'model': GradientBoostingClassifier(random_state=42),
-        'params': {
-            'n_estimators': [50, 100],
-            'learning_rate': [0.1, 0.2],
-            'max_depth': [3, 5],
-        }
+    "GradientBoosting": {
+        "model": GradientBoostingClassifier(random_state=42),
+        "params": {
+            "n_estimators": [50, 100],
+            "learning_rate": [0.1, 0.2],
+            "max_depth": [3, 5],
+        },
     },
-    'SVM': {
-        'model': SVC(random_state=42, probability=True),
-        'params': {
-            'C': [0.1, 1.0, 10.0],
-            'kernel': ['rbf', 'linear'],
-            'class_weight': ['balanced', None]
-        }
-    }
+    "SVM": {
+        "model": SVC(random_state=42, probability=True),
+        "params": {
+            "C": [0.1, 1.0, 10.0],
+            "kernel": ["rbf", "linear"],
+            "class_weight": ["balanced", None],
+        },
+    },
 }
 
 scorer = make_scorer(f1_score)
@@ -354,12 +369,12 @@ for dataset in training_datasets:
 
     for model_name, config in param_grids.items():
         grid_search = GridSearchCV(
-            estimator=config['model'],
-            param_grid=config['params'],
+            estimator=config["model"],
+            param_grid=config["params"],
             scoring=scorer,
             cv=cv_folds,
             n_jobs=-1,
-            verbose=0
+            verbose=0,
         )
         grid_search.fit(dataset[0], dataset[1])
         if grid_search.best_score_ > best_overall_score:
@@ -381,15 +396,27 @@ ml_matcher_1_3 = MLBasedMatcher(feature_extractor_1_3)
 ml_matcher_2_3 = MLBasedMatcher(feature_extractor_2_3)
 
 ml_correspondences_1_2 = ml_matcher_1_2.match(
-    good_dataset_name_1, good_dataset_name_2, candidates=blocker_1_2, id_column='id', trained_classifier=best_models[0]
+    good_dataset_name_1,
+    good_dataset_name_2,
+    candidates=blocker_1_2,
+    id_column="id",
+    trained_classifier=best_models[0],
 )
 
 ml_correspondences_1_3 = ml_matcher_1_2.match(
-    good_dataset_name_1, good_dataset_name_3, candidates=blocker_1_3, id_column='id', trained_classifier=best_models[1]
+    good_dataset_name_1,
+    good_dataset_name_3,
+    candidates=blocker_1_3,
+    id_column="id",
+    trained_classifier=best_models[1],
 )
 
 ml_correspondences_2_3 = ml_matcher_2_3.match(
-    good_dataset_name_2, good_dataset_name_3, candidates=blocker_2_3, id_column='id', trained_classifier=best_models[2]
+    good_dataset_name_2,
+    good_dataset_name_3,
+    candidates=blocker_2_3,
+    id_column="id",
+    trained_classifier=best_models[2],
 )
 
 print("Fusing Data")
@@ -400,6 +427,36 @@ clusterer = MaximumBipartiteMatching()
 ml_correspondences_1_2 = clusterer.cluster(ml_correspondences_1_2)
 ml_correspondences_1_3 = clusterer.cluster(ml_correspondences_1_3)
 ml_correspondences_2_3 = clusterer.cluster(ml_correspondences_2_3)
+
+"""
+Make sure to save correspondences for each pair afer applying Matcher.
+**Use proper filename with correct dataset name to save the correspondences**
+"""
+
+CORR_DIR = "output/correspondences"
+os.makedirs(CORR_DIR, exist_ok=True)
+
+ml_correspondences_1_2.to_csv(
+    os.path.join(
+        CORR_DIR,
+        "correspondences_good_dataset_name_1_good_dataset_name_2.csv",
+        index=False,
+    )
+)
+ml_correspondences_1_3.to_csv(
+    os.path.join(
+        CORR_DIR,
+        "correspondences_good_dataset_name_1_good_dataset_name_3.csv",
+        index=False,
+    )
+)
+ml_correspondences_2_3.to_csv(
+    os.path.join(
+        CORR_DIR,
+        "correspondences_good_dataset_name_2_good_dataset_name_3.csv",
+        index=False,
+    )
+)
 
 print("Fusing Data")
 
@@ -414,25 +471,30 @@ print("Fusing Data")
 # merge ML-based correspondences
 all_ml_correspondences = pd.concat(
     [ml_correspondences_1_2, ml_correspondences_1_3, ml_correspondences_2_3],
-    ignore_index=True
+    ignore_index=True,
 )
 
 # define data fusion strategy
-strategy = DataFusionStrategy('ml_fusion_strategy')
+strategy = DataFusionStrategy("ml_fusion_strategy")
 
-strategy.add_attribute_fuser('name', longest_string)
-strategy.add_attribute_fuser('street', longest_string)
-strategy.add_attribute_fuser('house_number', longest_string)
-strategy.add_attribute_fuser('city', longest_string)
-strategy.add_attribute_fuser('state', longest_string)
-strategy.add_attribute_fuser('postal_code', longest_string)
-strategy.add_attribute_fuser('country', longest_string)
-strategy.add_attribute_fuser('latitude', longest_string)
-strategy.add_attribute_fuser('longitude', longest_string)
-strategy.add_attribute_fuser('categories', union)
+strategy.add_attribute_fuser("name", longest_string)
+strategy.add_attribute_fuser("street", longest_string)
+strategy.add_attribute_fuser("house_number", longest_string)
+strategy.add_attribute_fuser("city", longest_string)
+strategy.add_attribute_fuser("state", longest_string)
+strategy.add_attribute_fuser("postal_code", longest_string)
+strategy.add_attribute_fuser("country", longest_string)
+strategy.add_attribute_fuser("latitude", longest_string)
+strategy.add_attribute_fuser("longitude", longest_string)
+strategy.add_attribute_fuser("categories", union)
 
 # run fusion
-engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_data.jsonl")
+engine = DataFusionEngine(
+    strategy,
+    debug=True,
+    debug_format="json",
+    debug_file="output/data_fusion/debug_fusion_data.jsonl",
+)
 
 ml_fused_standard_blocker = engine.run(
     datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
