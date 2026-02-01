@@ -7,13 +7,33 @@
 | Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
 | [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |17.966%|  51.815%    |32.773%|61.429%|
-| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |22.335%|  44.180%    |       |66.429%|
-| [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|31.980%|  43.930%    |       |75.000%|
-| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|16.244%|  50.688%    |       |42.143%|
-| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb)                                                 |31.985%      |49.312%          |       |77.192%     |
-| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb)                                                 |15.168%       |55.069%         |       |41.295%      |
+| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |22.335%|  44.180%    |5.882% |66.429%|
+| [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|**31.980%**|  43.930%    |10.924%|75.000%|
+| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|16.244%|  50.688%    |**16.807%**|42.143%|
+| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |31.985%      |49.312%          |       |**77.192%**     |
+| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |15.168%       |**55.069%**         |       |41.295%      |
+
+## Token Usage
+
+| Agent Version                             | Total Tokens Used  |
+| ----------------------------------------- | :-------: |
+| Agent I: Basic Pipeline Creation (RB)     | 21,452   |
+| Agent II: Blocking & Matching Tester (RB) | 44,492  |
+| Agent III: Reasoning (RB)                 | 63,272  |
+| Agent IV: Reasoning (ML)                  | 75,896  |
+| Agent V: Cluster & Documentation (RB)     | 108,138 |
+| Agent VI: Cluster & Documentation (ML)    | 142,429 |
 
 ## USECASE 1: Music Dataset
+
+| Agent Version                             | Music (Fusion Accuracy)  |
+| ----------------------------------------- | :------: |
+| Agent I: Basic Pipeline Creation (RB)     | 17.97% |
+| Agent II: Blocking & Matching Tester (RB) | 22.34% |
+| Agent III: Reasoning (RB)                 | 31.98% |
+| Agent IV: Reasoning (ML)                  | 16.24% |
+| Agent V: Cluster & Documentation (RB)     | **31.99%** |
+| Agent VI: Cluster & Documentation (ML)    | 15.17% |
 
 **Key Findings::**
 
@@ -358,17 +378,27 @@
 
 ## USECASE 2: Games Dataset
 
+| Agent Version                             | Games (Fusion Accuracy)  |
+| ----------------------------------------- | :------: |
+| Agent I: Basic Pipeline Creation (RB)     | 32.77% |
+| Agent II: Blocking & Matching Tester (RB) | 5.88%  |
+| Agent III: Reasoning (RB)                 | 10.92% |
+| Agent IV: Reasoning (ML)                  | **16.81%** |
+| Agent V: Cluster & Documentation (RB)     | –      |
+| Agent VI: Cluster & Documentation (ML)    | –      |
+
+
 **Key Findings:**
 
-- Larger Testsets (TODO # entries): lead to TODO
+- TODO
 
 ### Used Blocking Configuration:
 
 | Datasets                                                | Strategy                                                     | Parameters                              | PC     |
 |---------------------------------------------------------|--------------------------------------------------------------|-----------------------------------------|--------|
 | dbpedia <-> sales                                       | Embedding Blocker (`name`, `platform`, `releaseYear`)        | top_k: 20                               | 0.9126 |
-| metacritic <-> dbpedia                                  | Embedding Blocker (`name`, `platform`, `developer`)          | top_k: 20                               | 0.9679 |
-| metacritic <-> sales                                    | Embedding Blocker (`name`, `platform`,`releaseYear`)         | top_k: 10                               | 1.0000 |
+| metacritic <-> dbpedia                                  | Embedding Blocker (`name`, `developer`, `platform`)          | top_k: 20                               | 0.9626 |
+| metacritic <-> sales                                    | Embedding Blocker (`name`, `platform`,`releaseYear`)         | top_k: 20                               | 1.0000 |
 
 ```json
 {
@@ -391,14 +421,14 @@
       "strategy": "semantic_similarity",
       "columns": [
         "name",
-        "platform",
-        "developer"
+        "developer",
+        "platform"
       ],
       "params": {
         "top_k": 20
       },
-      "pair_completeness": 0.9679144385026738,
-      "num_candidates": 409836,
+      "pair_completeness": 0.9625668449197861,
+      "num_candidates": 409850,
       "is_acceptable": true
     },
     "metacritic_sales": {
@@ -428,9 +458,9 @@
 
 | Datasets                                                | F1 (RB) | F1 (ML)|
 |---------------------------------------------------------|---------|--------|
-| dbpedia <-> sales                                       | 0.8228  | TODO   |
-| metacritic <-> dbpedia                                  | 0.8668  | TODO   |
-| metacritic <-> sales                                    | 0.8121  | TODO   |
+| dbpedia <-> sales                                       | 0.8644  | 0.9973 |
+| metacritic <-> dbpedia                                  | 0.8867  | 0.9944 |
+| metacritic <-> sales                                    | 0.8845  | 1.0000 |
 
 #### Rule Based
 
@@ -461,14 +491,14 @@
         {
           "type": "string",
           "column": "developer",
-          "similarity_function": "jaro_winkler",
+          "similarity_function": "cosine",
           "preprocess": "lower_strip",
           "list_strategy": "concatenate"
         },
         {
           "type": "date",
           "column": "releaseYear",
-          "max_days_difference": 730
+          "max_days_difference": 365
         }
       ],
       "weights": [
@@ -478,7 +508,7 @@
         0.2
       ],
       "threshold": 0.75,
-      "f1": 0.8227571115973742
+      "f1": 0.864367816091954
     },
     "metacritic_dbpedia": {
       "comparators": [
@@ -506,17 +536,157 @@
         {
           "type": "date",
           "column": "releaseYear",
+          "max_days_difference": 366
+        }
+      ],
+      "weights": [
+        0.45,
+        0.2,
+        0.2,
+        0.15
+      ],
+      "threshold": 0.8,
+      "f1": 0.8866995073891625
+    },
+    "metacritic_sales": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "platform",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "developer",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "numeric",
+          "column": "criticScore",
+          "max_difference": 5.0
+        },
+        {
+          "type": "numeric",
+          "column": "userScore",
+          "max_difference": 1.0
+        },
+        {
+          "type": "date",
+          "column": "releaseYear",
           "max_days_difference": 365
         }
       ],
       "weights": [
-        0.5,
+        0.35,
         0.2,
-        0.2,
+        0.15,
+        0.12,
+        0.08,
         0.1
       ],
-      "threshold": 0.8,
-      "f1": 0.8668280871670703
+      "threshold": 0.78,
+      "f1": 0.8844884488448845
+    }
+  }
+}
+```
+
+#### Machine Learning
+
+```json
+{
+  "id_columns": {
+    "dbpedia": "id",
+    "metacritic": "id",
+    "sales": "id"
+  },
+  "matching_strategies": {
+    "dbpedia_sales": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "platform",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "developer",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "date",
+          "column": "releaseYear",
+          "max_days_difference": 730
+        }
+      ],
+      "weights": [
+        0.45,
+        0.25,
+        0.15,
+        0.15
+      ],
+      "threshold": 0.75,
+      "f1": 0.9973474801061007
+    },
+    "metacritic_dbpedia": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "developer",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "platform",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "date",
+          "column": "releaseYear",
+          "max_days_difference": 365
+        }
+      ],
+      "weights": [
+        0.45,
+        0.25,
+        0.15,
+        0.15
+      ],
+      "threshold": 0.75,
+      "f1": 0.9944444444444445
     },
     "metacritic_sales": {
       "comparators": [
@@ -545,16 +715,16 @@
           "max_difference": 5.0
         },
         {
-          "type": "string",
-          "column": "developer",
-          "similarity_function": "jaro_winkler",
-          "preprocess": "lower_strip",
-          "list_strategy": "concatenate"
-        },
-        {
           "type": "numeric",
           "column": "userScore",
           "max_difference": 1.0
+        },
+        {
+          "type": "string",
+          "column": "developer",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
         },
         {
           "type": "string",
@@ -565,28 +735,32 @@
         }
       ],
       "weights": [
-        0.3,
+        0.25,
         0.15,
-        0.1,
+        0.15,
         0.15,
         0.1,
         0.1,
         0.1
       ],
       "threshold": 0.75,
-      "f1": 0.8121212121212121
+      "f1": 1.0
     }
   }
 }
 ```
 
-#### Machine Learning
-
-```json
-TODO
-```
-
 ## USECASE 3: Restaurant Dataset
+
+| Agent Version                             | Restaurants (Fusion Accuracy) |
+| ----------------------------------------- | :-----------: |
+| Agent I: Basic Pipeline Creation (RB)     | 51.82%      |
+| Agent II: Blocking & Matching Tester (RB) | 44.18%      |
+| Agent III: Reasoning (RB)                 | 43.93%      |
+| Agent IV: Reasoning (ML)                  | 50.69%      |
+| Agent V: Cluster & Documentation (RB)     | 49.31%      |
+| Agent VI: Cluster & Documentation (ML)    | **55.07%**      |
+
 
 **Key Findings:**
 
@@ -1023,6 +1197,16 @@ TODO
 ```
 
 ## USECASE 4: Books Dataset
+
+| Agent Version                             | Books (Fusion Accuracy)  |
+| ----------------------------------------- | :------: |
+| Agent I: Basic Pipeline Creation (RB)     | 61.43% |
+| Agent II: Blocking & Matching Tester (RB) | 66.43% |
+| Agent III: Reasoning (RB)                 | 75.00% |
+| Agent IV: Reasoning (ML)                  | 42.14% |
+| Agent V: Cluster & Documentation (RB)     | **77.19%** |
+| Agent VI: Cluster & Documentation (ML)    | 41.30% |
+
 
 **Key Findings:**
 
