@@ -1,0 +1,279 @@
+{
+  "timestamp": "20260202_121733",
+  "datasets": [
+    "discogs",
+    "lastfm",
+    "musicbrainz"
+  ],
+  "matcher_mode": "rulebased",
+  "fusion_testset": "test_set.xml",
+  "blocking_metrics": {
+    "dbpedia_sales": {
+      "pair_completeness": 0.912621359223301,
+      "num_candidates": 929573,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    },
+    "metacritic_dbpedia": {
+      "pair_completeness": 0.9625668449197861,
+      "num_candidates": 409850,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "developer",
+        "platform"
+      ]
+    },
+    "metacritic_sales": {
+      "pair_completeness": 1.0,
+      "num_candidates": 409504,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "dbpedia_sales": {
+      "f1_score": 0.864367816091954
+    },
+    "metacritic_dbpedia": {
+      "f1_score": 0.8866995073891625
+    },
+    "metacritic_sales": {
+      "f1_score": 0.8844884488448845
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.14720812182741116,
+    "macro_accuracy": 0.15066425120772947,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 29,
+    "name_accuracy": 0.17391304347826086,
+    "name_count": 23,
+    "release-date_accuracy": 0.2608695652173913,
+    "release-date_count": 23,
+    "release-country_accuracy": 0.21739130434782608,
+    "release-country_count": 23,
+    "duration_accuracy": 0.17391304347826086,
+    "duration_count": 23,
+    "tracks_track_duration_accuracy": 0.0,
+    "tracks_track_duration_count": 20,
+    "label_accuracy": 0.3125,
+    "label_count": 16,
+    "tracks_track_position_accuracy": 0.0,
+    "tracks_track_position_count": 23,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 23,
+    "artist_accuracy": 0.21739130434782608,
+    "artist_count": 23
+  },
+  "overall_accuracy": 0.14720812182741116,
+  "blocking_config": {
+    "blocking_strategies": {
+      "dbpedia_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.912621359223301,
+        "num_candidates": 929573,
+        "is_acceptable": true
+      },
+      "metacritic_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "developer",
+          "platform"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9625668449197861,
+        "num_candidates": 409850,
+        "is_acceptable": true
+      },
+      "metacritic_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 409504,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "matching_strategies": {
+      "dbpedia_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          }
+        ],
+        "weights": [
+          0.45,
+          0.2,
+          0.15,
+          0.2
+        ],
+        "threshold": 0.75,
+        "f1": 0.864367816091954
+      },
+      "metacritic_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          }
+        ],
+        "weights": [
+          0.45,
+          0.2,
+          0.2,
+          0.15
+        ],
+        "threshold": 0.8,
+        "f1": 0.8866995073891625
+      },
+      "metacritic_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "criticScore",
+            "max_difference": 5.0
+          },
+          {
+            "type": "numeric",
+            "column": "userScore",
+            "max_difference": 1.0
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          }
+        ],
+        "weights": [
+          0.35,
+          0.2,
+          0.15,
+          0.12,
+          0.08,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.8844884488448845
+      }
+    }
+  },
+  "token_usage": {
+    "prompt_tokens": 46724,
+    "completion_tokens": 6808,
+    "total_tokens": 53532,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "execution_attempts": 0,
+    "evaluation_attempts": 3,
+    "matcher_mode": "rulebased"
+  },
+  "integration_pipeline_code_length": 6348,
+  "evaluation_code_length": 2616
+}
