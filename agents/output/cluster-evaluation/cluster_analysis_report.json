@@ -1,64 +1,6 @@
 {
-    "correspondences_musicbrainz_lastfm.csv": {
-        "diagnosis": "The clustering shows a very healthy distribution dominated by size-2 clusters (~95%) with only a small number of moderately larger clusters (up to size 13). There is no strong evidence of severe over-matching or under-clustering based solely on these statistics.",
-        "recommended_strategy": "None",
-        "parameters": {},
-        "error": null,
-        "cluster_distribution": [
-            {
-                "cluster_size": 2,
-                "frequency": 2183,
-                "percentage": 94.95432796868204
-            },
-            {
-                "cluster_size": 3,
-                "frequency": 65,
-                "percentage": 2.827316224445411
-            },
-            {
-                "cluster_size": 4,
-                "frequency": 30,
-                "percentage": 1.3049151805132666
-            },
-            {
-                "cluster_size": 5,
-                "frequency": 7,
-                "percentage": 0.3044802087864289
-            },
-            {
-                "cluster_size": 6,
-                "frequency": 6,
-                "percentage": 0.26098303610265333
-            },
-            {
-                "cluster_size": 7,
-                "frequency": 2,
-                "percentage": 0.08699434536755112
-            },
-            {
-                "cluster_size": 8,
-                "frequency": 2,
-                "percentage": 0.08699434536755112
-            },
-            {
-                "cluster_size": 9,
-                "frequency": 1,
-                "percentage": 0.04349717268377556
-            },
-            {
-                "cluster_size": 12,
-                "frequency": 2,
-                "percentage": 0.08699434536755112
-            },
-            {
-                "cluster_size": 13,
-                "frequency": 1,
-                "percentage": 0.04349717268377556
-            }
-        ]
-    },
     "correspondences_discogs_lastfm.csv": {
-        "diagnosis": "The cluster distribution is generally healthy: most clusters are small (size 2\u20133) with a typical long tail and only a handful of larger clusters up to size 32. This pattern suggests mostly clean many-to-one/one-to-many resolution with no clear evidence of severe over-clustering that would mandate automatic post-splitting or 1-to-1 enforcement.",
+        "diagnosis": "The cluster distribution is generally healthy: the vast majority of clusters are small (mostly size 2\u20134) with a long tail of larger clusters. This suggests the blocking/clustering is working reasonably well and does not obviously suffer from severe over-matching or fragmentation.",
         "recommended_strategy": "None",
         "parameters": {},
         "error": null,
@@ -156,7 +98,7 @@
         ]
     },
     "correspondences_discogs_musicbrainz.csv": {
-        "diagnosis": "The cluster distribution is dominated by small clusters (mostly size 2 and 3) with only a handful of moderately larger clusters and just one cluster of size 14. This suggests generally healthy clustering with mild over-matching only in a very small number of larger clusters, not enough to warrant a global post-processing adjustment.",
+        "diagnosis": "The cluster distribution is healthy, dominated by size-2 clusters with a smooth long tail of slightly larger clusters and only two moderately large clusters (sizes 8 and 14). This suggests generally well-resolved entity groupings without clear evidence of systematic over-matching or under-clustering based solely on these statistics.",
         "recommended_strategy": "None",
         "parameters": {},
         "error": null,
@@ -195,6 +137,64 @@
                 "cluster_size": 14,
                 "frequency": 1,
                 "percentage": 0.03714710252600297
+            }
+        ]
+    },
+    "correspondences_musicbrainz_lastfm.csv": {
+        "diagnosis": "The cluster distribution is dominated by size-2 clusters (\u224895%), with a small number of slightly larger clusters and a modest maximum size of 13. This indicates generally clean, well-resolved groupings without evidence of widespread over-matching or massive, messy clusters.",
+        "recommended_strategy": "None",
+        "parameters": {},
+        "error": null,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 2183,
+                "percentage": 94.95432796868204
+            },
+            {
+                "cluster_size": 3,
+                "frequency": 65,
+                "percentage": 2.827316224445411
+            },
+            {
+                "cluster_size": 4,
+                "frequency": 30,
+                "percentage": 1.3049151805132666
+            },
+            {
+                "cluster_size": 5,
+                "frequency": 7,
+                "percentage": 0.3044802087864289
+            },
+            {
+                "cluster_size": 6,
+                "frequency": 6,
+                "percentage": 0.26098303610265333
+            },
+            {
+                "cluster_size": 7,
+                "frequency": 2,
+                "percentage": 0.08699434536755112
+            },
+            {
+                "cluster_size": 8,
+                "frequency": 2,
+                "percentage": 0.08699434536755112
+            },
+            {
+                "cluster_size": 9,
+                "frequency": 1,
+                "percentage": 0.04349717268377556
+            },
+            {
+                "cluster_size": 12,
+                "frequency": 2,
+                "percentage": 0.08699434536755112
+            },
+            {
+                "cluster_size": 13,
+                "frequency": 1,
+                "percentage": 0.04349717268377556
             }
         ]
     }
