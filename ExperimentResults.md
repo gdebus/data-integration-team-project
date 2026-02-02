@@ -6,12 +6,12 @@
 
 | Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
-| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |17.966%|  51.815%    |32.773%|61.429%|
+| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |17.966%|  51.815%    |**32.773%**|61.429%|
 | [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |22.335%|  44.180%    |5.882% |66.429%|
 | [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|**31.980%**|  43.930%    |10.924%|75.000%|
-| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|16.244%|  50.688%    |**16.807%**|42.143%|
-| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |31.985%      |49.312%          |       |**77.192%**     |
-| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |15.168%       |**55.069%**         |       |41.295%      |
+| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|16.244%|  50.688%    |16.807%|42.143%|
+| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |31.985%      |49.312%          |20.812% |**77.192%**     |
+| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |15.168%       |**55.069%**         |13.706%  |41.295%      |
 
 ## Token Usage
 
@@ -380,12 +380,12 @@
 
 | Agent Version                             | Games (Fusion Accuracy)  |
 | ----------------------------------------- | :------: |
-| Agent I: Basic Pipeline Creation (RB)     | 32.77% |
+| Agent I: Basic Pipeline Creation (RB)     | **32.77%** |
 | Agent II: Blocking & Matching Tester (RB) | 5.88%  |
 | Agent III: Reasoning (RB)                 | 10.92% |
-| Agent IV: Reasoning (ML)                  | **16.81%** |
-| Agent V: Cluster & Documentation (RB)     | –      |
-| Agent VI: Cluster & Documentation (ML)    | –      |
+| Agent IV: Reasoning (ML)                  | 16.81% |
+| Agent V: Cluster & Documentation (RB)     | 20.81% |
+| Agent VI: Cluster & Documentation (ML)    | 13.70% |
 
 
 **Key Findings:**
