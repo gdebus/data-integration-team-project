@@ -6,7 +6,6 @@ from typing import Dict, Any, List
 
 from PyDI.entitymatching import EntityMatchingEvaluator
 from PyDI.io import load_xml, load_parquet, load_csv
-from langchain_core.messages import SystemMessage, HumanMessage
 
 
 def load_dataset(path):
@@ -31,130 +30,108 @@ class ClusterTester:
     """
 
     def __init__(
-        self, llm, output_dir: str = "output/cluster-evaluation", verbose: bool = True
+        self,
+        llm,
+        output_dir: str = "output/cluster-evaluation",
+        verbose: bool = True,
+        min_small_cluster_ratio: float = 0.75,
+        max_large_cluster_ratio: float = 0.05,
+        max_healthy_cluster_size: int = 15,
+        max_one_to_many_ratio: float = 0.2,
     ):
         self.llm = llm
         self.output_dir = output_dir
         self.verbose = verbose
+        self.min_small_cluster_ratio = min_small_cluster_ratio
+        self.max_large_cluster_ratio = max_large_cluster_ratio
+        self.max_healthy_cluster_size = max_healthy_cluster_size
+        self.max_one_to_many_ratio = max_one_to_many_ratio
         # Clean and recreate the output directory for a fresh run
         if os.path.exists(self.output_dir):
             shutil.rmtree(self.output_dir)
         os.makedirs(self.output_dir, exist_ok=True)
 
-    def _get_llm_recommendation(
-        self,
-        cluster_stats: pd.DataFrame,
-        total_clusters: int,
-        max_cluster_size: int,
-        large_cluster_examples: Dict[str, List] = None,
-    ) -> Dict[str, Any]:
-        """Prompts LLM to diagnose cluster issues and recommend a specific PyDI post-processing function."""
+    def _analyze_cluster_health(self, cluster_stats: pd.DataFrame) -> Dict[str, Any]:
+        """Compute simple health metrics for a cluster size distribution."""
+        size_freq = {}
+        for _, row in cluster_stats.iterrows():
+            size = int(row["cluster_size"])
+            freq = int(row["frequency"])
+            size_freq[size] = size_freq.get(size, 0) + freq
 
-        system_prompt = """
-        You are a world-class Data Integration expert specializing in the PyDI library. Your task is to analyze entity clustering results and recommend a concrete, programmatic solution using a specific PyDI post-clustering function if necessary.
-
-        **CONTEXT:**
-        The PyDI library offers several post-clustering functions in `PyDI.entitymatching` to refine correspondences:
-        - `MaximumBipartiteMatching`: A more optimal way to enforce a 1-to-1 constraint by finding the matching with the maximum total similarity score.
-        - `HierarchicalClusterer`: Can be used to split large, messy clusters by re-clustering them based on a distance metric and a threshold.
-        - `StableMatching`: Enforces a 1-to-1 constraint by finding a stable matching based on ranked preferences, which is useful when the order of preference for matches is more important than a global similarity score.
-
-        **YOUR TASK:**
-        Based on the provided cluster statistics and record examples, you must:
-        1.  **Diagnose the Problem:** Concisely state the most likely clustering issue (e.g., "over-matching", "under-clustering", "healthy distribution").
-        2.  **Recommend a Strategy:** Recommend ONE specific PyDI function to apply. Your options are:
-            - "MaximumBipartiteMatching"
-            - "HierarchicalClusterer"
-            - "StableMatching"
-            - "None" (if the clusters are healthy and no action is needed).
-        3.  **Provide Parameters:** If you recommend a strategy, provide the necessary parameters as a JSON object.
-            - For `HierarchicalClusterer`, you MUST provide a `linkage_method` (e.g., 'single', 'average', 'complete') and a `threshold` (float between 0.0 and 1.0).
-            - For all others, provide an empty JSON object `{}`.
-
-        **RESPONSE FORMAT:**
-        You must respond with ONLY a JSON object containing three keys: `diagnosis`, `recommended_strategy`, and `parameters`.
-
-        **Example 1 (Healthy Clusters):**
-        ```json
-        {
-          "diagnosis": "The cluster distribution shows a healthy long tail with a reasonable number of size-2 clusters and very few large clusters. The matching appears balanced.",
-          "recommended_strategy": "None",
-          "parameters": {}
-        }
-        ```
-
-        **Example 2 (Optimal 1-to-1 Matching Needed):**
-        ```json
-        {
-          "diagnosis": "The clusters contain complex many-to-many relationships where other approach might fail to find the best overall set of pairs. The similarity scores suggest that a globally optimal 1-to-1 assignment is required to maximize the quality of the final matches.",
-          "recommended_strategy": "MaximumBipartiteMatching",
-          "parameters": {}
-        }
-        ```
-
-        **Example 3 (Messy Large Clusters):**
-        ```json
-        {
-          "diagnosis": "A giant cluster of size 50 was found. The records within it show some similarity but are not all perfect matches, suggesting a need for refinement. The average similarity is likely low.",
-          "recommended_strategy": "HierarchicalClusterer",
-          "parameters": {
-            "linkage_method": "average",
-            "threshold": 0.85
-          }
-        }
-        ```
-        
-        **Example 4 (Preference-based 1-to-1 Matching):**
-        ```json
-        {
-          "diagnosis": "The clusters show many-to-many relationships, but the matching quality depends on ranked preferences rather than just similarity scores. A stable matching is needed to ensure that no two entities would prefer each other over their current match.",
-          "recommended_strategy": "StableMatching",
-          "parameters": {}
-        }
-        ```
-        """
-
-        large_cluster_section = ""
-        if large_cluster_examples:
-            large_cluster_section = f"""
-            **Examples from Large Clusters:**
-            {json.dumps(large_cluster_examples, indent=2)}
-            """
-
-        human_content = f"""
-        Analyze the following clustering results and provide your recommendation.
-
-        **Cluster Statistics:**
-        - Total clusters: {total_clusters}
-        - Maximum cluster size: {max_cluster_size}
-        - Distribution:
-          {cluster_stats.to_string()}
-        
-        {large_cluster_section}
-        
-        Provide your diagnosis and recommendation as a JSON object.
-        """
-
-        response = self.llm.invoke(
-            [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
-        )
-        response_text = (
-            response.content if hasattr(response, "content") else str(response)
-        )
-
-        try:
-            # Clean the response to get only the JSON
-            json_str = response_text[
-                response_text.find("{") : response_text.rfind("}") + 1
-            ]
-            return json.loads(json_str)
-        except (json.JSONDecodeError, IndexError):
+        total_clusters = sum(size_freq.values())
+        if total_clusters == 0:
             return {
-                "diagnosis": "Could not parse LLM response.",
-                "recommended_strategy": "None",
-                "parameters": {},
-                "error": f"LLM response was not valid JSON: {response_text}",
+                "total_clusters": 0,
+                "max_cluster_size": 0,
+                "small_cluster_ratio": 0.0,
+                "large_cluster_ratio": 0.0,
+                "is_long_tail": True,
             }
+
+        max_cluster_size = max(size_freq.keys())
+        small_clusters = sum(freq for size, freq in size_freq.items() if size <= 2)
+        large_clusters = sum(freq for size, freq in size_freq.items() if size >= 6)
+
+        small_cluster_ratio = small_clusters / total_clusters
+        large_cluster_ratio = large_clusters / total_clusters
+
+        is_long_tail = (
+            small_cluster_ratio >= self.min_small_cluster_ratio
+            and large_cluster_ratio <= self.max_large_cluster_ratio
+            and max_cluster_size <= self.max_healthy_cluster_size
+        )
+
+        return {
+            "total_clusters": total_clusters,
+            "max_cluster_size": max_cluster_size,
+            "small_cluster_ratio": round(small_cluster_ratio, 4),
+            "large_cluster_ratio": round(large_cluster_ratio, 4),
+            "is_long_tail": is_long_tail,
+        }
+
+    def _get_recommendation(
+        self, cluster_stats: pd.DataFrame, one_to_many_ratio: float
+    ) -> Dict[str, Any]:
+        """Recommend matching threshold adjustments when distribution is not long-tail."""
+        health = self._analyze_cluster_health(cluster_stats)
+        health["one_to_many_ratio"] = round(one_to_many_ratio, 4)
+
+        is_one_to_many_ok = one_to_many_ratio <= self.max_one_to_many_ratio
+        if health["is_long_tail"] and is_one_to_many_ok:
+            diagnosis = (
+                "The cluster distribution shows a healthy long-tail pattern with mostly "
+                "small clusters and very few large clusters."
+            )
+            return {
+                "diagnosis": diagnosis,
+                "recommended_strategy": "None",
+                "health_metrics": health,
+                "is_healthy": True,
+            }
+
+        if not is_one_to_many_ok:
+            diagnosis = (
+                "Many entities map to multiple counterparts (one-to-many), which suggests "
+                "ambiguous correspondences and over-matching."
+            )
+        else:
+            diagnosis = (
+                "The cluster distribution is not long-tail and indicates potential many-to-many "
+                "matches or over-clustering."
+            )
+
+        return {
+            "diagnosis": diagnosis,
+            "recommended_strategy": "AdjustMatchingConfig",
+            "parameters": {
+                "threshold_delta": 0.05,
+                "threshold_cap": 0.95,
+                "reason": "Increase match thresholds to reduce over-matching and large clusters.",
+            },
+            "health_metrics": health,
+            "is_healthy": False,
+        }
 
     def run(self, correspondences_paths: List[str]) -> Dict[str, Any]:
         """
@@ -183,6 +160,24 @@ class ClusterTester:
             if self.verbose:
                 print(f"[*] Analyzing clusters from {os.path.basename(path)}")
 
+            id1_counts = (
+                correspondences["id1"].value_counts()
+                if "id1" in correspondences.columns
+                else pd.Series(dtype=int)
+            )
+            id2_counts = (
+                correspondences["id2"].value_counts()
+                if "id2" in correspondences.columns
+                else pd.Series(dtype=int)
+            )
+            id1_one_to_many = (
+                float((id1_counts > 1).mean()) if len(id1_counts) > 0 else 0.0
+            )
+            id2_one_to_many = (
+                float((id2_counts > 1).mean()) if len(id2_counts) > 0 else 0.0
+            )
+            one_to_many_ratio = max(id1_one_to_many, id2_one_to_many)
+
             file_output_dir = os.path.join(
                 self.output_dir, os.path.splitext(os.path.basename(path))[0]
             )
@@ -198,20 +193,25 @@ class ClusterTester:
                 recommendation = {
                     "diagnosis": "No clusters were generated from the correspondences.",
                     "recommended_strategy": "None",
-                    "parameters": {},
                 }
             else:
-                total_clusters = int(cluster_dist_df["frequency"].sum())
-                max_cluster_size = int(cluster_dist_df["cluster_size"].max())
+                health = self._analyze_cluster_health(cluster_dist_df)
 
                 if self.verbose:
-                    print(f"    Total clusters: {total_clusters}")
-                    print(f"    Max cluster size: {max_cluster_size}")
+                    print(f"    Total clusters: {health['total_clusters']}")
+                    print(f"    Max cluster size: {health['max_cluster_size']}")
                     print("    Cluster Distribution:")
                     print(cluster_dist_df.to_string(index=False))
+                    print(
+                        f"    Small cluster ratio: {health['small_cluster_ratio']:.2%}"
+                    )
+                    print(
+                        f"    Large cluster ratio: {health['large_cluster_ratio']:.2%}"
+                    )
+                    print(f"    One-to-many ratio: {one_to_many_ratio:.2%}")
 
-                recommendation = self._get_llm_recommendation(
-                    cluster_dist_df, total_clusters, max_cluster_size
+                recommendation = self._get_recommendation(
+                    cluster_dist_df, one_to_many_ratio
                 )
 
                 if self.verbose:
@@ -227,9 +227,41 @@ class ClusterTester:
                 "recommended_strategy": recommendation.get("recommended_strategy"),
                 "parameters": recommendation.get("parameters"),
                 "error": recommendation.get("error"),
+                "health_metrics": recommendation.get("health_metrics"),
+                "is_healthy": recommendation.get("is_healthy"),
+                "one_to_many_ratio": round(one_to_many_ratio, 4),
                 "cluster_distribution": cluster_dist_df.to_dict("records"),
             }
             all_reports[os.path.basename(path)] = report
+
+        if all_reports:
+            unhealthy_files = [
+                name
+                for name, report in all_reports.items()
+                if report.get("recommended_strategy") not in (None, "None")
+            ]
+            overall_recommendation = (
+                "AdjustMatchingConfig" if unhealthy_files else "None"
+            )
+            overall_diagnosis = (
+                "One or more correspondence files show a non-long-tail distribution."
+                if unhealthy_files
+                else "All correspondence files show healthy long-tail distributions."
+            )
+            all_reports["_overall"] = {
+                "diagnosis": overall_diagnosis,
+                "recommended_strategy": overall_recommendation,
+                "parameters": (
+                    {
+                        "threshold_delta": 0.05,
+                        "threshold_cap": 0.95,
+                        "reason": "Increase match thresholds to reduce over-matching and large clusters.",
+                    }
+                    if unhealthy_files
+                    else {}
+                ),
+                "unhealthy_files": unhealthy_files,
+            }
 
         report_path = os.path.join(self.output_dir, "cluster_analysis_report.json")
         with open(report_path, "w") as f:
