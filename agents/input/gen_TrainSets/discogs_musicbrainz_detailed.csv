@@ -1,0 +1,501 @@
+label,score,id_a,id_b,name_a,name_b,artist_a,artist_b,release-date_a,release-date_b,release-country_a,release-country_b
+1,0.956,discogs_58199,mbrainz_12656,Daydreamer,Daydreamer,Youngteam,Youngteam,2011-03-01,2011-03,UK,United Kingdom of Great Britain and Northern Ireland
+1,0.975,discogs_54232,mbrainz_11846,Ghost Stories,Ghost Stories,Silent Civilian,Silent Civilian,2010,2010-05-18,United States of America,United States of America
+1,0.988,discogs_9237,mbrainz_2050,Sex And Wildflowers,Sex and Wildflowers,Sieben,Sieben,2003-09-01,2003-09,Germany,Germany
+1,1.0,discogs_65548,mbrainz_14076,The Black Metal Flame,The Black Metal Flame,Decayed,Decayed,2008-09-01,2008-09-01,Spain,Spain
+1,1.0,discogs_10631,mbrainz_2433,Voodoo Chic,Voodoo Chic,Helicopter Girl,Helicopter Girl,2005-07-26,2005-07-26,United States of America,United States of America
+1,1.0,discogs_5,mbrainz_3,The Sign's Alive,The Sign's Alive,Lypid,Lypid,2000-09-05,2000-09-05,United States of America,United States of America
+1,0.975,discogs_2706,mbrainz_609,United,United,Phoenix,Phoenix,2000,2000-11-19,United States of America,United States of America
+1,1.0,discogs_44619,mbrainz_9908,Hidden Trains Of Pippuri,Hidden Trains of Pippuri,Psilodump,Psilodump,2009-12-08,2009-12-08,Sweden,Sweden
+1,0.975,discogs_68513,mbrainz_14605,Happiness,Happiness,Dance Gavin Dance,Dance Gavin Dance,2009,2009-06-09,United States of America,United States of America
+1,0.988,discogs_1992,mbrainz_495,Tripped Experiences,Tripped Experiences,Substanz T,Substanz T,2001-02-01,2001-02,Germany,Germany
+1,0.975,discogs_48010,mbrainz_10590,J'respire Encore,J'respire encore,Papaz,Papaz,2005,2005-05-17,Canada,Canada
+1,0.982,discogs_119605,mbrainz_21122,Hidden Memories,Hidden Memories,Escapist,Escapist,2013,2013-09,Argentina,Argentina
+1,1.0,discogs_75325,mbrainz_15301,Fallen Empires,Fallen Empires,Snow Patrol,Snow Patrol,2012-01-10,2012-01-10,United States of America,United States of America
+1,0.975,discogs_134445,mbrainz_23393,The Megalomania Puzzle,The Megalomania Puzzle,Mefisto,Mefisto,2014,2014-06-13,Netherlands,Netherlands
+1,0.975,discogs_712,mbrainz_237,Happiness,Happiness,Sound De-Zign,Sound De-Zign,2001,2001-01-01,Germany,Germany
+1,0.975,discogs_42500,mbrainz_9467,Planetary Empire,Planetary Empire,Absurd Minds,Absurd Minds,1996,1996-01-01,Germany,Germany
+1,1.0,discogs_145276,mbrainz_25191,Obscure The Future,Obscure the Future,Somatic Responses,Somatic Responses,2014-09-21,2014-09-21,UK,
+1,0.975,discogs_169896,mbrainz_29254,Mezzanines,Mezzanines,Mezzanines,Mezzanines,1996,1996-01-01,United States of America,United States of America
+1,1.0,discogs_73117,mbrainz_6853,Beyond The Path,Beyond The Path,Eastenders,Eastenders,2007,,Germany,
+1,0.975,discogs_19183,mbrainz_4498,Opiate,Opiate,Superikone,Superikone,2003,2003-01-01,Germany,Germany
+1,1.0,discogs_46941,mbrainz_10391,Art Of Life Live,Art of life live,X Japan,X JAPAN,1998-03-18,1998-03-18,Japan,Japan
+1,0.975,discogs_26807,mbrainz_6139,Resurrection Day,Resurrection Day,White Zombie,White Zombie,1993,1993-01-01,Italy,Italy
+1,1.0,discogs_107434,mbrainz_2754,Monster,Monster,Steppenwolf,Steppenwolf,2013-04-24,2013-04-24,Japan,Japan
+1,0.975,discogs_327,mbrainz_147,Disco Damnation,Disco Damnation,Wicked,Wicked,1996,1996-12-09,Netherlands,Netherlands
+1,1.0,discogs_15819,mbrainz_3686,State Of Absolution,State of Absolution,Halthan,Halthan,2006-05-23,2006-05-23,Finland,Finland
+1,0.975,discogs_110142,mbrainz_19745,The Evocation Of The Unseen,The Evocation of the Unseen,Fear Of Eternity,Fear of Eternity,2013,2013-01-01,Argentina,Argentina
+1,1.0,discogs_19556,mbrainz_20423,How The West Was Won,How The West Was Won,No Man,No Man,1991,,United States of America,
+1,0.975,discogs_13543,mbrainz_3115,Confessor,Confessor,Confessor,Confessor,1992,1992-06-23,United States of America,United States of America
+1,0.975,discogs_29288,mbrainz_6652,Building An Empire,Building an Empire,Demians,Demians,2008,2008-05-16,Germany,Germany
+1,0.975,discogs_52197,mbrainz_4061,Troubled Land,Troubled Land,King Loser,King Loser,1996,1996-01-01,New Zealand,New Zealand
+1,0.982,discogs_6984,mbrainz_1447,Parallel Lifeforms,Parallel Lifeforms,Neuroactive,Neuroactive,1998,1998-12,United States of America,United States of America
+1,0.998,discogs_61057,mbrainz_10944,"Glee: The Music, Volume 3 Showstoppers","Glee: The Music, Volume 3: Showstoppers",Glee Cast,Glee Cast,2010-05-18,2010-05-18,United States of America,United States of America
+1,1.0,discogs_18868,mbrainz_1092,Dangerous,Dangerous,Busta Rhymes,Busta Rhymes,,1997-01-01,,
+1,0.975,discogs_12636,mbrainz_2916,Singles,Singles,Broder Daniel,Broder Daniel,1999,1999-01-01,Sweden,Sweden
+1,0.975,discogs_68472,mbrainz_14600,The Music Of Erich Zann,The Music of Erich Zann,Mekong Delta,Mekong Delta,1988,1988-01-01,United States of America,United States of America
+1,1.0,discogs_138,mbrainz_62,The Call Of The Confuciusornis Remixes,The Call of the Confuciusornis Remixes,Sculpturism,Sculpturism,2001-01-01,2001-01-01,Netherlands,Netherlands
+1,1.0,discogs_22493,mbrainz_5227,Embrace The Fool,Embrace the Fool,Poets To Their Beloved,Poets to Their Beloved,2007-09-28,2007-09-28,Portugal,Portugal
+1,0.975,discogs_15250,mbrainz_3545,Voodoobabbbel,Voodoobabbbel,Badesalz,Badesalz,1999,1999-10-11,Germany,Germany
+1,0.975,discogs_893,mbrainz_295,Outside,Outside,Omar,Omar,1994,1994-01-01,Germany,Germany
+1,0.975,discogs_92633,mbrainz_1952,Middle Of Nowhere,Middle of Nowhere,Hanson,Hanson,1997,1997-05-06,United States of America,United States of America
+1,0.992,discogs_18489,mbrainz_4330,Friend And Foe,Friend and Foe,Menomena,Menomena,2007-01-26,2007-01-23,United States of America,United States of America
+1,1.0,discogs_32283,mbrainz_7217,Fallen Star,Fallen Star,CJ Stone,CJ Stone,2008-09-05,2008-09-05,Germany,Germany
+1,0.986,discogs_75826,mbrainz_15750,United We Fall,United We Fall,League Of Infinite Justice,League of Infinite Justice,2007-09-01,2007-09,,
+1,0.975,discogs_12233,mbrainz_2035,Nightmare Voices,Nightmare Voices,Another Tale,Another Tale,1992,1992-01-01,Germany,Germany
+1,1.0,discogs_3465,mbrainz_755,Like Water For Chocolate,Like Water for Chocolate,Common,Common,2000-03-28,2000-03-28,United States of America,United States of America
+1,1.0,discogs_23138,mbrainz_5347,Defective Epitaph,Defective Epitaph,Xasthur,Xasthur,2007-09-25,2007-09-25,United States of America,United States of America
+1,1.0,discogs_67084,mbrainz_14341,Soft Metals,Soft Metals,Soft Metals,Soft Metals,2011-07-19,2011-07-19,United States of America,United States of America
+1,0.975,discogs_1341,mbrainz_387,Jazz Ascension,Jazz Ascension,95 North,95 North,1998,1998-01-01,United States of America,United States of America
+1,0.975,discogs_82334,mbrainz_16471,Warchants From The Woods,Warchants From the Woods,Cyhiriaeth,Cyhiriaeth,2006-09-28,2006-10-13,Germany,Germany
+1,0.975,discogs_5063,mbrainz_1061,Absence,Absence,In Absentia,In Absentia,1993,1993-01-01,Denmark,Denmark
+1,0.983,discogs_165652,mbrainz_24546,Another Language,Another Language,This Will Destroy You,This Will Destroy You,2014-07-01,2014-09-16,United States of America,United States of America
+1,1.0,discogs_10599,mbrainz_2428,Tales Beyond The Unknown,Tales Beyond the Unknown,Acropod,Acropod,2005-05-25,2005-05-25,Greece,Greece
+1,0.975,discogs_13642,mbrainz_3142,City Of The Broken Wheelchairs,City of the Broken Wheelchairs,N.,N.,2005,2005-01-01,Italy,Italy
+1,0.975,discogs_1997,mbrainz_498,The Broken Sequencer,The Broken Sequencer,Kagami,Kagami,1998,1998-01-01,Japan,Japan
+1,0.982,discogs_64298,mbrainz_13866,Monsters Of Carnage,Monsters of Carnage,Mucupurulent,Mucupurulent,2010,2010-06,Germany,Germany
+1,0.975,discogs_68443,mbrainz_14594,Sweet Dreams: The Encore Collection,Sweet Dreams: The Encore Collection,Air Supply,Air Supply,2001,2001-06-02,United States of America,United States of America
+1,0.975,discogs_38514,mbrainz_4382,Pre-Life Crisis,Pre-Life Crisis,Count Bass D,Count Bass D,1995,1995-09-25,United States of America,United States of America
+1,1.0,discogs_99,mbrainz_39,Soundtracks For Broken Video Games,Soundtracks for Broken Video Games,S.I.N.E. W.A.V.E.,S.I.N.E. W.A.V.E.,2000-01-01,2000-01-01,United States of America,United States of America
+1,1.0,discogs_41489,mbrainz_9235,In Absentia,In Absentia,Geche,Geche,2009-10-16,2009-10-16,,
+1,0.975,discogs_41895,mbrainz_9340,Infestation,Infestation,Ratt,Ratt,1999,1999-01-01,United States of America,United States of America
+1,0.983,discogs_168588,mbrainz_29002,Gemini,Gemini,Safety Scissors,Safety Scissors,2014-04-04,2014-04-18,Germany,Germany
+1,1.0,discogs_23515,mbrainz_5431,Contrast,Contrast,Joker Juice,Joker Juice,2007-10-25,2007-10-25,Italy,Italy
+1,0.975,discogs_163380,mbrainz_28141,"Dreaming Of Going Nowhere, Thinking Of Doing Nothing","Dreaming of Going Nowhere, Thinking of Doing Nothing",Coffee Rage,Coffee Rage,2008,2008-01-01,New Zealand,New Zealand
+1,0.975,discogs_47281,mbrainz_10465,Alice Au Pays Des Merveilles,Alice au pays des merveilles,Klimperei,Klimperei,2000,2000-01-01,France,France
+1,0.975,discogs_26010,mbrainz_5964,DWYCK / Flip The Script,DWYCK / Flip the Script,Gang Starr,Gang Starr,1992,1992-01-01,United States of America,United States of America
+1,1.0,discogs_36870,mbrainz_2750,The Rising Tied,The Rising Tied,Fort Minor,Fort Minor,2005-11-22,2005-11-22,United States of America,United States of America
+1,0.975,discogs_75939,mbrainz_11022,Marry Me Jane,Marry Me Jane,Marry Me Jane,Marry Me Jane,1996,1996-01-30,United States of America,United States of America
+1,1.0,discogs_106507,mbrainz_16538,Graveyard Of Empires,Graveyard of Empires,Evans Blue,Evans Blue,2012-04-17,2012-04-17,United States of America,United States of America
+1,0.975,discogs_5126,mbrainz_1082,Echoes In The Emptiness,Echoes in the Emptiness,Exuviae,Exuviae,2000,2000-01-01,United States of America,United States of America
+1,0.975,discogs_2669,mbrainz_604,Electronic Underground,Electronic Underground,Megaptera,Megaptera,2000,2000-01-01,Italy,Italy
+1,0.975,discogs_36672,mbrainz_1593,Through Silver In Blood,Through Silver in Blood,Neurosis,Neurosis,1996,1996-04-12,Germany,Germany
+1,1.0,discogs_42882,mbrainz_9538,New Moon,New Moon,Swallow The Sun,Swallow the Sun,2009-11-04,2009-11-04,Finland,Finland
+1,0.975,discogs_51791,mbrainz_11353,Show Time / Visions Of The Lite,Show Time / Visions of the Lite,Slave,Slave,2005,2005-01-01,United States of America,United States of America
+1,0.988,discogs_8151,mbrainz_1725,Sounds From Beyond The Silver Wheel,Sounds From Beyond the Silver Wheel,Dark Muse,Dark Muse,2002-03-01,2002-03,United States of America,United States of America
+1,1.0,discogs_14081,mbrainz_3245,Nightmares,Nightmares,Goreghast,Goreghast,2006-04-10,2006-04-10,Poland,Poland
+1,1.0,discogs_41860,mbrainz_9327,Absence,Absence,Paper Route,Paper Route,2009-04-28,2009-04-28,United States of America,United States of America
+1,1.0,discogs_161924,mbrainz_27893,Cocoon -Fallen-,COCOON -Fallen-,Schwarz Stein,Schwarz Stein,2014-07-02,2014-07-02,Japan,Japan
+1,0.996,discogs_123395,mbrainz_21704,"O Barche Che Bramate La Tempesta, Come Questo Porto È Tranquillo","O barche che bramate la tempesta, come questo porto Ã¨ tranquillo",Hofame,Hofame,2014-02-02,2014-02-02,Italy,Italy
+1,1.0,discogs_103459,mbrainz_19059,Purple Line,Purple Line,Devecly Bitte,Devecly Bitte,2013-03-29,2013-03-29,Turkey,
+1,0.975,discogs_12611,mbrainz_2907,Listen. Experience. Connect.,Listen. Experience. Connect.,Mephisto Odyssey,Mephisto Odyssey,2000,2000-01-01,United States of America,United States of America
+1,0.975,discogs_10329,mbrainz_2348,Star Wars Breakbeats,Star Wars Breakbeats,Supergenius,Supergenius,1998,1998-01-01,United States of America,United States of America
+1,1.0,discogs_12592,mbrainz_2902,Night Currents,Night Currents,Milieu,Milieu,2006-01-01,2006-01-01,Belgium,Belgium
+1,1.0,discogs_8610,mbrainz_1879,The Man Who Loved Beer,The Man Who Loved Beer,Lambchop,Lambchop,1996,,UK,
+1,0.984,discogs_35477,mbrainz_7916,The Confusion Of A.J. Schicksal 1927-1973,"The Confusion of A.J. Schiksal, 1927-1973",Mitsoobishy Jacson,Mitsoobishy Jacson,2009-03-01,2009-03,Belgium,Belgium
+1,1.0,discogs_121599,mbrainz_21028,Electronically Yours,Electronically Yours,Love?,Love?,2013-12-21,2013-12-21,Germany,Germany
+1,0.975,discogs_17316,mbrainz_4046,Residual Echoes,Residual Echoes,Residual Echoes,Residual Echoes,2005,2005-01-01,United States of America,United States of America
+1,0.975,discogs_8866,mbrainz_1957,The Greatest Story Never Told,The Greatest Story Never Told,Shyheim,Shyheim,2004,2004-01-01,United States of America,United States of America
+1,0.988,discogs_8146,mbrainz_1721,Beyond The Congo,Beyond the Congo,Legowelt,Legowelt,2005-01-01,2005-01,Netherlands,Netherlands
+1,0.992,discogs_12337,mbrainz_2835,Audioslave,Audioslave,Audioslave,Audioslave,2002-11-18,2002-11-15,Australia,Australia
+1,0.983,discogs_29377,mbrainz_6678,Shelter,Shelter,Rasa,Rasa,2003-09-02,2003-01-01,United States of America,United States of America
+1,1.0,discogs_118650,mbrainz_13645,Until We Surrender,Until We Surrender,Heartsounds,Heartsounds,2010-06-15,2010-06-15,United States of America,United States of America
+1,0.975,discogs_18875,mbrainz_4415,Schreit Den Namen Meiner Mutter,Schreit den Namen meiner Mutter,Tomte,Tomte,2003,2003-04-14,Germany,Germany
+1,0.983,discogs_42238,mbrainz_7057,Black Ice,Black Ice,AC/DC,AC/DC,2008-10-20,2008-10-18,Australia,Australia
+1,1.0,discogs_95440,mbrainz_12359,Cross Road,Cross Road,Bon Jovi,Bon Jovi,1994-10-07,1994-10-07,Japan,Japan
+1,0.975,discogs_46352,mbrainz_4253,Suck It And See,Suck It and See,Candyland,Candyland,1991,1991-01-01,Netherlands,Netherlands
+1,0.975,discogs_12612,mbrainz_2707,Elephant Eyelash,Elephant Eyelash,Why?,WHY?,2005-09-26,2005-10-04,United States of America,United States of America
+1,1.0,discogs_36802,mbrainz_8177,Jupiter And Beyond The Infinite,Jupiter and Beyond the Infinite,Stella Interstellar,Stella Interstellar,2009-05-01,2009-05-01,United States of America,United States of America
+1,1.0,discogs_5850,mbrainz_1240,Beyond Something,Beyond Something,kAzooo,kAzooo,2002-07-25,2002-07-25,Europe,
+1,0.975,discogs_11907,mbrainz_2641,House Of The Rising Sun,House of the Rising Sun,Secret Tunes,Secret Tunes,2002,2002-01-01,Germany,Germany
+1,0.997,discogs_145421,mbrainz_25221,Continuum Sonore Part 714,Continuum Sonore Part 7>14,Maninkari,Maninkari,2014-10-27,2014-10-27,Poland,Poland
+1,0.988,discogs_41254,mbrainz_9183,Kaputt Und Glücklich,Kaputt und glÃ¼cklich,Besser,Besser,2003-07-21,2003-07-21,Germany,Germany
+1,1.0,discogs_129306,mbrainz_22460,Supermodel,Supermodel,Foster The People,Foster the People,2014-03-19,2014-03-19,Japan,Japan
+1,0.975,discogs_72675,mbrainz_15371,Funerals And Parties,Funerals and Parties,Lapko,Lapko,2007,2007-01-01,Finland,Finland
+1,0.975,discogs_11986,mbrainz_2591,When I Was Born For The 7th Time,When I Was Born for the 7th Time,Cornershop,Cornershop,1997,1997-09-08,United States of America,United States of America
+1,0.975,discogs_28378,mbrainz_6359,Optimal Contrast,Optimal Contrast,Impact Pulse,Impact Pulse,2008,2008-01-01,Hungary,Hungary
+1,0.975,discogs_129260,mbrainz_6713,Binding Of The Spirit,Binding of the Spirit,Throes Of Dawn,Throes of Dawn,2000,2000-01-01,Italy,Italy
+1,0.977,discogs_53166,mbrainz_11647,Fleeting Frequencies,Fleeting Frequencies,Patience Please,Patience Please,2007-08-01,2007-09,United States of America,United States of America
+1,0.98,discogs_91030,mbrainz_17594,The Man Who Couldn't Stop,The Man Who Couldn't Stop (album),Caustic,Caustic,2012-10-09,2012-10-09,United States of America,United States of America
+1,0.975,discogs_79952,mbrainz_16191,The Funeral,The Funeral,Orenda,Orenda,2007,2007-07-03,Germany,Germany
+1,0.975,discogs_41778,mbrainz_9310,The Con Demos,The Con Demos,Tegan and Sara,Tegan and Sara,2008,2008-01-01,Canada,Canada
+1,0.991,discogs_106826,mbrainz_19406,Random Access Memories,Random Access Memories,Daft Punk,Daft Punk,2013-05-21,2013-05-17,,
+1,0.975,discogs_83053,mbrainz_16585,Celebration Rock,Celebration Rock,Japandroids,Japandroids,2012,2012-06-05,United States of America,United States of America
+1,1.0,discogs_126024,mbrainz_22069,Michigan Left,Michigan Left,Arkells,Arkells,2011-10-18,2011-10-18,Canada,Canada
+1,0.975,discogs_5302,mbrainz_1128,Electronic Satisfaction,Electronic Satisfaction,Laidback Luke,Laidback Luke,2002,2002-01-01,Netherlands,Netherlands
+1,0.975,discogs_18378,mbrainz_4296,Butterfly,Butterfly,Screaming Trees,Screaming Trees,1993,1993-01-01,United States of America,United States of America
+1,0.975,discogs_8132,mbrainz_1715,Keep The Faith,Keep the Faith,Black Oak Arkansas,Black Oak Arkansas,1972,1972-01-01,United States of America,United States of America
+1,0.975,discogs_52864,mbrainz_11581,Empire,Empire,Black Light Discipline,Black Light Discipline,2008,2008-11-26,Finland,Finland
+1,0.975,discogs_17434,mbrainz_4073,Counterparts LP,Counterparts LP,Hong Kong Counterfeit,Hong Kong Counterfeit,2004,2004-01-01,United States of America,United States of America
+1,0.975,discogs_40736,mbrainz_9062,Echoes Of Yul,Echoes of Yul,Echoes Of Yul,Echoes of Yul,2009,2009-01-01,Poland,Poland
+1,1.0,discogs_77067,mbrainz_15933,The Singles,The Singles,Goldfrapp,Goldfrapp,2012-02-07,2012-02-07,United States of America,United States of America
+1,1.0,discogs_6296,mbrainz_1317,Temple At Dawn,Temple at Dawn,Gift Culture,Gift Culture,2004-03-15,2004-03-15,United States of America,United States of America
+1,0.975,discogs_19411,mbrainz_4547,Fearless,Fearless,Lamat,Lamat,2007,2007-01-01,Germany,Germany
+1,0.975,discogs_10674,mbrainz_2372,Hypnotize,Hypnotize,Qu-Zar,Qu-Zar,2000,2000-01-01,Germany,Germany
+1,0.975,discogs_85320,mbrainz_16881,Elephant,Elephant,Indecadence,Indecadence,2012,2012-01-01,Ukraine,Ukraine
+1,1.0,discogs_95255,mbrainz_18055,Cedar Spirits,Cedar Spirits,Cedar Spirits,Cedar Spirits,2012-10-31,2012-10-31,United States of America,United States of America
+1,0.975,discogs_24929,mbrainz_3701,Crimes Of The Future,Crimes of the Future,Fr/Action,Fr/action,2002,2002-01-01,United States of America,United States of America
+1,0.975,discogs_37290,mbrainz_8285,Blackbird's Echo,Blackbird's Echo,Niobe,Niobe,2009,2009-01-01,Germany,Germany
+1,0.992,discogs_141431,mbrainz_24546,Another Language,Another Language,This Will Destroy You,This Will Destroy You,2014-09-01,2014-09-16,United States of America,United States of America
+1,0.975,discogs_58563,mbrainz_12746,In This World And Beyond,In This World and Beyond,Narrow Pass,Narrow Pass,2009,2009-01-01,France,France
+1,0.975,discogs_69191,mbrainz_14726,Chrome Locust,Chrome Locust,Chrome Locust,Chrome Locust,1999,1999-05-25,United States of America,United States of America
+1,0.975,discogs_9523,mbrainz_2150,Wonder If The Snow Will Settle,Wonder If the Snow Will Settle,Clearlake,Clearlake,2005,2005-05-17,United States of America,United States of America
+1,0.988,discogs_22859,mbrainz_5301,Constellation Of Tragedy,Constellation of Tragedy,LSD March,LSD March,2007-10-01,2007-11,United States of America,United States of America
+1,0.975,discogs_8336,mbrainz_1792,Love For The Future,Love for the Future,Chase,Chase,1994,1994-01-01,Australia,Australia
+1,1.0,discogs_24211,mbrainz_5566,Elevator,Elevator,Room 2012,Room 2012,2007-12-14,2007-12-14,Germany,Germany
+1,0.975,discogs_19561,mbrainz_4592,Trouble In The Land,Trouble in the Land,Black 47,Black 47,2000,2000-01-11,United States of America,United States of America
+1,0.975,discogs_6421,mbrainz_284,Let The Music Play,Let the Music Play,Shannon,Shannon,1989,1989-01-01,Germany,Germany
+1,1.0,discogs_60883,mbrainz_4361,Spirits And August Light / Steal The Light,Spirits and August Light / Steal the Light,Omnium Gatherum,Omnium Gatherum,2008-11-24,2008-11-24,Poland,Poland
+1,0.975,discogs_121645,mbrainz_21428,Modern Times,Modern Times,Adam Kesher,Adam Kesher,2006,2006-01-01,France,France
+1,1.0,discogs_37576,mbrainz_8345,Galaxy Of Nowhere,Galaxy of Nowhere,Mondkopf,Mondkopf,2009-05-25,2009-05-25,France,France
+1,1.0,discogs_34731,mbrainz_7736,Dreamland,Dreamland,Report Suspicious Activity,Report Suspicious Activity,2006-11-07,2006-11-07,United States of America,United States of America
+1,1.0,discogs_73911,mbrainz_15586,Diversity,Diversity,Acid Reign,Acid Reign,2011-05-17,2011-05-17,United States of America,United States of America
+1,0.975,discogs_17500,mbrainz_4091,Audiosexual Experience,Audiosexual Experience,Winha,Winha,1998,1998-01-01,Finland,Finland
+1,0.975,discogs_31469,mbrainz_302,Feel The Spirit,Feel the Spirit,Harlem Sunshine,Harlem Sunshine,2002,2002-01-01,United States of America,United States of America
+1,0.981,discogs_37256,mbrainz_8278,Dark Spirits / Landscape,Dark Spirits Landscape,Subotika,Subotika,2009-04-01,2009-04,United States of America,United States of America
+1,1.0,discogs_111970,mbrainz_19993,Tempest,Tempest,Lycus,Lycus,2013-07-09,2013-07-09,United States of America,United States of America
+1,0.975,discogs_40562,mbrainz_9028,Broken,Broken,Straight Faced,Straight Faced,1996,1996-10-30,United States of America,United States of America
+1,0.975,discogs_11782,mbrainz_2704,Die Singles 84-92,Die Singles 84-92,Purple Schulz,Purple Schulz,1992,1992-12-10,Germany,Germany
+1,0.975,discogs_66623,mbrainz_14267,Replicant,Replicant,Scribe Machine,Scribe Machine,2002,2002-01-01,United States of America,United States of America
+1,1.0,discogs_745,mbrainz_255,Diversification EP,Diversification EP,Mooz,Mooz,2002-01-01,2002-01-01,Switzerland,Switzerland
+1,0.987,discogs_33142,mbrainz_7386,Post-Apocalypse Trilogy,Post-Apocalypse Trilogy,Bloodhammer,Bloodhammer,2006-09-10,2006-01-01,Finland,Finland
+0,0.983,discogs_6744,mbrainz_1399,The Broken EP,The Broken EP,i am jen,I Am Jen,2005-08-01,2005-02-15,United States of America,United States of America
+0,0.981,discogs_3141,mbrainz_691,The Smart Blip Experience,The Smart Blip Experience,Waxolutionists,Waxolutionists,1999,2000-02,"Germany, Austria, & Switzerland",Germany
+0,0.789,discogs_31927,mbrainz_15889,The Very Best Of The Everly Brothers,The Very Best of The Doobie Brothers,Everly Brothers,"Doobie Brothers, The",1964,2007-02-13,United States of America,United States of America
+0,0.765,discogs_80849,mbrainz_16260,Submarine # 3,Submarine,Starlight Mints,"Bissonette, Gregg feat.",2000-08-22,2000-04-25,United States of America,
+0,0.803,discogs_168897,mbrainz_16285,Beyond The Reef / Harbor Lights,Beyond the Mirror,Bing Crosby,Jael,,1994-01-01,United States of America,Switzerland
+0,0.883,discogs_104374,mbrainz_2667,In Dreams,In Dreams,Roy Orbison,"Orbison, Roy",1987,2006-01-01,Canada,
+0,0.793,discogs_55146,mbrainz_9144,Trouble With A Capital D,Trouble,Daedelus,Unwoman,2010-07-14,2008-10-03,UK,United States of America
+0,0.766,discogs_60809,mbrainz_6562,Los Angeles 9/10,Los Angeles Is Burning,Ta'Raach|Eric Coleman,Bad Religion,2010-03-01,2004-01-01,Ireland,
+0,0.775,discogs_4649,mbrainz_21257,Spirit Of Man,Spirit Returns,Twelve Tone,Goanna,2000,1988-11,United States of America,Australia
+0,0.904,discogs_19132,mbrainz_12226,Crisis EP,Crisis,Kende,Symbyosis,2007-03-01,2000-10-22,UK,France
+0,0.985,discogs_114392,mbrainz_20366,In Absence,In Absence,Weber Male Quartette,Weber Male Quartette,1911-02-01,1910-01-01,United States of America,United States of America
+0,1.0,discogs_145,mbrainz_65,Electronic Fragments EP,Electronic Fragments EP,Skanfrom,Skanfrom,1999,2000-01-01,Germany,Germany
+0,0.862,discogs_51157,mbrainz_12091,Broken Leg EP,Broken Record,Kraumstaff,"Cole, Lloyd",2010-07-09,2010-09-13,UK,
+0,0.796,discogs_196410,mbrainz_1062,Dreamland,Dreamland,Wild Belle,"Nine, The",2016-04-15,2001-06,United States of America,United States of America
+0,0.882,discogs_8237,mbrainz_1762,Dance To The Music,Dance to the Music,Lady,Lady feat.,2000,2001-01-01,Netherlands,France
+0,0.777,discogs_137259,mbrainz_5511,The Deep Purple Collection,The Complete Singles Collection,Deep Purple,ABBA,,1999-11-23,Italy,Germany
+0,0.864,discogs_30550,mbrainz_2200,Echoes Of The Whales,Echoes of the West,Echoes Of The Whales,Echo West,2007-06-05,2005-01-01,Italy,Germany
+0,0.747,discogs_179763,mbrainz_18664,Broken Heartbeat,Broken Memories,Teddybears Sthlm,Novembers Fall,2015,2005-01-01,UK,
+0,0.742,discogs_172592,mbrainz_19687,The Monroe Brothers,The Best of Milltown Brothers,Monroe Brothers,Milltown Brothers,,2009-01-01,USA & Canada,United Kingdom of Great Britain and Northern Ireland
+0,0.73,discogs_186150,mbrainz_14726,Chrome Panthers,Chrome Locust,Ex Models,Chrome Locust,2005-09-27,1999-05-25,United States of America,United States of America
+0,0.74,discogs_9243,mbrainz_7264,Singles 1-12,Singles 1963â€“1965,Melvins,"Rolling Stones, The",1997,2004-01-01,United States of America,
+0,0.732,discogs_109694,mbrainz_25191,You In The Future,Obscure the Future,Ancient Lasers,Somatic Responses,2013-07-10,2014-09-21,United States of America,
+0,0.736,discogs_64697,mbrainz_1483,Learning To Accept Silence,Learning to Walk,In Pieces,Sole,2002,2002-01-01,United States of America,United States of America
+0,0.755,discogs_31313,mbrainz_17829,The RPWL Experience,The Rose Experience,RPWL,Case,2008,2009-03-10,Germany,United States of America
+0,0.747,discogs_103983,mbrainz_427,Spirit Of India,Spirit of Eden,Ravi Shankar,Talk Talk,1988,1988-01-01,Germany,United States of America
+0,0.751,discogs_36600,mbrainz_5921,Happiness / Bamboozled / Welcome 2 The Club,Happiness,Swordplay (2),Goldfrapp,2008-07-29,2008-04-14,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.739,discogs_197818,mbrainz_31715,"Shallow Waters, Shallow Graves OST",Shallow Grave,Sirmooge,Temtris (and others),2016-04-07,2014-03-28,United States of America,
+0,0.769,discogs_130922,mbrainz_11606,Hidden Tapes,Hidden Temple,Marc Baron,Rajna,2014-04-17,2004-01-01,France,France
+0,0.794,discogs_53380,mbrainz_2457,The Great Escape,The Great Southern Trendkill,Zinatra,Pantera,1990,1996-05-03,Netherlands,Germany
+0,0.898,discogs_77693,mbrainz_61,The Contino Sessions & Bonus,The Contino Sessions,Death In Vegas,Death in Vegas,1999,1999-09-22,Russia,Japan
+0,0.841,discogs_74381,mbrainz_15790,The Singles Collection,Hit Singles Collection,Gorillaz,Deep Forest,2011,,United States of America,Russian Federation
+0,0.767,discogs_47862,mbrainz_6150,Absence,Absence,Infind,Monument of Urns,,2008-01-01,United States of America,United States of America
+0,0.803,discogs_167583,mbrainz_98,Contra Verse,Contra EP,Contra Verse,Umek,2013,2000-01-01,Austria,Switzerland
+0,0.765,discogs_151848,mbrainz_32424,Enchanted,Enchanted Spirits,Aretha Henry,Magna Canta,2012-08-01,2000-01-01,United States of America,
+0,0.988,discogs_25521,mbrainz_5845,California Ax,California Ax,Sissy Spacek,Sissy Spacek,2008-04-01,2008-04,United States of America,United States of America
+0,0.785,discogs_18663,mbrainz_65,Electronic Spotlight,Electronic Fragments EP,Various,Skanfrom,2001,2000-01-01,Germany,Germany
+0,0.766,discogs_16366,mbrainz_5776,Monster Of The Absolute,Monster a-Go-Go,Paik,"Fuzztones, The",2006,1992-01-01,United States of America,United States of America
+0,0.811,discogs_30089,mbrainz_17077,Return To Forever,Return to Forever,Seba,GB Arts,2008-09-01,1998-01-01,Germany,Germany
+0,0.827,discogs_145583,mbrainz_9406,Congratulations,Congratulations,The Cry (3),BZN,1981,1991-01-01,Canada,Netherlands
+0,0.784,discogs_71066,mbrainz_18388,Killing Monsters,Killing the Eternal,H.EXE,Cataract,2011-05-14,2010-09-27,Poland,Switzerland
+0,0.781,discogs_175734,mbrainz_32672,Echoes EP,Echoes of the Spirit Still Dwell,Deepkeen,Spoken,2015-03-23,2000-10-03,United States of America,United States of America
+0,0.863,discogs_157371,mbrainz_15139,Sunrise,Sunrise From the Treetops,Tobu,Hinkstep,2013-10-22,2011-10-25,,
+0,0.881,discogs_9407,mbrainz_21265,Outside,Outside,Metal One,CFCF,2003,2013-11-19,Spain,
+0,0.818,discogs_18986,mbrainz_3075,Burial,Sky Burial,Burial,Sky Burial,2006-12-13,2006-02,Japan,United States of America
+0,0.811,discogs_73498,mbrainz_3774,Broken Mirrors,Broken Wings,Spittin Image,K'Lee,2004,2001-05,United States of America,New Zealand
+0,0.841,discogs_134551,mbrainz_1739,Deep Purple Collection,Deep Purple,Deep Purple,Deep Purple,1982,1990-01-01,Belgium,Japan
+0,0.853,discogs_84891,mbrainz_8151,California Gold,California Gold,Marc Seaberg,"Seaberg, Marc",1979,1979-01-01,France,Germany
+0,0.766,discogs_115,mbrainz_5574,Beyond The Ozone EP,Beyond the Blue,Aubrey,Beyond the Blue,1998-01-01,1990-01-01,UK,Netherlands
+0,0.779,discogs_74446,mbrainz_1812,Funeral Dress,Funeral Pyre,Wussy,"Jam, The",2005-01-01,1981-06-06,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.826,discogs_165987,mbrainz_2404,Face The Music,Face the Music,Electric Light Orchestra,Electric Light Orchestra,1975,1993-01-01,Japan,United States of America
+0,0.768,discogs_85030,mbrainz_3891,Hidden Hunter,Hidden or Just Gone,Heil Spirits,Caboto,2008,2006-01-01,Australia,Italy
+0,0.822,discogs_9649,mbrainz_12116,Contraband,Contraband,EX2,Madcon,2000,2010-12-03,United States of America,Norway
+0,0.768,discogs_59802,mbrainz_11389,Spirit Smoke,Spirit of Sorrow,Quiet Evenings,Fear of Eternity,2011-02-06,2006-01-01,United States of America,United States of America
+0,0.764,discogs_120534,mbrainz_6000,The Spirit Of '76: Music For Fifes And Drums ,The Spirit Of Space,Eastman Wind Ensemble,Release,,2008-05-17,United States of America,United States of America
+0,0.786,discogs_14449,mbrainz_13493,Dreamland,Dreamland,Black Box,Bloody Blossom,1990,,France,
+0,0.907,discogs_171795,mbrainz_1718,Get Ready,Get Ready,Why Blood,Traks,1980,1983-01-01,Germany,France
+0,0.975,discogs_23943,mbrainz_5511,The Complete Singles Collection,The Complete Singles Collection,ABBA,ABBA,1999,1999-11-23,Germany,Germany
+0,0.77,discogs_29382,mbrainz_22925,Resurrection,Resurrection,Fear Factory,Celtic Legacy,1998,2005-11-15,Germany,
+0,0.769,discogs_3444,mbrainz_10121,Resurrection EP,Resurrection,Maniak,To Avoid,2003-03-01,2003-01,France,Germany
+0,0.854,discogs_53175,mbrainz_2844,Singles Collection,Singles,The Exploited,Nirvana,1996,1995-12,UK,
+0,0.8,discogs_49021,mbrainz_20300,"Glee: The Music, Season One, Volume 2","Glee: The Music: The Christmas Album, Volume 2",Glee Cast,Glee Cast,2009,2011-11-14,Australia,United Kingdom of Great Britain and Northern Ireland
+0,0.806,discogs_35628,mbrainz_10547,Songs For Weddings And Funerals,Three Songs for Weddings and Funerals,The Illegal Artists,"Illegal Artists, The",1993,1993-01-01,Germany,Germany
+0,0.839,discogs_28502,mbrainz_3524,Spiritual Vibes,Spiritual Dream,Ital,"Kosmos, Patrick",2008-06-01,2003-01-01,South America,Netherlands
+0,0.769,discogs_16465,mbrainz_16285,Beyond The Fact,Beyond the Mirror,Toru S.,Jael,1995,1994-01-01,United States of America,Switzerland
+0,0.774,discogs_3431,mbrainz_28437,Beyond The Darkness,Beyond Jipangu,Meat Katie,Opolopo,2002,2009-08-28,UK,
+0,0.765,discogs_91134,mbrainz_3388,Broken,Broken Boy Soldiers,Malon Makes Lemonade,"Raconteurs, The",2012-05-01,2006-05-16,United States of America,United States of America
+0,0.821,discogs_143304,mbrainz_19124,The Singles,The Singles Collection,Blank & Jones,Styx,2006,2000-09-26,Russia,
+0,0.771,discogs_31505,mbrainz_8315,Black Ice,Black Cherry,AC/DC,Organic Grooves,2008-10-20,2002-01-01,United States of America,United States of America
+0,0.898,discogs_11120,mbrainz_2140,MTV Unplugged,MTV Unplugged,Kiss,"10,000 Maniacs",1996,1993-10-26,United States of America,United States of America
+0,0.821,discogs_113171,mbrainz_19124,The Singles,The Singles Collection,Ricki-Lee,Styx,2008,2000-09-26,Australia,
+0,0.775,discogs_174311,mbrainz_26063,Beyond Embers And The Earth,Beyond Fate,Falloch,Die Pretty,2011-11-12,2012-05-08,UK,
+0,0.786,discogs_135668,mbrainz_1493,The Singles Collection,The Singles Album,Nazareth (2),UB40,1990,1980-01-01,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.818,discogs_76217,mbrainz_24059,Beyond The Lightless Sky,Beyond the Shell,Hull,Odd Crew,2011-10-11,2012-06-09,United States of America,Bulgaria
+0,0.803,discogs_40775,mbrainz_8158,Visions,Visions,DJ Oragami,Dan Pinto,2008-09-01,2000-01-01,United States of America,United States of America
+0,1.0,discogs_24976,mbrainz_5730,Overgrown Town,Overgrown Town,Cross Bred Mongrels,Cross Bred Mongrels,1999,2000-01-01,Australia,Australia
+0,0.781,discogs_10244,mbrainz_19663,Fearless,Fearless,The Bravery,"Noble, Keri",2005-05-23,2005-01-13,UK,Japan
+0,0.887,discogs_31505,mbrainz_2530,Black Ice,Black Tempest,AC/DC,Hive Mind,2008-10-20,2005-01-01,United States of America,United States of America
+0,0.789,discogs_16174,mbrainz_25921,Broken Wings,Broken,K'Lee,Letum,2001,2006-07-13,New Zealand,Sweden
+0,0.77,discogs_8059,mbrainz_10188,Krush / Against The Grain,Ashes Against the Grain,Hive,Agalloch,2005-01-01,2007-03-02,UK,United States of America
+0,0.916,discogs_104,mbrainz_8886,Surrender,Surrender,Seek,"Grit, The",2000-12-05,2007-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.786,discogs_68984,mbrainz_27790,Sunrise Over Jamul / Tobacco Road,Sunrise,Jamul,"Ford, Robben",1970,1999-01-01,United States of America,
+0,0.805,discogs_135135,mbrainz_2368,The Obsidian Conspiracy,The Conspiracy of Silence,Nevermore,Underscore,2010,,Brazil,
+0,0.769,discogs_36379,mbrainz_31892,The Dance Master Experience E.P.,The Dance of the Elves,Dancemaster,Windwalker,1993-01-01,1997-01-01,UK,Sweden
+0,0.836,discogs_181281,mbrainz_31032,The Music Behind The Magic,The Music Behind the Magic,Alan Menken|Howard Ashman|Tim Rice,"Menken, Alan",1994,1994-11-22,United States of America,United States of America
+0,0.976,discogs_54220,mbrainz_11308,Beyond Within And So On,Beyond Within and So On,Iszoloscope,Iszoloscope feat.,2010-09-07,2010-09-07,United States of America,
+0,0.786,discogs_165350,mbrainz_26807,The Singles - Original Single Compilation Of The Year 1960 Vol. 1 ,The Singles,Various,DÅ¼em,,1992-01-01,Netherlands,Poland
+0,0.886,discogs_11676,mbrainz_4197,Broken Peace,Broken Wax: The EP,Prong,Black Milk,1994,2006-11-10,United States of America,United States of America
+0,0.764,discogs_40659,mbrainz_17001,Supernatural,Supernatural,Firefly,Tiger Milk,2000,2012-04-16,UK,Estonia
+0,0.896,discogs_134923,mbrainz_4617,Confessions Part II Remix,Confessions,Usher,Usher,2004,2004-03-22,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.82,discogs_176847,mbrainz_5923,Garbage,Garbage Truck (orig.),Garbage,Fluf,2015-10-02,1992-01-01,United States of America,United States of America
+0,0.847,discogs_12279,mbrainz_820,Armed And Extremely Dangerous,Armed and Extremely Dangerous,First Choice,First Choice,2004-05-24,1973-01-01,United States of America,United States of America
+0,0.83,discogs_68271,mbrainz_14563,Resurrection,Resurrection,Nicol Sponberg,"Sponberg, Nicol",2004,2007-01-01,United States of America,United States of America
+0,0.94,discogs_49716,mbrainz_17102,Je Vais Encore Dormir Tout Seul Ce Soir... (Et Je Vais Encore Le Regretter),Je vais encore dormir tout seul ce soir...,Elmer Food Beat,Elmer Food Beat,1991,1991-01-01,France,France
+0,0.835,discogs_148627,mbrainz_29170,Listen To The Music,Don't Stop The Music,Shiggy Jr.,tofubeats,2014-10-15,2013-11-13,Japan,Japan
+0,0.86,discogs_136625,mbrainz_15289,Homesick,Homesick,A Day To Remember,"Day to Remember, A",2013,2009-10-26,United States of America,United States of America
+0,0.774,discogs_61967,mbrainz_2200,Echoes Of The Killed Life,Echoes of the West,Kaldur,Echo West,2009,2005-01-01,Russia,Germany
+0,0.744,discogs_20579,mbrainz_16776,Immersion,Immersion,Anton Sonin|D.N.A. (6),Arian 1,2007-06-12,2010-03-26,Finland,Germany
+0,0.757,discogs_134452,mbrainz_5914,California King Bed (Remixes),California (album),Rihanna,Residual Echoes,2011-07-19,2006-11-13,United States of America,United States of America
+0,0.744,discogs_39006,mbrainz_14711,Visions,Visions of Eden,Stratovarius,Virgin Steele,2006,2006-09-08,Germany,Germany
+0,0.756,discogs_21752,mbrainz_20434,State Of Clarity,Tears of Clarity EP,Guru,Antistase,2007-08-01,2013-09-17,United States of America,France
+0,0.735,discogs_73269,mbrainz_1493,The Black Album,The Singles Album,Eden Park,UB40,1999,1980-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.74,discogs_179517,mbrainz_19198,Encore,Encore,Diadems,"Louvin Brothers, The",2003-01-01,1961-01-01,,United States of America
+0,0.736,discogs_74380,mbrainz_9167,Broken Speak,Broken Dreams,I Was Born With Two Tongues,A Band Called Pain,1999,2007-07-10,United States of America,United States of America
+0,0.748,discogs_141415,mbrainz_23778,J'essaie Encore,Reste encore,Kenza Farah,L5,2008,2003-11-04,Europe,France
+0,0.736,discogs_153117,mbrainz_20740,Broken Glass,Broken Toy (album),Nacim Ladj,Veronica Falls (and others),2015-01-16,2013-10-22,Georgia,United Kingdom of Great Britain and Northern Ireland
+0,0.75,discogs_143967,mbrainz_31125,Mail Order Monsters,Making Monsters,Mail Order Monsters,Church for Sinners,2014-08-28,2008-01-22,United States of America,United States of America
+0,0.769,discogs_107226,mbrainz_3646,Teen Spirit,The Spirit of Malente,A*Teens,Malente,2002-01-14,2000-01-01,Germany,Germany
+0,0.8,discogs_49392,mbrainz_2389,Classics,Classics,Orchester James Last,"FÃ¼rstenberg, Marko (and others)",1983,2005-09-08,Germany,
+0,0.78,discogs_171766,mbrainz_3052,Echoes,Echoes of a Distant Present,Vitja,OPN,2013-12-13,2006-02-20,Germany,
+0,0.972,discogs_68290,mbrainz_1903,Fever To Tell,Fever to Tell,Yeah Yeah Yeahs,Yeah Yeah Yeahs,2003,2003-01-01,UK,
+0,0.847,discogs_12249,mbrainz_21213,The Music Band 2,The Music Inside,War,"Loeb, Chuck",1979,1996-06-18,United States of America,United States of America
+0,0.837,discogs_18023,mbrainz_3341,Broken Heart EP,Broken Leg EP,DIN (2),Freestep,1997,2004-01-01,Germany,Hungary
+0,0.931,discogs_718,mbrainz_65,Electronic Noise EP,Electronic Fragments EP,Relic,Skanfrom,2001-01-01,2000-01-01,Germany,Germany
+0,0.992,discogs_140988,mbrainz_24467,Unplugged 1991,Unplugged 1991,R.E.M.,R.E.M.,2014-09-02,2014-09-01,United States of America,United States of America
+0,0.917,discogs_743,mbrainz_430,Electronic Tax Return,Electronic Dream,Pimmon,Exzakt,2001-01-26,2001-01-01,United States of America,United States of America
+0,0.775,discogs_31455,mbrainz_833,Beyond This World,Beyond This World,James Moody,Jungle Brothers,1978,1989-01-01,United States of America,United States of America
+0,0.824,discogs_187002,mbrainz_1499,The Singles 80-86,THE SINGLES RE-MIXED,Venom (8),Chara,,1995-10-10,Poland,Japan
+0,0.814,discogs_147539,mbrainz_26137,Beyond Around,Beyond,LV.4,"Redman, Joshua",2014-08-16,2000-04-04,Japan,
+0,0.773,discogs_22360,mbrainz_31208,Random Spirit Lover,Nomad Spirit,Sunset Rubdown,Abaji,2007,2005-08-30,United States of America,
+0,0.801,discogs_197628,mbrainz_1511,Discovery,Discovery EP,Electric Light Orchestra,"Flinsch, Holger",2001,2004-10-26,Australia,
+0,0.786,discogs_41648,mbrainz_5250,I Surrender,Surrender,Robey,Suicide,1986,1988-01-01,United States of America,France
+0,1.0,discogs_157018,mbrainz_27177,Madvillainy Instrumentals,Madvillainy Instrumentals,Madvillain,Madvillain,,2011-12-27,United States of America,United States of America
+0,0.879,discogs_128673,mbrainz_33634,Funeral Home,Funeral Dress,Cremation Lily,Wussy,2014-03-07,2005-12-06,United States of America,United States of America
+0,0.838,discogs_39510,mbrainz_20534,Butterfly,Butterfly Case,Tilt,Cuushe,2007,2013-09-11,UK,Japan
+0,0.919,discogs_61919,mbrainz_8534,The First Days Of Spring,The First Days of Spring,Noah And The Whale,Noah and the Whale,2009-09-14,2009-10-06,Germany,United States of America
+0,0.916,discogs_71139,mbrainz_15067,Such Power Is Dangerous!,Such Power Is Dangerous!,Cardinals Folly,Cardinals Folly,2011,2011-08-02,Finland,United States of America
+0,0.775,discogs_121731,mbrainz_119,Mother Earth,Mother Earth,The Sweet,Dubtribe Sound System,1979,1993-01-01,United States of America,United States of America
+0,0.803,discogs_44751,mbrainz_17850,Original Album Classics,Original Album Classics (album),Kris Kristofferson,Smokie,2009-09-25,2009-09-28,Europe,
+0,0.782,discogs_58461,mbrainz_12997,Spirit Stories,Spirit Smoke,Joolz,Quiet Evenings,2008,2011-02-06,UK,United States of America
+0,0.784,discogs_48653,mbrainz_18594,California Funk,California Jam 1978,Various,Aerosmith,2010,,UK,
+0,0.822,discogs_118697,mbrainz_12092,Electronic Hits,Electronic World,Sash!,Kink Gong,,2010-01-01,Ukraine,United States of America
+0,0.83,discogs_7353,mbrainz_9980,From Beyond,Far Beyond,Push,Farbo,2004,2010-01-10,Belgium,
+0,0.781,discogs_38430,mbrainz_25820,Remedy,Remedy,Little Boots,Strange Celebrity,2009-06-22,,UK,
+0,0.833,discogs_56056,mbrainz_1378,The Future Is Now,The Future is Listening,Eclier,UFO!,2010-11-01,2001-01-01,France,United States of America
+0,0.802,discogs_167921,mbrainz_15586,Diversity EP1,Diversity,Gyasi Sanders|Shannon Chambers,Acid Reign,2015-02-07,2011-05-17,United States of America,United States of America
+0,0.766,discogs_28824,mbrainz_13642,Broken Wing,Broken Wings,Chet Baker,C-Block,1989,1998-03-09,France,Germany
+0,0.806,discogs_8977,mbrainz_18331,The Singles Collection,The Punk Singles Collection,The Specials,Special Duties,1991,1999-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.838,discogs_89060,mbrainz_1060,Mercury,Mercury and Plastic,Various,Vir Unis,1999,2002-10,United States of America,United States of America
+0,0.798,discogs_142793,mbrainz_297,Trouble,Trouble With Boys,P!NK,Loreta,2003-11-11,2000-01-01,United States of America,Germany
+0,0.794,discogs_180041,mbrainz_1766,Surrender,Surrender,Debby Boone,Kut Klose,,1995-03-14,United States of America,United States of America
+0,0.975,discogs_31667,mbrainz_5896,The Dance Of The Moon And The Sun,The Dance of the Moon and the Sun,Natural Snow Buildings,Natural Snow Buildings,2008,2008-01-01,United States of America,United States of America
+0,0.781,discogs_146142,mbrainz_5631,Broken Man,Broken Music,Cane N Able,Dissecting Table,1995,2008-01-14,Sweden,United States of America
+0,0.853,discogs_10629,mbrainz_19124,The Singles Collection 03-05,The Singles Collection,Piano Overlord,Styx,2005-11-08,2000-09-26,United States of America,
+0,0.798,discogs_117644,mbrainz_29935,Broken Toy,Broken World,Veronica Falls,Forsake the Fallen,2013-10-22,2014-09-05,UK,
+0,0.815,discogs_68129,mbrainz_5415,Beyond The Black Crack,Beyond the Apocalypse,Anal Magic|Rev. Dwight Frizzell,1349,1976,2004-04-19,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.982,discogs_24280,mbrainz_5584,Beyond The Maze,Beyond the Maze,Dreadful Shadows,Dreadful Shadows,1998,1998-02,Germany,Germany
+0,0.771,discogs_27860,mbrainz_573,Experience,Experience,Von Hertzen Brothers,York,2001-09-10,2001-03-12,Finland,United Kingdom of Great Britain and Northern Ireland
+0,0.915,discogs_24399,mbrainz_1826,Among My Swan,Among My Swan,Mazzy Star,Mazzy Star,1996,1996-10-17,United States of America,Germany
+0,0.775,discogs_10032,mbrainz_12079,Traveller EP,Traveller,Henri.Petterson,"Ilar, Anders",2005-06-16,2010-11-08,Germany,
+0,0.792,discogs_157747,mbrainz_1160,Justified The Videos,Justified,Justin Timberlake,"Timberlake, Justin",2003,2003-06-30,Europe,Germany
+0,0.858,discogs_174536,mbrainz_10944,"Glee: The Music, The Power Of Madonna","Glee: The Music, Volume 3: Showstoppers",Glee Cast,Glee Cast,2010,2010-05-18,Brazil,United States of America
+0,0.836,discogs_734,mbrainz_32195,Inside The Outside,Inside the Outside,Trans-Dimensional Voice,Inside the Outside,2000,2002-03-26,,United States of America
+0,0.821,discogs_2539,mbrainz_284,Let The Music Play,Let the Music Play,Charmein Dennis,Shannon,1994-07-11,1989-01-01,UK,Germany
+0,0.764,discogs_73672,mbrainz_40,Simple Things (Work It Out),Simple Things,Shit Robot,Bougie Soliterre,,2000-01-01,,United Kingdom of Great Britain and Northern Ireland
+0,0.772,discogs_14956,mbrainz_20378,Monster,Monster,Planet Jazz,Imagine Dragons,2006-06-01,2013-09-19,Germany,
+0,0.794,discogs_38786,mbrainz_2082,The Future Was Shite,The Future of War,Vxm,Atari Teenage Riot,,1997-03-17,United States of America,Germany
+0,0.786,discogs_5850,mbrainz_1241,Beyond Something,Beyond Our Comprehension,kAzooo,Mydriasis,2002-07-25,,Europe,United Kingdom of Great Britain and Northern Ireland
+0,0.814,discogs_50164,mbrainz_17212,Blackout,Blackout: The Dark Years,2562,"Deep Eynde, The",2010-05-10,2008-01-01,UK,United States of America
+0,0.767,discogs_25365,mbrainz_29214,The Music From Matthew Barney's Drawing Restraint 9,The Music Man,Björk,"Willson, Meredith",2005-08-02,1992-11-17,United States of America,United States of America
+0,0.771,discogs_38430,mbrainz_13252,Remedy,Remedy,Little Boots,Manifesto Jukebox,2009-06-22,2002-01-01,UK,United States of America
+0,0.975,discogs_16093,mbrainz_3746,Relapse,Relapse,Chiasm,Chiasm,2005-08-15,2005-06-07,United States of America,United States of America
+0,1.0,discogs_23858,mbrainz_5482,The Rising,The Rising,Purple Code,Purple Code,2007-11-26,2007-11-26,Canada,
+0,0.781,discogs_66219,mbrainz_8738,Brothers & Sisters,Brothers Grimm,WOWMOM,Drapht,2012-01-01,2008-05-18,Germany,Australia
+0,0.797,discogs_41823,mbrainz_143,Fallen,Fallen (remix) / Bad Dreams,Sound Colours,Matrix,2009-10-31,2001-01-01,Netherlands,United Kingdom of Great Britain and Northern Ireland
+0,0.845,discogs_84243,mbrainz_1238,Sunrise Breeze,Sunrise,Changer,Dub Kult,2012-03-26,2004-01-01,Germany,Germany
+0,0.953,discogs_140990,mbrainz_24467,Unplugged  2001,Unplugged 1991,R.E.M.,R.E.M.,2014-09-02,2014-09-01,United States of America,United States of America
+0,0.774,discogs_178451,mbrainz_13106,Singles 2003-2007,Singles Only,[T]ékël,"Briefs, The",2007-01-01,2005-02-15,Europe,Japan
+0,0.769,discogs_182692,mbrainz_8227,Broken Moments E.P,Broken World,Sorrow (6),Engine-V,2011-10-31,2005-03,UK,Greece
+0,0.823,discogs_18298,mbrainz_26063,Beyond Good And Evil,Beyond Fate,Atma,Die Pretty,2006-12-13,2012-05-08,United States of America,
+0,0.778,discogs_7448,mbrainz_3388,Broken Spindles,Broken Boy Soldiers,Broken Spindles,"Raconteurs, The",2002-09-01,2006-05-16,United States of America,United States of America
+0,0.783,discogs_54523,mbrainz_6188,The Best Of Return To Forever,The Best of New Riders of the Purple Sage,Return To Forever,New Riders of the Purple Sage,1980,1987-04-07,United States of America,United States of America
+0,0.771,discogs_77295,mbrainz_21325,Kindred EP,Kindred,Burial,"Richards, Monica",2012-02-15,2013-10,,United States of America
+0,0.878,discogs_38786,mbrainz_14111,The Future Was Shite,The Future Doesn't Need You,Vxm,Gripe,,2011-01-01,United States of America,United States of America
+0,0.802,discogs_44193,mbrainz_7432,The Singles,The Singles,Delorean|The Elektrocution|Tokyo Sex Destruction,"Electric Prunes, The",2006,,France,
+0,0.73,discogs_32513,mbrainz_11777,Elevator To Heaven,Elevator Love Letter,The Elevator Drops,Stars,,2003-07-13,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.747,discogs_7512,mbrainz_1676,Dangerous,Dangerous Thought,Eric Vesper,Yendri,2004-07-01,2002-02-22,Spain,Germany
+0,0.73,discogs_63264,mbrainz_2511,Beyond These Shores,Beyond Rebellion,Iona,Shotgun Rationale,1993,1992-01-01,UK,Germany
+0,0.754,discogs_93837,mbrainz_20354,Trouble,Trouble,Trampled By Turtles,"Kills, Natalia",2007-03-19,2013-09-03,United States of America,
+0,0.737,discogs_88634,mbrainz_20678,Country Classics,Country Classics,Slim Whitman,"Snow, Hank",1997,1956-01-01,UK,United States of America
+0,0.739,discogs_180913,mbrainz_2667,In Dreams,In Dreams,John Waite,"Orbison, Roy",1994,2006-01-01,Japan,
+0,0.749,discogs_112558,mbrainz_5091,The Hammond Brothers,Dead Soul Brothers,The Hammond Brothers,Dead Soul Brothers,1966,2007-01-01,Germany,United Kingdom of Great Britain and Northern Ireland
+0,0.76,discogs_49037,mbrainz_23388,Contrary To Prioritys,Contrary Motion,Flucturion,Nurse With Wound,2010-04-01,2014-03-07,Russia,Australia
+0,0.736,discogs_101312,mbrainz_4616,California,California Livin',Dinero Negro,Mac Dre,1990,1991-01-01,Spain,United States of America
+0,0.88,discogs_138536,mbrainz_2116,Trouble,Trouble,Akon,Akon,2003,2004-06-29,Australia,United States of America
+0,0.879,discogs_157872,mbrainz_23986,Beyond The Reef,Beyond the Forest,Various,Valdrin,,2014-06-03,United States of America,United States of America
+0,0.776,discogs_5700,mbrainz_1220,Beyond The Stars,Beyond Flatline,Ultrabeat (2),Seabound feat.,2001-01-23,2004-01-20,United States of America,United States of America
+0,0.81,discogs_48484,mbrainz_10596,Visions Of Light,Visions of Light,Acrosome,Iron Thrones,,2008-11-21,United States of America,
+0,0.81,discogs_20115,mbrainz_2422,Blackout,Blackout,Solano,"Koletzki, Oliver",2007-06-01,2005-09,Germany,Germany
+0,0.767,discogs_14558,mbrainz_511,Dreamland,Dreamland Idle Orchestra,Robert Plant,Joseph Nothing,2002-07-16,2002-06-10,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.903,discogs_58810,mbrainz_13623,New Moon / Travel,New Moon,Almunia,Almunia,2011-01-01,2011-04-18,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.89,discogs_170766,mbrainz_8104,Empire Of The Fallen Angel (Eternal Black Dominion),Empire of the Fallen Angel,Demoncy,Demoncy,2015,2003-01-01,United States of America,United States of America
+0,0.825,discogs_167688,mbrainz_24833,The Promise,The Promise,Deborah Cox,"Moran, Tony",2008-11-11,2004-01-01,,United States of America
+0,0.983,discogs_85965,mbrainz_16168,Riot On The Dancefloor,Riot on the Dancefloor,Groove Coverage,Groove Coverage,2012-07-20,2012-03-30,Germany,Germany
+0,0.829,discogs_39621,mbrainz_9620,Fallen Angel,Fallen Angel,Larry Coryell,Ð›Ð¸ÐºÐ°,1993,1994-01-01,UK,Russian Federation
+0,0.924,discogs_4381,mbrainz_227,Sounds Like Trouble EP,Sounds Like Trouble EP,Hösh!,HÃ¶sh!,2002-01-01,2001-01-01,France,France
+0,0.898,discogs_16686,mbrainz_3933,Blackout,Blackout,Black Time,PTI,2005,2004-01-01,United States of America,United States of America
+0,0.86,discogs_68648,mbrainz_2025,Psychic-type Mix,Psychic Cat,Powwoww,"Ali, Kelli",2011-07-06,2005-01-25,United States of America,United States of America
+0,0.84,discogs_14943,mbrainz_3466,The Great Escape,The Great Escape,Ilse DeLange,"DeLange, Ilse",2006-06-16,2007-02-02,Netherlands,Germany
+0,0.89,discogs_41489,mbrainz_1215,In Absentia,In absentia,Geche,Tam Quam Tabula Rasa,2009-10-16,1989-01-01,,
+0,0.813,discogs_65378,mbrainz_1002,Happiness,Happiness,Sharon Dee Clarke|Serious Rope,Wand,1993,,UK,
+0,0.856,discogs_3453,mbrainz_5188,Fallen Angel,Fallen Leaves,Prism,Teenage Fanclub,1997,2005-05-23,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.809,discogs_84520,mbrainz_3823,Spirit,Spirit Man,Би-2,"Irvine, Weldon",2012-05-01,1975-01-01,Russia,United States of America
+0,0.975,discogs_70370,mbrainz_13210,Blackbird,Blackbird,Alter Bridge,Alter Bridge,2007,2007-10-09,United States of America,United States of America
+0,0.822,discogs_106076,mbrainz_1070,Electronic Earth,Electronic Ethnology,Labrinth,NetSlov,2012-04-02,2004-01-01,UK,Russian Federation
+0,0.769,discogs_147539,mbrainz_26985,Beyond Around,Beyond Janis,LV.4,"Oster, Ulla",2014-08-16,1992-01-01,Japan,Germany
+0,0.826,discogs_120272,mbrainz_8515,Supernatural,Supernatural,Eyedress,Santana,2013-12-02,1999-01-01,UK,United States of America
+0,0.774,discogs_23583,mbrainz_15867,The Singles,The Singles,The Pretenders,Senseless Things,1987,,Yugoslavia,
+0,0.789,discogs_118532,mbrainz_1834,Beyond Belief,Beyond the Gates,Torque (10),Cans,2013-10-25,2004-04-26,UK,Finland
+0,0.763,discogs_11138,mbrainz_4595,The Mic And The Music,Three Times the Music,Breez Evahflowin'|Eric Krasno,"Eeben, Aleksi",2004,2007-04-24,United States of America,United States of America
+0,0.783,discogs_56911,mbrainz_3466,The Great Escape,The Great Escape,Denny Greene,"DeLange, Ilse",1981,2007-02-02,United States of America,Germany
+0,0.975,discogs_81946,mbrainz_16420,Comfort Eagle Sampler,Comfort Eagle Sampler,Cake,CAKE,2001,2001-01-01,United States of America,United States of America
+0,0.766,discogs_9222,mbrainz_7404,Discovery,Discovery,Sonic Fusion,Vernian Process feat.,2001,2004-01-01,Germany,
+0,0.829,discogs_24596,mbrainz_11940,Fallen Angels,Fallen Light,BSM (2),Phaeleh,,2010-10-25,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.775,discogs_110806,mbrainz_1082,Echoes,Echoes in the Emptiness,Rena Jones,Exuviae,2013-04-01,2000-01-01,United States of America,United States of America
+0,0.771,discogs_28485,mbrainz_10331,Encores,Encores,Charlie Parker,"Perlman, Itzhak",1977,1974-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.832,discogs_10715,mbrainz_2449,Turn On The Music,Turn on the Music,Roger Sanchez|GTO (2),"Sanchez, Roger",2005-08-01,2005-01-01,Switzerland,Denmark
+0,0.767,discogs_78395,mbrainz_20579,Welcome To The Dance,Welcome to the Nightmare,No Angels,Stellar Corpses,2009-09-11,2009-06-24,Germany,Germany
+0,0.921,discogs_129807,mbrainz_15000,Garbage,Garbage / Version 2.0,Garbage,Garbage,,2008-09-15,Turkey,
+0,0.799,discogs_472,mbrainz_1109,Beautiful Electronic Music,Brazil - Electronic Experience,Benge,M4J,1996-02-01,1998-01-01,UK,Brazil
+0,0.784,discogs_196410,mbrainz_3374,Dreamland,Dreamland,Wild Belle,"Plant, Robert",2016-04-15,2002-07-16,United States of America,United States of America
+0,0.817,discogs_11085,mbrainz_1135,California Love EP,California Love,2Pac,2Pac (and others),2004-09-27,1995-01-01,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.835,discogs_74273,mbrainz_3052,Echoes Of Silence,Echoes of a Distant Present,The Weeknd,OPN,2011-12-21,2006-02-20,Canada,
+0,0.957,discogs_57010,mbrainz_11002,Emotional Colors Remixes,Emotional Colors,Swede:art,Swede:art,2010-10-21,2010-06-23,Germany,Germany
+0,0.801,discogs_6333,mbrainz_7168,The Future,The Future Symphony,Marc Johnson & DMF,Loss of a Child,2004-04-01,2003-04-04,UK,
+0,0.78,discogs_45839,mbrainz_12753,Classics,Classics 1994-1999,Sarah Brightman,Saikeautsu G,2001-11-28,2002-01-01,Japan,Japan
+0,0.768,discogs_167510,mbrainz_6246,Beyond The Frame,Beyond the Valley,Keith Canvas,"Schneider, Anja",,2008-05-11,,Germany
+0,0.929,discogs_9570,mbrainz_180,Ya Mama / Song For Shelter,Ya Mama / Song for Shelter,Fatboy Slim,Fatboy Slim,2001,2001-09-03,Germany,United Kingdom of Great Britain and Northern Ireland
+0,0.821,discogs_40863,mbrainz_22231,The Deep Purple Singles A's & B's,Purple Passages,Deep Purple,Deep Purple,1978-10-01,1972-01-01,UK,
+0,0.793,discogs_81760,mbrainz_5250,Surrender,Surrender,A. Paul,Suicide,2012-05-01,1988-01-01,Portugal,France
+0,0.909,discogs_179974,mbrainz_19993,Tempest,Tempest,Bob Dylan,Lycus,2013,2013-07-09,Russia,United States of America
+0,0.808,discogs_181152,mbrainz_1233,Get Ready,Get Ready For Elvis,New Order,CBF,,1991-01-01,Yugoslavia,Netherlands
+0,0.771,discogs_165185,mbrainz_15514,The Blues Brothers Complete,The Definitive Blues Brothers Collection,The Blues Brothers,Blues Brothers,1998,2000-01-01,Australia,Germany
+0,0.785,discogs_165985,mbrainz_6678,Shelter,Shelter,Spectrasoul,Rasa,2015-05-17,2003-01-01,,United States of America
+0,0.926,discogs_174884,mbrainz_30023,House Of Nightmares,House of Nightmares,Buzz-Works|Nox Arcana,Buzz-Works,2010-10-01,2010-10-01,USA & Canada,United States of America
+0,0.781,discogs_161731,mbrainz_6045,Beyond The Mind's Eye,Beyond the Pale,Jan Hammer,X-Fusion,1993,2007-04-23,United States of America,Germany
+0,0.813,discogs_37592,mbrainz_4063,We Belong,We Belong to the Sea,Ferry Corsten,Aqua,2009-05-25,2000-11-13,Netherlands,
+0,0.861,discogs_20479,mbrainz_6188,New Riders Of The Purple Sage,The Best of New Riders of the Purple Sage,New Riders Of The Purple Sage,New Riders of the Purple Sage,1971-08-01,1987-04-07,United States of America,United States of America
+0,0.978,discogs_10128,mbrainz_1873,Just Let Go (The Remixes),Just Let Go (The Remixes),Fischerspooner,Fischerspooner,2005-06-27,2005-07-05,Germany,Germany
+0,0.892,discogs_42230,mbrainz_14427,Into The Future,It's Only the Future,Satan,"Repp, Corrina",1987,2004-01-01,United States of America,United States of America
+0,0.766,discogs_68661,mbrainz_17926,Into The Wild,Into the Woods,Uriah Heep,Ethernet,2011,2012-10-10,Russia,
+0,0.811,discogs_106017,mbrainz_9144,Trouble,Trouble,Kreisky,Unwoman,2011-04-29,2008-10-03,Germany,United States of America
+0,0.768,discogs_176018,mbrainz_30429,"The Complete Dinah Washington On Mercury, Vol.1 (1946-1949)","The Complete Dinah Washington on Mercury, Volume 7 (1961)",Dinah Washington,"Washington, Dinah",1987,1991-07-01,Japan,United States of America
+0,0.767,discogs_79018,mbrainz_32791,The MGM Singles,The Classic Singles,Sam The Sham & The Pharaohs,"Cole, Nat King (and others)",2011-03-01,2003-11-04,United States of America,United States of America
+0,0.781,discogs_56827,mbrainz_2433,Voodoo Chic,Voodoo Chic,The Adopted,Helicopter Girl,1998,2005-07-26,Canada,United States of America
+0,0.779,discogs_79956,mbrainz_153,Butterfly Blues,Butterfly,Blueville,Mondo Grosso,2011,2000-01-01,Italy,France
+0,0.893,discogs_20115,mbrainz_10999,Blackout,Blackout,Solano,2562,2007-06-01,2010-05-10,Germany,United Kingdom of Great Britain and Northern Ireland
+0,0.797,discogs_189,mbrainz_27090,Classics 2,Classics,Ten City,"Werner, Susan",2001-01-01,2009-01-01,United States of America,United States of America
+0,0.818,discogs_26343,mbrainz_25400,The Singles,The Singles â€™67-â€™78,Chaos UK,Mud,1996,1997-11-24,UK,
+0,0.832,discogs_193367,mbrainz_835,Electronic Music,Electronic Music From the Swedish Leftcoast,Various,Plej,1977,2005-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.893,discogs_102146,mbrainz_26807,The Singles Collection,The Singles,Four Tops,DÅ¼em,1992,1992-01-01,UK,Poland
+0,0.846,discogs_12248,mbrainz_233,The Music Band,The Music in My Mind,War,"Monolith, The",1979,2002-02-11,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.771,discogs_14923,mbrainz_28953,The Warning (Album Sampler),The Warning,Hot Chip,Daysend,2006,2007-05-28,UK,Australia
+0,0.813,discogs_8483,mbrainz_14267,Replicant,Replicant,Wired Brain,Scribe Machine,2002,2002-01-01,France,United States of America
+0,0.975,discogs_9243,mbrainz_2052,Singles 1-12,Singles 1-12,Melvins,Melvins,1997,1997-08-26,United States of America,United States of America
+0,0.797,discogs_102006,mbrainz_3095,Deep In The Woods,Dead in the Woods,Atheus,"Grey Daturas, The",2013-03-03,,Canada,
+0,0.828,discogs_16199,mbrainz_23606,Monster EP Volume One,Monster Zoku Onsomb!,Monster (4),Monster Zoku Onsomb!,1997,,United States of America,
+0,0.763,discogs_41061,mbrainz_1680,Madvillainy 2: The Madlib Remix,Falling / Out of Time (Calyx remix),Madvillain,Echo,2008-09-01,2005-03-07,United States of America,United States of America
+0,0.766,discogs_177082,mbrainz_1493,The Singles,The Singles Album,Monkey Sons,UB40,2015-07-24,1980-01-01,UK & Europe,United Kingdom of Great Britain and Northern Ireland
+0,0.775,discogs_84254,mbrainz_9051,Whirlpool,Whirlpool,Meat Puppets,Some Velvet Sidewalk,1991,1994-05-10,United States of America,United States of America
+0,0.852,discogs_16461,mbrainz_122,Primitive Cypher,Primitive,X2|Saturn V,Rubec,2006-09-01,2001-10-22,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.771,discogs_192091,mbrainz_2398,Get Ready,Get Ready,Virtue (9),Rare Earth,1999,1969-01-01,United States of America,United States of America
+0,0.784,discogs_190645,mbrainz_742,Reverence,Reverence,Faithless,Faithless,2001,1997-04-14,Russia,United Kingdom of Great Britain and Northern Ireland
+0,0.785,discogs_128589,mbrainz_26807,Wink Hot Singles,The Singles,Wink (4),DÅ¼em,1990-11-01,1992-01-01,Japan,Poland
+0,0.946,discogs_158438,mbrainz_18544,The Black Parade,The Black Parade Is Dead!,My Chemical Romance,My Chemical Romance,2007-10-12,2008-01-01,United States of America,United States of America
+0,0.772,discogs_151078,mbrainz_3517,Face The Music,Face The Music,Sinne Eeg,Isosceles,2014-05-06,,Europe,
+0,0.8,discogs_58461,mbrainz_28566,Spirit Stories,Sinister Spirit of War,Joolz,1389 (and others),2008,2008-04-18,UK,Bosnia and Herzegovina
+0,0.938,discogs_275,mbrainz_31847,Fallen,Fallen,One Dove,Burzum,1991-10-01,2011-01-01,UK,
+0,0.78,discogs_115569,mbrainz_26097,The Best Of The Mills Brothers,The Very Best of THE KING BROTHERS,The Mills Brothers,"King Brothers, The",1999,2003-01-01,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.785,discogs_51215,mbrainz_5415,Beyond The North Winds,Beyond the Apocalypse,SIG:AR:TYR,1349,2008-07-20,2004-04-19,Canada,United Kingdom of Great Britain and Northern Ireland
+0,0.825,discogs_95673,mbrainz_7472,Beyond Our Reach,Beyond Reach,Mr.Cid,Anakoluth,2012-12-17,2009-01-14,Greece,
+0,0.986,discogs_23371,mbrainz_22231,Purple Passages,Purple Passages,Deep Purple,Deep Purple,1972-11-01,1972-01-01,United States of America,
+0,0.997,discogs_118392,mbrainz_21876,The Marshall Mathers LP2,The Marshall Mathers LP 2,Eminem,Eminem,2013-11-05,2013-11-05,United States of America,United States of America
+0,0.923,discogs_10378,mbrainz_1689,Moment Of Truth,Moment of Truth,Man With No Name,Man With No Name,1996,1996-01-01,Netherlands,France
+0,0.771,discogs_63042,mbrainz_539,Daydream Believer,Daydream in Blue (release),The Monkees,I Monster,,2001-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.817,discogs_121709,mbrainz_13138,Collapse Through Nowhere,Collapse Into Now,Cold Sharp Knives,R.E.M.,2013,2011-03-07,Canada,United Kingdom of Great Britain and Northern Ireland
+0,0.797,discogs_34004,mbrainz_25400,The Singles 1969-1973,The Singles â€™67-â€™78,Carpenters,Mud,1973,1997-11-24,Netherlands,
+0,0.785,discogs_33946,mbrainz_8657,The Best Of The Delmore Brothers,The World of The Statler Brothers,The Delmore Brothers,"Statler Brothers, The",1975,1972-01-01,United States of America,United States of America
+0,0.787,discogs_11480,mbrainz_2536,Spiritual Man,Spiritual Cannibal,M (2),Apocrypho,1995,1999-01-01,UK,United States of America
+0,0.867,discogs_111862,mbrainz_4204,Spirit,Spirit of the New Land,Jewel,"Carn, Doug",1998-11-17,1999-01-01,United States of America,United States of America
+0,0.975,discogs_57160,mbrainz_7490,Liberation: The Island Anthology,Liberation: The Island Anthology,Black Uhuru,Black Uhuru,1993,1993-09-21,United States of America,United States of America
+0,0.975,discogs_37199,mbrainz_8270,Crack The Skye,Crack the Skye,Mastodon,Mastodon,2009,2009-01-01,United States of America,United States of America
+0,0.818,discogs_138406,mbrainz_7812,Trouble,Trouble,The Agents (3),999,1979,1980-01,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.945,discogs_38430,mbrainz_8555,Remedy,Remedy,Little Boots,Little Boots,2009-06-22,2009-08,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.77,discogs_112711,mbrainz_9990,Beyond The Fairytale,Beyond the Sunset: The Romantic Collection,The Carpet Knights (2),Blackmore's Night,2004,2004-01-01,Sweden,
+0,0.8,discogs_55486,mbrainz_1186,Spirits Of Buddha,Spirits From the Inside,Various,Sleepwalk,2007,2000-11,Netherlands,Germany
+0,0.784,discogs_165072,mbrainz_10115,Negro Spirituals,Negro Spirituals,The American Protestant Church Choir Of The Hague|Henry Blackmon,"Golden Gate Quartet, The",,,,
+0,0.813,discogs_56056,mbrainz_2997,The Future Is Now,The Future,Eclier,"Thomas, Tony",2010-11-01,2005-12-17,France,United Kingdom of Great Britain and Northern Ireland
+0,0.778,discogs_92502,mbrainz_295,Outside In,Outside,Luke White,Omar,2012-07-09,1994-01-01,UK,Germany
+0,0.83,discogs_11085,mbrainz_6026,California Love EP,California Clam Chowder,2Pac,Thelonious Monster,2004-09-27,2004-01-01,UK,United States of America
+0,0.981,discogs_54789,mbrainz_11961,Postcards From A Young Man,Postcards From a Young Man (album),Manic Street Preachers,Manic Street Preachers,2010-09-22,2010-09-22,Japan,Japan
+0,0.797,discogs_138223,mbrainz_19832,Echoes Of Dreams,Echoes,Malia,"Jones, Rena",2004-08-01,2013-04-01,France,United States of America
+0,0.77,discogs_7448,mbrainz_5479,Broken Spindles,Broken Sun EP,Broken Spindles,Frequent C,2002-09-01,2007-12-12,United States of America,United States of America
+0,0.822,discogs_18909,mbrainz_2398,Get Ready For Elvis,Get Ready,CBF,Rare Earth,1991,1969-01-01,Netherlands,United States of America
+0,0.767,discogs_6112,mbrainz_2581,Beyond Seven,Beyond Silence,Mateo Murphy,Alpha Wave Movement (and others),2004-04-01,2005-10-11,Canada,Canada
+0,0.901,discogs_41199,mbrainz_2549,Unplugged,MTV Unplugged,"10,000 Maniacs",KISS,1993,1996-03-12,United States of America,United States of America
+0,0.772,discogs_20487,mbrainz_9159,Monster Mash,Monster Men,Bobby Pickett,"Pop, Iggy feat.",1991,1997-01-01,United States of America,
+0,0.799,discogs_104801,mbrainz_8699,The Very Best Of The Everly Brothers,The Best of The Statler Bros.,Everly Brothers,"Statler Brothers, The",,1975-01-01,United States of America,United States of America
+0,0.789,discogs_105809,mbrainz_18984,In Direzione Ostinata E Contraria,In direzione ostinata e contraria 2,Fabrizio De André,"De AndrÃ©, Fabrizio",2005-11-07,2006-11,Italy,Italy
+0,0.779,discogs_158403,mbrainz_23213,I Surrender,I Surrender,Edit Revenge|Roland Clark,"Day, Arlan",2014-09-01,,Denmark,
+0,0.779,discogs_114765,mbrainz_11606,Hidden Hits Of The Official Reaper Vol. 1,Hidden Temple,Furze,Rajna,2013-06-18,2004-01-01,Norway,France
+0,0.818,discogs_95636,mbrainz_31744,Empire … The Violence,Empire of the Black Sun,Zamak,Ignis Inferni,2004,2014-01-22,Mexico,
+0,0.801,discogs_61851,mbrainz_4877,Butterfly,Butterfly,Osunlade,S3RL,2010-12-06,2007-01-01,,
+0,0.875,discogs_2609,mbrainz_595,Day For Night,Day for Night,Moloko,Moloko (and others),1997,1996-01-01,United States of America,
+0,0.943,discogs_56198,mbrainz_4392,Obsidian Soul (Remixes),Obsidian Soul,Rufuss,Rufuss,2007-10-01,2007-02-14,France,France
+0,0.777,discogs_196698,mbrainz_13911,Worlds Apart,Worlds Apart,Roger Christian (2),Silent Force,1989,2004-10-05,UK,Japan
+0,0.903,discogs_34546,mbrainz_5751,Love & Devotion,Love and Devotion,Real McCoy,Real McCoy,1995,1998-01-01,Germany,Germany
+0,0.811,discogs_9665,mbrainz_835,Electronic Dancefloor Classics 1,Electronic Music From the Swedish Leftcoast,Giorgio Moroder,Plej,2005,2005-01-01,Germany,United Kingdom of Great Britain and Northern Ireland
+0,0.778,discogs_185882,mbrainz_13594,Echoes,Echoes in My Mind,Abyss X,Wilted,2015-10-06,2011-04-27,Mexico,Russian Federation
+0,1.0,discogs_23227,mbrainz_5364,Vision Creation Newsun,Vision Creation Newsun,Boredoms,Boredoms,2000,1999-12-10,Japan,Japan
+0,0.877,discogs_112022,mbrainz_42,Surrender,Surrender,Laura Pausini,Seek,2002,2000-12-05,Canada,United States of America
+0,0.829,discogs_191251,mbrainz_2674,Broken Arrow,Broken Peace,Chuck Berry,Prong,1959,1994-01-01,United States of America,United States of America
+0,0.777,discogs_21257,mbrainz_11847,Broken Land,Broken,Raffa,Hessien,1997-02-10,2010-10-14,Italy,
+0,0.817,discogs_84520,mbrainz_8866,Spirit,Spirit of Africa,Би-2,"Kenyan Boys Choir, The",2012-05-01,2009-01-01,Russia,United Kingdom of Great Britain and Northern Ireland
+0,0.773,discogs_70930,mbrainz_302,Keeper Of The Spirit,Feel the Spirit,Charles Fambrough,Harlem Sunshine,1995,2002-01-01,United States of America,United States of America
+0,0.836,discogs_76909,mbrainz_32,Up All Night (Remix),Up All Night / Take Control,John B,John B,2002,2001-06-25,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.772,discogs_152772,mbrainz_15891,Surrender,Surrender,Tomoyasu Hotei,"Taylor, Roger",1994-03-30,1999-03-29,Japan,United Kingdom of Great Britain and Northern Ireland
+0,0.918,discogs_191675,mbrainz_429,Erotica,Erotica,Madonna,Madonna,1992,1992-10-20,Canada,United States of America
+0,0.881,discogs_114622,mbrainz_31847,Fallen,Fallen,Evanescence,Burzum,2013,2011-01-01,Europe,
+0,0.899,discogs_117290,mbrainz_28340,Happiness,Happiness,Kid606,"Ryan, Matthew",2013-10-01,2003-10-06,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.948,discogs_3685,mbrainz_10450,The Singles 8698,The Singles Tour 86-98,Depeche Mode,Depeche Mode,1998-09-28,1998-01-01,UK,Germany
+0,0.773,discogs_34731,mbrainz_1062,Dreamland,Dreamland,Report Suspicious Activity,"Nine, The",2006-11-07,2001-06,United States of America,United States of America
+0,0.799,discogs_9570,mbrainz_179,Ya Mama / Song For Shelter,Song for Shelter / Ya Mama,Fatboy Slim,Fatboy Slim,2001,2001-01-01,Germany,United Kingdom of Great Britain and Northern Ireland
+0,0.764,discogs_3007,mbrainz_2675,Head Music,Feel the Music,The Daou,Guru,1992-05-12,1995-01-01,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.85,discogs_58927,mbrainz_1912,The Concretes,The Concretes,The Concretes,"Concretes, The",2003-05-31,2004-06-21,UK,United Kingdom of Great Britain and Northern Ireland
+0,0.82,discogs_11480,mbrainz_3762,Spiritual Man,Spiritual Gas Station,M (2),"Kilgour, David",1995,1994-01-01,UK,New Zealand
+0,0.769,discogs_2644,mbrainz_6068,Devotion,Devotion,Mario Più,Gnaw Their Tongues,2003-01-27,2008-03-21,Italy,United Kingdom of Great Britain and Northern Ireland
+0,0.975,discogs_13655,mbrainz_3145,Nightmare!!,Nightmare!!,Brainbug,Brainbug,1997,1997-01-01,France,France
+0,0.978,discogs_1634,mbrainz_429,Erotica,Erotica,Madonna,Madonna,1992-11-06,1992-10-20,United States of America,United States of America
+0,0.975,discogs_32721,mbrainz_7298,The Lemonade Ocean,The Lemonade Ocean,I Was A Teenage Satan Worshipper,I Was a Teenage Satan Worshipper,2008,2008-02-27,Finland,Finland
+0,0.857,discogs_148224,mbrainz_24470,The Lost Tapes E.P.,The Lost Tapes,Ark,"Legion, The",2014-11-01,2014-05-20,UK,United States of America
+0,0.772,discogs_29045,mbrainz_14852,Spirit In The Sky,Spirit in the Sky: The Best of Norman Greenbaum,Norman Greenbaum,"Greenbaum, Norman",1969,1995-01-01,Norway,United States of America
+0,0.821,discogs_43363,mbrainz_6065,Broken Harp,Broken Grid,Shortstuff|Brackles,Solar Fake,2009-05-01,2008-02-01,UK,Germany
+0,0.767,discogs_46836,mbrainz_1164,Beyond The Wasteland,Beyond,Brain Police (2),Arbre Noir,2008,2000-01-01,Germany,Germany
+0,0.82,discogs_179660,mbrainz_13594,Echoes In Rain,Echoes in My Mind,Enya,Wilted,2015-10-09,2011-04-27,Europe,Russian Federation
+0,0.776,discogs_8974,mbrainz_13760,Girlfriend EP,Girlfriend Island,TTC,"Rose, Frankie and the Outs",2005,2010-01-01,France,United Kingdom of Great Britain and Northern Ireland
+0,0.77,discogs_18909,mbrainz_1718,Get Ready For Elvis,Get Ready,CBF,Traks,1991,1983-01-01,Netherlands,France
+0,0.823,discogs_41648,mbrainz_1766,I Surrender,Surrender,Robey,Kut Klose,1986,1995-03-14,United States of America,United States of America
+0,0.774,discogs_46329,mbrainz_19268,Beyond The Dune Sea,"Beyond Virtue, Beyond Vice",Beyond The Dune Sea,Vaux,2010-03-09,2005-11-08,Canada,United States of America
+0,0.853,discogs_178587,mbrainz_14150,Beyond The Lights,Beyond the Fields,Oxi (3),Abakus,2015-10-19,2011-07-04,United States of America,United Kingdom of Great Britain and Northern Ireland
+0,0.801,discogs_18738,mbrainz_29816,Visions,Visions of the Seeker,Firefly (5),Angband,2006,2010-10-29,UK,Germany
+0,0.788,discogs_33437,mbrainz_2808,The Music People,The Music Band (orig.),Various,War,1972-02-28,1979-01-01,United States of America,United States of America
+0,0.801,discogs_129285,mbrainz_65,Electronic Garden,Electronic Fragments EP,Scanner,Skanfrom,2014-03-24,2000-01-01,Germany,Germany
+0,0.87,discogs_49812,mbrainz_9620,Fallen Angel,Fallen Angel,Frankie Valli,Ð›Ð¸ÐºÐ°,1976-04-01,1994-01-01,Netherlands,Russian Federation
+0,0.772,discogs_87120,mbrainz_2200,Echoes From The Past,Echoes of the West,Deckard (2),Echo West,2012-09-08,2005-01-01,Germany,Germany
+0,0.772,discogs_56792,mbrainz_1834,Beyond Forever,Beyond the Gates,Erik Ekholm,Cans,2010-12-14,2004-04-26,Sweden,Finland
+0,0.802,discogs_116024,mbrainz_4877,Broken Butterfly,Butterfly,Namatjira,S3RL,2013-08-14,2007-01-01,United States of America,
+0,0.767,discogs_45554,mbrainz_5050,The Discovery Of A World Inside The Moone,The Psychedelic World of the 13th Floor Elevators,The Apples In Stereo,13th Floor Elevators,2000,2002-01-01,United States of America,United States of America
+0,0.991,discogs_106826,mbrainz_19406,Random Access Memories,Random Access Memories,Daft Punk,Daft Punk,2013-05-21,2013-05-17,,
+0,0.975,discogs_26684,mbrainz_6122,Symbiotic Spaces,Symbiotic Spaces,Numina,Numina,2007,2007-01-01,United States of America,United States of America
+0,0.978,discogs_30755,mbrainz_6942,Devils In My Details,Devils in My Details,ohGr,ohGr,2008-10-28,2008-11-05,United States of America,United States of America
