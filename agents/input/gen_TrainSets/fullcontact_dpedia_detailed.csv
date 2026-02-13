@@ -1,0 +1,611 @@
+label,score,id_a,id_b,name_a,name_b,city_a,city_b,country_a,country_b,founded_a,founded_b,keypeople_a,keypeople_b
+1,0.886,fullcontact_1474,http://dbpedia.org/resource/Skis_Rossignol,Rossignol,Skis Rossignol,,Isère,,France,1907-01-01,1907-01-01,,
+1,0.911,fullcontact_1339,http://dbpedia.org/resource/Tillamook_County_Creamery_Association,Tillamook,Tillamook County Creamery Association,,"Tillamook, Oregon",,United States,1909-01-01,1909-01-01,,
+1,0.985,fullcontact_663,http://dbpedia.org/resource/Sherwin-Williams,Sherwin-Williams,Sherwin-Williams,Cleveland,ClevelandOhio,United States,United States,,1866-01-01,"
+			","
+			"
+1,1.0,fullcontact_960,http://dbpedia.org/resource/Walden_Media,Walden Media,Walden Media,,Los AngelesBoston,United States,United States,,2001-01-01,,"
+			"
+1,1.0,fullcontact_1104,http://dbpedia.org/resource/TradeGecko,TradeGecko,TradeGecko,Singapore,Singapore,Singapore,Singapore,2012-01-01,2012-01-01,"
+			",
+1,1.0,fullcontact_1155,http://dbpedia.org/resource/Living_Oceans_Society,Living Oceans Society,Living Oceans Society,Sointula,Sointula,Canada,Canada,1998-01-01,1998-01-01,,
+1,1.0,fullcontact_1515,http://dbpedia.org/resource/Italdesign_Giugiaro,Italdesign Giugiaro,Italdesign Giugiaro,Moncalieri,Moncalieri,Italy,Italy,1968-01-01,1968-01-01,,
+1,1.0,fullcontact_1463,http://dbpedia.org/resource/The_J._Peterman_Company,The J. Peterman Company,The J. Peterman Company,,"OhioBlue Ash, Ohio",,United States,1987-01-01,1987-01-01,,"
+			"
+1,1.0,fullcontact_1368,http://dbpedia.org/resource/Attentio,Attentio,Attentio,Brussels,Brussels,Belgium,Belgium,,2004-01-01,"
+			",
+1,1.0,fullcontact_848,http://dbpedia.org/resource/Bottega_Veneta,Bottega Veneta,Bottega Veneta,,Vicenza,,Italy,1966-01-01,1966-01-01,,
+1,1.0,fullcontact_424,http://dbpedia.org/resource/Inter_RAO,Inter RAO,Inter RAO,Moscow,Moscow,Russia,Russia,1997-01-01,1997-01-01,,"
+			"
+1,0.981,fullcontact_1093,http://dbpedia.org/resource/Rewards_Network,Rewards Network,Rewards Network,Chicago,ChicagoIllinois,United States,United States,1984-01-01,1984-01-01,,
+1,0.917,fullcontact_1226,http://dbpedia.org/resource/Diners_Club_International,Diners Club International,Diners Club International,Modesto,"Riverwoods, Illinois",United States,United States,1950-01-01,1950-01-01,,
+1,0.936,fullcontact_172,http://dbpedia.org/resource/Brookfield_Asset_Management,Brookfield Asset Management,Brookfield Asset Management,Toronto,OntarioTorontoBrookfield Place (Toronto),Canada,Canada,1899-01-01,1899-01-01,,"
+			"
+1,1.0,fullcontact_1228,http://dbpedia.org/resource/Elite_Systems,Elite Systems,Elite Systems,Lichfield,Lichfield,United Kingdom,United Kingdom,1984-01-01,1984-01-01,,
+1,0.983,fullcontact_1609,http://dbpedia.org/resource/NexGen_Storage,NexGen Storage,NexGen Storage,Louisville,"Louisville, Colorado",United States,United States,2010-01-01,2010-01-01,"
+			",
+1,1.0,fullcontact_1692,http://dbpedia.org/resource/Ronco,Ronco,Ronco,,"Austin, Texas",,United States,1964-01-01,1964-01-01,,"
+			"
+1,1.0,fullcontact_1439,http://dbpedia.org/resource/Jeni's_Splendid_Ice_Creams,Jeni's Splendid Ice Creams,Jeni's Splendid Ice Creams,,"Columbus, Ohio",,United States,2002-01-01,2002-01-01,,
+1,1.0,fullcontact_1072,http://dbpedia.org/resource/Entertainment_Studios,Entertainment Studios,Entertainment Studios,,Los Angeles,,United States,1993-01-01,1993-01-01,,"
+			"
+1,1.0,fullcontact_1361,http://dbpedia.org/resource/Hexaglobe,Hexaglobe,Hexaglobe,Paris,Paris,France,France,2004-01-01,2004-01-01,,
+1,1.0,fullcontact_1429,http://dbpedia.org/resource/Ixigo.com,Ixigo.com,Ixigo.com,Gurgaon,Gurgaon,India,India,2006-01-01,2006-01-01,"
+			",
+1,0.981,fullcontact_7,http://dbpedia.org/resource/PPG_Industries,PPG Industries,PPG Industries,Pittsburgh,PittsburghPennsylvania,United States,United States,1883-01-01,1883-01-01,"
+			","
+			"
+1,0.908,fullcontact_1672,http://dbpedia.org/resource/M%C3%B6venpick_Hotels_&_Resorts,Mövenpick Hotels & Resorts,Mövenpick Hotels & Resorts,Baar,Zürich,Switzerland,Switzerland,1973-01-01,1973-01-01,,
+1,0.971,fullcontact_1282,http://dbpedia.org/resource/Gerber_Products_Company,Gerber Products Company,Gerber Products Company,Fremont,"Fremont, Michigan",United States,United States,,1927-01-01,,"
+			"
+1,0.983,fullcontact_866,http://dbpedia.org/resource/Huntsman_Corporation,Huntsman Corporation,Huntsman Corporation,The Woodlands,"The Woodlands, TexasTexas",United States,United States,1970-01-01,1970-01-01,,"
+			"
+1,1.0,fullcontact_188,http://dbpedia.org/resource/Capgemini,Capgemini,Capgemini,Paris,Paris,France,France,1967-01-01,1967-01-01,,"
+			"
+1,0.981,fullcontact_907,http://dbpedia.org/resource/Affliction_Clothing,Affliction Clothing,Affliction Clothing,Seal Beach,"Seal Beach, California",United States,United States,2005-01-01,2005-01-01,,
+1,1.0,fullcontact_1951,http://dbpedia.org/resource/Karbonn_Mobiles,Karbonn Mobiles,Karbonn Mobiles,,BangaloreNoida,,India,2009-01-01,2009-01-01,,
+1,1.0,fullcontact_1623,http://dbpedia.org/resource/Byyd,Byyd,Byyd,London,London,United Kingdom,United Kingdom,2008-01-01,2008-01-01,,
+1,0.982,fullcontact_1735,http://dbpedia.org/resource/Fidelity_&_Guaranty_Life,Fidelity & Guaranty Life,Fidelity & Guaranty Life,Des Moines,"Des Moines, Iowa",United States,United States,,1959-01-01,,
+1,0.991,fullcontact_1223,http://dbpedia.org/resource/Martin_Professional,Martin Professional,Martin Professional,Aarhus N,Aarhus,Denmark,Denmark,1987-01-01,1987-01-01,,
+1,1.0,fullcontact_1498,http://dbpedia.org/resource/JASCO_Applied_Sciences,JASCO Applied Sciences,JASCO Applied Sciences,,"Halifax, Nova ScotiaNova Scotia",Canada,Canada,1981-01-01,1981-01-01,,
+1,0.998,fullcontact_1856,"http://dbpedia.org/resource/The_Leela_Palaces,_Hotels_and_Resorts",The Leela Palaces Hotels and Resorts,"The Leela Palaces, Hotels and Resorts",Mumbai,Mumbai,India,India,1986-01-01,1986-01-01,,
+1,1.0,fullcontact_1130,http://dbpedia.org/resource/Casengo,Casengo,Casengo,Amsterdam,Amsterdam,Netherlands,Netherlands,2011-01-01,2011-01-01,"
+			",
+1,0.903,fullcontact_1722,http://dbpedia.org/resource/Annapurna_Studios,Annapurna Studios,Annapurna Studios,Hyderabad,Andhra PradeshHyderabad,India,India,,1955-01-01,,"
+			"
+1,1.0,fullcontact_1068,http://dbpedia.org/resource/SteelSeries,SteelSeries,SteelSeries,Valby,Copenhagen,Denmark,Denmark,2001-01-01,2001-01-01,,
+1,1.0,fullcontact_1738,http://dbpedia.org/resource/Novadios,Novadios,Novadios,,Los Angeles,,United States,2008-01-01,2008-01-01,,
+1,1.0,fullcontact_1740,http://dbpedia.org/resource/Blimpie,Blimpie,Blimpie,,"ArizonaScottsdale, Arizona",United States,United States,1964-01-01,1964-01-01,,
+1,1.0,fullcontact_970,http://dbpedia.org/resource/New_World_Interactive,New World Interactive,New World Interactive,Denver,Denver,United States,United States,2010-01-01,2010-01-01,,
+1,1.0,fullcontact_1055,http://dbpedia.org/resource/Konarka_Technologies,Konarka Technologies,Konarka Technologies,,"MassachusettsLowell, Massachusetts",United States,United States,2001-01-01,2001-01-01,,
+1,1.0,fullcontact_652,http://dbpedia.org/resource/Schindler_Group,Schindler Group,Schindler Group,Ebikon,Ebikon,Switzerland,Switzerland,,1874-01-01,,
+1,1.0,fullcontact_1275,http://dbpedia.org/resource/Macy's,Macy's,Macy's,,CincinnatiOhio,,United States,1858-01-01,1858-01-01,,
+1,1.0,fullcontact_1370,http://dbpedia.org/resource/Karen_Millen,Karen Millen,Karen Millen,,OxfordshireWitney,,United Kingdom,1981-01-01,1981-01-01,,
+1,1.0,fullcontact_802,http://dbpedia.org/resource/Volkswagen_Group,Volkswagen Group,Volkswagen Group,Wolfsburg,Wolfsburg,Germany,Germany,1937-01-01,1937-01-01,,
+1,0.927,fullcontact_1432,http://dbpedia.org/resource/Shearer's_Foods,Shearer's Potato Chips and Snacks,Shearer's Foods,Massillon,"Massillon, OhioOhio",United States,United States,1974-01-01,1974-01-01,,
+1,1.0,fullcontact_1707,http://dbpedia.org/resource/Comarch,Comarch,Comarch,Kraków,Kraków,Poland,Poland,1993-01-01,1993-01-01,,
+1,1.0,fullcontact_1018,http://dbpedia.org/resource/LizardTech,LizardTech,LizardTech,,Seattle,,United States,1992-01-01,1992-01-01,,
+1,0.981,fullcontact_1944,http://dbpedia.org/resource/S&P_Capital_IQ,S&P Capital IQ,S&P Capital IQ,New York,New York City,United States,United States,,1999-01-01,,
+1,1.0,fullcontact_583,http://dbpedia.org/resource/Petro_Rabigh,Petro Rabigh,Petro Rabigh,Rabigh,Rabigh,Saudi Arabia,Saudi Arabia,2005-01-01,2005-01-01,,"
+			"
+1,1.0,fullcontact_1342,http://dbpedia.org/resource/Lukoil,LUKOIL,Lukoil,Moscow,Moscow,Russia,Russia,1991-01-01,1991-01-01,,
+1,0.983,fullcontact_1788,http://dbpedia.org/resource/Jeremy_Rogers_Limited,Jeremy Rogers Limited,Jeremy Rogers Limited,Lymington,LymingtonHampshire,United Kingdom,United Kingdom,1961-01-01,1961-01-01,,"
+			"
+1,1.0,fullcontact_1835,http://dbpedia.org/resource/R%C3%B8de_Microphones,RØDE Microphones,Røde Microphones,,"Silverwater, New South WalesSydney",,Australia,1967-01-01,1967-01-01,,
+1,1.0,fullcontact_1057,"http://dbpedia.org/resource/Press_Pass,_Inc.","Press Pass, Inc.","Press Pass, Inc.",,"Huntersville, North Carolina",United States,United States,1992-01-01,1992-01-01,,
+1,1.0,fullcontact_1889,http://dbpedia.org/resource/Luxoft,Luxoft,Luxoft,Zug,Zug,Switzerland,Switzerland,2000-01-01,2000-01-01,,
+1,0.887,fullcontact_1681,http://dbpedia.org/resource/Lundin_Mining,Lundin Mining Corporation,Lundin Mining,Toronto,OntarioToronto,Canada,Canada,,1994-01-01,,
+1,0.873,fullcontact_1180,http://dbpedia.org/resource/Nortel,Nortel Networks,Nortel,Toronto,OntarioMississauga,Canada,Canada,1895-01-01,1895-01-01,,
+1,0.963,fullcontact_1196,http://dbpedia.org/resource/Beam_Inc.,Beam Inc,Beam Inc.,Deerfield,"Deerfield, Illinois",United States,United States,,2011-01-01,,
+1,0.912,fullcontact_1322,http://dbpedia.org/resource/Prudential_Financial,Prudential - Bring your Challenges,Prudential Financial,Newark,"Newark, New JerseyPrudential Headquarters",United States,United States,1875-01-01,1875-01-01,,"
+			"
+1,0.912,fullcontact_607,http://dbpedia.org/resource/Prudential_Financial,Prudential - Bring your Challenges,Prudential Financial,Newark,"Newark, New JerseyPrudential Headquarters",United States,United States,1875-01-01,1875-01-01,,"
+			"
+1,0.927,fullcontact_1076,http://dbpedia.org/resource/Papa_Cristo's,Papa Cristo's Greek Grill,Papa Cristo's,Los Angeles,Los AngelesCalifornia,United States,United States,,1948-01-01,,
+1,1.0,fullcontact_1651,http://dbpedia.org/resource/Ex_Libris_Group,Ex Libris Group,Ex Libris Group,,Jerusalem,,Israel,1986-01-01,1986-01-01,,
+1,1.0,fullcontact_80,http://dbpedia.org/resource/Alpha_Bank,Alpha Bank,Alpha Bank,ATHENS,Athens,Greece,Greece,1879-01-01,1879-01-01,,
+1,1.0,fullcontact_508,http://dbpedia.org/resource/Metso,Metso,Metso,Helsinki,Helsinki,Finland,Finland,1999-01-01,1999-01-01,,
+1,0.985,fullcontact_244,http://dbpedia.org/resource/CSX_Corporation,CSX Corporation,CSX Corporation,Jacksonville,"Jacksonville, Florida",United States,United States,1980-01-01,1980-01-01,,
+1,1.0,fullcontact_1486,http://dbpedia.org/resource/Landis+Gyr,Landis+Gyr,Landis+Gyr,Zug,Zug,Switzerland,Switzerland,1896-01-01,1896-01-01,,
+1,1.0,fullcontact_1591,http://dbpedia.org/resource/The_MobileStore,The MobileStore,The MobileStore,Mumbai,Mumbai,India,India,,2006-01-01,,
+1,1.0,fullcontact_1796,http://dbpedia.org/resource/Texas_de_Brazil,Texas De Brazil,Texas de Brazil,Dallas,Dallas,United States,United States,1998-01-01,1998-01-01,,
+1,1.0,fullcontact_1905,http://dbpedia.org/resource/Kiddiepunk,Kiddiepunk,Kiddiepunk,Paris,Paris,France,France,,2002-01-01,,
+1,0.981,fullcontact_1152,http://dbpedia.org/resource/DotSUB,Dotsub,DotSUB,New York City,New YorkNew York City,United States,United States,2007-01-01,2007-01-01,,
+1,0.929,fullcontact_1947,"http://dbpedia.org/resource/SilkRoad,_Inc.",SilkRoad Technology Inc.,"SilkRoad, Inc.",,Chicago,Japan,United States,2003-01-01,2003-01-01,,"
+			"
+1,0.983,fullcontact_754,http://dbpedia.org/resource/TransCanada_Corporation,TransCanada Corporation,TransCanada Corporation,Calgary,CalgaryAlberta,Canada,Canada,1951-01-01,1951-01-01,,
+1,1.0,fullcontact_1353,http://dbpedia.org/resource/Silver_Jeans_Co.,Silver Jeans Co.,Silver Jeans Co.,,Winnipeg,,Canada,1991-01-01,1991-01-01,,
+1,1.0,fullcontact_1798,http://dbpedia.org/resource/Interislander,Interislander,Interislander,Wellington,Wellington,New Zealand,New Zealand,,1962-01-01,,
+1,1.0,fullcontact_1861,http://dbpedia.org/resource/CyWee,Cywee,CyWee,Taipei,Taipei,Taiwan,Taiwan,2007-01-01,2007-01-01,,
+1,1.0,fullcontact_1443,http://dbpedia.org/resource/Christie's,Christie's,Christie's,London,London,United Kingdom,United Kingdom,1766-01-01,1766-01-01,,
+1,1.0,fullcontact_1101,http://dbpedia.org/resource/Southeast_Bank_Limited,Southeast Bank Limited,Southeast Bank Limited,Dhaka,Dhaka,Bangladesh,Bangladesh,1995-01-01,1995-01-01,,
+1,1.0,fullcontact_1555,http://dbpedia.org/resource/Cimatron,Cimatron,Cimatron,,Giv'at Shmuel,,Israel,1982-01-01,1982-01-01,,
+1,1.0,fullcontact_1021,http://dbpedia.org/resource/Kontor_Records,Kontor Records,Kontor Records,Hamburg,Hamburg,Germany,Germany,,1995-01-01,,
+1,0.983,fullcontact_1766,http://dbpedia.org/resource/AltaLink,AltaLink,AltaLink,Calgary,CalgaryAlberta,Canada,Canada,2002-01-01,2002-01-01,,
+1,1.0,fullcontact_1058,http://dbpedia.org/resource/Isofoton,ISOFOTON,Isofoton,Madrid,,Spain,Spain,1981-01-01,1981-01-01,,
+1,0.97,fullcontact_326,http://dbpedia.org/resource/Foot_Locker,Foot Locker,Foot Locker,New York,New YorkNew York City,United States,United States,,1879-01-01,,
+1,0.84,fullcontact_1673,http://dbpedia.org/resource/Turner_Construction,Turner Constrution Co,Turner Construction,Dalton,New York CityHudson Street (Manhattan),United States,United States,,1902-01-01,,
+1,1.0,fullcontact_1479,http://dbpedia.org/resource/National_Bank_of_Bahrain,National Bank of Bahrain,National Bank of Bahrain,Manama,Manama,Bahrain,Bahrain,,1957-01-01,,
+1,0.982,fullcontact_1887,http://dbpedia.org/resource/JETT_customer_experience,JETT | Customer Experience,JETT customer experience,Shanghai,Shanghai,China,China,2004-01-01,2004-01-01,,
+1,1.0,fullcontact_1431,http://dbpedia.org/resource/Axiom_Films,Axiom Films,Axiom Films,London,London,United Kingdom,United Kingdom,,1997-01-01,,
+1,1.0,fullcontact_823,http://dbpedia.org/resource/Wistron_Corporation,Wistron Corporation,Wistron Corporation,Taipei,,Taiwan,Taiwan,,2001-01-01,,
+1,1.0,fullcontact_1191,http://dbpedia.org/resource/BeGood_Clothing,BeGood Clothing,BeGood Clothing,San Francisco,San Francisco,United States,United States,2012-01-01,2012-01-01,"
+			",
+1,0.996,fullcontact_934,http://dbpedia.org/resource/Dairylea_Cooperative_Inc.,"Dairylea Cooperative, Inc.",Dairylea Cooperative Inc.,,"New YorkEast Syracuse, New York",,United States,1907-01-01,1907-01-01,,
+1,1.0,fullcontact_1138,http://dbpedia.org/resource/Anyoption,Anyoption,Anyoption,Nicosia,Nicosia,Cyprus,Cyprus,2008-01-01,2008-01-01,,
+1,1.0,fullcontact_1551,http://dbpedia.org/resource/Benefit_Cosmetics,Benefit Cosmetics,Benefit Cosmetics,San Francisco,San Francisco,United States,United States,1976-01-01,1976-01-01,"
+			",
+1,0.83,fullcontact_1504,http://dbpedia.org/resource/Snelling_Staffing_Services,Snelling,Snelling Staffing Services,Dallas,TexasDallas,United States,United States,,1951-01-01,,
+1,0.964,fullcontact_1606,http://dbpedia.org/resource/Audiokinetic,Audiokinetic,Audiokinetic,Montréal,QuebecMontreal,Canada,Canada,2000-01-01,2000-01-01,,
+1,1.0,fullcontact_1713,http://dbpedia.org/resource/Marimekko,Marimekko,Marimekko,,Helsinki,Finland,Finland,1951-01-01,1951-01-01,,"
+			"
+1,1.0,fullcontact_1791,http://dbpedia.org/resource/Onefinestay,Onefinestay,Onefinestay,London,London,United Kingdom,United Kingdom,2009-01-01,2009-01-01,"
+			",
+1,1.0,fullcontact_1023,http://dbpedia.org/resource/WeeWorld,WeeWorld,WeeWorld,Glasgow,Glasgow,United Kingdom,United Kingdom,,2000-01-01,,
+1,0.981,fullcontact_1698,http://dbpedia.org/resource/Tekserve,Tekserve,Tekserve,New York,New York City,United States,United States,,1987-01-01,,
+1,1.0,fullcontact_1685,http://dbpedia.org/resource/Sears_Israel,Sears Israel,Sears Israel,Herzliya,Herzliya,Israel,Israel,2009-01-01,2009-01-01,,
+1,1.0,fullcontact_964,http://dbpedia.org/resource/Revision3,Revision3,Revision3,San Francisco,San Francisco,United States,United States,2005-01-01,2005-01-01,"
+			","
+			"
+1,0.983,fullcontact_1214,http://dbpedia.org/resource/Crystal_Dynamics,Crystal Dynamics,Crystal Dynamics,Redwood City,"Redwood City, California",United States,United States,1992-01-01,1992-01-01,,
+1,1.0,fullcontact_1522,http://dbpedia.org/resource/River_Island,River Island,River Island,London,London,United Kingdom,United Kingdom,,1948-01-01,,
+1,0.884,fullcontact_1936,http://dbpedia.org/resource/Coupa,Coupa Software,Coupa,San Mateo,"CaliforniaSan Mateo, California",United States,United States,2006-01-01,2006-01-01,"
+			",
+1,0.975,fullcontact_389,http://dbpedia.org/resource/Hewlett-Packard,Hewlett-Packard,Hewlett-Packard,Palo Alto,"Palo Alto, CaliforniaCalifornia",United States,United States,1939-01-01,1939-01-01,"
+			","
+			"
+1,0.83,fullcontact_1195,http://dbpedia.org/resource/Ameriprise_Financial,"AMERIPRISE FINANCIAL SERVICES, INC.",Ameriprise Financial,Hot Springs,MinneapolisAmeriprise Financial Center,United States,United States,,1894-01-01,,
+1,0.938,fullcontact_1957,http://dbpedia.org/resource/Reminderband,Reminderband,Reminderband,Logan,"UtahLogan, Utah",United States,United States,2004-01-01,2004-01-01,,
+1,0.981,fullcontact_827,"http://dbpedia.org/resource/Workday,_Inc.","Workday, Inc.","Workday, Inc.",Pleasanton,"Pleasanton, California",United States,United States,2005-01-01,2005-01-01,"
+			",
+1,0.983,fullcontact_1413,http://dbpedia.org/resource/Cage_Fury_Fighting_Championships,Cage Fury Fighting Championships,Cage Fury Fighting Championships,Atlantic City,"Atlantic City, New Jersey",United States,United States,2006-01-01,2006-01-01,,
+1,1.0,fullcontact_1162,http://dbpedia.org/resource/Izenpe,Izenpe,Izenpe,,Vitoria-Gasteiz,Spain,Spain,,2002-01-01,,
+1,1.0,fullcontact_1452,http://dbpedia.org/resource/EVS_Broadcast_Equipment,EVS Broadcast Equipment,EVS Broadcast Equipment,Seraing,Liège,Belgium,Belgium,1994-01-01,1994-01-01,,
+1,1.0,fullcontact_678,http://dbpedia.org/resource/Sistema,Sistema,Sistema,Moscow,Moscow,Russia,Russia,1993-01-01,1993-01-01,,
+1,1.0,fullcontact_1733,http://dbpedia.org/resource/Pepephone,Pepephone,Pepephone,,Pozuelo de Alarcón,,Spain,2007-01-01,2007-01-01,,
+1,1.0,fullcontact_1122,http://dbpedia.org/resource/MAPNA_Group,MAPNA Group,MAPNA Group,Tehran,Tehran,Iran,Iran,1993-01-01,1993-01-01,,
+1,0.929,fullcontact_1288,http://dbpedia.org/resource/Neiman_Marcus,Neiman Marcus,Neiman Marcus,Dallas,TexasDallas,United States,United States,1907-01-01,1907-01-01,,"
+			"
+1,0.86,fullcontact_511,http://dbpedia.org/resource/Micron_Technology,Micron Technology,Micron Technology,Salt Lake City,"IdahoBoise, Idaho",United States,United States,,1978-01-01,,
+1,0.94,fullcontact_1598,http://dbpedia.org/resource/Platinum_Studios,Platinum Studios,Platinum Studios,Los Angeles,Los Angeles,United States,United States,1996-01-01,1997-01-01,,"
+			"
+1,0.983,fullcontact_403,http://dbpedia.org/resource/Huntsman_Corporation,Huntsman Corporation,Huntsman Corporation,The Woodlands,"The Woodlands, TexasTexas",United States,United States,1970-01-01,1970-01-01,,"
+			"
+1,0.981,fullcontact_1849,http://dbpedia.org/resource/H._Stern,H.Stern,H. Stern,,Rio de Janeiro (state)Rio de Janeiro,,Brazil,1945-01-01,1945-01-01,,
+1,1.0,fullcontact_1683,http://dbpedia.org/resource/Asprey,Asprey,Asprey,London,London,United Kingdom,United Kingdom,1781-01-01,1781-01-01,,
+1,1.0,fullcontact_977,http://dbpedia.org/resource/Schott_NYC,Schott NYC,Schott NYC,,New York City,United States,United States,1913-01-01,1913-01-01,,
+1,1.0,fullcontact_324,http://dbpedia.org/resource/FMC_Corporation,FMC Corporation,FMC Corporation,Philadelphia,Philadelphia,United States,United States,,1883-01-01,,
+1,1.0,fullcontact_23,http://dbpedia.org/resource/Lanxess,LANXESS,Lanxess,Cologne,Cologne,Germany,Germany,,2004-01-01,,
+1,0.991,fullcontact_1120,http://dbpedia.org/resource/Somtel,Somtel,Somtel,Hargeysa,Hargeisa,Somalia,Somalia,1998-01-01,1998-01-01,,
+1,1.0,fullcontact_1389,http://dbpedia.org/resource/The_Co-operators,The Co-operators,The Co-operators,Guelph,OntarioGuelph,Canada,Canada,1945-01-01,1945-01-01,,
+1,1.0,fullcontact_218,http://dbpedia.org/resource/Clariant,Clariant,Clariant,Muttenz,Muttenz,Switzerland,Switzerland,1995-01-01,1995-01-01,,
+1,1.0,fullcontact_1414,http://dbpedia.org/resource/Applied_Maths,Applied Maths,Applied Maths,Sint-Martens-Latem,Sint-Martens-Latem,Belgium,Belgium,1992-01-01,1992-01-01,,
+1,0.901,fullcontact_1458,http://dbpedia.org/resource/Gain_Capital,GAIN Capital,Gain Capital,New York,"New JerseyBedminster, New Jersey",United States,United States,,1999-01-01,"
+			",
+1,0.886,fullcontact_1100,http://dbpedia.org/resource/ELitmus,eLitmus Evaluation Private Limited,ELitmus,Bangalore,"Jayanagar, BangaloreBangalore",India,India,2005-01-01,2005-01-01,"
+			",
+1,0.823,fullcontact_951,http://dbpedia.org/resource/Super_8_Motels,Super 8 Hotels China,Super 8 Motels,Aberdeen,"Parsippany-Troy Hills, New JerseyNew Jersey",United States,United States,,1972-01-01,,
+1,0.979,fullcontact_1528,http://dbpedia.org/resource/Global_Maritime,Global Maritime Group,Global Maritime,Stavanger,Stavanger,Norway,Norway,1979-01-01,1979-01-01,,
+1,0.905,fullcontact_1110,http://dbpedia.org/resource/Interserve,Interserve,Interserve,Twyford,"Reading, BerkshireBerkshire",United Kingdom,United Kingdom,1884-01-01,1884-01-01,,
+1,1.0,fullcontact_1608,http://dbpedia.org/resource/Oanda_Corporation,OANDA Corporation,Oanda Corporation,Toronto,Toronto,Canada,Canada,1995-01-01,1995-01-01,,
+1,1.0,fullcontact_541,http://dbpedia.org/resource/Nintendo,Nintendo,Nintendo,Kyoto,Kyoto,Japan,Japan,1889-01-01,1889-01-01,,"
+			"
+1,1.0,fullcontact_1281,http://dbpedia.org/resource/Global_Arab_Network,Global Arab Network,Global Arab Network,London,London,United Kingdom,United Kingdom,2006-01-01,2006-01-01,,
+1,1.0,fullcontact_327,http://dbpedia.org/resource/Fortum,Fortum,Fortum,Espoo,Espoo,Finland,Finland,1998-01-01,1998-01-01,,
+1,1.0,fullcontact_214,http://dbpedia.org/resource/CITIC_Pacific,CITIC Pacific,CITIC Pacific,,Hong Kong Island,Hong Kong,Hong Kong,,1990-01-01,,
+1,1.0,fullcontact_976,http://dbpedia.org/resource/Lithium_Technologies,Lithium Technologies,Lithium Technologies,San Francisco,San Francisco,United States,United States,2001-01-01,2001-01-01,,
+1,0.982,fullcontact_1612,http://dbpedia.org/resource/Ferrellgas,Ferrellgas,Ferrellgas,Overland Park,"Overland Park, KansasKansas",United States,United States,1939-01-01,1939-01-01,,
+1,1.0,fullcontact_1536,http://dbpedia.org/resource/Baby_Cow_Productions,Baby Cow Productions,Baby Cow Productions,London,London,United Kingdom,United Kingdom,,1999-01-01,,
+1,1.0,fullcontact_1296,http://dbpedia.org/resource/Sage_Group,Sage Group,Sage Group,Newcastle upon Tyne,Newcastle upon Tyne,United Kingdom,United Kingdom,1981-01-01,1981-01-01,"
+			","
+			"
+1,1.0,fullcontact_1934,http://dbpedia.org/resource/Fluid_Operations,Fluid Operations,Fluid Operations,Walldorf,Walldorf,Germany,Germany,2008-01-01,2008-01-01,,
+1,1.0,fullcontact_1558,http://dbpedia.org/resource/112dB,112dB,112dB,,Utrecht,Netherlands,Netherlands,,2005-01-01,,
+1,1.0,fullcontact_925,http://dbpedia.org/resource/Encore_Capital_Group,Encore Capital Group,Encore Capital Group,San Diego,San Diego,United States,United States,1953-01-01,1953-01-01,,
+1,1.0,fullcontact_1373,http://dbpedia.org/resource/Telehouse_Europe,Telehouse Europe,Telehouse Europe,London,London,United Kingdom,United Kingdom,1988-01-01,1988-01-01,,
+1,1.0,fullcontact_291,http://dbpedia.org/resource/Enel,Enel,Enel,Rome,Rome,Italy,Italy,1962-01-01,1962-01-01,,"
+			"
+1,1.0,fullcontact_1160,http://dbpedia.org/resource/Inq_Mobile,INQ Mobile,Inq Mobile,London,London,United Kingdom,United Kingdom,,2008-01-01,,
+1,1.0,fullcontact_858,http://dbpedia.org/resource/Buick,Buick,Buick,,Detroit,,United States,1903-01-01,1903-01-01,,"
+			"
+1,1.0,fullcontact_631,http://dbpedia.org/resource/Rosneft,Rosneft,Rosneft,,Moscow,Russia,Russia,,1993-01-01,,
+1,1.0,fullcontact_981,http://dbpedia.org/resource/Horizon_Fuel_Cell_Technologies,Horizon Fuel Cell Technologies,Horizon Fuel Cell Technologies,Singapore,Singapore,Singapore,Singapore,2003-01-01,2003-01-01,"
+			",
+1,1.0,fullcontact_1360,http://dbpedia.org/resource/Systancia,Systancia,Systancia,Sausheim,Sausheim,France,France,1998-01-01,1998-01-01,,
+1,0.88,fullcontact_1378,http://dbpedia.org/resource/Tom's_Snacks,Toms Snacks,Tom's Snacks,Hampton,"Charlotte, North CarolinaNorth Carolina",United States,United States,,1925-01-01,,
+1,0.99,fullcontact_1900,http://dbpedia.org/resource/Bedat_&_Co,Bedat & Co.,Bedat & Co,,Geneva,,Switzerland,1996-01-01,1996-01-01,,
+0,1.0,fullcontact_795,http://dbpedia.org/resource/VimpelCom_Ltd.,VimpelCom Ltd.,VimpelCom Ltd.,Amsterdam,Amsterdam,Netherlands,Netherlands,1992-01-01,2009-01-01,,
+0,0.816,fullcontact_1293,http://dbpedia.org/resource/Thompson_Creek_Metals,Thompson Creek Metals Company Inc.,Thompson Creek Metals,Littleton,Toronto,United States,Canada,,1993-01-01,,
+0,0.817,fullcontact_1887,http://dbpedia.org/resource/Lucent_Dossier_Experience,JETT | Customer Experience,Lucent Dossier Experience,Shanghai,Los AngelesCalifornia,China,United States,2004-01-01,2004-01-01,,"
+			"
+0,0.902,fullcontact_1848,http://dbpedia.org/resource/British_American_Railway_Services,British Insurance Services,British American Railway Services,Southport,,United Kingdom,United Kingdom,2003-01-01,2008-01-01,,
+0,0.893,fullcontact_213,http://dbpedia.org/resource/Unitil_Corporation,Cigna Corporation,Unitil Corporation,Bloomfield,,United States,United States,1792-01-01,1984-01-01,,
+0,0.822,fullcontact_28,http://dbpedia.org/resource/2-Tone_Entertainment,Nine Entertainment,2-Tone Entertainment,Nashville,London,United States,United Kingdom,2004-01-01,2004-01-01,,
+0,0.835,fullcontact_1661,http://dbpedia.org/resource/Funk_Software,Vero Software,Funk Software,Southfield,,United States,United States,,1982-01-01,,
+0,0.849,fullcontact_378,http://dbpedia.org/resource/Sally_Corporation,Hess Corporation,Sally Corporation,Marysville,"Jacksonville, Florida",United States,United States,1933-01-01,1977-01-01,,
+0,0.853,fullcontact_808,http://dbpedia.org/resource/GRT_Corporation,Waters Corporation,GRT Corporation,Milford,"Stamford, Connecticut",United States,United States,1958-01-01,1995-01-01,,
+0,0.878,fullcontact_122,http://dbpedia.org/resource/Marathon_Technologies,Avago Technologies,Marathon Technologies,San Jose,,United States,United States,2005-01-01,1993-01-01,,
+0,0.863,fullcontact_1621,http://dbpedia.org/resource/MAPNA_Group,Balfin Group,MAPNA Group,Tirana,Tehran,Albania,Iran,1993-01-01,1993-01-01,,
+0,0.912,fullcontact_1634,http://dbpedia.org/resource/PaR_Systems,Plex Systems,PaR Systems,Troy,,United States,United States,1995-01-01,1961-01-01,,
+0,0.828,fullcontact_772,http://dbpedia.org/resource/United_Continental_Holdings,United Airlines,United Continental Holdings,Chicago,Willis TowerChicagoIllinoisChicago Loop,United States,United States,1931-01-01,2010-01-01,,
+0,0.862,fullcontact_1209,http://dbpedia.org/resource/Roland_Corporation,Roland Corp,Roland Corporation,Lansing,HamamatsuShizuoka Prefecture,United States,Japan,1972-01-01,1972-01-01,,
+0,0.827,fullcontact_165,http://dbpedia.org/resource/Louis_Dreyfus_Group,Bouygues Group,Louis Dreyfus Group,,Paris,France,France,1952-01-01,1851-01-01,,"
+			"
+0,0.818,fullcontact_1203,http://dbpedia.org/resource/Dover_Corporation,Rovi Corporation,Dover Corporation,Santa Clara,"Downers Grove, Illinois",United States,United States,,1925-01-01,,
+0,0.817,fullcontact_287,http://dbpedia.org/resource/UAL_Corporation,EMC Corporation,UAL Corporation,Hopkinton,Chicago,United States,United States,,1968-01-01,,
+0,0.907,fullcontact_1743,http://dbpedia.org/resource/International_Elephant_Foundation,International Solar Energy Technology,International Elephant Foundation,Chatsworth,,United States,United States,,1999-01-01,,
+0,0.919,fullcontact_979,http://dbpedia.org/resource/Farmers_Trading_Company,Farmers,Farmers Trading Company,,Flat BushAuckland,,New Zealand,1909-01-01,1909-01-01,,"
+			"
+0,0.824,fullcontact_677,http://dbpedia.org/resource/Wheelock_Properties_(Singapore),Singapore Airlines,Wheelock Properties (Singapore),Singapore,Singapore,Singapore,Singapore,1972-01-01,1972-01-01,,
+0,0.817,fullcontact_1203,http://dbpedia.org/resource/MannKind_Corporation,Rovi Corporation,MannKind Corporation,Santa Clara,"Valencia, California",United States,United States,,1991-01-01,,
+0,1.0,fullcontact_852,http://dbpedia.org/resource/Bank_of_China,Bank of China,Bank of China,Beijing,Beijing,China,Taiwan,,1912-01-01,,
+0,1.0,fullcontact_769,http://dbpedia.org/resource/Unibail-Rodamco,Unibail-Rodamco,Unibail-Rodamco,Paris,Paris,France,France,1968-01-01,2007-01-01,,
+0,0.996,fullcontact_934,http://dbpedia.org/resource/Dairylea_Cooperative_Inc.,"Dairylea Cooperative, Inc.",Dairylea Cooperative Inc.,,"New YorkEast Syracuse, New York",,United States,1907-01-01,1907-01-01,,
+0,0.845,fullcontact_475,http://dbpedia.org/resource/Andersen_Corporation,Lennar Corporation,Andersen Corporation,Miami,"Bayport, Minnesota",United States,United States,1954-01-01,1903-01-01,,
+0,0.921,fullcontact_1913,http://dbpedia.org/resource/Silver_Pictures,Silver + Partners,Silver Pictures,NY,,United States,United States,2010-01-01,1985-01-01,,"
+			"
+0,0.899,fullcontact_1372,http://dbpedia.org/resource/Disney%E2%80%93ABC_Domestic_Television,Disney/ABC Television Group,Disney–ABC Domestic Television,Burbank,"Burbank, California",United States,United States,,1985-01-01,,
+0,0.819,fullcontact_468,http://dbpedia.org/resource/Wei-Chuan_Food_Corporation,Kubota Tractor Corporation,Wei-Chuan Food Corporation,,Taipei,,Taiwan,1972-01-01,1972-01-01,,
+0,0.825,fullcontact_208,http://dbpedia.org/resource/China_Datang_Corporation,"China Coal Energy Co., Ltd.",China Datang Corporation,BEIJING,Beijing,China,China,,2002-01-01,,
+0,0.841,fullcontact_1384,http://dbpedia.org/resource/Banca_Intesa_Beograd,Komercijalna Banka Ad Beograd,Banca Intesa Beograd,Belgrade,Belgrade,Serbia,Serbia,1970-01-01,1991-01-01,,
+0,0.826,fullcontact_571,http://dbpedia.org/resource/Gillig_Corporation,Pall Corporation,Gillig Corporation,Port Washington,"Hayward, California",United States,United States,,1890-01-01,,
+0,0.839,fullcontact_604,http://dbpedia.org/resource/Peoples_Financial_Corporation,Protective Life Corporation,Peoples Financial Corporation,Birmingham,,United States,United States,,1926-01-01,,
+0,0.814,fullcontact_1415,http://dbpedia.org/resource/Quester_Tangent_Corporation,Carpenter Technology Corporation,Quester Tangent Corporation,,CanadaSaanichton,United States,United States,1889-01-01,1983-01-01,,
+0,1.0,fullcontact_793,http://dbpedia.org/resource/Vestas,Vestas,Vestas,Aarhus,Aarhus,Denmark,Denmark,1938-01-01,1945-01-01,,
+0,0.827,fullcontact_324,http://dbpedia.org/resource/TMEIC_Corporation,FMC Corporation,TMEIC Corporation,Philadelphia,"Roanoke County, Virginia",United States,United States,,2011-01-01,,
+0,0.814,fullcontact_1062,http://dbpedia.org/resource/Database_Marketing_Agency,Adobe Marketing Cloud,Database Marketing Agency,Orem,"OregonBeaverton, Oregon",United States,United States,1996-01-01,1996-01-01,,
+0,0.817,fullcontact_908,http://dbpedia.org/resource/Ithaca_Gun_Company,Westinghouse Electric Company,Ithaca Gun Company,,"Upper Sandusky, Ohio",United States,United States,1886-01-01,1880-01-01,,
+0,0.815,fullcontact_608,http://dbpedia.org/resource/Panini_Group,Prysmian Group,Panini Group,Milan,Modena,Italy,Italy,1879-01-01,1961-01-01,,
+0,0.841,fullcontact_1415,http://dbpedia.org/resource/The_InterProse_Corporation,Carpenter Technology Corporation,The InterProse Corporation,,"Vancouver, Washington",United States,United States,1889-01-01,1996-01-01,,
+0,0.837,fullcontact_998,http://dbpedia.org/resource/Red_Bend_Software,Developing Minds Software,Red Bend Software,Denver,,United States,United States,,1999-01-01,,
+0,0.914,fullcontact_794,http://dbpedia.org/resource/Viacom_(original),Viacom Inc.,Viacom (original),New York,New York City,United States,United States,,1971-01-01,,
+0,0.988,fullcontact_1691,http://dbpedia.org/resource/Leister_Technologies,Leister Technologies AG,Leister Technologies,Sarnen,,Switzerland,Switzerland,1949-01-01,1949-01-01,,
+0,1.0,fullcontact_1555,http://dbpedia.org/resource/Cimatron,Cimatron,Cimatron,,Giv'at Shmuel,,Israel,1982-01-01,1982-01-01,,
+0,0.827,fullcontact_31,http://dbpedia.org/resource/SMS_Holdings_Corporation,Sears Holdings Corporation,SMS Holdings Corporation,Hoffman Estates,"Nashville, Tennessee",United States,United States,,1988-01-01,,
+0,0.829,fullcontact_1743,http://dbpedia.org/resource/International_Student_Exchange_Programs,International Solar Energy Technology,International Student Exchange Programs,Chatsworth,"Washington, D.C.",United States,United States,,1979-01-01,,
+0,0.843,fullcontact_1868,http://dbpedia.org/resource/Welspun_India_Ltd,Welspun Group,Welspun India Ltd,Mumbai,Mumbai,India,India,,1985-01-01,,
+0,0.886,fullcontact_1474,http://dbpedia.org/resource/Skis_Rossignol,Rossignol,Skis Rossignol,,Isère,,France,1907-01-01,1907-01-01,,
+0,0.91,fullcontact_364,http://dbpedia.org/resource/Grupo_Argos,Grupo Aval,Grupo Argos,,Medellín,Colombia,Colombia,,1936-01-01,,
+0,0.817,fullcontact_571,http://dbpedia.org/resource/Paylocity_Corporation,Pall Corporation,Paylocity Corporation,Port Washington,"IllinoisArlington Heights, Illinois",United States,United States,,1997-01-01,,
+0,0.948,fullcontact_670,http://dbpedia.org/resource/Siemens_Mobile,Siemens,Siemens Mobile,Munich,Munich,Germany,Germany,1847-01-01,1985-01-01,,
+0,0.838,fullcontact_531,http://dbpedia.org/resource/Pou_Chen_Corporation,NEC Corporation,Pou Chen Corporation,,Taichung,Taiwan,Taiwan,,1969-01-01,,
+0,0.823,fullcontact_915,http://dbpedia.org/resource/Recommind_(software_company),Anchor Brewing Company,Recommind (software company),San Francisco,San Francisco,United States,United States,1896-01-01,2000-01-01,,
+0,1.0,fullcontact_1666,http://dbpedia.org/resource/Spyker_Cars,Spyker Cars,Spyker Cars,Zeewolde,Zeewolde,Netherlands,Netherlands,1880-01-01,1999-01-01,,"
+			"
+0,0.822,fullcontact_1742,http://dbpedia.org/resource/Dsign_Music,Dsign Music,Dsign Music,Beverly Hills,Trondheim,United States,Norway,2005-01-01,2006-01-01,,
+0,0.942,fullcontact_1306,http://dbpedia.org/resource/Red_Giant_Software,Red Giant,Red Giant Software,,"Fort Wayne, IndianaIndiana",,United States,2002-01-01,2002-01-01,,
+0,0.814,fullcontact_356,http://dbpedia.org/resource/General_Motors_South_Africa,General Motors,General Motors South Africa,Stanger,Port Elizabeth,South Africa,South Africa,1908-01-01,2004-01-01,,
+0,0.861,fullcontact_1753,http://dbpedia.org/resource/NCR_Corporation,Nabholz Corporation,NCR Corporation,Conway,"Duluth, Georgia",United States,United States,1949-01-01,1900-01-01,,
+0,0.918,fullcontact_850,http://dbpedia.org/resource/Valve_Corporation,Valve Software,Valve Corporation,Bellevue,"Bellevue, Washington",United States,United States,1996-01-01,1996-01-01,"
+			","
+			"
+0,0.884,fullcontact_274,http://dbpedia.org/resource/Duke_Energy,Duke Power Company,Duke Energy,Charlotte,"Charlotte, North Carolina",United States,United States,,1904-01-01,,
+0,0.838,fullcontact_1864,http://dbpedia.org/resource/Coop_Norge,Coop - Litt Ditt,Coop Norge,Oslo,Oslo,Norway,Norway,1906-01-01,1906-01-01,,
+0,0.832,fullcontact_257,http://dbpedia.org/resource/Pos_Indonesia,Dentsu Indonesia,Pos Indonesia,,Bandung,Indonesia,Indonesia,,1995-01-01,,
+0,0.82,fullcontact_244,http://dbpedia.org/resource/Z_Corporation,CSX Corporation,Z Corporation,Jacksonville,"South CarolinaRock Hill, South Carolina",United States,United States,1980-01-01,1986-01-01,,
+0,0.818,fullcontact_1330,http://dbpedia.org/resource/General_Aeroplane_Company,General Revenue Corporation - A Navient Company,General Aeroplane Company,Mason,MichiganDetroit,United States,United States,,1915-01-01,,
+0,0.83,fullcontact_897,http://dbpedia.org/resource/Mandarin_Restaurant,Mandarin Restaurants,Mandarin Restaurant,Fargo,BramptonOntario,United States,Canada,,1979-01-01,,
+0,0.864,fullcontact_1536,http://dbpedia.org/resource/Eon_Productions,Baby Cow Productions,Eon Productions,London,London,United Kingdom,United Kingdom,,1961-01-01,,
+0,0.823,fullcontact_951,http://dbpedia.org/resource/Super_8_Motels,Super 8 Hotels China,Super 8 Motels,Aberdeen,"Parsippany-Troy Hills, New JerseyNew Jersey",United States,United States,,1972-01-01,,
+0,0.836,fullcontact_797,http://dbpedia.org/resource/Star_Energy_Power_Corporation,Visteon Corporation,Star Energy Power Corporation,,,,Taiwan,2000-01-01,2000-01-01,,
+0,0.841,fullcontact_1886,http://dbpedia.org/resource/KON%C4%8CAR_Group,IN2 Group,KONČAR Group,Zagreb,Zagreb,Croatia,Croatia,1992-01-01,1921-01-01,,
+0,0.828,fullcontact_1171,http://dbpedia.org/resource/Georgia_Gulf_Corporation,Oracle Corporation,Georgia Gulf Corporation,Redwood Shores,Atlanta,United States,United States,1977-01-01,1985-01-01,,
+0,0.86,fullcontact_613,http://dbpedia.org/resource/Qualcomm,QUALCOMM Incorporated,Qualcomm,San Diego,CaliforniaSan Diego,United States,United States,1985-01-01,1985-01-01,"
+			","
+			"
+0,1.0,fullcontact_1903,http://dbpedia.org/resource/WorldPay,Worldpay,WorldPay,London,London,United Kingdom,United Kingdom,1997-01-01,1989-01-01,,
+0,1.0,fullcontact_889,http://dbpedia.org/resource/Royal_Greenland,Royal Greenland,Royal Greenland,Nuuk,Nuuk,Greenland,Greenland,1774-01-01,1990-01-01,,
+0,0.821,fullcontact_1055,http://dbpedia.org/resource/D2_Technologies,Konarka Technologies,D2 Technologies,,"CaliforniaSanta Barbara, California",United States,United States,2001-01-01,1993-01-01,,
+0,0.817,fullcontact_244,http://dbpedia.org/resource/Sanmina-SCI_Corporation,CSX Corporation,Sanmina-SCI Corporation,Jacksonville,"San Jose, California",United States,United States,1980-01-01,1980-01-01,,
+0,0.828,fullcontact_1415,http://dbpedia.org/resource/National_Research_Corporation,Carpenter Technology Corporation,National Research Corporation,,"Lincoln, Nebraska",United States,United States,1889-01-01,1981-01-01,,
+0,0.954,fullcontact_1445,http://dbpedia.org/resource/Ansaldo_STS,Ansaldo STS Malaysia,Ansaldo STS,Genoa,Genoa,Italy,Italy,,1995-01-01,,
+0,0.818,fullcontact_1729,http://dbpedia.org/resource/Dubai_Gold_&_Commodities_Exchange,Dubai Holding,Dubai Gold & Commodities Exchange,Dubai,Dubai,United Arab Emirates,United Arab Emirates,2004-01-01,2005-01-01,,
+0,0.848,fullcontact_571,http://dbpedia.org/resource/Sealy_Corporation,Pall Corporation,Sealy Corporation,Port Washington,"Trinity, North Carolina",United States,United States,,1881-01-01,,
+0,0.842,fullcontact_1221,http://dbpedia.org/resource/Japan_Post_Service,Japan Tobacco,Japan Post Service,Tokyo,Tokyo,Japan,Japan,,2007-01-01,"
+			",
+0,0.828,fullcontact_80,http://dbpedia.org/resource/Piraeus_Bank,Alpha Bank,Piraeus Bank,ATHENS,Athens,Greece,Greece,1879-01-01,1916-01-01,,
+0,0.878,fullcontact_196,http://dbpedia.org/resource/Carrefour_Express,Carrefour Global Sourcing,Carrefour Express,Évry,,France,France,1995-01-01,2010-01-01,"
+			",
+0,1.0,fullcontact_908,http://dbpedia.org/resource/Westinghouse_Electric_Company,Westinghouse Electric Company,Westinghouse Electric Company,,"Cranberry Township, Butler County, Pennsylvania",United States,United States,1886-01-01,1999-01-01,,
+0,0.821,fullcontact_1417,http://dbpedia.org/resource/Z_Corporation,CBS Corporation,Z Corporation,New York,"South CarolinaRock Hill, South Carolina",United States,United States,,1986-01-01,,
+0,0.942,fullcontact_142,http://dbpedia.org/resource/Shell_Canada,Bell Canada,Shell Canada,Toronto,Calgary,Canada,Canada,,1911-01-01,,
+0,0.833,fullcontact_1544,http://dbpedia.org/resource/Pinnacle_Financial_Partners,Vista Equity Partners,Pinnacle Financial Partners,,"Nashville, Tennessee",United States,United States,2000-01-01,2000-01-01,,
+0,0.895,fullcontact_794,http://dbpedia.org/resource/Viacom_International,Viacom Inc.,Viacom International,New York,New YorkNew York City,United States,United States,,2006-01-01,,
+0,0.821,fullcontact_208,http://dbpedia.org/resource/China_Guodian_Corporation,"China Coal Energy Co., Ltd.",China Guodian Corporation,BEIJING,Beijing,China,China,,2002-01-01,,
+0,0.885,fullcontact_1643,http://dbpedia.org/resource/Disney_Television_Animation,Disney Interactive,Disney Television Animation,Glendale,"Glendale, CaliforniaCalifornia",United States,United States,,1984-01-01,,
+0,0.844,fullcontact_324,http://dbpedia.org/resource/CSX_Corporation,FMC Corporation,CSX Corporation,Philadelphia,"Jacksonville, Florida",United States,United States,,1980-01-01,,
+0,0.816,fullcontact_976,http://dbpedia.org/resource/Marathon_Technologies,Lithium Technologies,Marathon Technologies,San Francisco,,United States,United States,2001-01-01,1993-01-01,,
+0,0.836,fullcontact_246,http://dbpedia.org/resource/Bayer_Corporation,Danaher Corporation,Bayer Corporation,Washington,"Robinson Township, Allegheny County, PennsylvaniaPennsylvania",United States,United States,,1954-01-01,,
+0,0.895,fullcontact_129,http://dbpedia.org/resource/Unitil_Corporation,Ball Corporation,Unitil Corporation,Broomfield,,United States,United States,1880-01-01,1984-01-01,"
+			",
+0,0.842,fullcontact_471,http://dbpedia.org/resource/Wendel_(group),Lagardere Group,Wendel (group),Paris,Paris,France,France,1992-01-01,1704-01-01,,
+0,0.834,fullcontact_129,http://dbpedia.org/resource/Bushnell_Corporation,Ball Corporation,Bushnell Corporation,Broomfield,"Overland Park, Kansas",United States,United States,1880-01-01,1948-01-01,"
+			","
+			"
+0,0.882,fullcontact_823,http://dbpedia.org/resource/Bit_Corporation,Wistron Corporation,Bit Corporation,Taipei,Taipei,Taiwan,Taiwan,,1982-01-01,,
+0,0.836,fullcontact_208,http://dbpedia.org/resource/China_COSCO,"China Coal Energy Co., Ltd.",China COSCO,BEIJING,Tianjin,China,China,,2005-01-01,,
+0,0.888,fullcontact_1295,http://dbpedia.org/resource/Viacom_Media_Networks,Viacom Inc.,Viacom Media Networks,New York,New York CityOne Astor Plaza,United States,United States,,1984-01-01,,
+0,0.9,fullcontact_1075,http://dbpedia.org/resource/Paul_Frank_Industries,Hunter Industries,Paul Frank Industries,Los Angeles,Los Angeles,United States,United States,1981-01-01,1995-01-01,,
+0,0.843,fullcontact_475,http://dbpedia.org/resource/LRAD_Corporation,Lennar Corporation,LRAD Corporation,Miami,San Diego,United States,United States,1954-01-01,1980-01-01,,"
+			"
+0,0.861,fullcontact_925,http://dbpedia.org/resource/Meridian_Capital_Group,Encore Capital Group,Meridian Capital Group,San Diego,,United States,United States,1953-01-01,1991-01-01,,
+0,0.947,fullcontact_362,http://dbpedia.org/resource/Groupe_BPCE,Groupe SEB,Groupe BPCE,Ecully Cedex,,France,France,1857-01-01,2009-01-01,,
+0,0.83,fullcontact_149,http://dbpedia.org/resource/FxStat_Group,BG Group,FxStat Group,Reading,,United Kingdom,United Kingdom,,2010-01-01,,
+0,0.816,fullcontact_823,http://dbpedia.org/resource/Star_Energy_Power_Corporation,Wistron Corporation,Star Energy Power Corporation,Taipei,,Taiwan,Taiwan,,2000-01-01,,
+0,0.818,fullcontact_760,http://dbpedia.org/resource/Turkish_Aerospace_Industries,Turkish Airlines,Turkish Aerospace Industries,Istanbul,Ankara,Turkey,Turkey,1933-01-01,1984-01-01,,
+0,0.845,fullcontact_182,http://dbpedia.org/resource/Peoples_Financial_Corporation,Cablevision Systems Corporation,Peoples Financial Corporation,Santa Monica,,United States,United States,,1926-01-01,,
+0,0.911,fullcontact_950,"http://dbpedia.org/resource/Sunkist_Growers,_Incorporated",Sunkist,"Sunkist Growers, Incorporated",,Los AngelesCalifornia,,United States,1893-01-01,1893-01-01,,
+0,1.0,fullcontact_662,http://dbpedia.org/resource/Sharp_HealthCare,Sharp HealthCare,Sharp HealthCare,San Diego,San Diego,United States,United States,1991-01-01,1955-01-01,,
+0,0.989,fullcontact_1585,http://dbpedia.org/resource/SkyWave_Mobile_Communications,SkyWave Mobile Communications Inc.,SkyWave Mobile Communications,Ottawa,Ottawa,Canada,Canada,1997-01-01,1997-01-01,,
+0,0.816,fullcontact_219,http://dbpedia.org/resource/REX_American_Resources,Cliffs Natural Resources,REX American Resources,Cleveland,,United States,United States,,1980-01-01,,
+0,0.879,fullcontact_415,http://dbpedia.org/resource/Industrial_Designers_Society_of_America,Industrial Bank,Industrial Designers Society of America,Washington,,United States,United States,1934-01-01,1965-01-01,,
+0,0.881,fullcontact_1456,http://dbpedia.org/resource/The_Sam_Loyd_Company,The Upper Deck Company,The Sam Loyd Company,Carlsbad,,United States,United States,1988-01-01,2005-01-01,,
+0,0.814,fullcontact_814,http://dbpedia.org/resource/Western_Refining,Western Union,Western Refining,Englewood,"El Paso, TexasTexas",United States,United States,1851-01-01,1997-01-01,,
+0,0.842,fullcontact_712,http://dbpedia.org/resource/Swiss_Quality_Hotels_International,Swiss RE,Swiss Quality Hotels International,Zürich,Zürich,Switzerland,Switzerland,1863-01-01,1986-01-01,,
+0,0.88,fullcontact_1760,http://dbpedia.org/resource/Red_Bend_Software,Rivermine Software,Red Bend Software,Fairfax,,United States,United States,,1999-01-01,,
+0,0.962,fullcontact_1582,http://dbpedia.org/resource/Trustwave_Holdings,Trustwave,Trustwave Holdings,Chicago,Chicago,United States,United States,1995-01-01,1995-01-01,"
+			",
+0,0.823,fullcontact_1415,http://dbpedia.org/resource/Revolution_Helicopter_Corporation,Carpenter Technology Corporation,Revolution Helicopter Corporation,,"Excelsior Springs, Missouri",United States,United States,1889-01-01,1992-01-01,,
+0,0.869,fullcontact_115,http://dbpedia.org/resource/Olayan_Group,ATCO Group,Olayan Group,Calgary,,Canada,Saudi Arabia,1947-01-01,1947-01-01,"
+			","
+			"
+0,0.866,fullcontact_797,http://dbpedia.org/resource/LINE_Corporation,Visteon Corporation,LINE Corporation,,Tokyo,,Japan,2000-01-01,2000-01-01,,
+0,0.82,fullcontact_592,http://dbpedia.org/resource/Viacom_International,Philip Morris International,Viacom International,New York,New YorkNew York City,United States,United States,,2006-01-01,,
+0,0.83,fullcontact_1215,http://dbpedia.org/resource/SatCon_Technology_Corporation,Marathon Oil Corporation,SatCon Technology Corporation,Houston,Boston,United States,United States,,1985-01-01,,
+0,0.835,fullcontact_733,http://dbpedia.org/resource/North_American_Coal_Corporation,Tenet Healthcare Corporation,North American Coal Corporation,Dallas,Dallas,United States,United States,,1913-01-01,,
+0,0.826,fullcontact_521,http://dbpedia.org/resource/Serials_Solutions,Mosaic Sales Solutions,Serials Solutions,Irving,Seattle,United States,United States,,2000-01-01,,
+0,0.851,fullcontact_1342,http://dbpedia.org/resource/Lukoil_Serbia,LUKOIL,Lukoil Serbia,Moscow,Belgrade,Russia,Serbia,1991-01-01,1990-01-01,,
+0,0.91,fullcontact_454,http://dbpedia.org/resource/NTN_Corporation,Keyence Corporation,NTN Corporation,Osaka,Osaka,Japan,Japan,1974-01-01,1918-01-01,,
+0,0.929,fullcontact_1947,"http://dbpedia.org/resource/SilkRoad,_Inc.",SilkRoad Technology Inc.,"SilkRoad, Inc.",,Chicago,Japan,United States,2003-01-01,2003-01-01,,"
+			"
+0,0.843,fullcontact_715,http://dbpedia.org/resource/Forum_Corporation,Sysco Corporation,Forum Corporation,Houston,Boston,United States,United States,,1971-01-01,,
+0,0.837,fullcontact_530,http://dbpedia.org/resource/Unitil_Corporation,NCR Corporation,Unitil Corporation,Denver,,United States,United States,,1984-01-01,,
+0,0.942,fullcontact_1808,http://dbpedia.org/resource/Cincinnati_Financial,Cincinnati Financial Corporation,Cincinnati Financial,Fairfield,"Fairfield, Ohio",United States,United States,1950-01-01,1968-01-01,,
+0,0.824,fullcontact_1868,http://dbpedia.org/resource/Sonalika_Group,Welspun Group,Sonalika Group,Mumbai,,India,India,,1969-01-01,,"
+			"
+0,0.824,fullcontact_134,http://dbpedia.org/resource/Bank_of_North_Carolina,Bank of America Corporation,Bank of North Carolina,Charlotte,"North CarolinaHigh Point, North Carolina",United States,United States,,1991-01-01,,
+0,1.0,fullcontact_1882,http://dbpedia.org/resource/Keyera,Keyera,Keyera,Calgary,Calgary,Canada,Canada,2003-01-01,1998-01-01,,
+0,0.826,fullcontact_777,http://dbpedia.org/resource/Miniature_Machine_Corporation,Union Pacific Corporation,Miniature Machine Corporation,Omaha,"Enterprise, Nevada",United States,United States,1862-01-01,1959-01-01,"
+			",
+0,0.888,fullcontact_794,http://dbpedia.org/resource/Viacom_Media_Networks,Viacom Inc.,Viacom Media Networks,New York,New York CityOne Astor Plaza,United States,United States,,1984-01-01,,
+0,0.824,fullcontact_1890,http://dbpedia.org/resource/Comboios_de_Portugal,Auchan Portugal,Comboios de Portugal,Lisboa,Lisbon,Portugal,Portugal,1996-01-01,1951-01-01,,
+0,0.825,fullcontact_910,http://dbpedia.org/resource/Westinghouse_Electric_Company,Westinghouse Digital Electronics,Westinghouse Electric Company,Orange,"Cranberry Township, Butler County, Pennsylvania",United States,United States,2010-01-01,1999-01-01,,
+0,0.824,fullcontact_1641,http://dbpedia.org/resource/Flutter_(company),Bemis Company,Flutter (company),Neenah,,United States,United States,,2010-01-01,,
+0,0.83,fullcontact_239,http://dbpedia.org/resource/Petrobank_Energy_and_Resources,Crescent Point Energy Corp.,Petrobank Energy and Resources,Calgary,Calgary,Canada,Canada,2001-01-01,1983-01-01,,
+0,0.816,fullcontact_1847,http://dbpedia.org/resource/SL_Industries,Next Star Industries,SL Industries,,"Mount Laurel, New Jersey",United States,United States,,1956-01-01,"
+			",
+0,0.822,fullcontact_129,http://dbpedia.org/resource/LSI_Corporation,Ball Corporation,LSI Corporation,Broomfield,"San Jose, CaliforniaUnited States",United States,United States,1880-01-01,1981-01-01,"
+			",
+0,0.848,fullcontact_1075,http://dbpedia.org/resource/Magpul_Industries,Hunter Industries,Magpul Industries,Los Angeles,,United States,United States,1981-01-01,1999-01-01,,
+0,0.828,fullcontact_244,http://dbpedia.org/resource/AVX_Corporation,CSX Corporation,AVX Corporation,Jacksonville,"Greenville, South Carolina",United States,United States,1980-01-01,1972-01-01,,
+0,0.89,fullcontact_942,http://dbpedia.org/resource/American_Locomotive_Company,American Family Fitness,American Locomotive Company,Glen Allen,,United States,United States,,1901-01-01,,
+0,0.83,fullcontact_1150,http://dbpedia.org/resource/Hang_Lung_Properties,Candid Properties Ltd,Hang Lung Properties,Hong Kong,Hong Kong,Hong Kong,Hong Kong,2014-01-01,1949-01-01,"
+			",
+0,0.948,fullcontact_1880,http://dbpedia.org/resource/Soci%C3%A9t%C3%A9_G%C3%A9n%C3%A9rale_Srbija,Societe Generale Srbija,Société Générale Srbija,Belgrade,Belgrade,Serbia,Serbia,1864-01-01,1991-01-01,,
+0,0.943,fullcontact_1274,http://dbpedia.org/resource/Northern_Racing,Northern Rock,Northern Racing,,Burton upon TrentStaffordshire,United Kingdom,United Kingdom,,1998-01-01,,"
+			"
+0,0.825,fullcontact_181,http://dbpedia.org/resource/SIGA_Technologies,CA Technologies,SIGA Technologies,Bedford,New York City,United States,United States,,1995-01-01,,
+0,0.83,fullcontact_1954,http://dbpedia.org/resource/Lockton_Companies,Ryan Companies,Lockton Companies,Minneapolis,,United States,United States,,1966-01-01,,
+0,0.814,fullcontact_932,http://dbpedia.org/resource/Dwell_(retailer),Dwell UK,Dwell (retailer),,London,United Kingdom,England,2003-01-01,2002-01-01,,
+0,0.912,fullcontact_606,http://dbpedia.org/resource/Prudential_Financial,Prudential - Bring your Challenges,Prudential Financial,Newark,"Newark, New JerseyPrudential Headquarters",United States,United States,1875-01-01,1875-01-01,,"
+			"
+0,0.923,fullcontact_582,http://dbpedia.org/resource/Petrobras,Petroleo Brasileiro S.A.- Petrobras,Petrobras,Rio de Janeiro,Rio de Janeiro,Brazil,Brazil,1970-01-01,1953-01-01,,
+0,0.845,fullcontact_181,http://dbpedia.org/resource/Marathon_Technologies,CA Technologies,Marathon Technologies,Bedford,,United States,United States,,1993-01-01,,
+0,0.903,fullcontact_1503,http://dbpedia.org/resource/Central_Vermont_Public_Service,Central Markets Inc,Central Vermont Public Service,Sullivan,,United States,United States,,1929-01-01,,
+0,0.874,fullcontact_554,http://dbpedia.org/resource/Continucare_Corporation,Nucor Corporation,Continucare Corporation,Carlotta,,United States,United States,,1996-01-01,,
+0,0.86,fullcontact_7,http://dbpedia.org/resource/NACCO_Industries,PPG Industries,NACCO Industries,Pittsburgh,Cleveland,United States,United States,1883-01-01,1913-01-01,"
+			",
+0,0.829,fullcontact_1417,http://dbpedia.org/resource/EMC_Corporation,CBS Corporation,EMC Corporation,New York,"MassachusettsHopkinton, Massachusetts",United States,United States,,1979-01-01,,
+0,0.826,fullcontact_206,http://dbpedia.org/resource/Continucare_Corporation,Cerner Corporation,Continucare Corporation,Kansas City,,United States,United States,1979-01-01,1996-01-01,,
+0,0.851,fullcontact_129,http://dbpedia.org/resource/Sally_Corporation,Ball Corporation,Sally Corporation,Broomfield,"Jacksonville, Florida",United States,United States,1880-01-01,1977-01-01,"
+			",
+0,0.858,fullcontact_1122,http://dbpedia.org/resource/Sivan_design_group,MAPNA Group,Sivan design group,Tehran,Tehran,Iran,Iran,1993-01-01,2006-01-01,,
+0,0.961,fullcontact_726,http://dbpedia.org/resource/Telef%C3%B3nica,Telefónica I+D,Telefónica,Madrid,,Spain,Spain,,1924-01-01,,
+0,0.815,fullcontact_908,http://dbpedia.org/resource/Shackleton_Energy_Company,Westinghouse Electric Company,Shackleton Energy Company,,"Del Valle, TexasTexas",United States,United States,1886-01-01,2007-01-01,,"
+			"
+0,0.821,fullcontact_908,http://dbpedia.org/resource/Defoe_Shipbuilding_Company,Westinghouse Electric Company,Defoe Shipbuilding Company,,"Bay City, Michigan",United States,United States,1886-01-01,1905-01-01,,
+0,0.832,fullcontact_1259,http://dbpedia.org/resource/Mushroom_Networks,A10 Networks,Mushroom Networks,San Jose,San Diego,United States,United States,2004-01-01,2004-01-01,,
+0,0.814,fullcontact_1201,http://dbpedia.org/resource/Tamil_Nadu_Minerals_Limited,Clear Channel Mumbai Private Limited,Tamil Nadu Minerals Limited,,Chennai,India,India,1972-01-01,1978-01-01,,
+0,0.852,fullcontact_76,http://dbpedia.org/resource/Continucare_Corporation,Alliant Energy Corporation,Continucare Corporation,Madison,,United States,United States,1917-01-01,1996-01-01,,
+0,0.818,fullcontact_316,http://dbpedia.org/resource/KEMET_Corporation,FedEx Corporation,KEMET Corporation,Memphis,"Simpsonville, South Carolina",United States,United States,1973-01-01,1919-01-01,,
+0,0.83,fullcontact_1413,http://dbpedia.org/resource/Xtreme_Fighting_Championships,Cage Fury Fighting Championships,Xtreme Fighting Championships,Atlantic City,"Tampa, Florida",United States,United States,2006-01-01,2006-01-01,,
+0,0.852,fullcontact_468,http://dbpedia.org/resource/Delta_Motors_Corporation,Kubota Tractor Corporation,Delta Motors Corporation,,Manila,,Philippines,1972-01-01,1972-01-01,,
+0,0.919,fullcontact_980,http://dbpedia.org/resource/Gunnar_Optiks,GUNNAR Optiks,Gunnar Optiks,Carlsbad,"Carlsbad, California",United States,United States,2006-01-01,2007-01-01,"
+			",
+0,0.826,fullcontact_1549,http://dbpedia.org/resource/Canada_Bread,Canada Bread Foodservice,Canada Bread,Etobicoke,OntarioToronto,Canada,Canada,,1911-01-01,,
+0,0.833,fullcontact_1560,http://dbpedia.org/resource/Brunswick_Boat_Group,The Tombras Group,Brunswick Boat Group,Knoxville,"Knoxville, Tennessee",United States,United States,,2000-01-01,,
+0,0.842,fullcontact_538,http://dbpedia.org/resource/Taisei_Corporation,Nidec Corporation,Taisei Corporation,Kyoto-shi,"TokyoShinjuku, Tokyo",Japan,Japan,,1873-01-01,,"
+			"
+0,0.834,fullcontact_1608,http://dbpedia.org/resource/Iogen_Corporation,OANDA Corporation,Iogen Corporation,Toronto,OttawaOntario,Canada,Canada,1995-01-01,1970-01-01,,
+0,0.83,fullcontact_1642,http://dbpedia.org/resource/Bushnell_Corporation,News Corporation,Bushnell Corporation,New York,"Overland Park, Kansas",United States,United States,,1948-01-01,,"
+			"
+0,0.883,fullcontact_323,http://dbpedia.org/resource/LECO_Corporation,Fluor Corporation,LECO Corporation,Irving,"St. Joseph, Michigan",United States,United States,1912-01-01,1936-01-01,,
+0,0.817,fullcontact_1936,http://dbpedia.org/resource/Advent_Software,Coupa Software,Advent Software,San Mateo,San Francisco,United States,United States,2006-01-01,1983-01-01,"
+			",
+0,0.86,fullcontact_440,http://dbpedia.org/resource/Indian_Express_Limited,JINDAL STEEL & POWER LIMITED,Indian Express Limited,New Delhi,New Delhi,India,India,,1932-01-01,,"
+			"
+0,0.889,fullcontact_106,http://dbpedia.org/resource/Areva,AREVA Inc.,Areva,Courbevoie,ParisCourbevoie,France,France,,2001-01-01,,
+0,0.833,fullcontact_812,http://dbpedia.org/resource/Wells_Fargo_Advisors,Wells Fargo,Wells Fargo Advisors,Grafton,St. Louis,United States,United States,1852-01-01,1879-01-01,,
+0,0.829,fullcontact_518,http://dbpedia.org/resource/Duke_Manufacturing_Company,Monsanto Company,Duke Manufacturing Company,St. Louis,St. Louis,United States,United States,2000-01-01,1925-01-01,,
+0,0.836,fullcontact_489,http://dbpedia.org/resource/LRAD_Corporation,Markel Corporation,LRAD Corporation,Glen Allen,San Diego,United States,United States,,1980-01-01,,"
+			"
+0,0.82,fullcontact_664,http://dbpedia.org/resource/National_Healthcare_Corp.,Shimano American Corp.,National Healthcare Corp.,Irvine,,United States,United States,1961-01-01,1971-01-01,,
+0,0.852,fullcontact_852,http://dbpedia.org/resource/Bank_of_Ningbo,Bank of China,Bank of Ningbo,Beijing,ZhejiangNingbo,China,China,,1997-01-01,,
+0,0.848,fullcontact_1729,http://dbpedia.org/resource/Dubai_Banking_Group,Dubai Holding,Dubai Banking Group,Dubai,,United Arab Emirates,United Arab Emirates,2004-01-01,2004-01-01,,
+0,0.817,fullcontact_619,http://dbpedia.org/resource/Wahoo!_(company),Raytheon Company,Wahoo! (company),Waltham,,United States,United States,1922-01-01,1985-01-01,,
+0,0.814,fullcontact_1743,http://dbpedia.org/resource/International_Rhino_Foundation,International Solar Energy Technology,International Rhino Foundation,Chatsworth,"Fort Worth, Texas",United States,United States,,1989-01-01,,
+0,0.85,fullcontact_150,http://dbpedia.org/resource/Global_Vectra_Helicorp_Limited,Bharat Petroleum Corporation Limited,Global Vectra Helicorp Limited,Mumbai,Mumbai,India,India,1977-01-01,1997-01-01,"
+			",
+0,0.824,fullcontact_497,http://dbpedia.org/resource/Cognex_Corporation,McKesson Corporation,Cognex Corporation,San Francisco,"Natick, Massachusetts",United States,United States,1833-01-01,1981-01-01,,
+0,0.845,fullcontact_122,http://dbpedia.org/resource/Iolo_technologies,Avago Technologies,Iolo technologies,San Jose,,United States,United States,2005-01-01,1998-01-01,,
+0,0.923,fullcontact_908,http://dbpedia.org/resource/Westinghouse_Licensing_Corporation,Westinghouse Electric Company,Westinghouse Licensing Corporation,,New YorkNew York City,United States,United States,1886-01-01,1998-01-01,,
+0,0.851,fullcontact_617,http://dbpedia.org/resource/Newpark_Resources,Ranger Resources,Newpark Resources,Fort Worth,,United States,United States,,1932-01-01,,
+0,0.815,fullcontact_82,http://dbpedia.org/resource/Andersen_Corporation,Altera Corporation,Andersen Corporation,San Jose,"Bayport, Minnesota",United States,United States,1983-01-01,1903-01-01,,
+0,0.816,fullcontact_942,http://dbpedia.org/resource/American_Game_Cartridges,American Family Fitness,American Game Cartridges,Glen Allen,"Chandler, Arizona",United States,United States,,1990-01-01,,
+0,0.834,fullcontact_945,http://dbpedia.org/resource/Sheller-Globe_Corporation,Telos Corporation,Sheller-Globe Corporation,Ashburn,"Toledo, Ohio",United States,United States,1983-01-01,1966-01-01,,
+0,0.91,fullcontact_908,http://dbpedia.org/resource/Westinghouse_Broadcasting,Westinghouse Electric Company,Westinghouse Broadcasting,,New York City,United States,United States,1886-01-01,1920-01-01,,
+0,0.83,fullcontact_1270,http://dbpedia.org/resource/Aixam,Aixam Mega Ltd,Aixam,Coleshill,SavoieAix-les-Bains,United Kingdom,France,1983-01-01,1983-01-01,,
+0,0.831,fullcontact_31,http://dbpedia.org/resource/Continucare_Corporation,Sears Holdings Corporation,Continucare Corporation,Hoffman Estates,,United States,United States,,1996-01-01,,
+0,0.914,fullcontact_1295,http://dbpedia.org/resource/Viacom_(original),Viacom Inc.,Viacom (original),New York,New York City,United States,United States,,1971-01-01,,
+0,0.819,fullcontact_908,http://dbpedia.org/resource/The_Manitowoc_Company,Westinghouse Electric Company,The Manitowoc Company,,"Manitowoc, Wisconsin",United States,United States,1886-01-01,1902-01-01,,
+0,0.891,fullcontact_781,http://dbpedia.org/resource/Unitil_Corporation,United States Steel Corporation,Unitil Corporation,Pittsburgh,,United States,United States,,1984-01-01,"
+			",
+0,0.832,fullcontact_207,http://dbpedia.org/resource/Hybricon_Corporation,Chevron Corporation,Hybricon Corporation,San Ramon,"Littleton, Massachusetts",United States,United States,1879-01-01,1976-01-01,,
+0,0.863,fullcontact_115,http://dbpedia.org/resource/Adamjee_Group,ATCO Group,Adamjee Group,Calgary,,Canada,Pakistan,1947-01-01,1947-01-01,"
+			","
+			"
+0,0.818,fullcontact_690,http://dbpedia.org/resource/Hokuto_Corporation,Sojitz Corporation,Hokuto Corporation,Tokyo,"Ebisu, Shibuya",Japan,Japan,2003-01-01,1990-01-01,,
+0,0.835,fullcontact_1781,http://dbpedia.org/resource/Antics_Technologies,Tavant Technologies,Antics Technologies,Santa Clara,EnglandCambridge,United States,United Kingdom,2000-01-01,2000-01-01,,
+0,0.826,fullcontact_1523,http://dbpedia.org/resource/Paramount_Equity,Paramount Pictures,Paramount Equity,Fremont,"CaliforniaRoseville, California",United States,United States,,2003-01-01,,
+0,0.819,fullcontact_1367,http://dbpedia.org/resource/DeltaRail_Group,Baugur Group,DeltaRail Group,,Derby,United Kingdom,United Kingdom,,2006-01-01,,
+0,0.814,fullcontact_808,http://dbpedia.org/resource/Wayne_Corporation,Waters Corporation,Wayne Corporation,Milford,"IndianaRichmond, Indiana",United States,United States,1958-01-01,1837-01-01,,
+0,0.832,fullcontact_101,http://dbpedia.org/resource/Mando_Corporation,Aon Corporation,Mando Corporation,London,PyeongtaekGyeonggi Province,United Kingdom,South Korea,1987-01-01,1962-01-01,"
+			",
+0,0.818,fullcontact_337,http://dbpedia.org/resource/Apatow_Productions,Galaxy Productions,Apatow Productions,,Los AngelesCalifornia,United States,United States,,1999-01-01,,"
+			"
+0,0.835,fullcontact_1417,http://dbpedia.org/resource/TMEIC_Corporation,CBS Corporation,TMEIC Corporation,New York,"Roanoke County, Virginia",United States,United States,,2011-01-01,,
+0,0.816,fullcontact_518,http://dbpedia.org/resource/Moonlight_Brewing_Company,Monsanto Company,Moonlight Brewing Company,St. Louis,"Santa Rosa, California",United States,United States,2000-01-01,1992-01-01,,
+0,0.871,fullcontact_1495,http://dbpedia.org/resource/Teva_Pharmaceutical_Industries,TAPI - Teva Active Pharmaceutical Ingredients,Teva Pharmaceutical Industries,Petah Tikva,Petah Tikva,Israel,Israel,1935-01-01,1901-01-01,,
+0,0.816,fullcontact_527,http://dbpedia.org/resource/National_Bank_of_Uzbekistan,National Grid,National Bank of Uzbekistan,,Tashkent,,Uzbekistan,1990-01-01,1991-01-01,,
+0,0.815,fullcontact_1462,http://dbpedia.org/resource/Rothman_Healthcare,Intermountain Healthcare,Rothman Healthcare,Salt Lake City,,United States,United States,1975-01-01,2005-01-01,,
+0,0.856,fullcontact_565,http://dbpedia.org/resource/Forum_Corporation,ORIX USA Corporation,Forum Corporation,Dallas,Boston,United States,United States,,1971-01-01,,
+0,0.944,fullcontact_1311,"http://dbpedia.org/resource/Quark,_Inc.",Quark,"Quark, Inc.",Denver,Denver,United States,United States,,1981-01-01,,"
+			"
+0,0.852,fullcontact_1649,http://dbpedia.org/resource/Roos_Instruments,Roos Instruments,Roos Instruments,Santa Clara,"Santa Clara, California",United States,United States,1991-01-01,1989-01-01,,
+0,0.832,fullcontact_1793,http://dbpedia.org/resource/Toyota_Motor_Manufacturing_Texas,Toyota Motor Manufacturing UK,Toyota Motor Manufacturing Texas,Burnaston,San AntonioTexas,United Kingdom,United States,1989-01-01,2003-01-01,,
+0,0.832,fullcontact_244,http://dbpedia.org/resource/LRAD_Corporation,CSX Corporation,LRAD Corporation,Jacksonville,San Diego,United States,United States,1980-01-01,1980-01-01,,"
+			"
+0,0.867,fullcontact_565,http://dbpedia.org/resource/Continucare_Corporation,ORIX USA Corporation,Continucare Corporation,Dallas,,United States,United States,,1996-01-01,,
+0,0.831,fullcontact_1886,http://dbpedia.org/resource/%C4%8CEZ_Group,IN2 Group,ČEZ Group,Zagreb,Prague,Croatia,Czech Republic,1992-01-01,1992-01-01,,
+0,0.87,fullcontact_1816,http://dbpedia.org/resource/Final_Frontier_Design,Final Frontier Design,Final Frontier Design,Brooklyn,New YorkBrooklyn,United States,United States,2009-01-01,2010-01-01,,
+0,0.83,fullcontact_518,http://dbpedia.org/resource/Belden_(electronics_company),Monsanto Company,Belden (electronics company),St. Louis,St. Louis,United States,United States,2000-01-01,1902-01-01,,
+0,0.814,fullcontact_1215,http://dbpedia.org/resource/Unitil_Corporation,Marathon Oil Corporation,Unitil Corporation,Houston,,United States,United States,,1984-01-01,,
+0,0.854,fullcontact_450,http://dbpedia.org/resource/Nakano_Corporation,KDDI Corporation,Nakano Corporation,Tokyo,Tokyo,Japan,Japan,1984-01-01,1933-01-01,,
+0,0.845,fullcontact_352,http://dbpedia.org/resource/General_Revenue_Corporation,General Growth Properties,General Revenue Corporation,Chicago,Cincinnati,United States,United States,,1981-01-01,,
+0,0.849,fullcontact_257,http://dbpedia.org/resource/Telkom_Indonesia,Dentsu Indonesia,Telkom Indonesia,,Bandung,Indonesia,Indonesia,,1856-01-01,,
+0,0.947,fullcontact_1118,http://dbpedia.org/resource/Hisense,Hisense Group,Hisense,,ShandongQingdao,,China,1969-01-01,1969-01-01,"
+			",
+0,0.835,fullcontact_277,http://dbpedia.org/resource/Unitil_Corporation,"Eaton Corporation, PLC",Unitil Corporation,Cleveland,,United States,United States,1911-01-01,1984-01-01,,
+0,0.868,fullcontact_1847,http://dbpedia.org/resource/Star_Industries,Next Star Industries,Star Industries,,"Syosset, New York",United States,United States,,1934-01-01,"
+			",
+0,0.834,fullcontact_1415,http://dbpedia.org/resource/North_American_Coal_Corporation,Carpenter Technology Corporation,North American Coal Corporation,,Dallas,United States,United States,1889-01-01,1913-01-01,,
+0,0.83,fullcontact_208,http://dbpedia.org/resource/China_Foods_Limited,"China Coal Energy Co., Ltd.",China Foods Limited,BEIJING,Beijing,China,China,,1993-01-01,,
+0,0.934,fullcontact_1952,http://dbpedia.org/resource/Tatung_Company,Tatung,Tatung Company,,"Zhongshan District, TaipeiTaipei",United States,Taiwan,1918-01-01,1918-01-01,,
+0,0.978,fullcontact_695,http://dbpedia.org/resource/STMicroelectronics,STMicroelectronics N.V.,STMicroelectronics,Geneva,Geneva,Switzerland,Switzerland,1987-01-01,1957-01-01,,
+0,0.851,fullcontact_908,http://dbpedia.org/resource/Electric_Time_Company,Westinghouse Electric Company,Electric Time Company,,"Medfield, Massachusetts",United States,United States,1886-01-01,1932-01-01,,
+0,0.877,fullcontact_475,http://dbpedia.org/resource/Dover_Corporation,Lennar Corporation,Dover Corporation,Miami,"Downers Grove, Illinois",United States,United States,1954-01-01,1925-01-01,,
+0,0.846,fullcontact_860,http://dbpedia.org/resource/Iridium_Communications,Iridium Communications,Iridium Communications,Bethesda,"McLean, Virginia",United States,United States,2000-01-01,2001-01-01,,
+0,0.86,fullcontact_754,http://dbpedia.org/resource/FSA_Corporation,TransCanada Corporation,FSA Corporation,Calgary,Calgary,Canada,Canada,1951-01-01,1989-01-01,,
+0,0.826,fullcontact_1417,http://dbpedia.org/resource/LSI_Corporation,CBS Corporation,LSI Corporation,New York,"San Jose, CaliforniaUnited States",United States,United States,,1981-01-01,,
+0,0.834,fullcontact_1175,http://dbpedia.org/resource/Iolo_technologies,UFP Technologies,Iolo technologies,Newburyport,,United States,United States,,1998-01-01,,
+0,0.849,fullcontact_18,http://dbpedia.org/resource/Forum_Corporation,Harris Corporation,Forum Corporation,Puyallup,Boston,United States,United States,1895-01-01,1971-01-01,,
+0,0.978,fullcontact_96,http://dbpedia.org/resource/Andritz_AG,Andritz,Andritz AG,Graz,Graz,Austria,Austria,1852-01-01,1852-01-01,,
+0,0.858,fullcontact_1118,http://dbpedia.org/resource/Essar_Group,Hisense Group,Essar Group,,Mumbai,,India,1969-01-01,1969-01-01,"
+			","
+			"
+0,0.818,fullcontact_73,http://dbpedia.org/resource/Dana_Corporation,Alleghany Corporation,Dana Corporation,New York,"Maumee, Ohio",United States,United States,,1904-01-01,,
+0,0.843,fullcontact_1055,http://dbpedia.org/resource/LOUD_Technologies,Konarka Technologies,LOUD Technologies,,"Woodinville, Washington",United States,United States,2001-01-01,1988-01-01,,
+0,0.933,fullcontact_1599,http://dbpedia.org/resource/Growmark,"GROWMARK, Inc.",Growmark,Bloomington,"Bloomington, Illinois",United States,United States,1953-01-01,1980-01-01,,
+0,0.827,fullcontact_662,http://dbpedia.org/resource/Sharp_Mary_Birch_Hospital_for_Women_&_Newborns,Sharp HealthCare,Sharp Mary Birch Hospital for Women & Newborns,San Diego,San Diego,United States,United States,1991-01-01,1992-01-01,,
+0,0.848,fullcontact_1661,http://dbpedia.org/resource/GFI_Software,Vero Software,GFI Software,Southfield,,United States,United States,,1992-01-01,,
+0,0.845,fullcontact_1579,http://dbpedia.org/resource/VT_Systems,T-Systems,VT Systems,Frankfurt,Virginia,Germany,United States,2001-01-01,2001-01-01,,
+0,0.818,fullcontact_208,http://dbpedia.org/resource/China_Petrochemical_Corporation,"China Coal Energy Co., Ltd.",China Petrochemical Corporation,BEIJING,Beijing,China,China,,1998-01-01,,
+0,0.844,fullcontact_82,http://dbpedia.org/resource/Navarre_Corporation,Altera Corporation,Navarre Corporation,San Jose,"New Hope, Minnesota",United States,United States,1983-01-01,1983-01-01,,
+0,0.823,fullcontact_274,http://dbpedia.org/resource/Eureka_(company),Duke Power Company,Eureka (company),Charlotte,"Charlotte, North Carolina",United States,United States,,1909-01-01,,
+0,0.855,fullcontact_192,http://dbpedia.org/resource/LRAD_Corporation,CareFusion Corporation,LRAD Corporation,San Diego,San Diego,United States,United States,2015-01-01,1980-01-01,,"
+			"
+0,0.846,fullcontact_1875,http://dbpedia.org/resource/CRAIC_Technologies,Core Security Technologies,CRAIC Technologies,Boston,,United States,United States,,2002-01-01,"
+			",
+0,0.89,fullcontact_531,http://dbpedia.org/resource/Bit_Corporation,NEC Corporation,Bit Corporation,,Taipei,Taiwan,Taiwan,,1982-01-01,,
+0,0.815,fullcontact_530,http://dbpedia.org/resource/Continucare_Corporation,NCR Corporation,Continucare Corporation,Denver,,United States,United States,,1996-01-01,,
+0,0.814,fullcontact_922,http://dbpedia.org/resource/Logic_Wireless,Leap Wireless,Logic Wireless,San Diego,Los Angeles,United States,United States,,2008-01-01,,
+0,0.837,fullcontact_1312,http://dbpedia.org/resource/Celestial_Games,Revolution Games,Celestial Games,,Johannesburg,,South Africa,1994-01-01,1994-01-01,,
+0,0.82,fullcontact_208,http://dbpedia.org/resource/China_Power_International_Development,"China Coal Energy Co., Ltd.",China Power International Development,BEIJING,Beijing,China,China,,1994-01-01,,
+0,0.828,fullcontact_561,http://dbpedia.org/resource/Georgia_Gulf_Corporation,Oracle Corporation,Georgia Gulf Corporation,Redwood Shores,Atlanta,United States,United States,1977-01-01,1985-01-01,,
+0,0.853,fullcontact_623,http://dbpedia.org/resource/IMDS_Group,Rexel Group,IMDS Group,PARIS,Paris,France,France,1967-01-01,1996-01-01,,
+0,0.847,fullcontact_1342,http://dbpedia.org/resource/Lukoil_Baltija,LUKOIL,Lukoil Baltija,Moscow,,Russia,Lithuania,1991-01-01,1992-01-01,,
+0,0.895,fullcontact_196,http://dbpedia.org/resource/Carrefour_Market,Carrefour Global Sourcing,Carrefour Market,Évry,,France,France,1995-01-01,2007-01-01,"
+			",
+0,0.821,fullcontact_344,http://dbpedia.org/resource/AQR_Capital,Gea Capital,AQR Capital,Brooklyn,"ChicagoLondonSydneyGreenwich, Connecticut",United States,United States,,1998-01-01,,
+0,0.828,fullcontact_101,http://dbpedia.org/resource/Todd_Corporation,Aon Corporation,Todd Corporation,London,Wellington,United Kingdom,New Zealand,1987-01-01,1929-01-01,"
+			",
+0,0.836,fullcontact_273,http://dbpedia.org/resource/Duke_Energy,DTE Energy,Duke Energy,Detroit,"Charlotte, North Carolina",United States,United States,,1904-01-01,,
+0,0.865,fullcontact_200,http://dbpedia.org/resource/Unitil_Corporation,Celanese Corporation,Unitil Corporation,Irving,,United States,United States,1921-01-01,1984-01-01,,
+0,0.899,fullcontact_623,http://dbpedia.org/resource/NRJ_Group,Rexel Group,NRJ Group,PARIS,Paris,France,France,1967-01-01,1981-01-01,,
+0,0.825,fullcontact_849,http://dbpedia.org/resource/Imagine_Entertainment,Warner Bros. Entertainment,Imagine Entertainment,Burbank,,United States,United States,1950-01-01,1986-01-01,,"
+			"
+0,0.907,fullcontact_1526,http://dbpedia.org/resource/Baystate_Medical_Center,Baystate Health,Baystate Medical Center,Springfield,"Springfield, MassachusettsMassachusetts",United States,United States,1878-01-01,1883-01-01,,
+0,0.827,fullcontact_1642,http://dbpedia.org/resource/Z_Corporation,News Corporation,Z Corporation,New York,"South CarolinaRock Hill, South Carolina",United States,United States,,1986-01-01,,
+0,0.789,fullcontact_1496,http://dbpedia.org/resource/The_Manitowoc_Company,American Book Company,The Manitowoc Company,Woodstock,"Manitowoc, Wisconsin",United States,United States,1996-01-01,1902-01-01,,
+0,0.794,fullcontact_1415,http://dbpedia.org/resource/Aviation_Technology_Group,Carpenter Technology Corporation,Aviation Technology Group,,"Englewood, Colorado",United States,United States,1889-01-01,2000-01-01,,
+0,0.808,fullcontact_348,http://dbpedia.org/resource/Benetton_Group,Generali Group,Benetton Group,Trieste,Treviso,Italy,Italy,1831-01-01,1965-01-01,,
+0,0.79,fullcontact_246,http://dbpedia.org/resource/Burke_Corporation,Danaher Corporation,Burke Corporation,Washington,"Nevada, Iowa",United States,United States,,1974-01-01,,
+0,0.789,fullcontact_1078,http://dbpedia.org/resource/China_Overseas_Land_and_Investment_Limited,Hong Kong Exchanges and Clearing Limited (HKEX),China Overseas Land and Investment Limited,Hong Kong,Hong Kong,Hong Kong,China,2000-01-01,1979-01-01,,
+0,0.803,fullcontact_261,http://dbpedia.org/resource/Big_5_Sporting_Goods,Dick's Sporting Goods,Big 5 Sporting Goods,Binghamton,"El Segundo, CaliforniaCalifornia",United States,United States,1948-01-01,1955-01-01,,
+0,0.793,fullcontact_231,http://dbpedia.org/resource/Champion_Energy,CONSOL Energy Inc.,Champion Energy,Renton,Houston,United States,United States,,2002-01-01,,
+0,0.785,fullcontact_1570,http://dbpedia.org/resource/Agile_Software_Corporation,Smith Micro Software,Agile Software Corporation,Aliso Viejo,California,United States,United States,1995-01-01,1995-01-01,,
+0,0.783,fullcontact_1198,http://dbpedia.org/resource/American_LaFrance,American Eagle Outfitters,American LaFrance,Pittsburgh,"Summerville, South Carolina",United States,United States,1977-01-01,1873-01-01,,
+0,0.897,fullcontact_1215,http://dbpedia.org/resource/Marathon_Technologies,Marathon Oil Corporation,Marathon Technologies,Houston,,United States,United States,,1993-01-01,,
+0,0.952,fullcontact_1790,http://dbpedia.org/resource/Rentech,"Rentech, Inc.",Rentech,Los Angeles,Los Angeles,United States,United States,,1981-01-01,,
+0,0.834,fullcontact_475,http://dbpedia.org/resource/Unitil_Corporation,Lennar Corporation,Unitil Corporation,Miami,,United States,United States,1954-01-01,1984-01-01,,
+0,0.841,fullcontact_1729,http://dbpedia.org/resource/Dubai_World,Dubai Holding,Dubai World,Dubai,Dubai,United Arab Emirates,United Arab Emirates,2004-01-01,2006-01-01,,
+0,0.911,fullcontact_559,http://dbpedia.org/resource/ONEOK,"ONEOK, Inc.",ONEOK,Tulsa,"Tulsa, Oklahoma",United States,United States,,1906-01-01,,
+0,0.833,fullcontact_819,http://dbpedia.org/resource/Whole_Foods_Co-op,Whole Foods Market,Whole Foods Co-op,"Austin, TX","Duluth, MinnesotaMinnesota",United States,United States,1980-01-01,1970-01-01,,
+0,0.887,fullcontact_1681,http://dbpedia.org/resource/Lundin_Mining,Lundin Mining Corporation,Lundin Mining,Toronto,OntarioToronto,Canada,Canada,,1994-01-01,,
+0,0.867,fullcontact_1415,http://dbpedia.org/resource/Carbon_Motors_Corporation,Carpenter Technology Corporation,Carbon Motors Corporation,,"IndianaConnersville, Indiana",United States,United States,1889-01-01,2003-01-01,,
+0,0.824,fullcontact_1642,http://dbpedia.org/resource/McCall_Corporation,News Corporation,McCall Corporation,New York,New York City,United States,United States,,1913-01-01,,
+0,0.82,fullcontact_378,http://dbpedia.org/resource/IXYS_Corporation,Hess Corporation,IXYS Corporation,Marysville,"Milpitas, California",United States,United States,1933-01-01,1983-01-01,,
+0,0.872,fullcontact_1055,http://dbpedia.org/resource/Shavlik_Technologies,Konarka Technologies,Shavlik Technologies,,"New Brighton, Minnesota",United States,United States,2001-01-01,1993-01-01,,
+0,0.896,fullcontact_364,http://dbpedia.org/resource/Grupo_Nutresa,Grupo Aval,Grupo Nutresa,,Medellín,Colombia,Colombia,,1920-01-01,,
+0,0.817,fullcontact_208,http://dbpedia.org/resource/China_Huaneng_Group,"China Coal Energy Co., Ltd.",China Huaneng Group,BEIJING,Beijing,China,China,,1985-01-01,,
+0,0.855,fullcontact_211,http://dbpedia.org/resource/HHA_Services,Chubb Services Corp,HHA Services,Rochester Hills,,United States,United States,,1974-01-01,,
+0,0.814,fullcontact_1334,http://dbpedia.org/resource/BioPharm_(US_company),MFA Oil Company,BioPharm (US company),Columbia,,United States,United States,1929-01-01,1995-01-01,,
+0,0.826,fullcontact_450,http://dbpedia.org/resource/NTN_Corporation,KDDI Corporation,NTN Corporation,Tokyo,Osaka,Japan,Japan,1984-01-01,1918-01-01,,
+0,0.85,fullcontact_207,http://dbpedia.org/resource/Immersion_Corporation,Chevron Corporation,Immersion Corporation,San Ramon,"San Jose, California",United States,United States,1879-01-01,1993-01-01,,
+0,0.818,fullcontact_450,http://dbpedia.org/resource/Taisei_Corporation,KDDI Corporation,Taisei Corporation,Tokyo,"TokyoShinjuku, Tokyo",Japan,Japan,1984-01-01,1873-01-01,,"
+			"
+0,0.819,fullcontact_1280,http://dbpedia.org/resource/CI_Financial,IGM Financial,CI Financial,Winnipeg,Toronto,Canada,Canada,,1965-01-01,,
+0,0.977,fullcontact_97,http://dbpedia.org/resource/Anglo_American_plc,Anglo American,Anglo American plc,London,London,United Kingdom,United Kingdom,1917-01-01,1999-01-01,,
+0,0.833,fullcontact_165,http://dbpedia.org/resource/Nuqul_Group,Bouygues Group,Nuqul Group,,Amman,France,Jordan,1952-01-01,1952-01-01,,
+0,0.83,fullcontact_244,http://dbpedia.org/resource/EMC_Corporation,CSX Corporation,EMC Corporation,Jacksonville,"MassachusettsHopkinton, Massachusetts",United States,United States,1980-01-01,1979-01-01,,
+0,0.833,fullcontact_1388,http://dbpedia.org/resource/DGSE_Companies,"The TJX Companies, Inc.",DGSE Companies,,TexasDallas,United States,United States,,1965-01-01,,
+0,0.851,fullcontact_797,http://dbpedia.org/resource/Sun_Ba_Power_Corporation,Visteon Corporation,Sun Ba Power Corporation,,,,Taiwan,2000-01-01,2000-01-01,,
+0,0.849,fullcontact_571,http://dbpedia.org/resource/Sally_Corporation,Pall Corporation,Sally Corporation,Port Washington,"Jacksonville, Florida",United States,United States,,1977-01-01,,
+0,0.825,fullcontact_208,http://dbpedia.org/resource/China_Railway_Corporation,"China Coal Energy Co., Ltd.",China Railway Corporation,BEIJING,Beijing,China,China,,2013-01-01,,
+0,0.897,fullcontact_1291,http://dbpedia.org/resource/Target_Corporation,Target,Target Corporation,Minneapolis,MinneapolisMinnesotaTarget Plaza South,United States,United States,,1902-01-01,,"
+			"
+0,0.859,fullcontact_1055,http://dbpedia.org/resource/Partsearch_Technologies,Konarka Technologies,Partsearch Technologies,,New YorkNew York City,United States,United States,2001-01-01,2001-01-01,,
+0,0.826,fullcontact_1030,http://dbpedia.org/resource/Continucare_Corporation,Precision Dynamics Corporation,Continucare Corporation,Valencia,,United States,United States,1956-01-01,1996-01-01,,
+0,0.964,fullcontact_1884,http://dbpedia.org/resource/Indus_Towers,Indus Towers Limited,Indus Towers,Gurgaon,New Delhi,India,India,2007-01-01,2007-01-01,,
+0,0.863,fullcontact_1061,http://dbpedia.org/resource/TV_2_Group,EWOS Group,TV 2 Group,Bergen,Bergen,Norway,Norway,1935-01-01,1991-01-01,,
+0,0.819,fullcontact_945,http://dbpedia.org/resource/Unitil_Corporation,Telos Corporation,Unitil Corporation,Ashburn,,United States,United States,1983-01-01,1984-01-01,,
+0,0.817,fullcontact_773,http://dbpedia.org/resource/Unitech_Group,UnitedHealth Group,Unitech Group,Minneapolis,New Delhi,United States,India,,1972-01-01,,"
+			"
+0,0.823,fullcontact_1055,http://dbpedia.org/resource/DRS_Technologies,Konarka Technologies,DRS Technologies,,"Arlington County, Virginia",United States,United States,2001-01-01,1968-01-01,,
+0,0.814,fullcontact_1172,http://dbpedia.org/resource/General_Motors_South_Africa,General Motors,General Motors South Africa,Stanger,Port Elizabeth,South Africa,South Africa,1908-01-01,2004-01-01,,
+0,0.863,fullcontact_1847,http://dbpedia.org/resource/Paul_Frank_Industries,Next Star Industries,Paul Frank Industries,,Los Angeles,United States,United States,,1995-01-01,"
+			",
+0,0.842,fullcontact_960,http://dbpedia.org/resource/Newsmax_Media,Walden Media,Newsmax Media,,"West Palm Beach, Florida",United States,United States,,1998-01-01,,
+0,0.83,fullcontact_17,http://dbpedia.org/resource/Renault_Sport,Renault,Renault Sport,Boulogne Billancourt Cedex,Les Ulis,France,France,1932-01-01,1976-01-01,"
+			",
+0,0.87,fullcontact_1294,http://dbpedia.org/resource/The_Sam_Loyd_Company,The Mosaic Company,The Sam Loyd Company,Plymouth,,United States,United States,2004-01-01,2005-01-01,,
+0,0.819,fullcontact_1805,http://dbpedia.org/resource/TrustPort,TrustPort,TrustPort,Brno,Czech RepublicBrno,Czech Republic,European Union,2008-01-01,1991-01-01,,
+0,0.936,fullcontact_1743,http://dbpedia.org/resource/International_Solar_Electric_Technology,International Solar Energy Technology,International Solar Electric Technology,Chatsworth,"Chatsworth, Los Angeles",United States,United States,,1985-01-01,,
+0,0.841,fullcontact_527,http://dbpedia.org/resource/National_Hydrogen_Association,National Grid,National Hydrogen Association,,"Washington, D.C.",,United States,1990-01-01,1989-01-01,,
+0,0.858,fullcontact_73,http://dbpedia.org/resource/McCall_Corporation,Alleghany Corporation,McCall Corporation,New York,New York City,United States,United States,,1913-01-01,,
+0,0.815,fullcontact_1206,http://dbpedia.org/resource/InXile_Entertainment,Cineplex Entertainment,InXile Entertainment,Corsicana,"Newport Beach, California",United States,United States,,2002-01-01,,
+0,0.821,fullcontact_150,http://dbpedia.org/resource/Godrej_Properties_Limited,Bharat Petroleum Corporation Limited,Godrej Properties Limited,Mumbai,Mumbai,India,India,1977-01-01,1990-01-01,"
+			","
+			"
+0,0.83,fullcontact_208,http://dbpedia.org/resource/China_Oilfield_Services,"China Coal Energy Co., Ltd.",China Oilfield Services,BEIJING,Beijing,China,China,,2001-01-01,,
+0,0.903,fullcontact_1221,http://dbpedia.org/resource/Japan_Post,Japan Tobacco,Japan Post,Tokyo,,Japan,Japan,,2003-01-01,"
+			",
+0,0.905,fullcontact_690,http://dbpedia.org/resource/Nakano_Corporation,Sojitz Corporation,Nakano Corporation,Tokyo,Tokyo,Japan,Japan,2003-01-01,1933-01-01,,
+0,0.82,fullcontact_694,http://dbpedia.org/resource/Flutter_(company),Southern Company,Flutter (company),Atlanta,,United States,United States,1912-01-01,2010-01-01,,
+0,0.841,fullcontact_1206,http://dbpedia.org/resource/Cineplex_Entertainment,Cineplex Entertainment,Cineplex Entertainment,Corsicana,OntarioToronto,United States,Canada,,1979-01-01,,
+0,0.912,fullcontact_1256,http://dbpedia.org/resource/Walt_Disney_Studios_Motion_Pictures,Walt Disney Animation Studios,Walt Disney Studios Motion Pictures,Burbank,"Burbank, California",United States,United States,1923-01-01,1953-01-01,,
+0,0.821,fullcontact_1259,http://dbpedia.org/resource/Pando_Networks,A10 Networks,Pando Networks,San Jose,New York City,United States,United States,2004-01-01,2004-01-01,,
+0,0.826,fullcontact_1321,http://dbpedia.org/resource/Mushroom_Networks,Arista Networks,Mushroom Networks,Santa Clara,San Diego,United States,United States,2004-01-01,2004-01-01,,
+0,0.818,fullcontact_1743,http://dbpedia.org/resource/International_Filing_Company,International Solar Energy Technology,International Filing Company,Chatsworth,"Hattiesburg, Mississippi",United States,United States,,2002-01-01,,
+0,0.819,fullcontact_558,http://dbpedia.org/resource/TopTour_Corporation,Omron Corporation,TopTour Corporation,Kyoto,"TokyoMeguro, Tokyo",Japan,Japan,,1956-01-01,,
+0,0.859,fullcontact_1040,http://dbpedia.org/resource/AArrow_Advertising,AArrow Sign Spinners,AArrow Advertising,North Hollywood,San Diego,United States,United States,2002-01-01,2002-01-01,,
+0,0.911,fullcontact_268,http://dbpedia.org/resource/The_Sam_Loyd_Company,The Dow Company,The Sam Loyd Company,Garrison,,United States,United States,,2005-01-01,,
+0,0.848,fullcontact_929,http://dbpedia.org/resource/Marathon_Technologies,Lark Technologies,Marathon Technologies,Mountain View,,United States,United States,2010-01-01,1993-01-01,"
+			",
+0,0.816,fullcontact_1496,http://dbpedia.org/resource/Royal_Motor_Company,American Book Company,Royal Motor Company,Woodstock,Cleveland,United States,United States,1996-01-01,1904-01-01,,
+0,0.819,fullcontact_468,http://dbpedia.org/resource/Infinity_Broadcasting_Corporation,Kubota Tractor Corporation,Infinity Broadcasting Corporation,,New YorkNew York City,,United States,1972-01-01,1972-01-01,,"
+			"
+0,0.824,fullcontact_200,http://dbpedia.org/resource/Belcan_Corporation,Celanese Corporation,Belcan Corporation,Irving,CincinnatiOhio,United States,United States,1921-01-01,1958-01-01,,"
+			"
+0,0.833,fullcontact_1221,http://dbpedia.org/resource/Japan_Spaceguard_Association,Japan Tobacco,Japan Spaceguard Association,Tokyo,Tokyo,Japan,Japan,,1996-01-01,"
+			",
+0,0.828,fullcontact_268,http://dbpedia.org/resource/Wahoo!_(company),The Dow Company,Wahoo! (company),Garrison,,United States,United States,,1985-01-01,,
+0,0.889,fullcontact_823,http://dbpedia.org/resource/Phonic_Corporation,Wistron Corporation,Phonic Corporation,Taipei,Taipei,Taiwan,Taiwan,,1977-01-01,,
+0,0.819,fullcontact_239,http://dbpedia.org/resource/Vermilion_Energy,Crescent Point Energy Corp.,Vermilion Energy,Calgary,Calgary,Canada,Canada,2001-01-01,1994-01-01,,
+0,0.927,fullcontact_1371,http://dbpedia.org/resource/Fotolia,Fotolia,Fotolia,New York,New York City,United States,United States,2004-01-01,2005-01-01,"
+			",
+0,0.82,fullcontact_849,http://dbpedia.org/resource/Imprint_Entertainment,Warner Bros. Entertainment,Imprint Entertainment,Burbank,"Burbank, California",United States,United States,1950-01-01,1992-01-01,,
+0,0.835,fullcontact_514,http://dbpedia.org/resource/Takraf_India_Pvt._Ltd.,Mitsubishi Elevator India Pvt. Ltd.,Takraf India Pvt. Ltd.,Chennai,Chennai,India,India,2012-01-01,1995-01-01,,
+0,0.815,fullcontact_497,http://dbpedia.org/resource/Continucare_Corporation,McKesson Corporation,Continucare Corporation,San Francisco,,United States,United States,1833-01-01,1996-01-01,,
+0,0.822,fullcontact_1384,http://dbpedia.org/resource/Piraeus_Bank_Beograd,Komercijalna Banka Ad Beograd,Piraeus Bank Beograd,Belgrade,Belgrade,Serbia,Serbia,1970-01-01,2005-01-01,,
+0,0.825,fullcontact_814,http://dbpedia.org/resource/Western_National_Bank,Western Union,Western National Bank,Englewood,"Midland, Texas",United States,United States,1851-01-01,1977-01-01,,

@@ -1,0 +1,501 @@
+label,score,id_a,id_b,name_a,name_b,country_a,country_b
+1,0.0,http://www.forbes.com/companies/state-bank-of-india/,fullcontact_649,State Bank of India,State Bank of India,IND,
+1,0.0,http://www.forbes.com/companies/intesa-sanpaolo/,fullcontact_425,Intesa Sanpaolo,Intesa Sanpaolo Help,ITA,
+1,0.905,http://www.forbes.com/companies/verizon-communications/,fullcontact_791,Verizon Communications,Verizon,USA,United States
+1,0.97,http://www.forbes.com/companies/stora-enso/,fullcontact_703,Stora Enso,Stora Enso,FIN,Finland
+1,1.0,http://www.forbes.com/companies/bilfinger/,fullcontact_153,Bilfinger,Bilfinger,GER,Germany
+1,1.0,http://www.forbes.com/companies/intuit/,fullcontact_426,Intuit,Intuit,USA,United States
+1,1.0,http://www.forbes.com/companies/humana/,fullcontact_402,Humana,Humana,USA,United States
+1,1.0,http://www.forbes.com/companies/arkema/,fullcontact_107,Arkema,Arkema,FRA,France
+1,0.939,http://www.forbes.com/companies/news-corp/,fullcontact_1642,News Corp,News Corporation,USA,United States
+1,0.97,http://www.forbes.com/companies/vale/,fullcontact_783,Vale,Vale,BRA,Brazil
+1,0.907,http://www.forbes.com/companies/cr-bard/,fullcontact_236,CR Bard,C. R. Bard,USA,United States
+1,0.901,http://www.forbes.com/companies/fluor/,fullcontact_323,Fluor,Fluor Corporation,USA,United States
+1,0.93,http://www.forbes.com/companies/nelnet/,fullcontact_532,Nelnet,"Nelnet, Inc.",USA,United States
+1,0.895,http://www.forbes.com/companies/ball/,fullcontact_129,Ball,Ball Corporation,USA,United States
+1,0.907,http://www.forbes.com/companies/sojitz/,fullcontact_690,Sojitz,Sojitz Corporation,JPN,Japan
+1,1.0,http://www.forbes.com/companies/workday/,fullcontact_827,"Workday, Inc.","Workday, Inc.",USA,United States
+1,1.0,http://www.forbes.com/companies/hewlett-packard/,fullcontact_389,Hewlett-Packard,Hewlett-Packard,USA,United States
+1,1.0,http://www.forbes.com/companies/metro-group/,fullcontact_507,Metro Group,METRO GROUP,GER,Germany
+1,1.0,http://www.forbes.com/companies/ppg-industries/,fullcontact_7,PPG Industries,PPG Industries,USA,United States
+1,0.977,http://www.forbes.com/companies/yahoo/,fullcontact_836,Yahoo,Yahoo!,USA,United States
+1,1.0,http://www.forbes.com/companies/volkswagen-group/,fullcontact_802,Volkswagen Group,Volkswagen Group,GER,Germany
+1,0.97,http://www.forbes.com/companies/rosneft/,fullcontact_631,Rosneft,Rosneft,RUS,Russia
+1,1.0,http://www.forbes.com/companies/microsoft/,fullcontact_512,Microsoft,Microsoft,USA,United States
+1,1.0,http://www.forbes.com/companies/citigroup/,fullcontact_215,Citigroup,Citigroup,USA,United States
+1,1.0,http://www.forbes.com/companies/cnp-assurances/,fullcontact_221,CNP Assurances,CNP Assurances,FRA,France
+1,1.0,http://www.forbes.com/companies/brookfield-asset-management/,fullcontact_172,Brookfield Asset Management,Brookfield Asset Management,CAN,Canada
+1,1.0,http://www.forbes.com/companies/nordstrom/,fullcontact_1446,Nordstrom,Nordstrom,USA,United States
+1,0.908,http://www.forbes.com/companies/neste-oil/,fullcontact_533,Neste Oil,Neste,FIN,Finland
+1,1.0,http://www.forbes.com/companies/henkel/,fullcontact_374,Henkel,Henkel,GER,Germany
+1,1.0,http://www.forbes.com/companies/bhp-billiton/,fullcontact_151,BHP Billiton,BHP Billiton,AUS,Australia
+1,0.97,http://www.forbes.com/companies/infosys/,fullcontact_418,Infosys,Infosys,IND,India
+1,1.0,http://www.forbes.com/companies/advance-auto-parts/,fullcontact_32,Advance Auto Parts,Advance Auto Parts,USA,United States
+1,0.97,http://www.forbes.com/companies/delek-group/,fullcontact_255,Delek Group,Delek Group,ISR,Israel
+1,0.97,http://www.forbes.com/companies/hcl-technologies/,fullcontact_371,HCL Technologies,HCL Technologies,IND,India
+1,1.0,http://www.forbes.com/companies/philip-morris-international/,fullcontact_592,Philip Morris International,Philip Morris International,USA,United States
+1,1.0,http://www.forbes.com/companies/telus/,fullcontact_731,TELUS,TELUS,CAN,Canada
+1,0.924,http://www.forbes.com/companies/biogen-idec/,fullcontact_154,Biogen Idec,Biogen Idec New Ventures,USA,United States
+1,0.97,http://www.forbes.com/companies/arca-continental/,fullcontact_105,Arca Continental,Arca Continental,MEX,Mexico
+1,1.0,http://www.forbes.com/companies/medtronic/,fullcontact_502,Medtronic,Medtronic,USA,United States
+1,1.0,http://www.forbes.com/companies/danone/,fullcontact_248,Danone,Danone,FRA,France
+1,1.0,http://www.forbes.com/companies/entergy/,fullcontact_295,Entergy,Entergy,USA,United States
+1,0.97,http://www.forbes.com/companies/sistema/,fullcontact_678,Sistema,Sistema,RUS,Russia
+1,1.0,http://www.forbes.com/companies/netapp/,fullcontact_535,NetApp,NetApp,USA,United States
+1,1.0,http://www.forbes.com/companies/directv/,fullcontact_263,Directv,DIRECTV,USA,United States
+1,1.0,http://www.forbes.com/companies/flowserve/,fullcontact_322,Flowserve,Flowserve,USA,United States
+1,0.916,http://www.forbes.com/companies/nike/,fullcontact_539,NIKE,"Nike, Inc.",USA,United States
+1,0.901,http://www.forbes.com/companies/dr-horton/,fullcontact_270,DR Horton,"D.R. Horton, Inc.",USA,United States
+1,0.893,http://www.forbes.com/companies/prudential-financial/,fullcontact_607,Prudential Financial,Prudential - Bring your Challenges,USA,United States
+1,1.0,http://www.forbes.com/companies/xerox/,fullcontact_833,Xerox,Xerox,USA,United States
+1,0.97,http://www.forbes.com/companies/metso/,fullcontact_508,Metso,Metso,FIN,Finland
+1,0.99,http://www.forbes.com/companies/crown-holdings/,fullcontact_241,Crown Holdings,Crown Holding,USA,United States
+1,1.0,http://www.forbes.com/companies/prologis/,fullcontact_603,Prologis,Prologis,USA,United States
+1,1.0,http://www.forbes.com/companies/basf/,fullcontact_138,BASF,BASF,GER,Germany
+1,1.0,http://www.forbes.com/companies/publicis-groupe/,fullcontact_609,Publicis Groupe,Publicis Groupe,FRA,France
+1,1.0,http://www.forbes.com/companies/sherwin-williams/,fullcontact_663,Sherwin-Williams,Sherwin-Williams,USA,United States
+1,1.0,http://www.forbes.com/companies/dte-energy/,fullcontact_273,DTE Energy,DTE Energy,USA,United States
+1,0.975,http://www.forbes.com/companies/credit-agricole/,fullcontact_238,Credit Agricole,Crédit Agricole,FRA,France
+1,0.866,http://www.forbes.com/companies/turkcell/,fullcontact_759,Turkcell,Turkcell Iletisim Hizmetleri as,TUR,Turkey
+1,0.97,http://www.forbes.com/companies/tele2/,fullcontact_725,Tele2,Tele2,SWE,Sweden
+1,0.97,http://www.forbes.com/companies/finmeccanica/,fullcontact_318,Finmeccanica,Finmeccanica,ITA,Italy
+1,1.0,http://www.forbes.com/companies/eurazeo/,fullcontact_304,Eurazeo,Eurazeo,FRA,France
+1,0.97,http://www.forbes.com/companies/skanska/,fullcontact_679,Skanska,Skanska,SWE,Sweden
+1,1.0,http://www.forbes.com/companies/johnson-johnson/,fullcontact_442,Johnson & Johnson,Johnson & Johnson,USA,United States
+1,1.0,http://www.forbes.com/companies/unibail-rodamco/,fullcontact_769,Unibail-Rodamco,Unibail-Rodamco,FRA,France
+1,0.871,http://www.forbes.com/companies/umicore/,fullcontact_768,Umicore,Umicore - Powered by you,BEL,Belgium
+1,0.912,http://www.forbes.com/companies/nasdaq-omx-group/,fullcontact_526,NASDAQ OMX Group,Nasdaq,USA,United States
+1,0.926,http://www.forbes.com/companies/oreilly-automotive/,fullcontact_563,O'Reilly Automotive,O'Reilly Auto Parts,USA,United States
+1,1.0,http://www.forbes.com/companies/fastenal/,fullcontact_312,Fastenal,Fastenal,USA,United States
+1,1.0,http://www.forbes.com/companies/centurylink/,fullcontact_205,CenturyLink,CenturyLink,USA,United States
+1,1.0,http://www.forbes.com/companies/metlife/,fullcontact_506,MetLife,MetLife,USA,United States
+1,0.949,http://www.forbes.com/companies/tractor-supply/,fullcontact_753,Tractor Supply,Tractor Supply Company,USA,United States
+1,1.0,http://www.forbes.com/companies/aetna/,fullcontact_58,Aetna,Aetna,USA,United States
+1,0.865,http://www.forbes.com/companies/cemex/,fullcontact_202,Cemex,Cemex S.A.B. De C.V.,MEX,Mexico
+1,0.907,http://www.forbes.com/companies/lennar/,fullcontact_475,Lennar,Lennar Corporation,USA,United States
+1,0.907,http://www.forbes.com/companies/cerner/,fullcontact_206,Cerner,Cerner Corporation,USA,United States
+1,1.0,http://www.forbes.com/companies/amdocs/,fullcontact_86,Amdocs,Amdocs,USA,United States
+1,0.992,http://www.forbes.com/companies/becton-dickinson/,fullcontact_143,"Becton, Dickinson",Becton Dickinson,USA,United States
+1,1.0,http://www.forbes.com/companies/netflix/,fullcontact_536,Netflix,Netflix,USA,United States
+1,0.973,http://www.forbes.com/companies/costco-wholesale/,fullcontact_235,Costco Wholesale,Costco Wholsale,USA,United States
+1,1.0,http://www.forbes.com/companies/target/,fullcontact_1291,Target,Target,USA,United States
+1,1.0,http://www.forbes.com/companies/wyndham-worldwide/,fullcontact_830,Wyndham Worldwide,Wyndham Worldwide,USA,United States
+1,1.0,http://www.forbes.com/companies/whole-foods-market/,fullcontact_819,Whole Foods Market,Whole Foods Market,USA,United States
+1,0.938,http://www.forbes.com/companies/jm-smucker/,fullcontact_441,JM Smucker,JM Smucker Company,USA,United States
+1,0.902,http://www.forbes.com/companies/kroger/,fullcontact_467,Kroger,Kroger Company (the),USA,United States
+1,0.887,http://www.forbes.com/companies/lundbergs/,fullcontact_484,Lundbergs,Lundbergs Produkter AB,SWE,Sweden
+1,0.9,http://www.forbes.com/companies/solvay/,fullcontact_691,Solvay,Solvay Group,BEL,Belgium
+1,1.0,http://www.forbes.com/companies/infineon-technologies/,fullcontact_416,Infineon Technologies,Infineon Technologies,GER,Germany
+1,0.97,http://www.forbes.com/companies/enel/,fullcontact_291,Enel,Enel,ITA,Italy
+1,1.0,http://www.forbes.com/companies/nisource/,fullcontact_543,NiSource,NiSource,USA,United States
+1,1.0,http://www.forbes.com/companies/hugo-boss/,fullcontact_401,Hugo Boss,HUGO BOSS,GER,Germany
+1,1.0,http://www.forbes.com/companies/renault/,fullcontact_17,Renault,Renault,FRA,France
+1,1.0,http://www.forbes.com/companies/unitedhealth-group/,fullcontact_773,UnitedHealth Group,UnitedHealth Group,USA,United States
+1,1.0,http://www.forbes.com/companies/nikon/,fullcontact_540,Nikon,Nikon,JPN,Japan
+1,1.0,http://www.forbes.com/companies/juniper-networks/,fullcontact_447,Juniper Networks,Juniper Networks,USA,United States
+1,1.0,http://www.forbes.com/companies/alstom/,fullcontact_81,Alstom,Alstom,FRA,France
+1,0.97,http://www.forbes.com/companies/braskem/,fullcontact_168,Braskem,Braskem,BRA,Brazil
+1,1.0,http://www.forbes.com/companies/pfizer/,fullcontact_586,Pfizer,Pfizer,USA,United States
+1,1.0,http://www.forbes.com/companies/calpine/,fullcontact_185,Calpine,Calpine,USA,United States
+1,1.0,http://www.forbes.com/companies/twitter/,fullcontact_761,Twitter,Twitter,USA,United States
+1,1.0,http://www.forbes.com/companies/cablevision/,fullcontact_182,Cablevision Systems Corporation,Cablevision Systems Corporation,USA,United States
+1,1.0,http://www.forbes.com/companies/verisign/,fullcontact_790,VeriSign,VeriSign,USA,United States
+1,1.0,http://www.forbes.com/companies/new-media-investment-group/,fullcontact_537,New Media Investment Group,New Media Investment Group,USA,United States
+1,1.0,http://www.forbes.com/companies/forest-laboratories/,fullcontact_332,Forest Laboratories,Forest Laboratories,USA,United States
+1,1.0,http://www.forbes.com/companies/staples/,fullcontact_698,Staples,Staples,USA,United States
+1,0.973,http://www.forbes.com/companies/costco-wholesale/,fullcontact_863,Costco Wholesale,Costco Wholsale,USA,United States
+1,1.0,http://www.forbes.com/companies/linkedin/,fullcontact_480,LinkedIn,LinkedIn,USA,United States
+1,1.0,http://www.forbes.com/companies/avnet/,fullcontact_125,Avnet,Avnet,USA,United States
+1,0.9,http://www.forbes.com/companies/teck-resources/,fullcontact_723,Teck Resources,Teck,CAN,Canada
+1,0.912,http://www.forbes.com/companies/intact-financial/,fullcontact_21,Intact Financial,Intact,CAN,Canada
+1,1.0,http://www.forbes.com/companies/polaris-industries/,fullcontact_593,Polaris Industries,Polaris Industries,USA,United States
+1,1.0,http://www.forbes.com/companies/foot-locker/,fullcontact_326,Foot Locker,Foot Locker,USA,United States
+1,1.0,http://www.forbes.com/companies/broadcom/,fullcontact_171,Broadcom,Broadcom,USA,United States
+1,1.0,http://www.forbes.com/companies/siemens/,fullcontact_670,Siemens,Siemens,GER,Germany
+1,0.97,http://www.forbes.com/companies/posco/,fullcontact_596,Posco,POSCO,KOR,South Korea
+1,0.916,http://www.forbes.com/companies/mckesson/,fullcontact_497,McKesson,McKesson Corporation,USA,United States
+1,0.924,http://www.forbes.com/companies/mcdonalds/,fullcontact_496,McDonald's,McDonald's Corporation,USA,United States
+1,0.868,http://www.forbes.com/companies/telenor/,fullcontact_728,Telenor,Telenor - Internet for all,NOR,Norway
+1,0.907,http://www.forbes.com/companies/altera/,fullcontact_82,Altera,Altera Corporation,USA,United States
+1,0.956,http://www.forbes.com/companies/southern-co/,fullcontact_694,Southern Co,Southern Company,USA,United States
+1,0.96,http://www.forbes.com/companies/bristol-myers-squibb/,fullcontact_157,Bristol-Myers Squibb,Bristol-Myers Squibb Company,USA,United States
+1,1.0,http://www.forbes.com/companies/dassault-systemes/,fullcontact_40,Dassault Systemes,Dassault Systemes,FRA,France
+1,1.0,http://www.forbes.com/companies/dassault-aviation/,fullcontact_251,Dassault Aviation,Dassault Aviation,FRA,France
+1,1.0,http://www.forbes.com/companies/metcash/,fullcontact_505,Metcash,Metcash,AUS,Australia
+1,1.0,http://www.forbes.com/companies/japan-tobacco/,fullcontact_1221,Japan Tobacco,Japan Tobacco,JPN,Japan
+1,1.0,http://www.forbes.com/companies/priceline/,fullcontact_600,Priceline.com,Priceline.com,USA,United States
+1,1.0,http://www.forbes.com/companies/mastercard/,fullcontact_491,MasterCard,MasterCard,USA,United States
+1,0.97,http://www.forbes.com/companies/kesko/,fullcontact_453,Kesko,Kesko,FIN,Finland
+1,0.969,http://www.forbes.com/companies/hershey/,fullcontact_377,Hershey,HERSHEY'S,USA,United States
+1,0.97,http://www.forbes.com/companies/fortum/,fullcontact_327,Fortum,Fortum,FIN,Finland
+1,1.0,http://www.forbes.com/companies/vinci/,fullcontact_796,VINCI,VINCI,FRA,France
+1,1.0,http://www.forbes.com/companies/wells-fargo/,fullcontact_812,Wells Fargo,Wells Fargo,USA,United States
+1,1.0,http://www.forbes.com/companies/bayer/,fullcontact_139,Bayer,Bayer,GER,Germany
+1,0.893,http://www.forbes.com/companies/prudential-financial/,fullcontact_1322,Prudential Financial,Prudential - Bring your Challenges,USA,United States
+1,0.895,http://www.forbes.com/companies/hess/,fullcontact_378,Hess,Hess Corporation,USA,United States
+1,0.907,http://www.forbes.com/companies/cameco/,fullcontact_186,Cameco,Cameco Corporation,CAN,Canada
+1,0.927,http://www.forbes.com/companies/ecopetrol/,fullcontact_280,Ecopetrol,ECOPETROL S.A,COL,Colombia
+1,0.869,http://www.forbes.com/companies/wipro/,fullcontact_822,Wipro,Wipro Technologies,IND,India
+1,0.916,http://www.forbes.com/companies/symantec/,fullcontact_713,Symantec,Symantec Corporation,USA,United States
+1,1.0,http://www.forbes.com/companies/origin-energy/,fullcontact_1007,Origin Energy,Origin Energy,AUS,Australia
+1,0.97,http://www.forbes.com/companies/generali-group/,fullcontact_348,Generali Group,Generali Group,ITA,Italy
+1,0.97,http://www.forbes.com/companies/statoil/,fullcontact_701,Statoil,Statoil,NOR,Norway
+1,1.0,http://www.forbes.com/companies/boston-scientific/,fullcontact_164,Boston Scientific,Boston Scientific,USA,United States
+1,1.0,http://www.forbes.com/companies/ajinomoto/,fullcontact_65,Ajinomoto,Ajinomoto,JPN,Japan
+1,1.0,http://www.forbes.com/companies/technip/,fullcontact_722,Technip,Technip,FRA,France
+1,1.0,http://www.forbes.com/companies/ebay/,fullcontact_278,eBay,eBay,USA,United States
+1,0.95,http://www.forbes.com/companies/hilton-worldwide/,fullcontact_380,Hilton Worldwide Holdings,Hilton Worldwide,USA,United States
+1,1.0,http://www.forbes.com/companies/autozone/,fullcontact_121,AutoZone,AutoZone,USA,United States
+1,1.0,http://www.forbes.com/companies/capgemini/,fullcontact_188,Capgemini,Capgemini,FRA,France
+1,0.97,http://www.forbes.com/companies/swedbank/,fullcontact_710,Swedbank,Swedbank,SWE,Sweden
+1,1.0,http://www.forbes.com/companies/agl-resources/,fullcontact_60,AGL Resources,AGL Resources,USA,United States
+0,0.946,http://www.forbes.com/companies/goldcorp/,fullcontact_357,Goldcorp,Goldcorp Inc.,CAN,Canada
+0,0.961,http://www.forbes.com/companies/consol-energy/,fullcontact_231,CONSOL Energy,CONSOL Energy Inc.,USA,United States
+0,0.958,http://www.forbes.com/companies/citrix-systems/,fullcontact_216,Citrix Systems,"Citrix Systems, Inc.",USA,United States
+0,0.942,http://www.forbes.com/companies/telstra/,fullcontact_730,Telstra,Telstra 24x7,AUS,Australia
+0,0.936,http://www.forbes.com/companies/abbvie/,fullcontact_44,AbbVie,AbbVie Inc.,USA,United States
+0,0.907,http://www.forbes.com/companies/cerner/,fullcontact_206,Cerner,Cerner Corporation,USA,United States
+0,0.912,http://www.forbes.com/companies/danaher/,fullcontact_246,Danaher,Danaher Corporation,USA,United States
+0,0.918,http://www.forbes.com/companies/american-electric/,fullcontact_1198,American Electric,American Eagle Outfitters,USA,United States
+0,0.93,http://www.forbes.com/companies/raytheon/,fullcontact_619,Raytheon,Raytheon Company,USA,United States
+0,0.895,http://www.forbes.com/companies/kddi/,fullcontact_450,KDDI,KDDI Corporation,JPN,Japan
+0,0.913,http://www.forbes.com/companies/walt-disney/,fullcontact_1256,Walt Disney,Walt Disney Animation Studios,USA,United States
+0,0.892,http://www.forbes.com/companies/western-digital/,fullcontact_910,Western Digital,Westinghouse Digital Electronics,USA,United States
+0,0.901,http://www.forbes.com/companies/texas-instruments/,fullcontact_1649,Texas Instruments,Roos Instruments,USA,United States
+0,0.908,http://www.forbes.com/companies/southern-co/,fullcontact_282,Southern Co,Southern California Edison (SCE),USA,United States
+0,0.944,http://www.forbes.com/companies/carmax/,fullcontact_194,CarMax,CarMax Inc,USA,United States
+0,0.93,http://www.forbes.com/companies/apple/,fullcontact_102,Apple,Apple Inc.,USA,United States
+0,0.907,http://www.forbes.com/companies/oge-energy/,fullcontact_273,OGE Energy,DTE Energy,USA,United States
+0,0.871,http://www.forbes.com/companies/nokia/,fullcontact_545,Nokia,Nokia Corporation,FIN,Finland
+0,0.894,http://www.forbes.com/companies/american-airlines-group/,fullcontact_1394,American Airlines Group,American Appraisal,USA,United States
+0,0.918,http://www.forbes.com/companies/moodys/,fullcontact_926,Moody's,Moody's Analytics,USA,United States
+0,0.92,http://www.forbes.com/companies/starbucks/,fullcontact_900,Starbucks,Starbucks Corporation,USA,United States
+0,0.877,http://www.forbes.com/companies/western-union/,fullcontact_1409,Western Union,Western Pest Services,USA,United States
+0,0.917,http://www.forbes.com/companies/mitsubishi-electric/,fullcontact_513,Mitsubishi Electric,Mitsubishi Corporation,JPN,Japan
+0,0.904,http://www.forbes.com/companies/airgas/,fullcontact_63,Airgas,Airgas Incorporated,USA,United States
+0,0.922,http://www.forbes.com/companies/motorola-solutions/,fullcontact_1756,Motorola Solutions,Motorola,USA,United States
+0,0.942,http://www.forbes.com/companies/amerisourcebergen/,fullcontact_90,AmerisourceBergen,AmerisourceBergen Corporation,USA,United States
+0,0.948,http://www.forbes.com/companies/cit-group/,fullcontact_1033,CIT Group,DCI Group,USA,United States
+0,0.901,http://www.forbes.com/companies/kyocera/,fullcontact_13,Kyocera,Kyocera Fineceramics Ltd,JPN,Japan
+0,0.912,http://www.forbes.com/companies/american-tower/,fullcontact_1198,American Tower,American Eagle Outfitters,USA,United States
+0,0.881,http://www.forbes.com/companies/fidelity-national-information/,fullcontact_1735,Fidelity National Information,Fidelity & Guaranty Life,USA,United States
+0,0.93,http://www.forbes.com/companies/nelnet/,fullcontact_532,Nelnet,"Nelnet, Inc.",USA,United States
+0,0.863,http://www.forbes.com/companies/axa-group/,fullcontact_623,AXA Group,Rexel Group,FRA,France
+0,0.918,http://www.forbes.com/companies/gannett/,fullcontact_338,Gannett,"Gannett Co., Inc.",USA,United States
+0,0.918,http://www.forbes.com/companies/american-natl-ins/,fullcontact_1198,American Natl Ins,American Eagle Outfitters,USA,United States
+0,0.892,http://www.forbes.com/companies/antero-resources/,fullcontact_617,Antero Resources,Ranger Resources,USA,United States
+0,0.895,http://www.forbes.com/companies/hess/,fullcontact_378,Hess,Hess Corporation,USA,United States
+0,0.942,http://www.forbes.com/companies/textron/,fullcontact_739,Textron,Textron Inc.,USA,United States
+0,0.938,http://www.forbes.com/companies/protective-life/,fullcontact_604,Protective Life,Protective Life Corporation,USA,United States
+0,0.93,http://www.forbes.com/companies/hormel-foods/,fullcontact_387,Hormel Foods,Hormel Foods Corporation,USA,United States
+0,0.88,http://www.forbes.com/companies/mitsubishi-ufj-lease/,fullcontact_513,Mitsubishi UFJ Lease,Mitsubishi Corporation,JPN,Japan
+0,0.92,http://www.forbes.com/companies/starbucks/,fullcontact_699,Starbucks,Starbucks Corporation,USA,United States
+0,0.887,http://www.forbes.com/companies/american-tower/,fullcontact_1496,American Tower,American Book Company,USA,United States
+0,0.898,http://www.forbes.com/companies/american-tower/,fullcontact_1394,American Tower,American Appraisal,USA,United States
+0,0.923,http://www.forbes.com/companies/akamai-technologies/,fullcontact_929,Akamai Technologies,Lark Technologies,USA,United States
+0,0.891,http://www.forbes.com/companies/fidelity-national-financial/,fullcontact_1735,Fidelity National Financial,Fidelity & Guaranty Life,USA,United States
+0,0.901,http://www.forbes.com/companies/sysco/,fullcontact_715,Sysco,Sysco Corporation,USA,United States
+0,0.909,http://www.forbes.com/companies/sears-holdings/,fullcontact_905,Sears Holdings,Sears Salon,USA,United States
+0,0.91,http://www.forbes.com/companies/deutsche-post/,fullcontact_9,Deutsche Post,Deutsche Börse AG,GER,Germany
+0,0.94,http://www.forbes.com/companies/ameriprise-financial/,fullcontact_1195,Ameriprise Financial,"AMERIPRISE FINANCIAL SERVICES, INC.",USA,United States
+0,0.935,http://www.forbes.com/companies/northern-trust/,fullcontact_547,Northern Trust,Northern Trust Corporation,USA,United States
+0,0.953,http://www.forbes.com/companies/enbridge/,fullcontact_289,Enbridge,Enbridge Inc,CAN,Canada
+0,0.92,http://www.forbes.com/companies/cardinal-health/,fullcontact_191,Cardinal Health,Cardinal Health Community Relations,USA,United States
+0,0.901,http://www.forbes.com/companies/general-motors/,fullcontact_352,General Motors,General Growth Properties,USA,United States
+0,0.883,http://www.forbes.com/companies/computer-sciences/,fullcontact_1089,Computer Sciences,Computer Repair | Computer Support,USA,United States
+0,0.93,http://www.forbes.com/companies/beam/,fullcontact_1196,Beam,Beam Inc,USA,United States
+0,0.916,http://www.forbes.com/companies/celanese/,fullcontact_200,Celanese,Celanese Corporation,USA,United States
+0,0.879,http://www.forbes.com/companies/crown-holdings/,fullcontact_913,Crown Holdings,Shamrock Holdings,USA,United States
+0,0.907,http://www.forbes.com/companies/harris/,fullcontact_18,Harris,Harris Corporation,USA,United States
+0,0.865,http://www.forbes.com/companies/cemex/,fullcontact_202,Cemex,Cemex S.A.B. De C.V.,MEX,Mexico
+0,0.916,http://www.forbes.com/companies/symantec/,fullcontact_713,Symantec,Symantec Corporation,USA,United States
+0,0.922,http://www.forbes.com/companies/allstate/,fullcontact_78,Allstate,Allstate Insurance,USA,United States
+0,0.938,http://www.forbes.com/companies/bank-of-america/,fullcontact_134,Bank of America,Bank of America Corporation,USA,United States
+0,0.963,http://www.forbes.com/companies/east-west-bancorp/,fullcontact_1447,East West Bancorp,"East West Bancorp, Inc.",USA,United States
+0,0.97,http://www.forbes.com/companies/stanley-black-decker/,fullcontact_697,Stanley Black & Decker,"Stanley Black & Decker, Inc.",USA,United States
+0,0.956,http://www.forbes.com/companies/conagra-foods/,fullcontact_228,ConAgra Foods,"ConAgra Foods, Inc.",USA,United States
+0,0.938,http://www.forbes.com/companies/jm-smucker/,fullcontact_441,JM Smucker,JM Smucker Company,USA,United States
+0,0.893,http://www.forbes.com/companies/masco/,fullcontact_26,Masco,Masco Construction Co,USA,United States
+0,0.908,http://www.forbes.com/companies/eutelsat-communications/,fullcontact_305,Eutelsat Communications,Eutelsat SA,FRA,France
+0,0.907,http://www.forbes.com/companies/oracle/,fullcontact_561,Oracle,Oracle Corporation,USA,United States
+0,0.868,http://www.forbes.com/companies/grupo-aval/,fullcontact_365,Grupo Aval,GRUPO BANCOLOMBIA,COL,Colombia
+0,0.9,http://www.forbes.com/companies/american-electric/,fullcontact_1394,American Electric,American Appraisal,USA,United States
+0,0.868,http://www.forbes.com/companies/israel-discount-bank/,fullcontact_432,Israel Discount Bank,Israel Corp,ISR,Israel
+0,0.914,http://www.forbes.com/companies/mechel/,fullcontact_499,Mechel,Mechel OAO,RUS,Russia
+0,0.912,http://www.forbes.com/companies/komatsu/,fullcontact_461,Komatsu,Komatsu Rental Ltd.,JPN,Japan
+0,0.873,http://www.forbes.com/companies/sears-holdings/,fullcontact_913,Sears Holdings,Shamrock Holdings,USA,United States
+0,0.953,http://www.forbes.com/companies/henry-schein/,fullcontact_375,Henry Schein,"Henry Schein, Inc.",USA,United States
+0,0.941,http://www.forbes.com/companies/church-dwight/,fullcontact_1712,Church & Dwight,"Church & Dwight, Co., Inc.",USA,United States
+0,0.969,http://www.forbes.com/companies/hershey/,fullcontact_377,Hershey,HERSHEY'S,USA,United States
+0,0.891,http://www.forbes.com/companies/marathon-petroleum/,fullcontact_1215,Marathon Petroleum,Marathon Oil Corporation,USA,United States
+0,0.886,http://www.forbes.com/companies/agl-resources/,fullcontact_296,AGL Resources,EOG Resources,USA,United States
+0,0.871,http://www.forbes.com/companies/hyundai-engineering/,fullcontact_405,Hyundai Engineering,Hyundai Steel,KOR,"Korea, North"
+0,0.878,http://www.forbes.com/companies/hyundai-heavy-industries/,fullcontact_405,Hyundai Heavy Industries,Hyundai Steel,KOR,"Korea, North"
+0,0.908,http://www.forbes.com/companies/first-niagara-financial/,fullcontact_1477,First Niagara Financial,First American Financial Corporation,USA,United States
+0,0.883,http://www.forbes.com/companies/dte-energy/,fullcontact_902,DTE Energy,Woodside Energy,USA,United States
+0,0.873,http://www.forbes.com/companies/united-technologies/,fullcontact_976,United Technologies,Lithium Technologies,USA,United States
+0,0.889,http://www.forbes.com/companies/mcgraw-hill-cos/,fullcontact_1696,McGraw-Hill Cos,McGraw Hill Financial,USA,United States
+0,0.878,http://www.forbes.com/companies/hyundai-wia/,fullcontact_405,Hyundai Wia,Hyundai Steel,KOR,"Korea, North"
+0,0.923,http://www.forbes.com/companies/american-natl-ins/,fullcontact_942,American Natl Ins,American Family Fitness,USA,United States
+0,0.924,http://www.forbes.com/companies/carefusion/,fullcontact_192,CareFusion,CareFusion Corporation,USA,United States
+0,0.902,http://www.forbes.com/companies/mitsubishi-chemical/,fullcontact_513,Mitsubishi Chemical,Mitsubishi Corporation,JPN,Japan
+0,0.932,http://www.forbes.com/companies/harley-davidson/,fullcontact_370,Harley-Davidson,Harley-Davidson Motor Company,USA,United States
+0,0.876,http://www.forbes.com/companies/nrg-energy/,fullcontact_1318,NRG Energy,Amigo Energy,USA,United States
+0,0.877,http://www.forbes.com/companies/semen-indonesia/,fullcontact_257,Semen Indonesia,Dentsu Indonesia,IND,Indonesia
+0,0.956,http://www.forbes.com/companies/tyson-foods/,fullcontact_763,Tyson Foods,Tyson Foods Inc.,USA,United States
+0,0.941,http://www.forbes.com/companies/duke-energy/,fullcontact_273,Duke Energy,DTE Energy,USA,United States
+0,0.944,http://www.forbes.com/companies/saputo/,fullcontact_647,Saputo,Saputo Inc,CAN,Canada
+0,0.911,http://www.forbes.com/companies/mitsubishi-materials/,fullcontact_513,Mitsubishi Materials,Mitsubishi Corporation,JPN,Japan
+0,0.873,http://www.forbes.com/companies/xcel-energy/,fullcontact_1881,Xcel Energy,Noble Energy,USA,United States
+0,0.905,http://www.forbes.com/companies/autoliv/,fullcontact_120,Autoliv,"Autoliv, Inc.",SWE,Sweden
+0,0.91,http://www.forbes.com/companies/american-airlines-group/,fullcontact_942,American Airlines Group,American Family Fitness,USA,United States
+0,0.896,http://www.forbes.com/companies/cme-group/,fullcontact_1033,CME Group,DCI Group,USA,United States
+0,0.895,http://www.forbes.com/companies/american-financial-group/,fullcontact_1198,American Financial Group,American Eagle Outfitters,USA,United States
+0,0.885,http://www.forbes.com/companies/dassault-aviation/,fullcontact_40,Dassault Aviation,Dassault Systemes,FRA,France
+0,0.93,http://www.forbes.com/companies/softbank/,fullcontact_688,Softbank,SoftBank Capital,JPN,Japan
+0,0.958,http://www.forbes.com/companies/fraport/,fullcontact_329,Fraport,Fraport AG,GER,Germany
+0,0.899,http://www.forbes.com/companies/mitsubishi-estate/,fullcontact_513,Mitsubishi Estate,Mitsubishi Corporation,JPN,Japan
+0,0.93,http://www.forbes.com/companies/amgen/,fullcontact_93,Amgen,Amgen Inc.,USA,United States
+0,0.907,http://www.forbes.com/companies/oracle/,fullcontact_1171,Oracle,Oracle Corporation,USA,United States
+0,0.91,http://www.forbes.com/companies/american-capital-agency/,fullcontact_942,American Capital Agency,American Family Fitness,USA,United States
+0,0.93,http://www.forbes.com/companies/areva/,fullcontact_106,Areva,AREVA Inc.,FRA,France
+0,0.891,http://www.forbes.com/companies/metro-group/,fullcontact_923,Metro Group,Merck Group,GER,Germany
+0,0.889,http://www.forbes.com/companies/chesapeake-energy/,fullcontact_1316,Chesapeake Energy,Chesapeake Bay Foundation,USA,United States
+0,0.953,http://www.forbes.com/companies/joy-global/,fullcontact_444,Joy Global,Joy Global Inc.,USA,United States
+0,0.942,http://www.forbes.com/companies/ashland/,fullcontact_111,Ashland,Ashland Inc.,USA,United States
+0,0.951,http://www.forbes.com/companies/tripadvisor/,fullcontact_755,TripAdvisor,"TripAdvisor, Inc.",USA,United States
+0,0.936,http://www.forbes.com/companies/google/,fullcontact_919,Google,Google Inc.,USA,United States
+0,0.93,http://www.forbes.com/companies/monsanto/,fullcontact_518,Monsanto,Monsanto Company,USA,United States
+0,0.884,http://www.forbes.com/companies/american-financial-group/,fullcontact_942,American Financial Group,American Family Fitness,USA,United States
+0,0.908,http://www.forbes.com/companies/neste-oil/,fullcontact_533,Neste Oil,Neste,FIN,Finland
+0,0.87,http://www.forbes.com/companies/adobe-systems/,fullcontact_1634,Adobe Systems,Plex Systems,USA,United States
+0,0.896,http://www.forbes.com/companies/rwe-group/,fullcontact_158,RWE Group,BMW Group,GER,Germany
+0,0.874,http://www.forbes.com/companies/quest-diagnostics/,fullcontact_1117,Quest Diagnostics,Quest CE,USA,United States
+0,0.875,http://www.forbes.com/companies/united-continental-holdings/,fullcontact_781,United Continental Holdings,United States Steel Corporation,USA,United States
+0,0.865,http://www.forbes.com/companies/akamai-technologies/,fullcontact_122,Akamai Technologies,Avago Technologies,USA,United States
+0,0.902,http://www.forbes.com/companies/kroger/,fullcontact_467,Kroger,Kroger Company (the),USA,United States
+0,0.966,http://www.forbes.com/companies/rockwell-automation/,fullcontact_629,Rockwell Automation,"Rockwell Automation, Inc.",USA,United States
+0,0.959,http://www.forbes.com/companies/shinsei-bank/,fullcontact_666,Shinsei Bank,"Shinsei Bank, Ltd",JPN,Japan
+0,0.941,http://www.forbes.com/companies/kotak-mahindra-bank/,fullcontact_464,Kotak Mahindra Bank,Kotak Mahindra Bank Ltd.,IND,India
+0,0.892,http://www.forbes.com/companies/hca-holdings/,fullcontact_913,HCA Holdings,Shamrock Holdings,USA,United States
+0,0.93,http://www.forbes.com/companies/fiserv/,fullcontact_321,Fiserv,"Fiserv, Inc.",USA,United States
+0,0.871,http://www.forbes.com/companies/united-technologies/,fullcontact_1781,United Technologies,Tavant Technologies,USA,United States
+0,0.862,http://www.forbes.com/companies/marriott-international/,fullcontact_592,Marriott International,Philip Morris International,USA,United States
+0,0.929,http://www.forbes.com/companies/deutsche-bank/,fullcontact_9,Deutsche Bank,Deutsche Börse AG,GER,Germany
+0,0.898,http://www.forbes.com/companies/mosaic/,fullcontact_521,Mosaic,Mosaic Sales Solutions,USA,United States
+0,0.9,http://www.forbes.com/companies/moodys/,fullcontact_519,Moody's,Moody Services,USA,United States
+0,0.951,http://www.forbes.com/companies/constellation-brands/,fullcontact_422,Constellation Brands,Constellation,USA,United States
+0,0.968,http://www.forbes.com/companies/simon-property-group/,fullcontact_676,Simon Property Group,"Simon Property Group, Inc.",USA,United States
+0,0.904,http://www.forbes.com/companies/johnson-johnson/,fullcontact_443,Johnson & Johnson,"Johnson Controls, Inc.",USA,United States
+0,0.866,http://www.forbes.com/companies/oge-energy/,fullcontact_1881,OGE Energy,Noble Energy,USA,United States
+0,0.916,http://www.forbes.com/companies/huntsman/,fullcontact_866,Huntsman,Huntsman Corporation,USA,United States
+0,0.865,http://www.forbes.com/companies/fmc-technologies/,fullcontact_929,FMC Technologies,Lark Technologies,USA,United States
+0,0.902,http://www.forbes.com/companies/american-capital-agency/,fullcontact_1496,American Capital Agency,American Book Company,USA,United States
+0,0.927,http://www.forbes.com/companies/transcanada/,fullcontact_754,TransCanada,TransCanada Corporation,CAN,Canada
+0,0.912,http://www.forbes.com/companies/keyence/,fullcontact_454,Keyence,Keyence Corporation,JPN,Japan
+0,0.901,http://www.forbes.com/companies/tosoh/,fullcontact_748,Tosoh,Tosoh Corporation,JPN,Japan
+0,0.89,http://www.forbes.com/companies/cst-brands/,fullcontact_1416,CST Brands,ACCO Brands,USA,United States
+0,0.887,http://www.forbes.com/companies/lundbergs/,fullcontact_484,Lundbergs,Lundbergs Produkter AB,SWE,Sweden
+0,0.962,http://www.forbes.com/companies/realogy-holdings/,fullcontact_1235,Realogy Holdings,Realogy Holdings Corp.,USA,United States
+0,0.936,http://www.forbes.com/companies/viacom/,fullcontact_1295,Viacom,Viacom Inc.,USA,United States
+0,0.971,http://www.forbes.com/companies/raymond-james-financial/,fullcontact_618,Raymond James Financial,"Raymond James Financial, Inc.",USA,United States
+0,0.96,http://www.forbes.com/companies/quanta-services/,fullcontact_614,Quanta Services,"Quanta Services, Inc.",USA,United States
+0,0.868,http://www.forbes.com/companies/mohawk-industries/,fullcontact_7,Mohawk Industries,PPG Industries,USA,United States
+0,0.863,http://www.forbes.com/companies/continental-resources/,fullcontact_296,Continental Resources,EOG Resources,USA,United States
+0,0.889,http://www.forbes.com/companies/american-financial-group/,fullcontact_1496,American Financial Group,American Book Company,USA,United States
+0,0.906,http://www.forbes.com/companies/charter-communications/,fullcontact_931,Charter Communications,Charter Arms,USA,United States
+0,0.93,http://www.forbes.com/companies/coach/,fullcontact_38,Coach,Coach Inc.,USA,United States
+0,0.892,http://www.forbes.com/companies/aareal-bank/,fullcontact_42,Aareal Bank,Aareal Estate AG,GER,Germany
+0,0.89,http://www.forbes.com/companies/xcel-energy/,fullcontact_273,Xcel Energy,DTE Energy,USA,United States
+0,0.903,http://www.forbes.com/companies/american-equity-investment/,fullcontact_942,American Equity Investment,American Family Fitness,USA,United States
+0,0.905,http://www.forbes.com/companies/american-airlines-group/,fullcontact_1198,American Airlines Group,American Eagle Outfitters,USA,United States
+0,0.936,http://www.forbes.com/companies/zoetis/,fullcontact_841,Zoetis,Zoetis Inc.,USA,United States
+0,0.941,http://www.forbes.com/companies/church-dwight/,fullcontact_212,Church & Dwight,"Church & Dwight, Co., Inc.",USA,United States
+0,0.973,http://www.forbes.com/companies/affiliated-managers-group/,fullcontact_92,Affiliated Managers Group,"Affiliated Managers Group, Inc.",USA,United States
+0,0.938,http://www.forbes.com/companies/deutsche-boerse/,fullcontact_9,Deutsche Boerse,Deutsche Börse AG,GER,Germany
+0,0.965,http://www.forbes.com/companies/motorola-solutions/,fullcontact_522,Motorola Solutions,"Motorola Solutions, Inc.",USA,United States
+0,0.93,http://www.forbes.com/companies/city-national/,fullcontact_3,City National,City & National Employment,USA,United States
+0,0.865,http://www.forbes.com/companies/eog-resources/,fullcontact_617,EOG Resources,Ranger Resources,USA,United States
+0,0.868,http://www.forbes.com/companies/oceaneering-international/,fullcontact_1263,Oceaneering International,Bonneville International,USA,United States
+0,0.903,http://www.forbes.com/companies/devon-energy/,fullcontact_273,Devon Energy,DTE Energy,USA,United States
+0,0.907,http://www.forbes.com/companies/cameco/,fullcontact_186,Cameco,Cameco Corporation,CAN,Canada
+0,0.889,http://www.forbes.com/companies/linde/,fullcontact_479,Linde,Linde Services Group LLC,GER,Germany
+0,0.893,http://www.forbes.com/companies/american-water-works/,fullcontact_942,American Water Works,American Family Fitness,USA,United States
+0,0.908,http://www.forbes.com/companies/fmc-technologies/,fullcontact_1175,FMC Technologies,UFP Technologies,USA,United States
+0,0.907,http://www.forbes.com/companies/cisco-systems/,fullcontact_264,Cisco Systems,Dish Systems,USA,United States
+0,0.946,http://www.forbes.com/companies/comerica/,fullcontact_225,Comerica,Comerica Bank,USA,United States
+0,0.963,http://www.forbes.com/companies/range-resources/,fullcontact_617,Range Resources,Ranger Resources,USA,United States
+0,0.944,http://www.forbes.com/companies/microsoft/,fullcontact_1116,Microsoft,Microsoft Azure,USA,United States
+0,0.912,http://www.forbes.com/companies/nasdaq-omx-group/,fullcontact_526,NASDAQ OMX Group,Nasdaq,USA,United States
+0,0.896,http://www.forbes.com/companies/american-express/,fullcontact_1198,American Express,American Eagle Outfitters,USA,United States
+0,0.876,http://www.forbes.com/companies/home-depot/,fullcontact_1514,Home Depot,Office Depot,USA,United States
+0,0.901,http://www.forbes.com/companies/fedex/,fullcontact_316,FedEx,FedEx Corporation,USA,United States
+0,0.895,http://www.forbes.com/companies/pall/,fullcontact_571,Pall,Pall Corporation,USA,United States
+0,0.92,http://www.forbes.com/companies/brunswick/,fullcontact_174,Brunswick,Brunswick Corporation,USA,United States
+0,0.926,http://www.forbes.com/companies/oreilly-automotive/,fullcontact_563,O'Reilly Automotive,O'Reilly Auto Parts,USA,United States
+0,0.901,http://www.forbes.com/companies/omron/,fullcontact_558,OMRON,Omron Corporation,JPN,Japan
+0,0.892,http://www.forbes.com/companies/rockwell-collins/,fullcontact_629,Rockwell Collins,"Rockwell Automation, Inc.",USA,United States
+0,0.946,http://www.forbes.com/companies/petsmart/,fullcontact_584,Petsmart,"PetSmart, Inc",USA,United States
+0,0.935,http://www.forbes.com/companies/paychex/,fullcontact_576,Paychex,"Paychex, Inc.",USA,United States
+0,0.96,http://www.forbes.com/companies/bristol-myers-squibb/,fullcontact_157,Bristol-Myers Squibb,Bristol-Myers Squibb Company,USA,United States
+0,0.91,http://www.forbes.com/companies/carrefour/,fullcontact_196,Carrefour,Carrefour Global Sourcing,FRA,France
+0,0.876,http://www.forbes.com/companies/american-water-works/,fullcontact_1496,American Water Works,American Book Company,USA,United States
+0,0.895,http://www.forbes.com/companies/american-electric/,fullcontact_942,American Electric,American Family Fitness,USA,United States
+0,0.885,http://www.forbes.com/companies/dassault-systemes/,fullcontact_251,Dassault Systemes,Dassault Aviation,FRA,France
+0,0.891,http://www.forbes.com/companies/dominion-resources/,fullcontact_229,Dominion Resources,Concho Resources,USA,United States
+0,0.918,http://www.forbes.com/companies/american-express/,fullcontact_1394,American Express,American Appraisal,USA,United States
+0,0.901,http://www.forbes.com/companies/western-digital/,fullcontact_814,Western Digital,Western Union,USA,United States
+0,0.907,http://www.forbes.com/companies/kimberly-clark/,fullcontact_456,Kimberly-Clark,Kimberly-Clark Corporation (United States),USA,United States
+0,0.961,http://www.forbes.com/companies/consol-energy/,fullcontact_1253,CONSOL Energy,CONSOL Energy Inc.,USA,United States
+0,0.879,http://www.forbes.com/companies/baker-hughes/,fullcontact_1426,Baker Hughes,Baker's Drive-Thru,USA,United States
+0,0.901,http://www.forbes.com/companies/fluor/,fullcontact_323,Fluor,Fluor Corporation,USA,United States
+0,0.877,http://www.forbes.com/companies/grupo-argos/,fullcontact_364,Grupo Argos,Grupo Aval,COL,Colombia
+0,0.927,http://www.forbes.com/companies/ecopetrol/,fullcontact_280,Ecopetrol,ECOPETROL S.A,COL,Colombia
+0,0.869,http://www.forbes.com/companies/wipro/,fullcontact_822,Wipro,Wipro Technologies,IND,India
+0,0.917,http://www.forbes.com/companies/american-natl-ins/,fullcontact_1394,American Natl Ins,American Appraisal,USA,United States
+0,0.884,http://www.forbes.com/companies/hyundai-motor/,fullcontact_405,Hyundai Motor,Hyundai Steel,KOR,"Korea, North"
+0,0.887,http://www.forbes.com/companies/volvo-group/,fullcontact_803,Volvo Group,Volvo Group Venture Capital,SWE,Sweden
+0,0.907,http://www.forbes.com/companies/sojitz/,fullcontact_690,Sojitz,Sojitz Corporation,JPN,Japan
+0,0.883,http://www.forbes.com/companies/denbury-resources/,fullcontact_617,Denbury Resources,Ranger Resources,USA,United States
+0,0.969,http://www.forbes.com/companies/crescent-point-energy/,fullcontact_239,Crescent Point Energy,Crescent Point Energy Corp.,CAN,Canada
+0,0.968,http://www.forbes.com/companies/beiersdorf/,fullcontact_147,Beiersdorf,Beiersdorf AG,GER,Germany
+0,0.955,http://www.forbes.com/companies/fmc-technologies/,fullcontact_181,FMC Technologies,CA Technologies,USA,United States
+0,0.962,http://www.forbes.com/companies/brenntag/,fullcontact_169,Brenntag,Brenntag AG,GER,Germany
+0,0.875,http://www.forbes.com/companies/united-technologies/,fullcontact_781,United Technologies,United States Steel Corporation,USA,United States
+0,0.902,http://www.forbes.com/companies/cameron-international/,fullcontact_1320,Cameron International,Cameron Mitchell Restaurants,USA,United States
+0,0.891,http://www.forbes.com/companies/united-rentals/,fullcontact_779,United Rentals,"United Parcel Service, Inc.",USA,United States
+0,0.927,http://www.forbes.com/companies/merck-co/,fullcontact_504,Merck & Co,"Merck & Company, Inc.",USA,United States
+0,0.908,http://www.forbes.com/companies/kia-motors/,fullcontact_455,KIA Motors,Kia Motors America,KOR,South Korea
+0,0.887,http://www.forbes.com/companies/american-natl-ins/,fullcontact_1496,American Natl Ins,American Book Company,USA,United States
+0,0.883,http://www.forbes.com/companies/united-rentals/,fullcontact_781,United Rentals,United States Steel Corporation,USA,United States
+0,0.887,http://www.forbes.com/companies/mitsubishi-heavy-industries/,fullcontact_513,Mitsubishi Heavy Industries,Mitsubishi Corporation,JPN,Japan
+0,0.893,http://www.forbes.com/companies/prudential-financial/,fullcontact_606,Prudential Financial,Prudential - Bring your Challenges,USA,United States
+0,0.96,http://www.forbes.com/companies/salesforce/,fullcontact_639,Salesforce.com,Salesforce,USA,United States
+0,0.975,http://www.forbes.com/companies/fast-retailing/,fullcontact_313,Fast Retailing,FAST RETAILING CO,JPN,Japan
+0,0.962,http://www.forbes.com/companies/johnson-controls/,fullcontact_443,Johnson Controls,"Johnson Controls, Inc.",USA,United States
+0,0.936,http://www.forbes.com/companies/google/,fullcontact_360,Google,Google Inc.,USA,United States
+0,0.938,http://www.forbes.com/companies/microchip-technology/,fullcontact_511,Microchip Technology,Micron Technology,USA,United States
+0,0.933,http://www.forbes.com/companies/progressive/,fullcontact_602,Progressive,Progressive Insurance,USA,United States
+0,0.95,http://www.forbes.com/companies/united-rentals/,fullcontact_772,United Rentals,United Airlines,USA,United States
+0,0.936,http://www.forbes.com/companies/viacom/,fullcontact_794,Viacom,Viacom Inc.,USA,United States
+0,0.97,http://www.forbes.com/companies/chipotle-mexican-grill/,fullcontact_210,Chipotle Mexican Grill,"Chipotle Mexican Grill, Inc.",USA,United States
+0,0.89,http://www.forbes.com/companies/reynolds-american/,fullcontact_624,Reynolds American,"Reynolds Transformation Services, Inc.",USA,United States
+0,0.896,http://www.forbes.com/companies/tata-steel/,fullcontact_1148,Tata Steel,Tata Elxsi,IND,India
+0,0.864,http://www.forbes.com/companies/hyundai-marine-fire/,fullcontact_405,Hyundai Marine & Fire,Hyundai Steel,KOR,"Korea, North"
+0,0.895,http://www.forbes.com/companies/ball/,fullcontact_129,Ball,Ball Corporation,USA,United States
+0,0.864,http://www.forbes.com/companies/duke-energy/,fullcontact_902,Duke Energy,Woodside Energy,USA,United States
+0,0.912,http://www.forbes.com/companies/johnson-controls/,fullcontact_442,Johnson Controls,Johnson & Johnson,USA,United States
+0,0.884,http://www.forbes.com/companies/hyundai-hysco/,fullcontact_405,Hyundai Hysco,Hyundai Steel,KOR,"Korea, North"
+0,0.876,http://www.forbes.com/companies/american-international-group/,fullcontact_1496,American International Group,American Book Company,USA,United States
+0,0.963,http://www.forbes.com/companies/wabco-holdings/,fullcontact_806,WABCO Holdings,Wabco Holdings Inc.,USA,United States
+0,0.948,http://www.forbes.com/companies/cst-brands/,fullcontact_243,CST Brands,"CST Brands, Inc.",USA,United States
+0,0.924,http://www.forbes.com/companies/mcdonalds/,fullcontact_496,McDonald's,McDonald's Corporation,USA,United States
+0,0.906,http://www.forbes.com/companies/united-parcel-service/,fullcontact_772,United Parcel Service,United Airlines,USA,United States
+0,0.865,http://www.forbes.com/companies/roper-inds/,fullcontact_1075,Roper Industries,Hunter Industries,USA,United States
+0,0.93,http://www.forbes.com/companies/ventas/,fullcontact_787,Ventas,"Ventas, Inc.",USA,United States
+0,0.907,http://www.forbes.com/companies/waters/,fullcontact_808,Waters,Waters Corporation,USA,United States
+0,0.882,http://www.forbes.com/companies/united-parcel-service/,fullcontact_781,United Parcel Service,United States Steel Corporation,USA,United States
+0,0.93,http://www.forbes.com/companies/mitsubishi-motors/,fullcontact_513,Mitsubishi Motors,Mitsubishi Corporation,JPN,Japan
+0,0.897,http://www.forbes.com/companies/american-international-group/,fullcontact_1198,American International Group,American Eagle Outfitters,USA,United States
+0,0.878,http://www.forbes.com/companies/cme-group/,fullcontact_776,CME Group,Unum Group,USA,United States
+0,0.883,http://www.forbes.com/companies/oge-energy/,fullcontact_902,OGE Energy,Woodside Energy,USA,United States
+0,0.969,http://www.forbes.com/companies/united-parcel-service/,fullcontact_779,United Parcel Service,"United Parcel Service, Inc.",USA,United States
+0,0.953,http://www.forbes.com/companies/brown-forman/,fullcontact_173,Brown-Forman,Brown-Forman Corp.,USA,United States
+0,0.942,http://www.forbes.com/companies/fujifilm-holdings/,fullcontact_334,Fujifilm Holdings,Fujifilm Holdings Corporation,JPN,Japan
+0,0.965,http://www.forbes.com/companies/talisman-energy/,fullcontact_717,Talisman Energy,Talisman Energy Inc.,CAN,Canada
+0,0.963,http://www.forbes.com/companies/applied-materials/,fullcontact_103,Applied Materials,"Applied Materials, Inc.",USA,United States
+0,0.885,http://www.forbes.com/companies/veolia-environnement/,fullcontact_788,Veolia Environnement,Veolia Research and Innovation,FRA,France
+0,0.924,http://www.forbes.com/companies/oneok/,fullcontact_559,Oneok,"ONEOK, Inc.",USA,United States
+0,0.883,http://www.forbes.com/companies/deutsche-lufthansa/,fullcontact_9,Deutsche Lufthansa,Deutsche Börse AG,GER,Germany
+0,0.901,http://www.forbes.com/companies/international-paper/,fullcontact_1743,International Paper,International Solar Energy Technology,USA,United States
+0,0.928,http://www.forbes.com/companies/hexagon/,fullcontact_19,Hexagon,Hexagon AB,SWE,Sweden
+0,0.884,http://www.forbes.com/companies/hyundai-glovis/,fullcontact_405,Hyundai Glovis,Hyundai Steel,KOR,"Korea, North"
+0,0.901,http://www.forbes.com/companies/fmc-technologies/,fullcontact_809,FMC Technologies,Wdc Technologies Inc,USA,United States
+0,0.909,http://www.forbes.com/companies/american-capital-agency/,fullcontact_1394,American Capital Agency,American Appraisal,USA,United States
+0,0.953,http://www.forbes.com/companies/universal-health/,fullcontact_775,Universal Health,Universal Health Hospice,USA,United States
+0,0.947,http://www.forbes.com/companies/jacobs-engineering/,fullcontact_1327,Jacobs Engineering,Jacobs Engineering Group Inc.,USA,United States
+0,0.939,http://www.forbes.com/companies/peoples-united-financial/,fullcontact_1574,People's United Financial,People's United Bank,USA,United States
+0,0.886,http://www.forbes.com/companies/eog-resources/,fullcontact_60,EOG Resources,AGL Resources,USA,United States
+0,0.92,http://www.forbes.com/companies/fresenius/,fullcontact_330,Fresenius,Fresenius Helios Gmbh,GER,Germany
+0,0.895,http://www.forbes.com/companies/american-water-works/,fullcontact_1198,American Water Works,American Eagle Outfitters,USA,United States
+0,0.889,http://www.forbes.com/companies/american-international-group/,fullcontact_1394,American International Group,American Appraisal,USA,United States
+0,0.921,http://www.forbes.com/companies/luxottica-group/,fullcontact_1276,Luxottica Group,"Luxottica Group, S.p.A.",ITA,Italy
+0,0.889,http://www.forbes.com/companies/american-capital-agency/,fullcontact_1198,American Capital Agency,American Eagle Outfitters,USA,United States
+0,0.899,http://www.forbes.com/companies/devon-energy/,fullcontact_1881,Devon Energy,Noble Energy,USA,United States
+0,0.904,http://www.forbes.com/companies/adobe-systems/,fullcontact_1376,Adobe Systems,Avenda Systems,USA,United States
+0,0.944,http://www.forbes.com/companies/weyerhaeuser/,fullcontact_816,Weyerhaeuser,Weyerhaeuser Company,USA,United States
+0,0.94,http://www.forbes.com/companies/tenet-healthcare/,fullcontact_733,Tenet Healthcare,Tenet Healthcare Corporation,USA,United States
+0,0.935,http://www.forbes.com/companies/sears-holdings/,fullcontact_31,Sears Holdings,Sears Holdings Corporation,USA,United States
+0,0.938,http://www.forbes.com/companies/windstream/,fullcontact_821,Windstream,Windstream at Home,USA,United States
+0,0.897,http://www.forbes.com/companies/american-tower/,fullcontact_942,American Tower,American Family Fitness,USA,United States
+0,0.908,http://www.forbes.com/companies/precision-castparts/,fullcontact_1030,Precision Castparts,Precision Dynamics Corporation,USA,United States
+0,0.901,http://www.forbes.com/companies/nucor/,fullcontact_554,Nucor,Nucor Corporation,USA,United States
+0,0.881,http://www.forbes.com/companies/rwe-group/,fullcontact_923,RWE Group,Merck Group,GER,Germany
+0,0.907,http://www.forbes.com/companies/encana/,fullcontact_290,Encana,Encana Corporation,CAN,Canada
+0,0.901,http://www.forbes.com/companies/nidec/,fullcontact_538,Nidec,Nidec Corporation,JPN,Japan
+0,0.884,http://www.forbes.com/companies/linear-technology/,fullcontact_511,Linear Technology,Micron Technology,USA,United States
+0,0.879,http://www.forbes.com/companies/american-airlines-group/,fullcontact_1496,American Airlines Group,American Book Company,USA,United States
+0,0.881,http://www.forbes.com/companies/general-electric/,fullcontact_352,General Electric,General Growth Properties,USA,United States
+0,0.97,http://www.forbes.com/companies/cj-cheiljedang/,fullcontact_217,CJ Cheiljedang,CJ CheilJedang,KOR,"Korea, North"
+0,0.959,http://www.forbes.com/companies/ingram-micro/,fullcontact_419,Ingram Micro,Ingram Micro Inc.,USA,United States
+0,0.935,http://www.forbes.com/companies/equifax/,fullcontact_298,Equifax,"Equifax, Inc.",USA,United States
+0,0.97,http://www.forbes.com/companies/manulife-financial/,fullcontact_487,Manulife Financial,Manulife Financial Corp,CAN,Canada
+0,0.97,http://www.forbes.com/companies/hyundai-steel/,fullcontact_405,Hyundai Steel,Hyundai Steel,KOR,"Korea, North"
+0,0.907,http://www.forbes.com/companies/american-equity-investment/,fullcontact_1198,American Equity Investment,American Eagle Outfitters,USA,United States
+0,0.897,http://www.forbes.com/companies/united-technologies/,fullcontact_772,United Technologies,United Airlines,USA,United States
+0,0.902,http://www.forbes.com/companies/clorox/,fullcontact_220,Clorox,Clorox Company (the),USA,United States
+0,0.897,http://www.forbes.com/companies/american-water-works/,fullcontact_1394,American Water Works,American Appraisal,USA,United States
+0,0.884,http://www.forbes.com/companies/hyundai-mobis/,fullcontact_405,Hyundai Mobis,Hyundai Steel,KOR,"Korea, North"
+0,0.93,http://www.forbes.com/companies/alcoa/,fullcontact_69,Alcoa,Alcoa Inc.,USA,United States
+0,0.876,http://www.forbes.com/companies/american-international-group/,fullcontact_942,American International Group,American Family Fitness,USA,United States
+0,0.897,http://www.forbes.com/companies/chubb/,fullcontact_211,Chubb,Chubb Services Corp,USA,United States
+0,0.881,http://www.forbes.com/companies/ingredion/,fullcontact_420,Ingredion,Ingredion Incorporated (former Corn Products International),USA,United States
+0,0.946,http://www.forbes.com/companies/marsh-mclennan/,fullcontact_888,Marsh & McLennan,Marsh & McLennan Companies,USA,United States
+0,0.953,http://www.forbes.com/companies/societe-generale/,fullcontact_686,Société Générale,Société Générale Et Vous,FRA,France
+0,0.941,http://www.forbes.com/companies/time-warner-cable/,fullcontact_743,Time Warner Cable,Time Warner Inc.,USA,United States
+0,0.935,http://www.forbes.com/companies/alliant-energy/,fullcontact_76,Alliant Energy,Alliant Energy Corporation,USA,United States
+0,0.956,http://www.forbes.com/companies/time-warner/,fullcontact_743,Time Warner,Time Warner Inc.,USA,United States
+0,0.948,http://www.forbes.com/companies/cincinnati-financial/,fullcontact_1808,Cincinnati Financial,Cincinnati Financial Corporation,USA,United States
+0,0.94,http://www.forbes.com/companies/illumina/,fullcontact_412,Illumina,"Illumina, Inc.",USA,United States
+0,0.936,http://www.forbes.com/companies/google/,fullcontact_359,Google,Google Inc.,USA,United States
+0,0.941,http://www.forbes.com/companies/halliburton/,fullcontact_368,Halliburton,Halliburton Company,USA,United States
+0,0.884,http://www.forbes.com/companies/mitsubishi-ufj-financial/,fullcontact_513,Mitsubishi UFJ Financial,Mitsubishi Corporation,JPN,Japan
+0,0.933,http://www.forbes.com/companies/hollyfrontier/,fullcontact_385,HollyFrontier,HollyFrontier Corporation,USA,United States
+0,0.918,http://www.forbes.com/companies/gannett/,fullcontact_1341,Gannett,"Gannett Co., Inc.",USA,United States
+0,0.893,http://www.forbes.com/companies/ross-stores/,fullcontact_632,Ross Stores,Ross Dress for Less,USA,United States
+0,0.89,http://www.forbes.com/companies/arrow-electronics/,fullcontact_873,Arrow Electronics,Fry's Electronics,USA,United States
+0,0.898,http://www.forbes.com/companies/american-express/,fullcontact_942,American Express,American Family Fitness,USA,United States
+0,0.877,http://www.forbes.com/companies/western-refining/,fullcontact_1409,Western Refining,Western Pest Services,USA,United States
+0,0.907,http://www.forbes.com/companies/markel/,fullcontact_489,Markel,Markel Corporation,USA,United States
+0,0.891,http://www.forbes.com/companies/american-financial-group/,fullcontact_1394,American Financial Group,American Appraisal,USA,United States
+0,0.901,http://www.forbes.com/companies/dr-horton/,fullcontact_270,DR Horton,"D.R. Horton, Inc.",USA,United States
+0,0.896,http://www.forbes.com/companies/level-3-communications/,fullcontact_1398,Level 3 Communications,LEVEL Studios,USA,United States
+0,0.879,http://www.forbes.com/companies/baxter-international/,fullcontact_1823,Baxter International,GrafTech International Ltd,USA,United States
+0,0.89,http://www.forbes.com/companies/deutsche-telekom/,fullcontact_9,Deutsche Telekom,Deutsche Börse AG,GER,Germany
+0,0.916,http://www.forbes.com/companies/nike/,fullcontact_539,NIKE,"Nike, Inc.",USA,United States
+0,0.884,http://www.forbes.com/companies/duke-energy/,fullcontact_274,Duke Energy,Duke Power Company,USA,United States
+0,0.865,http://www.forbes.com/companies/dean-foods/,fullcontact_1521,Dean Foods,Del Monte Foods,USA,United States
+0,0.933,http://www.forbes.com/companies/sigma-aldrich/,fullcontact_671,Sigma-Aldrich,Sigma-Aldrich Corporation,USA,United States
+0,0.874,http://www.forbes.com/companies/american-express/,fullcontact_1496,American Express,American Book Company,USA,United States
+0,0.912,http://www.forbes.com/companies/chevron/,fullcontact_207,Chevron,Chevron Corporation,USA,United States
+0,0.916,http://www.forbes.com/companies/huntsman/,fullcontact_403,Huntsman,Huntsman Corporation,USA,United States
+0,0.922,http://www.forbes.com/companies/western-refining/,fullcontact_814,Western Refining,Western Union,USA,United States
+0,0.811,http://www.forbes.com/companies/polaris-industries/,fullcontact_1847,Polaris Industries,Next Star Industries,USA,United States
+0,0.821,http://www.forbes.com/companies/svb-financial-group/,fullcontact_601,SVB Financial Group,Principal Financial Group,USA,United States
+0,0.822,http://www.forbes.com/companies/world-fuel-services/,fullcontact_1326,World Fuel Services,Kelly Services,USA,United States
+0,0.815,http://www.forbes.com/companies/cvr-energy/,fullcontact_1253,CVR Energy,CONSOL Energy Inc.,USA,United States
+0,0.825,http://www.forbes.com/companies/darden-restaurants/,fullcontact_897,Darden Restaurants,Mandarin Restaurants,USA,United States
+0,0.827,http://www.forbes.com/companies/cms-energy/,fullcontact_231,CMS Energy,CONSOL Energy Inc.,USA,United States
+0,0.834,http://www.forbes.com/companies/hormel-foods/,fullcontact_819,Hormel Foods,Whole Foods Market,USA,United States
+0,0.834,http://www.forbes.com/companies/cablevision/,fullcontact_192,Cablevision Systems Corporation,CareFusion Corporation,USA,United States
+0,0.811,http://www.forbes.com/companies/universal-health/,fullcontact_1543,Universal Health,Baystate Health,USA,United States
+0,0.806,http://www.forbes.com/companies/liberty-interactive/,fullcontact_970,Liberty Interactive,New World Interactive,USA,United States
+0,0.801,http://www.forbes.com/companies/scripps-networks-interactive/,fullcontact_1643,Scripps Networks Interactive,Disney Interactive,USA,United States
+0,0.802,http://www.forbes.com/companies/crown-holdings/,fullcontact_806,Crown Holdings,Wabco Holdings Inc.,USA,United States
+0,0.816,http://www.forbes.com/companies/cic-group/,fullcontact_623,CIC Group,Rexel Group,FRA,France
+0,0.833,http://www.forbes.com/companies/cf-industries-holdings/,fullcontact_7,CF Industries Holdings,PPG Industries,USA,United States
+0,0.817,http://www.forbes.com/companies/loreal-group/,fullcontact_623,L'Oréal Group,Rexel Group,FRA,France
+0,0.812,http://www.forbes.com/companies/ppg-industries/,fullcontact_593,PPG Industries,Polaris Industries,USA,United States
+0,0.846,http://www.forbes.com/companies/pbf-energy/,fullcontact_1881,PBF Energy,Noble Energy,USA,United States
+0,0.837,http://www.forbes.com/companies/ambac-financial-group/,fullcontact_601,Ambac Financial Group,Principal Financial Group,USA,United States
+0,0.844,http://www.forbes.com/companies/gea-group/,fullcontact_158,GEA Group,BMW Group,GER,Germany
