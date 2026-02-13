@@ -1,0 +1,501 @@
+label,score,id_a,id_b,name_a,name_b,platform_a,platform_b,releaseYear_a,releaseYear_b,developer_a,developer_b,criticScore_a,criticScore_b,userScore_a,userScore_b,ESRB_a,ESRB_b
+1,0.629,sales_6180,metacritic_9720,LEGO Soccer Mania,LEGO Pirates of the Caribbean: The Video Game,PS2,PS3,2002-01-01,2011-01-01,Silicon Dreams,Traveller's Tales,61,73.0,,7.4,E,E10+
+1,0.64,sales_7682,metacritic_1706,Pirates: Legend of the Black Buccaneer,Bit.Trip Presents...Runner2: Future Legend of Rhythm Alien,PS2,PC,2006-01-01,2013-01-01,WideScreen Games,Gaijin Games,42,85.0,7.0,8.1,T,T
+1,0.656,sales_4046,metacritic_5376,Harry Potter and the Order of the Phoenix,Professor Layton VS Phoenix Wright Ace Attorney,PS3,3DS,2007-01-01,2014-01-01,EA Games,Level 5,67,79.0,6.6,8.2,E10+,T
+1,0.638,sales_1383,metacritic_12894,Dead Space 3,Dead Synchronicity: Tomorrow Comes Today,PS3,PS4,2013-01-01,2016-01-01,Visceral Games,Fictiorama Studios,76,69.0,6.4,6.4,M,M
+1,0.647,sales_1521,metacritic_9147,LEGO Indiana Jones 2: The Adventure Continues,Gibbous -  A Cthulhu Adventure,PS3,PC,2009-01-01,2019-01-01,Traveller's Tales,Stuck In Attic,70,74.0,7.1,6.5,E10+,
+1,0.654,sales_3421,metacritic_12221,Ultimate Fighting Championship: Throwdown,UFC Personal Trainer: The Ultimate Fitness System,PS2,Xbox 360,2002-01-01,2011-01-01,Opus,"THQ,Heavy Iron Studios",68,70.0,8.0,6.4,T,E
+1,0.628,sales_6650,metacritic_12869,Guilty Gear X: Advance Edition,Friday The 13th: The Game - Ultimate Slasher Switch Edition,Game Boy Advance,Switch,2002-01-01,2019-01-01,Arc System Works,"Black Tower Studios,Nighthawk Interactive",67,69.0,5.9,7.8,T,M
+1,0.624,sales_2848,metacritic_5827,The Legend of Spyro: The Eternal Night,Hasbro Family Game Night: Yahtzee,PS2,Xbox 360,2007-01-01,2009-01-01,Krome Studios,Electronic Arts,54,78.0,5.4,4.3,E10+,
+1,0.651,sales_4479,metacritic_4019,UFC Personal Trainer: The Ultimate Fitness System,Metal Arms: Glitch in the System,PS3,PS2,2011-01-01,2003-01-01,THQ,Mass Media,65,81.0,2.4,8.7,E,T
+1,0.646,sales_3586,metacritic_16865,Modnation Racers: Road Trip,Off-Road Drive,Playstation Vita,PC,2012-01-01,2011-01-01,SCEA,Avalon Style,62,60.0,6.4,6.0,E,
+1,0.916,sales_2524,metacritic_97,Test Drive Unlimited,Test Drive Le Mans,Playstation Portable,Dreamcast,2007-01-01,2000-01-01,Melbourne House,Melbourne House,80,93.0,7.3,8.5,E10+,E
+1,0.939,sales_1526,metacritic_5419,Call of Duty: Modern Warfare 2,Call of Duty: Warzone Caldera,PC,Xbox One,2009-01-01,2020-01-01,Infinity Ward,Infinity Ward,86,79.0,4.2,4.2,M,M
+1,0.929,sales_1808,metacritic_1695,Final Fantasy XIII-2,Final Fantasy X-2,Xbox 360,PS2,2011-01-01,2003-01-01,Square Enix,SquareSoft,79,85.0,6.3,7.5,T,T
+1,0.932,sales_899,metacritic_10046,Madden NFL 2002,Madden NFL 25,Playstation,Xbox One,2001-01-01,2013-01-01,EA Sports,EA Sports,88,73.0,8.0,5.9,E,E
+1,0.927,sales_4366,metacritic_3580,Suikoden Tactics,Suikoden II,PS2,PlayStation,2005-01-01,1999-01-01,Konami,Konami,68,82.0,8.6,9.1,T,T
+1,0.916,sales_1958,metacritic_6104,Final Fantasy Crystal Chronicles: Ring of Fates,Final Fantasy XIV Online: A Realm Reborn,DS,PS3,2007-01-01,2013-01-01,Square Enix,Square Enix,77,78.0,7.2,7.1,E10+,T
+1,0.922,sales_508,metacritic_490,Final Fantasy XIII,Final Fantasy VIII,Xbox 360,PlayStation,2010-01-01,1999-01-01,Square Enix,SquareSoft,82,90.0,6.3,8.7,T,T
+1,0.921,sales_1201,metacritic_825,NCAA Football 14,NCAA Football 2005,Xbox 360,PS2,2013-01-01,2004-01-01,EA Tiburon,EA Tiburon,77,88.0,5.8,8.8,E,E
+1,0.935,sales_4308,metacritic_2708,UFC Undisputed 2010,UFC Undisputed 2009,Playstation Portable,Xbox 360,2010-01-01,2009-01-01,Yuke's,Yuke's,74,83.0,7.0,7.9,T,T
+1,0.931,sales_2917,metacritic_3704,Football Manager Handheld 2011,Football Manager 2023,Playstation Portable,PC,2010-01-01,2022-01-01,Sports Interactive,Sports Interactive,77,81.0,7.7,6.7,E,E
+1,0.997,sales_668,metacritic_14879,Wii Party U,Wii Party U,WiiU,Wii U,2013-01-01,2013-01-01,Nd Cube,Nd Cube,65,65.0,6.8,7.1,E,E
+1,0.998,sales_3623,metacritic_2587,MLB Power Pros,MLB Power Pros,Wii,Wii,2007-01-01,2007-01-01,Konami,Konami,83,83.0,8.4,8.1,E,E
+1,0.995,sales_1583,metacritic_11050,Dragon Ball Z: Burst Limit,Dragon Ball Z: Burst Limit,PS3,PS3,2008-01-01,2008-01-01,"Dimps Corporation, Namco Bandai Games","Dimps Corporation,Namco Bandai Games",71,71.0,7.2,7.2,T,T
+1,0.998,sales_1154,metacritic_3932,Sunset Overdrive,Sunset Overdrive,XOne,Xbox One,2014-01-01,2014-01-01,Insomniac Games,Insomniac Games,81,81.0,7.7,7.9,M,M
+1,1.0,sales_342,metacritic_9563,Sonic Mega Collection Plus,Sonic Mega Collection Plus,PS2,PS2,2004-01-01,2004-01-01,Sonic Team,Sonic Team,73,73.0,8.6,8.6,E,E
+1,0.998,sales_4426,metacritic_433,Grandia II,Grandia II,DC,Dreamcast,2000-01-01,2000-01-01,Game Arts,Game Arts,90,90.0,8.8,8.5,T,T
+1,0.997,sales_6650,metacritic_13593,Guilty Gear X: Advance Edition,Guilty Gear X Advance Edition,Game Boy Advance,Game Boy Advance,2002-01-01,2002-01-01,Arc System Works,Arc System Works,67,67.0,5.9,5.8,T,T
+1,0.998,sales_733,metacritic_5538,Heavenly Sword,Heavenly Sword,PS3,PS3,2007-01-01,2007-01-01,Ninja Theory,Ninja Theory,79,79.0,8.3,8.0,T,T
+1,0.995,sales_7687,metacritic_11317,Goblin Commander: Unleash the Horde,Goblin Commander: Unleash the Horde,GameCube,GameCube,2003-01-01,2003-01-01,Jaleco Entertainment,Jaleco Entertainment,71,71.0,7.8,8.7,T,T
+1,0.998,sales_70,metacritic_1245,Fallout 4,Fallout 4,PS4,PS4,2015-01-01,2015-01-01,Bethesda Game Studios,Bethesda Game Studios,87,87.0,6.5,6.8,M,M
+1,0.998,sales_7704,metacritic_17927,Disciples III: Renaissance,Disciples III: Renaissance,PC,PC,2010-01-01,2010-01-01,Akella,Akella,56,56.0,5.4,5.2,T,T
+1,0.991,sales_936,metacritic_2315,FIFA Soccer 09,FIFA Soccer 09,Playstation Portable,Playstation Portable,2008-01-01,2008-01-01,EA Canada,EA Canada,84,84.0,8.9,7.3,E,E
+1,0.975,sales_620,metacritic_14656,Star Wars: The Force Unleashed,Star Wars: The Force Unleashed,Wii,Switch,2008-01-01,2022-01-01,Krome Studios,"Krome Studios,Aspyr",71,65.0,7.9,7.4,T,T
+1,0.953,sales_6166,metacritic_8324,Bejeweled 3,Bejeweled 3,PC,DS,2010-01-01,2011-01-01,PopCap,PopCap,82,75.0,8.1,7.9,E,E
+1,0.964,sales_7231,metacritic_20031,The Cursed Crusade,The Cursed Crusade,PC,Xbox 360,2011-01-01,2011-01-01,Kylotonn,Kylotonn,55,39.0,6.0,4.5,M,M
+1,0.947,sales_4844,metacritic_10702,Blood Bowl,Blood Bowl 2,Xbox 360,PS4,2009-01-01,2015-01-01,Cyanide,Cyanide,61,72.0,5.1,6.8,T,T
+1,0.966,sales_1932,metacritic_3580,Suikoden II,Suikoden II,Playstation,PlayStation,1998-01-01,1999-01-01,Konami,Konami,82,82.0,8.4,9.1,T,T
+1,0.961,sales_7574,metacritic_10379,Pro Evolution Soccer 2017,Pro Evolution Soccer 2010,PC,Playstation Portable,2016-01-01,2009-01-01,Konami,Konami,69,72.0,3.7,5.4,E,E
+1,0.962,sales_736,metacritic_510,Tiger Woods PGA Tour 2003,Tiger Woods PGA Tour 2004,PS2,PS2,2002-01-01,2003-01-01,EA Sports,EA Sports,88,89.0,8.9,8.6,E,E
+1,0.955,sales_7655,metacritic_10967,Puzzle Quest: Challenge of the Warlords,Puzzle Quest: Challenge of the Warlords,Playstation Portable,Wii,2007-01-01,2007-01-01,"Vicious Cycle, Infinite Interactive",Vicious Cycle,84,71.0,8.0,6.2,E10+,E10+
+1,0.976,sales_2740,metacritic_6661,Pro Evolution Soccer 2017,Pro Evolution Soccer 2011,PS4,PS3,2016-01-01,2010-01-01,Konami,Konami,85,77.0,7.6,7.0,E,E
+1,0.957,sales_2175,metacritic_430,Assassin's Creed: Brotherhood,Assassin's Creed: Brotherhood,PC,PS3,2011-01-01,2010-01-01,Ubisoft Montreal,Ubisoft Montreal,88,90.0,8.2,8.4,M,M
+1,0.969,sales_564,metacritic_182,Fire Emblem: Awakening,Fire Emblem: Awakening,3DS,3DS,2012-01-01,2013-01-01,Intelligent Systems,Intelligent Systems,92,92.0,9.1,9.0,T,T
+1,0.999,sales_2102,metacritic_17506,Samurai Warriors 2,Samurai Warriors 2,PS2,PS2,2006-01-01,2006-01-01,Omega Force,Omega Force,58,58.0,8.8,8.7,T,T
+1,0.998,sales_6669,metacritic_20326,Jumper: Griffin's Story,Jumper: Griffin's Story,Xbox 360,Xbox 360,2008-01-01,2008-01-01,Red Tribe,Red Tribe,29,29.0,3.3,3.2,T,T
+1,0.999,sales_1850,metacritic_5662,The Lord of the Rings: The Two Towers,The Lord of the Rings: The Two Towers,Xbox,Xbox,2002-01-01,2002-01-01,Stormfront Studios,Stormfront Studios,79,79.0,8.1,8.2,T,T
+1,1.0,sales_7584,metacritic_19473,Jake Hunter: Detective Chronicles,Jake Hunter: Detective Chronicles,DS,DS,2008-01-01,2008-01-01,WorkJam,WorkJam,47,47.0,,,T,T
+1,0.994,sales_2037,metacritic_15438,The Crew,The Crew,XOne,Xbox One,2014-01-01,2014-01-01,"Ubisoft Reflections, Ivory Tower","Ubisoft Reflections,Ivory Tower",64,64.0,5.9,5.7,T,T
+1,0.995,sales_449,metacritic_1869,Madden NFL 08,Madden NFL 08,Xbox 360,Xbox 360,2007-01-01,2007-01-01,EA Tiburon,EA Tiburon,85,85.0,6.4,7.1,E,E
+1,0.999,sales_5571,metacritic_7691,Phantasy Star Collection,Phantasy Star Collection,Game Boy Advance,Game Boy Advance,2002-01-01,2002-01-01,Digital Eclipse,Digital Eclipse,76,76.0,8.1,8.2,E,E
+1,0.999,sales_7330,metacritic_15030,Away: Shuffle Dungeon,Away: Shuffle Dungeon,DS,DS,2008-01-01,2008-01-01,"Mistwalker, Artoon","Mistwalker,Artoon",65,65.0,,7.0,E10+,E10+
+1,0.998,sales_5777,metacritic_13310,Banjo-Pilot,Banjo-Pilot,Game Boy Advance,Game Boy Advance,2005-01-01,2005-01-01,Rare Ltd.,Rare Ltd.,68,68.0,5.9,6.1,E,E
+1,0.999,sales_3608,metacritic_12220,Prince of Persia: Rival Swords,Prince of Persia: Rival Swords,Wii,Wii,2007-01-01,2007-01-01,Ubisoft Montreal,Ubisoft Montreal,70,70.0,7.7,7.9,T,T
+1,1.0,sales_4429,metacritic_6562,NFL Street 2,NFL Street 2,GameCube,GameCube,2004-01-01,2004-01-01,EA Tiburon,EA Tiburon,77,77.0,,7.6,E,E
+1,0.999,sales_7822,metacritic_5466,FlatOut: Ultimate Carnage,FlatOut: Ultimate Carnage,PC,PC,2008-01-01,2008-01-01,Bugbear,Bugbear,79,79.0,7.7,7.8,T,T
+1,0.997,sales_4748,metacritic_1226,Fight Night Round 2,Fight Night Round 2,GameCube,GameCube,2005-01-01,2005-01-01,EA Sports,EA Sports,87,87.0,7.9,7.4,T,T
+1,0.995,sales_7724,metacritic_11578,Post Mortem,Post Mortem,PC,PC,2003-01-01,2003-01-01,Microids,Microids,71,71.0,8.0,7.2,M,M
+1,0.995,sales_4755,metacritic_12896,Hitman: HD Trilogy,Hitman HD Trilogy,Xbox 360,Xbox 360,2013-01-01,2013-01-01,Io Interactive,Io Interactive,69,69.0,7.2,7.4,M,M
+1,0.996,sales_262,metacritic_2738,Clubhouse Games,Clubhouse Games,DS,DS,2006-01-01,2006-01-01,Agenda,Agenda,83,83.0,8.4,7.8,E,E
+1,0.977,sales_4039,metacritic_1102,Rocket League,Rocket League,XOne,Xbox One,2016-01-01,2016-01-01,Psyonix,"Psyonix,Panic Button",87,87.0,8.3,8.0,E,E
+1,0.994,sales_3835,metacritic_2897,Final Fantasy V Advance,Final Fantasy V Advance,Game Boy Advance,Game Boy Advance,2006-01-01,2006-01-01,TOSE,TOSE,83,83.0,7.2,8.2,E,E
+1,1.0,sales_1714,metacritic_4012,MadWorld,MadWorld,Wii,Wii,2009-01-01,2009-01-01,PlatinumGames,PlatinumGames,81,81.0,8.6,8.6,M,M
+1,0.999,sales_4919,metacritic_12600,Blitz: The League,Blitz: The League,Xbox 360,Xbox 360,2006-01-01,2006-01-01,Midway,Midway,69,69.0,6.5,6.6,M,M
+1,0.997,sales_6227,metacritic_19878,The Legend of Alon D'ar,The Legend of Alon D'ar,PS2,PS2,2001-01-01,2001-01-01,Stormfront Studios,Stormfront Studios,43,43.0,6.7,6.3,T,T
+1,0.999,sales_1028,metacritic_15650,SOCOM: U.S. Navy SEALs Confrontation,SOCOM: U.S. Navy SEALs Confrontation,PS3,PS3,2008-01-01,2008-01-01,Slant Six,Slant Six,63,63.0,6.9,6.8,M,M
+1,0.999,sales_3536,metacritic_19395,Crazy Taxi: Catch a Ride,Crazy Taxi: Catch a Ride,Game Boy Advance,Game Boy Advance,2003-01-01,2003-01-01,Graphic State,Graphic State,48,48.0,5.9,5.8,E,E
+1,0.994,sales_3201,metacritic_7966,Suikoden V,Suikoden V,PS2,PS2,2006-01-01,2006-01-01,Konami,Konami,76,76.0,7.6,8.7,T,T
+1,0.993,sales_517,metacritic_1066,Final Fantasy Tactics Advance,Final Fantasy Tactics Advance,Game Boy Advance,Game Boy Advance,2003-01-01,2003-01-01,Square Enix,Square Enix,87,87.0,7.8,9.0,E,E
+1,0.997,sales_2173,metacritic_16278,Crash Bandicoot: The Wrath of Cortex,Crash Bandicoot: The Wrath of Cortex,GameCube,GameCube,2002-01-01,2002-01-01,Traveller's Tales,Traveller's Tales,62,62.0,7.3,6.8,E,E
+1,0.999,sales_81,metacritic_20411,Call of Duty 4: Modern Warfare,Call of Duty 4: Modern Warfare,PS3,PS3,2007-01-01,2007-01-01,Infinity Ward,Infinity Ward,94,94.0,8.4,8.5,M,M
+1,0.999,sales_1633,metacritic_3021,Tony Hawk's Underground 2 Remix,Tony Hawk's Underground 2 Remix,Playstation Portable,Playstation Portable,2005-01-01,2005-01-01,Shaba Games,Shaba Games,83,83.0,8.0,7.9,T,T
+1,1.0,sales_6552,metacritic_12802,Frogger: Helmet Chaos,Frogger: Helmet Chaos,DS,DS,2005-01-01,2005-01-01,Konami Computer Entertainment Hawaii,Konami Computer Entertainment Hawaii,69,69.0,,6.8,E,E
+1,0.995,sales_2578,metacritic_10520,Dragon Ball Z: Burst Limit,Dragon Ball Z: Burst Limit,Xbox 360,Xbox 360,2008-01-01,2008-01-01,"Dimps Corporation, Namco Bandai Games","Dimps Corporation,Namco Bandai Games",72,72.0,7.6,7.6,T,T
+1,1.0,sales_1968,metacritic_15532,Finding Nemo,Finding Nemo,Xbox,Xbox,2003-01-01,2003-01-01,Traveller's Tales,Traveller's Tales,63,63.0,,7.4,E,E
+1,0.991,sales_831,metacritic_1701,Batman: Arkham Knight,Batman: Arkham Knight,XOne,Xbox One,2015-01-01,2015-01-01,Rocksteady Studios,Rocksteady Studios,85,85.0,6.6,7.6,M,M
+1,0.977,sales_5148,metacritic_16466,Gretzky NHL 06,Gretzky NHL,Playstation Portable,Playstation Portable,2005-01-01,2005-01-01,Page 44 Studios,Page 44 Studios,65,61.0,6.8,7.4,E10+,E
+1,0.999,sales_6143,metacritic_5155,Star Wars: Empire at War,Star Wars: Empire at War,PC,PC,2006-01-01,2006-01-01,Petroglyph,Petroglyph,79,79.0,8.4,8.3,T,T
+1,1.0,sales_2363,metacritic_691,ESPN NBA Basketball,ESPN NBA Basketball,PS2,PS2,2003-01-01,2003-01-01,Visual Concepts,Visual Concepts,89,89.0,8.4,8.4,E,E
+1,0.993,sales_908,metacritic_6782,Sonic Generations,Sonic Generations,Xbox 360,Xbox 360,2011-01-01,2011-01-01,"Sega, Sonic Team","Sega,Sonic Team",77,77.0,8.3,8.4,E,E
+1,0.999,sales_6593,metacritic_11685,Age of Empires Online,Age of Empires Online,PC,PC,2011-01-01,2011-01-01,Gas Powered Games,Gas Powered Games,70,70.0,5.6,5.7,E10+,E10+
+1,1.0,sales_91,metacritic_1730,Kingdom Hearts,Kingdom Hearts,PS2,PS2,2002-01-01,2002-01-01,SquareSoft,SquareSoft,85,85.0,8.8,8.8,E,E
+1,0.997,sales_2908,metacritic_8864,Tom Clancy's Rainbow Six: Lockdown,Tom Clancy's Rainbow Six: Lockdown,Xbox,Xbox,2005-01-01,2005-01-01,"Red Storm Entertainment, Ubisoft Montreal","Red Storm Entertainment,Ubisoft Montreal",74,74.0,6.6,6.6,M,M
+1,0.998,sales_815,metacritic_13386,The Simpsons Game,The Simpsons Game,PS2,PS2,2007-01-01,2007-01-01,Electronic Arts,Electronic Arts,68,68.0,8.2,7.8,T,T
+1,0.999,sales_1440,metacritic_9892,Lego Batman 3: Beyond Gotham,LEGO Batman 3: Beyond Gotham,PS4,PS4,2014-01-01,2014-01-01,TT Games,TT Games,73,73.0,7.1,6.9,E10+,E10+
+1,0.996,sales_5599,metacritic_20375,Batman: Dark Tomorrow,Batman: Dark Tomorrow,Xbox,Xbox,2003-01-01,2003-01-01,HotGen,HotGen,25,25.0,3.6,3.3,T,T
+1,1.0,sales_6751,metacritic_18670,Carmen Sandiego: The Secret of the Stolen Drums,Carmen Sandiego: The Secret of the Stolen Drums,PS2,PS2,2004-01-01,2004-01-01,Artificial Mind and Movement,Artificial Mind and Movement,53,53.0,,,E,E
+1,0.998,sales_2263,metacritic_3019,Breath of Fire IV,Breath of Fire IV,Playstation,PlayStation,2000-01-01,2000-01-01,Capcom,Capcom,83,83.0,8.9,8.6,T,T
+1,0.999,sales_319,metacritic_70,Tom Clancy's Splinter Cell,Tom Clancy's Splinter Cell,Xbox,Xbox,2002-01-01,2002-01-01,Ubisoft Montreal,Ubisoft Montreal,93,93.0,8.5,8.7,T,T
+1,1.0,sales_7808,metacritic_16329,F.E.A.R. Perseus Mandate,F.E.A.R. Perseus Mandate,PC,PC,2007-01-01,2007-01-01,TimeGate Studios,TimeGate Studios,61,61.0,7.3,7.3,M,M
+1,1.0,sales_6079,metacritic_1882,Ikaruga,Ikaruga,GameCube,GameCube,2003-01-01,2003-01-01,Treasure,Treasure,85,85.0,8.5,8.5,E,E
+1,0.99,sales_2688,metacritic_17781,The Legend of Spyro: Dawn of the Dragon,The Legend of Spyro: Dawn of the Dragon,DS,DS,2008-01-01,2008-01-01,Etranges Libellules,Etranges Libellules,57,57.0,6.8,5.4,E,E
+1,0.987,sales_7595,metacritic_14477,XGRA: Extreme G Racing Association,XGRA: Extreme-G Racing Association,Xbox,Xbox,2003-01-01,2003-01-01,Acclaim Studios Cheltenham,Acclaim Studios Cheltenham,66,66.0,6.8,6.8,T,T
+1,0.996,sales_6423,metacritic_17176,Harry Potter and the Sorcerer's Stone,Harry Potter and the Sorcerer's Stone,Xbox,Xbox,2003-01-01,2003-01-01,Warthog,Warthog,59,59.0,6.0,6.5,E,E
+1,0.993,sales_3731,metacritic_14540,Dragon Ball Z: Budokai 2,Dragon Ball Z: Budokai 2,GameCube,GameCube,2004-01-01,2004-01-01,Pyramid,Pyramid,66,66.0,5.8,6.8,T,T
+1,1.0,sales_1757,metacritic_17379,Drawn to Life: The Next Chapter,Drawn to Life: The Next Chapter,Wii,Wii,2009-01-01,2009-01-01,Planet Moon Studios,Planet Moon Studios,58,58.0,6.0,6.0,E,E
+1,0.999,sales_126,metacritic_2132,Assassin's Creed III,Assassin's Creed III,Xbox 360,Xbox 360,2012-01-01,2012-01-01,Ubisoft,Ubisoft,84,84.0,6.7,6.9,M,M
+1,0.994,sales_3369,metacritic_20365,DECA Sports Freedom,Deca Sports Freedom,Xbox 360,Xbox 360,2010-01-01,2010-01-01,AI,"Hudson,AI",26,26.0,3.7,3.3,E10+,E10+
+1,0.999,sales_2946,metacritic_1131,BlazBlue: Continuum Shift,BlazBlue: Continuum Shift,PS3,PS3,2010-01-01,2010-01-01,Arc System Works,Arc System Works,87,87.0,8.0,8.1,T,T
+1,0.993,sales_3951,metacritic_682,Grandia,Grandia,Playstation,PlayStation,1999-01-01,1999-01-01,Game Arts,Game Arts,89,89.0,6.6,7.7,E,E
+1,1.0,sales_140,metacritic_611,FIFA Soccer 11,FIFA Soccer 11,PS3,PS3,2010-01-01,2010-01-01,EA Sports,EA Sports,89,89.0,8.0,8.0,E,E
+1,0.999,sales_4168,metacritic_3531,Soul Sacrifice Delta,Soul Sacrifice Delta,Playstation Vita,PlayStation Vita,2014-01-01,2014-01-01,SCE Japan Studio,SCE Japan Studio,82,82.0,8.4,8.5,M,M
+1,0.999,sales_3997,metacritic_12227,Homefront,Homefront,PC,PC,2011-01-01,2011-01-01,Digital Extremes,Digital Extremes,70,70.0,5.5,5.6,M,M
+1,0.999,sales_1402,metacritic_6416,Pro Evolution Soccer 2014,Pro Evolution Soccer 2014,PS3,PS3,2013-01-01,2013-01-01,Konami,Konami,78,78.0,4.1,4.0,E,E
+1,0.992,sales_5015,metacritic_641,World Series Baseball 2K3,World Series Baseball 2K3,Xbox,Xbox,2003-01-01,2003-01-01,Blue Shift,Blue Shift,89,89.0,8.6,7.3,E,E
+1,1.0,sales_6777,metacritic_18285,BlowOut,BlowOut,Xbox,Xbox,2003-01-01,2003-01-01,Terminal Reality,Terminal Reality,55,55.0,,6.8,T,T
+1,0.994,sales_4301,metacritic_5965,Age of Empires: Mythologies,Age of Empires: Mythologies,DS,DS,2008-01-01,2008-01-01,Griptonite Games,Griptonite Games,78,78.0,6.9,7.9,E10+,E10+
+1,0.999,sales_4776,metacritic_17527,The Lord of the Rings: Aragorn's Quest,The Lord of the Rings: Aragorn's Quest,PS3,PS3,2010-01-01,2010-01-01,TT Fusion,TT Fusion,58,58.0,6.0,6.1,T,T
+1,0.999,sales_5333,metacritic_16245,RollerCoaster Tycoon,RollerCoaster Tycoon,Xbox,Xbox,2003-01-01,2003-01-01,Atari,Atari,62,62.0,8.3,8.4,E,E
+1,0.997,sales_306,metacritic_8905,Resident Evil 6,Resident Evil 6,PS3,PS3,2012-01-01,2012-01-01,Capcom,Capcom,74,74.0,5.4,5.7,M,M
+1,1.0,sales_72,metacritic_20489,The Legend of Zelda: Twilight Princess,The Legend of Zelda: Twilight Princess,Wii,Wii,2006-01-01,2006-01-01,Nintendo,Nintendo,95,95.0,9.0,9.0,T,T
+1,1.0,sales_4098,metacritic_18617,NCAA GameBreaker 2003,NCAA GameBreaker 2003,PS2,PS2,2002-01-01,2002-01-01,989 Sports,989 Sports,53,53.0,,,E,E
+1,1.0,sales_4027,metacritic_19084,The Incredible Hulk,The Incredible Hulk,DS,DS,2008-01-01,2008-01-01,Amaze Entertainment,Amaze Entertainment,50,50.0,,,E10+,E10+
+1,0.992,sales_7466,metacritic_1287,Final Fantasy XIV: Heavensward,Final Fantasy XIV: Heavensward,PC,PC,2015-01-01,2015-01-01,Square Enix,Square Enix,86,86.0,7.7,9.1,T,T
+1,0.999,sales_7873,metacritic_4391,Metal Gear Solid V: Ground Zeroes,Metal Gear Solid V: Ground Zeroes,PC,PC,2014-01-01,2014-01-01,Kojima Productions,Kojima Productions,80,80.0,7.6,7.7,M,M
+1,1.0,sales_7499,metacritic_9868,Blender Bros.,Blender Bros.,Game Boy Advance,Game Boy Advance,2002-01-01,2002-01-01,AI,AI,73,73.0,,,E,E
+1,0.998,sales_4913,metacritic_12213,TimeShift,TimeShift,PS3,PS3,2007-01-01,2007-01-01,Saber Interactive,Saber Interactive,70,70.0,6.3,6.5,M,M
+1,0.999,sales_3426,metacritic_17264,Murdered: Soul Suspect,Murdered: Soul Suspect,PS4,PS4,2014-01-01,2014-01-01,Airtight Games,Airtight Games,59,59.0,6.9,7.0,M,M
+1,1.0,sales_2878,metacritic_5795,Dance Dance Revolution Ultramix 2,Dance Dance Revolution Ultramix 2,Xbox,Xbox,2004-01-01,2004-01-01,Konami Computer Entertainment Hawaii,Konami Computer Entertainment Hawaii,78,78.0,7.1,7.1,E,E
+1,0.997,sales_3816,metacritic_18677,Rune: Viking Warlord,Rune: Viking Warlord,PS2,PS2,2001-01-01,2001-01-01,Human Head Studios,Human Head Studios,53,53.0,7.3,7.8,M,M
+1,0.998,sales_7461,metacritic_19018,Serious Sam Advance,Serious Sam Advance,Game Boy Advance,Game Boy Advance,2004-01-01,2004-01-01,Climax Group,Climax Group,51,51.0,7.2,7.5,M,M
+1,0.995,sales_6495,metacritic_18340,X-Men: The Official Game,X-Men: The Official Game,Game Boy Advance,Game Boy Advance,2006-01-01,2006-01-01,WayForward,WayForward,55,55.0,9.3,8.3,E10+,E10+
+1,0.945,sales_353,metacritic_140,Madden NFL 10,Madden NFL 2004,Xbox 360,Xbox,2009-01-01,2003-01-01,EA Tiburon,EA Tiburon,85,92.0,6.1,7.6,E,E
+1,0.969,sales_4499,metacritic_13481,Mafia III,Mafia III,PC,PS4,2016-01-01,2016-01-01,Hangar 13,Hangar 13,63,68.0,3.2,5.3,M,M
+1,0.989,sales_6010,metacritic_10542,Total Overdose: A Gunslinger's Tale in Mexico,Total Overdose: A Gunslinger's Tale in Mexico,PS2,PC,2005-01-01,2005-01-01,Deadline Games,Deadline Games,71,72.0,9.0,7.6,M,M
+1,0.965,sales_6244,metacritic_4543,The King of Fighters EX2: Howling Blood,The King of Fighters EX2: Howling Blood,Game Boy Advance,Game Boy Advance,2002-01-01,2003-01-01,Marvelous,Marvelous,80,80.0,9.1,8.2,T,T
+1,0.95,sales_696,metacritic_15359,Harry Potter and the Sorcerer's Stone,Harry Potter and the Sorcerer's Stone,Game Boy Advance,PlayStation,2001-01-01,2001-01-01,Griptonite Games,Argonaut Games,64,64.0,7.1,7.4,E,E
+1,0.954,sales_3169,metacritic_17587,Monster Rancher 3,Monster Rancher EVO,PS2,PS2,2001-01-01,2006-01-01,Tecmo,Tecmo,77,58.0,8.5,6.8,E,E10+
+1,0.979,sales_3897,metacritic_19597,World Series of Poker,World Series of Poker,Xbox,PS2,2005-01-01,2005-01-01,Activision Value,Activision,52,46.0,,8.0,E10+,E10+
+1,0.969,sales_5531,metacritic_13304,Nightshade,Nightshade,PS2,PS2,2003-01-01,2004-01-01,Wow Entertainment,Wow Entertainment,68,68.0,7.7,7.8,M,M
+1,0.965,sales_5591,metacritic_3788,Phantom Dust,Phantom Dust,Xbox,Xbox,2004-01-01,2005-01-01,Microsoft Game Studios Japan,Microsoft Game Studios Japan,81,81.0,8.5,7.6,T,T
+1,0.946,sales_4435,metacritic_13849,Dave Mirra Freestyle BMX 2,Dave Mirra Freestyle BMX: Maximum Remix,Xbox,PlayStation,2001-01-01,2001-01-01,"Z-Axis, Ltd.","Z-Axis, Ltd.",76,67.0,8.2,7.3,T,E
+1,0.974,sales_7097,metacritic_863,Devil May Cry 4,Devil May Cry 5,PC,PS4,2008-01-01,2019-01-01,Capcom,Capcom,78,88.0,8.5,8.4,M,M
+1,0.945,sales_1114,metacritic_20467,Grand Theft Auto V,Grand Theft Auto Double Pack,PC,Xbox,2015-01-01,2003-01-01,Rockstar North,Rockstar North,96,96.0,7.9,8.2,M,M
+1,0.953,sales_2583,metacritic_7050,FIFA Soccer 09,FIFA Soccer 2004,DS,PC,2008-01-01,2003-01-01,EA Canada,EA Canada,84,77.0,6.1,6.9,E,E
+1,0.969,sales_2256,metacritic_11490,Resident Evil Outbreak File #2,Resident Evil Outbreak,PS2,PS2,2004-01-01,2004-01-01,Capcom,Capcom,58,71.0,7.7,8.2,M,M
+1,0.949,sales_4266,metacritic_14866,BloodRayne,BloodRayne,Xbox,PC,2002-01-01,2003-01-01,Terminal Reality,Terminal Reality,76,65.0,7.5,7.6,M,M
+1,0.982,sales_7360,metacritic_94,Resident Evil 4,Resident Evil 4,PC,PlayStation 5,2007-01-01,2023-01-01,Capcom,Capcom,76,93.0,7.4,7.7,M,M
+1,0.962,sales_1613,metacritic_17500,Dynasty Warriors 2,Dynasty Warriors 7,PS2,Xbox 360,2000-01-01,2011-01-01,Omega Force,Omega Force,75,58.0,8.8,8.1,T,T
+1,0.961,sales_1153,metacritic_3658,Hot Shots Golf: Out of Bounds,Hot Shots Golf: Out of Bounds,PS3,PS3,2007-01-01,2008-01-01,Clap Hanz,Clap Hanz,81,81.0,8.8,7.3,E,E
+1,0.98,sales_4967,metacritic_917,Burnout 2: Point of Impact,Burnout 2: Point of Impact,GameCube,Xbox,2003-01-01,2003-01-01,Criterion Games,Criterion Games,89,88.0,8.5,6.1,E,E
+1,0.952,sales_2197,metacritic_7051,NCAA Football 09,NCAA Football 14,PS3,Xbox 360,2008-01-01,2013-01-01,EA Tiburon,EA Tiburon,81,77.0,7.3,6.0,E,E
+1,0.969,sales_306,metacritic_10867,Resident Evil 6,Resident Evil 5,PS3,Switch,2012-01-01,2019-01-01,Capcom,Capcom,74,72.0,5.4,6.4,M,M
+1,0.963,sales_1817,metacritic_11797,Just Dance 2015,Just Dance 2021,WiiU,Switch,2014-01-01,2020-01-01,Ubisoft,Ubisoft,75,70.0,6.6,5.5,E10+,E
+1,0.951,sales_4406,metacritic_412,MVP Baseball 2003,MVP Baseball 2004,Xbox,Xbox,2003-01-01,2004-01-01,EA Sports,EA Sports,82,90.0,9.0,7.8,E,E
+1,0.96,sales_554,metacritic_4782,Donkey Kong Country,Donkey Kong Country 2,Game Boy Advance,Game Boy Advance,2003-01-01,2004-01-01,Rare Ltd.,Rare Ltd.,78,80.0,8.9,8.6,E,E
+1,0.957,sales_4297,metacritic_6034,Pro Evolution Soccer 2012,Pro Evolution Soccer 2011,Wii,Wii,2011-01-01,2010-01-01,Konami,Konami,79,78.0,7.0,6.0,E,E
+1,0.951,sales_975,metacritic_17119,NBA Live 07,NBA Live 16,PS2,PS4,2006-01-01,2015-01-01,EA Sports,EA Sports,63,59.0,6.0,6.1,E,E
+1,0.988,sales_1686,metacritic_1874,Pro Evolution Soccer 2016,Pro Evolution Soccer 2016,PS4,Xbox One,2015-01-01,2015-01-01,Konami,Konami,87,85.0,7.1,6.0,E,E
+1,0.947,sales_2407,metacritic_8510,WWE SmackDown vs. Raw 2010,WWE SmackDown vs. Raw 2011,DS,Xbox 360,2009-01-01,2010-01-01,Yuke's,Yuke's,75,75.0,8.3,7.6,T,T
+1,0.971,sales_4645,metacritic_7332,MotoGP 14,MotoGP 19,PS4,PS4,2014-01-01,2019-01-01,Milestone S.r.l,Milestone S.r.l,73,76.0,6.4,7.5,E,E
+0,1.0,sales_4391,metacritic_11576,Spy Hunter,Spy Hunter,GameCube,Xbox,2002-01-01,2002-01-01,Point of View,Point of View,71,71.0,,7.8,T,T
+0,0.993,sales_5517,metacritic_3582,Tom Clancy's Splinter Cell: Blacklist,Tom Clancy's Splinter Cell: Blacklist,WiiU,Xbox 360,2013-01-01,2013-01-01,Ubisoft Toronto,Ubisoft Toronto,75,82.0,7.8,7.6,M,M
+0,0.996,sales_6624,metacritic_13971,Batman: Rise of Sin Tzu,Batman: Rise of Sin Tzu,GameCube,Xbox,2003-01-01,2003-01-01,Ubisoft Montreal,Ubisoft Montreal,63,67.0,,7.7,T,T
+0,0.99,sales_3519,metacritic_4098,Kingdoms of Amalur: Reckoning,Kingdoms of Amalur: Reckoning,PC,PS3,2012-01-01,2012-01-01,Big Huge Games,Big Huge Games,81,81.0,6.6,7.7,M,M
+0,0.996,sales_1496,metacritic_9804,LEGO Pirates of the Caribbean: The Video Game,LEGO Pirates of the Caribbean: The Video Game,DS,PC,2011-01-01,2011-01-01,Traveller's Tales,Traveller's Tales,69,73.0,,7.2,E10+,E10+
+0,0.986,sales_980,metacritic_9018,Assassin's Creed Syndicate,Assassin's Creed Syndicate,XOne,PC,2015-01-01,2015-01-01,Ubisoft Quebec,Ubisoft Quebec,78,74.0,6.1,7.3,M,M
+0,0.989,sales_3607,metacritic_7524,Heroes of the Pacific,Heroes of the Pacific,PS2,PC,2005-01-01,2005-01-01,IR Gurus,IR Gurus,76,76.0,8.4,7.0,T,T
+0,0.969,sales_107,metacritic_4693,Resident Evil 2,Resident Evil,Playstation,Switch,1998-01-01,2019-01-01,Capcom,Capcom,89,80.0,9.2,8.4,M,M
+0,0.98,sales_732,metacritic_13911,Need for Speed Carbon,Need for Speed Carbon,Xbox 360,Wii,2006-01-01,2006-01-01,EA Canada,EA Canada,77,67.0,6.3,7.6,E10+,E10+
+0,0.953,sales_1787,metacritic_5735,Tom Clancy's Rainbow Six: Vegas,Tom Clancy's Rainbow Six Siege,Playstation Portable,PC,2007-01-01,2015-01-01,Ubisoft Montreal,Ubisoft Montreal,60,79.0,7.1,7.0,T,M
+0,0.958,sales_3443,metacritic_18722,Lord of Arcana,Lord of Arcana,Playstation Portable,Playstation Portable,2010-01-01,2011-01-01,Access Games,Access Games,53,53.0,5.5,7.2,M,M
+0,0.979,sales_2079,metacritic_5881,Madden NFL 07,Madden NFL 07,GameCube,Playstation Portable,2006-01-01,2006-01-01,EA Tiburon,EA Tiburon,82,78.0,9.2,6.8,E,E
+0,0.969,sales_7025,metacritic_12661,The Dark Spire,The Dark Spire,DS,DS,2008-01-01,2009-01-01,Success,Success,69,69.0,7.7,7.8,E10+,E10+
+0,0.949,sales_1563,metacritic_18978,Warriors Orochi,Warriors Orochi,PS2,PC,2007-01-01,2008-01-01,Omega Force,Omega Force,55,51.0,8.2,7.5,T,T
+0,0.998,sales_7299,metacritic_15709,Stacked with Daniel Negreanu,Stacked with Daniel Negreanu,Xbox,PS2,2006-01-01,2006-01-01,5000ft,5000ft,61,63.0,,5.3,T,T
+0,0.993,sales_344,metacritic_14026,Sega Superstars Tennis,Sega Superstars Tennis,Xbox 360,PS3,2008-01-01,2008-01-01,Sumo Digital,Sumo Digital,67,67.0,6.8,7.6,E10+,E10+
+0,0.992,sales_2019,metacritic_11513,The LEGO Movie Videogame,The LEGO Movie Videogame,WiiU,PS4,2014-01-01,2014-01-01,TT Games,TT Games,68,71.0,7.7,7.1,E10+,E10+
+0,0.996,sales_7159,metacritic_16331,Lost Planet 3,Lost Planet 3,PC,PS3,2013-01-01,2013-01-01,Spark Unlimited,Spark Unlimited,61,61.0,6.2,5.8,T,T
+0,0.989,sales_6386,metacritic_10526,Romance of the Three Kingdoms XI,Romance of the Three Kingdoms VII,PS2,PS2,2007-01-01,2002-01-01,Koei,Koei,69,72.0,8.4,8.5,E10+,E
+0,0.989,sales_1519,metacritic_5039,Tiger Woods PGA Tour 12: The Masters,Tiger Woods PGA Tour 12: The Masters,PS3,Xbox 360,2011-01-01,2011-01-01,Electronic Arts,Electronic Arts,80,80.0,7.3,6.1,E,E
+0,0.972,sales_3193,metacritic_17866,Arctic Thunder,Arctic Thunder,PS2,Xbox,2001-01-01,2001-01-01,Inland Productions,Inland Productions,45,57.0,5.3,6.7,T,T
+0,0.943,sales_410,metacritic_5881,Madden NFL 13,Madden NFL 07,PS3,Playstation Portable,2012-01-01,2006-01-01,EA Tiburon,EA Tiburon,83,78.0,5.5,6.8,E,E
+0,0.944,sales_3246,metacritic_3275,TrackMania Turbo,TrackMania Sunrise,PS4,PC,2016-01-01,2005-01-01,Nadeo,Nadeo,81,82.0,7.9,7.8,E,E
+0,0.988,sales_3972,metacritic_14834,F1 2015,F1 2015,XOne,PS4,2015-01-01,2015-01-01,Codemasters,Codemasters,64,65.0,5.3,6.4,E,E
+0,0.968,sales_2440,metacritic_4517,Madden NFL 07,Madden NFL 07,PS3,PC,2006-01-01,2006-01-01,EA Tiburon,EA Tiburon,76,80.0,4.2,7.3,E,E
+0,0.957,sales_4297,metacritic_6034,Pro Evolution Soccer 2012,Pro Evolution Soccer 2011,Wii,Wii,2011-01-01,2010-01-01,Konami,Konami,79,78.0,7.0,6.0,E,E
+0,0.958,sales_3199,metacritic_13132,Earth Defense Force 2025,Earth Defense Force 2017 Portable,PS3,PlayStation Vita,2013-01-01,2013-01-01,Sandlot,Sandlot,69,68.0,7.5,7.6,M,T
+0,0.995,sales_3384,metacritic_19648,Golden Axe: Beast Rider,Golden Axe: Beast Rider,PS3,Xbox 360,2008-01-01,2008-01-01,Secret Level,Secret Level,44,45.0,5.6,5.9,M,M
+0,0.997,sales_2019,metacritic_12803,The LEGO Movie Videogame,The LEGO Movie Videogame,WiiU,Xbox 360,2014-01-01,2014-01-01,TT Games,TT Games,68,69.0,7.7,7.5,E10+,E10+
+0,0.991,sales_1663,metacritic_2483,Prince of Persia: Warrior Within,Prince of Persia: Warrior Within,Xbox,PS2,2004-01-01,2004-01-01,Ubisoft Montreal,Ubisoft Montreal,83,83.0,7.5,8.6,M,M
+0,0.995,sales_3367,metacritic_11057,NBA Live 06,NBA Live 06,GameCube,PC,2005-01-01,2005-01-01,EA Canada,EA Canada,76,71.0,,7.3,E,E
+0,0.999,sales_4797,metacritic_5726,LEGO Marvel Super Heroes,LEGO Marvel Super Heroes,PC,Switch,2013-01-01,2021-01-01,TT Games,TT Games,78,79.0,8.1,,E10+,E10+
+0,0.987,sales_5486,metacritic_5094,Sega Soccer Slam,Sega Soccer Slam,PS2,Xbox,2002-01-01,2002-01-01,Black Box,Black Box,66,80.0,,8.3,E,E
+0,0.984,sales_6790,metacritic_7933,UEFA Euro 2004: Portugal,UEFA Euro 2004: Portugal,Xbox,PS2,2004-01-01,2004-01-01,EA Canada,EA Canada,74,76.0,8.1,6.4,E,E
+0,0.946,sales_442,metacritic_9686,Need for Speed: ProStreet,Need for Speed ProStreet,PS2,PS3,2007-01-01,2007-01-01,Black Box,EA Black Box,62,73.0,6.2,7.2,E10+,E10+
+0,0.965,sales_138,metacritic_283,Resident Evil 5,Resident Evil 4,PS3,Xbox Series X,2009-01-01,2023-01-01,Capcom,Capcom,84,91.0,7.5,6.3,M,M
+0,0.944,sales_6110,metacritic_6355,Red Faction: Armageddon,Red Faction,PC,PC,2011-01-01,2001-01-01,Volition Inc.,Volition Inc.,75,78.0,6.7,8.0,M,M
+0,0.95,sales_4844,metacritic_16353,Blood Bowl,Blood Bowl,Xbox 360,Playstation Portable,2009-01-01,2010-01-01,Cyanide,Cyanide,61,61.0,5.1,6.0,T,T
+0,0.989,sales_6917,metacritic_11176,Rugby 2005,Rugby 2005,Xbox,PS2,2005-01-01,2005-01-01,HB Studios Multimedia,HB Studios Multimedia,75,71.0,7.7,8.6,E,E
+0,0.985,sales_1444,metacritic_12803,The LEGO Movie Videogame,The LEGO Movie Videogame,PS3,Xbox 360,2014-01-01,2014-01-01,TT Games,TT Games,80,69.0,6.8,7.5,E10+,E10+
+0,0.976,sales_2740,metacritic_6661,Pro Evolution Soccer 2017,Pro Evolution Soccer 2011,PS4,PS3,2016-01-01,2010-01-01,Konami,Konami,85,77.0,7.6,7.0,E,E
+0,0.955,sales_2737,metacritic_3521,NBA Live 10,NBA Live 2003,Xbox 360,Xbox,2009-01-01,2002-01-01,EA Canada,EA Canada,80,82.0,7.7,7.2,E,E
+0,0.997,sales_37,metacritic_20,Call of Duty: Modern Warfare 2,Call of Duty: Modern Warfare 2,PS3,Xbox 360,2009-01-01,2009-01-01,Infinity Ward,Infinity Ward,94,94.0,6.3,6.6,M,M
+0,0.998,sales_5270,metacritic_11400,Tak 2: The Staff of Dreams,Tak 2: The Staff of Dreams,Xbox,PS2,2004-01-01,2004-01-01,Avalanche Software,Avalanche Software,73,71.0,,8.3,E,E
+0,0.957,sales_616,metacritic_8689,Dynasty Warriors 3,Dynasty Warriors 2,PS2,PS2,2001-01-01,2000-01-01,Omega Force,Omega Force,78,75.0,9.1,8.5,T,T
+0,0.948,sales_2239,metacritic_8066,Rock Band 3,Rock Band VR,PS3,PC,2010-01-01,2016-01-01,Harmonix Music Systems,Harmonix Music Systems,91,75.0,8.0,,T,
+0,0.984,sales_4953,metacritic_19636,Sniper: Ghost Warrior,Sniper: Ghost Warrior,PC,Xbox 360,2010-01-01,2010-01-01,City Interactive,City Interactive,55,45.0,5.5,5.8,M,M
+0,0.989,sales_3367,metacritic_15253,NBA Live 06,NBA Live 06,GameCube,Xbox 360,2005-01-01,2005-01-01,EA Canada,EA Canada,76,64.0,,5.7,E,E
+0,0.96,sales_1454,metacritic_2715,MLB 15: The Show,MLB 06: The Show,PS4,PS2,2015-01-01,2006-01-01,SCEA San Diego Studios,SCEA San Diego Studios,80,83.0,7.8,8.6,E,E
+0,0.96,sales_1884,metacritic_1750,Madden NFL 2005,Madden NFL 10,GameCube,PS3,2004-01-01,2009-01-01,EA Tiburon,EA Tiburon,90,85.0,,6.8,E,E
+0,0.963,sales_2731,metacritic_9974,Samurai Warriors: Xtreme Legends,Samurai Warriors,PS2,PS2,2004-01-01,2004-01-01,Omega Force,Omega Force,72,73.0,8.6,8.7,T,T
+0,0.953,sales_6166,metacritic_8324,Bejeweled 3,Bejeweled 3,PC,DS,2010-01-01,2011-01-01,PopCap,PopCap,82,75.0,8.1,7.9,E,E
+0,0.986,sales_3439,metacritic_11536,Romance of the Three Kingdoms VII,Romance of the Three Kingdoms X,PS2,PS2,2000-01-01,2005-01-01,Koei,Koei,72,71.0,8.7,8.4,E,T
+0,0.996,sales_6580,metacritic_4178,Zero Escape: Zero Time Dilemma,Zero Escape: Zero Time Dilemma,Playstation Vita,3DS,2016-01-01,2016-01-01,"Spike Chunsoft, Chime","Spike Chunsoft,Chime",83,81.0,8.3,8.4,M,M
+0,0.992,sales_33,metacritic_20432,Grand Theft Auto IV,Grand Theft Auto V,Xbox 360,Xbox 360,2008-01-01,2013-01-01,Rockstar North,Rockstar North,98,97.0,7.9,8.3,M,M
+0,0.994,sales_935,metacritic_2817,FIFA Soccer 08,FIFA Soccer 08,Playstation Portable,PS2,2007-01-01,2007-01-01,EA Canada,EA Canada,79,83.0,7.4,7.1,E,E
+0,0.999,sales_5544,metacritic_16135,Harvey Birdman: Attorney at Law,Harvey Birdman: Attorney at Law,PS2,Playstation Portable,2008-01-01,2008-01-01,High Voltage Software,High Voltage Software,63,62.0,,7.9,T,T
+0,0.949,sales_4561,metacritic_4560,The Legend of Heroes: Trails of Cold Steel II,The Legend of Heroes: Trails from Zero,Playstation Vita,PS4,2014-01-01,2022-01-01,Falcom,Falcom,80,80.0,7.3,7.6,T,T
+0,0.989,sales_7637,metacritic_3255,Broken Sword: The Sleeping Dragon,Broken Sword: The Sleeping Dragon,Xbox,PC,2003-01-01,2003-01-01,Revolution Software,Revolution Software,77,82.0,8.3,7.4,T,T
+0,0.989,sales_3777,metacritic_8225,Stuntman: Ignition,Stuntman: Ignition,PS2,Xbox 360,2007-01-01,2007-01-01,Paradigm Entertainment,Paradigm Entertainment,71,75.0,6.4,7.2,T,T
+0,0.987,sales_5125,metacritic_9788,Just Cause 3,Just Cause 3,PC,PS4,2015-01-01,2015-01-01,Avalanche Studios,Avalanche Studios,74,73.0,5.3,6.5,M,M
+0,0.964,sales_1338,metacritic_589,NCAA Football 12,NCAA Football 2004,Xbox 360,GameCube,2011-01-01,2003-01-01,EA Sports,EA Sports,82,89.0,6.6,6.8,E,E
+0,0.984,sales_363,metacritic_884,Battlefield 3,Battlefield 1,PC,PC,2011-01-01,2016-01-01,EA DICE,EA DICE,89,88.0,7.5,7.2,M,M
+0,0.962,sales_4838,metacritic_16453,Pac-Man World 3,Pac-Man World 3,DS,Playstation Portable,2005-01-01,2005-01-01,"Blitz Games, Human Soft",Blitz Games,44,61.0,,7.9,E,E
+0,0.965,sales_1478,metacritic_2037,Tiger Woods PGA Tour 2002,Tiger Woods PGA Tour 11,PS2,Wii,2002-01-01,2010-01-01,EA Sports,EA Sports,80,84.0,7.6,7.4,E,E
+0,0.948,sales_502,metacritic_8953,Madden NFL 15,Madden NFL 25,PS4,PS4,2014-01-01,2013-01-01,EA Sports,EA Sports,81,74.0,6.1,5.3,E,E
+0,0.955,sales_114,metacritic_2032,Assassin's Creed,Assassin's Creed Valhalla,Xbox 360,PlayStation 5,2007-01-01,2020-01-01,Ubisoft Montreal,Ubisoft Montreal,81,84.0,7.7,7.7,M,M
+0,0.996,sales_4156,metacritic_10116,Spartan: Total Warrior,Spartan: Total Warrior,PS2,Xbox,2005-01-01,2005-01-01,Creative Assembly,Creative Assembly,74,73.0,8.4,8.8,M,M
+0,0.992,sales_4576,metacritic_18286,NCAA Final Four 2001,NCAA Final Four 2001,PS2,PlayStation,2000-01-01,2000-01-01,989 Sports,989 Sports,49,55.0,,,E,E
+0,0.999,sales_291,metacritic_15571,Enter the Matrix,Enter the Matrix,PS2,GameCube,2003-01-01,2003-01-01,Shiny Entertainment,Shiny Entertainment,62,63.0,8.1,8.1,T,T
+0,0.993,sales_21,metacritic_9287,Call of Duty: Black Ops II,Call of Duty: Black Ops II,Xbox 360,PC,2012-01-01,2012-01-01,Treyarch,Treyarch,83,74.0,4.8,4.8,M,M
+0,0.997,sales_1084,metacritic_2981,F1 2011,F1 2011,PS3,PC,2011-01-01,2011-01-01,Codemasters,Codemasters,82,83.0,7.1,7.3,E,E
+0,0.956,sales_1868,metacritic_4548,NBA Live 09,NBA Live 2003,Xbox 360,PC,2008-01-01,2002-01-01,EA Canada,EA Canada,77,80.0,7.4,7.7,E,E
+0,0.984,sales_1690,metacritic_2582,FIFA Soccer 2004,FIFA Soccer 2004,Xbox,GameCube,2003-01-01,2003-01-01,EA Canada,EA Canada,82,83.0,8.2,6.3,E,E
+0,0.96,sales_1178,metacritic_1838,Yakuza 3,Yakuza 0,PS3,PS4,2009-01-01,2017-01-01,Ryu ga Gotoku Studios,Ryu ga Gotoku Studios,79,85.0,8.1,8.6,M,M
+0,0.989,sales_7712,metacritic_17161,Dark Void,Dark Void,PC,PS3,2010-01-01,2010-01-01,Airtight Games,Airtight Games,57,59.0,5.1,5.9,T,T
+0,0.989,sales_7376,metacritic_4397,Syberia II,Syberia II,Xbox,PC,2004-01-01,2004-01-01,Microids,Microids,71,80.0,8.7,8.3,T,T
+0,0.987,sales_1407,metacritic_15647,Lost Planet 2,Lost Planet 2,PS3,PC,2010-01-01,2010-01-01,Capcom,Capcom,68,63.0,6.9,6.1,T,T
+0,0.948,sales_5306,metacritic_8396,Dengeki Bunko Fighting Climax,Dengeki Bunko: Fighting Climax,Playstation Vita,PlayStation Vita,2014-01-01,2015-01-01,Sega,"Sega,French-Bread",75,75.0,8.5,8.3,T,T
+0,0.974,sales_806,metacritic_2919,Call of Duty: Black Ops II,Call of Duty: Black Ops II,PC,PS3,2012-01-01,2012-01-01,Treyarch,Treyarch,74,83.0,4.2,5.9,M,M
+0,0.986,sales_3720,metacritic_12965,NCAA Basketball 09,NCAA Basketball 09,PS2,PS3,2008-01-01,2008-01-01,EA Canada,EA Canada,55,68.0,,,E,E
+0,0.989,sales_3872,metacritic_19142,Legendary,Legendary,Xbox 360,PC,2008-01-01,2008-01-01,Spark Unlimited,Spark Unlimited,47,50.0,7.1,6.4,M,M
+0,0.998,sales_3462,metacritic_16977,FIFA Street,FIFA Street,PS2,Xbox,2005-01-01,2005-01-01,EA Canada,EA Canada,59,60.0,7.9,8.0,E,E
+0,0.993,sales_432,metacritic_3973,The Sims: Bustin' Out,The Sims Bustin' Out,PS2,Xbox,2003-01-01,2003-01-01,Maxis,Maxis,81,81.0,8.4,8.1,T,T
+0,0.998,sales_641,metacritic_13915,Mafia III,Mafia III,PS4,Xbox One,2016-01-01,2016-01-01,Hangar 13,Hangar 13,68,67.0,5.1,5.2,M,M
+0,0.993,sales_1685,metacritic_6171,Dragon's Dogma,Dragon's Dogma,Xbox 360,PS3,2012-01-01,2012-01-01,Capcom,Capcom,75,78.0,7.8,8.3,M,M
+0,0.995,sales_6317,metacritic_12047,Pitfall: The Lost Expedition,Pitfall: The Lost Expedition,GameCube,PS2,2004-01-01,2004-01-01,Edge of Reality,Edge of Reality,73,70.0,8.6,8.3,E,E
+0,0.996,sales_1383,metacritic_6140,Dead Space 3,Dead Space 3,PS3,PC,2013-01-01,2013-01-01,Visceral Games,Visceral Games,76,78.0,6.4,6.2,M,M
+0,0.995,sales_2598,metacritic_3698,Plants vs. Zombies: Garden Warfare 2,Plants vs Zombies: Garden Warfare 2,XOne,PS4,2016-01-01,2016-01-01,PopCap,PopCap,80,81.0,8.1,7.9,E10+,E10+
+0,0.999,sales_5878,metacritic_9125,World Series of Poker 2008: Battle for the Bracelets,World Series of Poker 2008: Battle for the Bracelets,PS3,Xbox 360,2007-01-01,2007-01-01,Left Field Productions,Left Field Productions,75,74.0,,6.7,T,T
+0,0.995,sales_4554,metacritic_6953,Resident Evil: Revelations,Resident Evil: Revelations,WiiU,PC,2013-01-01,2013-01-01,Capcom,Capcom,80,77.0,7.5,7.2,M,M
+0,0.98,sales_2044,metacritic_4653,X-Men Legends II: Rise of Apocalypse,X-Men Legends II: Rise of Apocalypse,PS2,PC,2005-01-01,2005-01-01,Raven Software,"Raven Software,Beenox",82,80.0,7.3,8.2,T,T
+0,0.97,sales_5077,metacritic_13058,Earth Defense Force 2025,Earth Defense Force 2025,Xbox 360,Xbox 360,2013-01-01,2014-01-01,Sandlot,Sandlot,68,68.0,8.1,8.1,M,M
+0,0.969,sales_2884,metacritic_11879,Thrillville: Off the Rails,Thrillville: Off the Rails,PS2,Wii,2007-01-01,2007-01-01,Frontier Developments,Frontier Developments,70,70.0,1.7,3.2,E10+,E10+
+0,0.971,sales_31,metacritic_3988,Gran Turismo 4,Gran Turismo 6,PS2,PS3,2004-01-01,2013-01-01,Polyphony Digital,Polyphony Digital,89,81.0,8.5,8.0,E,E
+0,0.988,sales_5165,metacritic_6284,Pro Evolution Soccer 2015,Pro Evolution Soccer 2010,XOne,PC,2014-01-01,2009-01-01,Konami,Konami,79,78.0,7.3,7.2,E,E
+0,0.983,sales_5586,metacritic_12622,Tom Clancy's EndWar,Tom Clancy's EndWar,Playstation Portable,DS,2008-01-01,2008-01-01,"Funatics Software, Funatics","Funatics Software,Funatics",68,69.0,5.9,7.6,T,T
+0,0.953,sales_7742,metacritic_868,FIFA Soccer 08,FIFA Soccer 2003,PC,PS2,2007-01-01,2002-01-01,EA Canada,EA Canada,77,88.0,6.1,6.6,E,E
+0,0.951,sales_975,metacritic_17119,NBA Live 07,NBA Live 16,PS2,PS4,2006-01-01,2015-01-01,EA Sports,EA Sports,63,59.0,6.0,6.1,E,E
+0,0.947,sales_7260,metacritic_9609,Just Dance 2017,Just Dance 2016,PS4,PS4,2016-01-01,2015-01-01,Ubisoft Paris,Ubisoft,73,73.0,,5.9,E10+,E10+
+0,0.996,sales_1183,metacritic_3297,Dragon Age II,Dragon Age II,Xbox 360,PS3,2011-01-01,2011-01-01,BioWare,BioWare,79,82.0,4.5,4.4,M,M
+0,0.981,sales_4106,metacritic_20110,Looney Tunes: Acme Arsenal,Looney Tunes: Acme Arsenal,Wii,PS2,2007-01-01,2007-01-01,Red Tribe,Red Tribe,27,38.0,5.1,5.1,E10+,E10+
+0,0.969,sales_255,metacritic_304,Resident Evil 5,Resident Evil 4,Xbox 360,PC,2009-01-01,2023-01-01,Capcom,Capcom,83,91.0,7.5,6.9,M,
+0,0.969,sales_84,metacritic_20443,Red Dead Redemption,Red Dead Redemption 2,PS3,PS4,2010-01-01,2018-01-01,Rockstar San Diego,Rockstar Games,95,97.0,8.8,8.7,M,M
+0,0.954,sales_4130,metacritic_8505,Madden NFL 13,Madden NFL 08,WiiU,Playstation Portable,2012-01-01,2007-01-01,EA Tiburon,EA Tiburon,75,75.0,6.7,7.6,E,E
+0,0.983,sales_2121,metacritic_1157,pro evolution soccer 2011,Pro Evolution Soccer 2017,Xbox 360,Xbox One,2010-01-01,2016-01-01,Konami,Konami,79,87.0,5.9,5.9,E,E
+0,0.947,sales_4162,metacritic_3528,pro evolution soccer 2011,Pro Evolution Soccer 2010,Wii,Wii,2010-01-01,2009-01-01,Konami,Konami,78,82.0,5.4,7.8,E,E
+0,0.975,sales_975,metacritic_16518,NBA Live 07,NBA Live 07,PS2,PC,2006-01-01,2006-01-01,EA Sports,EA Sports,63,61.0,6.0,3.9,E,E
+0,0.969,sales_4188,metacritic_16350,Dinosaur King,Dinosaur King,DS,DS,2007-01-01,2008-01-01,Climax Entertainment,Climax Entertainment,61,61.0,8.0,7.9,E,E
+0,0.989,sales_4350,metacritic_15728,Outlaw Golf 2,Outlaw Golf 2,Xbox,PS2,2004-01-01,2004-01-01,Hypnotix,Hypnotix,74,63.0,,,M,M
+0,0.98,sales_4967,metacritic_917,Burnout 2: Point of Impact,Burnout 2: Point of Impact,GameCube,Xbox,2003-01-01,2003-01-01,Criterion Games,Criterion Games,89,88.0,8.5,6.1,E,E
+0,0.999,sales_4422,metacritic_7549,Mat Hoffman's Pro BMX 2,Mat Hoffman's Pro BMX 2,Xbox,PS2,2002-01-01,2002-01-01,Rainbow Studios,Rainbow Studios,75,76.0,,7.9,T,T
+0,0.992,sales_6067,metacritic_8015,Sniper Elite,Sniper Elite,Xbox,PC,2005-01-01,2005-01-01,Rebellion,Rebellion,77,76.0,8.5,7.6,M,M
+0,0.998,sales_4278,metacritic_14985,Pac-Man World 3,Pac-Man World 3,PS2,Xbox,2005-01-01,2005-01-01,Blitz Games,Blitz Games,63,65.0,5.2,,E,E
+0,0.99,sales_6122,metacritic_9851,Lara Croft and the Temple of Osiris,Lara Croft and the Temple of Osiris,PS4,PC,2014-01-01,2014-01-01,Nixxes Software,Nixxes Software,74,73.0,6.7,5.8,T,T
+0,0.998,sales_4006,metacritic_3217,Peter Jackson's King Kong: The Official Game of the Movie,Peter Jackson's King Kong: The Official Game of the Movie,GameCube,Xbox,2005-01-01,2005-01-01,Ubisoft Montpellier,Ubisoft Montpellier,81,82.0,8.3,8.1,T,T
+0,0.983,sales_2597,metacritic_4031,Tiger Woods PGA Tour 07,Tiger Woods PGA Tour 07,Xbox 360,PS3,2006-01-01,2006-01-01,EA Redwood Shores,EA Redwood Shores,80,81.0,7.9,6.0,E,E
+0,0.953,sales_710,metacritic_738,Madden NFL 2001,Madden NFL 06,Playstation,PS2,2000-01-01,2005-01-01,EA Sports,EA Sports,90,88.0,6.8,8.0,E,E
+0,0.954,sales_7038,metacritic_1957,Shantae and the Pirate's Curse,Shantae and the Pirate's Curse,3DS,Wii U,2015-01-01,2014-01-01,WayForward,WayForward,82,85.0,8.5,8.7,E10+,T
+0,0.955,sales_1337,metacritic_7197,Just Dance 2014,Just Dance 4,Xbox 360,Xbox 360,2013-01-01,2012-01-01,Ubisoft,Ubisoft,79,77.0,7.8,7.8,E10+,E10+
+0,0.964,sales_3236,metacritic_5476,Sniper Elite 3,Sniper Elite 5,XOne,PC,2014-01-01,2022-01-01,Rebellion,Rebellion,63,79.0,6.6,6.4,M,M
+0,0.962,sales_736,metacritic_510,Tiger Woods PGA Tour 2003,Tiger Woods PGA Tour 2004,PS2,PS2,2002-01-01,2003-01-01,EA Sports,EA Sports,88,89.0,8.9,8.6,E,E
+0,0.986,sales_2172,metacritic_3445,MVP Baseball 2004,MVP Baseball 2004,Xbox,PC,2004-01-01,2004-01-01,EA Sports,EA Sports,90,82.0,8.5,7.5,E,E
+0,0.958,sales_1285,metacritic_15297,The Simpsons Game,The Simpsons Game,Xbox 360,Wii,2007-01-01,2007-01-01,"Electronic Arts, EA Redwood Shores","Electronic Arts,Rebellion",71,64.0,7.7,6.0,T,T
+0,0.989,sales_4424,metacritic_12290,Apache: Air Assault,Apache: Air Assault,PS3,Xbox 360,2010-01-01,2010-01-01,Gaijin Entertainment,Gaijin Entertainment,66,70.0,6.1,6.8,T,T
+0,0.954,sales_4336,metacritic_8976,NCAA March Madness 07,NCAA March Madness 2003,Xbox 360,PS2,2007-01-01,2002-01-01,EA Canada,NuFX,67,74.0,7.1,7.9,E,E
+0,0.997,sales_6115,metacritic_16796,The Incredibles: Rise of the Underminer,The Incredibles: Rise of the Underminer,Xbox,PS2,2005-01-01,2005-01-01,Heavy Iron Studios,Heavy Iron Studios,63,60.0,,7.6,E10+,E10+
+0,0.995,sales_5059,metacritic_2611,The Incredible Hulk: Ultimate Destruction,The Incredible Hulk: Ultimate Destruction,GameCube,PS2,2005-01-01,2005-01-01,Radical Entertainment,Radical Entertainment,84,83.0,9.1,8.5,T,T
+0,1.0,sales_6065,metacritic_6852,NFL Blitz 20-02,NFL Blitz 20-02,GameCube,Xbox,2002-01-01,2002-01-01,Point of View,Point of View,77,77.0,,,E,E
+0,0.997,sales_3174,metacritic_977,BlazBlue: Calamity Trigger,BlazBlue: Calamity Trigger,Xbox 360,PS3,2009-01-01,2009-01-01,Arc System Works,Arc System Works,86,87.0,8.5,8.2,T,T
+0,0.905,sales_6703,metacritic_4832,Tiger Woods PGA Tour 08,Tiger Woods PGA Tour 08,DS,Xbox 360,2007-01-01,2007-01-01,Exient Entertainment,EA Salt Lake,81,80.0,7.6,7.8,E,E
+0,0.904,sales_148,metacritic_2756,Madden NFL 06,Madden NFL 07,PS2,Xbox,2005-01-01,2006-01-01,EA Sports,EA Tiburon,88,83.0,8.0,7.5,E,E
+0,0.905,sales_3736,metacritic_6797,GRID 2,GRID Legends,Xbox 360,PlayStation 5,2013-01-01,2022-01-01,Codemasters,Codemasters,78,77.0,5.8,5.9,E,E10+
+0,0.904,sales_449,metacritic_10046,Madden NFL 08,Madden NFL 25,Xbox 360,Xbox One,2007-01-01,2013-01-01,EA Tiburon,EA Sports,85,73.0,6.4,5.9,E,E
+0,0.903,sales_1543,metacritic_4354,Madden NFL 08,Madden NFL 25,Wii,Xbox 360,2007-01-01,2013-01-01,EA Tiburon,EA Sports,76,80.0,6.8,5.6,E,E
+0,0.914,sales_1752,metacritic_8127,Mega Man X5,Mega Man X Collection,Playstation,GameCube,2000-01-01,2006-01-01,Capcom,Capcom,76,75.0,8.9,7.5,E,E
+0,0.909,sales_3792,metacritic_8305,Tropico 4,Tropico 3,PC,Xbox 360,2011-01-01,2010-01-01,Haemimont,"Haemimont,Haemimont Games",78,75.0,7.7,6.9,T,T
+0,0.907,sales_4302,metacritic_9382,SBK Superbike World Championship,SBK X: Superbike World Championship,Xbox 360,Xbox 360,2008-01-01,2010-01-01,Milestone S.r.l,Milestone S.r.l,63,74.0,8.0,8.3,E10+,E10+
+0,0.909,sales_4058,metacritic_7952,Pro Evolution Soccer 2014,Pro Evolution Soccer 2016,Xbox 360,PC,2013-01-01,2015-01-01,Konami,Konami,80,76.0,4.3,4.3,E,E
+0,0.898,sales_5480,metacritic_17977,Farming Simulator 17,Farming Simulator 23: Nintendo Switch Edition,XOne,Switch,2016-01-01,2023-01-01,Giants Software,Giants Software,65,56.0,,,E,E
+0,0.918,sales_602,metacritic_12741,Need for Speed: Shift,Need for Speed: Shift,Xbox 360,Playstation Portable,2009-01-01,2009-01-01,Slightly Mad Studios,EA Bright Light,83,69.0,6.5,6.5,E,E
+0,0.929,sales_7439,metacritic_6532,Battlefield 2142,Battlefield 3: End Game,PC,PC,2006-01-01,2013-01-01,EA DICE,EA DICE,80,78.0,6.8,7.4,T,M
+0,0.935,sales_3809,metacritic_276,ESPN NBA Basketball,ESPN NFL Football,Xbox,Xbox,2003-01-01,2003-01-01,Visual Concepts,Visual Concepts,87,91.0,8.2,7.8,E,E
+0,0.936,sales_239,metacritic_6416,Pro Evolution Soccer 2008,Pro Evolution Soccer 2014,PS2,PS3,2007-01-01,2013-01-01,Konami,Konami,82,78.0,7.9,4.0,E,E
+0,0.932,sales_2051,metacritic_2582,FIFA Soccer 2003,FIFA Soccer 2004,Xbox,GameCube,2002-01-01,2003-01-01,EA Canada,EA Canada,88,83.0,7.7,6.3,E,E
+0,0.919,sales_3067,metacritic_2006,Battlefield 1,Battlefield: Bad Company,PC,PS3,2016-01-01,2008-01-01,EA DICE,EA DICE,88,84.0,7.6,8.2,M,T
+0,0.93,sales_7342,metacritic_3322,Doom,DOOM,PC,Xbox 360,1992-01-01,2006-01-01,id Software,Nerve Software,85,82.0,8.2,8.4,M,M
+0,0.924,sales_2258,metacritic_8897,XIII,XIII,PS2,Xbox,2003-01-01,2003-01-01,Ubisoft Paris,Southend Interactive,73,74.0,8.6,7.9,M,M
+0,0.931,sales_1563,metacritic_12124,Warriors Orochi,Warriors Orochi 4 Ultimate,PS2,PS4,2007-01-01,2020-01-01,Omega Force,Omega Force,55,70.0,8.2,8.0,T,T
+0,0.936,sales_493,metacritic_11026,Tom Clancy's Rainbow Six: Siege,Tom Clancy's Rainbow Six Extraction,PS4,Xbox Series X,2015-01-01,2022-01-01,Ubisoft Montreal,Ubisoft Montreal,73,71.0,7.3,5.9,M,M
+0,0.946,sales_1363,metacritic_11464,NBA 2K10,NBA 2K10: Draft Combine,Xbox 360,Xbox 360,2009-01-01,2009-01-01,Visual Concepts,Visual Concepts,82,71.0,7.6,7.5,E,E
+0,0.955,sales_6479,metacritic_14451,Obscure,Obscure,PS2,Xbox,2004-01-01,2005-01-01,Hydravision,Hydravision,65,66.0,8.9,8.4,M,M
+0,0.953,sales_7511,metacritic_10245,ScrapLand,Scrapland,Xbox,PC,2005-01-01,2004-01-01,Mercury Steam,Mercury Steam,73,72.0,7.4,8.2,T,T
+0,0.987,sales_2086,metacritic_14093,The Urbz: Sims in the City,The Urbz: Sims in the City,Game Boy Advance,DS,2004-01-01,2004-01-01,Griptonite Games,Griptonite Games,72,67.0,9.2,8.0,E,E
+0,0.962,sales_3626,metacritic_19008,Call of Juarez: The Cartel,Call of Juarez: The Cartel,PS3,PC,2011-01-01,2011-01-01,Techland,Ubisoft,45,51.0,5.5,3.5,M,M
+0,0.958,sales_491,metacritic_13278,Monster Hunter Tri,Monster Hunter,Wii,PS2,2009-01-01,2004-01-01,Capcom,Capcom,84,68.0,8.6,8.6,T,T
+0,0.969,sales_6141,metacritic_10061,Raiden Fighters Aces,Raiden Fighters Aces,Xbox 360,Xbox 360,2008-01-01,2009-01-01,Gulti,Gulti,73,73.0,7.5,7.7,E10+,E10+
+0,0.958,sales_5376,metacritic_18163,Warriors Orochi 2,Warriors Orochi,PS2,PS2,2008-01-01,2007-01-01,Omega Force,Omega Force,52,55.0,8.5,8.3,T,T
+0,0.958,sales_194,metacritic_168,Street Fighter IV,Street Fighter 6,PS3,PlayStation 5,2009-01-01,2023-01-01,Capcom,Capcom,94,92.0,7.3,5.6,T,T
+0,0.989,sales_3190,metacritic_8129,Watch Dogs 2,Watch Dogs 2,XOne,PC,2016-01-01,2016-01-01,Ubisoft Montreal,Ubisoft Montreal,83,75.0,7.7,7.2,M,M
+0,0.999,sales_3496,metacritic_2437,NASCAR Thunder 2003,NASCAR Thunder 2003,GameCube,Xbox,2002-01-01,2002-01-01,EA Sports,EA Sports,85,84.0,6.6,,E,E
+0,0.996,sales_4530,metacritic_3142,South Park: The Stick of Truth,South Park: The Stick of Truth,PC,Xbox 360,2014-01-01,2014-01-01,Obsidian Entertainment,Obsidian Entertainment,85,82.0,8.6,8.4,M,M
+0,0.999,sales_1400,metacritic_11371,SpongeBob SquarePants: Battle for Bikini Bottom,SpongeBob SquarePants: Battle for Bikini Bottom,GameCube,PS2,2003-01-01,2003-01-01,Heavy Iron Studios,Heavy Iron Studios,71,71.0,8.6,8.7,E,E
+0,0.998,sales_155,metacritic_294,Batman: Arkham City,Batman: Arkham City,Xbox 360,PC,2011-01-01,2011-01-01,Rocksteady Studios,Rocksteady Studios,94,91.0,8.7,8.7,T,T
+0,0.992,sales_3721,metacritic_15567,Avatar: The Last Airbender,Avatar: The Last Airbender,Wii,Xbox,2006-01-01,2006-01-01,AWE Games,AWE Games,56,63.0,5.8,,E10+,E10+
+0,0.983,sales_7114,metacritic_11222,Worms 4: Mayhem,Worms 4: Mayhem,Xbox,PC,2005-01-01,2005-01-01,Team 17,Team17,69,71.0,9.2,7.7,T,T
+0,0.975,sales_5165,metacritic_7317,Pro Evolution Soccer 2015,Pro Evolution Soccer 2008,XOne,Xbox 360,2014-01-01,2008-01-01,Konami,Konami,79,76.0,7.3,7.6,E,E
+0,0.976,sales_4414,metacritic_3510,The Legend of Heroes: Trails of Cold Steel,The Legend of Heroes: Trails of Cold Steel III,PS3,PS4,2013-01-01,2019-01-01,Falcom,Falcom,86,82.0,7.7,8.7,T,T
+0,0.955,sales_7655,metacritic_10967,Puzzle Quest: Challenge of the Warlords,Puzzle Quest: Challenge of the Warlords,Playstation Portable,Wii,2007-01-01,2007-01-01,"Vicious Cycle, Infinite Interactive",Vicious Cycle,84,71.0,8.0,6.2,E10+,E10+
+0,0.952,sales_3937,metacritic_127,The Sims 2,The Sims,Xbox,PC,2005-01-01,2000-01-01,Maxis,Maxis,75,92.0,7.1,8.0,T,T
+0,0.958,sales_5172,metacritic_5262,Cities: Skylines,Cities: Skylines - After Dark,PC,PC,2015-01-01,2015-01-01,Colossal Order,Colossal Order,85,79.0,8.9,7.7,E,E
+0,0.946,sales_4257,metacritic_18423,NCAA March Madness 08,NCAA March Madness 2002,Xbox 360,PS2,2007-01-01,2002-01-01,EA Canada,NuFX,69,54.0,,4.6,E,E
+0,0.982,sales_6236,metacritic_17176,Harry Potter and the Sorcerer's Stone,Harry Potter and the Sorcerer's Stone,GameCube,Xbox,2003-01-01,2003-01-01,Warthog,Warthog,62,59.0,8.3,6.5,E,E
+0,0.998,sales_113,metacritic_334,Assassin's Creed II,Assassin's Creed II,PS3,Xbox 360,2009-01-01,2009-01-01,Ubisoft Montreal,Ubisoft Montreal,91,90.0,8.6,8.8,M,M
+0,0.994,sales_2341,metacritic_9646,The SpongeBob SquarePants Movie,The SpongeBob SquarePants Movie,Xbox,GameCube,2004-01-01,2004-01-01,Heavy Iron Studios,Heavy Iron Studios,74,73.0,8.5,7.8,E,E
+0,0.991,sales_110,metacritic_8479,Destiny,Destiny,PS4,Xbox One,2014-01-01,2014-01-01,"Bungie Software, Bungie","Bungie Software,Bungie",76,75.0,6.1,5.5,T,T
+0,0.996,sales_27,metacritic_1103,Call of Duty: Black Ops,Call of Duty: Black Ops,PS3,Xbox 360,2010-01-01,2010-01-01,Treyarch,Treyarch,88,87.0,6.4,6.7,M,M
+0,0.999,sales_795,metacritic_756,BioShock 2,BioShock 2,PS3,Xbox 360,2010-01-01,2010-01-01,2K Marin,2K Marin,88,88.0,8.2,8.3,M,M
+0,0.983,sales_1749,metacritic_14421,Harry Potter and the Half-Blood Prince,Harry Potter and the Half-Blood Prince,Wii,PS3,2009-01-01,2009-01-01,EA Bright Light,EA Bright Light,60,66.0,6.0,5.0,E10+,E10+
+0,0.944,sales_2486,metacritic_8621,Pro Evolution Soccer 2010,Pro Evolution Soccer 2009,Wii,Playstation Portable,2009-01-01,2008-01-01,Konami,Konami,82,75.0,8.4,8.1,E,E
+0,0.946,sales_440,metacritic_10105,pro evolution soccer 2011,Pro Evolution Soccer 2011 3D,PS3,3DS,2010-01-01,2011-01-01,Konami,Konami,77,73.0,6.8,6.7,E,E
+0,0.969,sales_3775,metacritic_14027,Harry Potter and the Order of the Phoenix,Harry Potter and the Order of the Phoenix,PS2,PS3,2007-01-01,2007-01-01,EA Games,EA Games,61,67.0,8.0,5.0,E10+,E10+
+0,0.972,sales_2897,metacritic_12760,Blazing Angels: Squadrons of WWII,Blazing Angels: Squadrons of WWII,Xbox 360,Xbox,2006-01-01,2006-01-01,Ubisoft,Ubisoft Romania,66,69.0,7.9,7.0,T,T
+0,0.947,sales_361,metacritic_7057,Need for Speed: Hot Pursuit,Need for Speed: Hot Pursuit Remastered,PS3,Xbox One,2010-01-01,2020-01-01,Criterion Games,Criterion Games,89,77.0,7.2,6.5,E10+,E10+
+0,0.984,sales_4162,metacritic_6661,pro evolution soccer 2011,Pro Evolution Soccer 2011,Wii,PS3,2010-01-01,2010-01-01,Konami,Konami,78,77.0,5.4,7.0,E,E
+0,0.978,sales_7468,metacritic_15582,Disney's Magical Quest 3 Starring Mickey and Donald,Disney's Magical Quest 2 Starring Mickey and Minnie,Game Boy Advance,Game Boy Advance,2003-01-01,2003-01-01,Klein Computer Entertainment,Klein Computer Entertainment,58,63.0,,,E,E
+0,0.973,sales_477,metacritic_1687,Battlefield 1,Battlefield 3,XOne,PS3,2016-01-01,2011-01-01,EA DICE,EA DICE,87,85.0,8.2,7.5,M,M
+0,0.945,sales_353,metacritic_140,Madden NFL 10,Madden NFL 2004,Xbox 360,Xbox,2009-01-01,2003-01-01,EA Tiburon,EA Tiburon,85,92.0,6.1,7.6,E,E
+0,0.991,sales_195,metacritic_653,Madden NFL 2003,Madden NFL 2003,PS2,PC,2002-01-01,2002-01-01,EA Sports,EA Sports,95,89.0,7.7,7.1,E,E
+0,0.99,sales_1215,metacritic_7628,LEGO Star Wars III: The Clone Wars,LEGO Star Wars III: The Clone Wars,DS,Wii,2011-01-01,2011-01-01,Traveller's Tales,Traveller's Tales,66,76.0,,7.9,E,E10+
+0,0.997,sales_2415,metacritic_13225,Juiced,Juiced,PS2,Xbox,2005-01-01,2005-01-01,Juice Games,Juice Games,68,68.0,7.7,8.1,T,T
+0,0.998,sales_212,metacritic_299,Fallout 3,Fallout 3,PS3,PC,2008-01-01,2008-01-01,Bethesda Game Studios,Bethesda Game Studios,90,91.0,8.0,7.9,M,M
+0,0.995,sales_1247,metacritic_1509,DJ Hero,DJ Hero,Xbox 360,PS3,2009-01-01,2009-01-01,FreeStyleGames,FreeStyleGames,84,86.0,8.0,7.6,T,T
+0,0.976,sales_5789,metacritic_16269,Gretzky NHL,Gretzky NHL 06,Playstation Portable,PS2,2005-01-01,2005-01-01,Page 44 Studios,Page 44 Studios,61,62.0,7.4,,E,E10+
+0,0.973,sales_1727,metacritic_2910,All-Star Baseball 2003,All-Star Baseball 2003,PS2,GameCube,2002-01-01,2002-01-01,Acclaim Studios Austin,Acclaim,81,83.0,8.4,8.0,E,E
+0,0.987,sales_909,metacritic_7637,Dave Mirra Freestyle BMX 2,Dave Mirra Freestyle BMX 2,PS2,Xbox,2001-01-01,2001-01-01,"Z-Axis, Ltd.","Z-Axis, Ltd.",81,76.0,8.1,7.0,T,T
+0,0.983,sales_5673,metacritic_9974,Samurai Warriors 4,Samurai Warriors,Playstation Vita,PS2,2014-01-01,2004-01-01,Omega Force,Omega Force,76,73.0,8.6,8.7,T,T
+0,0.989,sales_4219,metacritic_13520,Lords of the Fallen,Lords of the Fallen,XOne,PS4,2014-01-01,2014-01-01,"City Interactive, Deck 13","City Interactive,Deck 13",71,68.0,6.7,6.3,M,M
+0,0.947,sales_1889,metacritic_6819,FIFA Soccer 11,FIFA Soccer 06,DS,Playstation Portable,2010-01-01,2005-01-01,EA Sports,EA Sports,63,77.0,,7.7,E,E
+0,0.966,sales_3588,metacritic_16868,ExerBeat,Exerbeat,Wii,Wii,2010-01-01,2011-01-01,Namco Bandai Games,Namco Bandai Games,60,60.0,7.6,7.0,E,E
+0,0.987,sales_2522,metacritic_3355,Pro Evolution Soccer 2012,Pro Evolution Soccer 2019,Xbox 360,Xbox One,2011-01-01,2018-01-01,Konami,Konami,78,82.0,6.6,6.6,E,E
+0,0.986,sales_7742,metacritic_5669,FIFA Soccer 08,FIFA Soccer 08,PC,Playstation Portable,2007-01-01,2007-01-01,EA Canada,EA Canada,77,79.0,6.1,7.5,E,E
+0,0.969,sales_5970,metacritic_16638,Shining Tears,Shining Tears,PS2,PS2,2004-01-01,2005-01-01,Nex Entertainment,Nex Entertainment,61,61.0,6.5,6.6,T,T
+0,0.993,sales_2120,metacritic_11068,Sacred 2: Fallen Angel,Sacred 2: Fallen Angel,PS3,Xbox 360,2009-01-01,2009-01-01,"Ascaron Entertainment GmbH, Ascaron Entertainment","Ascaron Entertainment GmbH,Ascaron Entertainment",70,71.0,7.1,7.4,M,M
+0,0.926,sales_493,metacritic_12060,Tom Clancy's Rainbow Six: Siege,Tom Clancy's Rainbow Six 3,PS4,PS2,2015-01-01,2004-01-01,Ubisoft Montreal,Ubisoft Shanghai,73,70.0,7.3,8.2,M,M
+0,0.93,sales_66,metacritic_4187,Battlefield 3,Battlefield V,Xbox 360,PC,2011-01-01,2018-01-01,EA DICE,EA DICE,84,81.0,7.4,3.0,M,M
+0,0.936,sales_1232,metacritic_3778,FIFA Soccer 11,FIFA Soccer 2002,Wii,GameCube,2010-01-01,2001-01-01,EA Sports,EA Sports,73,81.0,7.3,8.3,E,E
+0,0.918,sales_5673,metacritic_18308,Samurai Warriors 4,Samurai Warriors 2: Empires,Playstation Vita,PS2,2014-01-01,2007-01-01,Omega Force,Omega Force,76,55.0,8.6,7.6,T,T
+0,0.939,sales_2903,metacritic_9379,Just Dance 2014,Just Dance 2020,PS4,Switch,2013-01-01,2019-01-01,Ubisoft,Ubisoft Paris,75,74.0,5.5,6.3,E10+,E10+
+0,0.92,sales_2203,metacritic_7023,Tom Clancy's HAWX,Tom Clancy's EndWar,Xbox 360,Xbox 360,2009-01-01,2008-01-01,Ubisoft Romania,Ubisoft Shanghai,73,77.0,7.3,8.4,T,T
+0,0.918,sales_1391,metacritic_16654,Sniper Elite V2,Sniper Elite V2 Remastered,PS3,PC,2012-01-01,2019-01-01,Rebellion,Rebellion,70,61.0,6.9,5.1,M,M
+0,0.94,sales_376,metacritic_198,Madden NFL 12,Madden NFL 2005,Xbox 360,Xbox,2011-01-01,2004-01-01,EA Tiburon,EA Tiburon,78,91.0,5.9,7.3,E,E
+0,0.919,sales_4075,metacritic_1284,NBA Live 15,NBA Live 2001,PS4,PlayStation,2014-01-01,2000-01-01,EA Sports,EA Sports,59,86.0,5.6,7.1,E,E
+0,0.927,sales_2460,metacritic_3754,The Sims 2: Open for Business,The Sims 4: Seasons,PC,PC,2006-01-01,2018-01-01,Maxis,Maxis,78,81.0,8.6,6.2,T,T
+0,0.957,sales_1537,metacritic_20431,Grand Theft Auto IV,Grand Theft Auto V,PC,PS4,2008-01-01,2014-01-01,Rockstar Toronto,Rockstar North,90,97.0,6.6,8.4,M,M
+0,0.951,sales_4130,metacritic_8743,Madden NFL 13,Madden NFL 06,WiiU,Playstation Portable,2012-01-01,2005-01-01,EA Tiburon,EA Tiburon,75,75.0,6.7,7.9,E,E
+0,0.986,sales_5190,metacritic_18543,X-Blades,X-Blades,Xbox 360,PC,2009-01-01,2009-01-01,Gaijin Entertainment,Gaijin Entertainment,50,54.0,5.4,6.3,M,M
+0,0.972,sales_1686,metacritic_5721,Pro Evolution Soccer 2016,Pro Evolution Soccer 2011,PS4,Xbox 360,2015-01-01,2010-01-01,Konami,Konami,87,79.0,7.1,6.2,E,E
+0,0.973,sales_440,metacritic_1874,pro evolution soccer 2011,Pro Evolution Soccer 2016,PS3,Xbox One,2010-01-01,2015-01-01,Konami,Konami,77,85.0,6.8,6.0,E,E
+0,0.989,sales_5755,metacritic_18690,Hysteria Hospital: Emergency Ward,Hysteria Hospital: Emergency Ward,DS,Wii,2009-01-01,2009-01-01,Gameinvest,Gameinvest,45,53.0,,4.8,E,E
+0,0.951,sales_2038,metacritic_17822,Dragon Ball: Raging Blast 2,Dragon Ball: Raging Blast,Xbox 360,PS3,2010-01-01,2009-01-01,Spike,Spike,57,57.0,7.4,7.2,T,T
+0,0.98,sales_2257,metacritic_13361,Top Spin 3,Top Spin 3,PS3,Wii,2008-01-01,2008-01-01,Pam Development,Pam Development,75,68.0,7.5,5.9,E,E
+0,0.978,sales_698,metacritic_4433,Resident Evil 4,Resident Evil 4,GameCube,Switch,2005-01-01,2019-01-01,Capcom,Capcom,96,80.0,9.4,8.5,M,M
+0,0.981,sales_2683,metacritic_18905,Dragon Ball Z: Sagas,Dragon Ball Z: Sagas,PS2,Xbox,2005-01-01,2005-01-01,Avalanche Software,Avalanche Software,49,51.0,5.4,7.1,T,T
+0,0.995,sales_1595,metacritic_2726,Spider-Man 2,Spider-Man 2,GameCube,Xbox,2004-01-01,2004-01-01,Treyarch,Treyarch,80,83.0,8.8,8.4,T,T
+0,1.0,sales_4728,metacritic_17131,Open Season,Open Season,GameCube,Xbox 360,2006-01-01,2006-01-01,Ubisoft,Ubisoft,59,59.0,,7.3,E10+,E10+
+0,0.998,sales_1782,metacritic_13857,Sega Superstars Tennis,Sega Superstars Tennis,DS,Xbox 360,2008-01-01,2008-01-01,Sumo Digital,Sumo Digital,65,67.0,,7.2,E,E10+
+0,0.955,sales_763,metacritic_7952,Pro Evolution Soccer 2008,Pro Evolution Soccer 2016,PS3,PC,2007-01-01,2015-01-01,Konami,Konami,74,76.0,6.1,4.3,E,E
+0,0.96,sales_2128,metacritic_2303,Madden NFL 2002,Madden NFL 07,GameCube,PS2,2001-01-01,2006-01-01,EA Sports,EA Sports,89,84.0,,8.3,E,E
+0,0.963,sales_2984,metacritic_8510,WWE SmackDown! vs. RAW 2006,WWE SmackDown vs. Raw 2011,Playstation Portable,Xbox 360,2005-01-01,2010-01-01,Yuke's,Yuke's,81,75.0,8.5,7.6,T,T
+0,0.981,sales_2998,metacritic_20210,Fantastic Four: Rise of the Silver Surfer,Fantastic Four: Rise of the Silver Surfer,PS2,DS,2007-01-01,2007-01-01,7 Studios,7 Studios,36,35.0,6.4,4.8,T,E10+
+0,0.962,sales_239,metacritic_4949,Pro Evolution Soccer 2008,Pro Evolution Soccer 2019,PS2,PC,2007-01-01,2018-01-01,Konami,Konami,82,80.0,7.9,6.3,E,E
+0,0.989,sales_961,metacritic_9169,UFC Undisputed 2010,UFC Undisputed 2010,Xbox 360,Playstation Portable,2010-01-01,2010-01-01,Yuke's,Yuke's,84,74.0,6.7,7.0,T,T
+0,0.97,sales_7240,metacritic_301,Planescape: Torment,Planescape: Torment,PC,PC,1998-01-01,1999-01-01,Black Isle Studios,Black Isle Studios,91,91.0,9.2,9.2,T,T
+0,0.969,sales_670,metacritic_2749,Xenosaga Episode I: Der Wille zur Macht,Xenosaga Episode I: Der Wille zur Macht,PS2,PS2,2002-01-01,2003-01-01,Monolith Soft,Monolith Soft,83,83.0,8.7,8.5,T,T
+0,0.974,sales_7097,metacritic_863,Devil May Cry 4,Devil May Cry 5,PC,PS4,2008-01-01,2019-01-01,Capcom,Capcom,78,88.0,8.5,8.4,M,M
+0,0.96,sales_7528,metacritic_2619,Street Fighter X Tekken,Street Fighter X Tekken,PC,Xbox 360,2012-01-01,2012-01-01,"Capcom, QLOC",Capcom,79,83.0,6.4,4.4,T,T
+0,0.996,sales_6425,metacritic_9974,Samurai Warriors,Samurai Warriors,Xbox,PS2,2004-01-01,2004-01-01,Omega Force,Omega Force,71,73.0,9.0,8.7,T,T
+0,0.998,sales_4006,metacritic_3188,Peter Jackson's King Kong: The Official Game of the Movie,Peter Jackson's King Kong: The Official Game of the Movie,GameCube,PS2,2005-01-01,2005-01-01,Ubisoft Montpellier,Ubisoft Montpellier,81,82.0,8.3,8.5,T,T
+0,0.997,sales_1173,metacritic_6965,Rocksmith,Rocksmith,PS3,Xbox 360,2011-01-01,2011-01-01,Ubisoft,Ubisoft,80,77.0,8.3,8.2,T,T
+0,0.992,sales_2019,metacritic_13097,The LEGO Movie Videogame,The LEGO Movie Videogame,WiiU,PC,2014-01-01,2014-01-01,TT Games,TT Games,68,68.0,7.7,6.8,E10+,E10+
+0,0.99,sales_1838,metacritic_1750,Madden NFL 10,Madden NFL 10,Wii,PS3,2009-01-01,2009-01-01,EA Tiburon,EA Tiburon,77,85.0,7.2,6.8,E,E
+0,0.955,sales_522,metacritic_17500,Dynasty Warriors 4,Dynasty Warriors 7,PS2,Xbox 360,2003-01-01,2011-01-01,Omega Force,Omega Force,78,58.0,9.3,8.1,T,T
+0,0.976,sales_7288,metacritic_8672,Prison Architect,Prison Architect,PS4,Xbox One,2016-01-01,2016-01-01,"Introversion, Double Eleven","Introversion,Double Eleven",80,75.0,8.0,6.3,M,
+0,0.977,sales_3692,metacritic_1726,Dead or Alive,Dead or Alive 4,Playstation,Xbox 360,1998-01-01,2005-01-01,Team Ninja,Team Ninja,84,85.0,8.6,8.1,T,M
+0,0.978,sales_4478,metacritic_5719,Breath of Fire II,Breath of Fire,Game Boy Advance,Game Boy Advance,2001-01-01,2001-01-01,Capcom,Capcom,81,79.0,8.8,7.4,E,E
+0,0.952,sales_1365,metacritic_20442,Grand Theft Auto: San Andreas,Grand Theft Auto V,PC,PC,2005-01-01,2015-01-01,Rockstar North,Rockstar North,93,96.0,8.9,7.9,M,M
+0,0.95,sales_1048,metacritic_1334,Madden NFL 17,Madden NFL 06,XOne,Xbox,2016-01-01,2005-01-01,EA Sports,EA Sports,83,86.0,5.9,6.8,E,E
+0,0.979,sales_1586,metacritic_16723,Ratatouille,Ratatouille,PS2,GameCube,2007-01-01,2007-01-01,Asobo Studio,Asobo Studio,65,60.0,8.0,6.1,E,E
+0,0.961,sales_6268,metacritic_7748,Resident Evil 6,Resident Evil 4,PS4,Xbox One,2016-01-01,2016-01-01,Capcom,Capcom,60,76.0,6.7,8.3,M,M
+0,0.948,sales_6426,metacritic_997,FIFA Soccer 2004,FIFA Soccer 09,GameCube,Xbox 360,2003-01-01,2008-01-01,EA Canada,EA Canada,83,87.0,6.2,7.9,E,E
+0,0.986,sales_3455,metacritic_14593,Crash Nitro Kart,Crash Nitro Kart,Xbox,GameCube,2003-01-01,2003-01-01,Vicarious Visions,Vicarious Visions,70,66.0,8.9,7.6,E,E
+0,0.996,sales_2791,metacritic_7768,Spider-Man: Shattered Dimensions,Spider-Man: Shattered Dimensions,PS3,Xbox 360,2010-01-01,2010-01-01,Beenox,Beenox,74,76.0,7.5,7.8,T,T
+0,0.994,sales_2449,metacritic_4556,Freedom Fighters,Freedom Fighters,PS2,PC,2003-01-01,2003-01-01,Io Interactive,Io Interactive,81,80.0,8.4,7.8,T,T
+0,0.991,sales_3555,metacritic_17965,MySims Party,MySims Party,DS,Wii,2009-01-01,2009-01-01,EA Games,EA Games,64,56.0,,,E,E
+0,0.992,sales_563,metacritic_1660,Battlefield 4,Battlefield 4,XOne,PS4,2013-01-01,2013-01-01,EA DICE,EA DICE,81,85.0,6.6,7.1,M,M
+0,0.998,sales_1389,metacritic_5278,Mortal Kombat: Deadly Alliance,Mortal Kombat: Deadly Alliance,Xbox,PS2,2002-01-01,2002-01-01,Midway,Midway,81,79.0,8.4,8.3,M,M
+0,0.994,sales_1053,metacritic_3178,LEGO The Lord of the Rings,LEGO The Lord of the Rings,Xbox 360,PS3,2012-01-01,2012-01-01,TT Games,TT Games,80,82.0,8.5,7.9,E10+,E10+
+0,0.996,sales_2641,metacritic_8666,Need for Speed Carbon,Need for Speed Carbon,Xbox,GameCube,2006-01-01,2006-01-01,EA Canada,EA Canada,74,75.0,7.4,7.8,E10+,E10+
+0,0.999,sales_51,metacritic_20404,The Elder Scrolls V: Skyrim,The Elder Scrolls V: Skyrim,Xbox 360,PC,2011-01-01,2011-01-01,Bethesda Game Studios,Bethesda Game Studios,96,94.0,8.4,8.4,M,M
+0,0.997,sales_2449,metacritic_3370,Freedom Fighters,Freedom Fighters,PS2,Xbox,2003-01-01,2003-01-01,Io Interactive,Io Interactive,81,82.0,8.4,8.1,T,T
+0,0.994,sales_7367,metacritic_11387,LEGO Pirates of the Caribbean: The Video Game,LEGO Pirates of the Caribbean: The Video Game,PC,3DS,2011-01-01,2011-01-01,Traveller's Tales,Traveller's Tales,73,71.0,6.6,7.0,E10+,E10+
+0,0.993,sales_1201,metacritic_7281,NCAA Football 14,NCAA Football 14,Xbox 360,PS3,2013-01-01,2013-01-01,EA Tiburon,EA Tiburon,77,77.0,5.8,6.5,E,E
+0,0.996,sales_6647,metacritic_20213,Showtime Championship Boxing,Showtime Championship Boxing,DS,Wii,2007-01-01,2007-01-01,Nikitova Games,Nikitova Games,33,35.0,,4.4,E10+,E10+
+0,0.995,sales_523,metacritic_1252,NBA 2K14,NBA 2K14,PS3,Xbox 360,2013-01-01,2013-01-01,Visual Concepts,Visual Concepts,84,87.0,4.9,5.1,E,E
+0,0.991,sales_133,metacritic_1350,FIFA Soccer 13,FIFA Soccer 13,Xbox 360,PC,2012-01-01,2012-01-01,Electronic Arts,Electronic Arts,90,86.0,6.1,6.7,E,E
+0,0.993,sales_3759,metacritic_16877,Disney's Chicken Little,Disney's Chicken Little,GameCube,PS2,2005-01-01,2005-01-01,Avalanche Software,Avalanche Software,67,60.0,,8.3,E10+,E10+
+0,0.995,sales_6861,metacritic_8146,Second Sight,Second Sight,GameCube,Xbox,2004-01-01,2004-01-01,Free Radical Design,Free Radical Design,77,75.0,8.5,8.1,T,T
+0,0.992,sales_7466,metacritic_1526,Final Fantasy XIV: Heavensward,Final Fantasy XIV: Heavensward,PC,PS4,2015-01-01,2015-01-01,Square Enix,Square Enix,86,86.0,7.7,8.7,T,T
+0,0.991,sales_7356,metacritic_11207,Lords of the Fallen,Lords of the Fallen,PC,Xbox One,2014-01-01,2014-01-01,"City Interactive, Deck 13","City Interactive,Deck 13",73,71.0,6.9,6.6,M,M
+0,0.996,sales_6547,metacritic_871,Aggressive Inline,Aggressive Inline,Xbox,GameCube,2002-01-01,2002-01-01,"Z-Axis, Ltd.","Z-Axis, Ltd.",85,88.0,7.7,7.5,T,T
+0,0.998,sales_7236,metacritic_2924,Hitman: Blood Money,Hitman: Blood Money,PC,PS2,2006-01-01,2006-01-01,Io Interactive,Io Interactive,82,83.0,8.8,8.6,M,M
+0,0.991,sales_5038,metacritic_11682,BloodRayne 2,BloodRayne 2,Xbox,PS2,2004-01-01,2004-01-01,Terminal Reality,Terminal Reality,71,70.0,8.5,7.5,M,M
+0,0.959,sales_3362,metacritic_19388,Harry Potter and the Half-Blood Prince,Harry Potter and the Half-Blood Prince,PS3,DS,2009-01-01,2009-01-01,EA Bright Light,EA Bright Light,66,48.0,7.1,4.8,E10+,E
+0,0.971,sales_5823,metacritic_15273,Freaky Flyers,Freaky Flyers,PS2,Xbox,2003-01-01,2003-01-01,Midway Studios - San Diego,Midway,66,64.0,,,T,T
+0,0.955,sales_1402,metacritic_3355,Pro Evolution Soccer 2014,Pro Evolution Soccer 2019,PS3,Xbox One,2013-01-01,2018-01-01,Konami,Konami,78,82.0,4.1,6.6,E,E
+0,0.955,sales_1591,metacritic_4592,NCAA Football 11,NCAA Football 10,PS3,PS3,2010-01-01,2009-01-01,EA Tiburon,EA Tiburon,85,80.0,7.4,6.9,E,E
+0,0.951,sales_84,metacritic_74,Red Dead Redemption,Red Dead Redemption 2,PS3,PC,2010-01-01,2019-01-01,Rockstar San Diego,Rockstar Games,95,93.0,8.8,6.8,M,M
+0,0.983,sales_1012,metacritic_2564,Valkyria Chronicles,Valkyria Chronicles 4,PS3,PC,2008-01-01,2018-01-01,Sega,Sega,86,83.0,8.6,8.3,T,T
+0,0.953,sales_1209,metacritic_158,Madden NFL 2004,Madden NFL 2003,Xbox,Xbox,2003-01-01,2002-01-01,EA Tiburon,EA Tiburon,92,92.0,8.3,7.1,E,E
+0,0.955,sales_502,metacritic_2849,Madden NFL 15,Madden NFL 16,PS4,PS4,2014-01-01,2015-01-01,EA Sports,EA Sports,81,83.0,6.1,5.7,E,E
+0,0.97,sales_2809,metacritic_18756,Bionicle,Bionicle,PS2,PC,2003-01-01,2003-01-01,Argonaut Games,Argonaut Games,51,52.0,3.6,6.3,E,E
+0,0.986,sales_911,metacritic_6420,LEGO Indiana Jones: The Original Adventures,LEGO Indiana Jones: The Original Adventures,PS2,Wii,2008-01-01,2008-01-01,Traveller's Tales,Traveller's Tales,77,78.0,8.4,6.8,E10+,E10+
+0,0.992,sales_3896,metacritic_14884,NASCAR 09,NASCAR 09,Xbox 360,PS3,2008-01-01,2008-01-01,EA Games,EA Games,69,65.0,7.8,7.3,E,E
+0,0.99,sales_5262,metacritic_17061,FIFA Street 2,FIFA Street 2,Playstation Portable,PS2,2006-01-01,2006-01-01,EA Canada,EA Canada,58,59.0,6.9,7.9,E,E
+0,0.991,sales_1068,metacritic_7639,Call of Duty: Finest Hour,Call of Duty: Finest Hour,Xbox,PS2,2004-01-01,2004-01-01,Spark Unlimited,Spark Unlimited,73,76.0,7.8,7.0,T,T
+0,0.99,sales_1057,metacritic_13911,Need for Speed Carbon,Need for Speed Carbon,PS3,Wii,2006-01-01,2006-01-01,EA Canada,EA Canada,75,67.0,7.3,7.6,E10+,E10+
+0,0.904,sales_6862,metacritic_4026,Puyo Pop,Puyo Puyo Tetris,Game Boy Advance,Switch,2001-01-01,2017-01-01,Sonic Team,Sonic Team,84,81.0,,8.1,E,E10+
+0,0.915,sales_596,metacritic_11192,Red Faction,Red Faction: Armageddon,PS2,PS3,2001-01-01,2011-01-01,Volition Inc.,Volition Inc.,88,71.0,8.0,7.2,M,M
+0,0.905,sales_6978,metacritic_4605,Company of Heroes,Company of Heroes 2: The British Forces,PC,PC,2006-01-01,2015-01-01,Relic,"Relic,Relic Entertainment",93,80.0,8.8,6.3,M,M
+0,0.91,sales_6036,metacritic_18026,Michael Jackson: The Experience,Michael Jackson The Experience,Playstation Vita,Wii,2011-01-01,2010-01-01,Ubisoft,"Ubisoft Paris,Ubisoft Montpellier",57,56.0,5.8,8.4,E10+,E10+
+0,0.912,sales_309,metacritic_2756,Madden NFL 2002,Madden NFL 07,PS2,Xbox,2001-01-01,2006-01-01,EA Sports,EA Tiburon,94,83.0,7.9,7.5,E,E
+0,0.914,sales_7198,metacritic_3618,Saints Row 2,Saints Row 2,PC,PS3,2009-01-01,2008-01-01,"Volition Inc., CD Projekt Red Studio, CD Projekt, CD Projekt Localisation Centre",Volition Inc.,72,82.0,6.8,8.1,M,M
+0,0.904,sales_1827,metacritic_2207,Total War: Rome II,Total War: WARHAMMER II - Rise of the Tomb Kings,PC,PC,2013-01-01,2018-01-01,Creative Assembly,Creative Assembly,76,84.0,4.2,7.1,T,
+0,0.901,sales_3262,metacritic_10174,Mini Ninjas,Mini Ninjas,DS,Xbox 360,2009-01-01,2009-01-01,Magic Pockets,Io Interactive,61,73.0,5.8,8.2,E10+,E10+
+0,0.913,sales_308,metacritic_10520,Dragon Ball Z: Budokai,Dragon Ball Z: Burst Limit,PS2,Xbox 360,2002-01-01,2008-01-01,Dimps Corporation,"Dimps Corporation,Namco Bandai Games",67,72.0,7.9,7.6,T,T
+0,0.913,sales_255,metacritic_13331,Resident Evil 5,Resident Evil 0: HD Remaster,Xbox 360,PC,2009-01-01,2016-01-01,Capcom,Capcom,83,68.0,7.5,8.1,M,M
+0,0.928,sales_480,metacritic_4818,Madden NFL 12,Madden NFL 19,PS3,PS4,2011-01-01,2018-01-01,EA Tiburon,EA Tiburon,79,80.0,5.5,2.0,E,E
+0,0.92,sales_5501,metacritic_15080,Onimusha: Blade Warriors,Onimusha Tactics,PS2,Game Boy Advance,2003-01-01,2003-01-01,Capcom,Capcom,65,64.0,6.9,8.0,T,T
+0,0.94,sales_2510,metacritic_4384,Bully: Scholarship Edition,Bully: Scholarship Edition,Wii,Xbox 360,2008-01-01,2008-01-01,Rockstar Toronto,"Mad Doc Software,Rockstar Vancouver",83,80.0,8.4,8.4,T,T
+0,0.916,sales_960,metacritic_362,Grand Theft Auto: Chinatown Wars,Grand Theft Auto IV: The Lost and Damned,DS,Xbox 360,2009-01-01,2009-01-01,Rockstar Leeds,Rockstar North,93,90.0,8.3,8.0,M,M
+0,0.936,sales_411,metacritic_1758,Dragon Age: Origins,Dragon Age: Inquisition,Xbox 360,Xbox One,2009-01-01,2014-01-01,BioWare,BioWare,86,85.0,7.9,7.3,M,M
+0,0.922,sales_2772,metacritic_10055,Dance Dance Revolution: Hottest Party 3,Dance Dance Revolution Hottest Party,Wii,Wii,2009-01-01,2007-01-01,Konami,Konami,66,73.0,8.2,6.9,E10+,E10+
+0,0.93,sales_616,metacritic_12010,Dynasty Warriors 3,Dynasty Warriors 8 Empires,PS2,PlayStation Vita,2001-01-01,2015-01-01,Omega Force,Omega Force,78,70.0,9.1,7.5,T,T
+0,0.916,sales_2210,metacritic_8297,Prince of Persia: The Two Thrones,Prince of Persia: The Forgotten Sands,Xbox,PS3,2005-01-01,2010-01-01,Ubisoft,Ubisoft Montreal,85,75.0,8.4,7.4,M,T
+0,0.934,sales_3790,metacritic_9682,The Sims 2: Pets,The Sims 2,GameCube,GameCube,2006-01-01,2005-01-01,Maxis,Maxis,66,73.0,7.3,8.0,T,T
+0,0.93,sales_2440,metacritic_8062,Madden NFL 07,Madden NFL 13,PS3,Wii U,2006-01-01,2012-01-01,EA Tiburon,EA Tiburon,76,75.0,4.2,7.0,E,E
+0,0.973,sales_239,metacritic_3197,Pro Evolution Soccer 2008,Pro Evolution Soccer 2015,PS2,PS4,2007-01-01,2014-01-01,Konami,Konami,82,82.0,7.9,7.1,E,E
+0,0.959,sales_3259,metacritic_2657,Tekken Tag Tournament 2,Tekken Tag Tournament 2: Wii U Edition,Xbox 360,Wii U,2012-01-01,2012-01-01,Namco Bandai Games,Namco Bandai Games,83,83.0,7.5,8.0,T,T
+0,0.952,sales_241,metacritic_11363,Guitar Hero: World Tour,Guitar Hero: On Tour,Wii,DS,2008-01-01,2008-01-01,Vicarious Visions,Vicarious Visions,86,71.0,7.6,8.0,T,E10+
+0,0.945,sales_7089,metacritic_16353,Blood Bowl,Blood Bowl,PC,Playstation Portable,2009-01-01,2010-01-01,Cyanide,Cyanide,72,61.0,6.5,6.0,T,T
+0,0.987,sales_3968,metacritic_33,Sid Meier's Civilization VI,Sid Meier's Civilization IV,PC,PC,2016-01-01,2005-01-01,Firaxis Games,Firaxis Games,88,94.0,7.3,8.2,E10+,E10+
+0,0.949,sales_771,metacritic_13432,Devil May Cry 4,Devil May Cry 2,PS3,PS2,2008-01-01,2003-01-01,Capcom,Capcom,84,68.0,8.2,6.3,M,M
+0,0.988,sales_4060,metacritic_20123,Pure Futbol,Pure Futbol,PS3,Xbox 360,2010-01-01,2010-01-01,Ubisoft Vancouver,Ubisoft Vancouver,46,38.0,7.5,7.4,E,E
+0,0.974,sales_4537,metacritic_18681,FaceBreaker,FaceBreaker,Xbox 360,PS3,2008-01-01,2008-01-01,EA Canada,EA Canada,54,53.0,6.3,4.0,T,T
+0,0.962,sales_467,metacritic_6661,Pro Evolution Soccer 2010,Pro Evolution Soccer 2011,PS3,PS3,2009-01-01,2010-01-01,Konami,Konami,78,77.0,6.7,7.0,E,E
+0,0.968,sales_6961,metacritic_4536,Pro Evolution Soccer 2017,Pro Evolution Soccer 2008,XOne,Playstation Portable,2016-01-01,2008-01-01,Konami,Konami,87,80.0,6.1,6.6,E,E
+0,0.997,sales_7354,metacritic_10163,Real World Golf,Real World Golf,Xbox,PS2,2006-01-01,2006-01-01,"Aqua Pacific, In2Games","Aqua Pacific,In2Games",74,73.0,,6.3,E,E
+0,0.997,sales_2073,metacritic_17054,Namco Museum,Namco Museum,GameCube,Xbox,2002-01-01,2002-01-01,Mass Media,Mass Media,62,59.0,,7.2,E,E
+0,0.998,sales_947,metacritic_2458,F1 2010,F1 2010,PS3,Xbox 360,2010-01-01,2010-01-01,Codemasters Birmingham,Codemasters Birmingham,84,84.0,7.8,7.6,E,E
+0,0.985,sales_1690,metacritic_7050,FIFA Soccer 2004,FIFA Soccer 2004,Xbox,PC,2003-01-01,2003-01-01,EA Canada,EA Canada,82,77.0,8.2,6.9,E,E
+0,0.979,sales_3793,metacritic_14275,The BIGS,The Bigs,Xbox 360,Wii,2007-01-01,2007-01-01,Blue Castle Games,Blue Castle Games,79,66.0,8.4,7.1,E,E
+0,0.953,sales_2189,metacritic_15739,Final Fantasy Anniversary Edition,Final Fantasy II,Playstation Portable,Playstation Portable,2007-01-01,2007-01-01,TOSE,TOSE,67,63.0,7.7,6.8,E10+,T
+0,0.949,sales_2280,metacritic_6772,Battlefield 2: Modern Combat,Battlefield 2: Modern Combat,Xbox,Xbox 360,2005-01-01,2006-01-01,Digital Illusions,Digital Illusions,80,77.0,8.2,7.2,T,T
+0,0.956,sales_297,metacritic_3514,FIFA Soccer 08,FIFA Soccer 09,PS2,PS2,2007-01-01,2008-01-01,EA Canada,EA Canada,83,82.0,6.5,7.0,E,E
+0,0.962,sales_4050,metacritic_10276,FIFA World Cup Germany 2006,FIFA World Cup: Germany 2006,Xbox,Playstation Portable,2006-01-01,2006-01-01,EA Canada,"EA Canada,Exient Entertainment",77,72.0,8.4,7.4,E,E
+0,0.961,sales_2213,metacritic_11438,Final Fantasy: The 4 Heroes of Light,Final Fantasy: The 4 Heroes of Light,DS,DS,2009-01-01,2010-01-01,Matrix Software,Matrix Software,71,71.0,7.1,8.6,E10+,E10+
+0,0.952,sales_228,metacritic_11703,The Sims: Unleashed,The Sims Online,PC,PC,2002-01-01,2002-01-01,Maxis,Maxis,79,70.0,8.0,7.7,T,T
+0,0.949,sales_6195,metacritic_4727,Mega Man Legacy Collection,Mega Man Legacy Collection,PS4,Xbox One,2016-01-01,2015-01-01,Digital Eclipse,Digital Eclipse,77,80.0,6.1,7.0,E,E
+0,0.99,sales_4904,metacritic_15831,The King of Fighters XII,The King of Fighters XII,PS3,Xbox 360,2009-01-01,2009-01-01,SNK Playmore,SNK Playmore,57,63.0,5.3,5.0,T,T
+0,0.994,sales_1313,metacritic_2975,Skylanders SWAP Force,Skylanders Swap Force,PS3,Xbox 360,2013-01-01,2013-01-01,Vicarious Visions,Vicarious Visions,83,83.0,5.3,5.8,E10+,E10+
+0,0.997,sales_6426,metacritic_2050,FIFA Soccer 2004,FIFA Soccer 2004,GameCube,PS2,2003-01-01,2003-01-01,EA Canada,EA Canada,83,84.0,6.2,6.4,E,E
+0,0.996,sales_1823,metacritic_10042,Star Wars Episode III: Revenge of the Sith,Star Wars Episode III: Revenge of the Sith,Game Boy Advance,DS,2005-01-01,2005-01-01,Ubisoft,Ubisoft,73,73.0,7.5,8.0,E10+,E10+
+0,0.959,sales_1641,metacritic_1449,Dance Central 3,Dance Central 2,Xbox 360,Xbox 360,2012-01-01,2011-01-01,Harmonix Music Systems,Harmonix Music Systems,86,86.0,8.0,8.2,T,T
+0,0.97,sales_1507,metacritic_5816,Tiger Woods PGA Tour 06,Tiger Woods PGA Tour 11,PS2,PS3,2005-01-01,2010-01-01,EA Sports,EA Sports,83,78.0,6.2,6.6,E,E
+0,0.982,sales_3215,metacritic_18336,Homefront: The Revolution,Homefront: The Revolution,PS4,PC,2016-01-01,2016-01-01,Deep Silver Dambuster Studios,Deep Silver Dambuster Studios,48,54.0,3.8,4.5,M,M
+0,0.973,sales_255,metacritic_4693,Resident Evil 5,Resident Evil,Xbox 360,Switch,2009-01-01,2019-01-01,Capcom,Capcom,83,80.0,7.5,8.4,M,M
+0,0.947,sales_187,metacritic_76,Fallout 4,Fallout 3,XOne,Xbox 360,2015-01-01,2008-01-01,Bethesda Game Studios,Bethesda Game Studios,88,93.0,6.2,8.5,M,M
+0,0.966,sales_5076,metacritic_18314,The Cursed Crusade,The Cursed Crusade,Xbox 360,PC,2011-01-01,2011-01-01,Kylotonn,Kylotonn,39,55.0,4.4,5.6,M,M
+0,0.985,sales_2816,metacritic_9197,Devil May Cry HD Collection,Devil May Cry HD Collection,Xbox 360,PS3,2012-01-01,2012-01-01,"Capcom, Pipeworks Software, Inc.","Capcom,Pipeworks Software, Inc.",77,74.0,8.4,8.5,M,M
+0,0.963,sales_394,metacritic_1965,ESPN NFL 2K5,ESPN NBA 2K5,PS2,Xbox,2004-01-01,2004-01-01,Visual Concepts,Visual Concepts,90,85.0,8.2,7.9,E,E
+0,0.975,sales_5741,metacritic_7037,Sniper Elite,Sniper Elite 4,Wii,PS4,2010-01-01,2017-01-01,Rebellion,Rebellion,71,77.0,,7.7,M,M
+0,0.993,sales_4598,metacritic_16374,The Lord of the Rings: War in the North,The Lord of the Rings: War in the North,PC,Xbox 360,2011-01-01,2011-01-01,Snowblind Studios,Snowblind Studios,66,61.0,7.1,7.3,M,M
+0,0.991,sales_2986,metacritic_11720,NBA Live 2002,NBA Live 2002,Xbox,PS2,2001-01-01,2001-01-01,Electronic Arts,Electronic Arts,76,70.0,7.5,7.1,E,E
+0,0.993,sales_3099,metacritic_13919,Harry Potter and the Prisoner of Azkaban,Harry Potter and the Prisoner of Azkaban,GameCube,Xbox,2004-01-01,2004-01-01,EA Games,EA Games,67,67.0,7.3,8.1,E,E
+0,0.994,sales_272,metacritic_6855,LEGO Batman: The Videogame,LEGO Batman: The Videogame,Xbox 360,PS2,2008-01-01,2008-01-01,Traveller's Tales,Traveller's Tales,76,77.0,7.9,8.5,E10+,E10+
+0,0.959,sales_1787,metacritic_8952,Tom Clancy's Rainbow Six: Vegas,Tom Clancy's Rainbow Six Siege,Playstation Portable,Xbox One,2007-01-01,2015-01-01,Ubisoft Montreal,Ubisoft Montreal,60,74.0,7.1,7.1,T,M
+0,0.956,sales_1808,metacritic_152,Final Fantasy XIII-2,Final Fantasy XII,Xbox 360,PS2,2011-01-01,2006-01-01,Square Enix,Square Enix,79,92.0,6.3,7.6,T,T
+0,0.944,sales_1926,metacritic_3592,NCAA Football 2005,NCAA Football 12,Xbox,PS3,2004-01-01,2011-01-01,EA Sports,EA Sports,89,82.0,8.0,5.8,E,E
+0,0.982,sales_5210,metacritic_16376,Dynasty Warriors 7: Empires,Dynasty Warriors 5 Empires,PS3,Xbox 360,2012-01-01,2006-01-01,Omega Force,Omega Force,63,61.0,8.0,8.2,T,T

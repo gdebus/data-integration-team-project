@@ -1,0 +1,392 @@
+label,score,id_a,id_b,name_a,gameLabel_b,platform_a,platform_b,developer_a,developer_b,releaseYear_a,releaseDate_b
+1,1.0,metacritic_8970,dbpedia_games_17171,EverQuest Online Adventures,EverQuest Online Adventures,PS2,PlayStation 2,Sony Online Entertainment,Sony Online Entertainment,2003-01-01,2003-11-17
+1,1.0,metacritic_8116,dbpedia_games_8645,Scribblenauts Unlimited,Scribblenauts Unlimited,PC,Microsoft Windows,5TH Cell,5th Cell,2012-01-01,2012-11-13
+1,1.0,metacritic_1282,dbpedia_games_30433,Burnout Legends,Burnout Legends,Playstation Portable,PlayStation Portable,Criterion Games,Criterion Games,2005-01-01,2005-09-13
+1,1.0,metacritic_1333,dbpedia_games_40849,Total War: WARHAMMER,Total War: Warhammer,PC,Microsoft Windows,Creative Assembly,Creative Assembly,2016-01-01,2016-05-24
+1,1.0,metacritic_18390,dbpedia_games_25129,Frogger: Ancient Shadow,Frogger: Ancient Shadow,PS2,PlayStation 2,Hudson Soft,Hudson Soft,2005-01-01,2005-09-27
+1,1.0,metacritic_7685,dbpedia_games_34192,Deponia Doomsday,Deponia Doomsday,PC,Microsoft Windows,Daedalic Entertainment,Daedalic Entertainment,2016-01-01,2016-03-01
+1,1.0,metacritic_10894,dbpedia_games_5459,Shank 2,Shank 2,PC,Microsoft Windows,Klei Entertainment,Klei Entertainment,2012-01-01,2012-02-07
+1,1.0,metacritic_18338,dbpedia_games_47241,Moebius: Empire Rising,Moebius: Empire Rising,PC,Microsoft Windows,Pinkerton Road Studio,Pinkerton Road Studio,2014-01-01,2014-04-15
+1,1.0,metacritic_2669,dbpedia_games_34236,Insurgency: Sandstorm,Insurgency: Sandstorm,Xbox One,Xbox One,New World Interactive,New World Interactive,2021-01-01,2021-09-29
+1,1.0,metacritic_7887,dbpedia_games_17949,Serious Sam's Bogus Detour,Serious Sam's Bogus Detour,PC,Windows,Crackshell,Crackshell,2017-01-01,2017-06-20
+1,1.0,metacritic_2555,dbpedia_games_20568,Mega Man Legacy Collection,Mega Man Legacy Collection,Switch,Nintendo Switch,Capcom,Capcom,2018-01-01,2018-07-24
+1,1.0,metacritic_3908,dbpedia_games_18639,Star Wars Jedi Knight II: Jedi Outcast,Star Wars Jedi Knight II: Jedi Outcast,Xbox,Xbox (console),Vicarious Visions,Vicarious Visions,2002-01-01,2002-11-05
+1,1.0,metacritic_13560,dbpedia_games_64152,Crash Tag Team Racing,Crash Tag Team Racing,Playstation Portable,PlayStation Portable,Radical Entertainment,Radical Entertainment,2005-01-01,2005-10-19
+1,1.0,metacritic_12997,dbpedia_games_12403,Spider-Man: Shattered Dimensions,Spider-Man: Shattered Dimensions,PC,Microsoft Windows,Beenox,Beenox,2010-01-01,2010-11-24
+1,1.0,metacritic_7633,dbpedia_games_27894,Star Wars Episode I: Jedi Power Battles,Star Wars Episode I: Jedi Power Battles,Dreamcast,Dreamcast,LucasArts,LucasArts,2000-01-01,2000-04-04
+1,1.0,metacritic_470,dbpedia_games_51923,NBA 2K13,NBA 2K13,PS3,PlayStation 3,Visual Concepts,Visual Concepts,2012-01-01,2012-09-19
+1,1.0,metacritic_16894,dbpedia_games_26692,Dynasty Warriors 6,Dynasty Warriors 6,Xbox 360,Xbox 360,Omega Force,Omega Force,2008-01-01,2008-07-11
+1,1.0,metacritic_6942,dbpedia_games_37153,Sanctum 2,Sanctum 2,PC,Microsoft Windows,Coffee Stain Studios,Coffee Stain Studios,2013-01-01,2013-05-15
+1,1.0,metacritic_18527,dbpedia_games_48489,Frogger: Ancient Shadow,Frogger: Ancient Shadow,GameCube,GameCube,Hudson Soft,Hudson Soft,2005-01-01,2005-09-27
+1,1.0,metacritic_17048,dbpedia_games_42548,Worms Ultimate Mayhem,Worms Ultimate Mayhem,Xbox 360,Xbox 360,Team17,Team17,2011-01-01,2011-09-28
+1,1.0,metacritic_14719,dbpedia_games_61363,Dynasty Warriors: Strikeforce,Dynasty Warriors: Strikeforce,Playstation Portable,PlayStation Portable,Omega Force,Omega Force,2009-01-01,2009-02-26
+1,1.0,metacritic_8689,dbpedia_games_25001,Dynasty Warriors 2,Dynasty Warriors 2,PS2,PlayStation 2,Omega Force,Omega Force,2000-01-01,2000-08-03
+1,1.0,metacritic_699,dbpedia_games_49678,Injustice 2,Injustice 2,Xbox One,Xbox One,NetherRealm Studios,NetherRealm Studios,2017-01-01,2017-05-11
+1,1.0,metacritic_5538,dbpedia_games_18496,Heavenly Sword,Heavenly Sword,PS3,PlayStation 3,Ninja Theory,Ninja Theory,2007-01-01,2007-09-12
+1,1.0,metacritic_17448,dbpedia_games_53064,Lost Planet 3,Lost Planet 3,Xbox 360,Xbox 360,Spark Unlimited,Spark Unlimited,2013-01-01,2013-08-27
+1,1.0,metacritic_3051,dbpedia_games_60407,BioShock 2: Minerva's Den,BioShock 2: Minerva's Den,Xbox 360,Xbox 360,2K Marin,2K Marin,2010-01-01,2010-08-23
+1,1.0,metacritic_15785,dbpedia_games_52884,Bladestorm: The Hundred Years' War,Bladestorm: The Hundred Years' War,Xbox 360,Xbox 360,Omega Force,Omega Force,2007-01-01,2007-10-25
+1,1.0,metacritic_19251,dbpedia_games_62015,Fallout 76,Fallout 76,Xbox One,Xbox One,Bethesda Game Studios,Bethesda Game Studios,2018-01-01,2018-11-14
+1,1.0,metacritic_514,dbpedia_games_51613,Burnout Revenge,Burnout Revenge,Xbox,Xbox (console),Criterion Games,Criterion Games,2005-01-01,2005-09-13
+1,1.0,metacritic_7650,dbpedia_games_6258,The Suffering: Ties That Bind,The Suffering: Ties That Bind,Xbox,Xbox (console),Surreal Software,Surreal Software,2005-01-01,2005-09-26
+1,1.0,metacritic_355,dbpedia_games_15017,Tom Clancy's Ghost Recon Advanced Warfighter,Tom Clancy's Ghost Recon Advanced Warfighter,Xbox 360,Xbox 360,Ubisoft Paris,Ubisoft Paris,2006-01-01,2006-03-28
+1,1.0,metacritic_1762,dbpedia_games_51077,NBA Live 2005,NBA Live 2005,Xbox,Xbox (console),EA Canada,EA Canada,2004-01-01,2004-09-28
+1,1.0,metacritic_5810,dbpedia_games_15383,Call of Juarez: Bound in Blood,Call of Juarez: Bound in Blood,PS3,PlayStation 3,Techland,Techland,2009-01-01,2009-06-30
+1,1.0,metacritic_12628,dbpedia_games_44847,nail'd,Nail'd,PC,Microsoft Windows,Techland,Techland,2010-01-01,2010-11-30
+1,1.0,metacritic_14583,dbpedia_games_7652,Pitfall: The Lost Expedition,Pitfall: The Lost Expedition,Game Boy Advance,Game Boy Advance,Torus Games,Torus Games,2004-01-01,2004-10-15
+1,1.0,metacritic_4811,dbpedia_games_11697,Tooth and Tail,Tooth and Tail,PC,Microsoft Windows,Pocketwatch Games,Pocketwatch Games,2017-01-01,2017-09-12
+1,1.0,metacritic_2478,dbpedia_games_32266,Ecco the Dolphin: Defender of the Future,Ecco the Dolphin: Defender of the Future,Dreamcast,Dreamcast,Appaloosa Interactive,Appaloosa Interactive,2000-01-01,2000-06-16
+1,1.0,metacritic_17976,dbpedia_games_49984,SpongeBob SquarePants: Creature from the Krusty Krab,SpongeBob SquarePants: Creature from the Krusty Krab,DS,Nintendo DS,WayForward,WayForward,2006-01-01,2006-08-21
+1,1.0,metacritic_5048,dbpedia_games_47361,Call of Duty: WWII,Call of Duty: WWII,Xbox One,,Sledgehammer Games,Sledgehammer Games,2017-01-01,2017-11-03
+1,1.0,metacritic_16554,dbpedia_games_34106,Batman: Arkham Origins Blackgate,Batman: Arkham Origins Blackgate,PlayStation Vita,PlayStation Vita,Armature Studio,Armature Studio,2013-01-01,2013-10-25
+1,1.0,metacritic_9704,dbpedia_games_49263,Body Harvest,Body Harvest,Nintendo 64,Nintendo 64,DMA Design,DMA Design,1998-01-01,1998-09-30
+0,1.0,metacritic_5680,dbpedia_games_48719,Wonder Boy: The Dragon's Trap,Wonder Boy: The Dragon's Trap,PS4,Linux,Lizardcube,,2017-01-01,2017-04-18
+0,1.0,metacritic_7887,dbpedia_games_17949,Serious Sam's Bogus Detour,Serious Sam's Bogus Detour,PC,Windows,Crackshell,Crackshell,2017-01-01,2017-06-20
+0,1.0,metacritic_7121,dbpedia_games_14440,The Darkness II,The Darkness II,PC,MacOS,Digital Extremes,Digital Extremes,2012-01-01,2012-04-18
+0,1.0,metacritic_9720,dbpedia_games_61239,LEGO Pirates of the Caribbean: The Video Game,Lego Pirates of the Caribbean: The Video Game,PS3,Mac OS X,Traveller's Tales,Traveller's Tales,2011-01-01,2011-05-10
+0,1.0,metacritic_7685,dbpedia_games_34192,Deponia Doomsday,Deponia Doomsday,PC,Microsoft Windows,Daedalic Entertainment,Daedalic Entertainment,2016-01-01,2016-03-01
+0,1.0,metacritic_1328,dbpedia_games_3089,NBA 2K14,NBA 2K14,Xbox One,PlayStation 4,Visual Concepts,Visual Concepts,2013-01-01,2013-11-22
+0,1.0,metacritic_10938,dbpedia_games_17329,de Blob,De Blob,Switch,Xbox One,Blue Tongue Entertainment,Blue Tongue Entertainment,2018-01-01,2008-07-08
+0,1.0,metacritic_10301,dbpedia_games_56174,Puyo Pop Fever,Puyo Pop Fever,GameCube,Xbox 360,Sonic Team,Sonic Team,2004-01-01,2004-06-24
+0,1.0,metacritic_8528,dbpedia_games_28846,Dying Light,Dying Light,PC,MacOS,Techland,Techland,2015-01-01,2021-10-19
+0,1.0,metacritic_20404,dbpedia_games_12526,The Elder Scrolls V: Skyrim,The Elder Scrolls V: Skyrim,PC,PlayStation 5,Bethesda Game Studios,Bethesda Game Studios,2011-01-01,2011-11-11
+0,1.0,metacritic_4544,dbpedia_games_7691,WindJammers 2,Windjammers 2,Xbox One,Nintendo Switch,DotEmu,Dotemu,2022-01-01,2022-01-20
+0,1.0,metacritic_17976,dbpedia_games_47999,SpongeBob SquarePants: Creature from the Krusty Krab,SpongeBob SquarePants: Creature from the Krusty Krab,DS,Microsoft Windows,WayForward,WayForward,2006-01-01,2006-11-19
+0,1.0,metacritic_4793,dbpedia_games_63078,NBA Live 06,NBA Live 06,Playstation Portable,Xbox 360,EA Canada,EA Canada,2005-01-01,2005-10-11
+0,1.0,metacritic_18163,dbpedia_games_7448,Warriors Orochi,Warriors Orochi,PS2,Xbox 360,Omega Force,Omega Force,2007-01-01,2007-03-21
+0,1.0,metacritic_11629,dbpedia_games_54283,Star Wars: The Force Unleashed,Star Wars: The Force Unleashed,PS3,IOS,LucasArts,LucasArts,2008-01-01,2008-09-16
+0,1.0,metacritic_18863,dbpedia_games_30631,Alien Rage,Alien Rage,PC,Xbox 360,CI Games,CI Games,2013-01-01,2013-10-18
+0,1.0,metacritic_5310,dbpedia_games_58360,Valiant Hearts: The Great War,Valiant Hearts: The Great War,PC,Android (operating system),Ubisoft Montpellier,Ubisoft Montpellier,2014-01-01,2014-09-04
+0,1.0,metacritic_12254,dbpedia_games_16108,Tiger Woods PGA Tour 10,Tiger Woods PGA Tour 10,Playstation Portable,Wii,EA Tiburon,EA Tiburon,2009-01-01,2009-06-08
+0,1.0,metacritic_4930,dbpedia_games_38511,Oddworld: Munch's Oddysee,Oddworld: Munch's Oddysee,Xbox,PlayStation Vita,Oddworld Inhabitants,Oddworld Inhabitants,2001-01-01,2001-11-15
+0,1.0,metacritic_7001,dbpedia_games_14970,DOOM II,Doom II,Xbox 360,Android (operating system),id Software,Id Software,2010-01-01,2010-05-26
+0,1.0,metacritic_3329,dbpedia_games_36690,Mega Man 9,Mega Man 9,Xbox 360,Xbox One,Inti Creates,Inti Creates,2008-01-01,2008-10-01
+0,1.0,metacritic_17132,dbpedia_games_59769,Tetris Ultimate,Tetris Ultimate,Xbox One,PlayStation 4,"Ubisoft,Ubisoft San Francisco",,2014-01-01,2014-11-06
+0,1.0,metacritic_5020,dbpedia_games_35459,Broken Sword: The Shadow of the Templars,Broken Sword: The Shadow of the Templars,PC,Mac OS,Revolution Software,Revolution Software,1996-01-01,2002-03-17
+0,1.0,metacritic_19340,dbpedia_games_39661,Mighty No. 9,Mighty No. 9,Wii U,PlayStation 3,Inti Creates,Inti Creates,2016-01-01,2016-06-21
+0,1.0,metacritic_11712,dbpedia_games_11908,Dynasty Warriors 3,Dynasty Warriors 3,Xbox,PlayStation 2,Omega Force,Omega Force,2002-01-01,2013-01-16
+0,1.0,metacritic_1229,dbpedia_games_32510,PixelJunk Shooter,PixelJunk Shooter,PS3,Microsoft Windows,Q-Games,Q-Games,2009-01-01,2014-06-03
+0,1.0,metacritic_12924,dbpedia_games_23675,The Legend of Spyro: A New Beginning,The Legend of Spyro: A New Beginning,Xbox,Nintendo DS,Krome Studios,Krome Studios,2006-01-01,2006-10-10
+0,1.0,metacritic_8717,dbpedia_games_59751,Bit.Trip Fate,Bit.Trip Fate,Wii,Nintendo Switch,Gaijin Games,Gaijin Games,2010-01-01,2010-10-25
+0,1.0,metacritic_5310,dbpedia_games_3408,Valiant Hearts: The Great War,Valiant Hearts: The Great War,PC,IOS,Ubisoft Montpellier,Ubisoft Montpellier,2014-01-01,2022-07-14
+0,1.0,metacritic_1622,dbpedia_games_37986,Prince of Persia: The Two Thrones,Prince of Persia: The Two Thrones,PS2,PlayStation 3,Ubisoft Montreal,Ubisoft Montreal,2005-01-01,2005-12-01
+0,1.0,metacritic_4642,dbpedia_games_54101,Titan Quest: Immortal Throne,Titan Quest: Immortal Throne,PC,Nintendo Switch,Iron Lore Entertainment,Iron Lore Entertainment,2007-01-01,2018-07-31
+0,1.0,metacritic_16484,dbpedia_games_32307,Sacred Citadel,Sacred Citadel,PC,PlayStation 3,Southend Interactive,Southend Interactive,2013-01-01,2013-04-16
+0,1.0,metacritic_6954,dbpedia_games_14410,Bejeweled Twist,Bejeweled Twist,DS,Adobe Flash,Griptonite Games,Griptonite Games,2010-01-01,2010-01-19
+0,1.0,metacritic_7306,dbpedia_games_43982,Worms W.M.D,Worms W.M.D,PC,PlayStation 4,Team17,Team17,2016-01-01,2016-08-23
+0,1.0,metacritic_7807,dbpedia_games_46591,SkyDrift,SkyDrift,PS3,Xbox Series X/S,Digital Reality,Digital Reality,2011-01-01,2011-09-06
+0,1.0,metacritic_5721,dbpedia_games_55628,Pro Evolution Soccer 2011,Pro Evolution Soccer 2011,Xbox 360,Android (operating system),Konami,Konami,2010-01-01,2010-10-21
+0,1.0,metacritic_16439,dbpedia_games_33015,Green Lantern: Rise of the Manhunters,Green Lantern: Rise of the Manhunters,PS3,Wii,Double Helix Games,Double Helix Games,2011-01-01,2011-06-07
+0,1.0,metacritic_506,dbpedia_games_35423,Star Wars Jedi Knight II: Jedi Outcast,Star Wars Jedi Knight II: Jedi Outcast,PC,Xbox (console),Raven Software,Raven Software,2002-01-01,2002-03-26
+0,1.0,metacritic_4551,dbpedia_games_55838,Wakeboarding Unleashed Featuring Shaun Murray,Wakeboarding Unleashed Featuring Shaun Murray,Xbox,PlayStation 2,Shaba Games,Shaba Games,2003-01-01,2003-08-04
+0,1.0,metacritic_5129,dbpedia_games_54021,Dungeon of the Endless,Dungeon of the Endless,PC,PlayStation 4,Amplitude Studios,Amplitude Studios,2014-01-01,2021-03-16
+0,1.0,metacritic_15667,dbpedia_games_63432,Pac-Man World 3,Pac-Man World 3,PS2,Nintendo DS,Blitz Games,Namco,2005-01-01,2005-11-17
+0,1.0,metacritic_9954,dbpedia_games_63296,Tomb Raider: Anniversary,Tomb Raider: Anniversary,Wii,MacOS,Crystal Dynamics,Crystal Dynamics,2007-01-01,2007-06-01
+0,1.0,metacritic_15117,dbpedia_games_57495,Apache: Air Assault,Apache: Air Assault,PC,Xbox 360,Gaijin Entertainment,Gaijin Entertainment,2010-01-01,2010-11-16
+0,1.0,metacritic_2052,dbpedia_games_5942,Neverwinter Nights: Hordes of the Underdark,Neverwinter Nights: Hordes of the Underdark,PC,PlayStation 4,BioWare,BioWare,2003-01-01,2003-12-02
+0,1.0,metacritic_4928,dbpedia_games_64481,Kelly Slater's Pro Surfer,Kelly Slater's Pro Surfer,GameCube,Microsoft Windows,Treyarch,Treyarch,2002-01-01,2002-09-16
+0,1.0,metacritic_2388,dbpedia_games_34372,Enemy Territory: Quake Wars,Enemy Territory: Quake Wars,PC,Xbox 360,Splash Damage,Splash Damage,2007-01-01,2007-09-28
+0,1.0,metacritic_17018,dbpedia_games_36582,Dark Void,Dark Void,Xbox 360,PlayStation 3,Airtight Games,Airtight Games,2010-01-01,2010-01-19
+0,1.0,metacritic_9282,dbpedia_games_19252,de Blob 2,De Blob 2,PS3,Nintendo DS,Blue Tongue Entertainment,Blue Tongue Entertainment,2011-01-01,2018-08-28
+0,1.0,metacritic_13211,dbpedia_games_3264,Batman: The Telltale Series,Batman: The Telltale Series,PS4,Microsoft Windows,Telltale Games,Telltale Games,2016-01-01,2016-11-22
+0,1.0,metacritic_11167,dbpedia_games_30762,Dead Island,Dead Island,Xbox 360,PlayStation 3,Techland,Techland,2011-01-01,2011-09-06
+0,1.0,metacritic_3662,dbpedia_games_4265,Mega Man 10,Mega Man 10,Wii,PlayStation 4,Inti Creates,Inti Creates,2010-01-01,2010-03-31
+0,1.0,metacritic_9194,dbpedia_games_51114,Payday 2,Payday 2,PS3,Xbox 360,Overkill Software,Overkill Software,2013-01-01,2013-08-13
+0,1.0,metacritic_2162,dbpedia_games_21611,Guacamelee!,Guacamelee!,PS3,Xbox 360,DrinkBox Studios,DrinkBox Studios,2013-01-01,2013-08-08
+0,1.0,metacritic_2710,dbpedia_games_62176,Terraria,Terraria,PC,Xbox 360,Re-Logic,Re-Logic,2011-01-01,2021-03-18
+0,1.0,metacritic_7277,dbpedia_games_15467,Pool Paradise,Pool Paradise,PS2,Microsoft Windows,Awesome Developments,Awesome Developments,2004-01-01,2004-04-02
+0,1.0,metacritic_8021,dbpedia_games_47387,Victoria II,Victoria II,PC,Mac OS X,Paradox Development Studio,Paradox Development Studio,2010-01-01,2010-08-13
+0,1.0,metacritic_1315,dbpedia_games_39321,Onimusha: Warlords,Onimusha: Warlords,PS2,Xbox (console),Capcom,Capcom,2001-01-01,2001-01-25
+0,1.0,metacritic_17703,dbpedia_games_59496,NASCAR 08,NASCAR 08,PS3,Xbox 360,EA Tiburon,EA Tiburon,2007-01-01,2007-07-23
+0,0.949,metacritic_3266,dbpedia_games_47252,The Walking Dead: Season Two Episode 2 - A House Divided,The Walking Dead: Season Two,PS3,Microsoft Windows,Telltale Games,Telltale Games,2014-01-01,2014-05-13
+0,0.96,metacritic_3963,dbpedia_games_32174,Madden NFL 19,Madden NFL 06,Xbox One,PlayStation Portable,EA Tiburon,EA Tiburon,2018-01-01,2005-08-11
+0,0.933,metacritic_1423,dbpedia_games_15854,Street Fighter III: Third Strike Online Edition,Street Fighter III: 3rd Strike,Xbox 360,Xbox One,Iron Galaxy Studios,Iron Galaxy Studios,2011-01-01,2018-05-29
+0,0.964,metacritic_14258,dbpedia_games_47086,Ghostbusters: The Video Game Remastered,Ghostbusters: The Video Game,PS4,PlayStation 2,Saber Interactive,Saber Interactive,2019-01-01,2009-10-30
+0,0.956,metacritic_15086,dbpedia_games_37601,Star Wars Jedi Knight II: Jedi Outcast,Star Wars Jedi Knight II: Jedi Outcast,Switch,Nintendo Switch,"Aspyr,Aspire",Aspyr,2019-01-01,2009-09-16
+0,0.957,metacritic_1268,dbpedia_games_45345,Rocket League,Rocket League,Switch,Xbox One,Psyonix,Psyonix,2017-01-01,2016-02-17
+0,0.974,metacritic_4703,dbpedia_games_63399,Samorost 3,Samorost,PC,Android (operating system),Amanita Design,Amanita Design,2016-01-01,2021-05-20
+0,0.926,metacritic_12224,dbpedia_games_37067,Resident Evil 0: HD Remaster,Resident Evil 2,PS4,Game.com,Capcom,Capcom,2016-01-01,1998-01-21
+0,1.0,metacritic_7845,dbpedia_games_41476,Naruto Shippuden: Ultimate Ninja Storm 2,Naruto Shippuden: Ultimate Ninja Storm 2,PS3,PlayStation 4,CyberConnect2,CyberConnect2,2010-01-01,2010-10-14
+0,1.0,metacritic_1736,dbpedia_games_18284,Amnesia: The Dark Descent,Amnesia: The Dark Descent,PC,Nintendo Switch,Frictional Games,Frictional Games,2010-01-01,2018-09-28
+0,1.0,metacritic_11167,dbpedia_games_19666,Dead Island,Dead Island,Xbox 360,PlayStation 4,Techland,Techland,2011-01-01,2011-09-06
+0,1.0,metacritic_6612,dbpedia_games_10392,Apollo Justice: Ace Attorney,Apollo Justice: Ace Attorney,3DS,Nintendo 3DS,Capcom,Capcom,2017-01-01,2007-04-12
+0,1.0,metacritic_15609,dbpedia_games_31869,Sacred Citadel,Sacred Citadel,Xbox 360,PlayStation 3,Southend Interactive,Southend Interactive,2013-01-01,2013-04-16
+0,1.0,metacritic_5150,dbpedia_games_48300,Street Fighter X Tekken,Street Fighter X Tekken,PlayStation Vita,Shield Android TV,Capcom,Capcom,2012-01-01,2012-09-19
+0,1.0,metacritic_68,dbpedia_games_2129,Street Fighter IV,Street Fighter IV,Xbox 360,Microsoft Windows,Capcom,Capcom,2009-01-01,2009-07-02
+0,1.0,metacritic_2920,dbpedia_games_34536,Alan Wake,Alan Wake,Xbox 360,Nintendo Switch,Remedy Entertainment,Remedy Entertainment,2010-01-01,2022-10-20
+0,1.0,metacritic_19322,dbpedia_games_6811,Carnival Games,Carnival Games,DS,Nintendo DS,Cat Daddy Games,Cat Daddy Games,2008-01-01,2020-11-19
+0,1.0,metacritic_531,dbpedia_games_7510,Pillars of Eternity,Pillars of Eternity,PC,Linux,Obsidian Entertainment,Obsidian Entertainment,2015-01-01,2015-03-26
+0,1.0,metacritic_15218,dbpedia_games_54396,Rayman Raving Rabbids,Rayman Raving Rabbids,PS2,Xbox 360,Ubisoft Montpellier,Ubisoft Montpellier,2006-01-01,2017-07-06
+0,1.0,metacritic_13432,dbpedia_games_50478,Devil May Cry 2,Devil May Cry 2,PS2,,Capcom,Capcom,2003-01-01,2012-03-22
+0,1.0,metacritic_15901,dbpedia_games_25117,Sudden Strike 4,Sudden Strike 4,PS4,Linux,Kalypso,,2017-01-01,2017-08-15
+0,1.0,metacritic_7001,dbpedia_games_1931,DOOM II,Doom II,Xbox 360,PlayStation 4,id Software,Id Software,2010-01-01,1995-06-27
+0,1.0,metacritic_4715,dbpedia_games_30607,LEGO Star Wars: The Complete Saga,Lego Star Wars: The Complete Saga,Xbox 360,Wii,Traveller's Tales,Traveller's Tales,2007-01-01,2015-01-01
+0,1.0,metacritic_20404,dbpedia_games_2021,The Elder Scrolls V: Skyrim,The Elder Scrolls V: Skyrim,PC,Xbox One,Bethesda Game Studios,Bethesda Game Studios,2011-01-01,2021-11-11
+0,1.0,metacritic_3036,dbpedia_games_47165,Tomb Raider: Legend,Tomb Raider: Legend,Xbox,PlayStation Portable,Crystal Dynamics,Crystal Dynamics,2006-01-01,2006-11-10
+0,1.0,metacritic_4599,dbpedia_games_1489,Super Street Fighter IV: Arcade Edition,Super Street Fighter IV: Arcade Edition,PS3,Microsoft Windows,Capcom,Capcom,2011-01-01,2011-06-30
+0,1.0,metacritic_5020,dbpedia_games_4256,Broken Sword: The Shadow of the Templars,Broken Sword: The Shadow of the Templars,PC,Palm OS,Revolution Software,Revolution Software,1996-01-01,1996-09-30
+0,1.0,metacritic_16858,dbpedia_games_14057,The Legend of Spyro: The Eternal Night,The Legend of Spyro: The Eternal Night,Wii,Nintendo DS,Krome Studios,Krome Studios,2007-01-01,2007-10-18
+0,1.0,metacritic_5622,dbpedia_games_27593,Guilty Gear X,Guilty Gear X,PS2,Arcade game,Arc System Works,Arc System Works,2001-01-01,2001-10-02
+0,1.0,metacritic_6708,dbpedia_games_37349,Bloodstained: Curse of the Moon,Bloodstained: Curse of the Moon,PC,PlayStation Vita,Inti Creates,Inti Creates,2018-01-01,2018-05-24
+0,1.0,metacritic_5679,dbpedia_games_40231,de Blob 2,De Blob 2,Wii,PlayStation 3,Blue Tongue Entertainment,Wii,2011-01-01,2011-02-22
+0,1.0,metacritic_17630,dbpedia_games_24320,The King of Fighters XII,The King of Fighters XII,PS3,Xbox 360,SNK Playmore,SNK Playmore,2009-01-01,2009-04-10
+0,1.0,metacritic_2412,dbpedia_games_45980,Project CARS 2,Project CARS 2,PC,PlayStation 4,Slightly Mad Studios,Slightly Mad Studios,2017-01-01,2017-09-22
+0,1.0,metacritic_17487,dbpedia_games_62513,Pro Evolution Soccer 2008,Pro Evolution Soccer 2008,DS,Mobile phone,Konami,Konami,2008-01-01,2008-02-21
+0,1.0,metacritic_9974,dbpedia_games_21271,Samurai Warriors,Samurai Warriors,PS2,PlayStation Portable,Omega Force,Omega Force,2004-01-01,2004-09-16
+0,1.0,metacritic_3433,dbpedia_games_14281,Split/Second,Split/Second,Xbox 360,IOS,Black Rock Studio,Black Rock Studio,2010-01-01,2010-05-18
+0,1.0,metacritic_3662,dbpedia_games_44408,Mega Man 10,Mega Man 10,Wii,Xbox 360,Inti Creates,Inti Creates,2010-01-01,2010-03-01
+0,1.0,metacritic_20016,dbpedia_games_24436,Painkiller: Hell & Damnation,Painkiller: Hell & Damnation,PS3,Microsoft Windows,The Farm 51,The Farm 51,2013-01-01,2013-06-28
+0,1.0,metacritic_4740,dbpedia_games_43131,Fall Guys,Fall Guys,PC,Nintendo Switch,Mediatonic,Mediatonic,2020-01-01,2020-08-04
+0,1.0,metacritic_8802,dbpedia_games_32940,Rock of Ages 3: Make & Break,Rock of Ages 3: Make & Break,Xbox One,Nintendo Switch,ACE Team,ACE Team,2020-01-01,2020-08-14
+0,1.0,metacritic_12924,dbpedia_games_34890,The Legend of Spyro: A New Beginning,The Legend of Spyro: A New Beginning,Xbox,Mobile game,Krome Studios,Krome Studios,2006-01-01,2006-10-10
+0,1.0,metacritic_3905,dbpedia_games_18139,The Sims Bustin' Out,The Sims Bustin' Out,GameCube,PlayStation 2,Maxis,Maxis,2003-01-01,2003-12-16
+0,1.0,metacritic_4671,dbpedia_games_4741,Crash Bandicoot N. Sane Trilogy,Crash Bandicoot N. Sane Trilogy,PS4,Nintendo Switch,Vicarious Visions,Vicarious Visions,2017-01-01,2017-06-30
+0,1.0,metacritic_9340,dbpedia_games_26329,Dying Light,Dying Light,Xbox One,Xbox One,Techland,Techland,2015-01-01,2022-03-21
+0,1.0,metacritic_3279,dbpedia_games_16270,Shantae and the Pirate's Curse,Shantae and the Pirate's Curse,3DS,Nintendo Switch,WayForward,WayForward,2014-01-01,2022-09-27
+0,1.0,metacritic_18163,dbpedia_games_3717,Warriors Orochi,Warriors Orochi,PS2,PlayStation Portable,Omega Force,Omega Force,2007-01-01,2007-03-21
+0,1.0,metacritic_14176,dbpedia_games_17164,Crash Tag Team Racing,Crash Tag Team Racing,GameCube,PlayStation 2,Radical Entertainment,Radical Entertainment,2005-01-01,2005-10-19
+0,1.0,metacritic_1147,dbpedia_games_1402,Serious Sam: The First Encounter,Serious Sam: The First Encounter,PC,Linux,Croteam,Croteam,2001-01-01,2020-03-03
+0,1.0,metacritic_1003,dbpedia_games_13687,Guacamelee!,Guacamelee!,PlayStation Vita,Microsoft Windows,DrinkBox Studios,DrinkBox Studios,2013-01-01,2018-10-08
+0,1.0,metacritic_891,dbpedia_games_4897,Oddworld: Stranger's Wrath,Oddworld: Stranger's Wrath,Xbox,Microsoft Windows,Oddworld Inhabitants,Oddworld Inhabitants,2005-01-01,2015-03-09
+0,1.0,metacritic_2555,dbpedia_games_18939,Mega Man Legacy Collection,Mega Man Legacy Collection,Switch,Nintendo 3DS,Capcom,Capcom,2018-01-01,2018-07-24
+0,1.0,metacritic_7697,dbpedia_games_14567,Hyper Light Drifter,Hyper Light Drifter,Xbox One,Microsoft Windows,Heart Machine,Heart Machine,2016-01-01,2016-03-31
+0,1.0,metacritic_7768,dbpedia_games_28811,Spider-Man: Shattered Dimensions,Spider-Man: Shattered Dimensions,Xbox 360,PlayStation 3,Beenox,Beenox,2010-01-01,2010-09-07
+0,1.0,metacritic_2824,dbpedia_games_60842,Torchlight,Torchlight,PC,Xbox 360,Runic Games,Runic Games,2009-01-01,2009-10-27
+0,1.0,metacritic_13270,dbpedia_games_21594,Army Men: RTS,Army Men: RTS,PS2,GameCube,Pandemic Studios,Pandemic Studios,2002-01-01,2002-03-26
+0,1.0,metacritic_2588,dbpedia_games_31793,PixelJunk Monsters,PixelJunk Monsters,PS3,Microsoft Windows,Q-Games,Q-Games,2008-01-01,2013-07-30
+0,1.0,metacritic_4327,dbpedia_games_28963,Mario Power Tennis,Mario Power Tennis,GameCube,Wii,Camelot Software Planning,Camelot Software Planning,2004-01-01,2012-06-10
+0,1.0,metacritic_863,dbpedia_games_14938,Devil May Cry 5,Devil May Cry 5,PS4,Xbox One,Capcom,Capcom,2019-01-01,2019-03-08
+0,1.0,metacritic_11629,dbpedia_games_5860,Star Wars: The Force Unleashed,Star Wars: The Force Unleashed,PS3,Nintendo DS,LucasArts,LucasArts,2008-01-01,2008-09-16
+0,1.0,metacritic_6857,dbpedia_games_15083,Child of Light,Child of Light,PC,PlayStation 3,Ubisoft Montreal,Ubisoft Montreal,2014-01-01,2014-04-29
+0,1.0,metacritic_7372,dbpedia_games_39180,Madden NFL 08,Madden NFL 08,Wii,MacOS,EA Tiburon,EA Tiburon,2007-01-01,2007-08-14
+0,1.0,metacritic_10154,dbpedia_games_30414,Drawn to Life,Drawn to Life,DS,IOS,5TH Cell,5th Cell,2007-01-01,2014-05-21
+0,1.0,metacritic_9694,dbpedia_games_39740,Xeodrifter,Xeodrifter,3DS,PlayStation 4,Renegade Kid,Renegade Kid,2014-01-01,2014-12-11
+0,1.0,metacritic_891,dbpedia_games_22249,Oddworld: Stranger's Wrath,Oddworld: Stranger's Wrath,Xbox,Android (operating system),Oddworld Inhabitants,Oddworld Inhabitants,2005-01-01,2011-12-27
+0,1.0,metacritic_18407,dbpedia_games_61546,Watchmen: The End Is Nigh,Watchmen: The End Is Nigh,PS3,Microsoft Windows,Deadline Games,Deadline Games,2009-01-01,2009-03-04
+0,1.0,metacritic_6137,dbpedia_games_28681,Tomb Raider: Anniversary,Tomb Raider: Anniversary,Playstation Portable,Mobile game,Crystal Dynamics,Crystal Dynamics,2007-01-01,2007-08-09
+0,1.0,metacritic_1203,dbpedia_games_25988,Europa Universalis IV,Europa Universalis IV,PC,Linux,Paradox Development Studio,Paradox Development Studio,2013-01-01,2013-08-13
+0,1.0,metacritic_16331,dbpedia_games_935,Lost Planet 3,Lost Planet 3,PS3,Microsoft Windows,Spark Unlimited,Spark Unlimited,2013-01-01,2013-08-27
+0,1.0,metacritic_163,dbpedia_games_24452,Rome: Total War,Rome: Total War,PC,MacOS,Creative Assembly,Creative Assembly,2004-01-01,2004-09-22
+0,1.0,metacritic_3329,dbpedia_games_61635,Mega Man 9,Mega Man 9,Xbox 360,Microsoft Windows,Inti Creates,Inti Creates,2008-01-01,2008-09-22
+0,1.0,metacritic_1924,dbpedia_games_4574,A Plague Tale: Requiem,A Plague Tale: Requiem,Xbox Series X,Windows,Asobo Studio,Asobo Studio,2022-01-01,2022-10-18
+0,1.0,metacritic_1802,dbpedia_games_32355,Machinarium,Machinarium,PC,OS X,Amanita Design,Amanita Design,2009-01-01,2018-11-01
+0,1.0,metacritic_5258,dbpedia_games_58619,Shantae and the Pirate's Curse,Shantae and the Pirate's Curse,Xbox One,PlayStation 5,WayForward,WayForward,2016-01-01,2016-03-16
+0,1.0,metacritic_3896,dbpedia_games_44160,LEGO Batman 2: DC Super Heroes,Lego Batman 2: DC Super Heroes,PS3,Nintendo 3DS,Traveller's Tales,Traveller's Tales,2012-01-01,2012-06-19
+0,1.0,metacritic_9340,dbpedia_games_28846,Dying Light,Dying Light,Xbox One,MacOS,Techland,Techland,2015-01-01,2021-10-19
+0,1.0,metacritic_4423,dbpedia_games_22410,Anomaly: Warzone Earth,Anomaly: Warzone Earth,PC,Android (operating system),11 bit studios,11 bit studios,2011-01-01,2011-04-08
+0,1.0,metacritic_2055,dbpedia_games_4340,Command & Conquer: Generals,Command & Conquer: Generals,PC,Mac OS X,EA Pacific,EA Pacific,2003-01-01,2003-02-10
+0,0.914,metacritic_9091,dbpedia_games_55816,Layers of Fear,Layers of Fear,PS4,PlayStation 4,Bloober Team,Bloober Team,2016-01-01,2018-02-21
+0,0.951,metacritic_4747,dbpedia_games_8692,Super Time Force Ultra,Super Time Force,PC,Linux,Capy Games,Capybara Games,2014-01-01,2014-08-25
+0,0.913,metacritic_6628,dbpedia_games_56158,Just Dance 2019,Just Dance 4,Xbox One,PlayStation 3,Ubisoft Paris,Ubisoft Reflections,2018-01-01,2012-10-02
+0,0.95,metacritic_20,dbpedia_games_47631,Call of Duty: Modern Warfare 2,Call of Duty: Modern Warfare II (2022 video game),Xbox 360,PlayStation 5,Infinity Ward,Infinity Ward,2009-01-01,
+0,0.917,metacritic_20464,dbpedia_games_29088,Half-Life,Half-Life 2,PC,Android (operating system),Valve Software,Valve Corporation,1998-01-01,2004-11-16
+0,0.914,metacritic_7778,dbpedia_games_5198,Mega Man Legends 2,Mega Man Legacy Collection,PlayStation,PlayStation 4,Capcom,Capcom,2000-01-01,2015-08-24
+0,0.93,metacritic_4338,dbpedia_games_31888,Call of Duty: Warzone,Call of Duty: Ghosts,PC,Xbox 360,Infinity Ward,Infinity Ward,2022-01-01,2013-11-05
+0,0.935,metacritic_10806,dbpedia_games_64516,Earthworm Jim,Earthworm Jim (video game),Game Boy Advance,Windows 95,Game Titan,Game Titan,2001-01-01,1994-12-16
+0,0.971,metacritic_13095,dbpedia_games_48754,de Blob 2,De Blob,PS4,PlayStation 4,Blue Tongue Entertainment,Blue Tongue Entertainment,2018-01-01,2008-07-08
+0,0.953,metacritic_8194,dbpedia_games_64672,Disney Infinity,Disney Infinity (video game),PS3,IOS,Avalanche Software,Avalanche Software,2013-01-01,2013-11-14
+0,0.919,metacritic_8800,dbpedia_games_48617,The Walking Dead: The Telltale Series - A New Frontier Episode 3: Above the Law,The Walking Dead: A New Frontier,PC,Xbox One,Telltale Games,Telltale Games,2017-01-01,2017-03-28
+0,0.923,metacritic_10338,dbpedia_games_49031,Just Dance 2022,Just Dance 2014,Switch,Xbox One,Ubisoft,Ubisoft Barcelona,2021-01-01,2013-10-01
+0,0.914,metacritic_1346,dbpedia_games_43136,Monster Hunter 4 Ultimate,Monster Hunter World: Iceborne,3DS,Microsoft Windows,Capcom,Capcom,2015-01-01,2020-01-09
+0,0.928,metacritic_16994,dbpedia_games_51916,Resident Evil 2,Resident Evil Zero,GameCube,Xbox 360,Capcom,Capcom,2003-01-01,2002-11-12
+0,0.943,metacritic_108,dbpedia_games_56173,Grand Theft Auto: San Andreas,Grand Theft Auto Online,Xbox,PlayStation 4,Rockstar North,Rockstar North,2005-01-01,2013-10-01
+0,0.921,metacritic_2423,dbpedia_games_23526,Resident Evil 4 HD,Resident Evil 4,Xbox 360,PlayStation 2,Capcom,Capcom Production Studio 4,2011-01-01,2005-01-11
+0,0.957,metacritic_8429,dbpedia_games_38860,Last Day of June,Last Day of June,PS4,Windows,Ovosonico,Ovosonico,2017-01-01,2018-03-16
+0,0.918,metacritic_16772,dbpedia_games_13950,Guilty Gear Dust Strikers,Guilty Gear X2 updated versions,DS,Microsoft Windows,Arc System Works,Arc System Works,2006-01-01,2012-09-20
+0,0.927,metacritic_18762,dbpedia_games_62953,Spider-Man 3,Spider-Man 3 (video game),Playstation Portable,Nintendo DS,Treyarch,Wii,2007-01-01,2007-10-16
+0,0.92,metacritic_15351,dbpedia_games_32040,Sonic Heroes,Sonic Colors,PS2,Nintendo Switch,Sonic Team,Sonic Team,2004-01-01,2021-09-07
+0,0.916,metacritic_8410,dbpedia_games_30127,GRID Autosport,Grid 2,Xbox 360,OS X,Codemasters,Codemasters,2014-01-01,2014-09-25
+0,0.93,metacritic_12703,dbpedia_games_8493,Serious Sam HD: The First Encounter,Serious Sam: The First Encounter,Xbox 360,Windows,Croteam,Croteam,2010-01-01,2009-11-24
+0,0.918,metacritic_1050,dbpedia_games_9356,Devil May Cry 3: Special Edition,Devil May Cry 5,PS2,Windows,Capcom,Capcom,2006-01-01,2019-03-08
+0,0.941,metacritic_9657,dbpedia_games_46053,Sonic Heroes,Sonic Heroes,Xbox,Xbox (console),Sonic Team,Sonic Team USA,2004-01-01,2003-12-30
+0,0.942,metacritic_4101,dbpedia_games_2591,Madden NFL 13,Madden NFL 12,Xbox 360,Android (operating system),EA Tiburon,EA Tiburon,2012-01-01,2011-08-30
+0,0.924,metacritic_7023,dbpedia_games_13386,Tom Clancy's EndWar,Tom Clancy's EndWar,Xbox 360,PlayStation Portable,Ubisoft Shanghai,Ubisoft,2008-01-01,2009-02-24
+0,0.971,metacritic_3880,dbpedia_games_19039,Phoenix Wright: Ace Attorney,Phoenix Wright: Ace Attorney Trilogy,DS,Android (operating system),Capcom,Capcom,2005-01-01,2012-02-07
+0,0.957,metacritic_8239,dbpedia_games_51637,Naruto: Ultimate Ninja,Naruto: Ultimate Ninja,PS2,Android (operating system),CyberConnect2,CyberConnect2,2006-01-01,2007-08-28
+0,0.922,metacritic_13,dbpedia_games_32196,Ninja Gaiden Black,Ninja Gaiden (2004 video game),Xbox,,Team Ninja,Team Ninja,2005-01-01,2005-09-20
+0,0.943,metacritic_20473,dbpedia_games_29493,Grand Theft Auto: San Andreas,Grand Theft Auto Online,PS2,PlayStation 5,Rockstar North,Rockstar North,2004-01-01,2014-11-18
+0,0.955,metacritic_6,dbpedia_games_35968,Grand Theft Auto IV,Grand Theft Auto: Vice City,PS3,PlayStation 2,Rockstar North,Rockstar North,2008-01-01,2003-11-04
+0,0.953,metacritic_6089,dbpedia_games_11212,Bejeweled 3,Bejeweled 2,Xbox 360,IPod,PopCap,PopCap Games,2011-01-01,2011-02-19
+0,0.957,metacritic_11913,dbpedia_games_62626,Warriors Orochi 3,Warriors Orochi 3,PS3,Nintendo Switch,Omega Force,Omega Force,2012-01-01,2011-12-22
+0,0.939,metacritic_14776,dbpedia_games_30289,Spider-Man 2,Spider-Man 2 (2004 video game),Game Boy Advance,Xbox (console),Digital Eclipse,Digital Eclipse,2004-01-01,2004-06-28
+0,0.937,metacritic_18159,dbpedia_games_33205,The Amazing Spider-Man,The Amazing Spider-Man (2012 video game),3DS,Windows Phone,Beenox,IOS,2012-01-01,2012-06-26
+0,0.929,metacritic_6472,dbpedia_games_33628,Five Nights at Freddy's,Five Nights at Freddy's 4,PC,Nintendo Switch,animdude,Scott Cawthon,2014-01-01,2015-07-23
+0,0.948,metacritic_963,dbpedia_games_4836,Football Manager 2010,Football Manager 2011,PC,IOS (Apple),Sports Interactive,Sports Interactive,2009-01-01,2010-11-05
+0,0.96,metacritic_2756,dbpedia_games_50459,Madden NFL 07,Madden NFL 12,Xbox,Wii,EA Tiburon,EA Tiburon,2006-01-01,2011-08-30
+0,0.948,metacritic_6437,dbpedia_games_11371,All-Star Baseball 2004,All-Star Baseball 2005,PS2,PlayStation 2,Acclaim Studios Austin,Acclaim Studios Austin,2003-01-01,2004-04-08
+0,0.924,metacritic_9225,dbpedia_games_11069,Guilty Gear XX Accent Core Plus,Guilty Gear X2 updated versions,Xbox 360,Microsoft Windows,Arc System Works,Arc System Works,2012-01-01,2019-05-16
+0,0.953,metacritic_11057,dbpedia_games_27295,NBA Live 06,NBA Live 97,PC,Super NES,EA Canada,EA Canada,2005-01-01,1996-10-31
+0,0.922,metacritic_14369,dbpedia_games_49599,The Amazing Spider-Man,The Amazing Spider-Man (2012 video game),Wii U,Wii U,Beenox,IOS,2013-01-01,2012-06-26
+0,0.936,metacritic_14923,dbpedia_games_36417,How to Survive: Storm Warning Edition,How to Survive,PS4,Microsoft Windows,EKO Software,Eko Software,2014-01-01,2014-10-29
+0,0.962,metacritic_17806,dbpedia_games_28389,Army Corps of Hell,Army Corps of Hell,PlayStation Vita,PlayStation Vita,"Entersphere, Inc.",,2012-01-01,2011-12-17
+0,0.974,metacritic_1872,dbpedia_games_63852,Final Fantasy XI,Final Fantasy XIII-2,PS2,Microsoft Windows,Square Enix,Square Enix,2004-01-01,2014-12-11
+0,0.917,metacritic_2024,dbpedia_games_33830,The Walking Dead: Episode 2 - Starved for Help,The Walking Dead: A New Frontier,PC,Nintendo Switch,Telltale Games,Telltale Games,2012-01-01,2017-03-28
+0,0.935,metacritic_2608,dbpedia_games_62720,Mega Man 9,Mega Man Zero 2,Wii,Game Boy Advance,Inti Creates,Inti Creates,2008-01-01,2003-05-02
+0,0.914,metacritic_777,dbpedia_games_5088,Hyper Light Drifter,Hyper Light Drifter,Switch,Xbox One,Heart Machine,Heart Machine,2018-01-01,2016-07-26
+0,0.913,metacritic_10256,dbpedia_games_7113,Game of Thrones: Episode Five - A Nest of Vipers,Game of Thrones (2014 video game),Xbox One,Microsoft Windows,Telltale Games,Telltale Games,2015-01-01,2015-02-05
+0,0.944,metacritic_5177,dbpedia_games_2180,Scribblenauts,Scribblenauts Unlimited,DS,Xbox One,5TH Cell,5th Cell,2009-01-01,2018-09-18
+0,0.93,metacritic_12962,dbpedia_games_9689,Call of Duty: Black Ops III - Descent,Call of Duty: Black Ops III,PS4,Microsoft Windows,Treyarch,Treyarch,2016-01-01,2015-11-06
+0,0.937,metacritic_1012,dbpedia_games_29008,Guilty Gear -Strive-,Guilty Gear Xrd,PlayStation 5,PlayStation 3,Arc System Works,Arc System Works,2021-01-01,2015-08-25
+0,0.919,metacritic_5895,dbpedia_games_8117,Vanquish,Vanquish (video game),PC,PlayStation 3,PlatinumGames,PlatinumGames,2017-01-01,2010-10-19
+0,0.928,metacritic_16913,dbpedia_games_58350,Assassin's Creed III Remastered,Assassin's Creed III: Liberation,Switch,Google Stadia,Ubisoft,Ubisoft Milan,2019-01-01,2019-05-21
+0,0.915,metacritic_14968,dbpedia_games_8378,Mega Man X6,Mega Man Universe,PlayStation,PlayStation Network,Capcom,Capcom,2001-01-01,
+0,0.917,metacritic_13115,dbpedia_games_59882,MX vs. ATV Unleashed: On the Edge,MX vs. ATV Unleashed,Playstation Portable,PlayStation 2,Rainbow Studios,Rainbow Studios,2006-01-01,2005-03-16
+0,0.928,metacritic_7095,dbpedia_games_14133,Assassin's Creed III Remastered,Assassin's Creed III: Liberation,Xbox One,PlayStation 3,Ubisoft,Ubisoft Milan,2019-01-01,2019-05-21
+0,0.945,metacritic_6927,dbpedia_games_23538,Smuggler's Run 2: Hostile Territory,Smuggler's Run 2,PS2,GameCube,Rockstar San Diego,Rockstar San Diego,2001-01-01,2001-10-30
+0,0.949,metacritic_7308,dbpedia_games_49844,Batman: The Enemy Within - Episode 1: The Enigma,Batman: The Enemy Within,PC,Nintendo Switch,Telltale Games,Telltale Games,2017-01-01,2017-10-03
+0,0.949,metacritic_13795,dbpedia_games_43430,Batman: The Telltale Series - Episode 5: City of Light,Batman: The Telltale Series,PS4,PlayStation 3,Telltale Games,Telltale Games,2016-01-01,2016-11-22
+0,0.974,metacritic_17461,dbpedia_games_35800,The Sims 2,The Sims 3,Game Boy Advance,N-Gage (service),Maxis,Maxis,2005-01-01,2011-03-25
+0,0.957,metacritic_6492,dbpedia_games_11836,Outlast,Outlast,PS4,OS X,Red Barrels,Red Barrels,2014-01-01,2013-09-04
+0,0.914,metacritic_7778,dbpedia_games_28517,Mega Man Legends 2,Mega Man Legacy Collection,PlayStation,Xbox One,Capcom,Capcom,2000-01-01,2020-02-25
+0,0.955,metacritic_11868,dbpedia_games_27924,Zombie Army Trilogy,Zombie Army Trilogy,Switch,PlayStation 4,Rebellion,Rebellion Developments,2020-01-01,2015-03-06
+0,0.915,metacritic_12157,dbpedia_games_40071,Star Wars Episode I: Racer,Star Wars: The Force Unleashed,Switch,Wii,LucasArts,LucasArts,2020-01-01,2008-09-16
+0,0.948,metacritic_15760,dbpedia_games_13712,Dynasty Warriors 7 Empires,Dynasty Warriors 4,PS3,PlayStation Network,Omega Force,Omega Force,2013-01-01,2003-02-27
+0,0.964,metacritic_4517,dbpedia_games_386,Madden NFL 07,Madden NFL 2002,PC,Nintendo GameCube,EA Tiburon,EA Tiburon,2006-01-01,2001-11-18
+0,0.979,metacritic_9788,dbpedia_games_20822,Just Cause 3,Just Cause 2,PS4,Microsoft Windows,Avalanche Studios,Avalanche Studios,2015-01-01,2010-03-23
+0,0.955,metacritic_5303,dbpedia_games_7942,Street Fighter Alpha Anthology,Street Fighter Alpha 2,PS2,Microsoft Windows,Capcom,Capcom,2006-01-01,1996-12-19
+0,0.914,metacritic_51,dbpedia_games_33133,Street Fighter Alpha 3,Street Fighter III: 3rd Strike,PlayStation,Xbox 360,Capcom,Capcom,1999-01-01,2004-10-28
+0,0.932,metacritic_13806,dbpedia_games_63111,Romance of the Three Kingdoms XIV,Romance of the Three Kingdoms VII,PS4,Windows 95,Koei Tecmo Games,Koei,2020-01-01,2000-02-18
+0,0.914,metacritic_15248,dbpedia_games_64806,Assassin's Creed Unity: Dead Kings,Assassin's Creed Rogue,Xbox One,Microsoft Windows,"Ubisoft,Ubisoft Montreal",Ubisoft Sofia,2015-01-01,2015-03-10
+0,0.919,metacritic_3058,dbpedia_games_36638,Street Fighter V: Champion Edition,Street Fighter III: 3rd Strike,PS4,Xbox One,Capcom,Capcom,2020-01-01,2000-06-29
+0,0.932,metacritic_489,dbpedia_games_36835,Empire: Total War,Rome: Total War,PC,Microsoft Windows,Creative Assembly,Creative Assembly,2009-01-01,2004-09-22
+0,0.914,metacritic_11015,dbpedia_games_48005,Aero the Acro-bat,Aero the Acro-Bat,Game Boy Advance,Sega Genesis,Atomic Planet Entertainment,Iguana Entertainment,2002-01-01,2002-06-25
+0,0.946,metacritic_2362,dbpedia_games_38199,Madden NFL 11,Madden NFL 2002,Xbox 360,Game Boy Advance,EA Tiburon,EA Tiburon,2010-01-01,2001-11-19
+0,0.914,metacritic_4374,dbpedia_games_10871,Phoenix Wright: Ace Attorney Trilogy,Phoenix Wright: Ace Attorney,Xbox One,IOS,Capcom,Capcom Production Studio 4,2019-01-01,2009-12-21
+0,0.942,metacritic_7372,dbpedia_games_9123,Madden NFL 08,Madden NFL 09,Wii,Mobile phone,EA Tiburon,EA Tiburon,2007-01-01,2008-08-12
+0,0.949,metacritic_3359,dbpedia_games_28594,Pro Evolution Soccer 2013,Pro Evolution Soccer 2012,PS3,PlayStation 2,Konami,Konami,2012-01-01,2011-09-29
+0,0.954,metacritic_3989,dbpedia_games_22118,Freedom Fighters,Freedom Fighters (video game),PS2,GameCube,Io Interactive,IO Interactive,2003-01-01,2003-09-26
+0,0.916,metacritic_7999,dbpedia_games_29920,Shadow Warrior 3: Definitive Edition,Shadow Warrior 2,PC,PlayStation 4,Flying Wild Hog,Flying Wild Hog,2023-01-01,2016-10-13
+0,0.994,metacritic_1002,dbpedia_games_9668,Europa Universalis II,Europa Universalis III,PC,OS X,Paradox Development Studio,Paradox Development Studio,2001-01-01,2007-01-23
+0,0.944,metacritic_8926,dbpedia_games_10077,Devil May Cry,Devil May Cry 5,Switch,Amazon Luna,Capcom,Capcom,2019-01-01,2020-11-12
+0,0.957,metacritic_15120,dbpedia_games_45721,The Silver Case,The Silver Case,PS4,Linux,Grasshopper Manufacture,Grasshopper Manufacture,2017-01-01,2016-11-07
+0,0.914,metacritic_7316,dbpedia_games_19715,Sniper Elite,Sniper Elite (video game),PS2,Wii,Rebellion,Rebellion Developments,2005-01-01,2005-09-30
+0,0.966,metacritic_11742,dbpedia_games_45077,Assassin's Creed III: Liberation,Assassin's Creed III: Liberation,PlayStation Vita,Xbox One,"Ubisoft,Ubisoft Sofia",Ubisoft Sofia,2012-01-01,2019-05-21
+0,0.958,metacritic_8806,dbpedia_games_40768,Batman: Arkham VR,Batman: Arkham City,PS4,Microsoft Windows,Rocksteady Studios,Rocksteady Studios,2016-01-01,2011-11-22
+0,0.913,metacritic_15021,dbpedia_games_34080,World Championship Poker 2: Featuring Howard Lederer,World Championship Poker,Playstation Portable,Microsoft Windows,"Point of View,Crave",Point of View (developer),2005-01-01,2005-11-08
+0,0.925,metacritic_2056,dbpedia_games_2284,Street Fighter III: Double Impact,Street Fighter IV,Dreamcast,Android (operating system),Capcom,Capcom,2000-01-01,2009-02-12
+0,0.948,metacritic_4959,dbpedia_games_9446,Football Manager 2015,Football Manager 2014,PC,IOS,Sports Interactive,Sports Interactive,2014-01-01,2013-10-30
+0,0.956,metacritic_18388,dbpedia_games_40449,The Elder Scrolls V: Skyrim - Hearthfire,The Elder Scrolls V: Skyrim – Dragonborn,Xbox 360,Nintendo Switch,Bethesda Game Studios,Bethesda Game Studios,2012-01-01,2012-12-04
+0,0.942,metacritic_20467,dbpedia_games_45494,Grand Theft Auto Double Pack,Grand Theft Auto V,Xbox,Xbox One,Rockstar North,Rockstar North,2003-01-01,2022-03-15
+0,0.957,metacritic_5379,dbpedia_games_64253,Alien: Isolation,Alien: Isolation,PS4,Nintendo Switch,Creative Assembly,Creative Assembly,2014-01-01,2015-09-29
+0,0.922,metacritic_16894,dbpedia_games_8777,Dynasty Warriors 6,Dynasty Warriors: Gundam,Xbox 360,PlayStation 2,Omega Force,Omega Force,2008-01-01,2007-03-01
+0,0.949,metacritic_3468,dbpedia_games_32171,Pro Evolution Soccer 2013,Pro Evolution Soccer 2011,Xbox 360,Windows Phone 7,Konami,Konami,2012-01-01,2011-02-10
+0,0.992,metacritic_9238,dbpedia_games_40399,Romance of the Three Kingdoms IX,Romance of the Three Kingdoms II,PS2,WonderSwan,Koei,Koei,2004-01-01,1990-11-02
+0,0.925,metacritic_654,dbpedia_games_6316,The Walking Dead: Episode 5 - No Time Left,The Walking Dead (video game),Xbox 360,PlayStation 4,Telltale Games,Telltale Games,2012-01-01,2012-12-11
+0,0.965,metacritic_3245,dbpedia_games_439,The Walking Dead: Season Two Episode 3 - In Harm's Way,The Walking Dead: Season Two,Xbox 360,Xbox 360,Telltale Games,Telltale Games,2014-01-01,2014-08-26
+0,0.953,metacritic_17775,dbpedia_games_1720,Michael Jackson The Experience HD,Michael Jackson: The Experience,PlayStation Vita,IPhone,Ubisoft,Ubisoft Sao Paulo,2012-01-01,2012-10-21
+0,0.917,metacritic_2676,dbpedia_games_8933,Riven: The Sequel to Myst,Riven,PC,Android (operating system),Cyan Worlds,Cyan Worlds,1997-01-01,1997-10-31
+0,0.932,metacritic_13479,dbpedia_games_29083,Minecraft: Story Mode Season Two - Episode 1: Hero in Residence,Minecraft: Story Mode,PS4,Xbox One,Telltale Games,Telltale Games,2017-01-01,2017-08-15
+0,0.964,metacritic_30,dbpedia_games_43904,Madden NFL 2004,Madden NFL 25,GameCube,IOS,EA Tiburon,EA Tiburon,2003-01-01,2013-11-15
+0,0.957,metacritic_3793,dbpedia_games_2164,Alien: Isolation,Alien: Isolation,PC,IOS,Creative Assembly,Creative Assembly,2014-01-01,2015-10-28
+0,0.906,metacritic_9464,dbpedia_games_64804,Pro Evolution Soccer 2011,Pro Evolution Soccer 2012,Playstation Portable,Nintendo 3DS,Konami,Konami,2010-01-01,2012-02-23
+0,0.912,metacritic_17472,dbpedia_games_42422,Assassin's Creed II: Battle of Forli,Assassin's Creed III: Liberation,Xbox 360,Xbox One,Ubisoft Montreal,Ubisoft Milan,2010-01-01,2019-03-29
+0,0.91,metacritic_19274,dbpedia_games_35707,Madden NFL Football,Madden NFL 2002,3DS,Xbox (console),EA Tiburon,EA Tiburon,2011-01-01,2001-11-19
+0,0.89,metacritic_11623,dbpedia_games_22291,The Walking Dead: Michonne - Episode 3: What We Deserve,The Walking Dead: A New Frontier,PC,PlayStation 4,Telltale Games,Telltale Games,2016-01-01,2017-03-28
+0,0.899,metacritic_6053,dbpedia_games_1964,FIFA Soccer 2005,FIFA 10,GameCube,Microsoft Windows,EA Canada,EA Canada,2004-01-01,2009-10-01
+0,0.874,metacritic_12132,dbpedia_games_8576,Game of Thrones: Episode Six - The Ice Dragon,Game of Thrones (2014 video game),PC,Microsoft Windows,Telltale Games,Telltale Games,2015-01-01,2014-12-04
+0,0.881,metacritic_1334,dbpedia_games_43904,Madden NFL 06,Madden NFL 25,Xbox,IOS,EA Sports,EA Tiburon,2005-01-01,2013-11-15
+0,0.899,metacritic_12201,dbpedia_games_63704,The Sims 4,The Sims Medieval,PC,IOS,Maxis,Maxis,2014-01-01,2013-03-26
+0,0.891,metacritic_11657,dbpedia_games_35433,Worms: Open Warfare,Worms 3,Playstation Portable,Mac OS X,Team17,Team17,2006-01-01,2013-08-08
+0,0.869,metacritic_17775,dbpedia_games_40215,Michael Jackson The Experience HD,Michael Jackson: The Experience,PlayStation Vita,IPad 2,Ubisoft,Ubisoft Shanghai,2012-01-01,2010-11-23
+0,0.965,metacritic_6,dbpedia_games_43335,Grand Theft Auto IV,Grand Theft Auto Online,PS3,Windows,Rockstar North,Rockstar North,2008-01-01,2022-03-15
+0,0.978,metacritic_17009,dbpedia_games_15922,Tomb Raider: Chronicles,Tomb Raider Chronicles,Dreamcast,Microsoft Windows,Core Design Ltd.,Core Design,2000-01-01,2000-11-26
+0,0.946,metacritic_20073,dbpedia_games_13079,Resident Evil: Survivor,Resident Evil Zero,PlayStation,Xbox One,Capcom,Capcom,2000-01-01,2019-05-21
+0,0.917,metacritic_13977,dbpedia_games_33788,Disney's Chicken Little,Disney's Chicken Little: Ace in Action,GameCube,Microsoft Windows,Avalanche Software,Avalanche Software,2005-01-01,2006-12-11
+0,0.935,metacritic_3244,dbpedia_games_50318,Assassin's Creed Valhalla,Assassin's Creed IV: Black Flag,PC,Xbox One,Ubisoft Montreal,Ubisoft Montreal,2020-01-01,2013-10-29
+0,0.915,metacritic_6628,dbpedia_games_17875,Just Dance 2019,Just Dance 4,Xbox One,Wii U,Ubisoft Paris,Ubisoft Pune,2018-01-01,2012-11-18
+0,0.985,metacritic_10721,dbpedia_games_9789,Warriors Orochi 4,Warriors Orochi 2,PS4,PlayStation Portable,Omega Force,Omega Force,2018-01-01,2008-09-04
+0,0.957,metacritic_18026,dbpedia_games_61855,Michael Jackson The Experience,Michael Jackson: The Experience,Wii,Wii,"Ubisoft Paris,Ubisoft Montpellier",Ubisoft Milan,2010-01-01,2015-12-31
+0,0.992,metacritic_13258,dbpedia_games_43406,Five Nights at Freddy's 3,Five Nights at Freddy's 4,PC,Android (operating system),Scott Cawthon,Scott Cawthon,2015-01-01,2015-07-23
+0,0.921,metacritic_11008,dbpedia_games_36614,Minecraft: Story Mode Season Two - Episode 1: Hero in Residence,Minecraft: Story Mode,Xbox One,Xbox One,Telltale Games,Telltale Games,2017-01-01,2016-10-25
+0,0.957,metacritic_5297,dbpedia_games_47884,Oxenfree,Oxenfree,PS4,Microsoft Windows,Night School Studio,Night School Studio,2016-01-01,2017-10-06
+0,0.914,metacritic_11647,dbpedia_games_3247,Monster Hunter Freedom,Monster Hunter Dynamic Hunting,Playstation Portable,Android (operating system),Capcom,Capcom,2006-01-01,2011-06-01
+0,0.933,metacritic_11073,dbpedia_games_58990,Minecraft: Story Mode Season Two - Episode 3: Jailhouse Block,Minecraft: Story Mode,PC,Netflix,Telltale Games,Telltale Games,2017-01-01,2017-07-14
+0,0.943,metacritic_17112,dbpedia_games_39597,Naruto Shippuden: Ultimate Ninja Impact,Naruto: Ultimate Ninja,Playstation Portable,PlayStation Portable,Racjin,Racjin,2011-01-01,2016-07-14
+0,0.957,metacritic_5258,dbpedia_games_63644,Shantae and the Pirate's Curse,Shantae and the Pirate's Curse,Xbox One,Nintendo 3DS,WayForward,WayForward,2016-01-01,2015-10-22
+0,0.945,metacritic_2750,dbpedia_games_30847,Tom Clancy's Rainbow Six 3: Raven Shield,Tom Clancy's Rainbow Six 3: Raven Shield,PC,Mac OS X,Ubisoft Montreal,Ubi Soft Montreal,2003-01-01,2004-01-12
+0,0.948,metacritic_2076,dbpedia_games_8962,Valkyria Chronicles,Valkyria Chronicles (video game),Switch,PlayStation 4,Sega,Sega,2018-01-01,2008-04-24
+0,0.943,metacritic_4600,dbpedia_games_58791,PixelJunk Eden,PixelJunk Monsters,PS3,PlayStation Vita,Q-Games,Q-Games,2008-01-01,2008-04-24
+0,0.985,metacritic_18845,dbpedia_games_63145,Warriors Orochi 2,Warriors Orochi 3,PS2,Nintendo Switch,Omega Force,Omega Force,2008-01-01,2013-09-26
+0,0.949,metacritic_194,dbpedia_games_25536,Xenoblade Chronicles,Xenoblade Chronicles (video game),Wii,,Monolith Soft,Monolith Soft,2012-01-01,2020-05-29
+0,0.938,metacritic_13854,dbpedia_games_42594,Transformers: Autobots,Transformers: The Game,DS,Xbox 360,Vicarious Visions,Vicarious Visions,2007-01-01,2007-06-19
+0,0.962,metacritic_8673,dbpedia_games_34637,Command & Conquer 3: Kane's Wrath,Command & Conquer 3: Kane's Wrath,Xbox 360,Microsoft Windows,EA LA,EA Los Angeles,2008-01-01,2008-06-23
+0,0.918,metacritic_11533,dbpedia_games_39082,Mass Effect: Andromeda,Mass Effect 3: From Ashes,PS4,Xbox 360,BioWare,BioWare,2017-01-01,2012-03-06
+0,0.919,metacritic_11668,dbpedia_games_39015,Castlevania: Curse of Darkness,Castlevania: The Dracula X Chronicles,PS2,PlayStation Portable,Konami,Konami,2005-01-01,
+0,0.977,metacritic_14332,dbpedia_games_41902,Michael Jackson The Experience,Michael Jackson: The Experience,PS3,IPad,Ubisoft Montreal,Ubisoft Montpellier,2011-01-01,2011-04-12
+0,0.964,metacritic_4132,dbpedia_games_24128,Madden NFL 08,Madden NFL 2001,PS3,Microsoft Windows,EA Tiburon,EA Tiburon,2007-01-01,2000-09-07
+0,0.931,metacritic_3565,dbpedia_games_53785,Resident Evil HD Remaster,Resident Evil Zero,PC,PlayStation 3,Capcom,Capcom,2015-01-01,2002-11-12
+0,0.963,metacritic_94,dbpedia_games_30824,Resident Evil 4,Resident Evil Zero,PlayStation 5,Nintendo Switch,Capcom,Capcom,2023-01-01,2008-07-10
+0,0.99,metacritic_4985,dbpedia_games_7820,Hatsune Miku: Project Mirai DX,Hatsune Miku: Project Mirai 2,3DS,Nintendo 3DS,Sega,Sega,2015-01-01,2015-05-28
+0,0.935,metacritic_3852,dbpedia_games_27772,Persona 3 Portable,Persona 3,Switch,,Atlus,Atlus,2023-01-01,2007-04-19
+0,0.98,metacritic_5655,dbpedia_games_49480,Pro Evolution Soccer 2015,Pro Evolution Soccer 2008,Xbox One,Wii,Konami,Konami,2014-01-01,2008-01-24
+0,0.985,metacritic_18845,dbpedia_games_828,Warriors Orochi 2,Warriors Orochi 3,PS2,Wii U,Omega Force,Omega Force,2008-01-01,2013-09-26
+0,0.977,metacritic_4793,dbpedia_games_63764,NBA Live 06,NBA Live 96,Playstation Portable,Game Boy,EA Canada,EA Canada,2005-01-01,1995-11-23
+0,0.915,metacritic_11671,dbpedia_games_58897,Assassin's Creed Unity,Assassin's Creed Rogue,PC,Xbox One,"Ubisoft,Ubisoft Montreal",Ubisoft Sofia,2014-01-01,2019-12-06
+0,0.93,metacritic_11452,dbpedia_games_44833,Shantae and the Seven Sirens,Shantae and the Pirate's Curse,PS4,Wii U,WayForward,WayForward,2020-01-01,2014-10-23
+0,0.957,metacritic_677,dbpedia_games_52143,The Stanley Parable: Ultra Deluxe,The Stanley Parable,PlayStation 5,Linux,Crows Crows Crows,Crows Crows Crows,2022-01-01,2022-04-27
+0,0.937,metacritic_1762,dbpedia_games_27793,NBA Live 2005,NBA Live 98,Xbox,PlayStation (console),EA Canada,EA Canada,2004-01-01,1997-12-17
+0,0.945,metacritic_2754,dbpedia_games_2161,Orcs Must Die! 2,Orcs Must Die!,PC,Microsoft Windows,Robot Entertainment,Robot Entertainment,2012-01-01,2011-10-12
+0,0.931,metacritic_3462,dbpedia_games_8757,Madden NFL 09 All-Play,Madden NFL 99,Wii,Nintendo 64,EA Tiburon,EA Tiburon,2008-01-01,1998-08-25
+0,0.944,metacritic_8926,dbpedia_games_5012,Devil May Cry,Devil May Cry 5,Switch,PlayStation 4,Capcom,Capcom,2019-01-01,2020-11-10
+0,0.925,metacritic_17367,dbpedia_games_52006,Dynasty Warriors: Gundam 3,Dynasty Warriors 7,PS3,PlayStation 3,"Omega Force,Koei Tecmo Games",Omega Force,2011-01-01,2011-04-08
+0,0.929,metacritic_10297,dbpedia_games_28016,Hatoful Boyfriend,Hatoful Boyfriend,PS4,Microsoft Windows,"Mediatonic,Hato Moa",Mediatonic,2015-01-01,2016-05-25
+0,0.938,metacritic_1570,dbpedia_games_9749,Football Manager 2019,Football Manager 2020,PC,Android (operating system),Sports Interactive,Sports Interactive,2018-01-01,2019-12-10
+0,0.957,metacritic_12849,dbpedia_games_59276,ARK: Survival Evolved,Ark: Survival Evolved,PS4,MacOS,Studio Wildcard,Studio Wildcard,2017-01-01,2018-11-30
+0,0.96,metacritic_7236,dbpedia_games_38611,Football Manager Touch 2018,Football Manager 2010,Switch,IOS (Apple),Sports Interactive,Sports Interactive,2018-01-01,2009-10-30
+0,0.944,metacritic_11490,dbpedia_games_36476,Resident Evil Outbreak,Resident Evil 6,PS2,PlayStation 3,Capcom,Capcom,2004-01-01,2012-10-02
+0,0.964,metacritic_5782,dbpedia_games_22095,Madden NFL 12,Madden NFL 2004,PS3,PlayStation 2,EA Tiburon,EA Tiburon,2011-01-01,2003-08-12
+0,0.938,metacritic_2846,dbpedia_games_4977,FIFA 2001,FIFA 11,PS2,PlayStation 2,EA Canada,EA Canada,2000-01-01,2010-09-28
+0,0.926,metacritic_1512,dbpedia_games_15725,FIFA 14,FIFA 07,PS3,PlayStation 2,EA Canada,EA Canada,2013-01-01,2006-12-08
+0,0.916,metacritic_10807,dbpedia_games_46646,XIII,XIII (2003 video game),PC,Xbox (console),Ubisoft Paris,Ubisoft Paris,2003-01-01,2003-11-18
+0,0.927,metacritic_3058,dbpedia_games_24186,Street Fighter V: Champion Edition,Street Fighter IV,PS4,Xbox One,Capcom,Capcom,2020-01-01,2008-07-18
+0,0.978,metacritic_6824,dbpedia_games_43309,Hearts of Iron III,Hearts of Iron IV,PC,Linux,Paradox Development Studio,Paradox Development Studio,2009-01-01,2016-06-06
+0,0.99,metacritic_4949,dbpedia_games_31199,Pro Evolution Soccer 2019,Pro Evolution Soccer 2012,PC,Microsoft Windows,Konami,Konami,2018-01-01,2011-09-29
+0,0.964,metacritic_4417,dbpedia_games_38199,Madden NFL 07,Madden NFL 2002,Xbox 360,Game Boy Advance,EA Tiburon,EA Tiburon,2006-01-01,2001-11-19
+0,0.96,metacritic_4417,dbpedia_games_11670,Madden NFL 07,Madden NFL 13,Xbox 360,Wii U,EA Tiburon,EA Tiburon,2006-01-01,2012-08-28
+0,0.944,metacritic_2092,dbpedia_games_18546,Planet Coaster: Console Edition,Planet Coaster,Xbox Series X,Microsoft Windows,Frontier Developments,Frontier Developments,2020-01-01,2020-11-17
+0,0.916,metacritic_7488,dbpedia_games_18545,Devil May Cry 4: Special Edition,Devil May Cry 3: Dante's Awakening,Xbox One,PlayStation 4,Capcom,Capcom,2015-01-01,2005-02-17
+0,0.96,metacritic_3223,dbpedia_games_45998,Disgaea DS,Disgaea 4,DS,PlayStation 3,Nippon Ichi Software,Nippon Ichi Software,2008-01-01,2020-09-10
+0,0.948,metacritic_15760,dbpedia_games_22967,Dynasty Warriors 7 Empires,Dynasty Warriors 4,PS3,PlayStation 2,Omega Force,Omega Force,2013-01-01,2005-04-01
+0,0.927,metacritic_4261,dbpedia_games_56936,The Walking Dead: Episode 4 - Around Every Corner,The Walking Dead (video game),PS3,Kindle Fire HDX,Telltale Games,Telltale Games,2012-01-01,2012-08-28
+0,0.942,metacritic_12966,dbpedia_games_31510,Madden NFL 09,Madden NFL 10,Playstation Portable,PlayStation 2,EA Tiburon,EA Tiburon,2008-01-01,2009-11-24
+0,0.919,metacritic_6227,dbpedia_games_53284,Dying Light: Platinum Edition,Dying Light,Switch,PlayStation 4,Techland,Techland,2021-01-01,2016-12-15
+0,0.921,metacritic_3350,dbpedia_games_57754,The Elder Scrolls V: Skyrim Special Edition,The Elder Scrolls IV: Knights of the Nine,Xbox One,Microsoft Windows,Bethesda Game Studios,Bethesda Game Studios,2016-01-01,2006-11-21
+0,0.965,metacritic_5046,dbpedia_games_58716,VVVVVV,VVVVVV,Switch,PlayStation 4,Terry Cavanagh,Terry Cavanagh (developer),2017-01-01,2010-01-11
+0,0.937,metacritic_16161,dbpedia_games_36476,Resident Evil 3: Nemesis,Resident Evil 6,GameCube,PlayStation 3,Capcom,Capcom,2003-01-01,2012-10-02
+0,0.947,metacritic_1566,dbpedia_games_21357,Assassin's Creed II,Assassin's Creed: Brotherhood,PC,Microsoft Windows,Ubisoft Montreal,Ubisoft Montreal,2010-01-01,2010-11-16
+0,0.913,metacritic_4350,dbpedia_games_27013,Phoenix Wright: Ace Attorney Trilogy,Phoenix Wright: Ace Attorney – Trials and Tribulations,PC,Game Boy Advance,Capcom,Capcom Production Studio 4,2019-01-01,2019-02-21
+0,0.935,metacritic_5463,dbpedia_games_31722,Mega Man & Bass,Mega Man 3,Game Boy Advance,Android (operating system),Capcom,Capcom,2003-01-01,1990-09-28
+0,0.959,metacritic_17767,dbpedia_games_48120,Dynasty Warriors Vol. 2,Dynasty Warriors 8,Playstation Portable,Xbox 360,Omega Force,Omega Force,2006-01-01,2014-11-20
+0,0.96,metacritic_10918,dbpedia_games_53299,Metal Gear Solid V: Metal Gear Online,Metal Gear Solid V: The Phantom Pain,PS4,Xbox 360,Kojima Productions,Kojima Productions,2015-01-01,2015-09-01
+0,0.945,metacritic_12974,dbpedia_games_3652,WWE All Stars,WWE All Stars,Wii,PlayStation Portable,THQ,THQ San Diego,2011-01-01,2011-03-29
+0,0.957,metacritic_5803,dbpedia_games_56138,Shadow Warrior 2,Shadow Warrior 2,PC,Microsoft Windows,Flying Wild Hog,Flying Wild Hog,2016-01-01,2017-05-19
+0,0.945,metacritic_10162,dbpedia_games_36377,Mega Man X Collection,Mega Man Legacy Collection,PS2,Nintendo 3DS,Capcom,Capcom,2006-01-01,2018-07-24
+0,0.957,metacritic_3790,dbpedia_games_33167,Grand Theft Auto V,Grand Theft Auto: Vice City,PlayStation 5,Fire OS,Rockstar North,Rockstar North,2022-01-01,2002-10-29
+0,0.948,metacritic_2076,dbpedia_games_28496,Valkyria Chronicles,Valkyria Chronicles (video game),Switch,PlayStation 4,Sega,Sega,2018-01-01,2008-04-24
+0,0.986,metacritic_14787,dbpedia_games_1248,Dynasty Warriors 8,Dynasty Warriors 6,Xbox 360,PlayStation 3,Omega Force,Omega Force,2013-01-01,2008-07-11
+0,0.954,metacritic_19685,dbpedia_games_33051,Hard Rock Casino,Hard Rock Casino (video game),PS2,Mobile phone,Farsight Studios,FarSight Studios,2006-01-01,2006-11-28
+0,0.982,metacritic_7428,dbpedia_games_54609,Tomb Raider III,Tomb Raider III,PlayStation,Microsoft Windows,Core Design Ltd.,Core Design,1998-01-01,1998-11-20
+0,0.944,metacritic_329,dbpedia_games_404,Madden NFL 2004,Madden NFL 2003,PC,Xbox (console),EA Tiburon,EA Tiburon,2003-01-01,2002-08-12
+0,0.914,metacritic_2710,dbpedia_games_52532,Terraria,Terraria,PC,PlayStation 4,Re-Logic,Re-Logic,2011-01-01,2013-08-29
+0,0.947,metacritic_11540,dbpedia_games_52790,Tom Clancy's Rainbow Six Extraction,Tom Clancy's Rainbow Six: Vegas 2,PC,Xbox 360,Ubisoft Montreal,Ubisoft Montreal,2022-01-01,2008-03-18
+0,0.932,metacritic_17357,dbpedia_games_25241,Romance of the Three Kingdoms XIV,Romance of the Three Kingdoms II,PC,Sega Genesis,Koei Tecmo Games,Koei,2020-01-01,1990-11-02
+0,0.948,metacritic_15760,dbpedia_games_45191,Dynasty Warriors 7 Empires,Dynasty Warriors 2,PS3,PlayStation 2,Omega Force,Omega Force,2013-01-01,2000-08-03
+0,0.946,metacritic_3114,dbpedia_games_12932,Resident Evil: Revelations,Resident Evil 6,3DS,Xbox 360,Capcom,Capcom,2012-01-01,2012-10-02
+0,0.937,metacritic_5183,dbpedia_games_61983,Dead or Alive Dimensions,Dead or Alive 2,3DS,Dreamcast,Team Ninja,Team Ninja,2011-01-01,1999-10-16
+0,0.958,metacritic_18128,dbpedia_games_12836,FIFA Street 3,FIFA Street 3,DS,PlayStation 3,"EA Canada,Exient Entertainment",EA Canada,2008-01-01,2008-02-18
+0,0.953,metacritic_5481,dbpedia_games_46456,Call of Duty: Warzone Caldera,Call of Duty: Modern Warfare 2,PS4,,Infinity Ward,Infinity Ward,2020-01-01,2020-03-30
+0,0.941,metacritic_7302,dbpedia_games_46133,Toki Tori 2 +,Toki Tori,PC,Android (operating system),Two Tribes,Two Tribes (company),2013-01-01,2013-11-07
+0,0.914,metacritic_9379,dbpedia_games_62983,Just Dance 2020,Just Dance 4,Switch,PlayStation 3,Ubisoft Paris,Ubisoft Milan,2019-01-01,2012-11-18
+0,0.93,metacritic_13674,dbpedia_games_10607,Sniper Elite V2,Sniper Elite 4,Xbox 360,Google Stadia,Rebellion,Rebellion Developments,2012-01-01,2017-02-14
+0,0.929,metacritic_7481,dbpedia_games_37940,LEGO Star Wars III: The Clone Wars,Lego Star Wars II: The Original Trilogy,PC,OS X,Traveller's Tales,Traveller's Tales,2011-01-01,2006-09-11
+0,0.955,metacritic_17775,dbpedia_games_67,Michael Jackson The Experience HD,Michael Jackson: The Experience,PlayStation Vita,Nintendo DS,Ubisoft,Ubisoft Montreal,2012-01-01,2012-02-15
+0,0.986,metacritic_14501,dbpedia_games_25397,Dynasty Warriors 5,Dynasty Warriors 7,Xbox,PlayStation 3,Omega Force,Omega Force,2005-01-01,2011-04-08
+0,0.931,metacritic_2674,dbpedia_games_44148,NCAA Football 10,NCAA Football 08,Xbox 360,Xbox 360,EA Tiburon,EA Tiburon,2009-01-01,2007-07-17
+0,0.957,metacritic_1912,dbpedia_games_59543,Geometry Wars 3: Dimensions,Geometry Wars 3: Dimensions,PS4,Microsoft Windows,Lucid Games,Lucid Games,2014-01-01,2015-07-07
+0,0.915,metacritic_3462,dbpedia_games_54544,Madden NFL 09 All-Play,Madden NFL 25,Wii,PlayStation 3,EA Tiburon,EA Tiburon,2008-01-01,2013-11-15
+0,0.944,metacritic_9579,dbpedia_games_54027,Just Dance 2017,Just Dance 2016,Xbox One,Wii,Ubisoft Paris,Ubisoft Paris,2016-01-01,2015-10-20
+0,0.926,metacritic_2975,dbpedia_games_37604,Skylanders Swap Force,Skylanders: Trap Team,Xbox 360,Xbox 360,Vicarious Visions,Vicarious Visions,2013-01-01,2014-10-02
+0,0.974,metacritic_4030,dbpedia_games_46827,Assassin's Creed,Assassin's Creed III,PS3,Google Stadia,Ubisoft Montreal,Ubisoft Montreal,2007-01-01,2012-10-30
+0,0.938,metacritic_5999,dbpedia_games_63414,NASCAR Heat 2002,NASCAR Heat 3,Xbox,PlayStation 4,Monster Games Inc.,Monster Games,2001-01-01,2018-09-07
+0,0.937,metacritic_1213,dbpedia_games_39805,Pikmin 3,Pikmin 3,Wii U,Nintendo Switch,Nintendo,Nintendo Entertainment Analysis & Development,2013-01-01,2020-10-30
+0,0.964,metacritic_4656,dbpedia_games_14521,Mega Man X Legacy Collection 1 + 2,Mega Man Legacy Collection,Switch,Xbox One,Capcom,Capcom,2018-01-01,2018-07-24
