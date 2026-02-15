@@ -143,6 +143,34 @@ class BlockingTester:
 
         self._set_adaptive_max_candidates()
 
+    @staticmethod
+    def _coerce_response_text(content: Any) -> str:
+        """Normalize LLM content payloads (str/list/dict) into plain text."""
+        if content is None:
+            return ""
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts: List[str] = []
+            for item in content:
+                if isinstance(item, str):
+                    parts.append(item)
+                elif isinstance(item, dict):
+                    text_val = item.get("text") or item.get("content") or item.get("output_text")
+                    if isinstance(text_val, str):
+                        parts.append(text_val)
+                    else:
+                        parts.append(json.dumps(item, ensure_ascii=False))
+                else:
+                    parts.append(str(item))
+            return "\n".join(p for p in parts if p).strip()
+        if isinstance(content, dict):
+            text_val = content.get("text") or content.get("content") or content.get("output_text")
+            if isinstance(text_val, str):
+                return text_val
+            return json.dumps(content, ensure_ascii=False)
+        return str(content)
+
     def _set_adaptive_max_candidates(self) -> None:
         """Set max_candidates using median-scaled pair size heuristic."""
         r = 0.0035
@@ -188,11 +216,30 @@ class BlockingTester:
             elif 'label' in col_lower:
                 col_mapping[col] = 'label'
         gs = gs.rename(columns=col_mapping)
-        if 'label' in gs.columns:
-            gs = gs[gs['label'] == 1.0].copy()
+
+        required_cols = {"id1", "id2"}
+        missing = required_cols - set(gs.columns)
+        if missing:
+            raise KeyError(f"Missing required gold-standard columns after normalization: {sorted(missing)}")
+
+        keep_cols = ["id1", "id2"]
+        if "label" in gs.columns:
+            keep_cols.append("label")
+        gs = gs[keep_cols].copy()
+
         if self.verbose:
-            print(f"    Loaded {len(gs)} ground truth pairs")
-        return gs[['id1', 'id2']]
+            if "label" in gs.columns:
+                positive_count = gs["label"].astype(str).str.strip().str.lower().isin(
+                    ["1", "1.0", "true", "yes", "match"]
+                ).sum()
+                negative_count = len(gs) - positive_count
+                print(
+                    f"    Loaded {len(gs)} ground truth pairs "
+                    f"(positives: {positive_count}, negatives/other: {negative_count})"
+                )
+            else:
+                print(f"    Loaded {len(gs)} ground truth pairs (no label column)")
+        return gs
     
     def _detect_id_column(self, df: pd.DataFrame) -> str:
         """Simple heuristic to detect ID column."""
@@ -269,7 +316,8 @@ class BlockingTester:
                 response = self.llm.invoke(
                     [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
                 )
-                raw = response.content if hasattr(response, "content") else str(response)
+                raw_content = response.content if hasattr(response, "content") else response
+                raw = self._coerce_response_text(raw_content)
                 cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", raw.strip())
                 parsed = json.loads(cleaned)
                 left_choice = parsed.get("left_id_col")
@@ -439,7 +487,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             SystemMessage(content=system_prompt),
             HumanMessage(content=human_content)
         ])
-        response_text = response.content if hasattr(response, 'content') else str(response)
+        response_content = response.content if hasattr(response, 'content') else response
+        response_text = self._coerce_response_text(response_content)
         
         return self._parse_llm_response(response_text, analysis['common_columns'])
 
@@ -460,8 +509,9 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             lines.append(f"- {strategy} cols={columns} params={params} PC={pc:.3f} candidates={candidates}")
         return "\n".join(lines)
     
-    def _parse_llm_response(self, response_text: str, valid_columns: List[str]) -> Dict[str, Any]:
+    def _parse_llm_response(self, response_text: Any, valid_columns: List[str]) -> Dict[str, Any]:
         """Parse and validate LLM response with all parameters."""
+        response_text = self._coerce_response_text(response_text)
         try:
             cleaned = re.sub(r'^```(?:json)?\n?|```$', '', response_text.strip(), flags=re.MULTILINE)
             cleaned = cleaned.strip()
@@ -676,7 +726,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 response = self.llm.invoke(
                     [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
                 )
-                raw = response.content if hasattr(response, "content") else str(response)
+                raw_content = response.content if hasattr(response, "content") else response
+                raw = self._coerce_response_text(raw_content)
                 cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", raw.strip())
                 parsed = json.loads(cleaned)
                 if isinstance(parsed, list):

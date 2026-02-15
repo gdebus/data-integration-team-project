@@ -25,7 +25,7 @@ from sklearn.base import clone
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, make_scorer
-from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.svm import SVC
 
 
@@ -97,6 +97,34 @@ class MatchingTester:
             if self.verbose:
                 print(f"[*] Loading matching gold standard for {pair[0]} <-> {pair[1]}")
             self.gold_standards[pair] = self._load_gold_standard(path)
+
+    @staticmethod
+    def _coerce_response_text(content: Any) -> str:
+        """Normalize LLM content payloads (str/list/dict) into plain text."""
+        if content is None:
+            return ""
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts: List[str] = []
+            for item in content:
+                if isinstance(item, str):
+                    parts.append(item)
+                elif isinstance(item, dict):
+                    text_val = item.get("text") or item.get("content") or item.get("output_text")
+                    if isinstance(text_val, str):
+                        parts.append(text_val)
+                    else:
+                        parts.append(json.dumps(item, ensure_ascii=False))
+                else:
+                    parts.append(str(item))
+            return "\n".join(p for p in parts if p).strip()
+        if isinstance(content, dict):
+            text_val = content.get("text") or content.get("content") or content.get("output_text")
+            if isinstance(text_val, str):
+                return text_val
+            return json.dumps(content, ensure_ascii=False)
+        return str(content)
 
     def _read_gold_standard(self, path: str) -> pd.DataFrame:
         if path.lower().endswith((".txt", ".tsv")):
@@ -195,7 +223,8 @@ class MatchingTester:
                 response = self.llm.invoke(
                     [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
                 )
-                raw = response.content if hasattr(response, "content") else str(response)
+                raw_content = response.content if hasattr(response, "content") else response
+                raw = self._coerce_response_text(raw_content)
                 cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", raw.strip())
                 parsed = json.loads(cleaned)
                 left_choice = parsed.get("left_id_col")
@@ -423,11 +452,12 @@ class MatchingTester:
 
     def _parse_llm_response(
         self,
-        response_text: str,
+        response_text: Any,
         valid_columns: List[str],
         column_types: Dict[str, str],
         blocking_columns: List[str],
     ) -> Dict[str, Any]:
+        response_text = self._coerce_response_text(response_text)
         try:
             cleaned = re.sub(r"^```(?:json)?\\n?|```$", "", response_text.strip())
             parsed = json.loads(cleaned)
@@ -603,7 +633,8 @@ Guidance:
         response = self.llm.invoke(
             [SystemMessage(content=system_prompt), HumanMessage(content=human_content)]
         )
-        response_text = response.content if hasattr(response, "content") else str(response)
+        response_content = response.content if hasattr(response, "content") else response
+        response_text = self._coerce_response_text(response_content)
         return self._parse_llm_response(
             response_text, analysis["common_columns"], analysis["column_types"], blocking_columns
         )
@@ -695,6 +726,55 @@ Guidance:
             return 0.0
         return 2 * precision * recall / (precision + recall)
 
+    def _split_gold_for_ml(
+        self,
+        gold: pd.DataFrame,
+        test_size: float = 0.2,
+        random_state: int = 42,
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, Any]]:
+        """
+        Split labeled gold pairs into train/eval sets for ML matcher.
+        Primary strategy is stratified split on label; if that fails, fall back to
+        random split (non-stratified) as requested.
+        """
+        if "label" not in gold.columns:
+            raise ValueError("ML matcher requires labeled pairs")
+        if len(gold) < 2:
+            raise ValueError("Not enough gold pairs to split for ML evaluation")
+
+        # Try stratified split first.
+        try:
+            train_df, eval_df = train_test_split(
+                gold,
+                test_size=test_size,
+                random_state=random_state,
+                stratify=gold["label"],
+            )
+            method = "stratified"
+        except Exception:
+            # Fallback requested by user: random split without stratification.
+            train_df, eval_df = train_test_split(
+                gold,
+                test_size=test_size,
+                random_state=random_state,
+                stratify=None,
+            )
+            method = "random_fallback"
+
+        train_df = train_df.reset_index(drop=True)
+        eval_df = eval_df.reset_index(drop=True)
+
+        split_info = {
+            "method": method,
+            "train_size": len(train_df),
+            "eval_size": len(eval_df),
+            "train_pos": int((train_df["label"] == 1).sum()) if "label" in train_df.columns else None,
+            "train_neg": int((train_df["label"] == 0).sum()) if "label" in train_df.columns else None,
+            "eval_pos": int((eval_df["label"] == 1).sum()) if "label" in eval_df.columns else None,
+            "eval_neg": int((eval_df["label"] == 0).sum()) if "label" in eval_df.columns else None,
+        }
+        return train_df, eval_df, split_info
+
     def _try_execute_matcher(
         self,
         name_left: str,
@@ -737,12 +817,14 @@ Guidance:
         blocker,
         id_column: str,
         choice: Dict[str, Any],
-        gold: pd.DataFrame,
+        gold_train: pd.DataFrame,
+        gold_eval: pd.DataFrame,
     ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-        if "label" not in gold.columns:
+        if "label" not in gold_train.columns:
             return None, "ML matcher requires labeled pairs with both positive and negative examples"
-        gold = gold.dropna(subset=["label", "id1", "id2"]).copy()
-        if gold["label"].nunique() < 2:
+        gold_train = gold_train.dropna(subset=["label", "id1", "id2"]).copy()
+        gold_eval = gold_eval.dropna(subset=["label", "id1", "id2"]).copy()
+        if gold_train["label"].nunique() < 2:
             return None, "ML matcher requires labeled pairs with both positive and negative examples"
         try:
             print("    [ML] Building comparators")
@@ -756,17 +838,23 @@ Guidance:
                 return None, f"ML matcher id column missing: {id_column}"
             left_ids = set(left_df[id_column].dropna().tolist())
             right_ids = set(right_df[id_column].dropna().tolist())
-            before_count = len(gold)
-            gold = gold[gold["id1"].isin(left_ids) & gold["id2"].isin(right_ids)].copy()
-            gold = gold.reset_index(drop=True)
-            print(f"    [ML] Gold pairs filtered: {before_count} -> {len(gold)}")
-            if gold.empty:
-                return None, "ML matcher has no gold pairs after ID filtering"
+            before_train = len(gold_train)
+            gold_train = gold_train[gold_train["id1"].isin(left_ids) & gold_train["id2"].isin(right_ids)].copy()
+            gold_train = gold_train.reset_index(drop=True)
+            print(f"    [ML] Gold train pairs filtered: {before_train} -> {len(gold_train)}")
+            if gold_train.empty:
+                return None, "ML matcher has no train gold pairs after ID filtering"
+            before_eval = len(gold_eval)
+            gold_eval = gold_eval[gold_eval["id1"].isin(left_ids) & gold_eval["id2"].isin(right_ids)].copy()
+            gold_eval = gold_eval.reset_index(drop=True)
+            print(f"    [ML] Gold eval pairs filtered: {before_eval} -> {len(gold_eval)}")
+            if gold_eval.empty:
+                return None, "ML matcher has no eval gold pairs after ID filtering"
             features = feature_extractor.create_features(
                 left_df,
                 right_df,
-                gold[["id1", "id2"]],
-                labels=gold["label"].reset_index(drop=True),
+                gold_train[["id1", "id2"]],
+                labels=gold_train["label"].reset_index(drop=True),
                 id_column=id_column,
             )
             print(f"    [ML] Feature rows: {len(features)}")
@@ -795,7 +883,7 @@ Guidance:
             print(f"    [ML] Correspondences: {len(correspondences)}")
             metrics = self.evaluator.evaluate_matching(
                 correspondences=correspondences,
-                test_pairs=gold,
+                test_pairs=gold_eval,
             )
             print("    [ML] Evaluation complete")
             metrics = self._normalize_metrics(metrics)
@@ -907,6 +995,22 @@ Guidance:
         matcher_mode = self.matcher_mode
         if matcher_mode == "auto":
             matcher_mode = "ml" if "label" in gold.columns and gold["label"].nunique() >= 2 else "rule_based"
+        ml_split = None
+        if matcher_mode == "ml":
+            try:
+                ml_train_gold, ml_eval_gold, split_info = self._split_gold_for_ml(gold)
+                ml_split = {
+                    "train": ml_train_gold,
+                    "eval": ml_eval_gold,
+                    "info": split_info,
+                }
+                print(
+                    f"    [ML] Holdout split ({split_info['method']}): "
+                    f"train={split_info['train_size']}, eval={split_info['eval_size']}"
+                )
+            except Exception as split_err:
+                print(f"    [ML] Split setup failed: {split_err}. Falling back to RuleBasedMatcher.")
+                matcher_mode = "rule_based"
 
         previous_attempts, best_result = [], None
 
@@ -955,7 +1059,13 @@ Guidance:
 
                 if matcher_mode == "ml":
                     metrics, error = self._try_execute_ml_matcher(
-                        name_left, name_right, blocker, id_column, active_choice, gold
+                        name_left,
+                        name_right,
+                        blocker,
+                        id_column,
+                        active_choice,
+                        ml_split["train"],
+                        ml_split["eval"],
                     )
                     if error:
                         print(f"    ML error: {error[:100]}... Falling back to RuleBasedMatcher.")
@@ -996,6 +1106,10 @@ Guidance:
                     "recall": metrics.get("recall"),
                     "f1": f1,
                 }
+                if ml_split and result["matcher_type"] == "ml":
+                    result["ml_split_method"] = ml_split["info"]["method"]
+                    result["ml_train_size"] = ml_split["info"]["train_size"]
+                    result["ml_eval_size"] = ml_split["info"]["eval_size"]
 
                 if best_result is None or f1 > best_result.get("f1", 0):
                     best_result = result
