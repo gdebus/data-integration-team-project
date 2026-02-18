@@ -1,0 +1,652 @@
+{
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": "Updated schema correspondences between discogs, lastfm, and musicbrainz datasets with high-confidence LLM-based matches, enabling accurate alignment for subsequent integration steps in the pipeline.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": "Updated data profiles for three datasets, revealing row counts, column counts, data types, and null value distributions; this profiling step completes data quality assessment and prepares for subsequent schema matching and integration tasks.",
+      "prompt_tokens": 287,
+      "completion_tokens": 82,
+      "total_tokens": 369,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": "Updated blocking configuration with new blocking strategies for dataset pairs, improving candidate pair generation completeness and acceptability, enabling more comprehensive downstream evaluation.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": "Updated matching_config in run_matching_tester node by refining comparator settings and weights for dataset pairs, enhancing similarity calculations; this adjustment prepares the pipeline for improved matching evaluation in the next step.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": "Added initial integration pipeline code to load schema-matched CSV datasets (Discogs, LastFM, MusicBrainz) using PyDI, setting up the foundation for subsequent entity matching and data fusion steps in the pipeline.",
+      "prompt_tokens": 11226,
+      "completion_tokens": 1595,
+      "total_tokens": 12821,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": "The pipeline execution completed successfully on the first attempt, updating the execution result and attempt count, enabling progression to the next evaluation step.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": "Cluster analysis completed, revealing a healthy long-tail cluster distribution for musicbrainz_lastfm correspondences with mostly small clusters and minimal large clusters, confirming cluster health and readiness for subsequent evaluation steps.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": "Added detailed evaluation code to load fused and gold datasets, define a data fusion strategy with multiple field-specific evaluation functions, and prepare for comprehensive fusion output assessment, enabling the next step to perform accurate evaluation metrics calculation.",
+      "prompt_tokens": 8384,
+      "completion_tokens": 700,
+      "total_tokens": 9084,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": "Executed evaluation successfully on first attempt, updating evaluation_execution_result to \"success\" and incrementing evaluation_execution_attempts to 1, enabling pipeline to proceed to the next step.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": "Updated evaluation metrics after first attempt, showing overall accuracy of 10.66% across 23 records and 9 attributes; no pipeline or evaluation execution attempts yet, marking progress in assessment phase before further pipeline execution.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": "Identified dominant errors in evaluation: systematic missing fused values causing record coverage issues, and bad fusion serialization producing malformed string outputs, hindering accurate matching and evaluation progress.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": "Refactored dataset loading in pipeline.py by replacing individual dataset variables with a dictionary mapping dataset names to file paths, improving code organization and preparing for scalable dataset integration.",
+      "prompt_tokens": 7378,
+      "completion_tokens": 1510,
+      "total_tokens": 8888,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": "The pipeline execution completed successfully on the first attempt, updating the execution result and attempt count, enabling progression to the next evaluation phase.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": "Updated cluster_analysis node with detailed cluster distribution results showing a healthy long-tail pattern for musicbrainz_lastfm data, confirming cluster health and no recommended changes; pipeline evaluation is ready to proceed to the next step.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": "Updated evaluation code to refine comments, rename variables for clarity, and emphasize critical instructions for evaluation strategy setup, improving code readability and maintainability without altering evaluation logic or pipeline flow.",
+      "prompt_tokens": 5576,
+      "completion_tokens": 517,
+      "total_tokens": 6093,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": "Executed evaluation successfully on first attempt, updating evaluation_execution_result to success and incrementing evaluation_execution_attempts to 1, enabling progress to the next pipeline step.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": "Updated evaluation metrics after second attempt, showing overall accuracy improved to 12.69%, with detailed attribute accuracies; no pipeline or evaluation execution attempts were made, and the process is now pending further action.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": "Updated evaluation analysis to identify dominant error types: systematic missing fused values causing low accuracy, incorrect stringified list representation for track attributes, and occasional wrong value selection in conflict resolution; this clarifies key fusion output issues affecting.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": "Refactored dataset loading in pipeline.py by replacing the DATASETS dictionary with direct file path strings and consolidated loaded datasets into a list, improving code clarity and preparing for subsequent integration steps.",
+      "prompt_tokens": 8891,
+      "completion_tokens": 1465,
+      "total_tokens": 10356,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": "The pipeline execution completed successfully on the first attempt, updating the execution result and attempt count, enabling progression to the next evaluation phase.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": "Updated cluster_analysis results with detailed cluster distribution metrics showing a healthy long-tail pattern for musicbrainz-lastfm data, confirming cluster health and no recommended changes; discogs-lastfm cluster analysis remains incomplete, pausing further pipeline progress.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 22,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": "Updated evaluation code to correct comments and ensure critical output JSON file is written exactly at the specified path, improving clarity and compliance with pipeline output requirements.",
+      "prompt_tokens": 6096,
+      "completion_tokens": 510,
+      "total_tokens": 6606,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 23,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": "Executed evaluation successfully on first attempt, updating evaluation_execution_result to \"success\" and incrementing evaluation_execution_attempts to 1, enabling progress to the next pipeline step.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 24,
+      "current_node": "evaluation_decision",
+      "next_node": "save_results",
+      "output_summary": "Updated evaluation metrics after third attempt, showing overall accuracy dropped to 8.12%, with no pipeline or evaluation execution attempts made; pipeline status set to PENDING for further action.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 25,
+      "current_node": "save_results",
+      "next_node": "END",
+      "output_summary": "The save_results node completed successfully without changes or output, leaving the next node pending and no progress made in pipeline evaluation accuracy.",
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_ms": 0,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "kaggle_small_uber_eats_small": {
+          "strategy": "exact_match_multi",
+          "columns": [
+            "postal_code",
+            "house_number"
+          ],
+          "params": {},
+          "pair_completeness": 1.0,
+          "num_candidates": 27850,
+          "is_acceptable": true
+        },
+        "kaggle_small_yelp_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name_norm",
+            "address_line1",
+            "city"
+          ],
+          "params": {
+            "top_k": 15
+          },
+          "pair_completeness": 1.0,
+          "num_candidates": 149812,
+          "is_acceptable": true
+        },
+        "uber_eats_small_yelp_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name_norm",
+            "address_line1",
+            "postal_code"
+          ],
+          "params": {
+            "top_k": 15
+          },
+          "pair_completeness": 0.95,
+          "num_candidates": 150000,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "kaggle_small": "id",
+        "uber_eats_small": "id",
+        "yelp_small": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "kaggle_small": "id",
+        "uber_eats_small": "id",
+        "yelp_small": "id"
+      },
+      "matching_strategies": {
+        "kaggle_small_uber_eats_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "address_line1",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.01
+            }
+          ],
+          "weights": [
+            0.4,
+            0.25,
+            0.1,
+            0.125,
+            0.125
+          ],
+          "threshold": 0.75,
+          "f1": 1.0
+        },
+        "kaggle_small_yelp_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "phone_e164",
+              "similarity_function": "levenshtein",
+              "preprocess": "strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "postal_code",
+              "similarity_function": "levenshtein",
+              "preprocess": "strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "address_line1",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.002
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.002
+            }
+          ],
+          "weights": [
+            0.3,
+            0.15,
+            0.25,
+            0.15,
+            0.075,
+            0.075
+          ],
+          "threshold": 0.78,
+          "f1": 1.0
+        },
+        "uber_eats_small_yelp_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "postal_code",
+              "similarity_function": "levenshtein",
+              "preprocess": "strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "house_number",
+              "similarity_function": "levenshtein",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "street",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.001
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.001
+            }
+          ],
+          "weights": [
+            0.12,
+            0.18,
+            0.3,
+            0.18,
+            0.11,
+            0.11
+          ],
+          "threshold": 0.78,
+          "f1": 0.888888888888889
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_position": "union",
+        "tracks_track_duration": "union"
+      },
+      "evaluation_functions": {
+        "name": "tokenized_match",
+        "artist": "tokenized_match",
+        "duration": "numeric_tolerance_match",
+        "release-date": "year_only_match",
+        "release-country": "tokenized_match",
+        "label": "tokenized_match",
+        "tracks_track_name": "set_equality_match"
+      },
+      "accuracy_score": "10.66%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_position": "union",
+        "tracks_track_duration": "union"
+      },
+      "evaluation_functions": {
+        "name": "tokenized_match",
+        "artist": "tokenized_match",
+        "duration": "numeric_tolerance_match",
+        "release-date": "year_only_match",
+        "release-country": "tokenized_match",
+        "label": "tokenized_match",
+        "tracks_track_name": "set_equality_match"
+      },
+      "accuracy_score": "12.69%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_position": "union",
+        "tracks_track_duration": "union"
+      },
+      "evaluation_functions": {
+        "name": "tokenized_match",
+        "artist": "tokenized_match",
+        "duration": "numeric_tolerance_match",
+        "release-date": "year_only_match",
+        "release-country": "tokenized_match",
+        "label": "tokenized_match",
+        "tracks_track_name": "set_equality_match"
+      },
+      "accuracy_score": "8.12%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 3
+      },
+      "execute_pipeline": {
+        "cluster_analysis": 3
+      },
+      "cluster_analysis": {
+        "evaluation_adaption": 3
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "evaluation_reasoning": 2,
+        "save_results": 1
+      },
+      "evaluation_reasoning": {
+        "pipeline_adaption": 2
+      },
+      "save_results": {
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 25
+  }
+}
