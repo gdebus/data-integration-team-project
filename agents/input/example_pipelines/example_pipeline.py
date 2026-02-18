@@ -8,8 +8,7 @@ from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker, SortedNeighbo
 from PyDI.entitymatching import StringComparator, NumericComparator
 from PyDI.entitymatching import RuleBasedMatcher
 
-from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
-from PyDI.fusion import DataFusionEvaluator, tokenized_match
+from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, shortest_string, union, prefer_higher_trust, voting, maximum
 
 from PyDI.schemamatching import LLMBasedSchemaMatcher
 from langchain_openai import ChatOpenAI
