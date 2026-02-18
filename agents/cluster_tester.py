@@ -34,6 +34,7 @@ class ClusterTester:
         llm,
         output_dir: str = "output/cluster-evaluation",
         verbose: bool = True,
+        compact_output: bool = True,
         min_small_cluster_ratio: float = 0.75,
         max_large_cluster_ratio: float = 0.05,
         max_healthy_cluster_size: int = 15,
@@ -42,6 +43,7 @@ class ClusterTester:
         self.llm = llm
         self.output_dir = output_dir
         self.verbose = verbose
+        self.compact_output = compact_output
         self.min_small_cluster_ratio = min_small_cluster_ratio
         self.max_large_cluster_ratio = max_large_cluster_ratio
         self.max_healthy_cluster_size = max_healthy_cluster_size
@@ -198,29 +200,41 @@ class ClusterTester:
                 health = self._analyze_cluster_health(cluster_dist_df)
 
                 if self.verbose:
-                    print(f"    Total clusters: {health['total_clusters']}")
-                    print(f"    Max cluster size: {health['max_cluster_size']}")
-                    print("    Cluster Distribution:")
-                    print(cluster_dist_df.to_string(index=False))
-                    print(
-                        f"    Small cluster ratio: {health['small_cluster_ratio']:.2%}"
-                    )
-                    print(
-                        f"    Large cluster ratio: {health['large_cluster_ratio']:.2%}"
-                    )
-                    print(f"    One-to-many ratio: {one_to_many_ratio:.2%}")
+                    if self.compact_output:
+                        print(
+                            "    Metrics: "
+                            f"clusters={health['total_clusters']}, "
+                            f"max_size={health['max_cluster_size']}, "
+                            f"small={health['small_cluster_ratio']:.2%}, "
+                            f"large={health['large_cluster_ratio']:.2%}, "
+                            f"one_to_many={one_to_many_ratio:.2%}"
+                        )
+                    else:
+                        print(f"    Total clusters: {health['total_clusters']}")
+                        print(f"    Max cluster size: {health['max_cluster_size']}")
+                        print("    Cluster Distribution:")
+                        print(cluster_dist_df.to_string(index=False))
+                        print(
+                            f"    Small cluster ratio: {health['small_cluster_ratio']:.2%}"
+                        )
+                        print(
+                            f"    Large cluster ratio: {health['large_cluster_ratio']:.2%}"
+                        )
+                        print(f"    One-to-many ratio: {one_to_many_ratio:.2%}")
 
                 recommendation = self._get_recommendation(
                     cluster_dist_df, one_to_many_ratio
                 )
 
                 if self.verbose:
-                    print(f"    Diagnosis: {recommendation.get('diagnosis')}")
                     print(
-                        f"    Recommended Strategy: {recommendation.get('recommended_strategy')}"
+                        f"    Recommended Strategy: "
+                        f"{recommendation.get('recommended_strategy')}"
                     )
-                    if recommendation.get("parameters"):
-                        print(f"    Parameters: {recommendation.get('parameters')}")
+                    if not self.compact_output:
+                        print(f"    Diagnosis: {recommendation.get('diagnosis')}")
+                        if recommendation.get("parameters"):
+                            print(f"    Parameters: {recommendation.get('parameters')}")
 
             report = {
                 "diagnosis": recommendation.get("diagnosis"),
@@ -268,6 +282,13 @@ class ClusterTester:
             json.dump(all_reports, f, indent=4)
 
         if self.verbose:
+            overall = all_reports.get("_overall", {}) if isinstance(all_reports, dict) else {}
+            if isinstance(overall, dict) and overall:
+                print(
+                    "    Overall: "
+                    f"recommended_strategy={overall.get('recommended_strategy', 'None')}, "
+                    f"unhealthy_files={len(overall.get('unhealthy_files', []))}"
+                )
             print(f"\n    Aggregated cluster analysis report saved to {report_path}")
 
         return all_reports

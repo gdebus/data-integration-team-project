@@ -16,6 +16,18 @@ from PyDI.entitymatching import (
     SortedNeighbourhoodBlocker,
     EntityMatchingEvaluator,
 )
+try:
+    from fusion_size_monitor import (
+        estimate_from_blocking,
+        estimate_path_for_output_dir,
+        upsert_stage_estimate,
+    )
+except ImportError:
+    from .fusion_size_monitor import (
+        estimate_from_blocking,
+        estimate_path_for_output_dir,
+        upsert_stage_estimate,
+    )
 
 
 
@@ -990,6 +1002,28 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 is_acceptable = row.get('is_acceptable', False)
                 status = "✅" if is_acceptable else "⚠️"
                 print(f"  {status} {row['pair']}: PC={pc:.4f}, candidates={candidates:,}, strategy={row['strategy']}")
+
+        dataset_sizes = {name: len(df) for name, df in self.datasets_loaded.items()}
+        blocking_estimate = estimate_from_blocking(
+            dataset_sizes=dataset_sizes,
+            blocking_strategies=discovered_config.get("blocking_strategies", {}),
+        )
+        if blocking_estimate:
+            discovered_config["fusion_size_estimate"] = blocking_estimate
+            estimate_path = estimate_path_for_output_dir(self.output_dir)
+            upsert_stage_estimate(estimate_path, "blocking", blocking_estimate)
+            print(
+                "[*] Blocking fused-size estimate: "
+                f"rows={blocking_estimate['expected_rows']}, "
+                f"unique_ids={blocking_estimate['expected_unique_ids']}"
+            )
+            if "expected_rows_matched_only" in blocking_estimate:
+                print(
+                    "[*] Blocking estimate breakdown: "
+                    f"matched_only_rows={blocking_estimate.get('expected_rows_matched_only')}, "
+                    f"singleton_aware_rows={blocking_estimate.get('expected_rows_singleton_aware')}"
+                )
+            print(f"[*] Fused-size report updated: {estimate_path}")
         
         with open(os.path.join(self.output_dir, "blocking_config.json"), "w") as f:
             json.dump(discovered_config, f, indent=2)

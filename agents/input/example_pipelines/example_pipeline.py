@@ -18,6 +18,26 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 import os
+from pathlib import Path
+import sys
+
+try:
+    from list_normalization import detect_list_like_columns, normalize_list_like_columns
+except ModuleNotFoundError:
+    _candidates = [
+        Path.cwd(),
+        Path.cwd() / "agents",
+        Path(__file__).resolve().parent,
+        Path(__file__).resolve().parent.parent,
+        Path(__file__).resolve().parent.parent.parent,
+        Path(__file__).resolve().parent.parent.parent.parent,
+    ]
+    for _path in _candidates:
+        if (_path / "list_normalization.py").is_file():
+            _path_str = str(_path.resolve())
+            if _path_str not in sys.path:
+                sys.path.append(_path_str)
+    from list_normalization import detect_list_like_columns, normalize_list_like_columns
 
 # --------------------------------
 # Prepare Data
@@ -92,6 +112,24 @@ rename_map = (
     .to_dict()
 )
 good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
+
+# Normalize list-like attributes so list comparators/fusers work on true lists.
+list_like_columns = detect_list_like_columns(
+    [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
+    exclude_columns={"id", "_id"},
+)
+if list_like_columns:
+    (
+        good_dataset_name_1,
+        good_dataset_name_2,
+        good_dataset_name_3,
+    ) = normalize_list_like_columns(
+        [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
+        list_like_columns,
+    )
+    print(f"Normalized list-like columns: {', '.join(list_like_columns)}")
+
+datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
 # --------------------------------
 # CRITICAL INSTRUCTION FOR AGENTS:

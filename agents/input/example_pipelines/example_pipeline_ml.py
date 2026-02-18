@@ -26,6 +26,26 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 import os
+from pathlib import Path
+import sys
+
+try:
+    from list_normalization import detect_list_like_columns, normalize_list_like_columns
+except ModuleNotFoundError:
+    _candidates = [
+        Path.cwd(),
+        Path.cwd() / "agents",
+        Path(__file__).resolve().parent,
+        Path(__file__).resolve().parent.parent,
+        Path(__file__).resolve().parent.parent.parent,
+        Path(__file__).resolve().parent.parent.parent.parent,
+    ]
+    for _path in _candidates:
+        if (_path / "list_normalization.py").is_file():
+            _path_str = str(_path.resolve())
+            if _path_str not in sys.path:
+                sys.path.append(_path_str)
+    from list_normalization import detect_list_like_columns, normalize_list_like_columns
 
 # --------------------------------
 # Prepare Data
@@ -102,6 +122,24 @@ rename_map = (
     .to_dict()
 )
 good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
+
+# Normalize list-like attributes so list comparators/fusers work on true lists.
+list_like_columns = detect_list_like_columns(
+    [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
+    exclude_columns={"id", "_id"},
+)
+if list_like_columns:
+    (
+        good_dataset_name_1,
+        good_dataset_name_2,
+        good_dataset_name_3,
+    ) = normalize_list_like_columns(
+        [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
+        list_like_columns,
+    )
+    print(f"Normalized list-like columns: {', '.join(list_like_columns)}")
+
+datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
 # --------------------------------
 # CRITICAL INSTRUCTION FOR AGENTS:
@@ -275,17 +313,42 @@ train_2_3 = load_csv(
     add_index=False
 )
 
+# Resolve pair-ID columns across common naming schemes.
+def to_pair_ids(df):
+    known_pairs = [
+        ("id1", "id2"),
+        ("id_a", "id_b"),
+        ("left_id", "right_id"),
+        ("source_id", "target_id"),
+    ]
+    for left_col, right_col in known_pairs:
+        if left_col in df.columns and right_col in df.columns:
+            out = df[[left_col, right_col]].copy()
+            out.columns = ["id1", "id2"]
+            return out
+
+    id_like = [
+        c for c in df.columns
+        if c != "label" and ("id" in str(c).lower() or str(c).lower().endswith("_id"))
+    ]
+    if len(id_like) >= 2:
+        out = df[[id_like[0], id_like[1]]].copy()
+        out.columns = ["id1", "id2"]
+        return out
+
+    raise ValueError(f"Could not infer pair ID columns from: {list(df.columns)}")
+
 # Extract features
 train_1_2_features = feature_extractor_1_2.create_features(
-    good_dataset_name_1, good_dataset_name_2, train_1_2[['id1', 'id2']], labels=train_1_2['label'], id_column='id'
+    good_dataset_name_1, good_dataset_name_2, to_pair_ids(train_1_2), labels=train_1_2['label'], id_column='id'
 )
 
 train_1_3_features = feature_extractor_1_3.create_features(
-    good_dataset_name_1, good_dataset_name_3, train_1_3[['id1', 'id2']], labels=train_1_3['label'], id_column='id'
+    good_dataset_name_1, good_dataset_name_3, to_pair_ids(train_1_3), labels=train_1_3['label'], id_column='id'
 )
 
 train_2_3_features = feature_extractor_2_3.create_features(
-    good_dataset_name_2, good_dataset_name_3, train_2_3[['id1', 'id2']], labels=train_2_3['label'], id_column='id'
+    good_dataset_name_2, good_dataset_name_3, to_pair_ids(train_2_3), labels=train_2_3['label'], id_column='id'
 )
 
 # Prepare data for ML training
@@ -384,7 +447,7 @@ ml_correspondences_1_2 = ml_matcher_1_2.match(
     good_dataset_name_1, good_dataset_name_2, candidates=blocker_1_2, id_column='id', trained_classifier=best_models[0]
 )
 
-ml_correspondences_1_3 = ml_matcher_1_2.match(
+ml_correspondences_1_3 = ml_matcher_1_3.match(
     good_dataset_name_1, good_dataset_name_3, candidates=blocker_1_3, id_column='id', trained_classifier=best_models[1]
 )
 

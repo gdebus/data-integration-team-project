@@ -2,6 +2,8 @@ import json
 import os
 import re
 from typing import Dict, List, Tuple, Any, Optional
+from pathlib import Path
+import sys
 
 import pandas as pd
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -27,6 +29,29 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, make_scorer
 from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.svm import SVC
+
+AGENTS_ROOT = Path(__file__).resolve().parent
+if str(AGENTS_ROOT) not in sys.path:
+    sys.path.append(str(AGENTS_ROOT))
+
+from list_normalization import (
+    detect_list_like_columns,
+    is_list_like_value,
+    normalize_list_like_columns,
+)
+
+try:
+    from fusion_size_monitor import (
+        estimate_from_matching,
+        estimate_path_for_output_dir,
+        upsert_stage_estimate,
+    )
+except ImportError:
+    from .fusion_size_monitor import (
+        estimate_from_matching,
+        estimate_path_for_output_dir,
+        upsert_stage_estimate,
+    )
 
 
 def load_dataset(path: str) -> pd.DataFrame:
@@ -91,6 +116,20 @@ class MatchingTester:
             if self.verbose:
                 print(f"[*] Loading dataset: {name}")
             self.datasets_loaded[name] = load_dataset(path)
+        self.list_like_columns = detect_list_like_columns(
+            list(self.datasets_loaded.values()),
+            exclude_columns={"id", "_id", "record_id", "__record_id__"},
+        )
+        if self.list_like_columns:
+            normalize_list_like_columns(
+                list(self.datasets_loaded.values()),
+                self.list_like_columns,
+            )
+            if self.verbose:
+                print(
+                    f"[*] Normalized list-like columns for matching: "
+                    f"{', '.join(self.list_like_columns)}"
+                )
 
         self.gold_standards: Dict[Tuple[str, str], pd.DataFrame] = {}
         for pair, path in matching_testsets.items():
@@ -281,7 +320,7 @@ class MatchingTester:
         if pd.api.types.is_datetime64_any_dtype(series):
             return "date"
         sample = series.dropna().head(10).tolist()
-        if any(isinstance(v, (list, tuple, set)) for v in sample):
+        if any(is_list_like_value(v) for v in sample):
             return "list"
         return "string"
 
@@ -1159,6 +1198,29 @@ Guidance:
             for _, row in df.iterrows():
                 status = "OK" if row.get("f1", 0) >= self.f1_threshold else "WARN"
                 print(f"  {status} {row['pair']}: F1={row.get('f1', 0):.4f}")
+
+        dataset_sizes = {name: len(df) for name, df in self.datasets_loaded.items()}
+        matching_estimate = estimate_from_matching(
+            dataset_sizes=dataset_sizes,
+            blocking_strategies=self.blocking_strategies,
+            matching_strategies=discovered_config.get("matching_strategies", {}),
+        )
+        if matching_estimate:
+            discovered_config["fusion_size_estimate"] = matching_estimate
+            estimate_path = estimate_path_for_output_dir(self.output_dir)
+            upsert_stage_estimate(estimate_path, "matching", matching_estimate)
+            print(
+                "[*] Matching fused-size estimate: "
+                f"rows={matching_estimate['expected_rows']}, "
+                f"unique_ids={matching_estimate['expected_unique_ids']}"
+            )
+            if "expected_rows_matched_only" in matching_estimate:
+                print(
+                    "[*] Matching estimate breakdown: "
+                    f"matched_only_rows={matching_estimate.get('expected_rows_matched_only')}, "
+                    f"singleton_aware_rows={matching_estimate.get('expected_rows_singleton_aware')}"
+                )
+            print(f"[*] Fused-size report updated: {estimate_path}")
 
         with open(os.path.join(self.output_dir, "matching_config.json"), "w") as f:
             json.dump(discovered_config, f, indent=2)
