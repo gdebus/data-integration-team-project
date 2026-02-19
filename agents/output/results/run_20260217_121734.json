@@ -1,0 +1,300 @@
+{
+  "timestamp": "20260217_121734",
+  "datasets": [
+    "discogs",
+    "lastfm",
+    "musicbrainz"
+  ],
+  "matcher_mode": "rulebased",
+  "fusion_testset": "test_set.xml",
+  "blocking_metrics": {
+    "discogs_lastfm": {
+      "pair_completeness": 0.7321428571428571,
+      "num_candidates": 452047,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "tracks_track_name"
+      ]
+    },
+    "discogs_musicbrainz": {
+      "pair_completeness": 0.95,
+      "num_candidates": 450205,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "release-date"
+      ]
+    },
+    "musicbrainz_lastfm": {
+      "pair_completeness": 0.9367088607594937,
+      "num_candidates": 95134,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "duration"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "discogs_lastfm": {
+      "f1_score": 0.5263157894736842
+    },
+    "discogs_musicbrainz": {
+      "f1_score": 0.8489208633093526
+    },
+    "musicbrainz_lastfm": {
+      "f1_score": 0.8652482269503546
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.19796954314720813,
+    "macro_accuracy": 0.1947463768115942,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 39,
+    "release-country_accuracy": 0.34782608695652173,
+    "release-country_count": 23,
+    "label_accuracy": 0.1875,
+    "label_count": 16,
+    "tracks_track_position_accuracy": 0.0,
+    "tracks_track_position_count": 23,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 23,
+    "duration_accuracy": 0.2608695652173913,
+    "duration_count": 23,
+    "artist_accuracy": 0.34782608695652173,
+    "artist_count": 23,
+    "name_accuracy": 0.2608695652173913,
+    "name_count": 23,
+    "tracks_track_duration_accuracy": 0.0,
+    "tracks_track_duration_count": 20,
+    "release-date_accuracy": 0.34782608695652173,
+    "release-date_count": 23
+  },
+  "overall_accuracy": 0.19796954314720813,
+  "blocking_config": {
+    "blocking_strategies": {
+      "discogs_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "tracks_track_name"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.7321428571428571,
+        "num_candidates": 452047,
+        "is_acceptable": false
+      },
+      "discogs_musicbrainz": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "release-date"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.95,
+        "num_candidates": 450205,
+        "is_acceptable": true
+      },
+      "musicbrainz_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "duration"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9367088607594937,
+        "num_candidates": 95134,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "matching_strategies": {
+      "discogs_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 60.0
+          }
+        ],
+        "weights": [
+          0.4,
+          0.2,
+          0.3,
+          0.1
+        ],
+        "threshold": 0.75,
+        "f1": 0.5263157894736842
+      },
+      "discogs_musicbrainz": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "release-date",
+            "max_days_difference": 365
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 15.0
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          },
+          {
+            "type": "string",
+            "column": "release-country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          }
+        ],
+        "weights": [
+          0.24,
+          0.24,
+          0.18,
+          0.1,
+          0.14,
+          0.1
+        ],
+        "threshold": 0.68,
+        "f1": 0.8489208633093526
+      },
+      "musicbrainz_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "best_match"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.25,
+          0.35,
+          0.25,
+          0.15
+        ],
+        "threshold": 0.6,
+        "f1": 0.8652482269503546
+      }
+    }
+  },
+  "token_usage": {
+    "prompt_tokens": 66510,
+    "completion_tokens": 9625,
+    "total_tokens": 76135,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rulebased"
+  },
+  "pipeline_search_tool_responses": [
+    {
+      "query": "How to use EmbeddingBlocker in PyDI (parameters, expected dtypes, example)?",
+      "response": "Parameters\n:\nrecord1\n(\npandas.Series\n)\nrecord2\n(\npandas.Series\n)\nReturn type\n:\nfloat\nclass\nPyDI.entitymatching.\nEmbeddingBlocker\n(\ndf_left\n,\ndf_right\n,\ntext_cols\n,\nid_column\n,\n*\n,\nmodel\n=\n'sentence-transformers/all-MiniLM-L6-v2'\n,\nindex_backend\n=\n'sklearn'\n,\nmetric\n=\n'cosine'\n,\ntop_k\n=\n50\n,\nthreshold\n=\n0.3\n,\nnormalize\n=\nTrue\n,\nbatch_size\n=\n25000\n,\nquery_batch_size\n=\n2048\n,\nembedder\n=\nNone\n,\nleft_embeddings\n=\nNone\n,\nright_embeddings\n=\nNone\n,\ndevice\n=\nNone\n,\noutput_dir\n=\n'output'\n,\npreprocess\n=\nNone\n)\n[source]\n\nBases:\nBaseBlocker\nEmbedding-based blocking using nearest neighbor search over text embeddings.\nThis blocker combines text columns into a single string representation,\ncomputes embeddings using sentence transformers or a custom embedder,\nand uses nearest neighbor search to find candidate pairs above a similarity threshold.\nParameters\n:\ndf_left\n(\npd.DataFrame\n) – Left dataset for blocking\ndf_right\n(\npd.DataFrame\n) – Right dataset for blocking\ntext_cols\n(\nlist\n[\nstr\n]\n) – Column names to use for text embedding (must exist in both datasets)\nmodel\n(\nstr\n,\ndefault \"sentence-transformers/all-MiniLM-L6-v2\"\n) – Model name for sentence transformers embedding\nindex_backend\n(\n\n-----\n\n(\n)\n[source]\n\nReturn type\n:\nint | None\nmaterialize\n(\n)\n[source]\n\nCollect all candidates into a single DataFrame. For small datasets only.\nReturn type\n:\npandas.DataFrame\nstats\n(\n)\n[source]\n\nReturn type\n:\ndict\nclass\nPyDI.entitymatching.blocking.\nEmbeddingBlocker\n(\ndf_left\n,\ndf_right\n,\ntext_cols\n,\nid_column\n,\n*\n,\nmodel\n=\n'sentence-transformers/all-MiniLM-L6-v2'\n,\nindex_backend\n=\n'sklearn'\n,\nmetric\n=\n'cosine'\n,\ntop_k\n=\n50\n,\nthreshold\n=\n0.3\n,\nnormalize\n=\nTrue\n,\nbatch_size\n=\n25000\n,\nquery_batch_size\n=\n2048\n,\nembedder\n=\nNone\n,\nleft_embeddings\n=\nNone\n,\nright_embeddings\n=\nNone\n,\ndevice\n=\nNone\n,\noutput_dir\n=\n'output'\n,\npreprocess\n=\nNone\n)\n[source]\n\nBases:\nBaseBlocker\nEmbedding-based blocking using nearest neighbor search over text embeddings.\nThis blocker combines text columns into a single string representation,\ncomputes embeddings using sentence transformers or a custom embedder,\nand uses nearest neighbor search to find candidate pairs above a similarity threshold.\nParameters\n:\ndf_left\n(\npd.DataFrame\n) – Left dataset for blocking\ndf_right\n(\npd.DataFrame\n) – Right dataset for blocking\ntext_cols\n(\nlist\n[\nstr\n]\n) – Column names to use for text embedding (must exist in both datasets)\n\n-----\n\nReturn type\n:\npandas.DataFrame\nstats\n(\n)\n[source]\n\nReturn type\n:\ndict\nPyDI.entitymatching.blocking.embedding module\n\nEmbedding-based blocking for entity matching using nearest neighbor search.\nThis module provides EmbeddingBlocker, which generates candidate pairs by computing\ntext embeddings and performing nearest neighbor search to find similar records.\nclass\nPyDI.entitymatching.blocking.embedding.\nEmbeddingBlocker\n(\ndf_left\n,\ndf_right\n,\ntext_cols\n,\nid_column\n,\n*\n,\nmodel\n=\n'sentence-transformers/all-MiniLM-L6-v2'\n,\nindex_backend\n=\n'sklearn'\n,\nmetric\n=\n'cosine'\n,\ntop_k\n=\n50\n,\nthreshold\n=\n0.3\n,\nnormalize\n=\nTrue\n,\nbatch_size\n=\n25000\n,\nquery_batch_size\n=\n2048\n,\nembedder\n=\nNone\n,\nleft_embeddings\n=\nNone\n,\nright_embeddings\n=\nNone\n,\ndevice\n=\nNone\n,\noutput_dir\n=\n'output'\n,\npreprocess\n=\nNone\n)\n[source]\n\nBases:\nBaseBlocker\nEmbedding-based blocking using nearest neighbor search over text embeddings.\nThis blocker combines text columns into a single string representation,\ncomputes embeddings using sentence transformers or a custom embedder,\nand uses nearest neighbor search to find candidate pairs above a similarity threshold.\nParameters\n:\ndf_left\n(\npd.DataFrame\n) – Left dataset for blocking\n\n-----\n\nembedder\n(\ncallable\n,\noptional\n) – Custom embedding function: embedder(df, text_cols) -> np.ndarray\nleft_embeddings\n(\nnp.ndarray\n,\noptional\n) – Pre-computed embeddings for left dataset\nright_embeddings\n(\nnp.ndarray\n,\noptional\n) – Pre-computed embeddings for right dataset\ndevice\n(\nstr\n,\noptional\n) – Device for embedding computation (e.g., “cpu”, “cuda:0”)\nid_column\n(\nstr\n)\noutput_dir\n(\nstr\n)\npreprocess\n(\nCallable\n[\n[\nstr\n]\n,\nstr\n]\n|\nNone\n)\nestimate_pairs\n(\n)\n[source]\n\nEstimate number of candidate pairs using sampling.\nReturn type\n:\nint | None\nclass\nPyDI.entitymatching.blocking.\nNoBlocker\n(\ndf_left\n,\ndf_right\n,\nid_column\n,\n*\n,\nbatch_size\n=\n100000\n)\n[source]\n\nBases:\nBaseBlocker\nGenerate all pairs in the Cartesian product (streamed in batches).\nSuitable for small datasets or as a baseline. For n=|L|, m=|R|, this yields\nn*m pairs split across batches of at most\nbatch_size\nrows.\nParameters\n:\ndf_left\n(\npd.DataFrame\n)\ndf_right\n(\npd.DataFrame\n)\nid_column\n(\nstr\n)\nbatch_size\n(\nint\n)\nestimate_pairs\n(\n)\n[source]\n\nReturn type\n:\nint | None\nclass\nPyDI.entitymatching.blocking.\nSortedNeighbourhoodBlocker\n(\ndf_left\n,\ndf_right\n,\nkey\n,\nid_column\n,\nwindow\n,\n*\n,\nbatch_size\n=\n100000\n,\noutput_dir\n="
+    },
+    {
+      "query": "RuleBasedMatcher comparators: available comparator types (StringComparator, NumericComparator, DateComparator), parameters, list_strategy options, date handling",
+      "response": ")\ncandidates\n[\n\"rarity_score\"\n]\n=\n1.0\n/\n(\ncandidates\n[\n\"left_degree\"\n]\n+\ncandidates\n[\n\"right_degree\"\n])\n.\nreplace\n(\n0\n,\nnp\n.\nnan\n)\n# ------------------------------------------------------------------\n# Instantiate comparators and run rule-based matcher\n# ------------------------------------------------------------------\ncomparators\n:\nList\n[\nBaseComparator\n]\n=\n[]\nweights\n:\nList\n[\nfloat\n]\n=\n[]\ncomparator_meta\n:\nList\n[\nDict\n[\nstr\n,\nAny\n]]\n=\n[]\nfor\ncfg\nin\ncomparator_options\n:\ncomp_type\n=\ncfg\n.\nget\n(\n\"type\"\n)\ncolumn\n=\ncfg\n.\nget\n(\n\"column\"\n)\nweight\n=\ncfg\n.\nget\n(\n\"weight\"\n,\n1.0\n)\nparams\n=\ncfg\n.\nget\n(\n\"params\"\n,\n{})\nif\ncomp_type\n==\n\"string\"\n:\ncomparator\n=\nStringComparator\n(\ncolumn\n=\ncolumn\n,\nsimilarity_function\n=\nparams\n.\nget\n(\n\"similarity_function\"\n,\n\"jaro_winkler\"\n),\ntokenization\n=\nparams\n.\nget\n(\n\"tokenization\"\n),\npreprocess\n=\nparams\n.\nget\n(\n\"preprocess\"\n),\nlist_strategy\n=\nparams\n.\nget\n(\n\"list_strategy\"\n),\n)\ndebug_name\n=\n(\nf\n\"StringComparator(\n{\ncolumn\n}\n,\n{\ncomparator\n.\nsimilarity_function\n}\n\"\nf\n\"\n{\n', list_strategy='\n+\nstr\n(\ncomparator\n.\nlist_strategy\n)\nif\ncomparator\n.\nlist_strategy\nelse\n''\n}\n)\"\n)\ncomparator_meta\n.\nappend\n({\n\"name\"\n:\ndebug_name\n,\n\"category\"\n:\n\"string\"\n,\n\"column\"\n:\n\n-----\n\n(\ncomparator\n.\nlist_strategy\n)\nif\ncomparator\n.\nlist_strategy\nelse\n''\n}\n)\"\n)\ncomparator_meta\n.\nappend\n({\n\"name\"\n:\ndebug_name\n,\n\"category\"\n:\n\"date\"\n,\n\"column\"\n:\ncolumn\n})\nelse\n:\nraise\nValueError\n(\nf\n\"Unsupported comparator type:\n{\ncomp_type\n}\n\"\n)\ncomparators\n.\nappend\n(\ncomparator\n)\nweights\n.\nappend\n(\nweight\n)\nif\nnot\ncomparators\n:\nraise\nValueError\n(\n\"At least one comparator must be configured\"\n)\nnorm_weights\n=\n_normalize_weights\n(\nweights\n)\nmatcher\n=\nRuleBasedMatcher\n()\ncandidate_pairs_only\n=\ncandidates\n[[\n\"id1\"\n,\n\"id2\"\n]]\ncorrespondences\n,\ndebug_df\n=\nmatcher\n.\nmatch\n(\ndf_left\n=\ndf_left\n,\ndf_right\n=\ndf_right\n,\ncandidates\n=\ncandidate_pairs_only\n,\nid_column\n=\nid_column\n,\ncomparators\n=\ncomparators\n,\nweights\n=\nnorm_weights\n,\nthreshold\n=\nmatcher_threshold\n,\ndebug\n=\nTrue\n,\n)\nfeature_matrix\n=\n_build_feature_matrix\n(\ndebug_df\n)\nscored_pairs\n=\ncandidates\n.\nmerge\n(\ncorrespondences\n[[\n\"id1\"\n,\n\"id2\"\n,\n\"score\"\n]],\non\n=\n[\n\"id1\"\n,\n\"id2\"\n],\nhow\n=\n\"left\"\n)\nscored_pairs\n[\n\"score\"\n]\n=\nscored_pairs\n[\n\"score\"\n]\n.\nfillna\n(\n0.0\n)\nscored_pairs\n=\nscored_pairs\n.\nmerge\n(\nfeature_matrix\n,\non\n=\n[\n\"id1\"\n,\n\"id2\"\n],\nhow\n=\n\"left\"\n)\n# ------------------------------------------------------------------\n\n-----\n\n}\n\"\nf\n\"\n{\n', list_strategy='\n+\nstr\n(\ncomparator\n.\nlist_strategy\n)\nif\ncomparator\n.\nlist_strategy\nelse\n''\n}\n)\"\n)\ncomparator_meta\n.\nappend\n({\n\"name\"\n:\ndebug_name\n,\n\"category\"\n:\n\"string\"\n,\n\"column\"\n:\ncolumn\n})\nelif\ncomp_type\n==\n\"numeric\"\n:\ncomparator\n=\nNumericComparator\n(\ncolumn\n=\ncolumn\n,\nmethod\n=\nparams\n.\nget\n(\n\"method\"\n,\n\"relative_difference\"\n),\nmax_difference\n=\nparams\n.\nget\n(\n\"max_difference\"\n),\nlist_strategy\n=\nparams\n.\nget\n(\n\"list_strategy\"\n),\n)\ndebug_name\n=\n(\nf\n\"NumericComparator(\n{\ncolumn\n}\n,\n{\ncomparator\n.\nmethod\n}\n\"\nf\n\"\n{\n', list_strategy='\n+\nstr\n(\ncomparator\n.\nlist_strategy\n)\nif\ncomparator\n.\nlist_strategy\nelse\n''\n}\n)\"\n)\ncomparator_meta\n.\nappend\n({\n\"name\"\n:\ndebug_name\n,\n\"category\"\n:\n\"numeric\"\n,\n\"column\"\n:\ncolumn\n})\nelif\ncomp_type\n==\n\"date\"\n:\ncomparator\n=\nDateComparator\n(\ncolumn\n=\ncolumn\n,\nmax_days_difference\n=\nparams\n.\nget\n(\n\"max_days_difference\"\n),\nlist_strategy\n=\nparams\n.\nget\n(\n\"list_strategy\"\n),\n)\ndebug_name\n=\n(\nf\n\"DateComparator(\n{\ncolumn\n}\n\"\nf\n\"\n{\n', list_strategy='\n+\nstr\n(\ncomparator\n.\nlist_strategy\n)\nif\ncomparator\n.\nlist_strategy\nelse\n''\n}\n)\"\n)\ncomparator_meta\n.\nappend\n({\n\"name\"\n:\ndebug_name\n,\n\"category\"\n:\n\"date\"\n,\n\"column\"\n:\ncolumn\n})\nelse\n:\nraise\nValueError\n(\nf\n\n-----\n\nthreshold\n(\nfloat\n,\noptional\n) – Minimum similarity score to include in results. Default is 0.0.\n**kwargs\n– Additional keyword arguments specific to the matcher implementation.\nReturns\n:\nDataFrame with columns id1, id2, score, notes containing\nentity correspondences above the threshold.\nReturn type\n:\nCorrespondenceSet\nPyDI.entitymatching.comparators module\n\nComparator classes for entity matching.\nclass\nPyDI.entitymatching.comparators.\nDateComparator\n(\ncolumn\n,\nmax_days_difference\n=\nNone\n,\nlist_strategy\n=\nNone\n)\n[source]\n\nBases:\nBaseComparator\nDate similarity comparator.\nParameters\n:\ncolumn\n(\nstr\n) – Column name to compare.\nmax_days_difference\n(\nint\n,\noptional\n) – Maximum days difference for normalization.\nlist_strategy\n(\nstr\n,\noptional\n) – Strategy for handling lists (“closest_dates”, “range_overlap”, “average_dates”, “latest_dates”, “earliest_dates”).\nDefault is “closest_dates”.\ncompare\n(\nrecord1\n,\nrecord2\n)\n[source]\n\nCompare date values in specified column, handling both single values and lists.\nParameters\n:\nrecord1\n(\npandas.Series\n)\nrecord2\n(\npandas.Series\n)\nReturn type\n:\nfloat\nclass\nPyDI.entitymatching.comparators.\nNumericComparator\n(\ncolumn\n,\nmethod\n=\n'absolute_difference'"
+    },
+    {
+      "query": "DataFusionStrategy and DataFusionEngine usage, especially for string and numeric fusion, and how to handle lists like track names",
+      "response": "DataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nModule contents\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nDataFusionEngine\nDataFusionEngine.run()\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\n\n-----\n\nSource code for PyDI.fusion.engine\n\"\"\"\nData fusion engine for PyDI.\nThis module defines the DataFusionEngine class and utilities for record grouping\nand executing fusion strategies.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nDict\n,\nList\n,\nOptional\n,\nSet\n,\nTuple\n,\nUnion\n,\nAny\n,\nSequence\nfrom\ncollections\nimport\ndefaultdict\n,\nCounter\nimport\nlogging\nimport\ntime\nimport\npandas\nas\npd\nfrom\npathlib\nimport\nPath\nimport\njson\nfrom\nPyDI.utils.cluster_stats\nimport\n(\ncluster_size_distribution_from_sizes\n,\nlog_cluster_size_distribution\n,\n)\nfrom\n.base\nimport\nRecordGroup\n,\nFusionContext\n,\nFusionResult\n,\n_is_valid_value\nfrom\n.provenance\nimport\nextract_source_trust_scores\nfrom\n.strategy\nimport\nDataFusionStrategy\nCorrespondenceInput\n=\nUnion\n[\npd\n.\nDataFrame\n,\nSequence\n[\npd\n.\nDataFrame\n],\n]\ndef\n_prepare_correspondence_frame\n(\ndf\n:\npd\n.\nDataFrame\n,\n*\n,\nlabel\n:\nstr\n)\n->\npd\n.\nDataFrame\n:\n\"\"\"Validate correspondence columns and ensure a 'score' column exists.\"\"\"\nif\nnot\nisinstance\n(\ndf\n,\npd\n.\nDataFrame\n):\nraise\nTypeError\n(\nf\n\"Correspondence item '\n{\nlabel\n}\n' must be a pandas DataFrame\"\n)\nmissing\n=\n[\ncol\nfor\ncol\nin\n(\n\"id1\"\n,\n\"id2\"\n)\nif\ncol\nnot\nin\ndf\n.\ncolumns\n]\nif\nmissing\n:\nraise\nValueError\n(\nf\n\n-----\n\nSource code for PyDI.fusion\n\"\"\"\nData fusion tools for PyDI.\nThis module provides comprehensive data fusion capabilities including:\n- Record grouping from correspondences\n- Attribute-level conflict resolution\n- Strategy-based fusion management\n- Quality evaluation and reporting\n- Provenance tracking\nThe implementation is designed to be pandas-first, modular, and extensible.\n\"\"\"\nfrom\n__future__\nimport\nannotations\n# New fusion framework components\nfrom\n.base\nimport\n(\nConflictResolutionFunction\n,\nAttributeValueFuser\n,\nFusionContext\n,\nFusionResult\n,\nRecordGroup\n,\n)\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n.engine\nimport\nDataFusionEngine\n,\nbuild_record_groups_from_correspondences\nfrom\n.evaluation\nimport\n(\nDataFusionEvaluator\n,\ncalculate_consistency_metrics\n,\ncalculate_coverage_metrics\n,\nexact_match\n,\ntokenized_match\n,\nyear_only_match\n,\nnumeric_tolerance_match\n,\nset_equality_match\n,\nboolean_match\n,\n)\nfrom\n.reporting\nimport\nFusionReport\nfrom\n.provenance\nimport\nProvenanceTracker\n,\nProvenanceInfo\n# Import built-in conflict resolution functions\nfrom\n.conflict_resolution\nimport\n(\n# String functions\nlongest_string\n,\nshortest_string\n,\nmost_complete\n,\n# Numeric functions\naverage\n,\nmedian\n,\n\n-----\n\n# Import built-in conflict resolution functions\nfrom\n.conflict_resolution\nimport\n(\n# String functions\nlongest_string\n,\nshortest_string\n,\nmost_complete\n,\n# Numeric functions\naverage\n,\nmedian\n,\nmaximum\n,\nminimum\n,\nsum_values\n,\n# Date functions\nmost_recent\n,\nearliest\n,\n# List functions\nunion\n,\nintersection\n,\nintersection_k_sources\n,\n# General functions\nvoting\n,\nfavour_sources\n,\nrandom_value\n,\nweighted_voting\n,\nprefer_higher_trust\n,\n)\n# Import analysis utilities\nfrom\n.analysis\nimport\n(\nanalyze_attribute_coverage\n,\ncompare_dataset_schemas\n,\ndetect_attribute_conflicts\n,\nanalyze_conflicts_preview\n,\nprint_conflict_preview\n,\nAttributeCoverageAnalyzer\n,\n)\n# Define what's available when importing * from this module\n# Convenience functions for creating strategies\n[docs]\ndef\ncreate_empty_strategy\n(\nname\n:\nstr\n=\n\"empty\"\n)\n->\nDataFusionStrategy\n:\n\"\"\"Create an empty fusion strategy.\nParameters\n----------\nname : str\nName for the strategy.\nReturns\n-------\nDataFusionStrategy\nAn empty strategy ready for custom rule configuration.\n\"\"\"\nreturn\nDataFusionStrategy\n(\nname\n)\n# Define what's available when importing * from this module\n__all__\n=\n[\n# Framework components\n\"DataFusionEngine\"\n,"
+    }
+  ],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to use DataFusionEvaluator in PyDI to evaluate a fused dataframe against a gold standard XML test set? Include required arguments and typical usage.",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\n(‘score’ or ‘similarity’). When a sequence is provided, all DataFrames\nare validated and concatenated before processing. This is compatible\nwith PyDI’s CorrespondenceSet format.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column for\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n\n-----\n\nschema_correspondences\n(\nOptional\n[\npd.DataFrame\n]\n) – Optional schema correspondences for attribute alignment.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column\nfor that dataset. When provided, each dataset is normalized to have\na string\n_id\ncolumn derived from the specified column. If not\nprovided, the engine will use an existing\n_id\ncolumn if present,\notherwise fall back to\nid\n.\ninclude_singletons\n(\nbool\n,\ndefault True\n) – Whether to include singleton groups (records not referenced in any\ncorrespondence) in the fused output. Set to False to return only\nrecords that participate in at least one correspondence (group size > 1).\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\n\n-----\n\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters\n----------\nfused_df : pd.DataFrame\nThe fused dataset to evaluate.\nfused_id_column : str\nID column name in the fused dataset.\nexpected_df : pd.DataFrame, optional\nThe expected/validation/test dataset.\nexpected_id_column : str, optional\nID column name in the expected dataset.\ngold_df : pd.DataFrame, optional\nDeprecated alias for expected_df.\ngold_id_column : str, optional\nDeprecated alias for expected_id_column.\nReturns\n-------\nDict[str, float]\nDictionary of evaluation metrics.\n\"\"\"\nself\n.\n_logger\n.\ninfo\n(\n\"Starting fusion evaluation\"\n)\nmismatch_counter\n:\nOptional\n[\nCounter\n[\nstr\n]]\n=\nCounter\n()\nif\nself\n."
+    }
+  ],
+  "integration_pipeline_code_length": 9563,
+  "evaluation_code_length": 3524
+}

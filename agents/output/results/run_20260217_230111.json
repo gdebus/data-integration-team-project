@@ -1,0 +1,419 @@
+{
+  "timestamp": "20260217_230111",
+  "datasets": [
+    "discogs",
+    "lastfm",
+    "musicbrainz"
+  ],
+  "matcher_mode": "rulebased",
+  "fusion_testset": "test_set.xml",
+  "blocking_metrics": {
+    "discogs_lastfm": {
+      "pair_completeness": 1.0,
+      "num_candidates": 451223,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "artist",
+        "name",
+        "duration"
+      ]
+    },
+    "discogs_musicbrainz": {
+      "pair_completeness": 1.0,
+      "num_candidates": 450205,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "release-date"
+      ]
+    },
+    "musicbrainz_lastfm": {
+      "pair_completeness": 1.0,
+      "num_candidates": 95134,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "duration"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "discogs_lastfm": {
+      "f1_score": 0.7301587301587301
+    },
+    "discogs_musicbrainz": {
+      "f1_score": 0.8636363636363636
+    },
+    "musicbrainz_lastfm": {
+      "f1_score": 0.8439716312056738
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.37055837563451777,
+    "macro_accuracy": 0.37952898550724634,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 73,
+    "tracks_track_position_accuracy": 0.4782608695652174,
+    "tracks_track_position_count": 23,
+    "label_accuracy": 0.6875,
+    "label_count": 16,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 23,
+    "duration_accuracy": 0.34782608695652173,
+    "duration_count": 23,
+    "name_accuracy": 0.30434782608695654,
+    "name_count": 23,
+    "release-country_accuracy": 0.391304347826087,
+    "release-country_count": 23,
+    "release-date_accuracy": 0.4782608695652174,
+    "release-date_count": 23,
+    "artist_accuracy": 0.4782608695652174,
+    "artist_count": 23,
+    "tracks_track_duration_accuracy": 0.25,
+    "tracks_track_duration_count": 20
+  },
+  "overall_accuracy": 0.37055837563451777,
+  "blocking_config": {
+    "blocking_strategies": {
+      "discogs_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "artist",
+          "name",
+          "duration"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 451223,
+        "is_acceptable": true
+      },
+      "discogs_musicbrainz": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "release-date"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 450205,
+        "is_acceptable": true
+      },
+      "musicbrainz_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "duration"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 95134,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities",
+      "expected_rows": 9865,
+      "expected_unique_ids": 9865,
+      "expected_rows_range": [
+        9865,
+        18627
+      ],
+      "expected_unique_ids_range": [
+        9865,
+        18627
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "discogs",
+          "lastfm",
+          "musicbrainz"
+        ],
+        "pair_cluster_estimates": {
+          "discogs_lastfm": 9865,
+          "discogs_musicbrainz": 4763,
+          "lastfm_musicbrainz": 4763
+        },
+        "triple_intersection_estimates": {
+          "via_discogs": 2076.589693728731,
+          "via_lastfm": 4763.0,
+          "via_musicbrainz": 4763.0,
+          "median_used": 4763.0,
+          "final_triple_intersection": 4763,
+          "triple_intersection_range": [
+            0,
+            4763
+          ]
+        },
+        "expected_union_clusters": 9865,
+        "expected_union_range": [
+          9865,
+          18627
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "discogs_lastfm",
+          "left_dataset": "discogs",
+          "right_dataset": "lastfm",
+          "min_pair_size": 9865,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 9865
+        },
+        {
+          "pair_key": "discogs_musicbrainz",
+          "left_dataset": "discogs",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 4763
+        },
+        {
+          "pair_key": "musicbrainz_lastfm",
+          "left_dataset": "lastfm",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 4763
+        }
+      ],
+      "created_at": "2026-02-17T21:29:45.769074+00:00"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "matching_strategies": {
+      "discogs_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 10.0
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.35,
+          0.25,
+          0.1,
+          0.3
+        ],
+        "threshold": 0.75,
+        "f1": 0.7301587301587301
+      },
+      "discogs_musicbrainz": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "release-date",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.3,
+          0.25,
+          0.15,
+          0.2,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.8636363636363636
+      },
+      "musicbrainz_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 30.0
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.3,
+          0.3,
+          0.2,
+          0.2
+        ],
+        "threshold": 0.78,
+        "f1": 0.8439716312056738
+      }
+    },
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities",
+      "expected_rows": 9467,
+      "expected_unique_ids": 9467,
+      "expected_rows_range": [
+        7297,
+        15337
+      ],
+      "expected_unique_ids_range": [
+        7297,
+        15337
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "discogs",
+          "lastfm",
+          "musicbrainz"
+        ],
+        "pair_cluster_estimates": {
+          "discogs_lastfm": 7203,
+          "discogs_musicbrainz": 4114,
+          "lastfm_musicbrainz": 4020
+        },
+        "triple_intersection_estimates": {
+          "via_discogs": 1309.6363636363637,
+          "via_lastfm": 2935.231626964014,
+          "via_musicbrainz": 3472.2401847575056,
+          "median_used": 2935.231626964014,
+          "final_triple_intersection": 2935,
+          "triple_intersection_range": [
+            0,
+            4020
+          ]
+        },
+        "expected_union_clusters": 9467,
+        "expected_union_range": [
+          7297,
+          15337
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "discogs_lastfm",
+          "left_dataset": "discogs",
+          "right_dataset": "lastfm",
+          "min_pair_size": 9865,
+          "pair_completeness": 1.0,
+          "f1": 0.7301587301587301,
+          "expected_cluster_count": 7203
+        },
+        {
+          "pair_key": "discogs_musicbrainz",
+          "left_dataset": "discogs",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "f1": 0.8636363636363636,
+          "expected_cluster_count": 4114
+        },
+        {
+          "pair_key": "musicbrainz_lastfm",
+          "left_dataset": "lastfm",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "f1": 0.8439716312056738,
+          "expected_cluster_count": 4020
+        }
+      ],
+      "created_at": "2026-02-17T21:37:52.095707+00:00"
+    }
+  },
+  "token_usage": {
+    "prompt_tokens": 55883,
+    "completion_tokens": 10467,
+    "total_tokens": 66350,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rulebased"
+  },
+  "pipeline_search_tool_responses": [],
+  "evaluation_search_tool_responses": [],
+  "integration_pipeline_code_length": 7836,
+  "evaluation_code_length": 6511
+}

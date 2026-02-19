@@ -1,0 +1,989 @@
+{
+  "timestamp": "20260218_183506",
+  "datasets": [
+    "dbpedia",
+    "metacritic",
+    "sales"
+  ],
+  "matcher_mode": "rulebased",
+  "fusion_testset": "test_set_fusion.xml",
+  "validation_fusion_testset": "validation_set_fusion.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "dbpedia_sales": {
+      "pair_completeness": 0.912621359223301,
+      "num_candidates": 929573,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    },
+    "metacritic_dbpedia": {
+      "pair_completeness": 0.9679144385026738,
+      "num_candidates": 409855,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "developer",
+        "releaseYear"
+      ]
+    },
+    "metacritic_sales": {
+      "pair_completeness": 0.9851851851851852,
+      "num_candidates": 908547,
+      "stategy": "token_blocking",
+      "columns": [
+        "name"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "dbpedia_sales": {
+      "f1_score": 0.8850855745721272
+    },
+    "metacritic_dbpedia": {
+      "f1_score": 0.8840970350404312
+    },
+    "metacritic_sales": {
+      "f1_score": 0.7499999999999999
+    }
+  },
+  "evaluation_metrics": {
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "criticScore_accuracy": 0.9,
+    "criticScore_count": 10,
+    "developer_accuracy": 0.8,
+    "developer_count": 10,
+    "macro_accuracy": 0.775,
+    "name_accuracy": 0.9,
+    "name_count": 10,
+    "num_evaluated_attributes": 8,
+    "num_evaluated_records": 10,
+    "overall_accuracy": 0.775,
+    "platform_accuracy": 0.8,
+    "platform_count": 10,
+    "publisher_accuracy": 0.7,
+    "publisher_count": 10,
+    "releaseYear_accuracy": 1.0,
+    "releaseYear_count": 10,
+    "total_correct": 62,
+    "total_evaluations": 80,
+    "userScore_accuracy": 0.2,
+    "userScore_count": 10
+  },
+  "overall_accuracy": 0.775,
+  "blocking_config": {
+    "blocking_strategies": {
+      "dbpedia_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.912621359223301,
+        "num_candidates": 929573,
+        "is_acceptable": true
+      },
+      "metacritic_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "developer",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9679144385026738,
+        "num_candidates": 409855,
+        "is_acceptable": true
+      },
+      "metacritic_sales": {
+        "strategy": "token_blocking",
+        "columns": [
+          "name"
+        ],
+        "params": {
+          "min_token_len": 4
+        },
+        "pair_completeness": 0.9851851851851852,
+        "num_candidates": 908547,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 54330,
+      "expected_unique_ids": 54330,
+      "expected_rows_range": [
+        40166,
+        54544
+      ],
+      "expected_unique_ids_range": [
+        40166,
+        54544
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "dbpedia",
+          "metacritic",
+          "sales"
+        ],
+        "pair_cluster_estimates": {
+          "dbpedia_metacritic": 19836,
+          "dbpedia_sales": 7189,
+          "metacritic_sales": 7760
+        },
+        "triple_intersection_estimates": {
+          "via_dbpedia": 3061.42129669386,
+          "via_metacritic": 7510.850004879477,
+          "via_sales": 7082.219118953916,
+          "median_used": 7082.219118953916,
+          "final_triple_intersection": 7082,
+          "triple_intersection_range": [
+            0,
+            7189
+          ]
+        },
+        "expected_union_clusters": 20621,
+        "expected_union_range": [
+          20407,
+          34785
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "dbpedia_sales",
+          "left_dataset": "dbpedia",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.912621359223301,
+          "expected_cluster_count": 7189
+        },
+        {
+          "pair_key": "metacritic_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "metacritic",
+          "min_pair_size": 20494,
+          "pair_completeness": 0.9679144385026738,
+          "expected_cluster_count": 19836
+        },
+        {
+          "pair_key": "metacritic_sales",
+          "left_dataset": "metacritic",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.9851851851851852,
+          "expected_cluster_count": 7760
+        }
+      ],
+      "created_at": "2026-02-18T15:53:25.083952+00:00",
+      "expected_rows_matched_only": 20621,
+      "expected_unique_ids_matched_only": 20621,
+      "expected_rows_matched_only_range": [
+        20407,
+        34785
+      ],
+      "expected_unique_ids_matched_only_range": [
+        20407,
+        34785
+      ],
+      "expected_rows_singleton_aware": 54330,
+      "expected_unique_ids_singleton_aware": 54330,
+      "expected_rows_singleton_aware_range": [
+        40166,
+        54544
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        40166,
+        54544
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 74951,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "matching_strategies": {
+      "dbpedia_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.5,
+          0.2,
+          0.2,
+          0.1
+        ],
+        "threshold": 0.9,
+        "f1": 0.8850855745721272
+      },
+      "metacritic_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          }
+        ],
+        "weights": [
+          0.5,
+          0.2,
+          0.25,
+          0.05
+        ],
+        "threshold": 0.78,
+        "f1": 0.8840970350404312
+      },
+      "metacritic_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          },
+          {
+            "type": "numeric",
+            "column": "criticScore",
+            "max_difference": 5.0
+          }
+        ],
+        "weights": [
+          0.5,
+          0.15,
+          0.1,
+          0.15,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.7499999999999999
+      }
+    },
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 54633,
+      "expected_unique_ids": 54633,
+      "expected_rows_range": [
+        45231,
+        56871
+      ],
+      "expected_unique_ids_range": [
+        45231,
+        56871
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "dbpedia",
+          "metacritic",
+          "sales"
+        ],
+        "pair_cluster_estimates": {
+          "dbpedia_metacritic": 17537,
+          "dbpedia_sales": 6363,
+          "metacritic_sales": 5820
+        },
+        "triple_intersection_estimates": {
+          "via_dbpedia": 2395.6189566337484,
+          "via_metacritic": 4980.254708695228,
+          "via_sales": 4701.366002285134,
+          "median_used": 4701.366002285134,
+          "final_triple_intersection": 4701,
+          "triple_intersection_range": [
+            0,
+            5820
+          ]
+        },
+        "expected_union_clusters": 20318,
+        "expected_union_range": [
+          18080,
+          29720
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "dbpedia_sales",
+          "left_dataset": "dbpedia",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.912621359223301,
+          "f1": 0.8850855745721272,
+          "expected_cluster_count": 6363
+        },
+        {
+          "pair_key": "metacritic_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "metacritic",
+          "min_pair_size": 20494,
+          "pair_completeness": 0.9679144385026738,
+          "f1": 0.8840970350404312,
+          "expected_cluster_count": 17537
+        },
+        {
+          "pair_key": "metacritic_sales",
+          "left_dataset": "metacritic",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.9851851851851852,
+          "f1": 0.7499999999999999,
+          "expected_cluster_count": 5820
+        }
+      ],
+      "created_at": "2026-02-18T16:22:43.469865+00:00",
+      "expected_rows_matched_only": 20318,
+      "expected_unique_ids_matched_only": 20318,
+      "expected_rows_matched_only_range": [
+        18080,
+        29720
+      ],
+      "expected_unique_ids_matched_only_range": [
+        18080,
+        29720
+      ],
+      "expected_rows_singleton_aware": 54633,
+      "expected_unique_ids_singleton_aware": 54633,
+      "expected_rows_singleton_aware_range": [
+        45231,
+        56871
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        45231,
+        56871
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 74951,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 57404,
+      "unique_ids": 57404
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 54330,
+        "actual_rows": 57404,
+        "rows_abs_error": 3074,
+        "rows_pct_error": 0.05658015829191975,
+        "expected_rows_matched_only": 20621,
+        "expected_rows_singleton_aware": 54330,
+        "rows_pct_error_matched_only": 1.7837641239513118,
+        "rows_pct_error_singleton_aware": 0.05658015829191975,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 54330,
+        "actual_unique_ids": 57404,
+        "unique_ids_abs_error": 3074,
+        "unique_ids_pct_error": 0.05658015829191975,
+        "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-02-18T17:30:48.827749+00:00"
+      },
+      "matching": {
+        "expected_rows": 54633,
+        "actual_rows": 57404,
+        "rows_abs_error": 2771,
+        "rows_pct_error": 0.050720260648326104,
+        "expected_rows_matched_only": 20318,
+        "expected_rows_singleton_aware": 54633,
+        "rows_pct_error_matched_only": 1.8252780785510385,
+        "rows_pct_error_singleton_aware": 0.050720260648326104,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 54633,
+        "actual_unique_ids": 57404,
+        "unique_ids_abs_error": 2771,
+        "unique_ids_pct_error": 0.050720260648326104,
+        "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-02-18T17:30:48.827789+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 16,
+      "missing_fused_value": 2
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.8888888888888888,
+      "missing_fused_value": 0.1111111111111111
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/games/testsets/validation_set_fusion.xml",
+    "id_alignment": {
+      "gold_count": 10,
+      "direct_coverage": 5,
+      "direct_coverage_ratio": 0.5,
+      "mapped_coverage": 10,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 57404,
+        "unique_ids": 57404
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 54330,
+          "actual_rows": 57404,
+          "rows_abs_error": 3074,
+          "rows_pct_error": 0.05658015829191975,
+          "expected_rows_matched_only": 20621,
+          "expected_rows_singleton_aware": 54330,
+          "rows_pct_error_matched_only": 1.7837641239513118,
+          "rows_pct_error_singleton_aware": 0.05658015829191975,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 54330,
+          "actual_unique_ids": 57404,
+          "unique_ids_abs_error": 3074,
+          "unique_ids_pct_error": 0.05658015829191975,
+          "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-02-18T17:30:48.827749+00:00"
+        },
+        "matching": {
+          "expected_rows": 54633,
+          "actual_rows": 57404,
+          "rows_abs_error": 2771,
+          "rows_pct_error": 0.050720260648326104,
+          "expected_rows_matched_only": 20318,
+          "expected_rows_singleton_aware": 54633,
+          "rows_pct_error_matched_only": 1.8252780785510385,
+          "rows_pct_error_singleton_aware": 0.050720260648326104,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 54633,
+          "actual_unique_ids": 57404,
+          "unique_ids_abs_error": 2771,
+          "unique_ids_pct_error": 0.050720260648326104,
+          "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-02-18T17:30:48.827789+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.775
+  },
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-02-18T17:32:55.409963+00:00",
+    "summary": {
+      "status": "issues_detected",
+      "num_findings": 3,
+      "severity_counts": {
+        "high": 1,
+        "medium": 1,
+        "low": 1
+      },
+      "top_risks": [
+        "High one-to-many ratios observed directly in correspondence CSVs",
+        "Possible noisy list fusion (concatenated values)",
+        "High missingness in fused attributes (coverage gaps)"
+      ],
+      "warnings": []
+    },
+    "findings": [
+      {
+        "severity": "high",
+        "title": "High one-to-many ratios observed directly in correspondence CSVs",
+        "details": "Correspondence edges suggest ambiguous matching (many-to-many tendencies), which can cause over-clustering and noisy fusion.",
+        "evidence": {
+          "worst_correspondence": {
+            "path": "output/correspondences/correspondences_dbpedia_metacritic.csv",
+            "rows": 32036,
+            "id_left_col": "id1",
+            "id_right_col": "id2",
+            "one_to_many_ratio_left": 0.6864953526517222,
+            "one_to_many_ratio_right": 0.5198908994145822,
+            "max_degree_left": 20,
+            "max_degree_right": 17
+          }
+        },
+        "recommendation": "Increase match confidence threshold, add tie-breaking features (year/platform/developer), and consider enforcing 1-1 assignment for certain sources where appropriate."
+      },
+      {
+        "severity": "medium",
+        "title": "Possible noisy list fusion (concatenated values)",
+        "details": "Some string columns appear to contain delimiter-separated lists, which can indicate naive concatenation during fusion rather than true normalization/deduplication.",
+        "evidence": {
+          "suspect_columns": [
+            {
+              "column": "_fusion_metadata",
+              "separator_hit_rate": 1.0,
+              "avg_token_count": 110.20459770114942,
+              "avg_length": 3247.6758620689657
+            }
+          ]
+        },
+        "recommendation": "For multi-valued fields, normalize into sets with canonicalization and deduplication (casefold/trim), or choose a single best value by source priority rather than concatenation."
+      },
+      {
+        "severity": "low",
+        "title": "High missingness in fused attributes (coverage gaps)",
+        "details": "Several columns are mostly null in the fused output, suggesting incomplete coverage or failed value propagation.",
+        "evidence": {
+          "high_null_columns": [
+            {
+              "column": "publisher",
+              "null_rate": 0.878214061737858
+            },
+            {
+              "column": "globalSales",
+              "null_rate": 0.8781966413490349
+            },
+            {
+              "column": "_fusion_metadata",
+              "null_rate": 0.8206745174552296
+            }
+          ]
+        },
+        "recommendation": "Review schema matching and fusion rules for these attributes; verify that source columns are mapped and that null-handling prefers non-null values."
+      }
+    ],
+    "recommendations": [
+      "Increase match confidence threshold, add tie-breaking features (year/platform/developer), and consider enforcing 1-1 assignment for certain sources where appropriate.",
+      "Review schema matching and fusion rules for these attributes; verify that source columns are mapped and that null-handling prefers non-null values.",
+      "For multi-valued fields, normalize into sets with canonicalization and deduplication (casefold/trim), or choose a single best value by source priority rather than concatenation.",
+      "Add run-to-run regression checks: cluster health (max cluster size, one-to-many ratio), fused size drift, and attribute null rates.",
+      "Emit traceability fields (source id, source dataset, match confidence) in fused output to make debugging integration errors actionable."
+    ],
+    "evidence": {
+      "paths": {
+        "pipeline_evaluation_json": "output/pipeline_evaluation/pipeline_evaluation.json",
+        "debug_jsonl": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+        "fusion_size_estimate_json": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "fused_csv": "output/data_fusion/fusion_data.csv",
+        "correspondences_dir": "output/correspondences",
+        "schema_matching_dir": "output/schema-matching",
+        "correspondence_files_sample": [
+          "output/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/correspondences/correspondences_dbpedia_sales.csv",
+          "output/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/correspondences/correspondences_discogs_lastfm.csv",
+          "output/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/correspondences/correspondences_kaggle_small_yelp_small.csv"
+        ]
+      },
+      "counts": {
+        "evaluation_num_records_or_evals": null,
+        "debug_jsonl_lines_parsed": 19,
+        "debug_jsonl_top_reasons": {
+          "mismatch": 16,
+          "missing_fused_value": 2,
+          "evaluation_debug_header": 1
+        },
+        "debug_jsonl_top_attributes": {
+          "userScore": 8,
+          "publisher": 3,
+          "platform": 2,
+          "developer": 2,
+          "name": 1,
+          "criticScore": 1,
+          "ESRB": 1
+        },
+        "correspondence_files_found": 15,
+        "fused_rows": 57404,
+        "fused_columns": 17
+      },
+      "ratios": {},
+      "stats": {
+        "fused_csv": {
+          "path": "output/data_fusion/fusion_data.csv",
+          "size_bytes": 41777042,
+          "mtime_utc": "2026-02-18T17:30:47.693662+00:00",
+          "sha1_prefix": "4871ebe77fd1"
+        },
+        "debug_jsonl": {
+          "path": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+          "size_bytes": 5176,
+          "mtime_utc": "2026-02-18T17:31:23.951336+00:00",
+          "sha1_prefix": "767210f80443"
+        },
+        "fusion_size_estimate_json": {
+          "path": "output/pipeline_evaluation/fusion_size_estimate.json",
+          "size_bytes": 8038,
+          "mtime_utc": "2026-02-18T17:30:48.828838+00:00",
+          "sha1_prefix": "bea4dca33ee9"
+        },
+        "pipeline_evaluation_json": {
+          "path": "output/pipeline_evaluation/pipeline_evaluation.json",
+          "size_bytes": 634,
+          "mtime_utc": "2026-02-18T17:31:23.951540+00:00",
+          "sha1_prefix": "501cd10ef8fa"
+        },
+        "evaluation_stage": null,
+        "overall_accuracy": null,
+        "correspondence_metrics_worst": {
+          "path": "output/correspondences/correspondences_dbpedia_metacritic.csv",
+          "rows": 32036,
+          "id_left_col": "id1",
+          "id_right_col": "id2",
+          "one_to_many_ratio_left": 0.6864953526517222,
+          "one_to_many_ratio_right": 0.5198908994145822,
+          "max_degree_left": 20,
+          "max_degree_right": 17
+        },
+        "fused_id_candidates": [
+          "id",
+          "_id",
+          "_fusion_confidence"
+        ],
+        "fused_cluster_col_guess": null,
+        "fused_source_col_guess": "_fusion_sources",
+        "fused_id_uniqueness": {
+          "id": {
+            "nunique": 57404,
+            "nulls": 0,
+            "duplicate_row_ratio": 0.0
+          },
+          "_id": {
+            "nunique": 57404,
+            "nulls": 0,
+            "duplicate_row_ratio": 0.0
+          }
+        }
+      }
+    }
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": {
+      "status": "ok",
+      "notes": [
+        "fused_review_table.csv includes a small set of key fused columns plus source coverage signals.",
+        "source_lineage_long.csv is attribute-long; it only includes attributes that overlap between fused and each source dataset (case-sensitive, then case-insensitive).",
+        "fusion_vs_testset_diff.csv compares aligned testset records to fused output when the testset XML is available; otherwise it is empty."
+      ]
+    },
+    "file_paths": {
+      "fused_csv": "output/data_fusion/fusion_data.csv",
+      "fused_review_table_csv": "output/human_review/fused_review_table.csv",
+      "source_lineage_long_csv": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff_csv": "output/human_review/fusion_vs_testset_diff.csv",
+      "summary_json": "output/human_review/human_review_summary.json",
+      "summary_md": "output/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 57404,
+      "fused_columns": 17,
+      "fused_id_column": "id",
+      "fused_source_column": "_fusion_sources",
+      "source_datasets_loaded": 15,
+      "source_dataset_names": [
+        "dbpedia",
+        "dbpedia_metacritic_schema_correspondences",
+        "dbpedia_sales_schema_correspondences",
+        "discogs",
+        "discogs_aligned",
+        "discogs_lastfm_schema_correspondences",
+        "discogs_musicbrainz_schema_correspondences",
+        "kaggle_small_uber_eats_small_schema_correspondences",
+        "kaggle_small_yelp_small_schema_correspondences",
+        "lastfm",
+        "lastfm_aligned",
+        "metacritic",
+        "musicbrainz",
+        "musicbrainz_aligned",
+        "sales"
+      ],
+      "fused_review_rows": 57404,
+      "lineage_long_rows": 447251,
+      "diff_rows": 0,
+      "testset_loaded": false
+    },
+    "warnings": [
+      "Dataset paths not found in context JSON; discovered CSVs in output/schema-matching/"
+    ],
+    "created_at": "2026-02-18T17:34:38.985962+00:00",
+    "stats": {
+      "fused_csv": {
+        "path": "output/data_fusion/fusion_data.csv",
+        "exists": true,
+        "size_bytes": 41777042,
+        "mtime_utc": "2026-02-18T17:30:47.693662+00:00",
+        "sha1_prefix": "8577167c3aa9"
+      },
+      "datasets": [
+        {
+          "dataset": "dbpedia",
+          "path": "output/schema-matching/dbpedia.csv",
+          "id_col": "id",
+          "rows": 46580,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "dbpedia_metacritic_schema_correspondences",
+          "path": "output/schema-matching/dbpedia_metacritic_schema_correspondences.csv",
+          "id_col": "source_column",
+          "rows": 5,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "dbpedia_sales_schema_correspondences",
+          "path": "output/schema-matching/dbpedia_sales_schema_correspondences.csv",
+          "id_col": "source_column",
+          "rows": 5,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "discogs",
+          "path": "output/schema-matching/discogs.csv",
+          "id_col": "id",
+          "rows": 22627,
+          "cols": 11,
+          "exists": true
+        },
+        {
+          "dataset": "discogs_aligned",
+          "path": "output/schema-matching/discogs_aligned.csv",
+          "id_col": "id",
+          "rows": 22627,
+          "cols": 11,
+          "exists": true
+        },
+        {
+          "dataset": "discogs_lastfm_schema_correspondences",
+          "path": "output/schema-matching/discogs_lastfm_schema_correspondences.csv",
+          "id_col": "source_column",
+          "rows": 7,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "discogs_musicbrainz_schema_correspondences",
+          "path": "output/schema-matching/discogs_musicbrainz_schema_correspondences.csv",
+          "id_col": "source_column",
+          "rows": 9,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "kaggle_small_uber_eats_small_schema_correspondences",
+          "path": "output/schema-matching/kaggle_small_uber_eats_small_schema_correspondences.csv",
+          "id_col": "source_column",
+          "rows": 16,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "kaggle_small_yelp_small_schema_correspondences",
+          "path": "output/schema-matching/kaggle_small_yelp_small_schema_correspondences.csv",
+          "id_col": "source_column",
+          "rows": 19,
+          "cols": 6,
+          "exists": true
+        },
+        {
+          "dataset": "lastfm",
+          "path": "output/schema-matching/lastfm.csv",
+          "id_col": "id",
+          "rows": 9865,
+          "cols": 7,
+          "exists": true
+        },
+        {
+          "dataset": "lastfm_aligned",
+          "path": "output/schema-matching/lastfm_aligned.csv",
+          "id_col": "id",
+          "rows": 9865,
+          "cols": 7,
+          "exists": true
+        },
+        {
+          "dataset": "metacritic",
+          "path": "output/schema-matching/metacritic.csv",
+          "id_col": "id",
+          "rows": 20494,
+          "cols": 8,
+          "exists": true
+        },
+        {
+          "dataset": "musicbrainz",
+          "path": "output/schema-matching/musicbrainz.csv",
+          "id_col": "id",
+          "rows": 4763,
+          "cols": 9,
+          "exists": true
+        },
+        {
+          "dataset": "musicbrainz_aligned",
+          "path": "output/schema-matching/musicbrainz_aligned.csv",
+          "id_col": "id",
+          "rows": 4763,
+          "cols": 9,
+          "exists": true
+        },
+        {
+          "dataset": "sales",
+          "path": "output/schema-matching/sales.csv",
+          "id_col": "id",
+          "rows": 7877,
+          "cols": 10,
+          "exists": true
+        }
+      ],
+      "testset": {
+        "path": null,
+        "loaded": false,
+        "rows": null,
+        "cols": null
+      }
+    }
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.7310924369747899,
+    "macro_accuracy": 0.7273809523809525,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 87,
+    "userScore_accuracy": 0.2857142857142857,
+    "userScore_count": 14,
+    "name_accuracy": 0.8666666666666667,
+    "name_count": 15,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "developer_accuracy": 0.7333333333333333,
+    "developer_count": 15,
+    "ESRB_accuracy": 0.8666666666666667,
+    "ESRB_count": 15,
+    "criticScore_accuracy": 0.7333333333333333,
+    "criticScore_count": 15,
+    "releaseYear_accuracy": 0.9333333333333333,
+    "releaseYear_count": 15,
+    "platform_accuracy": 0.5333333333333333,
+    "platform_count": 15
+  },
+  "token_usage": {
+    "prompt_tokens": 210784,
+    "completion_tokens": 16899,
+    "total_tokens": 227683,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rulebased"
+  },
+  "pipeline_search_tool_responses": [
+    {
+      "query": "PyDI.entitymatching MaximumBipartiteMatching usage: expected input columns (id1/id2/score?) and output format. Does it keep same columns?",
+      "response": "Type\n:\nDict[str, Any]\ncandidate_pairs\n:\npandas.DataFrame\n\nconfig\n:\nDict\n[\nstr\n,\nAny\n]\n\nfeature_matrix\n:\npandas.DataFrame\n\nmetrics\n:\nDict\n[\nstr\n,\nAny\n]\n\nsampled_batch\n:\npandas.DataFrame\n\nscored_pairs\n:\npandas.DataFrame\n\nclass\nPyDI.entitymatching.\nMaximumBipartiteMatching\n(\nthreshold\n=\n0.0\n,\npreserve_scores\n=\nTrue\n,\nuse_weight_scaling\n=\nTrue\n,\n**\nkwargs\n)\n[source]\n\nBases:\nBasePostClusterer\nFinds optimal one-to-one matching using maximum bipartite matching.\nThis algorithm formulates the entity matching problem as a maximum weight\nbipartite matching problem and finds the globally optimal solution using\nthe Hungarian algorithm or similar optimization methods.\nUnlike the greedy approach, this guarantees the optimal solution that\nmaximizes the total similarity score while enforcing one-to-one constraints.\nRequires NetworkX for the bipartite matching implementation.\nExamples\n>>>\nmatcher\n=\nMaximumBipartiteMatching\n()\n>>>\ncorrespondences\n=\npd\n.\nDataFrame\n([\n...\n{\n'id1'\n:\n'a'\n,\n'id2'\n:\n'x'\n,\n'score'\n:\n0.9\n,\n'notes'\n:\n''\n},\n...\n{\n'id1'\n:\n'a'\n,\n'id2'\n:\n'y'\n,\n'score'\n:\n0.8\n,\n'notes'\n:\n''\n},\n...\n{\n'id1'\n:\n'b'\n,\n'id2'\n:\n'x'\n,\n'score'\n:\n0.7\n,\n'notes'\n:\n''\n},\n...\n{\n'id1'\n:\n'b'\n,\n'id2'\n:\n'y'\n\n-----\n\nSource code for PyDI.entitymatching.post_clustering.maximum_bipartite_matching\n\"\"\"\nMaximum Bipartite Matching Algorithm for entity matching post-processing.\nThis implementation is based on Winter's MaximumBipartiteMatchingAlgorithm,\nadapted to work with PyDI's CorrespondenceSet format.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nimport\nlogging\nfrom\ntyping\nimport\nSet\n,\nList\n,\nTuple\n,\nDict\n,\nOptional\nimport\npandas\nas\npd\nfrom\n.base\nimport\nBasePostClusterer\nfrom\n..base\nimport\nCorrespondenceSet\n# Optional NetworkX import for bipartite matching\ntry\n:\nimport\nnetworkx\nas\nnx\nfrom\nnetworkx.algorithms\nimport\nbipartite\nNETWORKX_AVAILABLE\n=\nTrue\nexcept\nImportError\n:\nNETWORKX_AVAILABLE\n=\nFalse\n[docs]\nclass\nMaximumBipartiteMatching\n(\nBasePostClusterer\n):\n\"\"\"Finds optimal one-to-one matching using maximum bipartite matching.\nThis algorithm formulates the entity matching problem as a maximum weight\nbipartite matching problem and finds the globally optimal solution using\nthe Hungarian algorithm or similar optimization methods.\nUnlike the greedy approach, this guarantees the optimal solution that\nmaximizes the total similarity score while enforcing one-to-one constraints.\n\n-----\n\n,\n'score'\n:\n0.9\n,\n'notes'\n:\n''\n},\n...\n{\n'id1'\n:\n'a'\n,\n'id2'\n:\n'y'\n,\n'score'\n:\n0.8\n,\n'notes'\n:\n''\n},\n...\n{\n'id1'\n:\n'b'\n,\n'id2'\n:\n'x'\n,\n'score'\n:\n0.7\n,\n'notes'\n:\n''\n},\n...\n{\n'id1'\n:\n'b'\n,\n'id2'\n:\n'y'\n,\n'score'\n:\n0.85\n,\n'notes'\n:\n''\n}\n...\n])\n>>>\nresult\n=\nmatcher\n.\ncluster\n(\ncorrespondences\n)\n# Result: a-x (0.9), b-y (0.85) - optimal total weight = 1.75\nParameters\n:\nthreshold\n(\nfloat\n)\npreserve_scores\n(\nbool\n)\nuse_weight_scaling\n(\nbool\n)\ncluster\n(\ncorrespondences\n)\n[source]\n\nApply maximum bipartite matching to correspondences.\nParameters\n:\ncorrespondences\n(\nCorrespondenceSet\n) – Input correspondences to process.\nReturns\n:\nOptimally matched correspondences with maximum total weight.\nReturn type\n:\nCorrespondenceSet\nget_matching_quality\n(\ncorrespondences\n)\n[source]\n\nGet matching quality metrics.\nParameters\n:\ncorrespondences\n(\nCorrespondenceSet\n) – Input correspondences.\nReturns\n:\nQuality metrics comparing optimal vs. greedy solutions.\nReturn type\n:\ndict\nclass\nPyDI.entitymatching.\nNoBlocker\n(\ndf_left\n,\ndf_right\n,\nid_column\n,\n*\n,\nbatch_size\n=\n100000\n)\n[source]\n\nBases:\nBaseBlocker\nGenerate all pairs in the Cartesian product (streamed in batches).\n\n-----\n\n(\n*\nvalues\n)\n[source]\n\nBases:\nEnum\nLinkage modes for hierarchical clustering.\nAVG\n=\n'avg'\n\nMAX\n=\n'max'\n\nMIN\n=\n'min'\n\nPyDI.entitymatching.post_clustering.maximum_bipartite_matching module\n\nMaximum Bipartite Matching Algorithm for entity matching post-processing.\nThis implementation is based on Winter’s MaximumBipartiteMatchingAlgorithm,\nadapted to work with PyDI’s CorrespondenceSet format.\nclass\nPyDI.entitymatching.post_clustering.maximum_bipartite_matching.\nMaximumBipartiteMatching\n(\nthreshold\n=\n0.0\n,\npreserve_scores\n=\nTrue\n,\nuse_weight_scaling\n=\nTrue\n,\n**\nkwargs\n)\n[source]\n\nBases:\nBasePostClusterer\nFinds optimal one-to-one matching using maximum bipartite matching.\nThis algorithm formulates the entity matching problem as a maximum weight\nbipartite matching problem and finds the globally optimal solution using\nthe Hungarian algorithm or similar optimization methods.\nUnlike the greedy approach, this guarantees the optimal solution that\nmaximizes the total similarity score while enforcing one-to-one constraints.\nRequires NetworkX for the bipartite matching implementation.\nExamples\n>>>\nmatcher\n=\nMaximumBipartiteMatching\n()\n>>>\ncorrespondences\n=\npd\n.\nDataFrame\n([\n...\n{\n'id1'\n:"
+    }
+  ],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How do I use PyDI.fusion.DataFusionEvaluator to evaluate a fused dataframe against a gold XML testset? What does evaluate() return and what debug options exist?",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\n\n-----\n\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters\n----------\nfused_df : pd.DataFrame\nThe fused dataset to evaluate.\nfused_id_column : str\nID column name in the fused dataset.\nexpected_df : pd.DataFrame, optional\nThe expected/validation/test dataset.\nexpected_id_column : str, optional\nID column name in the expected dataset.\ngold_df : pd.DataFrame, optional\nDeprecated alias for expected_df.\ngold_id_column : str, optional\nDeprecated alias for expected_id_column.\nReturns\n-------\nDict[str, float]\nDictionary of evaluation metrics.\n\"\"\"\nself\n.\n_logger\n.\ninfo\n(\n\"Starting fusion evaluation\"\n)\nmismatch_counter\n:\nOptional\n[\nCounter\n[\nstr\n]]\n=\nCounter\n()\nif\nself\n.\n\n-----\n\nschema_correspondences\n(\nOptional\n[\npd.DataFrame\n]\n) – Optional schema correspondences for attribute alignment.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column\nfor that dataset. When provided, each dataset is normalized to have\na string\n_id\ncolumn derived from the specified column. If not\nprovided, the engine will use an existing\n_id\ncolumn if present,\notherwise fall back to\nid\n.\ninclude_singletons\n(\nbool\n,\ndefault True\n) – Whether to include singleton groups (records not referenced in any\ncorrespondence) in the fused output. Set to False to return only\nrecords that participate in at least one correspondence (group size > 1).\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject"
+    },
+    {
+      "query": "What evaluation/match functions are available in PyDI.fusion for DataFusionEvaluator (e.g., tokenized_match, year_only_match, numeric_tolerance_match, set_equality_match) and how should they be applied to columns?",
+      "response": ".\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\nSource code for PyDI.informationextraction.evaluation\n\"\"\"Evaluation framework for information extraction in PyDI.\nThis module provides an evaluator to compare extracted (predicted)\nattributes against an expected/validation dataset with common IR-style metrics.\nIt supports per-attribute evaluation functions (e.g., exact match,\ntokenized string match, numeric tolerance) and produces both attribute-level\nand dataset-level (micro/macro) metrics, including precision, recall, F1, and\nnon-null accuracy.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nAny\n,\nCallable\n,\nDict\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\nfrom\npathlib\nimport\nPath\nimport\njson\nimport\nlogging\nimport\npandas\nas\npd\n# Reuse flexible evaluation functions from the fusion module\nfrom\nPyDI.fusion.evaluation\nimport\n(\nexact_match\n,\ntokenized_match\n,\nnumeric_tolerance_match\n,\nset_equality_match\n,\nboolean_match\n,\nyear_only_match\n,\n)\nlogger\n=\nlogging\n.\ngetLogger\n(\n__name__\n)\n# Type alias for evaluation functions (return True when values \"match\")\nEvaluationFunction\n=\nCallable\n[[\nAny\n,\nAny\n],\nbool\n]\ndef\n_is_missing_value\n(\nvalue\n:\nAny\n)\n->\nbool\n:\n\"\"\"Return True if the value should be treated as missing.\n\n-----\n\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nPyDI.fusion.evaluation.\nboolean_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nEvaluation function for boolean values with flexible interpretation.\nHandles various boolean representations:\n- True/False, true/false, yes/no, 1/0, “true”/”false”, etc.\nReturn type\n:\nbool\nPyDI.fusion.evaluation.\ncalculate_consistency_metrics\n(\nfused_df\n)\n[source]\n\nCalculate consistency metrics for a fused dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset with fusion metadata.\nReturns\n:\nDictionary of consistency metrics.\nReturn type\n:\nDict[str, float]\nPyDI.fusion.evaluation.\ncalculate_coverage_metrics\n(\ndatasets\n,\nfused_df\n)\n[source]\n\nCalculate coverage metrics comparing input to output.\nParameters\n:\ndatasets\n(\nList\n[\npd.DataFrame\n]\n) – Original input datasets.\nfused_df\n(\npd.DataFrame\n) – The fused result dataset.\nReturns\n:"
+    },
+    {
+      "query": "How to load an XML fusion gold standard with PyDI.io.load_xml and handle nested/list fields for evaluation?",
+      "response": "reader_fn.__name__\n.\nhandle_multi_output\n(\nbool\n,\ndefault True\n) – If True, handle list/dict outputs (e.g.,\nread_excel(sheet_name=None)\n).\n**reader_kwargs\n(\nAny\n) – Additional keyword arguments forwarded to the underlying reader.\nReturns\n:\nThe loaded frame(s) with provenance metadata and optional id column.\nReturn type\n:\nDataFrame | list[DataFrame] | dict[str, DataFrame]\nPyDI.io.\nload_xml\n(\npath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\nnested_handling\n=\n'aggregate'\n,\nseparator\n=\n',\n'\n,\nrecord_tag\n=\nNone\n,\nflatten\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nRead an XML file with a provenance-aware wrapper.\nParameters\n:\npath_or_buffer\n(\nstr\nor\nos.PathLike\n) – Path to XML file to read.\nname\n(\nstr\n,\noptional\n) – Dataset name for provenance tracking.\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n,\noptional\n) – Additional provenance metadata.\nadd_index\n(\nbool\n,\ndefault False\n) – Whether to add a unique identifier column.\nindex_column_name\n(\nstr\n,\noptional\n) – Name for the unique identifier column.\nid_prefix\n(\nstr\n,\noptional\n) – Prefix for unique identifiers.\ninclude_provenance_columns\n(\nbool\n,\n\n-----\n\nPyDI.fusion.conflict_resolution.date\nPyDI.fusion.conflict_resolution.general\nPyDI.fusion.conflict_resolution.list\nPyDI.fusion.conflict_resolution.numeric\nPyDI.fusion.conflict_resolution.string\nPyDI.fusion.engine\nPyDI.fusion.evaluation\nPyDI.fusion.provenance\nPyDI.fusion.reporting\nPyDI.fusion.strategy\nPyDI.informationextraction.autorules\nPyDI.informationextraction.base\nPyDI.informationextraction.code\nPyDI.informationextraction.evaluation\nPyDI.informationextraction.llm\nPyDI.informationextraction.regex\nPyDI.informationextraction.rules\nPyDI.io.loaders\nPyDI.normalization.datasets\nPyDI.normalization.integrations.babel_numbers\nPyDI.normalization.integrations.country\nPyDI.normalization.integrations.email\nPyDI.normalization.integrations.phone\nPyDI.normalization.integrations.pint_units\nPyDI.normalization.integrations.pydantic_validation\nPyDI.normalization.integrations.stdnum\nPyDI.normalization.json_schema\nPyDI.normalization.profile\nPyDI.normalization.scale\nPyDI.normalization.spec\nPyDI.normalization.text\nPyDI.normalization.transform\nPyDI.normalization.transforms\nPyDI.normalization.types\nPyDI.normalization.units\nPyDI.normalization.validators\nPyDI.normalization.values\nPyDI.schemamatching.base\n\n-----\n\n) – Prefix for id values (defaults to\nname\nor filename stem).\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n,\noptional\n) – User-provided provenance metadata to merge into\ndf.attrs\n.\ninclude_provenance_columns\n(\nbool\n,\ndefault True\n) – If True, add\n__source_path\nand\n__dataset_name\ncolumns.\nreader_name\n(\nstr\n,\noptional\n) – Name to store in provenance for the reader. Defaults to\nreader_fn.__name__\n.\nhandle_multi_output\n(\nbool\n,\ndefault True\n) – If True, handle list/dict outputs (e.g.,\nread_excel(sheet_name=None)\n).\n**reader_kwargs\n(\nAny\n) – Additional keyword arguments forwarded to the underlying reader.\nReturns\n:\nThe loaded frame(s) with provenance metadata and optional id column.\nReturn type\n:\nDataFrame | list[DataFrame] | dict[str, DataFrame]\nPyDI.io.loaders.\nload_xml\n(\npath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\nnested_handling\n=\n'aggregate'\n,\nseparator\n=\n',\n'\n,\nrecord_tag\n=\nNone\n,\nflatten\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nRead an XML file with a provenance-aware wrapper.\nParameters\n:\npath_or_buffer\n(\nstr\nor\nos.PathLike\n) – Path to XML file to read.\nname\n(\nstr\n,\noptional\n\n-----\n\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionResult\nFusionResult.confidence\nFusionResult.metadata\nFusionResult.rule_used\nFusionResult.sources\nFusionResult.value\nRecordGroup\nRecordGroup.add_record()\nRecordGroup.get_all_attributes()\nRecordGroup.group_id\nRecordGroup.records\nRecordGroup.source_datasets\nget_callable_name()\nPyDI.fusion.engine module\nDataFusionEngine\nDataFusionEngine.run()\napply_schema_correspondences()\nbuild_record_groups_from_correspondences()\nPyDI.fusion.evaluation module\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()"
+    }
+  ],
+  "integration_pipeline_code_length": 13265,
+  "evaluation_code_length": 8685,
+  "integration_diagnostics_code_length": 34692,
+  "human_review_code_length": 35972
+}

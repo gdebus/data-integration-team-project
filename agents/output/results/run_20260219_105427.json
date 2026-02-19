@@ -1,0 +1,978 @@
+{
+  "timestamp": "20260219_105427",
+  "datasets": [
+    "discogs",
+    "lastfm",
+    "musicbrainz"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "validation_set.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "discogs_lastfm": {
+      "pair_completeness": 1.0,
+      "num_candidates": 448854,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "artist",
+        "name"
+      ]
+    },
+    "discogs_musicbrainz": {
+      "pair_completeness": 1.0,
+      "num_candidates": 450205,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "release-date"
+      ]
+    },
+    "musicbrainz_lastfm": {
+      "pair_completeness": 0.9933333333333333,
+      "num_candidates": 95232,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "artist",
+        "name",
+        "tracks_track_name"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "discogs_lastfm": {
+      "f1_score": 0.5370370370370371
+    },
+    "discogs_musicbrainz": {
+      "f1_score": 0.8546511627906976
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.508,
+    "macro_accuracy": 0.508,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 10,
+    "total_evaluations": 250,
+    "total_correct": 127,
+    "tracks_track_position_accuracy": 0.4,
+    "tracks_track_position_count": 25,
+    "artist_accuracy": 0.92,
+    "artist_count": 25,
+    "tracks_track_duration_accuracy": 0.08,
+    "tracks_track_duration_count": 25,
+    "release-country_accuracy": 0.64,
+    "release-country_count": 25,
+    "name_accuracy": 0.96,
+    "name_count": 25,
+    "duration_accuracy": 0.24,
+    "duration_count": 25,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 25,
+    "label_accuracy": 0.56,
+    "label_count": 25,
+    "genre_accuracy": 0.36,
+    "genre_count": 25,
+    "release-date_accuracy": 0.92,
+    "release-date_count": 25
+  },
+  "overall_accuracy": 0.508,
+  "blocking_config": {
+    "blocking_strategies": {
+      "discogs_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "artist",
+          "name"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 448854,
+        "is_acceptable": true
+      },
+      "discogs_musicbrainz": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "release-date"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 450205,
+        "is_acceptable": true
+      },
+      "musicbrainz_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "artist",
+          "name",
+          "tracks_track_name"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9933333333333333,
+        "num_candidates": 95232,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 27358,
+      "expected_unique_ids": 27358,
+      "expected_rows_range": [
+        18628,
+        27358
+      ],
+      "expected_unique_ids_range": [
+        18628,
+        27358
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "discogs",
+          "lastfm",
+          "musicbrainz"
+        ],
+        "pair_cluster_estimates": {
+          "discogs_lastfm": 9865,
+          "discogs_musicbrainz": 4763,
+          "lastfm_musicbrainz": 4731
+        },
+        "triple_intersection_estimates": {
+          "via_discogs": 2076.589693728731,
+          "via_lastfm": 4731.0,
+          "via_musicbrainz": 4731.0,
+          "median_used": 4731.0,
+          "final_triple_intersection": 4731,
+          "triple_intersection_range": [
+            0,
+            4731
+          ]
+        },
+        "expected_union_clusters": 9897,
+        "expected_union_range": [
+          9897,
+          18627
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "discogs_lastfm",
+          "left_dataset": "discogs",
+          "right_dataset": "lastfm",
+          "min_pair_size": 9865,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 9865
+        },
+        {
+          "pair_key": "discogs_musicbrainz",
+          "left_dataset": "discogs",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 4763
+        },
+        {
+          "pair_key": "musicbrainz_lastfm",
+          "left_dataset": "lastfm",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 0.9933333333333333,
+          "expected_cluster_count": 4731
+        }
+      ],
+      "created_at": "2026-02-19T09:19:32.516807+00:00",
+      "expected_rows_matched_only": 9897,
+      "expected_unique_ids_matched_only": 9897,
+      "expected_rows_matched_only_range": [
+        9897,
+        18627
+      ],
+      "expected_unique_ids_matched_only_range": [
+        9897,
+        18627
+      ],
+      "expected_rows_singleton_aware": 27358,
+      "expected_unique_ids_singleton_aware": 27358,
+      "expected_rows_singleton_aware_range": [
+        18628,
+        27358
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        18628,
+        27358
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 37255,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "matching_strategies": {
+      "discogs_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 30.0
+          }
+        ],
+        "weights": [
+          0.3,
+          0.25,
+          0.35,
+          0.1
+        ],
+        "threshold": 0.6,
+        "f1": 0.5370370370370371
+      },
+      "discogs_musicbrainz": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "release-date",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.4,
+          0.25,
+          0.15,
+          0.2
+        ],
+        "threshold": 0.72,
+        "f1": 0.8546511627906976
+      }
+    },
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "method": "mean(min_pair_dataset_size * pair_completeness * f1) across dataset pairs; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 32571,
+      "expected_unique_ids": 32571,
+      "expected_rows_range": [
+        31957,
+        33184
+      ],
+      "expected_unique_ids_range": [
+        31957,
+        33184
+      ],
+      "three_way_intersection": null,
+      "pair_estimates": [
+        {
+          "pair_key": "discogs_lastfm",
+          "left_dataset": "discogs",
+          "right_dataset": "lastfm",
+          "min_pair_size": 9865,
+          "pair_completeness": 1.0,
+          "f1": 0.5370370370370371,
+          "expected_cluster_count": 5298
+        },
+        {
+          "pair_key": "discogs_musicbrainz",
+          "left_dataset": "discogs",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "f1": 0.8546511627906976,
+          "expected_cluster_count": 4071
+        }
+      ],
+      "created_at": "2026-02-19T09:27:50.010908+00:00",
+      "expected_rows_matched_only": 4684,
+      "expected_unique_ids_matched_only": 4684,
+      "expected_rows_matched_only_range": [
+        4071,
+        5298
+      ],
+      "expected_unique_ids_matched_only_range": [
+        4071,
+        5298
+      ],
+      "expected_rows_singleton_aware": 32571,
+      "expected_unique_ids_singleton_aware": 32571,
+      "expected_rows_singleton_aware_range": [
+        31957,
+        33184
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        31957,
+        33184
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 37255,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 30703,
+      "unique_ids": 30703
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 27358,
+        "actual_rows": 30703,
+        "rows_abs_error": 3345,
+        "rows_pct_error": 0.12226770962789678,
+        "expected_rows_matched_only": 9897,
+        "expected_rows_singleton_aware": 27358,
+        "rows_pct_error_matched_only": 2.1022532080428413,
+        "rows_pct_error_singleton_aware": 0.12226770962789678,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 27358,
+        "actual_unique_ids": 30703,
+        "unique_ids_abs_error": 3345,
+        "unique_ids_pct_error": 0.12226770962789678,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-02-19T09:49:54.480725+00:00"
+      },
+      "matching": {
+        "expected_rows": 32571,
+        "actual_rows": 30703,
+        "rows_abs_error": 1868,
+        "rows_pct_error": 0.057351631819716926,
+        "expected_rows_matched_only": 4684,
+        "expected_rows_singleton_aware": 32571,
+        "rows_pct_error_matched_only": 5.554867634500427,
+        "rows_pct_error_singleton_aware": 0.057351631819716926,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 32571,
+        "actual_unique_ids": 30703,
+        "unique_ids_abs_error": 1868,
+        "unique_ids_pct_error": 0.057351631819716926,
+        "reasoning": "Estimate is close to actual fused size. Matching estimate seems optimistic; thresholds or fusion constraints likely reduced surviving clusters.",
+        "compared_at": "2026-02-19T09:49:54.480744+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 106,
+      "missing_fused_value": 17
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.8617886178861789,
+      "missing_fused_value": 0.13821138211382114
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/music/testsets/validation_set.xml",
+    "id_alignment": {
+      "gold_count": 25,
+      "direct_coverage": 13,
+      "direct_coverage_ratio": 0.52,
+      "mapped_coverage": 25,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 30703,
+        "unique_ids": 30703
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 27358,
+          "actual_rows": 30703,
+          "rows_abs_error": 3345,
+          "rows_pct_error": 0.12226770962789678,
+          "expected_rows_matched_only": 9897,
+          "expected_rows_singleton_aware": 27358,
+          "rows_pct_error_matched_only": 2.1022532080428413,
+          "rows_pct_error_singleton_aware": 0.12226770962789678,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 27358,
+          "actual_unique_ids": 30703,
+          "unique_ids_abs_error": 3345,
+          "unique_ids_pct_error": 0.12226770962789678,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-02-19T09:49:54.480725+00:00"
+        },
+        "matching": {
+          "expected_rows": 32571,
+          "actual_rows": 30703,
+          "rows_abs_error": 1868,
+          "rows_pct_error": 0.057351631819716926,
+          "expected_rows_matched_only": 4684,
+          "expected_rows_singleton_aware": 32571,
+          "rows_pct_error_matched_only": 5.554867634500427,
+          "rows_pct_error_singleton_aware": 0.057351631819716926,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 32571,
+          "actual_unique_ids": 30703,
+          "unique_ids_abs_error": 1868,
+          "unique_ids_pct_error": 0.057351631819716926,
+          "reasoning": "Estimate is close to actual fused size. Matching estimate seems optimistic; thresholds or fusion constraints likely reduced surviving clusters.",
+          "compared_at": "2026-02-19T09:49:54.480744+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.508
+  },
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-02-19T09:52:38.379228+00:00",
+    "summary": {
+      "evaluation_stage": "validation",
+      "matcher_mode": "rule_based",
+      "overall_accuracy": 0.436,
+      "finding_counts_by_severity": {
+        "high": 5,
+        "medium": 3,
+        "low": 1,
+        "info": 1
+      },
+      "warnings_count": 0,
+      "artifacts_present": {
+        "fused_csv": true,
+        "evaluation_json": true,
+        "debug_jsonl": true,
+        "fusion_size_estimate_json": true,
+        "correspondences_dir": true
+      }
+    },
+    "findings": [
+      {
+        "severity": "high",
+        "title": "Coverage gap: gold IDs not directly found in fused output",
+        "details": "Direct coverage is 0.880 (22/25). This suggests ID format/key mismatch or missing entities in fusion output; mapping recovers coverage but hides a join/key issue.",
+        "evidence": {
+          "gold_count": 25,
+          "direct_coverage": 22,
+          "direct_coverage_ratio": 0.88,
+          "mapped_coverage_ratio": 1.0
+        },
+        "paths": [
+          "input/datasets/music/testsets/validation_set.xml"
+        ]
+      },
+      {
+        "severity": "high",
+        "title": "Fused-size estimate drift (auto_diagnostics/blocking)",
+        "details": "Estimated rows=27358 vs actual rows=35933 (abs error=8575, pct error=0.313). Drift indicates blocking/matching assumptions differ from realized fusion behavior.",
+        "evidence": {
+          "variant": "blocking",
+          "expected_rows": 27358,
+          "actual_rows": 35933,
+          "rows_abs_error": 8575,
+          "rows_pct_error": 0.3134366547262227,
+          "better_variant": "singleton_aware",
+          "reasoning": "Estimate deviates strongly; blocking/matching assumptions are likely not representative of fusion behavior. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected."
+        },
+        "paths": [
+          "output/pipeline_evaluation/fusion_size_estimate.json"
+        ]
+      },
+      {
+        "severity": "high",
+        "title": "Low overall fusion accuracy",
+        "details": "Overall accuracy is 0.436. This typically indicates fusion conflicts, missing values, or list/array attribute handling issues.",
+        "evidence": {
+          "overall_accuracy": 0.436,
+          "total_evaluations": 250
+        },
+        "paths": [
+          "output/pipeline_evaluation/pipeline_evaluation.json"
+        ]
+      },
+      {
+        "severity": "high",
+        "title": "Many evaluation errors are mismatches (conflict resolution / normalization issue)",
+        "details": "Mismatch ratio is 0.695. This suggests fused values are present but differ from gold due to formatting, parsing, or incorrect conflict resolution.",
+        "evidence": {
+          "mismatch_ratio": 0.6950354609929078,
+          "mismatch_count": 98
+        },
+        "paths": [
+          "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        ]
+      },
+      {
+        "severity": "high",
+        "title": "Severe attribute-level errors (likely list/sequence fusion or normalization issues)",
+        "details": "Some attributes have very low accuracy (<= 0.2) on a non-trivial number of examples; these are often list/array fields, formatting differences, or unit normalization problems.",
+        "evidence": {
+          "worst_attributes": [
+            {
+              "attribute": "tracks_track_name",
+              "accuracy": 0.0,
+              "count": 25
+            },
+            {
+              "attribute": "tracks_track_duration",
+              "accuracy": 0.08,
+              "count": 25
+            },
+            {
+              "attribute": "label",
+              "accuracy": 0.2,
+              "count": 25
+            },
+            {
+              "attribute": "genre",
+              "accuracy": 0.2,
+              "count": 25
+            }
+          ]
+        },
+        "paths": [
+          "output/pipeline_evaluation/pipeline_evaluation.json"
+        ]
+      },
+      {
+        "severity": "medium",
+        "title": "Fused-size estimate drift (auto_diagnostics/matching)",
+        "details": "Estimated rows=32571 vs actual rows=35933 (abs error=3362, pct error=0.103). Drift indicates blocking/matching assumptions differ from realized fusion behavior.",
+        "evidence": {
+          "variant": "matching",
+          "expected_rows": 32571,
+          "actual_rows": 35933,
+          "rows_abs_error": 3362,
+          "rows_pct_error": 0.10322065641214577,
+          "better_variant": "singleton_aware",
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected."
+        },
+        "paths": [
+          "output/pipeline_evaluation/fusion_size_estimate.json"
+        ]
+      },
+      {
+        "severity": "medium",
+        "title": "Fused-size estimate drift (context_or_eval/blocking)",
+        "details": "Estimated rows=27358 vs actual rows=30703 (abs error=3345, pct error=0.122). Drift indicates blocking/matching assumptions differ from realized fusion behavior.",
+        "evidence": {
+          "variant": "blocking",
+          "expected_rows": 27358,
+          "actual_rows": 30703,
+          "rows_abs_error": 3345,
+          "rows_pct_error": 0.12226770962789678,
+          "better_variant": "singleton_aware",
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected."
+        },
+        "paths": [
+          "output/pipeline_evaluation/fusion_size_estimate.json"
+        ]
+      },
+      {
+        "severity": "medium",
+        "title": "Many evaluation errors are missing fused values (coverage/selection issue)",
+        "details": "Missing fused value ratio is 0.305. This points to attributes not being carried through fusion, being dropped by schema mapping, or being nulled due to conflicts/filters.",
+        "evidence": {
+          "missing_fused_value_ratio": 0.3049645390070922,
+          "missing_fused_value_count": 43
+        },
+        "paths": [
+          "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        ]
+      },
+      {
+        "severity": "low",
+        "title": "Fused-size estimate drift (context_or_eval/matching)",
+        "details": "Estimated rows=32571 vs actual rows=30703 (abs error=1868, pct error=0.057). Drift indicates blocking/matching assumptions differ from realized fusion behavior.",
+        "evidence": {
+          "variant": "matching",
+          "expected_rows": 32571,
+          "actual_rows": 30703,
+          "rows_abs_error": 1868,
+          "rows_pct_error": 0.057351631819716926,
+          "better_variant": "singleton_aware",
+          "reasoning": "Estimate is close to actual fused size. Matching estimate seems optimistic; thresholds or fusion constraints likely reduced surviving clusters."
+        },
+        "paths": [
+          "output/pipeline_evaluation/fusion_size_estimate.json"
+        ]
+      },
+      {
+        "severity": "info",
+        "title": "Correspondence clustering looks healthy",
+        "details": "All correspondence files show healthy long-tail distributions.",
+        "evidence": {
+          "unhealthy_files": []
+        },
+        "paths": [
+          "output/correspondences"
+        ]
+      }
+    ],
+    "recommendations": [
+      "Align identifier strategy between gold/testset and fused output (normalize prefixes, casing, URI forms); ensure fused output contains a stable gold-compatible ID column.",
+      "Add a pre-eval check that reports missing gold IDs with examples and the columns used for alignment.",
+      "Inspect the worst attributes and add per-attribute fusion rules (normalization, conflict resolution, list handling) before tuning matching.",
+      "For list-like attributes, apply canonicalization (split/join, sort, deduplicate, normalize separators) and compare as sets when appropriate.",
+      "Normalize units and formats (durations, dates, countries) before fusion; add parsing with strict fallbacks.",
+      "Audit schema mapping for the failing attributes; verify they exist in fused output and are not removed by post-processing (nulling, type casting).",
+      "Add attribute-specific normalizers (e.g., casefolding, punctuation, locale, date parsing) and revise conflict resolution (source trust, voting, recency).",
+      "Recalibrate size estimator using observed match rates/cluster survival rates; measure on a representative sample and store per-stage empirical priors.",
+      "Track fused output size over time and alert on sudden changes; verify blocking keys and matcher thresholds when drift exceeds 10–25%.",
+      "Add automated checks for: (1) fused output non-nullness per critical attribute, (2) per-source contribution counts, (3) cluster size distribution, and (4) fused-size drift.",
+      "For low-accuracy attributes, create a focused error analysis set with examples of (gold, fused, sources) to refine normalization and fusion rules.",
+      "Version and persist configuration for blocking/matching/fusion; log changes alongside evaluation metrics to explain regressions."
+    ],
+    "evidence": {
+      "paths": {
+        "fused_csv": "output/data_fusion/fusion_data.csv",
+        "evaluation_json": "output/pipeline_evaluation/pipeline_evaluation.json",
+        "debug_jsonl": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+        "fusion_size_estimate_json": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "correspondences_dir": "output/correspondences"
+      },
+      "counts": {
+        "gold_count": 25,
+        "direct_coverage": 22,
+        "evaluated_attributes": 10,
+        "evaluated_records": 25,
+        "worst_attributes_top5": [
+          {
+            "attribute": "tracks_track_name",
+            "accuracy": 0.0,
+            "count": 25
+          },
+          {
+            "attribute": "tracks_track_duration",
+            "accuracy": 0.08,
+            "count": 25
+          },
+          {
+            "attribute": "label",
+            "accuracy": 0.2,
+            "count": 25
+          },
+          {
+            "attribute": "genre",
+            "accuracy": 0.2,
+            "count": 25
+          },
+          {
+            "attribute": "release-country",
+            "accuracy": 0.24,
+            "count": 25
+          }
+        ],
+        "debug_reason_counts": {
+          "missing_fused_value": 43,
+          "mismatch": 98
+        },
+        "fused_actual_rows_context_or_eval": 30703,
+        "fused_actual_unique_ids_context_or_eval": 30703,
+        "fused_actual_rows_auto_diagnostics": 35933,
+        "fused_actual_unique_ids_auto_diagnostics": 35933,
+        "correspondence_health": {
+          "correspondences_musicbrainz_lastfm.csv": {
+            "is_healthy": true,
+            "total_clusters": 2725,
+            "max_cluster_size": 4,
+            "large_cluster_ratio": 0.0,
+            "one_to_many_ratio": 0.0058
+          },
+          "correspondences_discogs_lastfm.csv": {
+            "is_healthy": true,
+            "total_clusters": 1741,
+            "max_cluster_size": 14,
+            "large_cluster_ratio": 0.0115,
+            "one_to_many_ratio": 0.1023
+          },
+          "correspondences_discogs_musicbrainz.csv": {
+            "is_healthy": true,
+            "total_clusters": 2604,
+            "max_cluster_size": 9,
+            "large_cluster_ratio": 0.0054,
+            "one_to_many_ratio": 0.1285
+          }
+        },
+        "fused_csv_columns": 20,
+        "fused_csv_rows": 30703,
+        "fused_source_value_counts_sample": {
+          "column": "_fusion_sources",
+          "top_values": {
+            "['discogs_1163', 'lastFM_654', 'discogs_84199', 'mbrainz_354']": 1,
+            "['mbrainz_9161', 'lastFM_19497']": 1,
+            "['lastFM_7858', 'mbrainz_3780', 'discogs_16197']": 1,
+            "['lastFM_39755', 'mbrainz_17009']": 1,
+            "['discogs_12234', 'lastFM_5956', 'mbrainz_2805']": 1,
+            "['discogs_18696', 'mbrainz_4376']": 1,
+            "['discogs_9284', 'mbrainz_2065']": 1,
+            "['mbrainz_19233', 'lastFM_47467']": 1,
+            "['mbrainz_4313', 'lastFM_8922']": 1,
+            "['mbrainz_9', 'discogs_17', 'lastFM_11']": 1,
+            "['lastFM_3640', 'discogs_7638', 'mbrainz_1559']": 1,
+            "['lastFM_17947', 'mbrainz_8395']": 1,
+            "['discogs_6334', 'mbrainz_1325', 'lastFM_3075']": 1,
+            "['mbrainz_25231', 'lastFM_63658', 'discogs_145482']": 1,
+            "['discogs_13150', 'mbrainz_3036']": 1,
+            "['mbrainz_209', 'discogs_2739']": 1,
+            "['lastFM_63674', 'mbrainz_25239']": 1,
+            "['discogs_7088', 'mbrainz_1464']": 1,
+            "['lastFM_54213', 'mbrainz_21421']": 1,
+            "['lastFM_31183', 'mbrainz_14289', 'discogs_66766']": 1
+          }
+        },
+        "debug_jsonl_lines_sampled": 124,
+        "debug_top_attributes": [
+          {
+            "attribute": "tracks_track_name",
+            "count": 25
+          },
+          {
+            "attribute": "tracks_track_duration",
+            "count": 23
+          },
+          {
+            "attribute": "duration",
+            "count": 19
+          },
+          {
+            "attribute": "genre",
+            "count": 16
+          },
+          {
+            "attribute": "tracks_track_position",
+            "count": 15
+          },
+          {
+            "attribute": "label",
+            "count": 11
+          },
+          {
+            "attribute": "release-country",
+            "count": 9
+          },
+          {
+            "attribute": "artist",
+            "count": 2
+          },
+          {
+            "attribute": "release-date",
+            "count": 2
+          },
+          {
+            "attribute": "name",
+            "count": 1
+          }
+        ],
+        "debug_top_reasons": [
+          {
+            "reason": "mismatch",
+            "count": 106
+          },
+          {
+            "reason": "missing_fused_value",
+            "count": 17
+          },
+          {
+            "reason": "evaluation_debug_header",
+            "count": 1
+          }
+        ]
+      },
+      "ratios": {
+        "direct_coverage_ratio": 0.88,
+        "mapped_coverage_ratio": 1.0,
+        "overall_accuracy": 0.436,
+        "debug_reason_ratios": {
+          "missing_fused_value": 0.3049645390070922,
+          "mismatch": 0.6950354609929078
+        },
+        "fused_sample_null_fraction_top15": [
+          {
+            "column": "label",
+            "null_fraction": 0.2956
+          },
+          {
+            "column": "genre",
+            "null_fraction": 0.2956
+          },
+          {
+            "column": "release-date",
+            "null_fraction": 0.2186
+          },
+          {
+            "column": "_fusion_metadata",
+            "null_fraction": 0.1344
+          },
+          {
+            "column": "tracks_track_name__emb",
+            "null_fraction": 0.1228
+          },
+          {
+            "column": "release-country",
+            "null_fraction": 0.1104
+          },
+          {
+            "column": "release-date__emb",
+            "null_fraction": 0.033
+          },
+          {
+            "column": "duration",
+            "null_fraction": 0.0252
+          },
+          {
+            "column": "tracks_track_duration",
+            "null_fraction": 0.0202
+          },
+          {
+            "column": "_id",
+            "null_fraction": 0.0
+          },
+          {
+            "column": "_fusion_sources",
+            "null_fraction": 0.0
+          },
+          {
+            "column": "_fusion_source_datasets",
+            "null_fraction": 0.0
+          },
+          {
+            "column": "tracks_track_position",
+            "null_fraction": 0.0
+          },
+          {
+            "column": "tracks_track_name",
+            "null_fraction": 0.0
+          },
+          {
+            "column": "artist__emb",
+            "null_fraction": 0.0
+          }
+        ]
+      }
+    },
+    "warnings": []
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": "Created human-review artifacts from fused output, including wide fused review table, source lineage long table, and fusion-vs-testset diffs.",
+    "file_paths": {
+      "fused_review_table": "output/human_review/fused_review_table.csv",
+      "source_lineage_long": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff": "output/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 30703,
+      "source_datasets": 3,
+      "indexed_source_ids": 37255,
+      "testset_rows": 23,
+      "testset_id_column": "release_id",
+      "fused_review_rows": 30703,
+      "source_lineage_rows": 596080,
+      "diff_rows": 0
+    },
+    "warnings": [
+      "Diff CSV is empty because there are no overlapping attributes between fused output and testset among review_attributes."
+    ],
+    "created_at": "2026-02-19T09:53:54.542708+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.6700507614213198,
+    "macro_accuracy": 0.6766908212560385,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 132,
+    "tracks_track_name_accuracy": 0.5217391304347826,
+    "tracks_track_name_count": 23,
+    "artist_accuracy": 0.8695652173913043,
+    "artist_count": 23,
+    "tracks_track_duration_accuracy": 0.65,
+    "tracks_track_duration_count": 20,
+    "duration_accuracy": 0.30434782608695654,
+    "duration_count": 23,
+    "release-date_accuracy": 0.8695652173913043,
+    "release-date_count": 23,
+    "name_accuracy": 0.782608695652174,
+    "name_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23,
+    "label_accuracy": 0.875,
+    "label_count": 16,
+    "release-country_accuracy": 0.34782608695652173,
+    "release-country_count": 23
+  },
+  "token_usage": {
+    "prompt_tokens": 144079,
+    "completion_tokens": 18928,
+    "total_tokens": 163007,
+    "total_cost": 0.0
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": null,
+  "integration_pipeline_code_length": 16224,
+  "evaluation_code_length": 8226,
+  "integration_diagnostics_code_length": 45020,
+  "human_review_code_length": 23544
+}
