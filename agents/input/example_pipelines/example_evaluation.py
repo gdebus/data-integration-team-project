@@ -1,11 +1,13 @@
 import pandas as pd
 import json
 import ast
+import re
 from collections import Counter
 from pathlib import Path
 import sys
 
 from PyDI.io import load_xml, load_parquet, load_csv
+from PyDI.normalization import normalize_country
 from PyDI.fusion import DataFusionStrategy, longest_string, shortest_string, union, prefer_higher_trust, voting, maximum
 from PyDI.fusion import tokenized_match, year_only_match, set_equality_match, numeric_tolerance_match
 from PyDI.fusion import DataFusionEvaluator 
@@ -98,6 +100,73 @@ def build_eval_view(fused_df, gold_df):
     fused_eval = fused_eval.drop_duplicates(subset=["eval_id"], keep="first")
     return fused_eval
 
+
+def _safe_is_missing(value):
+    if value is None:
+        return True
+    if isinstance(value, float) and pd.isna(value):
+        return True
+    try:
+        is_na = pd.isna(value)
+        if hasattr(is_na, "__array__"):
+            return False
+        return bool(is_na)
+    except Exception:
+        return False
+
+
+def _infer_country_output_format(gold_df, country_columns):
+    values = []
+    for col in country_columns:
+        if col not in gold_df.columns:
+            continue
+        for value in gold_df[col].dropna().astype(str).head(500).tolist():
+            text = str(value).strip()
+            if text:
+                values.append(text)
+    if not values:
+        return "name"
+
+    alpha2 = sum(1 for v in values if re.fullmatch(r"[A-Z]{2}", v))
+    alpha3 = sum(1 for v in values if re.fullmatch(r"[A-Z]{3}", v))
+    numeric = sum(1 for v in values if re.fullmatch(r"\d{3}", v))
+    official = sum(1 for v in values if (" of " in v.lower() and len(v) > 18) or " and " in v.lower())
+    total = max(len(values), 1)
+
+    if alpha2 / total >= 0.70:
+        return "alpha_2"
+    if alpha3 / total >= 0.70:
+        return "alpha_3"
+    if numeric / total >= 0.70:
+        return "numeric"
+    if official / total >= 0.55:
+        return "official_name"
+    return "name"
+
+
+def _normalize_country_safe(value, output_format):
+    if _safe_is_missing(value):
+        return value
+    text = str(value).strip()
+    if not text:
+        return value
+    try:
+        normalized = normalize_country(text, output_format=output_format)
+        return normalized if normalized else text
+    except Exception:
+        return text
+
+
+def _normalize_list_text_case(value):
+    if _safe_is_missing(value):
+        return value
+    if isinstance(value, (list, tuple, set)):
+        out = [str(v).strip().lower() for v in value if str(v).strip()]
+        return out
+    text = str(value).strip()
+    return text.lower() if text else text
+
+
 # load test set and fusion set
 fused = pd.read_csv("output/data_fusion/fusion_data.csv")
 fusion_test_set = load_xml('<path-to-testset>', name='fusion_test_set', nested_handling='aggregate')
@@ -112,6 +181,22 @@ if list_eval_columns:
         [fused_eval, fusion_test_set], list_eval_columns
     )
     print(f"[LIST NORMALIZATION] columns: {', '.join(list_eval_columns)}")
+    for column in list_eval_columns:
+        if column in fused_eval.columns:
+            fused_eval[column] = fused_eval[column].apply(_normalize_list_text_case)
+        if column in fusion_test_set.columns:
+            fusion_test_set[column] = fusion_test_set[column].apply(_normalize_list_text_case)
+
+country_eval_columns = [
+    c for c in (set(fused_eval.columns) & set(fusion_test_set.columns))
+    if "country" in str(c).lower()
+]
+if country_eval_columns:
+    country_format = _infer_country_output_format(fusion_test_set, country_eval_columns)
+    for column in country_eval_columns:
+        fused_eval[column] = fused_eval[column].apply(lambda x: _normalize_country_safe(x, country_format))
+        fusion_test_set[column] = fusion_test_set[column].apply(lambda x: _normalize_country_safe(x, country_format))
+    print(f"[COUNTRY NORMALIZATION] output_format={country_format}, columns={country_eval_columns}")
 
 gold_ids = set(fusion_test_set["id"].dropna().astype(str).tolist()) if "id" in fusion_test_set.columns else set()
 direct_cov = len(set(fused["_id"].astype(str).tolist()) & gold_ids) if "_id" in fused.columns else 0
@@ -124,22 +209,28 @@ strategy = DataFusionStrategy('music_fusion_strategy')
 eval_funcs_summary = {}
 
 
-def register_eval(column, fn, fn_name):
-    strategy.add_evaluation_function(column, fn)
-    eval_funcs_summary[column] = fn_name
+def register_eval(column, fn, fn_name, **kwargs):
+    strategy.add_evaluation_function(column, fn, **kwargs)
+    if kwargs:
+        args = ",".join(f"{k}={v}" for k, v in kwargs.items())
+        eval_funcs_summary[column] = f"{fn_name}({args})"
+    else:
+        eval_funcs_summary[column] = fn_name
 
 
-register_eval("name", tokenized_match, "tokenized_match")
-register_eval("artist", tokenized_match, "tokenized_match")
+register_eval("name", tokenized_match, "tokenized_match", threshold=0.85)
+register_eval("artist", tokenized_match, "tokenized_match", threshold=0.75)
 register_eval("duration", numeric_tolerance_match, "numeric_tolerance_match")
 register_eval("release-date", year_only_match, "year_only_match")
-register_eval("release-country", tokenized_match, "tokenized_match")
-register_eval("label", tokenized_match, "tokenized_match")
-register_eval("tracks_track_name", set_equality_match, "set_equality_match")
+register_eval("release-country", tokenized_match, "tokenized_match", threshold=0.65)
+register_eval("label", tokenized_match, "tokenized_match", threshold=0.85)
+register_eval("tracks_track_name", tokenized_match, "tokenized_match", threshold=0.65)
+register_eval("tracks_track_duration", tokenized_match, "tokenized_match", threshold=0.85)
+register_eval("tracks_track_position", tokenized_match, "tokenized_match", threshold=0.9)
 
 for column in list_eval_columns:
     if column not in eval_funcs_summary:
-        register_eval(column, set_equality_match, "set_equality_match")
+        register_eval(column, tokenized_match, "tokenized_match", threshold=0.75)
 
 evaluator = DataFusionEvaluator(strategy, debug=True, debug_file="output/pipeline_evaluation/debug_fusion_eval.jsonl", debug_format="json")
 

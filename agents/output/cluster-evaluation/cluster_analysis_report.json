@@ -1,6 +1,6 @@
 {
-    "correspondences_dbpedia_metacritic.csv": {
-        "diagnosis": "Many entities map to multiple counterparts (one-to-many), which suggests ambiguous correspondences and over-matching.",
+    "correspondences_discogs_lastfm.csv": {
+        "diagnosis": "The cluster distribution is not long-tail and indicates potential many-to-many matches or over-clustering.",
         "recommended_strategy": "AdjustMatchingConfig",
         "parameters": {
             "threshold_delta": 0.05,
@@ -9,559 +9,270 @@
         },
         "error": null,
         "health_metrics": {
-            "total_clusters": 4886,
-            "max_cluster_size": 107,
-            "small_cluster_ratio": 0.3054,
-            "large_cluster_ratio": 0.2982,
+            "total_clusters": 2185,
+            "max_cluster_size": 19,
+            "small_cluster_ratio": 0.8384,
+            "large_cluster_ratio": 0.022,
             "is_long_tail": false,
-            "one_to_many_ratio": 0.6951
+            "one_to_many_ratio": 0.1597
         },
         "is_healthy": false,
-        "one_to_many_ratio": 0.6951,
+        "one_to_many_ratio": 0.1597,
         "cluster_distribution": [
             {
                 "cluster_size": 2,
-                "frequency": 1492,
-                "percentage": 30.536225951698732
+                "frequency": 1832,
+                "percentage": 83.84439359267735
             },
             {
                 "cluster_size": 3,
-                "frequency": 780,
-                "percentage": 15.963978714695045
+                "frequency": 201,
+                "percentage": 9.19908466819222
             },
             {
                 "cluster_size": 4,
-                "frequency": 688,
-                "percentage": 14.081047891936144
+                "frequency": 75,
+                "percentage": 3.4324942791762014
             },
             {
                 "cluster_size": 5,
-                "frequency": 469,
-                "percentage": 9.598853868194842
+                "frequency": 29,
+                "percentage": 1.3272311212814645
             },
             {
                 "cluster_size": 6,
-                "frequency": 377,
-                "percentage": 7.7159230454359395
+                "frequency": 11,
+                "percentage": 0.5034324942791762
             },
             {
                 "cluster_size": 7,
-                "frequency": 248,
-                "percentage": 5.075726565697913
+                "frequency": 15,
+                "percentage": 0.6864988558352403
             },
             {
                 "cluster_size": 8,
-                "frequency": 177,
-                "percentage": 3.6225951698731067
+                "frequency": 6,
+                "percentage": 0.2745995423340961
             },
             {
                 "cluster_size": 9,
-                "frequency": 146,
-                "percentage": 2.9881293491608676
+                "frequency": 4,
+                "percentage": 0.1830663615560641
             },
             {
                 "cluster_size": 10,
-                "frequency": 96,
-                "percentage": 1.9647973802701595
+                "frequency": 3,
+                "percentage": 0.13729977116704806
             },
             {
                 "cluster_size": 11,
-                "frequency": 61,
-                "percentage": 1.2484650020466639
-            },
-            {
-                "cluster_size": 12,
-                "frequency": 49,
-                "percentage": 1.002865329512894
+                "frequency": 2,
+                "percentage": 0.09153318077803205
             },
             {
                 "cluster_size": 13,
+                "frequency": 2,
+                "percentage": 0.09153318077803205
+            },
+            {
+                "cluster_size": 14,
+                "frequency": 1,
+                "percentage": 0.045766590389016024
+            },
+            {
+                "cluster_size": 17,
+                "frequency": 2,
+                "percentage": 0.09153318077803205
+            },
+            {
+                "cluster_size": 18,
+                "frequency": 1,
+                "percentage": 0.045766590389016024
+            },
+            {
+                "cluster_size": 19,
+                "frequency": 1,
+                "percentage": 0.045766590389016024
+            }
+        ]
+    },
+    "correspondences_discogs_musicbrainz.csv": {
+        "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+        "recommended_strategy": "None",
+        "parameters": null,
+        "error": null,
+        "health_metrics": {
+            "total_clusters": 1771,
+            "max_cluster_size": 10,
+            "small_cluster_ratio": 0.8538,
+            "large_cluster_ratio": 0.0096,
+            "is_long_tail": true,
+            "one_to_many_ratio": 0.1462
+        },
+        "is_healthy": true,
+        "one_to_many_ratio": 0.1462,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 1512,
+                "percentage": 85.37549407114624
+            },
+            {
+                "cluster_size": 3,
+                "frequency": 172,
+                "percentage": 9.712027103331451
+            },
+            {
+                "cluster_size": 4,
+                "frequency": 53,
+                "percentage": 2.9926595143986447
+            },
+            {
+                "cluster_size": 5,
+                "frequency": 17,
+                "percentage": 0.9599096555618294
+            },
+            {
+                "cluster_size": 6,
+                "frequency": 7,
+                "percentage": 0.3952569169960474
+            },
+            {
+                "cluster_size": 7,
+                "frequency": 7,
+                "percentage": 0.3952569169960474
+            },
+            {
+                "cluster_size": 8,
+                "frequency": 2,
+                "percentage": 0.1129305477131564
+            },
+            {
+                "cluster_size": 10,
+                "frequency": 1,
+                "percentage": 0.0564652738565782
+            }
+        ]
+    },
+    "correspondences_musicbrainz_lastfm.csv": {
+        "diagnosis": "The cluster distribution is not long-tail and indicates potential many-to-many matches or over-clustering.",
+        "recommended_strategy": "AdjustMatchingConfig",
+        "parameters": {
+            "threshold_delta": 0.05,
+            "threshold_cap": 0.95,
+            "reason": "Increase match thresholds to reduce over-matching and large clusters."
+        },
+        "error": null,
+        "health_metrics": {
+            "total_clusters": 2551,
+            "max_cluster_size": 26,
+            "small_cluster_ratio": 0.9142,
+            "large_cluster_ratio": 0.0204,
+            "is_long_tail": false,
+            "one_to_many_ratio": 0.1108
+        },
+        "is_healthy": false,
+        "one_to_many_ratio": 0.1108,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 2332,
+                "percentage": 91.41513132105057
+            },
+            {
+                "cluster_size": 3,
+                "frequency": 105,
+                "percentage": 4.116032928263426
+            },
+            {
+                "cluster_size": 4,
                 "frequency": 44,
-                "percentage": 0.9005321326238231
-            },
-            {
-                "cluster_size": 14,
-                "frequency": 38,
-                "percentage": 0.7777322963569382
-            },
-            {
-                "cluster_size": 15,
-                "frequency": 31,
-                "percentage": 0.6344658207122391
-            },
-            {
-                "cluster_size": 16,
-                "frequency": 15,
-                "percentage": 0.30699959066721244
-            },
-            {
-                "cluster_size": 17,
-                "frequency": 30,
-                "percentage": 0.6139991813344249
-            },
-            {
-                "cluster_size": 18,
-                "frequency": 15,
-                "percentage": 0.30699959066721244
-            },
-            {
-                "cluster_size": 19,
-                "frequency": 16,
-                "percentage": 0.3274662300450266
-            },
-            {
-                "cluster_size": 20,
-                "frequency": 12,
-                "percentage": 0.24559967253376994
-            },
-            {
-                "cluster_size": 21,
-                "frequency": 10,
-                "percentage": 0.2046663937781416
-            },
-            {
-                "cluster_size": 22,
-                "frequency": 10,
-                "percentage": 0.2046663937781416
-            },
-            {
-                "cluster_size": 23,
-                "frequency": 11,
-                "percentage": 0.2251330331559558
-            },
-            {
-                "cluster_size": 24,
-                "frequency": 7,
-                "percentage": 0.14326647564469913
-            },
-            {
-                "cluster_size": 25,
-                "frequency": 10,
-                "percentage": 0.2046663937781416
-            },
-            {
-                "cluster_size": 26,
-                "frequency": 4,
-                "percentage": 0.08186655751125665
-            },
-            {
-                "cluster_size": 27,
-                "frequency": 2,
-                "percentage": 0.04093327875562833
-            },
-            {
-                "cluster_size": 28,
-                "frequency": 7,
-                "percentage": 0.14326647564469913
-            },
-            {
-                "cluster_size": 29,
-                "frequency": 10,
-                "percentage": 0.2046663937781416
-            },
-            {
-                "cluster_size": 31,
-                "frequency": 4,
-                "percentage": 0.08186655751125665
-            },
-            {
-                "cluster_size": 32,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 33,
-                "frequency": 2,
-                "percentage": 0.04093327875562833
-            },
-            {
-                "cluster_size": 34,
-                "frequency": 3,
-                "percentage": 0.061399918133442484
-            },
-            {
-                "cluster_size": 35,
-                "frequency": 2,
-                "percentage": 0.04093327875562833
-            },
-            {
-                "cluster_size": 36,
-                "frequency": 3,
-                "percentage": 0.061399918133442484
-            },
-            {
-                "cluster_size": 37,
-                "frequency": 3,
-                "percentage": 0.061399918133442484
-            },
-            {
-                "cluster_size": 38,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 41,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 42,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 43,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 50,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 70,
-                "frequency": 2,
-                "percentage": 0.04093327875562833
-            },
-            {
-                "cluster_size": 74,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 77,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 82,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 84,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 104,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            },
-            {
-                "cluster_size": 107,
-                "frequency": 1,
-                "percentage": 0.020466639377814164
-            }
-        ]
-    },
-    "correspondences_dbpedia_sales.csv": {
-        "diagnosis": "Many entities map to multiple counterparts (one-to-many), which suggests ambiguous correspondences and over-matching.",
-        "recommended_strategy": "AdjustMatchingConfig",
-        "parameters": {
-            "threshold_delta": 0.05,
-            "threshold_cap": 0.95,
-            "reason": "Increase match thresholds to reduce over-matching and large clusters."
-        },
-        "error": null,
-        "health_metrics": {
-            "total_clusters": 3282,
-            "max_cluster_size": 100,
-            "small_cluster_ratio": 0.5125,
-            "large_cluster_ratio": 0.1533,
-            "is_long_tail": false,
-            "one_to_many_ratio": 0.5418
-        },
-        "is_healthy": false,
-        "one_to_many_ratio": 0.5418,
-        "cluster_distribution": [
-            {
-                "cluster_size": 2,
-                "frequency": 1682,
-                "percentage": 51.24923826934796
-            },
-            {
-                "cluster_size": 3,
-                "frequency": 631,
-                "percentage": 19.2260816575259
-            },
-            {
-                "cluster_size": 4,
-                "frequency": 281,
-                "percentage": 8.561852528945765
+                "percentage": 1.724813798510388
             },
             {
                 "cluster_size": 5,
-                "frequency": 185,
-                "percentage": 5.6368068251066425
-            },
-            {
-                "cluster_size": 6,
-                "frequency": 108,
-                "percentage": 3.2906764168190126
-            },
-            {
-                "cluster_size": 7,
-                "frequency": 76,
-                "percentage": 2.315661182205972
-            },
-            {
-                "cluster_size": 8,
-                "frequency": 63,
-                "percentage": 1.9195612431444242
-            },
-            {
-                "cluster_size": 9,
-                "frequency": 36,
-                "percentage": 1.0968921389396709
-            },
-            {
-                "cluster_size": 10,
-                "frequency": 41,
-                "percentage": 1.2492382693479587
-            },
-            {
-                "cluster_size": 11,
-                "frequency": 32,
-                "percentage": 0.9750152346130408
-            },
-            {
-                "cluster_size": 12,
-                "frequency": 21,
-                "percentage": 0.6398537477148081
-            },
-            {
-                "cluster_size": 13,
-                "frequency": 16,
-                "percentage": 0.4875076173065204
-            },
-            {
-                "cluster_size": 14,
-                "frequency": 16,
-                "percentage": 0.4875076173065204
-            },
-            {
-                "cluster_size": 15,
-                "frequency": 16,
-                "percentage": 0.4875076173065204
-            },
-            {
-                "cluster_size": 16,
-                "frequency": 9,
-                "percentage": 0.2742230347349177
-            },
-            {
-                "cluster_size": 17,
-                "frequency": 7,
-                "percentage": 0.21328458257160268
-            },
-            {
-                "cluster_size": 18,
-                "frequency": 6,
-                "percentage": 0.18281535648994515
-            },
-            {
-                "cluster_size": 19,
-                "frequency": 9,
-                "percentage": 0.2742230347349177
-            },
-            {
-                "cluster_size": 20,
-                "frequency": 9,
-                "percentage": 0.2742230347349177
-            },
-            {
-                "cluster_size": 21,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 22,
-                "frequency": 5,
-                "percentage": 0.15234613040828762
-            },
-            {
-                "cluster_size": 23,
-                "frequency": 2,
-                "percentage": 0.06093845216331505
-            },
-            {
-                "cluster_size": 24,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 25,
-                "frequency": 6,
-                "percentage": 0.18281535648994515
-            },
-            {
-                "cluster_size": 26,
-                "frequency": 3,
-                "percentage": 0.09140767824497258
-            },
-            {
-                "cluster_size": 27,
-                "frequency": 2,
-                "percentage": 0.06093845216331505
-            },
-            {
-                "cluster_size": 28,
-                "frequency": 3,
-                "percentage": 0.09140767824497258
-            },
-            {
-                "cluster_size": 32,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 33,
-                "frequency": 4,
-                "percentage": 0.1218769043266301
-            },
-            {
-                "cluster_size": 34,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 35,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 37,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 38,
-                "frequency": 2,
-                "percentage": 0.06093845216331505
-            },
-            {
-                "cluster_size": 48,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 58,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 63,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 71,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            },
-            {
-                "cluster_size": 100,
-                "frequency": 1,
-                "percentage": 0.030469226081657527
-            }
-        ]
-    },
-    "correspondences_sales_metacritic.csv": {
-        "diagnosis": "Many entities map to multiple counterparts (one-to-many), which suggests ambiguous correspondences and over-matching.",
-        "recommended_strategy": "AdjustMatchingConfig",
-        "parameters": {
-            "threshold_delta": 0.05,
-            "threshold_cap": 0.95,
-            "reason": "Increase match thresholds to reduce over-matching and large clusters."
-        },
-        "error": null,
-        "health_metrics": {
-            "total_clusters": 4989,
-            "max_cluster_size": 16,
-            "small_cluster_ratio": 0.7899,
-            "large_cluster_ratio": 0.0635,
-            "is_long_tail": false,
-            "one_to_many_ratio": 0.3395
-        },
-        "is_healthy": false,
-        "one_to_many_ratio": 0.3395,
-        "cluster_distribution": [
-            {
-                "cluster_size": 2,
-                "frequency": 3941,
-                "percentage": 78.99378632992584
-            },
-            {
-                "cluster_size": 3,
-                "frequency": 234,
-                "percentage": 4.690318701142513
-            },
-            {
-                "cluster_size": 4,
-                "frequency": 374,
-                "percentage": 7.496492283022651
-            },
-            {
-                "cluster_size": 5,
-                "frequency": 123,
-                "percentage": 2.4654239326518343
-            },
-            {
-                "cluster_size": 6,
-                "frequency": 183,
-                "percentage": 3.668069753457607
-            },
-            {
-                "cluster_size": 7,
-                "frequency": 39,
-                "percentage": 0.7817197835237523
-            },
-            {
-                "cluster_size": 8,
-                "frequency": 38,
-                "percentage": 0.7616756865103227
-            },
-            {
-                "cluster_size": 9,
-                "frequency": 14,
-                "percentage": 0.28061735818801364
-            },
-            {
-                "cluster_size": 10,
                 "frequency": 18,
-                "percentage": 0.3607937462417318
+                "percentage": 0.7056056448451588
+            },
+            {
+                "cluster_size": 6,
+                "frequency": 11,
+                "percentage": 0.431203449627597
+            },
+            {
+                "cluster_size": 7,
+                "frequency": 10,
+                "percentage": 0.3920031360250882
+            },
+            {
+                "cluster_size": 8,
+                "frequency": 7,
+                "percentage": 0.27440219521756176
+            },
+            {
+                "cluster_size": 9,
+                "frequency": 5,
+                "percentage": 0.1960015680125441
+            },
+            {
+                "cluster_size": 10,
+                "frequency": 3,
+                "percentage": 0.11760094080752645
             },
             {
                 "cluster_size": 11,
-                "frequency": 2,
-                "percentage": 0.04008819402685909
+                "frequency": 4,
+                "percentage": 0.15680125441003528
             },
             {
                 "cluster_size": 12,
-                "frequency": 7,
-                "percentage": 0.14030867909400682
+                "frequency": 1,
+                "percentage": 0.03920031360250882
             },
             {
                 "cluster_size": 13,
-                "frequency": 11,
-                "percentage": 0.220485067147725
+                "frequency": 2,
+                "percentage": 0.07840062720501764
             },
             {
                 "cluster_size": 14,
-                "frequency": 1,
-                "percentage": 0.020044097013429546
+                "frequency": 2,
+                "percentage": 0.07840062720501764
             },
             {
                 "cluster_size": 15,
-                "frequency": 2,
-                "percentage": 0.04008819402685909
+                "frequency": 1,
+                "percentage": 0.03920031360250882
             },
             {
-                "cluster_size": 16,
-                "frequency": 2,
-                "percentage": 0.04008819402685909
+                "cluster_size": 17,
+                "frequency": 1,
+                "percentage": 0.03920031360250882
+            },
+            {
+                "cluster_size": 18,
+                "frequency": 1,
+                "percentage": 0.03920031360250882
+            },
+            {
+                "cluster_size": 19,
+                "frequency": 1,
+                "percentage": 0.03920031360250882
+            },
+            {
+                "cluster_size": 21,
+                "frequency": 1,
+                "percentage": 0.03920031360250882
+            },
+            {
+                "cluster_size": 25,
+                "frequency": 1,
+                "percentage": 0.03920031360250882
+            },
+            {
+                "cluster_size": 26,
+                "frequency": 1,
+                "percentage": 0.03920031360250882
             }
         ]
     },
@@ -574,9 +285,8 @@
             "reason": "Increase match thresholds to reduce over-matching and large clusters."
         },
         "unhealthy_files": [
-            "correspondences_dbpedia_metacritic.csv",
-            "correspondences_dbpedia_sales.csv",
-            "correspondences_sales_metacritic.csv"
+            "correspondences_discogs_lastfm.csv",
+            "correspondences_musicbrainz_lastfm.csv"
         ]
     }
 }

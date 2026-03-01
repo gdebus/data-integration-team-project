@@ -385,8 +385,9 @@ print("Fusing Data")
 # --------------------------------
 # CRITICAL INSTRUCTION FOR AGENTS:
 # Prefer built-in PyDI fusers whenever possible.
-# If a custom fuser is unavoidable, it MUST accept runtime kwargs:
-# def my_fuser(inputs, context, **kwargs):
+# If a custom fuser is unavoidable, it MUST accept runtime kwargs and return
+# (value, confidence, metadata):
+# def my_fuser(inputs, **kwargs): return value, 1.0, {}
 # Avoid lambda inputs, context: ... because PyDI passes extra kwargs (e.g., sources).
 # For trust-based fusion, register the built-in directly:
 # strategy.add_attribute_fuser("<attr>", prefer_higher_trust, trust_map=trust_map)

@@ -4,8 +4,10 @@ import re
 from typing import Dict, List, Tuple, Any, Optional
 from pathlib import Path
 import sys
+import traceback
 
 import pandas as pd
+import numpy as np
 from langchain_core.messages import SystemMessage, HumanMessage
 
 from PyDI.io import load_xml, load_parquet, load_csv
@@ -37,6 +39,7 @@ if str(AGENTS_ROOT) not in sys.path:
 from list_normalization import (
     detect_list_like_columns,
     is_list_like_value,
+    normalize_list_value,
     normalize_list_like_columns,
 )
 
@@ -71,7 +74,7 @@ MATCHING_STRATEGY_DESCRIPTIONS = """
 - Use RuleBasedMatcher only.
 - Comparator types:
   - string: StringComparator(column, similarity_function, preprocess?, list_strategy?)
-  - numeric: NumericComparator(column, max_difference)
+  - numeric: NumericComparator(column, max_difference, list_strategy?)
   - date: DateComparator(column, max_days_difference)
 """
 
@@ -92,6 +95,7 @@ class MatchingTester:
         verbose: bool = True,
         matcher_mode: str = "ml",
         previous_failures: Optional[List[Dict[str, Any]]] = None,
+        disallow_list_comparators: bool = True,
     ):
         self.llm = llm
         self.output_dir = output_dir
@@ -103,6 +107,7 @@ class MatchingTester:
         self.results_history: List[Dict[str, Any]] = []
         self.previous_failures = previous_failures or []
         self.matcher_mode = matcher_mode
+        self.disallow_list_comparators = disallow_list_comparators
 
         self.blocking_config = blocking_config or {}
         self.blocking_strategies = self.blocking_config.get("blocking_strategies", {})
@@ -391,6 +396,33 @@ class MatchingTester:
         if not columns:
             columns = [common_columns[0]] if common_columns else [id_column]
 
+        # Keep blocking robust against nested/list values that can crash PyDI blockers
+        # (notably EmbeddingBlocker calling pd.isna on ndarray/list objects).
+        def _is_scalar_friendly(col: str) -> bool:
+            return not (
+                self._column_has_sequence_like_values(df_left, col)
+                or self._column_has_sequence_like_values(df_right, col)
+            )
+
+        if self.disallow_list_comparators:
+            scalar_columns = [c for c in columns if _is_scalar_friendly(c)]
+            if scalar_columns:
+                columns = scalar_columns
+
+        for col in columns:
+            self._sanitize_dataframe_column_for_comparator(
+                self.datasets_loaded[name_left],
+                col,
+                ctype="string",
+                list_strategy=None,
+            )
+            self._sanitize_dataframe_column_for_comparator(
+                self.datasets_loaded[name_right],
+                col,
+                ctype="string",
+                list_strategy=None,
+            )
+
         if strategy in ["exact_match_single", "exact_match_multi"]:
             return StandardBlocker(df_left, df_right, on=columns, batch_size=1000, **common_params)
         params = blocking_cfg.get("params", {}) if isinstance(blocking_cfg.get("params"), dict) else {}
@@ -456,6 +488,11 @@ class MatchingTester:
             if col not in ordered:
                 ordered.append(col)
 
+        if self.disallow_list_comparators:
+            scalar_cols = [c for c in ordered if column_types.get(c, "string") != "list"]
+            if scalar_cols:
+                ordered = scalar_cols
+
         comparators = []
         for col in ordered[:4]:
             ctype = column_types.get(col, "string")
@@ -511,6 +548,7 @@ class MatchingTester:
         allowed_similarity = {"jaccard", "jaro_winkler", "levenshtein", "cosine"}
         allowed_preprocess = {"lower", "strip", "lower_strip", "none"}
         allowed_list_strategy = {"concatenate", "set_jaccard", "best_match", "set_overlap"}
+        allowed_numeric_list_strategy = {"average", "best_match", "range_overlap", "set_jaccard"}
         cleaned_comps = []
 
         for comp in raw_comps:
@@ -518,6 +556,10 @@ class MatchingTester:
                 continue
             column = comp.get("column")
             if column not in valid_columns:
+                continue
+            if self.disallow_list_comparators and (
+                column_types.get(column) == "list" or bool(comp.get("list_strategy"))
+            ):
                 continue
             ctype = comp.get("type") or column_types.get(column, "string")
             if ctype not in {"string", "numeric", "date"}:
@@ -546,6 +588,11 @@ class MatchingTester:
                 except (TypeError, ValueError):
                     max_diff = 5
                 entry["max_difference"] = max_diff
+                num_list_strategy = comp.get("list_strategy")
+                if num_list_strategy in allowed_numeric_list_strategy:
+                    entry["list_strategy"] = num_list_strategy
+                elif column_types.get(column) == "list":
+                    entry["list_strategy"] = "average"
             else:
                 max_days = comp.get("max_days_difference", 365)
                 try:
@@ -619,7 +666,7 @@ class MatchingTester:
 {{
   "comparators": [
     {{"type": "string", "column": "col1", "similarity_function": "cosine", "preprocess": "lower", "list_strategy": "concatenate"}},
-    {{"type": "numeric", "column": "col2", "max_difference": 5}},
+    {{"type": "numeric", "column": "col2", "max_difference": 5, "list_strategy": "average"}},
     {{"type": "date", "column": "col3", "max_days_difference": 365}}
   ],
   "weights": [0.5, 0.3, 0.2],
@@ -638,12 +685,19 @@ Guidance:
   - jaccard or cosine for token sets/longer text/list-ish strings
   - cosine is the default fallback for strings if unsure
 - Use preprocess to normalize text: lower, strip, lower_strip, none.
-- list_strategy options: concatenate, set_jaccard, best_match, set_overlap.
+- list_strategy options for string comparators: concatenate, set_jaccard, best_match, set_overlap.
+- list_strategy options for numeric comparators: average, best_match, range_overlap, set_jaccard.
 - If blocking columns are provided, include at least one comparator using them unless they are clearly low quality.
 - Weights should be non-negative, sum to 1, and match the number of comparators.
 - Set threshold to balance precision/recall based on data quality (higher for strong identifiers, lower for noisy text).
 - If prior attempts fail or error, fall back to a simpler RuleBasedMatcher config.
 - If matcher_mode is ml, prefer fewer informative columns; more columns does not always improve results.
+"""
+        if self.disallow_list_comparators:
+            system_prompt += """
+- IMPORTANT: Avoid list-like columns entirely (for example track lists and list-valued durations).
+- Prefer scalar columns (name, artist, date, numeric scalar fields).
+- Do NOT use list_strategy; choose comparators that operate on scalar columns.
 """
 
         human_content = (
@@ -653,6 +707,12 @@ Guidance:
             f"Common columns: {analysis['common_columns']}\n"
             f"Column details: {json.dumps(analysis['column_details'], indent=2)}"
         )
+        if self.disallow_list_comparators:
+            list_like_cols = [c for c in analysis["common_columns"] if analysis["column_types"].get(c) == "list"]
+            if list_like_cols:
+                human_content += (
+                    f"\nList-like columns to avoid for comparators: {list_like_cols}"
+                )
 
         failure_summary = self._format_previous_failures(analysis['left_dataset'], analysis['right_dataset'])
         if failure_summary:
@@ -700,9 +760,13 @@ Guidance:
             ctype = comp.get("type")
             column = comp.get("column")
             if ctype == "numeric":
-                comparators.append(
-                    NumericComparator(column=column, max_difference=comp.get("max_difference", 5))
-                )
+                kwargs = {
+                    "column": column,
+                    "max_difference": comp.get("max_difference", 5),
+                }
+                if comp.get("list_strategy"):
+                    kwargs["list_strategy"] = comp["list_strategy"]
+                comparators.append(NumericComparator(**kwargs))
             elif ctype == "date":
                 comparators.append(
                     DateComparator(column=column, max_days_difference=comp.get("max_days_difference", 365))
@@ -719,6 +783,139 @@ Guidance:
                     kwargs["list_strategy"] = comp["list_strategy"]
                 comparators.append(StringComparator(**kwargs))
         return comparators
+
+    @staticmethod
+    def _is_sequence_like_value(value: Any) -> bool:
+        return isinstance(value, (list, tuple, set, np.ndarray, pd.Series)) or is_list_like_value(value)
+
+    def _column_has_sequence_like_values(self, df: pd.DataFrame, column: str, sample_size: int = 200) -> bool:
+        if column not in df.columns:
+            return False
+        sample = df[column].dropna().head(sample_size)
+        return any(self._is_sequence_like_value(v) for v in sample)
+
+    @staticmethod
+    def _coerce_numeric_sequence(values: List[Any]) -> List[float]:
+        out: List[float] = []
+        for item in values:
+            try:
+                num = float(item)
+            except (TypeError, ValueError):
+                continue
+            if pd.isna(num):
+                continue
+            out.append(num)
+        return out
+
+    def _sanitize_dataframe_column_for_comparator(
+        self,
+        df: pd.DataFrame,
+        column: str,
+        ctype: str,
+        list_strategy: Optional[str],
+    ) -> None:
+        if column not in df.columns:
+            return
+
+        want_list = bool(list_strategy)
+
+        def _to_sequence(value: Any) -> List[Any]:
+            if value is None:
+                return []
+            if isinstance(value, float) and pd.isna(value):
+                return []
+            if isinstance(value, np.ndarray):
+                value = value.tolist()
+            if isinstance(value, pd.Series):
+                value = value.tolist()
+            if isinstance(value, (list, tuple, set)):
+                return list(value)
+            if is_list_like_value(value):
+                return normalize_list_value(value, dedupe=False)
+            return [value]
+
+        if want_list:
+            if ctype == "numeric":
+                df[column] = df[column].apply(lambda v: self._coerce_numeric_sequence(_to_sequence(v)))
+            else:
+                def _to_str_list(v: Any) -> List[str]:
+                    seq = _to_sequence(v)
+                    out = []
+                    for item in seq:
+                        text = str(item).strip()
+                        if not text or text.lower() in {"nan", "none", "null"}:
+                            continue
+                        out.append(text)
+                    return out
+                df[column] = df[column].apply(_to_str_list)
+            return
+
+        if ctype == "numeric":
+            def _to_numeric_scalar(v: Any):
+                seq = _to_sequence(v) if self._is_sequence_like_value(v) else [v]
+                nums = self._coerce_numeric_sequence(seq)
+                return nums[0] if nums else np.nan
+            df[column] = df[column].apply(_to_numeric_scalar)
+            return
+
+        # String/date comparator without list strategy: collapse list-like to scalar text.
+        def _to_scalar_text(v: Any):
+            if self._is_sequence_like_value(v):
+                seq = _to_sequence(v)
+                tokens = []
+                for item in seq:
+                    text = str(item).strip()
+                    if not text or text.lower() in {"nan", "none", "null"}:
+                        continue
+                    tokens.append(text)
+                return " | ".join(tokens)
+            return v
+
+        df[column] = df[column].apply(_to_scalar_text)
+
+    def _stabilize_choice_and_data(
+        self,
+        name_left: str,
+        name_right: str,
+        choice: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        stabilized = dict(choice)
+        stabilized_comparators: List[Dict[str, Any]] = []
+        left_df = self.datasets_loaded[name_left]
+        right_df = self.datasets_loaded[name_right]
+
+        for comp in choice.get("comparators", []):
+            comp_fixed = dict(comp)
+            column = comp_fixed.get("column")
+            ctype = comp_fixed.get("type", "string")
+            if not column:
+                continue
+
+            has_sequence = self._column_has_sequence_like_values(left_df, column) or self._column_has_sequence_like_values(
+                right_df, column
+            )
+            if has_sequence and not comp_fixed.get("list_strategy"):
+                if ctype == "numeric":
+                    comp_fixed["list_strategy"] = "average"
+                elif ctype == "string":
+                    comp_fixed["list_strategy"] = "concatenate"
+
+            self._sanitize_dataframe_column_for_comparator(
+                self.datasets_loaded[name_left],
+                column,
+                ctype=ctype,
+                list_strategy=comp_fixed.get("list_strategy"),
+            )
+            self._sanitize_dataframe_column_for_comparator(
+                self.datasets_loaded[name_right],
+                column,
+                ctype=ctype,
+                list_strategy=comp_fixed.get("list_strategy"),
+            )
+            stabilized_comparators.append(comp_fixed)
+
+        stabilized["comparators"] = stabilized_comparators
+        return stabilized
 
     def _filter_ml_comparators(
         self,
@@ -824,15 +1021,16 @@ Guidance:
         gold: pd.DataFrame,
     ) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
         try:
-            comparators = self._build_comparators(choice["comparators"])
+            stable_choice = self._stabilize_choice_and_data(name_left, name_right, choice)
+            comparators = self._build_comparators(stable_choice["comparators"])
             matcher = RuleBasedMatcher()
             correspondences = matcher.match(
                 df_left=self.datasets_loaded[name_left],
                 df_right=self.datasets_loaded[name_right],
                 candidates=blocker,
                 comparators=comparators,
-                weights=choice["weights"],
-                threshold=choice["threshold"],
+                weights=stable_choice["weights"],
+                threshold=stable_choice["threshold"],
                 id_column=id_column,
             )
             metrics = self.evaluator.evaluate_matching(
@@ -847,7 +1045,8 @@ Guidance:
             }
             return result, None
         except Exception as e:
-            return None, f"{type(e).__name__}: {str(e)}"
+            tb = traceback.format_exc()
+            return None, f"{type(e).__name__}: {str(e)}\n{tb}"
 
     def _try_execute_ml_matcher(
         self,
@@ -866,8 +1065,9 @@ Guidance:
         if gold_train["label"].nunique() < 2:
             return None, "ML matcher requires labeled pairs with both positive and negative examples"
         try:
+            stable_choice = self._stabilize_choice_and_data(name_left, name_right, choice)
             print("    [ML] Building comparators")
-            comparators = self._build_comparators(choice["comparators"])
+            comparators = self._build_comparators(stable_choice["comparators"])
             print(f"    [ML] Comparators count: {len(comparators)}")
             feature_extractor = FeatureExtractor(comparators)
             print("    [ML] Creating features")
@@ -933,7 +1133,8 @@ Guidance:
             }
             return result, None
         except Exception as e:
-            return None, f"{type(e).__name__}: {str(e)}"
+            tb = traceback.format_exc()
+            return None, f"{type(e).__name__}: {str(e)}\n{tb}"
 
     def _select_best_ml_model(self, X_train: pd.DataFrame, y_train: pd.Series):
         scorer = make_scorer(f1_score)
@@ -1074,6 +1275,39 @@ Guidance:
                     print(
                         f"ML comparators filtered to: {[c['column'] for c in active_choice['comparators']]}"
                     )
+
+            # Final hard guard: never allow list-based comparators at execution time.
+            filtered_comps = [
+                c for c in active_choice.get("comparators", [])
+                if not (
+                    self.disallow_list_comparators and (
+                        analysis["column_types"].get(c.get("column")) == "list" or bool(c.get("list_strategy"))
+                    )
+                )
+            ]
+            if len(filtered_comps) != len(active_choice.get("comparators", [])):
+                removed = [
+                    c.get("column") for c in active_choice.get("comparators", [])
+                    if (
+                        self.disallow_list_comparators and (
+                            analysis["column_types"].get(c.get("column")) == "list" or bool(c.get("list_strategy"))
+                        )
+                    )
+                ]
+                print(f"    [GUARD] Removed list-based comparator columns: {removed}")
+                active_choice = dict(active_choice)
+                active_choice["comparators"] = filtered_comps
+                active_choice["weights"] = self._normalize_weights(
+                    active_choice.get("weights", []),
+                    len(filtered_comps),
+                )
+                if not active_choice["comparators"]:
+                    active_choice["comparators"] = self._default_comparators(
+                        analysis["common_columns"],
+                        analysis["column_types"],
+                        blocking_columns,
+                    )
+                    active_choice["weights"] = self._normalize_weights([], len(active_choice["comparators"]))
             comparator_info = []
             for comp in active_choice["comparators"]:
                 sim = comp.get("similarity_function") or comp.get("max_difference") or comp.get("max_days_difference")
@@ -1116,7 +1350,17 @@ Guidance:
                         name_left, name_right, blocker, id_column, active_choice, gold
                     )
                 if error:
-                    print(f"    ERROR: {error[:100]}...")
+                    first_line = error.splitlines()[0] if isinstance(error, str) else str(error)
+                    print(f"    ERROR: {first_line[:220]}...")
+                    if self.verbose and isinstance(error, str) and "\n" in error:
+                        tb_path = os.path.join(self.output_dir, "matching_errors.log")
+                        with open(tb_path, "a", encoding="utf-8") as fh:
+                            fh.write(
+                                f"\n=== {name_left}_{name_right} attempt={attempt} retry={error_retry} ===\n"
+                            )
+                            fh.write(error)
+                            fh.write("\n")
+                        print(f"    Full traceback appended to: {tb_path}")
                     last_error = error
                     if error_retry >= self.max_error_retries:
                         previous_attempts.append(
