@@ -1,12 +1,27 @@
 import ast
+import difflib
 import json
 import os
 import re
 import time
 from datetime import datetime
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from langchain_core.messages import HumanMessage, SystemMessage
+
+
+NODE_SUMMARY_EXTRACTORS: Dict[str, str] = {
+    "match_schemas": "_extract_match_schemas_facts",
+    "profile_data": "_extract_profile_data_facts",
+    "run_blocking_tester": "_extract_run_blocking_tester_facts",
+    "run_matching_tester": "_extract_run_matching_tester_facts",
+    "pipeline_adaption": "_extract_pipeline_adaption_facts",
+    "execute_pipeline": "_extract_execute_pipeline_facts",
+    "evaluation_adaption": "_extract_evaluation_adaption_facts",
+    "execute_evaluation": "_extract_execute_evaluation_facts",
+    "evaluation_decision": "_extract_evaluation_decision_facts",
+    "evaluation_reasoning": "_extract_evaluation_reasoning_facts",
+}
 
 
 class WorkflowLogger:
@@ -45,6 +60,9 @@ class WorkflowLogger:
         self._pipeline_snapshots = []
         self._pending_snapshot_indices = []
         self._archive_matcher_mode = "rule_based"
+        self._run_started_at_ns: Optional[int] = None
+        self._run_finished_at_ns: Optional[int] = None
+        self._pending_node_durations_seconds: Dict[str, List[float]] = {}
 
         try:
             from langchain_openai import ChatOpenAI
@@ -145,6 +163,46 @@ class WorkflowLogger:
             "total_nodes_logged": len(self._activity_records),
         }
 
+    @staticmethod
+    def _round_seconds(value: float) -> float:
+        return round(float(value or 0.0), 3)
+
+    def _push_node_duration(self, node_name: str, duration_seconds: float) -> None:
+        self._pending_node_durations_seconds.setdefault(node_name, []).append(float(duration_seconds or 0.0))
+
+    def _pop_node_duration(self, node_name: str) -> float:
+        queue = self._pending_node_durations_seconds.get(node_name) or []
+        if not queue:
+            return 0.0
+        duration = float(queue.pop(0) or 0.0)
+        if not queue:
+            self._pending_node_durations_seconds.pop(node_name, None)
+        return duration
+
+    def _build_time_complexity(self) -> Dict[str, Any]:
+        if self._run_started_at_ns is None:
+            total_duration_seconds = 0.0
+        else:
+            end_ns = self._run_finished_at_ns if self._run_finished_at_ns is not None else time.perf_counter_ns()
+            total_duration_seconds = max(0.0, (end_ns - self._run_started_at_ns) / 1_000_000_000)
+
+        sum_logged = 0.0
+        per_node: Dict[str, float] = {}
+        for record in self._activity_records:
+            duration = float(record.get("duration_seconds", 0.0) or 0.0)
+            sum_logged += duration
+            node_name = str(record.get("current_node", "") or "")
+            if node_name:
+                per_node[node_name] = per_node.get(node_name, 0.0) + duration
+
+        return {
+            "total_duration_seconds": self._round_seconds(total_duration_seconds),
+            "sum_of_logged_node_durations_seconds": self._round_seconds(sum_logged),
+            "per_node_cumulative_durations_seconds": {
+                key: self._round_seconds(value) for key, value in per_node.items()
+            },
+        }
+
     def start_run(self, state: Dict[str, Any], token_usage: Optional[Dict[str, Any]] = None):
         matcher_mode = "rule_based"
         if isinstance(state, dict):
@@ -193,6 +251,9 @@ class WorkflowLogger:
         self._pipeline_snapshots = []
         self._pending_snapshot_indices = []
         self._archive_matcher_mode = safe_mode
+        self._run_started_at_ns = time.perf_counter_ns()
+        self._run_finished_at_ns = None
+        self._pending_node_durations_seconds = {}
         self._active = True
 
         self._write_activity_payload()
@@ -201,6 +262,7 @@ class WorkflowLogger:
     def finish_run(self, final_next_node: str = "END"):
         if self._last_record_index is not None:
             self._activity_records[self._last_record_index]["next_node"] = final_next_node
+        self._run_finished_at_ns = time.perf_counter_ns()
         self._write_activity_payload()
         self._active = False
 
@@ -232,6 +294,7 @@ class WorkflowLogger:
         if self._evaluation_runs:
             payload["evaluation_runs"] = self._evaluation_runs
         payload["transition_stats"] = self._build_transition_stats()
+        payload["time_complexity"] = self._build_time_complexity()
         with open(self._activity_log_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
 
@@ -262,34 +325,276 @@ class WorkflowLogger:
             return json.dumps(content, ensure_ascii=False)
         return str(content)
 
-    def _truncate_summary(self, text: str) -> str:
-        text = re.sub(r"\s+", " ", str(text or "")).strip()
-        limit = self.summary_char_limit
+    def _summary_limit_for_node(self, node_name: str) -> int:
+        caps = {
+            "pipeline_adaption": 1250,
+            "evaluation_adaption": 1250,
+            "run_matching_tester": 750,
+            "run_blocking_tester": 750,
+            "profile_data": 500,
+            "match_schemas": 500,
+            "evaluation_reasoning": 1250,
+            "evaluation_decision": 350,
+            "execute_pipeline": 350,
+            "execute_evaluation": 300,
+        }
+        default_limit = 500 if node_name not in NODE_SUMMARY_EXTRACTORS else self.summary_char_limit
+        return max(caps.get(node_name, default_limit), self.summary_char_limit)
+
+    def _truncate_summary(self, text: str, limit: Optional[int] = None) -> str:
+        text = str(text or "").replace("\r\n", "\n").strip()
+        limit = limit or self.summary_char_limit
         if len(text) <= limit:
             return text
+        if "\n" in text:
+            raw_lines = [re.sub(r"[ \t]+", " ", line).strip() for line in text.split("\n")]
+            lines = [line for line in raw_lines if line]
+            kept = []
+            current_len = 0
+            for line in lines:
+                extra = len(line) + (1 if kept else 0)
+                if current_len + extra > limit:
+                    break
+                kept.append(line)
+                current_len += extra
+            if kept:
+                return "\n".join(kept)
+            first = re.sub(r"\s+", " ", lines[0] if lines else text).strip()
+            if len(first) <= limit:
+                return first
+            clipped = first[:limit].rstrip()
+            word_boundary = clipped.rfind(" ")
+            if word_boundary >= 40:
+                clipped = clipped[:word_boundary].rstrip()
+            if clipped and clipped[-1] not in ".!?":
+                clipped += "."
+            return clipped
+        text = re.sub(r"\s+", " ", text).strip()
+        separators = ["; ", ". ", " | ", ", "]
+        working = text
+        for sep in separators:
+            parts = working.split(sep)
+            if len(parts) <= 1:
+                continue
+            kept = []
+            current_len = 0
+            for part in parts:
+                candidate = part.strip()
+                if not candidate:
+                    continue
+                extra = len(candidate) + (len(sep) if kept else 0)
+                if current_len + extra > limit:
+                    break
+                kept.append(candidate)
+                current_len += extra
+            if kept:
+                joined = sep.join(kept).strip()
+                if joined and joined[-1] not in ".!?":
+                    joined += "."
+                return joined
 
         clipped = text[:limit].rstrip()
-        boundary = max(
-            clipped.rfind(". "),
-            clipped.rfind("! "),
-            clipped.rfind("? "),
-            clipped.rfind("."),
-            clipped.rfind("!"),
-            clipped.rfind("?"),
-        )
-        if boundary >= 40:
-            sentence = clipped[: boundary + 1].strip()
-            if sentence:
-                return sentence
-
         word_boundary = clipped.rfind(" ")
         if word_boundary >= 40:
             clipped = clipped[:word_boundary].rstrip()
-
         clipped = clipped[: max(1, limit - 1)].rstrip()
         if clipped and clipped[-1] not in ".!?":
             clipped += "."
         return clipped
+
+    def _compose_multiline_summary(self, lines: List[str], node_name: str) -> str:
+        cleaned = []
+        for line in lines:
+            normalized = re.sub(r"[ \t]+", " ", str(line or "")).strip()
+            if normalized:
+                cleaned.append(normalized)
+        if not cleaned:
+            return ""
+        return self._truncate_summary("\n".join(cleaned), self._summary_limit_for_node(node_name))
+
+    @staticmethod
+    def _summary_output_value(summary: Any) -> List[str]:
+        if isinstance(summary, list):
+            return [re.sub(r"[ \t]+", " ", str(line or "")).strip() for line in summary if str(line or "").strip()]
+        text = str(summary or "").replace("\r\n", "\n").strip()
+        if not text:
+            return []
+        return [line for line in (re.sub(r"[ \t]+", " ", raw).strip() for raw in text.split("\n")) if line]
+
+    @staticmethod
+    def _ensure_sentence(text: Any) -> str:
+        sentence = re.sub(r"\s+", " ", str(text or "")).strip()
+        if not sentence:
+            return ""
+        if sentence[-1] not in ".!?":
+            sentence += "."
+        return sentence
+
+    def _normalize_sentence_list(self, values: Any) -> List[str]:
+        if values is None:
+            return []
+        if isinstance(values, str):
+            candidates = [values]
+        elif isinstance(values, list):
+            candidates = values
+        else:
+            candidates = [values]
+        out = []
+        seen = set()
+        for value in candidates:
+            sentence = self._ensure_sentence(value)
+            if not sentence:
+                continue
+            key = sentence.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(sentence)
+        return out
+
+    @staticmethod
+    def _limit_context(text: Any, max_chars: int = 12000) -> str:
+        content = str(text or "").strip()
+        if len(content) <= max_chars:
+            return content
+        return content[:max_chars].rstrip() + "\n...[truncated]"
+
+    @staticmethod
+    def _extract_json_object(text: str) -> Optional[Dict[str, Any]]:
+        content = str(text or "").strip()
+        if not content:
+            return None
+        if content.startswith("```"):
+            content = re.sub(r"^```(?:json)?\s*", "", content)
+            content = re.sub(r"\s*```$", "", content)
+        try:
+            payload = json.loads(content)
+            return payload if isinstance(payload, dict) else None
+        except Exception:
+            pass
+        start = content.find("{")
+        end = content.rfind("}")
+        if start != -1 and end != -1 and end > start:
+            try:
+                payload = json.loads(content[start : end + 1])
+                return payload if isinstance(payload, dict) else None
+            except Exception:
+                return None
+        return None
+
+    def _validate_structured_extractor_payload(
+        self,
+        payload: Any,
+        expected_keys: List[str],
+    ) -> Optional[Dict[str, List[str]]]:
+        if not isinstance(payload, dict):
+            return None
+        validated: Dict[str, List[str]] = {}
+        for key in expected_keys:
+            validated[key] = self._normalize_sentence_list(payload.get(key, []))
+        if not any(validated.values()):
+            return None
+        return validated
+
+    def _run_structured_summary_extractor(
+        self,
+        node_name: str,
+        evidence: Dict[str, Any],
+        schema_name: str,
+    ) -> Optional[Dict[str, List[str]]]:
+        if self._summary_model is None:
+            return None
+
+        schemas = {
+            "evaluation_reasoning": {
+                "main_problem": ["What is going wrong in this run."],
+                "evidence": ["Concrete evidence such as metrics, diagnostics, or debug signals."],
+                "proposal": ["What the node proposes changing next."],
+                "target": ["Whether the proposal targets pipeline logic, evaluation logic, or both."],
+                "why_now": ["Why that proposal fits the current code and state."],
+            },
+            "pipeline_adaption": {
+                "action": ["Whether this was an initial draft, repair, or refinement."],
+                "main_changes": ["The most important concrete pipeline changes in this run."],
+                "strategy_shift": ["How the fusion or matching behavior shifted."],
+                "supporting_changes": ["Important supporting details such as singleton, lineage, helper, or threshold handling."],
+                "rationale": ["Why these changes make sense for the current problem."],
+            },
+            "evaluation_adaption": {
+                "action": ["Whether this was an initial draft, repair, or refinement."],
+                "main_strategy": ["The dominant evaluation strategy used in this run."],
+                "field_groups": ["Grouped evaluation-function behavior across field families."],
+                "supporting_changes": ["Helper, fallback, tolerance, or execution-stability changes."],
+                "rationale": ["Why these evaluation changes fit the current run."],
+            },
+        }
+        expected = schemas.get(schema_name)
+        if not expected:
+            return None
+
+        system_prompt = (
+            "You are extracting structured engineering summary facts for a workflow log. "
+            "Analyze only the current run. Preserve material facts. Do not explain the generic purpose of the node. "
+            "Do not invent evidence. Do not output markdown. Do not output prose outside JSON. "
+            "Return valid JSON only. Every value must be a JSON array of complete sentences."
+        )
+        human_prompt = (
+            f"NODE\n{node_name}\n\n"
+            f"SCHEMA\n{json.dumps(expected, ensure_ascii=False, indent=2)}\n\n"
+            f"EVIDENCE\n{json.dumps(evidence, ensure_ascii=False, indent=2, default=str)}\n"
+        )
+        try:
+            response = self._summary_model.invoke(
+                [SystemMessage(content=system_prompt), HumanMessage(content=human_prompt)]
+            )
+            text = self._coerce_response_text(response.content if hasattr(response, "content") else response)
+            payload = self._extract_json_object(text)
+            return self._validate_structured_extractor_payload(payload, list(expected.keys()))
+        except Exception:
+            return None
+
+    def _render_reasoning_summary_lines(
+        self,
+        payload: Optional[Dict[str, List[str]]],
+        fallback_lines: List[str],
+        metrics: Optional[Dict[str, Any]] = None,
+    ) -> List[str]:
+        lines: List[str] = []
+        if payload:
+            for key in ["main_problem", "evidence", "proposal", "target", "why_now"]:
+                lines.extend(payload.get(key, []))
+        if not lines:
+            lines.extend(self._normalize_sentence_list(fallback_lines))
+        accuracy = self._format_accuracy(metrics or {})
+        if accuracy and not any("accuracy" in line.lower() for line in lines):
+            lines.append(f"This reasoning is responding to an overall accuracy of {accuracy}.")
+        return self._normalize_sentence_list(lines)
+
+    def _render_pipeline_adaption_summary_lines(
+        self,
+        payload: Optional[Dict[str, List[str]]],
+        fallback_lines: List[str],
+    ) -> List[str]:
+        lines: List[str] = []
+        if payload:
+            for key in ["action", "main_changes", "strategy_shift", "supporting_changes", "rationale"]:
+                lines.extend(payload.get(key, []))
+        if not lines:
+            lines.extend(self._normalize_sentence_list(fallback_lines))
+        return self._normalize_sentence_list(lines)
+
+    def _render_evaluation_adaption_summary_lines(
+        self,
+        payload: Optional[Dict[str, List[str]]],
+        fallback_lines: List[str],
+    ) -> List[str]:
+        lines: List[str] = []
+        if payload:
+            for key in ["action", "main_strategy", "field_groups", "supporting_changes", "rationale"]:
+                lines.extend(payload.get(key, []))
+        if not lines:
+            lines.extend(self._normalize_sentence_list(fallback_lines))
+        return self._normalize_sentence_list(lines)
 
     @staticmethod
     def _read_file_if_exists(path: str) -> str:
@@ -302,126 +607,302 @@ class WorkflowLogger:
             return ""
 
     @staticmethod
-    def _diff_excerpt(before_text: str, after_text: str, max_lines: int = 30, max_chars: int = 1200) -> str:
+    def _extract_all_changed_lines(before_text: str, after_text: str) -> List[str]:
         if before_text == after_text:
-            return ""
-        import difflib
-
+            return []
         before_lines = (before_text or "").splitlines()
         after_lines = (after_text or "").splitlines()
         diff_lines = list(
             difflib.unified_diff(before_lines, after_lines, fromfile="before", tofile="after", lineterm="")
         )
-        if not diff_lines:
+        return [
+            line for line in diff_lines
+            if line and (line.startswith("+") or line.startswith("-")) and not line.startswith("+++") and not line.startswith("---")
+        ]
+
+    @staticmethod
+    def _safe_json_excerpt(value: Any, max_chars: int = 1600) -> str:
+        try:
+            text = json.dumps(value, ensure_ascii=False, default=str)
+        except Exception:
+            text = str(value)
+        return text[:max_chars]
+
+    @staticmethod
+    def _dataset_names_from_state(state_in: Any) -> List[str]:
+        if not isinstance(state_in, dict):
+            return []
+        out = []
+        for path in state_in.get("datasets", []) or []:
+            name = os.path.splitext(os.path.basename(str(path)))[0]
+            if name:
+                out.append(name)
+        return out
+
+    @staticmethod
+    def _maybe_parse_json_text(value: Any) -> Any:
+        if not isinstance(value, str):
+            return value
+        text = value.strip()
+        if not text or text[0] not in "{[":
+            return value
+        try:
+            return json.loads(text)
+        except Exception:
+            return value
+
+    @staticmethod
+    def _compact_list(values: List[str], max_items: int = 6) -> str:
+        cleaned = [str(v) for v in values if str(v)]
+        if not cleaned:
             return ""
-        excerpt = "\n".join(diff_lines[:max_lines])
-        if len(excerpt) > max_chars:
-            excerpt = excerpt[:max_chars]
-        return excerpt
+        if len(cleaned) <= max_items:
+            return ", ".join(cleaned)
+        return ", ".join(cleaned[:max_items]) + f", +{len(cleaned) - max_items} more"
+
+    @staticmethod
+    def _format_metric(value: Any) -> str:
+        if isinstance(value, (int, float)):
+            return f"{float(value):.3f}"
+        return str(value)
+
+    @staticmethod
+    def _diff_mapping(before: Dict[str, Any], after: Dict[str, Any]) -> Dict[str, Any]:
+        added = {k: after[k] for k in after.keys() - before.keys()}
+        removed = {k: before[k] for k in before.keys() - after.keys()}
+        changed = {
+            k: {"before": before[k], "after": after[k]}
+            for k in before.keys() & after.keys()
+            if before[k] != after[k]
+        }
+        return {"added": added, "removed": removed, "changed": changed}
+
+    @staticmethod
+    def _extract_import_set(code: str) -> set[str]:
+        imports = set()
+        for line in (code or "").splitlines():
+            stripped = line.strip()
+            if stripped.startswith("import ") or stripped.startswith("from "):
+                imports.add(stripped)
+        return imports
+
+    @staticmethod
+    def _extract_threshold_map(code: str) -> Dict[str, str]:
+        return {
+            match.group(1): match.group(2)
+            for match in re.finditer(r"^\s*(threshold_[A-Za-z0-9_]+)\s*=\s*([0-9]*\.?[0-9]+)", code or "", flags=re.M)
+        }
+
+    @staticmethod
+    def _extract_include_singletons_value(code: str) -> Optional[str]:
+        match = re.search(r"include_singletons\s*=\s*(True|False)", code or "")
+        return match.group(1) if match else None
+
+    @staticmethod
+    def _extract_symbol_tokens(code: str) -> set[str]:
+        patterns = [
+            r"\b[A-Z][A-Za-z0-9_]*(?:Blocker|Matcher|Comparator|Engine|Strategy)\b",
+            r"\bload_(?:csv|xml|parquet)\b",
+        ]
+        tokens: set[str] = set()
+        for pattern in patterns:
+            tokens.update(re.findall(pattern, code or ""))
+        return tokens
+
+    @staticmethod
+    def _extract_alignment_markers(code: str) -> List[str]:
+        markers = []
+        for marker in ["_id", "source_id", "source_dataset", "_fusion_sources"]:
+            if re.search(rf"(?<![A-Za-z0-9]){re.escape(marker)}(?![A-Za-z0-9])", code or ""):
+                markers.append(marker)
+        return markers
 
     def _capture_tracked_files(self, node_name: str) -> Dict[str, str]:
         tracked = {}
-        if node_name == "pipeline_adaption":
-            tracked["pipeline.py"] = self._read_file_if_exists(os.path.join(self.output_dir, "code", "pipeline.py"))
-        elif node_name == "evaluation_adaption":
-            tracked["evaluation.py"] = self._read_file_if_exists(os.path.join(self.output_dir, "code", "evaluation.py"))
+        tracked_paths = {
+            "pipeline.py": os.path.join(self.output_dir, "code", "pipeline.py"),
+            "evaluation.py": os.path.join(self.output_dir, "code", "evaluation.py"),
+        }
+        cached = self._tracked_file_cache.get(node_name, {})
+        for label, path in tracked_paths.items():
+            text = self._read_file_if_exists(path)
+            if text or label in cached:
+                tracked[label] = text
         return tracked
+
+    def _build_file_bundle(self, node_name: str, before_map: Dict[str, str], after_map: Dict[str, str]) -> Dict[str, Dict[str, Any]]:
+        bundle: Dict[str, Dict[str, Any]] = {}
+        keys = set(before_map.keys()) | set(after_map.keys())
+        for key in keys:
+            before_text = before_map.get(key, "")
+            after_text = after_map.get(key, "")
+            if before_text == after_text:
+                continue
+            bundle[key] = {
+                "path": key,
+                "before_text": before_text,
+                "after_text": after_text,
+                "all_changed_lines": self._extract_all_changed_lines(before_text, after_text),
+                "current_file_context": after_text,
+            }
+        self._tracked_file_cache[node_name] = dict(after_map)
+        return bundle
 
     def _compute_file_changes(self, node_name: str, after_map: Dict[str, str]) -> Dict[str, str]:
         before_map = self._tracked_file_cache.get(node_name, {})
-        changes = {}
-        keys = set(before_map.keys()) | set(after_map.keys())
-        for key in keys:
-            diff = self._diff_excerpt(before_map.get(key, ""), after_map.get(key, ""))
-            if diff:
-                changes[key] = diff
-        self._tracked_file_cache[node_name] = after_map
-        return changes
+        bundle = self._build_file_bundle(node_name, before_map, after_map)
+        return {
+            key: "\n".join(info.get("all_changed_lines", []))
+            for key, info in bundle.items()
+        }
 
     def _build_summary_context(
         self,
         node_name: str,
         state_in: Any,
         node_output: Any,
-        file_changes: Dict[str, str],
+        file_bundle: Dict[str, Dict[str, Any]],
         status: str,
         error_text: Optional[str],
+        next_node: Optional[str] = None,
     ) -> Dict[str, Any]:
-        if isinstance(node_output, dict):
-            changed_keys = list(node_output.keys())
-            try:
-                output_text = json.dumps(node_output, ensure_ascii=False, default=str)
-            except Exception:
-                output_text = str(node_output)
-        else:
-            changed_keys = []
-            output_text = str(node_output)
+        facts = self._build_node_facts(node_name, state_in, node_output, file_bundle, status, error_text, next_node or "PENDING")
+        return {"node_facts": facts}
 
+    def _get_node_extractor(self, node_name: str) -> Optional[Callable[..., Dict[str, Any]]]:
+        extractor = NODE_SUMMARY_EXTRACTORS.get(node_name)
+        if isinstance(extractor, str):
+            return getattr(self, extractor, None)
+        return extractor
+
+    def _build_generic_fallback_facts(
+        self,
+        node_name: str,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
         state = state_in if isinstance(state_in, dict) else {}
+        changed_keys = sorted(node_output.keys()) if isinstance(node_output, dict) else []
+        metrics = node_output.get("evaluation_metrics") if isinstance(node_output, dict) else {}
+        if not isinstance(metrics, dict):
+            metrics = {}
         upstream_error = None
         prior_exec = state.get("evaluation_execution_result")
         if isinstance(prior_exec, str) and prior_exec.lower().startswith("error"):
             upstream_error = prior_exec
-
-        attempts = {
-            "pipeline_execution_attempts": state.get("pipeline_execution_attempts"),
-            "evaluation_execution_attempts": state.get("evaluation_execution_attempts"),
-            "evaluation_attempts": state.get("evaluation_attempts"),
-        }
-
-        accuracy_current = None
-        delta_accuracy = None
-        if isinstance(node_output, dict):
-            metrics = node_output.get("evaluation_metrics")
-            if isinstance(metrics, dict):
-                accuracy_current = metrics.get("overall_accuracy")
-
-        if isinstance(accuracy_current, (int, float)) and self._evaluation_runs:
-            prev_raw = self._evaluation_runs[-1].get("accuracy_score")
-            prev = None
-            if isinstance(prev_raw, str) and prev_raw.endswith("%"):
-                try:
-                    prev = float(prev_raw[:-1]) / 100.0
-                except Exception:
-                    prev = None
-            elif isinstance(prev_raw, (int, float)):
-                prev = float(prev_raw)
-                if prev > 1.0:
-                    prev = prev / 100.0
-            if isinstance(prev, (int, float)):
-                delta_accuracy = float(accuracy_current) - float(prev)
-
+        artifact_updates = []
+        for key in changed_keys:
+            if key.endswith("_config") or key.endswith("_metrics") or key.endswith("_report") or key.endswith("_code"):
+                artifact_updates.append(key)
         return {
+            "registered": False,
             "node_name": node_name,
-            "changed_keys": changed_keys,
-            "node_output_excerpt": output_text[:1400],
-            "file_changes": file_changes,
+            "next_node": next_node,
             "status": status,
-            "error": (error_text or "")[:600],
-            "upstream_error_excerpt": (upstream_error or "")[:600],
-            "attempt_counters": attempts,
-            "overall_accuracy": accuracy_current,
-            "delta_accuracy": delta_accuracy,
+            "error": (error_text or "")[:1000],
+            "changed_keys": changed_keys,
+            "attempt_counters": {
+                "pipeline_execution_attempts": state.get("pipeline_execution_attempts"),
+                "evaluation_execution_attempts": state.get("evaluation_execution_attempts"),
+                "evaluation_attempts": state.get("evaluation_attempts"),
+            },
+            "metrics": metrics,
+            "artifact_updates": artifact_updates,
+            "node_output_excerpt": self._safe_json_excerpt(node_output, 2400),
+            "upstream_error_excerpt": (upstream_error or "")[:1000],
+            "file_bundle": file_bundle,
+            "summary_clauses": [],
         }
 
-    def _summarize_step(self, current_node: str, next_node: str, summary_context: Dict[str, Any]) -> str:
-        fallback = f"{current_node} changed this iteration and moved flow to {next_node}."
+    def _build_node_facts(
+        self,
+        node_name: str,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        extractor = self._get_node_extractor(node_name)
+        if extractor is None:
+            return self._build_generic_fallback_facts(node_name, state_in, node_output, file_bundle, status, error_text, next_node)
+        try:
+            facts = extractor(state_in, node_output, file_bundle, status, error_text, next_node)
+            if not isinstance(facts, dict):
+                raise ValueError("Extractor returned non-dict facts")
+            facts.setdefault("registered", True)
+            facts.setdefault("node_name", node_name)
+            facts.setdefault("next_node", next_node)
+            facts.setdefault("status", status)
+            facts.setdefault("error", error_text or "")
+            facts.setdefault("summary_clauses", [])
+            facts.setdefault("file_bundle", file_bundle)
+            return facts
+        except Exception as exc:
+            fallback = self._build_generic_fallback_facts(node_name, state_in, node_output, file_bundle, status, error_text, next_node)
+            fallback["artifact_updates"].append(f"extractor_error:{type(exc).__name__}")
+            return fallback
 
+    def _compose_summary_from_facts(self, node_name: str, facts: Dict[str, Any], next_node: str) -> str:
+        prioritized_lines = []
+        for key in ["summary_lines_primary", "summary_lines_secondary", "summary_lines_support"]:
+            prioritized_lines.extend(
+                [str(line).strip() for line in facts.get(key, []) if str(line).strip()]
+            )
+        if prioritized_lines:
+            return self._compose_multiline_summary(prioritized_lines, node_name)
+        summary_lines = [str(line).strip() for line in facts.get("summary_lines", []) if str(line).strip()]
+        if summary_lines:
+            return self._compose_multiline_summary(summary_lines, node_name)
+        clauses = [str(clause).strip() for clause in facts.get("summary_clauses", []) if str(clause).strip()]
+        effect_clause = str(facts.get("effect_clause", "")).strip()
+        if effect_clause:
+            clauses.append(effect_clause)
+        text = "; ".join(clauses).strip()
+        if text and text[-1] not in ".!?":
+            text += "."
+        return self._truncate_summary(text, self._summary_limit_for_node(node_name)) if text else ""
+
+    def _summarize_unknown_node_with_llm(self, facts: Dict[str, Any], node_name: str, next_node: str) -> str:
+        limit = self._summary_limit_for_node(node_name)
+        fallback = f"{node_name} changed this run; next step is {next_node}."
         if self._summary_model is None:
-            return self._truncate_summary(fallback)
-
+            return self._truncate_summary(fallback, limit)
+        file_bundle = facts.get("file_bundle", {}) if isinstance(facts.get("file_bundle"), dict) else {}
+        changed_lines = {}
+        current_context = {}
+        for path, info in file_bundle.items():
+            changed_lines[path] = info.get("all_changed_lines", [])
+            current_context[path] = info.get("current_file_context", "")
         system_prompt = (
-            "Write one concise engineering log line for this iteration. "
-            "Describe only what changed in this step and its direct effect on pipeline/evaluation progress. "
-            "Do not describe generic node purpose. Use plain text and complete sentences. "
-            f"Maximum {self.summary_char_limit} characters."
+            "You are writing an engineering run log summary for a single workflow node. "
+            "Summarize only what changed in this run. Preserve every material fact from the evidence. "
+            "Name exact code, config, metric, artifact, or error changes when present. "
+            "Use dense semicolon-separated clauses. Mention workflow effect only after naming actual changes. "
+            "Do not explain the usual purpose of the node. Do not say generic phrases like "
+            "'updated the workflow', 'improved performance', or 'advanced the pipeline' unless followed by specific evidence. "
+            "Do not invent changes. Do not omit material changed lines when they are clearly relevant. "
+            f"Return a single plain-text string under {limit} characters."
         )
         human_prompt = (
-            f"current_node: {current_node}\n"
-            f"next_node: {next_node}\n"
-            f"context: {json.dumps(summary_context, ensure_ascii=False)}"
+            f"NODE\n{node_name}\n\n"
+            f"NEXT_NODE\n{next_node}\n\n"
+            f"STATUS\n{facts.get('status', '')}\n\n"
+            f"ERROR\n{facts.get('error', '')}\n\n"
+            f"CHANGED_KEYS\n{json.dumps(facts.get('changed_keys', []), ensure_ascii=False)}\n\n"
+            f"ATTEMPTS\n{json.dumps(facts.get('attempt_counters', {}), ensure_ascii=False)}\n\n"
+            f"METRICS\n{json.dumps(facts.get('metrics', {}), ensure_ascii=False)}\n\n"
+            f"ARTIFACT_UPDATES\n{json.dumps(facts.get('artifact_updates', []), ensure_ascii=False)}\n\n"
+            f"CHANGED_LINES\n{json.dumps(changed_lines, ensure_ascii=False)}\n\n"
+            f"CURRENT_FILE_CONTEXT\n{json.dumps(current_context, ensure_ascii=False)}\n\n"
+            f"NODE_OUTPUT_EXCERPT\n{facts.get('node_output_excerpt', '')}\n\n"
+            f"UPSTREAM_ERROR_EXCERPT\n{facts.get('upstream_error_excerpt', '')}\n"
         )
-
         try:
             response = self._summary_model.invoke(
                 [SystemMessage(content=system_prompt), HumanMessage(content=human_prompt)]
@@ -429,13 +910,819 @@ class WorkflowLogger:
             text = self._coerce_response_text(response.content if hasattr(response, "content") else response)
             if not text.strip():
                 text = fallback
-            return self._truncate_summary(text)
+            return self._truncate_summary(text, limit)
         except Exception:
-            return self._truncate_summary(fallback)
+            return self._truncate_summary(fallback, limit)
+
+    def _summarize_step(self, current_node: str, next_node: str, facts: Dict[str, Any]) -> str:
+        draft = self._compose_summary_from_facts(current_node, facts, next_node)
+        if facts.get("registered") and draft:
+            return draft
+        if not facts.get("registered"):
+            return self._summarize_unknown_node_with_llm(facts, current_node, next_node)
+        if draft:
+            return draft
+        return self._summarize_unknown_node_with_llm(facts, current_node, next_node)
 
     @staticmethod
     def _normalize_expr_text(text: Any) -> str:
         return re.sub(r"\s+", " ", str(text or "")).strip()
+
+    @staticmethod
+    def _extract_strategy_calls(code: str, method_name: str) -> Dict[str, str]:
+        if not code:
+            return {}
+        try:
+            tree = ast.parse(code)
+            calls = {}
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                if not isinstance(node.func, ast.Attribute) or node.func.attr != method_name:
+                    continue
+                if len(node.args) < 2:
+                    continue
+                key_arg = node.args[0]
+                fn_arg = node.args[1]
+                if isinstance(key_arg, ast.Constant) and isinstance(key_arg.value, str):
+                    fn_text = ast.get_source_segment(code, fn_arg)
+                    if not fn_text and isinstance(fn_arg, ast.Name):
+                        fn_text = fn_arg.id
+                    calls[key_arg.value] = WorkflowLogger._normalize_expr_text(fn_text or type(fn_arg).__name__)
+            return calls
+        except Exception:
+            return {}
+
+    @staticmethod
+    def _extract_field_assignments(code: str, field_name: str) -> List[str]:
+        hits = []
+        pattern = re.compile(rf"^\s*.*{re.escape(field_name)}.*$", re.M)
+        for match in pattern.finditer(code or ""):
+            line = match.group(0).strip()
+            if line:
+                hits.append(line)
+        return hits
+
+    @staticmethod
+    def _infer_config_source(state: Dict[str, Any], config_key: str, path_key: str) -> str:
+        if state.get(path_key):
+            return "loaded from file"
+        if state.get(config_key):
+            return "reused from state"
+        return "fresh run"
+
+    @staticmethod
+    def _collect_numeric_metrics(payload: Any, path: str = "") -> Dict[str, Any]:
+        out: Dict[str, Any] = {}
+        if isinstance(payload, dict):
+            for key, value in payload.items():
+                child_path = f"{path}.{key}" if path else str(key)
+                out.update(WorkflowLogger._collect_numeric_metrics(value, child_path))
+        elif isinstance(payload, list):
+            for idx, value in enumerate(payload):
+                child_path = f"{path}[{idx}]"
+                out.update(WorkflowLogger._collect_numeric_metrics(value, child_path))
+        elif isinstance(payload, (int, float)):
+            out[path] = payload
+        return out
+
+    @staticmethod
+    def _collect_pair_scores(config: Any) -> List[str]:
+        scores = []
+        if not isinstance(config, dict):
+            return scores
+        for pair_key, pair_value in config.items():
+            if not isinstance(pair_value, dict):
+                continue
+            snippets = []
+            matcher_type = pair_value.get("matcher_type") or pair_value.get("type")
+            if matcher_type:
+                snippets.append(str(matcher_type))
+            for metric_name in ["f1", "f1_score", "precision", "recall", "threshold"]:
+                if metric_name in pair_value and isinstance(pair_value.get(metric_name), (int, float, str)):
+                    snippets.append(f"{metric_name}={pair_value.get(metric_name)}")
+            nested_metrics = WorkflowLogger._collect_numeric_metrics(pair_value)
+            for metric_path, metric_value in nested_metrics.items():
+                leaf = metric_path.split(".")[-1]
+                if leaf in {"f1", "f1_score", "precision", "recall", "threshold"}:
+                    rendered = f"{leaf}={metric_value}"
+                    if rendered not in snippets:
+                        snippets.append(rendered)
+            if snippets:
+                scores.append(f"{pair_key} ({', '.join(snippets[:5])})")
+        return scores
+
+    @staticmethod
+    def _safe_dict(value: Any) -> Dict[str, Any]:
+        return value if isinstance(value, dict) else {}
+
+    @staticmethod
+    def _extract_error_excerpt(value: Any) -> str:
+        text = str(value or "").strip()
+        return text[:240]
+
+    @staticmethod
+    def _classify_pipeline_adaption_mode(state: Dict[str, Any], before_code: str) -> str:
+        prior_error = state.get("pipeline_execution_result")
+        if isinstance(prior_error, str) and prior_error.lower().startswith("error"):
+            return "execution_repair"
+        if before_code.strip() and (state.get("evaluation_analysis") or state.get("evaluation_metrics")):
+            return "evaluation_refinement"
+        return "initial_draft"
+
+    @staticmethod
+    def _classify_evaluation_adaption_mode(state: Dict[str, Any], before_code: str) -> str:
+        prior_error = state.get("evaluation_execution_result")
+        if isinstance(prior_error, str) and prior_error.lower().startswith("error"):
+            return "execution_repair"
+        if before_code.strip() and state.get("evaluation_metrics"):
+            return "evaluation_refinement"
+        return "initial_draft"
+
+    @staticmethod
+    def _should_repeat_upstream_config_in_pipeline_summary(state: Dict[str, Any], before_code: str, after_code: str) -> bool:
+        if not before_code.strip():
+            return False
+        before_tokens = WorkflowLogger._extract_symbol_tokens(before_code)
+        after_tokens = WorkflowLogger._extract_symbol_tokens(after_code)
+        return before_tokens != after_tokens
+
+    @staticmethod
+    def _summarize_import_capabilities(import_lines: set[str], context: str) -> List[str]:
+        capabilities = []
+        joined = "\n".join(sorted(import_lines))
+        mapping = {
+            "EmbeddingBlocker": "embedding-based blocking support",
+            "RuleBasedMatcher": "rule-based matching support",
+            "StringComparator": "string comparison support",
+            "NumericComparator": "numeric comparison support",
+            "DateComparator": "date comparison support",
+            "DataFusionEngine": "fusion engine support",
+            "DataFusionEvaluator": "fusion evaluation support",
+            "load_xml": "XML loading support",
+            "load_csv": "CSV loading support",
+            "load_dotenv": "environment loading support",
+        }
+        for token, label in mapping.items():
+            if token in joined:
+                capabilities.append(label)
+        if context == "evaluation" and "ImportError" in joined:
+            capabilities.append("fallback import handling")
+        return capabilities[:3]
+
+    def _summarize_attribute_fuser_usage(self, pipeline_code: str) -> Dict[str, Any]:
+        fusers = self._extract_attribute_fusers(pipeline_code)
+        counts: Dict[str, int] = {}
+        fields_by_fuser: Dict[str, List[str]] = {}
+        for field, fn in fusers.items():
+            counts[fn] = counts.get(fn, 0) + 1
+            fields_by_fuser.setdefault(fn, []).append(field)
+        ordered = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+        dominant = ordered[0][0] if ordered else None
+        secondaries = [(fn, fields_by_fuser.get(fn, [])) for fn, _ in ordered[1:4]]
+        return {
+            "fusers": fusers,
+            "counts": counts,
+            "dominant": dominant,
+            "secondaries": secondaries,
+            "total_fields": len(fusers),
+        }
+
+    def _summarize_pipeline_behavior(self, pipeline_code: str) -> Dict[str, Any]:
+        return {
+            "include_singletons": self._extract_include_singletons_value(pipeline_code),
+            "alignment_fields": self._extract_alignment_markers(pipeline_code),
+            "capabilities": self._summarize_import_capabilities(self._extract_import_set(pipeline_code), "pipeline"),
+        }
+
+    def _summarize_evaluation_function_usage(self, evaluation_code: str) -> Dict[str, Any]:
+        functions = self._extract_evaluation_functions(evaluation_code)
+        fields_by_fn: Dict[str, List[str]] = {}
+        for field, fn in functions.items():
+            fields_by_fn.setdefault(fn, []).append(field)
+        ordered = sorted(fields_by_fn.items(), key=lambda item: (-len(item[1]), item[0]))
+        return {
+            "functions": functions,
+            "ordered": ordered,
+            "capabilities": self._summarize_import_capabilities(self._extract_import_set(evaluation_code), "evaluation"),
+        }
+
+    @staticmethod
+    def _strip_markdown_noise(text: str) -> str:
+        cleaned = str(text or "")
+        cleaned = re.sub(r"(?m)^\s*#{1,6}\s*", "", cleaned)
+        cleaned = re.sub(r"\*\*(.*?)\*\*", r"\1", cleaned)
+        cleaned = re.sub(r"`([^`]+)`", r"\1", cleaned)
+        cleaned = re.sub(r"(?m)^\s*[-*]\s+", "", cleaned)
+        cleaned = re.sub(r"(?m)^\s*\d+\)\s*", "", cleaned)
+        cleaned = re.sub(r"\s+-\s+", ". ", cleaned)
+        cleaned = re.sub(r"\s+", " ", cleaned)
+        return cleaned.strip()
+
+    def _summarize_reasoning_text(self, text: str, metrics: Dict[str, Any]) -> List[str]:
+        cleaned = self._strip_markdown_noise(text)
+        if not cleaned:
+            return []
+        sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", cleaned) if s.strip()]
+        problem_keywords = ("problem", "issue", "failure", "dominant error", "missing", "coverage", "accuracy")
+        evidence_keywords = ("mismatch", "debug", "diagnostic", "ratio", "count", "inputs", "fused_id", "nan", "%")
+        proposal_keywords = ("should", "need to", "must", "recommend", "propose", "focus on", "adjust", "preserve", "increase", "switch")
+        problem_lines = []
+        evidence_lines = []
+        proposal_lines = []
+        other_lines = []
+        for sentence in sentences:
+            lowered = sentence.lower()
+            if any(token in lowered for token in proposal_keywords):
+                proposal_lines.append(self._ensure_sentence(sentence))
+            elif any(token in lowered for token in evidence_keywords) or re.search(r"\b\d+(\.\d+)?%?\b", sentence):
+                evidence_lines.append(self._ensure_sentence(sentence))
+            elif any(token in lowered for token in problem_keywords):
+                problem_lines.append(self._ensure_sentence(sentence))
+            else:
+                other_lines.append(self._ensure_sentence(sentence))
+        lines = problem_lines + evidence_lines + proposal_lines + other_lines
+        accuracy = self._format_accuracy(metrics)
+        if accuracy and not any("accuracy" in line.lower() for line in lines):
+            lines.append(f"This reasoning is responding to an overall accuracy of {accuracy}.")
+        return self._normalize_sentence_list(lines)
+
+    def _extract_pipeline_adaption_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        info = file_bundle.get("pipeline.py", {})
+        before_code = info.get("before_text", "")
+        after_code = info.get("after_text", "") or self._read_file_if_exists(os.path.join(self.output_dir, "code", "pipeline.py"))
+        threshold_diff = self._diff_mapping(self._extract_threshold_map(before_code), self._extract_threshold_map(after_code))
+        fuser_diff = self._diff_mapping(self._extract_attribute_fusers(before_code), self._extract_attribute_fusers(after_code))
+        mode = self._classify_pipeline_adaption_mode(state, before_code)
+        behavior = self._summarize_pipeline_behavior(after_code)
+        usage = self._summarize_attribute_fuser_usage(after_code)
+        fallback_lines = []
+
+        if mode == "execution_repair":
+            prior_error = state.get("pipeline_execution_result")
+            error_excerpt = self._extract_error_excerpt(prior_error)
+            fallback_lines.append(f"Reworked the pipeline after the previous execution failure: {error_excerpt}.")
+        elif mode == "evaluation_refinement":
+            fallback_lines.append("Adjusted the pipeline after the last evaluation exposed weak fusion behavior.")
+        else:
+            fallback_lines.append("Generated a new pipeline draft using upstream blocking and matching outputs.")
+
+        dominant = usage.get("dominant")
+        if dominant:
+            dominant_count = usage.get("counts", {}).get(dominant, 0)
+            secondaries = usage.get("secondaries", [])
+            strategy_line = f"Fusion mainly uses `{dominant}` across {dominant_count} attributes."
+            if secondaries:
+                details = []
+                for fn, fields in secondaries[:3]:
+                    if fields:
+                        details.append(f"`{fn}` for {self._compact_list(fields, max_items=4)}")
+                if details:
+                    strategy_line += " It also uses " + "; ".join(details) + "."
+            fallback_lines.append(strategy_line)
+
+        if mode == "evaluation_refinement" and fuser_diff["changed"]:
+            changed_fields = list(fuser_diff["changed"].items())[:6]
+            if changed_fields:
+                transitions = {}
+                for field, change in changed_fields:
+                    key = f"{change['before']} -> {change['after']}"
+                    transitions.setdefault(key, []).append(field)
+                change_bits = []
+                for key, fields in transitions.items():
+                    change_bits.append(f"{self._compact_list(fields, max_items=4)} moved from `{key.split(' -> ')[0]}` to `{key.split(' -> ')[1]}`")
+                fallback_lines.append("This iteration shifts fusion behavior so that " + "; ".join(change_bits) + ".")
+
+        support_bits = []
+        include_singletons = behavior.get("include_singletons")
+        if include_singletons == "True":
+            support_bits.append("singleton retention is enabled")
+        elif include_singletons == "False":
+            support_bits.append("singleton retention is disabled")
+        alignment_fields = behavior.get("alignment_fields") or []
+        if alignment_fields:
+            support_bits.append(f"lineage fields include {self._compact_list(alignment_fields, max_items=4)}")
+        if support_bits:
+            fallback_lines.append(self._compact_list([bit[0].upper() + bit[1:] if bit else bit for bit in support_bits], max_items=3) + ".")
+
+        if threshold_diff["changed"] and mode != "initial_draft":
+            threshold_keys = sorted(threshold_diff["changed"].keys())
+            fallback_lines.append(
+                "Matching thresholds were adjusted for "
+                + self._compact_list(threshold_keys, max_items=4)
+                + "."
+            )
+
+        capabilities = behavior.get("capabilities") or []
+        if capabilities and self._should_repeat_upstream_config_in_pipeline_summary(state, before_code, after_code):
+            fallback_lines.append("The revision also introduces " + self._compact_list(capabilities, max_items=3) + ".")
+
+        evidence = {
+            "node": "pipeline_adaption",
+            "mode": mode,
+            "evaluation_analysis": self._limit_context(state.get("evaluation_analysis", "")),
+            "evaluation_metrics": state.get("evaluation_metrics", {}),
+            "auto_diagnostics": state.get("auto_diagnostics", {}),
+            "before_pipeline": self._limit_context(before_code),
+            "after_pipeline": self._limit_context(after_code),
+            "fuser_changes": fuser_diff,
+            "threshold_changes": threshold_diff,
+            "behavior": behavior,
+            "attribute_fuser_usage": usage,
+            "fallback_summary_lines": fallback_lines,
+        }
+        payload = self._run_structured_summary_extractor("pipeline_adaption", evidence, "pipeline_adaption")
+        summary_lines = self._render_pipeline_adaption_summary_lines(payload, fallback_lines)
+
+        return {
+            "registered": True,
+            "node_name": "pipeline_adaption",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_lines": summary_lines,
+            "summary_clauses": [],
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_evaluation_adaption_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        info = file_bundle.get("evaluation.py", {})
+        before_code = info.get("before_text", "")
+        after_code = info.get("after_text", "") or self._read_file_if_exists(os.path.join(self.output_dir, "code", "evaluation.py"))
+        mode = self._classify_evaluation_adaption_mode(state, before_code)
+        usage = self._summarize_evaluation_function_usage(after_code)
+        ordered = usage.get("ordered", [])
+        fallback_lines = []
+
+        if mode == "execution_repair":
+            prior_error = state.get("evaluation_execution_result")
+            fallback_lines.append(
+                f"Reworked the evaluation script after the previous execution failure: {self._extract_error_excerpt(prior_error)}."
+            )
+        elif mode == "evaluation_refinement":
+            fallback_lines.append("Refined the evaluation logic after reviewing the latest metrics.")
+        else:
+            fallback_lines.append("Generated a new evaluation script for the current fused output.")
+
+        if ordered:
+            dominant_fn, dominant_fields = ordered[0]
+            line = f"Most covered fields use `{dominant_fn}`"
+            if dominant_fields:
+                line += f", including {self._compact_list(dominant_fields, max_items=6)}"
+            line += "."
+            secondary_bits = []
+            for fn, fields in ordered[1:4]:
+                secondary_bits.append(f"`{fn}` for {self._compact_list(fields, max_items=4)}")
+            if secondary_bits:
+                line += " Secondary checks use " + "; ".join(secondary_bits) + "."
+            fallback_lines.append(line)
+
+        tolerance_lines = [
+            line[1:].strip()
+            for line in info.get("all_changed_lines", [])
+            if "tolerance" in line or "numeric_tolerance_match" in line or "tokenized_match" in line
+        ]
+        helper_bits = []
+        if tolerance_lines:
+            helper_bits.append("numeric or tokenized helper logic was updated")
+        if "try:" in after_code and "except ImportError" in after_code:
+            helper_bits.append("fallback import handling was kept for execution stability")
+        capabilities = usage.get("capabilities") or []
+        if capabilities:
+            helper_bits.append(self._compact_list(capabilities, max_items=2))
+        if helper_bits:
+            fallback_lines.append(self._compact_list(helper_bits, max_items=3).capitalize() + ".")
+
+        evidence = {
+            "node": "evaluation_adaption",
+            "mode": mode,
+            "evaluation_analysis": self._limit_context(state.get("evaluation_analysis", "")),
+            "evaluation_metrics": state.get("evaluation_metrics", {}),
+            "before_evaluation": self._limit_context(before_code),
+            "after_evaluation": self._limit_context(after_code),
+            "evaluation_function_usage": usage,
+            "changed_lines": info.get("all_changed_lines", []),
+            "fallback_summary_lines": fallback_lines,
+            "prior_error": self._extract_error_excerpt(state.get("evaluation_execution_result")),
+        }
+        payload = self._run_structured_summary_extractor("evaluation_adaption", evidence, "evaluation_adaption")
+        summary_lines = self._render_evaluation_adaption_summary_lines(payload, fallback_lines)
+
+        return {
+            "registered": True,
+            "node_name": "evaluation_adaption",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_lines": summary_lines,
+            "summary_clauses": [],
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_run_matching_tester_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        cfg = output.get("matching_config") if output.get("matching_config") is not None else state.get("matching_config")
+        matcher_mode = state.get("matcher_mode") or output.get("matcher_mode") or "rule_based"
+        source = self._infer_config_source(state, "matching_config", "matching_config_path")
+        pair_keys = sorted(cfg.keys()) if isinstance(cfg, dict) else []
+        score_snippets = self._collect_pair_scores(cfg)
+        summary_clauses = [
+            f"matcher mode `{self._normalize_matcher_mode(matcher_mode)}` with config source {source}",
+        ]
+        if pair_keys:
+            summary_clauses.append(f"evaluated pairs: {self._compact_list(pair_keys, max_items=10)}")
+        if score_snippets:
+            summary_clauses.append(f"selected scores: {self._compact_list(score_snippets, max_items=6)}")
+        if isinstance(cfg, dict):
+            summary_clauses.append(f"produced {len(cfg)} pair strategy entries")
+        return {
+            "registered": True,
+            "node_name": "run_matching_tester",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_clauses": summary_clauses,
+            "effect_clause": f"matching config is ready for `{next_node}`" if next_node and next_node != "PENDING" else "",
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_run_blocking_tester_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        cfg = output.get("blocking_config") if output.get("blocking_config") is not None else state.get("blocking_config")
+        source = self._infer_config_source(state, "blocking_config", "blocking_config_path")
+        strategies = {}
+        if isinstance(cfg, dict):
+            strategies = cfg.get("blocking_strategies") if isinstance(cfg.get("blocking_strategies"), dict) else cfg
+
+        summary_lines = []
+        if source == "reused from state":
+            summary_lines.append("Reused the blocking configuration from state.")
+        elif source == "loaded from file":
+            summary_lines.append("Loaded the blocking configuration from file.")
+        else:
+            summary_lines.append("Computed a new blocking configuration.")
+
+        if isinstance(strategies, dict) and strategies:
+            strategy_groups: Dict[str, List[str]] = {}
+            candidate_counts: List[int] = []
+            completeness_values: List[float] = []
+            representative_columns: Dict[str, List[str]] = {}
+            for pair_key, pair_cfg in strategies.items():
+                if not isinstance(pair_cfg, dict):
+                    continue
+                strategy = pair_cfg.get("blocker_type") or pair_cfg.get("strategy") or pair_cfg.get("blocker") or "unknown"
+                strategy_groups.setdefault(str(strategy), []).append(str(pair_key))
+                candidate_count = pair_cfg.get("candidate_count") or pair_cfg.get("num_candidates")
+                if isinstance(candidate_count, (int, float)):
+                    candidate_counts.append(int(candidate_count))
+                completeness = pair_cfg.get("pair_completeness")
+                if isinstance(completeness, (int, float)):
+                    completeness_values.append(float(completeness))
+                columns = pair_cfg.get("columns")
+                if isinstance(columns, list) and columns:
+                    representative_columns.setdefault(str(strategy), [str(col) for col in columns])
+
+            strategy_bits = []
+            for strategy, pairs in strategy_groups.items():
+                bit = f"`{strategy}` for {self._compact_list(sorted(pairs), max_items=4)}"
+                columns = representative_columns.get(strategy) or []
+                if columns:
+                    bit += f", blocking on {self._compact_list(columns, max_items=4)}"
+                strategy_bits.append(bit)
+            if strategy_bits:
+                summary_lines.append("Blocking uses " + "; ".join(strategy_bits) + ".")
+
+            performance_bits = []
+            if completeness_values:
+                if len(set(round(v, 4) for v in completeness_values)) == 1:
+                    performance_bits.append(f"pair completeness is {completeness_values[0]:.2f} for all pairs")
+                else:
+                    performance_bits.append(
+                        f"pair completeness ranges from {min(completeness_values):.2f} to {max(completeness_values):.2f}"
+                    )
+            if candidate_counts:
+                performance_bits.append(
+                    f"candidate counts range from {min(candidate_counts)} to {max(candidate_counts)}"
+                )
+            if performance_bits:
+                summary_lines.append("Performance-wise, " + " and ".join(performance_bits) + ".")
+
+        if isinstance(cfg, dict):
+            extra_bits = []
+            if isinstance(cfg.get("id_columns"), dict) and cfg.get("id_columns"):
+                extra_bits.append("dataset id columns")
+            if isinstance(cfg.get("fusion_size_estimate"), dict) and cfg.get("fusion_size_estimate"):
+                estimate = cfg["fusion_size_estimate"].get("expected_rows")
+                if estimate is not None:
+                    extra_bits.append(f"a blocking-stage fusion estimate of {estimate} rows")
+            if extra_bits:
+                summary_lines.append("The config also records " + " and ".join(extra_bits) + ".")
+        return {
+            "registered": True,
+            "node_name": "run_blocking_tester",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_lines": summary_lines,
+            "summary_clauses": [],
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_profile_data_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        profiles = output.get("data_profiles") if output.get("data_profiles") is not None else state.get("data_profiles")
+        dataset_names = self._dataset_names_from_state(state)
+        summary_clauses = []
+        if dataset_names:
+            summary_clauses.append(f"profiled datasets: {self._compact_list(dataset_names, max_items=12)}")
+        if isinstance(profiles, dict):
+            dataset_bits = []
+            anomaly_bits = []
+            for name, profile in profiles.items():
+                if not isinstance(profile, dict):
+                    continue
+                row_count = (
+                    profile.get("num_rows")
+                    or profile.get("row_count")
+                    or profile.get("rows")
+                    or profile.get("n_rows")
+                )
+                col_count = (
+                    profile.get("num_columns")
+                    or profile.get("column_count")
+                    or profile.get("cols")
+                    or profile.get("n_columns")
+                )
+                bit = str(name)
+                extras = []
+                if row_count is not None:
+                    extras.append(f"rows={row_count}")
+                if col_count is not None:
+                    extras.append(f"cols={col_count}")
+                if extras:
+                    bit += f" ({', '.join(extras)})"
+                dataset_bits.append(bit)
+                for anomaly_key in ["missing_columns", "high_null_columns", "empty_columns", "type_issues"]:
+                    anomaly = profile.get(anomaly_key)
+                    if anomaly:
+                        anomaly_bits.append(f"{name}:{anomaly_key}")
+            if dataset_bits:
+                summary_clauses.append(f"profile details: {self._compact_list(dataset_bits, max_items=8)}")
+            if anomaly_bits:
+                summary_clauses.append(f"notable data quality issues: {self._compact_list(anomaly_bits, max_items=8)}")
+        return {
+            "registered": True,
+            "node_name": "profile_data",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_clauses": summary_clauses or ["profile output captured for downstream generation"],
+            "effect_clause": f"profile context is ready for `{next_node}`" if next_node and next_node != "PENDING" else "",
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_match_schemas_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        correspondences = (
+            output.get("schema_correspondences")
+            if output.get("schema_correspondences") is not None
+            else state.get("schema_correspondences")
+        )
+        dataset_names = self._dataset_names_from_state(state)
+        summary_clauses = []
+        if dataset_names:
+            summary_clauses.append(f"aligned schemas for datasets: {self._compact_list(dataset_names, max_items=12)}")
+        if isinstance(correspondences, dict):
+            pair_count = len(correspondences)
+            summary_clauses.append(f"generated {pair_count} schema correspondence groups")
+            unmatched = []
+            for pair_key, value in correspondences.items():
+                if isinstance(value, dict):
+                    if value.get("unmatched_columns"):
+                        unmatched.append(f"{pair_key}:{len(value.get('unmatched_columns', []))} unmatched")
+                    elif value.get("matches"):
+                        summary_clauses.append(f"{pair_key} mapped {len(value.get('matches', []))} fields")
+                        break
+            if unmatched:
+                summary_clauses.append(f"unmatched schema hints: {self._compact_list(unmatched, max_items=6)}")
+        elif isinstance(correspondences, list):
+            summary_clauses.append(f"generated {len(correspondences)} schema correspondences")
+        return {
+            "registered": True,
+            "node_name": "match_schemas",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_clauses": summary_clauses or ["schema correspondence output updated"],
+            "effect_clause": f"schema mapping is ready for `{next_node}`" if next_node and next_node != "PENDING" else "",
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_execute_pipeline_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        execution_result = output.get("pipeline_execution_result")
+        if execution_result is None:
+            execution_result = state.get("pipeline_execution_result")
+        attempts = output.get("pipeline_execution_attempts", state.get("pipeline_execution_attempts"))
+        fusion_size = output.get("fusion_size_comparison") or state.get("fusion_size_comparison") or {}
+        fusion_csv = os.path.join(self.output_dir, "data_fusion", "fusion_data.csv")
+        summary_clauses = []
+        if isinstance(execution_result, str) and execution_result.lower().startswith("error"):
+            summary_clauses.append(f"pipeline execution failed on attempt {attempts}: {self._extract_error_excerpt(execution_result)}")
+        else:
+            summary_clauses.append(f"pipeline execution succeeded on attempt {attempts}")
+        if os.path.exists(fusion_csv):
+            summary_clauses.append("fusion_data.csv was produced")
+        if isinstance(fusion_size, dict) and fusion_size:
+            estimate = fusion_size.get("estimated_size") or fusion_size.get("estimated_rows")
+            actual = fusion_size.get("actual_size") or fusion_size.get("actual_rows")
+            if estimate is not None or actual is not None:
+                summary_clauses.append(f"fusion size estimate vs actual: {estimate} vs {actual}")
+        return {
+            "registered": True,
+            "node_name": "execute_pipeline",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_clauses": summary_clauses,
+            "effect_clause": f"next run proceeds to `{next_node}`" if next_node and next_node != "PENDING" else "",
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_execute_evaluation_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        execution_result = output.get("evaluation_execution_result")
+        if execution_result is None:
+            execution_result = state.get("evaluation_execution_result")
+        attempts = output.get("evaluation_execution_attempts", state.get("evaluation_execution_attempts"))
+        eval_json = os.path.join(self.output_dir, "pipeline_evaluation", "pipeline_evaluation.json")
+        summary_clauses = []
+        if isinstance(execution_result, str) and execution_result.lower().startswith("error"):
+            summary_clauses.append(f"evaluation execution failed on attempt {attempts}: {self._extract_error_excerpt(execution_result)}")
+        else:
+            summary_clauses.append(f"evaluation execution succeeded on attempt {attempts}")
+        if os.path.exists(eval_json):
+            summary_clauses.append("pipeline_evaluation.json is available")
+        return {
+            "registered": True,
+            "node_name": "execute_evaluation",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_clauses": summary_clauses,
+            "effect_clause": f"next run proceeds to `{next_node}`" if next_node and next_node != "PENDING" else "",
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_evaluation_decision_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        metrics = output.get("evaluation_metrics") if isinstance(output.get("evaluation_metrics"), dict) else state.get("evaluation_metrics", {})
+        accuracy = self._format_accuracy(metrics)
+        previous_accuracy = self._evaluation_runs[-1].get("accuracy_score") if self._evaluation_runs else None
+        attempts = output.get("evaluation_attempts", state.get("evaluation_attempts"))
+        summary_clauses = []
+        if accuracy is not None:
+            summary_clauses.append(f"overall accuracy is {accuracy}")
+        if previous_accuracy and accuracy and previous_accuracy != accuracy:
+            summary_clauses.append(f"previous logged accuracy was {previous_accuracy}")
+        if attempts is not None:
+            summary_clauses.append(f"evaluation attempt counter is {attempts}")
+        if next_node and next_node != "PENDING":
+            summary_clauses.append(f"decision routes to `{next_node}`")
+        return {
+            "registered": True,
+            "node_name": "evaluation_decision",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_clauses": summary_clauses or ["evaluation decision updated workflow state"],
+            "effect_clause": "",
+            "file_bundle": file_bundle,
+        }
+
+    def _extract_evaluation_reasoning_facts(
+        self,
+        state_in: Any,
+        node_output: Any,
+        file_bundle: Dict[str, Dict[str, Any]],
+        status: str,
+        error_text: Optional[str],
+        next_node: str,
+    ) -> Dict[str, Any]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        analysis = output.get("evaluation_analysis")
+        if analysis is None:
+            analysis = state.get("evaluation_analysis")
+        analysis_text = self._coerce_response_text(analysis)
+        metrics = output.get("evaluation_metrics") if isinstance(output.get("evaluation_metrics"), dict) else state.get("evaluation_metrics", {})
+        pipeline_code = self._read_file_if_exists(os.path.join(self.output_dir, "code", "pipeline.py"))
+        evaluation_code = self._read_file_if_exists(os.path.join(self.output_dir, "code", "evaluation.py"))
+        fallback_lines = self._summarize_reasoning_text(analysis_text, metrics)
+        evidence = {
+            "node": "evaluation_reasoning",
+            "analysis": self._limit_context(analysis_text),
+            "evaluation_metrics": metrics if isinstance(metrics, dict) else {},
+            "auto_diagnostics": state.get("auto_diagnostics", {}),
+            "current_pipeline": self._limit_context(pipeline_code),
+            "current_evaluation": self._limit_context(evaluation_code),
+            "pipeline_execution_result": self._extract_error_excerpt(state.get("pipeline_execution_result")),
+            "evaluation_execution_result": self._extract_error_excerpt(state.get("evaluation_execution_result")),
+            "fallback_summary_lines": fallback_lines,
+        }
+        payload = self._run_structured_summary_extractor("evaluation_reasoning", evidence, "evaluation_reasoning")
+        lines = self._render_reasoning_summary_lines(payload, fallback_lines, metrics if isinstance(metrics, dict) else {})
+        return {
+            "registered": True,
+            "node_name": "evaluation_reasoning",
+            "next_node": next_node,
+            "status": status,
+            "error": error_text or "",
+            "summary_lines": lines or ["Evaluation reasoning produced the next repair direction."],
+            "summary_clauses": [],
+            "file_bundle": file_bundle,
+        }
 
     def _extract_attribute_fusers(self, pipeline_code: str) -> Dict[str, str]:
         if not pipeline_code:
@@ -599,7 +1886,7 @@ class WorkflowLogger:
         self.mark_next_for_previous(node_name)
 
         before_tokens = dict(token_usage or {})
-        start = time.time()
+        start_ns = time.perf_counter_ns()
         before_files = self._capture_tracked_files(node_name)
 
         node_output = {}
@@ -620,20 +1907,15 @@ class WorkflowLogger:
             result = None
 
         after_files = self._capture_tracked_files(node_name)
-        file_changes = {}
-        keys = set(before_files.keys()) | set(after_files.keys())
-        for key in keys:
-            diff = self._diff_excerpt(before_files.get(key, ""), after_files.get(key, ""))
-            if diff:
-                file_changes[key] = diff
+        file_bundle = self._build_file_bundle(node_name, before_files, after_files)
 
         prompt_delta = max(0, int((token_usage or {}).get("prompt_tokens", 0) - before_tokens.get("prompt_tokens", 0)))
         completion_delta = max(0, int((token_usage or {}).get("completion_tokens", 0) - before_tokens.get("completion_tokens", 0)))
         total_delta = max(0, int((token_usage or {}).get("total_tokens", 0) - before_tokens.get("total_tokens", 0)))
         cost_delta = max(0.0, float((token_usage or {}).get("total_cost", 0.0) - before_tokens.get("total_cost", 0.0)))
 
-        summary_context = self._build_summary_context(node_name, state_in, node_output, file_changes, status, error_text)
-        summary = self._summarize_step(node_name, "PENDING", summary_context)
+        facts = self._build_node_facts(node_name, state_in, node_output, file_bundle, status, error_text, "PENDING")
+        summary = self._summarize_step(node_name, "PENDING", facts)
 
         upstream_error = None
         if node_name == "evaluation_adaption" and isinstance(state_in, dict):
@@ -648,12 +1930,12 @@ class WorkflowLogger:
             "node_index": self._node_index,
             "current_node": node_name,
             "next_node": "PENDING" if status == "ok" else "__EXCEPTION__",
-            "output_summary": summary,
+            "output_summary": self._summary_output_value(summary),
             "prompt_tokens": prompt_delta,
             "completion_tokens": completion_delta,
             "total_tokens": total_delta,
             "estimated_cost_usd": round(cost_delta, 8),
-            "duration_ms": int((time.time() - start) * 1000),
+            "duration_seconds": self._round_seconds((time.perf_counter_ns() - start_ns) / 1_000_000_000),
             "status": status,
             "error": self._truncate_summary(logged_error) if logged_error else None,
         }
@@ -709,13 +1991,14 @@ class WorkflowLogger:
     def log_stream_update(self, node_name: str, state_in: Any, node_output: Any, token_usage: Dict[str, Any]):
         self.mark_next_for_previous(node_name)
 
+        before_files = dict(self._tracked_file_cache.get(node_name, {}))
         after_files = self._capture_tracked_files(node_name)
-        file_changes = self._compute_file_changes(node_name, after_files)
+        file_bundle = self._build_file_bundle(node_name, before_files, after_files)
 
         prompt_delta, completion_delta, total_delta, cost_delta = self._consume_token_deltas(token_usage)
 
-        summary_context = self._build_summary_context(node_name, state_in, node_output, file_changes, "ok", None)
-        summary = self._summarize_step(node_name, "PENDING", summary_context)
+        facts = self._build_node_facts(node_name, state_in, node_output, file_bundle, "ok", None, "PENDING")
+        summary = self._summarize_step(node_name, "PENDING", facts)
 
         upstream_error = None
         if node_name == "evaluation_adaption" and isinstance(state_in, dict):
@@ -723,17 +2006,19 @@ class WorkflowLogger:
             if isinstance(prior_exec, str) and prior_exec.lower().startswith("error"):
                 upstream_error = prior_exec
 
+        duration_seconds = self._round_seconds(self._pop_node_duration(node_name))
+
         self._node_index += 1
         record = {
             "node_index": self._node_index,
             "current_node": node_name,
             "next_node": "PENDING",
-            "output_summary": summary,
+            "output_summary": self._summary_output_value(summary),
             "prompt_tokens": prompt_delta,
             "completion_tokens": completion_delta,
             "total_tokens": total_delta,
             "estimated_cost_usd": round(cost_delta, 8),
-            "duration_ms": 0,
+            "duration_seconds": duration_seconds,
             "status": "ok",
             "error": self._truncate_summary(upstream_error) if upstream_error else None,
         }
@@ -843,6 +2128,46 @@ def _disable_existing_notebook_logger(agent: Any):
         setattr(agent, "_summary_model", None)
 
 
+def _attach_node_timing(graph: Any, logger: WorkflowLogger):
+    nodes = getattr(graph, "nodes", None)
+    if not isinstance(nodes, dict):
+        return
+
+    for node_name, pregel_node in nodes.items():
+        if not node_name or str(node_name).startswith("__"):
+            continue
+
+        runnable = getattr(pregel_node, "node", None)
+        if runnable is None:
+            continue
+
+        original_invoke = getattr(runnable, "invoke", None)
+        if callable(original_invoke) and not getattr(original_invoke, "__workflow_timing_wrapped__", False):
+            def wrapped_invoke(*args, __orig=original_invoke, __node_name=node_name, **kwargs):
+                start_ns = time.perf_counter_ns()
+                try:
+                    return __orig(*args, **kwargs)
+                finally:
+                    duration_seconds = (time.perf_counter_ns() - start_ns) / 1_000_000_000
+                    logger._push_node_duration(__node_name, duration_seconds)
+
+            wrapped_invoke.__workflow_timing_wrapped__ = True
+            setattr(runnable, "invoke", wrapped_invoke)
+
+        original_ainvoke = getattr(runnable, "ainvoke", None)
+        if callable(original_ainvoke) and not getattr(original_ainvoke, "__workflow_timing_awrapped__", False):
+            async def wrapped_ainvoke(*args, __orig=original_ainvoke, __node_name=node_name, **kwargs):
+                start_ns = time.perf_counter_ns()
+                try:
+                    return await __orig(*args, **kwargs)
+                finally:
+                    duration_seconds = (time.perf_counter_ns() - start_ns) / 1_000_000_000
+                    logger._push_node_duration(__node_name, duration_seconds)
+
+            wrapped_ainvoke.__workflow_timing_awrapped__ = True
+            setattr(runnable, "ainvoke", wrapped_ainvoke)
+
+
 def attach_logging(
     agent: Any,
     output_dir: str,
@@ -882,6 +2207,7 @@ def attach_logging(
             agent.base_model = wrapped_base_model
 
     graph = agent.graph
+    _attach_node_timing(graph, logger)
     original_graph_stream = getattr(graph, "stream")
     if not getattr(original_graph_stream, "__workflow_stream_wrapped__", False):
         def wrapped_graph_stream(input_data, *args, **kwargs):
