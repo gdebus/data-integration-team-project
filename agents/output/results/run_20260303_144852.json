@@ -1,0 +1,2956 @@
+{
+  "timestamp": "20260303_144852",
+  "generated_at": "2026-03-03T13:48:52.483554Z",
+  "run_id": "20260303_125833_844806",
+  "run_output_root": "output/runs/20260303_125833_844806",
+  "datasets": [
+    "forbes",
+    "dbpedia",
+    "fullcontact"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "validation_set.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "forbes_dbpedia": {
+      "pair_completeness": 1.0,
+      "num_candidates": 40000,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "industry"
+      ]
+    },
+    "forbes_fullcontact": {
+      "pair_completeness": 1.0,
+      "num_candidates": 29949,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "pair_completeness": 0.9866666666666667,
+      "num_candidates": 38122,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "city",
+        "country"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "forbes_dbpedia": {
+      "f1_score": 0.7927272727272727
+    },
+    "forbes_fullcontact": {
+      "f1_score": 0.5203539823008849
+    },
+    "fullcontact_dbpedia": {
+      "f1_score": 0.7508532423208191
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.6666666666666666,
+    "macro_accuracy": 0.6380952380952382,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 88,
+    "assets_accuracy": 1.0,
+    "assets_count": 25,
+    "keypeople_name_accuracy": 0.42857142857142855,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.28,
+    "city_count": 25,
+    "founded_accuracy": 0.48,
+    "founded_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "name_accuracy": 0.68,
+    "name_count": 25
+  },
+  "overall_accuracy": 0.6666666666666666,
+  "validation_metrics_final": {
+    "overall_accuracy": 0.6666666666666666,
+    "macro_accuracy": 0.6380952380952382,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 88,
+    "assets_accuracy": 1.0,
+    "assets_count": 25,
+    "keypeople_name_accuracy": 0.42857142857142855,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.28,
+    "city_count": 25,
+    "founded_accuracy": 0.48,
+    "founded_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "name_accuracy": 0.68,
+    "name_count": 25
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.7676767676767676,
+    "macro_accuracy": 0.7037037037037037,
+    "num_evaluated_records": 18,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 99,
+    "total_correct": 76,
+    "founded_accuracy": 0.8333333333333334,
+    "founded_count": 18,
+    "country_accuracy": 0.9444444444444444,
+    "country_count": 18,
+    "assets_accuracy": 1.0,
+    "assets_count": 18,
+    "keypeople_name_accuracy": 0.0,
+    "keypeople_name_count": 9,
+    "name_accuracy": 0.8333333333333334,
+    "name_count": 18,
+    "city_accuracy": 0.6111111111111112,
+    "city_count": 18
+  },
+  "metrics_by_split": {
+    "validation_final": {
+      "overall_accuracy": 0.6666666666666666,
+      "macro_accuracy": 0.6380952380952382,
+      "num_evaluated_records": 25,
+      "num_evaluated_attributes": 6,
+      "total_evaluations": 132,
+      "total_correct": 88,
+      "assets_accuracy": 1.0,
+      "assets_count": 25,
+      "keypeople_name_accuracy": 0.42857142857142855,
+      "keypeople_name_count": 7,
+      "city_accuracy": 0.28,
+      "city_count": 25,
+      "founded_accuracy": 0.48,
+      "founded_count": 25,
+      "country_accuracy": 0.96,
+      "country_count": 25,
+      "name_accuracy": 0.68,
+      "name_count": 25
+    },
+    "sealed_test_final": {
+      "overall_accuracy": 0.7676767676767676,
+      "macro_accuracy": 0.7037037037037037,
+      "num_evaluated_records": 18,
+      "num_evaluated_attributes": 6,
+      "total_evaluations": 99,
+      "total_correct": 76,
+      "founded_accuracy": 0.8333333333333334,
+      "founded_count": 18,
+      "country_accuracy": 0.9444444444444444,
+      "country_count": 18,
+      "assets_accuracy": 1.0,
+      "assets_count": 18,
+      "keypeople_name_accuracy": 0.0,
+      "keypeople_name_count": 9,
+      "name_accuracy": 0.8333333333333334,
+      "name_count": 18,
+      "city_accuracy": 0.6111111111111112,
+      "city_count": 18
+    }
+  },
+  "blocking_config": {
+    "blocking_strategies": {
+      "forbes_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "country",
+          "industry"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 40000,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "forbes_fullcontact": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "country"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 29949,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "fullcontact_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "city",
+          "country"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9866666666666667,
+        "num_candidates": 38122,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "id_columns": {
+      "forbes": "id",
+      "dbpedia": "id",
+      "fullcontact": "id"
+    },
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "dataset_names": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "pc_threshold": 0.9,
+    "max_candidates": 69375,
+    "candidate_tolerance": 0.15,
+    "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 11991,
+      "expected_unique_ids": 11991,
+      "expected_rows_range": [
+        8181,
+        11991
+      ],
+      "expected_unique_ids_range": [
+        8181,
+        11991
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 2000,
+          "forbes_fullcontact": 1931,
+          "dbpedia_fullcontact": 1905
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 1931.0,
+          "via_dbpedia": 377.75133848899463,
+          "via_fullcontact": 1905.0,
+          "median_used": 1905.0,
+          "final_triple_intersection": 1905,
+          "triple_intersection_range": [
+            0,
+            1905
+          ]
+        },
+        "expected_union_clusters": 2026,
+        "expected_union_range": [
+          2026,
+          5836
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 2000
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 1931
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9866666666666667,
+          "expected_cluster_count": 1905
+        }
+      ],
+      "created_at": "2026-03-03T13:20:37.491490+00:00",
+      "expected_rows_matched_only": 2026,
+      "expected_unique_ids_matched_only": 2026,
+      "expected_rows_matched_only_range": [
+        2026,
+        5836
+      ],
+      "expected_unique_ids_matched_only_range": [
+        2026,
+        5836
+      ],
+      "expected_rows_singleton_aware": 11991,
+      "expected_unique_ids_singleton_aware": 11991,
+      "expected_rows_singleton_aware_range": [
+        8181,
+        11991
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        8181,
+        11991
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "forbes": "id",
+      "dbpedia": "id",
+      "fullcontact": "id"
+    },
+    "matching_strategies": {
+      "forbes_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "industry",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.6,
+          0.25,
+          0.15
+        ],
+        "threshold": 0.78,
+        "f1": 0.7927272727272727,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "forbes_fullcontact": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.8,
+          0.2
+        ],
+        "threshold": 0.85,
+        "f1": 0.5203539823008849,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "low_matching_quality"
+        ]
+      },
+      "fullcontact_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "founded",
+            "max_days_difference": 3650
+          }
+        ],
+        "weights": [
+          0.55,
+          0.15,
+          0.1,
+          0.2
+        ],
+        "threshold": 0.78,
+        "f1": 0.7508532423208191,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "dataset_names": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "min_blocking_pc_for_matching": 0.9,
+    "proxy_f1_margin": 0.015,
+    "proxy_max_candidates": 60000,
+    "llm_trace_path": "output/matching-evaluation/llm_matching_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 11486,
+      "expected_unique_ids": 11486,
+      "expected_rows_range": [
+        9996,
+        12006
+      ],
+      "expected_unique_ids_range": [
+        9996,
+        12006
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 1585,
+          "forbes_fullcontact": 1005,
+          "dbpedia_fullcontact": 1431
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 796.4625,
+          "via_dbpedia": 224.87953599048186,
+          "via_fullcontact": 744.7721387881926,
+          "median_used": 744.7721387881926,
+          "final_triple_intersection": 745,
+          "triple_intersection_range": [
+            0,
+            1005
+          ]
+        },
+        "expected_union_clusters": 2531,
+        "expected_union_range": [
+          2011,
+          4021
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "f1": 0.7927272727272727,
+          "expected_cluster_count": 1585
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 1.0,
+          "f1": 0.5203539823008849,
+          "expected_cluster_count": 1005
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9866666666666667,
+          "f1": 0.7508532423208191,
+          "expected_cluster_count": 1431
+        }
+      ],
+      "created_at": "2026-03-03T13:21:31.115481+00:00",
+      "expected_rows_matched_only": 2531,
+      "expected_unique_ids_matched_only": 2531,
+      "expected_rows_matched_only_range": [
+        2011,
+        4021
+      ],
+      "expected_unique_ids_matched_only_range": [
+        2011,
+        4021
+      ],
+      "expected_rows_singleton_aware": 11486,
+      "expected_unique_ids_singleton_aware": 11486,
+      "expected_rows_singleton_aware_range": [
+        9996,
+        12006
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        9996,
+        12006
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "run_report_path": "output/results/run_20260303_122109_report.md"
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 12625,
+      "unique_ids": 12625
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 11991,
+        "actual_rows": 12625,
+        "rows_abs_error": 634,
+        "rows_pct_error": 0.05287298807438912,
+        "expected_rows_matched_only": 2026,
+        "expected_rows_singleton_aware": 11991,
+        "rows_pct_error_matched_only": 5.231490621915103,
+        "rows_pct_error_singleton_aware": 0.05287298807438912,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11991,
+        "actual_unique_ids": 12625,
+        "unique_ids_abs_error": 634,
+        "unique_ids_pct_error": 0.05287298807438912,
+        "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-03T13:43:05.537844+00:00"
+      },
+      "matching": {
+        "expected_rows": 11486,
+        "actual_rows": 12625,
+        "rows_abs_error": 1139,
+        "rows_pct_error": 0.09916419989552498,
+        "expected_rows_matched_only": 2531,
+        "expected_rows_singleton_aware": 11486,
+        "rows_pct_error_matched_only": 3.988146977479257,
+        "rows_pct_error_singleton_aware": 0.09916419989552498,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11486,
+        "actual_unique_ids": 12625,
+        "unique_ids_abs_error": 1139,
+        "unique_ids_pct_error": 0.09916419989552498,
+        "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-03T13:43:05.537890+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 22,
+      "missing_fused_value": 23
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.4888888888888889,
+      "missing_fused_value": 0.5111111111111111
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/companies/testsets/validation_set.xml",
+    "id_alignment": {
+      "gold_count": 25,
+      "direct_coverage": 7,
+      "direct_coverage_ratio": 0.28,
+      "mapped_coverage": 25,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 12625,
+        "unique_ids": 12625
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 11991,
+          "actual_rows": 12625,
+          "rows_abs_error": 634,
+          "rows_pct_error": 0.05287298807438912,
+          "expected_rows_matched_only": 2026,
+          "expected_rows_singleton_aware": 11991,
+          "rows_pct_error_matched_only": 5.231490621915103,
+          "rows_pct_error_singleton_aware": 0.05287298807438912,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 11991,
+          "actual_unique_ids": 12625,
+          "unique_ids_abs_error": 634,
+          "unique_ids_pct_error": 0.05287298807438912,
+          "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-03-03T13:43:05.537844+00:00"
+        },
+        "matching": {
+          "expected_rows": 11486,
+          "actual_rows": 12625,
+          "rows_abs_error": 1139,
+          "rows_pct_error": 0.09916419989552498,
+          "expected_rows_matched_only": 2531,
+          "expected_rows_singleton_aware": 11486,
+          "rows_pct_error_matched_only": 3.988146977479257,
+          "rows_pct_error_singleton_aware": 0.09916419989552498,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 11486,
+          "actual_unique_ids": 12625,
+          "unique_ids_abs_error": 1139,
+          "unique_ids_pct_error": 0.09916419989552498,
+          "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-03-03T13:43:05.537890+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.6666666666666666
+  },
+  "evaluation_regression_guard": {
+    "rejected": true,
+    "overall_drop": 0.007576,
+    "macro_drop": 0.058095,
+    "severe_attribute_drops": {
+      "assets": 0.28,
+      "keypeople_name": 0.428571
+    },
+    "moderate_attribute_drops": {
+      "assets": 0.28,
+      "keypeople_name": 0.428571
+    },
+    "top_attribute_drops": {
+      "keypeople_name": 0.428571,
+      "assets": 0.28
+    }
+  },
+  "latest_validation_metrics": {
+    "overall_accuracy": 0.6590909090909091,
+    "macro_accuracy": 0.58,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 87,
+    "assets_accuracy": 0.72,
+    "assets_count": 25,
+    "founded_accuracy": 0.48,
+    "founded_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "keypeople_name_accuracy": 0.0,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.32,
+    "city_count": 25
+  },
+  "best_validation_metrics": {
+    "overall_accuracy": 0.6666666666666666,
+    "macro_accuracy": 0.6380952380952382,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 88,
+    "assets_accuracy": 1.0,
+    "assets_count": 25,
+    "keypeople_name_accuracy": 0.42857142857142855,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.28,
+    "city_count": 25,
+    "founded_accuracy": 0.48,
+    "founded_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "name_accuracy": 0.68,
+    "name_count": 25
+  },
+  "evaluation_cycle_audit": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-03T13:28:09.386996Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-03T13:28:09.068678Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 690
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 463
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 718
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 66.667% < 85.000%",
+        "low attribute accuracy: city=28.000%, founded=48.000%, keypeople_name=42.857%",
+        "low direct ID coverage: 32.000%",
+        "high missing_fused_value mismatch ratio: 48.837%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-03T13:36:49.703460Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.6439393939393939,
+        "macro_accuracy": 0.6180952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 85,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "assets_accuracy": 0.8,
+        "assets_count": 25,
+        "city_accuracy": 0.36,
+        "city_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_drop": 0.022727,
+        "macro_drop": 0.02,
+        "severe_attribute_drops": {
+          "assets": 0.2
+        },
+        "moderate_attribute_drops": {
+          "assets": 0.2
+        },
+        "top_attribute_drops": {
+          "assets": 0.2
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-03T13:36:49.372746Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 689
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 464
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 718
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 66.667% < 85.000%",
+        "low attribute accuracy: city=28.000%, founded=48.000%, keypeople_name=42.857%",
+        "regression guard rejected latest candidate: overall_drop=0.022727, macro_drop=0.02, top_attribute_drops={'assets': 0.2}",
+        "low direct ID coverage: 24.000%",
+        "high missing_fused_value mismatch ratio: 36.170%"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-03T13:46:56.327323Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.6590909090909091,
+        "macro_accuracy": 0.58,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 87,
+        "assets_accuracy": 0.72,
+        "assets_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.0,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.32,
+        "city_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.6666666666666666,
+        "macro_accuracy": 0.6380952380952382,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 88,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_drop": 0.007576,
+        "macro_drop": 0.058095,
+        "severe_attribute_drops": {
+          "assets": 0.28,
+          "keypeople_name": 0.428571
+        },
+        "moderate_attribute_drops": {
+          "assets": 0.28,
+          "keypeople_name": 0.428571
+        },
+        "top_attribute_drops": {
+          "keypeople_name": 0.428571,
+          "assets": 0.28
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-03T13:46:56.064078Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 689
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 464
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 718
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 66.667% < 85.000%",
+        "low attribute accuracy: city=28.000%, founded=48.000%, keypeople_name=42.857%",
+        "regression guard rejected latest candidate: overall_drop=0.007576, macro_drop=0.058095, top_attribute_drops={'keypeople_name': 0.428571, 'assets': 0.28}",
+        "low direct ID coverage: 28.000%",
+        "high missing_fused_value mismatch ratio: 51.111%"
+      ]
+    }
+  ],
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-03T13:46:56.064078Z",
+    "expected_pairs": [
+      "dbpedia_forbes",
+      "dbpedia_fullcontact",
+      "forbes_fullcontact"
+    ],
+    "pair_checks": [
+      {
+        "pair": "dbpedia_forbes",
+        "status": "ok",
+        "path": "output/correspondences/correspondences_forbes_dbpedia.csv",
+        "data_rows": 689
+      },
+      {
+        "pair": "dbpedia_fullcontact",
+        "status": "ok",
+        "path": "output/correspondences/correspondences_fullcontact_dbpedia.csv",
+        "data_rows": 464
+      },
+      {
+        "pair": "forbes_fullcontact",
+        "status": "ok",
+        "path": "output/correspondences/correspondences_forbes_fullcontact.csv",
+        "data_rows": 718
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "error:   File \"/Users/nickblazek/Desktop/Agent_Pipeline/agents/output/code/pipeline.py\", line 524\n    list_strategy=\\\"concatenate\\\",\n                   ^\nSyntaxError: unexpected character after line continuation character\n",
+      "captured_at": "2026-03-03T13:22:30.369317Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 1,
+      "exec_attempt": 2,
+      "execution_result": "success",
+      "captured_at": "2026-03-03T13:24:08.905892Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12625,
+          "unique_ids": 12625
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 11991,
+            "actual_rows": 12625,
+            "rows_abs_error": 634,
+            "rows_pct_error": 0.05287298807438912,
+            "expected_rows_matched_only": 2026,
+            "expected_rows_singleton_aware": 11991,
+            "rows_pct_error_matched_only": 5.231490621915103,
+            "rows_pct_error_singleton_aware": 0.05287298807438912,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11991,
+            "actual_unique_ids": 12625,
+            "unique_ids_abs_error": 634,
+            "unique_ids_pct_error": 0.05287298807438912,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-03T13:24:08.904769+00:00"
+          },
+          "matching": {
+            "expected_rows": 11486,
+            "actual_rows": 12625,
+            "rows_abs_error": 1139,
+            "rows_pct_error": 0.09916419989552498,
+            "expected_rows_matched_only": 2531,
+            "expected_rows_singleton_aware": 11486,
+            "rows_pct_error_matched_only": 3.988146977479257,
+            "rows_pct_error_singleton_aware": 0.09916419989552498,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11486,
+            "actual_unique_ids": 12625,
+            "unique_ids_abs_error": 1139,
+            "unique_ids_pct_error": 0.09916419989552498,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-03T13:24:08.904809+00:00"
+          }
+        }
+      }
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-03T13:33:08.552489Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12627,
+          "unique_ids": 12627
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 11991,
+            "actual_rows": 12627,
+            "rows_abs_error": 636,
+            "rows_pct_error": 0.053039779834876156,
+            "expected_rows_matched_only": 2026,
+            "expected_rows_singleton_aware": 11991,
+            "rows_pct_error_matched_only": 5.232477788746298,
+            "rows_pct_error_singleton_aware": 0.053039779834876156,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11991,
+            "actual_unique_ids": 12627,
+            "unique_ids_abs_error": 636,
+            "unique_ids_pct_error": 0.053039779834876156,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-03T13:33:08.551643+00:00"
+          },
+          "matching": {
+            "expected_rows": 11486,
+            "actual_rows": 12627,
+            "rows_abs_error": 1141,
+            "rows_pct_error": 0.09933832491729061,
+            "expected_rows_matched_only": 2531,
+            "expected_rows_singleton_aware": 11486,
+            "rows_pct_error_matched_only": 3.98893717898064,
+            "rows_pct_error_singleton_aware": 0.09933832491729061,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11486,
+            "actual_unique_ids": 12627,
+            "unique_ids_abs_error": 1141,
+            "unique_ids_pct_error": 0.09933832491729061,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-03T13:33:08.551718+00:00"
+          }
+        }
+      }
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "error:   File \"/Users/nickblazek/Desktop/Agent_Pipeline/agents/output/code/pipeline.py\", line 837\n    def _pydi_safe_fuser(fn):\n    ^\nIndentationError: expected an indented block after 'if' statement on line 836\n",
+      "captured_at": "2026-03-03T13:41:11.174206Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 2,
+      "execution_result": "success",
+      "captured_at": "2026-03-03T13:43:05.539026Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_02/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12625,
+          "unique_ids": 12625
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 11991,
+            "actual_rows": 12625,
+            "rows_abs_error": 634,
+            "rows_pct_error": 0.05287298807438912,
+            "expected_rows_matched_only": 2026,
+            "expected_rows_singleton_aware": 11991,
+            "rows_pct_error_matched_only": 5.231490621915103,
+            "rows_pct_error_singleton_aware": 0.05287298807438912,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11991,
+            "actual_unique_ids": 12625,
+            "unique_ids_abs_error": 634,
+            "unique_ids_pct_error": 0.05287298807438912,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-03T13:43:05.537844+00:00"
+          },
+          "matching": {
+            "expected_rows": 11486,
+            "actual_rows": 12625,
+            "rows_abs_error": 1139,
+            "rows_pct_error": 0.09916419989552498,
+            "expected_rows_matched_only": 2531,
+            "expected_rows_singleton_aware": 11486,
+            "rows_pct_error_matched_only": 3.988146977479257,
+            "rows_pct_error_singleton_aware": 0.09916419989552498,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11486,
+            "actual_unique_ids": 12625,
+            "unique_ids_abs_error": 1139,
+            "unique_ids_pct_error": 0.09916419989552498,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-03T13:43:05.537890+00:00"
+          }
+        }
+      }
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-03T13:24:49.230110Z",
+      "metrics": {
+        "overall_accuracy": 0.6742424242424242,
+        "macro_accuracy": 0.6447619047619048,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 89,
+        "city_accuracy": 0.28,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "assets_accuracy": 1.0,
+        "assets_count": 25,
+        "name_accuracy": 0.72,
+        "name_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260303_125833_844806/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260303_125833_844806/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260303_125833_844806/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260303_125833_844806/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "pipeline_evaluation_file",
+      "captured_at": "2026-03-03T13:33:50.906683Z",
+      "metrics": {
+        "overall_accuracy": 0.6439393939393939,
+        "macro_accuracy": 0.6180952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 85,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "assets_accuracy": 0.8,
+        "assets_count": 25,
+        "city_accuracy": 0.36,
+        "city_count": 25,
+        "name_accuracy": 0.68,
+        "name_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.42857142857142855,
+        "keypeople_name_count": 7
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260303_125833_844806/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260303_125833_844806/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260303_125833_844806/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260303_125833_844806/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "pipeline_evaluation_file",
+      "captured_at": "2026-03-03T13:43:46.706499Z",
+      "metrics": {
+        "overall_accuracy": 0.6590909090909091,
+        "macro_accuracy": 0.58,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 87,
+        "assets_accuracy": 0.72,
+        "assets_count": 25,
+        "founded_accuracy": 0.48,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.0,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.32,
+        "city_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260303_125833_844806/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260303_125833_844806/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260303_125833_844806/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260303_125833_844806/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    }
+  ],
+  "normalization_execution_result": "success",
+  "normalization_attempts": 3,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 3,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/companies/testsets/validation_set.xml",
+    "validation_style": {
+      "inferred_country_output_format": "name",
+      "used_country_output_format": "name",
+      "lowercase_columns_hint": [
+        "assets_provenance",
+        "city_provenance",
+        "id",
+        "revenue_provenance"
+      ],
+      "validation_list_like_columns_hint": [
+        "keypeople_name"
+      ],
+      "case_profile": {
+        "id": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "name_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.8,
+          "sample_size": 25
+        },
+        "name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "country_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.36,
+          "sample_size": 25
+        },
+        "country": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "city_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 0.92,
+          "sample_size": 25
+        },
+        "city": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "assets_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "revenue_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "founded_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.4,
+          "sample_size": 25
+        },
+        "founded": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "keypeople_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.1429,
+          "sample_size": 7
+        },
+        "keypeople_name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 7
+        }
+      }
+    },
+    "normalization_directives": {
+      "country_columns": [
+        "country"
+      ],
+      "list_columns": [
+        "keypeople_name"
+      ],
+      "text_columns": [
+        "industry",
+        "_fusion_sources"
+      ],
+      "country_output_format": "name",
+      "list_normalization_required": true,
+      "needs_normalization": true,
+      "reasons": [
+        "Integration diagnostics explicitly flag mixed list encodings in fused output for industry and _fusion_sources (json_list_string vs malformed_json_like), which can break exact comparisons and introduce noise.",
+        "Normalization sensitivity report shows industry has 2 non-missing kinds (8398 malformed_json_like vs 3109 json_list_string) and _fusion_sources has 2 kinds (12437 malformed_json_like vs 190 json_list_string), indicating canonicalization is not stable.",
+        "Validation hints indicate country output format should be name; keeping country canonicalization aligned to this is appropriate (country accuracy is high at 0.96 and no sample mismatches were shown).",
+        "No evidence of case-only mismatches (0), so broad lowercasing of value columns is not justified; only provenance/id-style columns should be lowercased per validation hints."
+      ],
+      "recommendation_summary": "Rerun normalization focusing on repairing/standardizing list-like encodings for industry and _fusion_sources to a consistent JSON array string representation, and keep country canonicalized to validation-style country names. Do not apply blanket lowercasing beyond the validation-indicated provenance/id columns since there are zero case-only mismatches.",
+      "confidence": 0.78
+    },
+    "ablation_report": {
+      "evaluated_subsets": [
+        {
+          "subset": "list_columns",
+          "keys": [
+            "list_columns"
+          ],
+          "projected_delta": 0.007553,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.007553,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.333333,
+            "directive_coverage": 0.666667,
+            "normalization_pressure": 0.638298,
+            "matched_problem_columns": [
+              "keypeople_name"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "keypeople_name"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "country_columns",
+          "keys": [
+            "country_columns"
+          ],
+          "projected_delta": 0.007553,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.007553,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 1.0,
+            "normalization_pressure": 0.638298,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "country"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "combined",
+          "keys": [
+            "list_columns",
+            "country_columns",
+            "lowercase_columns",
+            "text_columns"
+          ],
+          "projected_delta": 0.005553,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.005553,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.333333,
+            "directive_coverage": 0.416667,
+            "normalization_pressure": 0.638298,
+            "matched_problem_columns": [
+              "keypeople_name"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "_fusion_sources",
+              "assets_provenance",
+              "city_provenance",
+              "country",
+              "id",
+              "industry",
+              "keypeople_name",
+              "revenue_provenance"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "text_columns",
+          "keys": [
+            "text_columns"
+          ],
+          "projected_delta": 0.00222,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.00222,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.333333,
+            "normalization_pressure": 0.638298,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "_fusion_sources",
+              "industry"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "lowercase_columns",
+          "keys": [
+            "lowercase_columns"
+          ],
+          "projected_delta": 0.001553,
+          "allow": false,
+          "details": {
+            "allow": false,
+            "projected_delta": 0.001553,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.25,
+            "normalization_pressure": 0.638298,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "assets_provenance",
+              "city_provenance",
+              "id",
+              "revenue_provenance"
+            ],
+            "reason": "insufficient projected gain"
+          }
+        }
+      ],
+      "selected_keys": [
+        "country_columns",
+        "list_columns",
+        "text_columns"
+      ],
+      "pruned_directives": {
+        "country_columns": [
+          "country"
+        ],
+        "list_columns": [
+          "keypeople_name"
+        ],
+        "text_columns": [
+          "industry",
+          "_fusion_sources"
+        ],
+        "country_output_format": "name",
+        "list_normalization_required": true,
+        "needs_normalization": true,
+        "reasons": [
+          "Integration diagnostics explicitly flag mixed list encodings in fused output for industry and _fusion_sources (json_list_string vs malformed_json_like), which can break exact comparisons and introduce noise.",
+          "Normalization sensitivity report shows industry has 2 non-missing kinds (8398 malformed_json_like vs 3109 json_list_string) and _fusion_sources has 2 kinds (12437 malformed_json_like vs 190 json_list_string), indicating canonicalization is not stable.",
+          "Validation hints indicate country output format should be name; keeping country canonicalization aligned to this is appropriate (country accuracy is high at 0.96 and no sample mismatches were shown).",
+          "No evidence of case-only mismatches (0), so broad lowercasing of value columns is not justified; only provenance/id-style columns should be lowercased per validation hints."
+        ],
+        "recommendation_summary": "Rerun normalization focusing on repairing/standardizing list-like encodings for industry and _fusion_sources to a consistent JSON array string representation, and keep country canonicalized to validation-style country names. Do not apply blanket lowercasing beyond the validation-indicated provenance/id columns since there are zero case-only mismatches.",
+        "confidence": 0.78
+      },
+      "selection_reason": "selected subsets with positive projected gain"
+    },
+    "shadow_precheck": {},
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "datasets": {
+      "forbes": {
+        "input_path": "output/normalization/attempt_2/forbes.csv",
+        "output_path": "output/normalization/attempt_3/forbes.csv",
+        "row_count": 2000,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "assets": [
+            "strip",
+            "normalize_whitespace",
+            "to_numeric"
+          ]
+        },
+        "country_normalized_columns": [
+          "country"
+        ],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 11,
+          "normalized_columns": 11,
+          "rows_processed": 2000,
+          "overall_success_rate": 1.0,
+          "processing_time": 53.32089900970459,
+          "type_distribution": {
+            "STRING": 5,
+            "NUMERIC": 5,
+            "LINK": 1
+          }
+        }
+      },
+      "dbpedia": {
+        "input_path": "output/normalization/attempt_2/dbpedia.csv",
+        "output_path": "output/normalization/attempt_3/dbpedia.csv",
+        "row_count": 10086,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "founded": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "city": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "keypeople_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "assets": [
+            "strip",
+            "normalize_whitespace",
+            "to_numeric"
+          ]
+        },
+        "country_normalized_columns": [
+          "country"
+        ],
+        "list_normalized_columns": [
+          "keypeople_name"
+        ],
+        "summary": {
+          "original_columns": 9,
+          "normalized_columns": 9,
+          "rows_processed": 10086,
+          "overall_success_rate": 1.0,
+          "processing_time": 45.3146390914917,
+          "type_distribution": {
+            "LINK": 1,
+            "STRING": 5,
+            "DATE": 1,
+            "NUMERIC": 2
+          }
+        }
+      },
+      "fullcontact": {
+        "input_path": "output/normalization/attempt_2/fullcontact.csv",
+        "output_path": "output/normalization/attempt_3/fullcontact.csv",
+        "row_count": 1931,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "city": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "keypeople_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "founded": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [
+          "country"
+        ],
+        "list_normalized_columns": [
+          "keypeople_name"
+        ],
+        "summary": {
+          "original_columns": 6,
+          "normalized_columns": 6,
+          "rows_processed": 1931,
+          "overall_success_rate": 1.0,
+          "processing_time": 27.89670491218567,
+          "type_distribution": {
+            "STRING": 5,
+            "DATE": 1
+          }
+        }
+      }
+    },
+    "warnings": [],
+    "failure_tags": [
+      "ok"
+    ],
+    "reverted_to_original": false,
+    "created_at": "2026-03-03T14:39:48.674055"
+  },
+  "normalization_directives": {
+    "country_columns": [
+      "country"
+    ],
+    "list_columns": [
+      "keypeople_name"
+    ],
+    "text_columns": [
+      "industry",
+      "_fusion_sources"
+    ],
+    "country_output_format": "name",
+    "list_normalization_required": true,
+    "needs_normalization": true,
+    "reasons": [
+      "Integration diagnostics explicitly flag mixed list encodings in fused output for industry and _fusion_sources (json_list_string vs malformed_json_like), which can break exact comparisons and introduce noise.",
+      "Normalization sensitivity report shows industry has 2 non-missing kinds (8398 malformed_json_like vs 3109 json_list_string) and _fusion_sources has 2 kinds (12437 malformed_json_like vs 190 json_list_string), indicating canonicalization is not stable.",
+      "Validation hints indicate country output format should be name; keeping country canonicalization aligned to this is appropriate (country accuracy is high at 0.96 and no sample mismatches were shown).",
+      "No evidence of case-only mismatches (0), so broad lowercasing of value columns is not justified; only provenance/id-style columns should be lowercased per validation hints."
+    ],
+    "recommendation_summary": "Rerun normalization focusing on repairing/standardizing list-like encodings for industry and _fusion_sources to a consistent JSON array string representation, and keep country canonicalized to validation-style country names. Do not apply blanket lowercasing beyond the validation-indicated provenance/id columns since there are zero case-only mismatches.",
+    "confidence": 0.78
+  },
+  "investigator_action_plan": [
+    {
+      "source": "recommendations",
+      "action": "prioritize_fusion_rules_for_low_accuracy_attributes",
+      "target_attributes": [
+        "city",
+        "keypeople_name",
+        "founded"
+      ],
+      "evidence_summary": "Low validation accuracy for attributes: [{'attribute': 'city', 'accuracy': 0.28, 'count': 25}, {'attribute': 'keypeople_name', 'accuracy': 0.42857142857142855, 'count': 7}, {'attribute': 'founded', 'accuracy': 0.48, 'count': 25}]. Improve normalization and attribute-specific fusion selection.",
+      "expected_impact": "MEDIUM",
+      "confidence": 0.65,
+      "priority_score": 0.52
+    },
+    {
+      "source": "fusion_policy_recommendations",
+      "action": "set_attribute_source_preference",
+      "target_attributes": [
+        "assets"
+      ],
+      "evidence_summary": "Source 'dbpedia' dominates agreement for 'assets' (metric=1.000, gap=1.000, support=561).",
+      "expected_impact": "LOW",
+      "confidence": 1.0,
+      "priority_score": 0.48
+    }
+  ],
+  "normalized_datasets": [
+    "output/normalization/attempt_3/forbes.csv",
+    "output/normalization/attempt_3/dbpedia.csv",
+    "output/normalization/attempt_3/fullcontact.csv"
+  ],
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-03-03T13:46:54.961288+00:00",
+    "summary": {
+      "evaluation_stage": "validation",
+      "matcher_mode": "rule_based",
+      "overall_accuracy": 0.6666666666666666,
+      "macro_accuracy": 0.6380952380952382,
+      "num_findings": 3,
+      "num_recommendations": 4,
+      "key_notes": [
+        "Worst attribute accuracy: city=0.28 (n=25)."
+      ],
+      "artifacts": {
+        "fused_csv": {
+          "path": "output/data_fusion/fusion_data.csv",
+          "exists": true,
+          "rows": 12625,
+          "columns": 20,
+          "memory_mb": 15.209911346435547,
+          "column_names_sample": [
+            "_id",
+            "_fusion_sources",
+            "_fusion_source_datasets",
+            "Continent",
+            "Market Value",
+            "Profits",
+            "Rank",
+            "Sales",
+            "Sector",
+            "assets",
+            "city",
+            "city_raw",
+            "country",
+            "founded",
+            "id",
+            "industry",
+            "keypeople_name",
+            "name",
+            "_fusion_confidence",
+            "_fusion_metadata"
+          ]
+        },
+        "sources": {
+          "forbes": {
+            "path": "output/normalization/attempt_3/forbes.csv",
+            "exists": true,
+            "rows": 2000,
+            "columns": 11,
+            "id_column": "id",
+            "memory_mb": 0.8418989181518555
+          },
+          "dbpedia": {
+            "path": "output/normalization/attempt_3/dbpedia.csv",
+            "exists": true,
+            "rows": 10086,
+            "columns": 9,
+            "id_column": "id",
+            "memory_mb": 4.432122230529785
+          },
+          "fullcontact": {
+            "path": "output/normalization/attempt_3/fullcontact.csv",
+            "exists": true,
+            "rows": 1931,
+            "columns": 6,
+            "id_column": "id",
+            "memory_mb": 0.6141195297241211
+          }
+        },
+        "debug_jsonl": {
+          "path": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+          "exists": true,
+          "events": 46,
+          "case_only_mismatch_events": 0,
+          "case_only_mismatch_attributes": {},
+          "mismatch_events": 22,
+          "missing_fused_value_events": 23,
+          "top_mismatch_attributes": {
+            "assets": 7,
+            "founded": 5,
+            "city": 10
+          },
+          "parse_errors": 0,
+          "notes": []
+        },
+        "correspondences": {
+          "dir": "output/correspondences",
+          "found_files": [
+            "correspondences_dbpedia_metacritic.csv",
+            "correspondences_dbpedia_metacritic_pp.csv",
+            "correspondences_dbpedia_sales.csv",
+            "correspondences_dbpedia_sales_pp.csv",
+            "correspondences_discogs_lastfm.csv",
+            "correspondences_discogs_lastfm_pp.csv",
+            "correspondences_discogs_musicbrainz.csv",
+            "correspondences_discogs_musicbrainz_pp.csv",
+            "correspondences_forbes_dbpedia.csv",
+            "correspondences_forbes_dbpedia_mbm.csv",
+            "correspondences_forbes_fullcontact.csv",
+            "correspondences_forbes_fullcontact_mbm.csv",
+            "correspondences_fullcontact_dbpedia.csv",
+            "correspondences_fullcontact_dbpedia_mbm.csv",
+            "correspondences_kaggle_small_uber_eats_small.csv",
+            "correspondences_kaggle_small_yelp_small.csv",
+            "correspondences_musicbrainz_lastfm.csv",
+            "correspondences_musicbrainz_lastfm_pp.csv",
+            "correspondences_sales_metacritic.csv",
+            "correspondences_sales_metacritic_pp.csv",
+            "correspondences_uber_eats_small_yelp_small.csv"
+          ],
+          "missing_expected": [],
+          "empty_expected": []
+        }
+      }
+    },
+    "findings": [
+      {
+        "severity": "MEDIUM",
+        "title": "Attribute-level source agreement shows dominant sources",
+        "details": {
+          "dominance_count": 2,
+          "top": [
+            {
+              "attribute": "assets",
+              "dominant_source": "dbpedia",
+              "dominant_metric": 1.0,
+              "dominant_support": 561,
+              "runner_up_source": "forbes",
+              "runner_up_metric": 0.0,
+              "runner_up_support": 1106,
+              "gap": 1.0,
+              "evidence": {
+                "top_sources": [
+                  [
+                    "dbpedia",
+                    1.0,
+                    561,
+                    1.0
+                  ],
+                  [
+                    "forbes",
+                    0.0,
+                    1106,
+                    0.37185792495595715
+                  ]
+                ]
+              }
+            },
+            {
+              "attribute": "Sales",
+              "dominant_source": "dbpedia",
+              "dominant_metric": 1.0,
+              "dominant_support": 1874,
+              "runner_up_source": "forbes",
+              "runner_up_metric": 0.003616636528028933,
+              "runner_up_support": 1106,
+              "gap": 0.9963833634719711,
+              "evidence": {
+                "top_sources": [
+                  [
+                    "dbpedia",
+                    1.0,
+                    1874,
+                    1.0
+                  ],
+                  [
+                    "forbes",
+                    0.003616636528028933,
+                    1106,
+                    0.3306506368148812
+                  ]
+                ]
+              }
+            }
+          ],
+          "interpretation": "For some attributes, one source matches fused values far more often than others; consider trust-based source preference per attribute."
+        },
+        "evidence": {}
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "Low attribute accuracies in evaluation indicate fusion/matching gaps",
+        "details": {
+          "worst_attributes": [
+            {
+              "attribute": "city",
+              "accuracy": 0.28,
+              "count": 25
+            },
+            {
+              "attribute": "keypeople_name",
+              "accuracy": 0.42857142857142855,
+              "count": 7
+            },
+            {
+              "attribute": "founded",
+              "accuracy": 0.48,
+              "count": 25
+            }
+          ]
+        },
+        "evidence": {
+          "evaluation_stage": "validation"
+        }
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "One-to-many correspondences suggest over-matching / ambiguous links",
+        "details": {
+          "file": "correspondences_dbpedia_metacritic.csv",
+          "one_to_many_ratio": 0.5371613521937185,
+          "rows": 36142,
+          "interpretation": "Many left-entities link to multiple right-entities; consider increasing match threshold or improving blocking features."
+        },
+        "evidence": {
+          "path": "output/correspondences/correspondences_dbpedia_metacritic.csv"
+        }
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "tighten_matching_threshold_or_blocking",
+        "target_attributes": [],
+        "evidence_summary": "Correspondence file 'correspondences_dbpedia_metacritic.csv' shows high one-to-many ratio (0.537) over 36142 rows, suggesting over-matching.",
+        "expected_impact": "MEDIUM",
+        "confidence": 0.9,
+        "priority_score": 0.5940000000000001,
+        "hints": {
+          "strategy": "matching_config_adjustment",
+          "suggested_changes": [
+            {
+              "param": "threshold",
+              "direction": "increase",
+              "delta": 0.05
+            },
+            {
+              "param": "blocking_keys",
+              "direction": "add_or_refine",
+              "notes": "Use more discriminative keys (e.g., normalized name + country/city)."
+            }
+          ],
+          "artifact": {
+            "correspondence_file": "correspondences_dbpedia_metacritic.csv"
+          }
+        }
+      },
+      {
+        "action": "prioritize_fusion_rules_for_low_accuracy_attributes",
+        "target_attributes": [
+          "city",
+          "keypeople_name",
+          "founded"
+        ],
+        "evidence_summary": "Low validation accuracy for attributes: [{'attribute': 'city', 'accuracy': 0.28, 'count': 25}, {'attribute': 'keypeople_name', 'accuracy': 0.42857142857142855, 'count': 7}, {'attribute': 'founded', 'accuracy': 0.48, 'count': 25}]. Improve normalization and attribute-specific fusion selection.",
+        "expected_impact": "MEDIUM",
+        "confidence": 0.65,
+        "priority_score": 0.42900000000000005,
+        "hints": {
+          "strategy": "attribute_specific_fusion",
+          "suggested_methods": [
+            "source_preference",
+            "value_similarity",
+            "list_merge_dedup"
+          ],
+          "evaluation_stage": "validation"
+        }
+      },
+      {
+        "action": "set_attribute_source_preference",
+        "target_attributes": [
+          "assets"
+        ],
+        "evidence_summary": "Source 'dbpedia' dominates agreement for 'assets' (metric=1.000, gap=1.000, support=561).",
+        "expected_impact": "LOW",
+        "confidence": 1.0,
+        "priority_score": 0.33,
+        "hints": {
+          "strategy": "trust_by_attribute",
+          "preferred_source": "dbpedia",
+          "fallback": "vote_or_similarity",
+          "suggested_config_keys": [
+            "fusion_policy",
+            "attribute_trust",
+            "source_priority"
+          ]
+        }
+      },
+      {
+        "action": "set_attribute_source_preference",
+        "target_attributes": [
+          "Sales"
+        ],
+        "evidence_summary": "Source 'dbpedia' dominates agreement for 'Sales' (metric=1.000, gap=0.996, support=1874).",
+        "expected_impact": "LOW",
+        "confidence": 1.0,
+        "priority_score": 0.33,
+        "hints": {
+          "strategy": "trust_by_attribute",
+          "preferred_source": "dbpedia",
+          "fallback": "vote_or_similarity",
+          "suggested_config_keys": [
+            "fusion_policy",
+            "attribute_trust",
+            "source_priority"
+          ]
+        }
+      }
+    ],
+    "source_attribute_agreement": {
+      "Continent": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 1106,
+          "similar_match_count": 1106,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "Market Value": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 1,
+          "similar_match_count": 1,
+          "exact_ratio": 0.0009041591320072332,
+          "similarity_ratio": 0.0009041591320072332,
+          "avg_similarity": 0.335513745891927,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "Profits": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 25,
+          "similar_match_count": 25,
+          "exact_ratio": 0.022603978300180832,
+          "similarity_ratio": 0.022603978300180832,
+          "avg_similarity": 0.2339802310230957,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "Rank": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 1106,
+          "similar_match_count": 1106,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "Sales": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 4,
+          "similar_match_count": 4,
+          "exact_ratio": 0.003616636528028933,
+          "similarity_ratio": 0.003616636528028933,
+          "avg_similarity": 0.3306506368148812,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 1874,
+          "exact_match_count": 1874,
+          "similar_match_count": 1874,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "Sector": {
+        "forbes": {
+          "support_count": 1074,
+          "exact_match_count": 1074,
+          "similar_match_count": 1074,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "assets": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": 0.0,
+          "similarity_ratio": 0.0,
+          "avg_similarity": 0.37185792495595715,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 561,
+          "exact_match_count": 561,
+          "similar_match_count": 561,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "city": {
+        "forbes": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "dbpedia": {
+          "support_count": 8822,
+          "exact_match_count": 6176,
+          "similar_match_count": 6177,
+          "exact_ratio": 0.70006801178871,
+          "similarity_ratio": 0.7001813647698935,
+          "avg_similarity": 0.8824170497745685,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 1363,
+          "exact_match_count": 1122,
+          "similar_match_count": 1124,
+          "exact_ratio": 0.8231841526045488,
+          "similarity_ratio": 0.8246515040352165,
+          "avg_similarity": 0.9013835120853848,
+          "notes": null
+        }
+      },
+      "city_raw": {
+        "forbes": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "country": {
+        "forbes": {
+          "support_count": 1095,
+          "exact_match_count": 1095,
+          "similar_match_count": 1095,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 9591,
+          "exact_match_count": 9591,
+          "similar_match_count": 9591,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 1420,
+          "exact_match_count": 1368,
+          "similar_match_count": 1368,
+          "exact_ratio": 0.9633802816901409,
+          "similarity_ratio": 0.9633802816901409,
+          "avg_similarity": 0.974703405376136,
+          "notes": null
+        }
+      },
+      "founded": {
+        "forbes": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "dbpedia": {
+          "support_count": 9537,
+          "exact_match_count": 9537,
+          "similar_match_count": 9537,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 1051,
+          "exact_match_count": 937,
+          "similar_match_count": 1000,
+          "exact_ratio": 0.8915318744053282,
+          "similarity_ratio": 0.9514747859181731,
+          "avg_similarity": 0.9814462416745949,
+          "notes": null
+        }
+      },
+      "industry": {
+        "forbes": {
+          "support_count": 1075,
+          "exact_match_count": 1075,
+          "similar_match_count": 1075,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 6478,
+          "exact_match_count": 6256,
+          "similar_match_count": 6256,
+          "exact_ratio": 0.9657301636307503,
+          "similarity_ratio": 0.9657301636307503,
+          "avg_similarity": 0.9849147760045961,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        }
+      },
+      "keypeople_name": {
+        "forbes": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "similar_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "avg_similarity": null,
+          "notes": "source_missing_attribute"
+        },
+        "dbpedia": {
+          "support_count": 9591,
+          "exact_match_count": 5,
+          "similar_match_count": 231,
+          "exact_ratio": 0.0005213220727765613,
+          "similarity_ratio": 0.024085079762277136,
+          "avg_similarity": 0.07369607804198176,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 1928,
+          "exact_match_count": 0,
+          "similar_match_count": 1,
+          "exact_ratio": 0.0,
+          "similarity_ratio": 0.0005186721991701245,
+          "avg_similarity": 0.04667448412945304,
+          "notes": null
+        }
+      },
+      "name": {
+        "forbes": {
+          "support_count": 1106,
+          "exact_match_count": 1106,
+          "similar_match_count": 1106,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "avg_similarity": 1.0,
+          "notes": null
+        },
+        "dbpedia": {
+          "support_count": 9591,
+          "exact_match_count": 9407,
+          "similar_match_count": 9418,
+          "exact_ratio": 0.9808153477218226,
+          "similarity_ratio": 0.981962256281931,
+          "avg_similarity": 0.9945022206514894,
+          "notes": null
+        },
+        "fullcontact": {
+          "support_count": 1928,
+          "exact_match_count": 1451,
+          "similar_match_count": 1480,
+          "exact_ratio": 0.7525933609958506,
+          "similarity_ratio": 0.7676348547717843,
+          "avg_similarity": 0.9168905012990406,
+          "notes": null
+        }
+      }
+    },
+    "fusion_policy_recommendations": [
+      {
+        "action": "set_attribute_source_preference",
+        "target_attributes": [
+          "assets"
+        ],
+        "evidence_summary": "Source 'dbpedia' dominates agreement for 'assets' (metric=1.000, gap=1.000, support=561).",
+        "expected_impact": "LOW",
+        "confidence": 1.0,
+        "priority_score": 0.33,
+        "hints": {
+          "strategy": "trust_by_attribute",
+          "preferred_source": "dbpedia",
+          "fallback": "vote_or_similarity",
+          "suggested_config_keys": [
+            "fusion_policy",
+            "attribute_trust",
+            "source_priority"
+          ]
+        }
+      },
+      {
+        "action": "set_attribute_source_preference",
+        "target_attributes": [
+          "Sales"
+        ],
+        "evidence_summary": "Source 'dbpedia' dominates agreement for 'Sales' (metric=1.000, gap=0.996, support=1874).",
+        "expected_impact": "LOW",
+        "confidence": 1.0,
+        "priority_score": 0.33,
+        "hints": {
+          "strategy": "trust_by_attribute",
+          "preferred_source": "dbpedia",
+          "fallback": "vote_or_similarity",
+          "suggested_config_keys": [
+            "fusion_policy",
+            "attribute_trust",
+            "source_priority"
+          ]
+        }
+      }
+    ],
+    "analysis_details": {
+      "size_drift": {
+        "size_estimate": {
+          "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+          "actual": {
+            "rows": 12625,
+            "unique_ids": 12625
+          },
+          "comparisons": {
+            "blocking": {
+              "expected_rows": 11991,
+              "actual_rows": 12625,
+              "rows_abs_error": 634,
+              "rows_pct_error": 0.05287298807438912,
+              "rows_pct_error_singleton_aware": 0.05287298807438912,
+              "expected_rows_singleton_aware": 11991,
+              "better_variant": "singleton_aware"
+            },
+            "matching": {
+              "expected_rows": 11486,
+              "actual_rows": 12625,
+              "rows_abs_error": 1139,
+              "rows_pct_error": 0.09916419989552498,
+              "rows_pct_error_singleton_aware": 0.09916419989552498,
+              "expected_rows_singleton_aware": 11486,
+              "better_variant": "singleton_aware"
+            }
+          }
+        },
+        "notes": []
+      },
+      "accuracy_hotspots": {
+        "evaluation_metrics": {
+          "overall_accuracy": 0.6666666666666666,
+          "macro_accuracy": 0.6380952380952382,
+          "num_evaluated_records": 25,
+          "num_evaluated_attributes": 6,
+          "total_evaluations": 132,
+          "total_correct": 88,
+          "assets_accuracy": 1.0,
+          "assets_count": 25,
+          "keypeople_name_accuracy": 0.42857142857142855,
+          "keypeople_name_count": 7,
+          "city_accuracy": 0.28,
+          "city_count": 25,
+          "founded_accuracy": 0.48,
+          "founded_count": 25,
+          "country_accuracy": 0.96,
+          "country_count": 25,
+          "name_accuracy": 0.68,
+          "name_count": 25
+        },
+        "low_accuracy_attributes": [
+          {
+            "attribute": "city",
+            "accuracy": 0.28,
+            "count": 25
+          },
+          {
+            "attribute": "keypeople_name",
+            "accuracy": 0.42857142857142855,
+            "count": 7
+          },
+          {
+            "attribute": "founded",
+            "accuracy": 0.48,
+            "count": 25
+          },
+          {
+            "attribute": "name",
+            "accuracy": 0.68,
+            "count": 25
+          },
+          {
+            "attribute": "country",
+            "accuracy": 0.96,
+            "count": 25
+          },
+          {
+            "attribute": "assets",
+            "accuracy": 1.0,
+            "count": 25
+          }
+        ]
+      },
+      "list_and_country_issues": {
+        "list_format_inconsistencies": {},
+        "country_canonicalization": {}
+      },
+      "dominance_insights": [
+        {
+          "attribute": "Sales",
+          "dominant_source": "dbpedia",
+          "dominant_metric": 1.0,
+          "dominant_support": 1874,
+          "runner_up_source": "forbes",
+          "runner_up_metric": 0.003616636528028933,
+          "runner_up_support": 1106,
+          "gap": 0.9963833634719711,
+          "evidence": {
+            "top_sources": [
+              [
+                "dbpedia",
+                1.0,
+                1874,
+                1.0
+              ],
+              [
+                "forbes",
+                0.003616636528028933,
+                1106,
+                0.3306506368148812
+              ]
+            ]
+          }
+        },
+        {
+          "attribute": "assets",
+          "dominant_source": "dbpedia",
+          "dominant_metric": 1.0,
+          "dominant_support": 561,
+          "runner_up_source": "forbes",
+          "runner_up_metric": 0.0,
+          "runner_up_support": 1106,
+          "gap": 1.0,
+          "evidence": {
+            "top_sources": [
+              [
+                "dbpedia",
+                1.0,
+                561,
+                1.0
+              ],
+              [
+                "forbes",
+                0.0,
+                1106,
+                0.37185792495595715
+              ]
+            ]
+          }
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": "Human-review outputs created.\n- fused entities: 12625\n- review table rows: 12625\n- lineage rows: 13999\n- diff rows: 5",
+    "file_paths": {
+      "fused_review_table": "output/human_review/fused_review_table.csv",
+      "source_lineage_long": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff": "output/human_review/fusion_vs_testset_diff.csv",
+      "summary_json": "output/human_review/human_review_summary.json",
+      "summary_md": "output/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 12625,
+      "fused_review_rows": 12625,
+      "lineage_rows": 13999,
+      "diff_rows": 5,
+      "source_datasets_loaded": 3,
+      "testset_rows": 18
+    },
+    "warnings": [],
+    "created_at": "2026-03-03T13:48:12.275344+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.7676767676767676,
+    "macro_accuracy": 0.7037037037037037,
+    "num_evaluated_records": 18,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 99,
+    "total_correct": 76,
+    "founded_accuracy": 0.8333333333333334,
+    "founded_count": 18,
+    "country_accuracy": 0.9444444444444444,
+    "country_count": 18,
+    "assets_accuracy": 1.0,
+    "assets_count": 18,
+    "keypeople_name_accuracy": 0.0,
+    "keypeople_name_count": 9,
+    "name_accuracy": 0.8333333333333334,
+    "name_count": 18,
+    "city_accuracy": 0.6111111111111112,
+    "city_count": 18
+  },
+  "token_usage": {
+    "prompt_tokens": 900020,
+    "completion_tokens": 227479,
+    "total_tokens": 1127499,
+    "total_cost": 3.3998149999999994
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": [
+    {
+      "query": "DataFusionEvaluator evaluate() usage example: required columns, return format, how to add evaluation functions with DataFusionStrategy.add_evaluation_function",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nModule contents\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nDataFusionEngine\nDataFusionEngine.run()\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\n\n-----\n\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\n\n-----\n\n(‘score’ or ‘similarity’). When a sequence is provided, all DataFrames\nare validated and concatenated before processing. This is compatible\nwith PyDI’s CorrespondenceSet format.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column for\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy"
+    }
+  ],
+  "integration_pipeline_code_length": 30008,
+  "evaluation_code_length": 12258,
+  "integration_diagnostics_code_length": 63899,
+  "human_review_code_length": 25955,
+  "run_audit_path": "output/results/run_audit_20260303_144852.json",
+  "run_report_path": "output/results/run_report_20260303_144852.md"
+}

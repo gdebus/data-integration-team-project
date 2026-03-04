@@ -1,0 +1,2256 @@
+{
+  "timestamp": "20260303_122109",
+  "datasets": [
+    "forbes",
+    "dbpedia",
+    "fullcontact"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "validation_set.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "forbes_dbpedia": {
+      "pair_completeness": 1.0,
+      "num_candidates": 40000,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "industry"
+      ]
+    },
+    "forbes_fullcontact": {
+      "pair_completeness": 0.9466666666666667,
+      "num_candidates": 45990,
+      "stategy": "ngram_blocking",
+      "columns": [
+        "name"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "pair_completeness": 0.9866666666666667,
+      "num_candidates": 38122,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "city",
+        "country"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "forbes_dbpedia": {
+      "f1_score": 0.8379446640316205
+    },
+    "forbes_fullcontact": {
+      "f1_score": 0.5299806576402322
+    },
+    "fullcontact_dbpedia": {
+      "f1_score": 0.8158640226628895
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.6212121212121212,
+    "macro_accuracy": 0.5980952380952381,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 82,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "city_accuracy": 0.0,
+    "city_count": 25,
+    "founded_accuracy": 0.28,
+    "founded_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.92,
+    "assets_count": 25,
+    "keypeople_name_accuracy": 0.42857142857142855,
+    "keypeople_name_count": 7
+  },
+  "overall_accuracy": 0.6212121212121212,
+  "blocking_config": {
+    "blocking_strategies": {
+      "forbes_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "country",
+          "industry"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 40000,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "forbes_fullcontact": {
+        "strategy": "ngram_blocking",
+        "columns": [
+          "name"
+        ],
+        "params": {
+          "ngram_size": 5
+        },
+        "pair_completeness": 0.9466666666666667,
+        "num_candidates": 45990,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "fullcontact_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "city",
+          "country"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9866666666666667,
+        "num_candidates": 38122,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "id_columns": {
+      "forbes": "id",
+      "dbpedia": "id",
+      "fullcontact": "id"
+    },
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "dataset_names": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "pc_threshold": 0.9,
+    "max_candidates": 69375,
+    "candidate_tolerance": 0.15,
+    "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 11890,
+      "expected_unique_ids": 11890,
+      "expected_rows_range": [
+        8284,
+        11940
+      ],
+      "expected_unique_ids_range": [
+        8284,
+        11940
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 2000,
+          "forbes_fullcontact": 1828,
+          "dbpedia_fullcontact": 1905
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 1828.0,
+          "via_dbpedia": 377.75133848899463,
+          "via_fullcontact": 1803.386846193682,
+          "median_used": 1803.386846193682,
+          "final_triple_intersection": 1803,
+          "triple_intersection_range": [
+            0,
+            1828
+          ]
+        },
+        "expected_union_clusters": 2127,
+        "expected_union_range": [
+          2077,
+          5733
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 2000
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9466666666666667,
+          "expected_cluster_count": 1828
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9866666666666667,
+          "expected_cluster_count": 1905
+        }
+      ],
+      "created_at": "2026-03-03T10:54:41.002144+00:00",
+      "expected_rows_matched_only": 2127,
+      "expected_unique_ids_matched_only": 2127,
+      "expected_rows_matched_only_range": [
+        2077,
+        5733
+      ],
+      "expected_unique_ids_matched_only_range": [
+        2077,
+        5733
+      ],
+      "expected_rows_singleton_aware": 11890,
+      "expected_unique_ids_singleton_aware": 11890,
+      "expected_rows_singleton_aware_range": [
+        8284,
+        11940
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        8284,
+        11940
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "forbes": "id",
+      "dbpedia": "id",
+      "fullcontact": "id"
+    },
+    "matching_strategies": {
+      "forbes_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "industry",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "numeric",
+            "column": "Sales",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.6,
+          0.2,
+          0.15,
+          0.05
+        ],
+        "threshold": 0.75,
+        "f1": 0.8379446640316205,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "forbes_fullcontact": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.8,
+          0.2
+        ],
+        "threshold": 0.88,
+        "f1": 0.5299806576402322,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "low_matching_quality"
+        ]
+      },
+      "fullcontact_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "levenshtein",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "levenshtein",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "founded",
+            "max_days_difference": 730
+          }
+        ],
+        "weights": [
+          0.62,
+          0.14,
+          0.09,
+          0.15
+        ],
+        "threshold": 0.72,
+        "f1": 0.8158640226628895,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.8158640226628895,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "dataset_names": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "min_blocking_pc_for_matching": 0.9,
+    "proxy_f1_margin": 0.015,
+    "proxy_max_candidates": 60000,
+    "llm_trace_path": "output/matching-evaluation/llm_matching_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 11378,
+      "expected_unique_ids": 11378,
+      "expected_rows_range": [
+        9818,
+        11756
+      ],
+      "expected_unique_ids_range": [
+        9818,
+        11756
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 1676,
+          "forbes_fullcontact": 969,
+          "dbpedia_fullcontact": 1554
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 812.022,
+          "via_dbpedia": 258.2296252230815,
+          "via_fullcontact": 779.8166752977731,
+          "median_used": 779.8166752977731,
+          "final_triple_intersection": 780,
+          "triple_intersection_range": [
+            0,
+            969
+          ]
+        },
+        "expected_union_clusters": 2639,
+        "expected_union_range": [
+          2261,
+          4199
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "f1": 0.8379446640316205,
+          "expected_cluster_count": 1676
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9466666666666667,
+          "f1": 0.5299806576402322,
+          "expected_cluster_count": 969
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9866666666666667,
+          "f1": 0.8158640226628895,
+          "expected_cluster_count": 1554
+        }
+      ],
+      "created_at": "2026-03-03T10:56:00.552619+00:00",
+      "expected_rows_matched_only": 2639,
+      "expected_unique_ids_matched_only": 2639,
+      "expected_rows_matched_only_range": [
+        2261,
+        4199
+      ],
+      "expected_unique_ids_matched_only_range": [
+        2261,
+        4199
+      ],
+      "expected_rows_singleton_aware": 11378,
+      "expected_unique_ids_singleton_aware": 11378,
+      "expected_rows_singleton_aware_range": [
+        9818,
+        11756
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        9818,
+        11756
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "run_report_path": "output/results/run_20260302_153053_report.md"
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 13053,
+      "unique_ids": 13053
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 11890,
+        "actual_rows": 13053,
+        "rows_abs_error": 1163,
+        "rows_pct_error": 0.09781328847771237,
+        "expected_rows_matched_only": 2127,
+        "expected_rows_singleton_aware": 11890,
+        "rows_pct_error_matched_only": 5.136812411847672,
+        "rows_pct_error_singleton_aware": 0.09781328847771237,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11890,
+        "actual_unique_ids": 13053,
+        "unique_ids_abs_error": 1163,
+        "unique_ids_pct_error": 0.09781328847771237,
+        "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-03T11:15:13.142862+00:00"
+      },
+      "matching": {
+        "expected_rows": 11378,
+        "actual_rows": 13053,
+        "rows_abs_error": 1675,
+        "rows_pct_error": 0.14721392160309368,
+        "expected_rows_matched_only": 2639,
+        "expected_rows_singleton_aware": 11378,
+        "rows_pct_error_matched_only": 3.9461917392951875,
+        "rows_pct_error_singleton_aware": 0.14721392160309368,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11378,
+        "actual_unique_ids": 13053,
+        "unique_ids_abs_error": 1675,
+        "unique_ids_pct_error": 0.14721392160309368,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-03T11:15:13.142979+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "missing_fused_value": 39,
+      "mismatch": 33
+    },
+    "debug_reason_ratios": {
+      "missing_fused_value": 0.5416666666666666,
+      "mismatch": 0.4583333333333333
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/companies/testsets/validation_set.xml",
+    "id_alignment": {
+      "gold_count": 25,
+      "direct_coverage": 17,
+      "direct_coverage_ratio": 0.68,
+      "mapped_coverage": 25,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 13053,
+        "unique_ids": 13053
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 11890,
+          "actual_rows": 13053,
+          "rows_abs_error": 1163,
+          "rows_pct_error": 0.09781328847771237,
+          "expected_rows_matched_only": 2127,
+          "expected_rows_singleton_aware": 11890,
+          "rows_pct_error_matched_only": 5.136812411847672,
+          "rows_pct_error_singleton_aware": 0.09781328847771237,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 11890,
+          "actual_unique_ids": 13053,
+          "unique_ids_abs_error": 1163,
+          "unique_ids_pct_error": 0.09781328847771237,
+          "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-03-03T11:15:13.142862+00:00"
+        },
+        "matching": {
+          "expected_rows": 11378,
+          "actual_rows": 13053,
+          "rows_abs_error": 1675,
+          "rows_pct_error": 0.14721392160309368,
+          "expected_rows_matched_only": 2639,
+          "expected_rows_singleton_aware": 11378,
+          "rows_pct_error_matched_only": 3.9461917392951875,
+          "rows_pct_error_singleton_aware": 0.14721392160309368,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 11378,
+          "actual_unique_ids": 13053,
+          "unique_ids_abs_error": 1675,
+          "unique_ids_pct_error": 0.14721392160309368,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-03-03T11:15:13.142979+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.6212121212121212
+  },
+  "normalization_execution_result": "success",
+  "normalization_attempts": 3,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 3,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/companies/testsets/validation_set.xml",
+    "validation_style": {
+      "inferred_country_output_format": "name",
+      "used_country_output_format": "name",
+      "lowercase_columns_hint": [
+        "assets_provenance",
+        "city_provenance",
+        "id",
+        "revenue_provenance"
+      ],
+      "validation_list_like_columns_hint": [
+        "keypeople_name"
+      ],
+      "case_profile": {
+        "id": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "name_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.8,
+          "sample_size": 25
+        },
+        "name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "country_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.36,
+          "sample_size": 25
+        },
+        "country": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "city_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 0.92,
+          "sample_size": 25
+        },
+        "city": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "assets_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "revenue_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "founded_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.4,
+          "sample_size": 25
+        },
+        "founded": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "keypeople_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.1429,
+          "sample_size": 7
+        },
+        "keypeople_name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 7
+        }
+      }
+    },
+    "normalization_directives": {
+      "country_columns": [
+        "country"
+      ],
+      "list_columns": [
+        "keypeople_name"
+      ],
+      "text_columns": [
+        "city",
+        "keypeople_name"
+      ],
+      "country_output_format": "name",
+      "list_normalization_required": true,
+      "needs_normalization": true,
+      "reasons": [
+        "Integration diagnostics flag HIGH severity list-format inconsistencies in keypeople_name (mix of json_list, malformed, bracket_like) across sources; this will break exact/list comparisons and list fusion.",
+        "Evaluation reasoning cites city string concatenation/format artifacts (e.g., milwaukeewisconsin, beijingchina, californiasan diego) consistent with canonicalization/cleanup gaps that can cause mismatches even when the underlying location is correct.",
+        "Validation hints indicate country output format should be name; keeping country in a consistent name format across sources supports exact matching (even though current country accuracy is already high)."
+      ],
+      "recommendation_summary": "Rerun normalization focusing on (1) strict, canonical JSON-array encoding for keypeople_name (repair malformed/bracket-like variants and ensure consistent list representation), (2) city text cleanup to remove/repair concatenated geo strings while keeping City in validation-style casing (not forced lowercase), and (3) ensure country is normalized to validation-style country names.",
+      "confidence": 0.84
+    },
+    "ablation_report": {
+      "evaluated_subsets": [
+        {
+          "subset": "text_columns",
+          "keys": [
+            "text_columns"
+          ],
+          "projected_delta": 0.008547,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.008547,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.666667,
+            "directive_coverage": 0.666667,
+            "normalization_pressure": 0.22,
+            "matched_problem_columns": [
+              "city",
+              "keypeople_name"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "city",
+              "keypeople_name"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "combined",
+          "keys": [
+            "list_columns",
+            "country_columns",
+            "lowercase_columns",
+            "text_columns"
+          ],
+          "projected_delta": 0.007023,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.007023,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.666667,
+            "directive_coverage": 0.47619,
+            "normalization_pressure": 0.22,
+            "matched_problem_columns": [
+              "city",
+              "keypeople_name"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "assets_provenance",
+              "city",
+              "city_provenance",
+              "country",
+              "id",
+              "keypeople_name",
+              "revenue_provenance"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "list_columns",
+          "keys": [
+            "list_columns"
+          ],
+          "projected_delta": 0.00588,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.00588,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.333333,
+            "directive_coverage": 0.666667,
+            "normalization_pressure": 0.22,
+            "matched_problem_columns": [
+              "keypeople_name"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "keypeople_name"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "country_columns",
+          "keys": [
+            "country_columns"
+          ],
+          "projected_delta": 0.00588,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.00588,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 1.0,
+            "normalization_pressure": 0.22,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "country"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "lowercase_columns",
+          "keys": [
+            "lowercase_columns"
+          ],
+          "projected_delta": -0.00012,
+          "allow": false,
+          "details": {
+            "allow": false,
+            "projected_delta": -0.00012,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.25,
+            "normalization_pressure": 0.22,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "assets_provenance",
+              "city_provenance",
+              "id",
+              "revenue_provenance"
+            ],
+            "reason": "insufficient projected gain"
+          }
+        }
+      ],
+      "selected_keys": [
+        "country_columns",
+        "list_columns",
+        "text_columns"
+      ],
+      "pruned_directives": {
+        "country_columns": [
+          "country"
+        ],
+        "list_columns": [
+          "keypeople_name"
+        ],
+        "text_columns": [
+          "city",
+          "keypeople_name"
+        ],
+        "country_output_format": "name",
+        "list_normalization_required": true,
+        "needs_normalization": true,
+        "reasons": [
+          "Integration diagnostics flag HIGH severity list-format inconsistencies in keypeople_name (mix of json_list, malformed, bracket_like) across sources; this will break exact/list comparisons and list fusion.",
+          "Evaluation reasoning cites city string concatenation/format artifacts (e.g., milwaukeewisconsin, beijingchina, californiasan diego) consistent with canonicalization/cleanup gaps that can cause mismatches even when the underlying location is correct.",
+          "Validation hints indicate country output format should be name; keeping country in a consistent name format across sources supports exact matching (even though current country accuracy is already high)."
+        ],
+        "recommendation_summary": "Rerun normalization focusing on (1) strict, canonical JSON-array encoding for keypeople_name (repair malformed/bracket-like variants and ensure consistent list representation), (2) city text cleanup to remove/repair concatenated geo strings while keeping City in validation-style casing (not forced lowercase), and (3) ensure country is normalized to validation-style country names.",
+        "confidence": 0.84
+      },
+      "selection_reason": "selected subsets with positive projected gain"
+    },
+    "shadow_precheck": {},
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "datasets": {
+      "forbes": {
+        "input_path": "output/normalization/attempt_2/forbes.csv",
+        "output_path": "output/normalization/attempt_3/forbes.csv",
+        "row_count": 2000,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "assets": [
+            "strip",
+            "normalize_whitespace",
+            "to_numeric"
+          ]
+        },
+        "country_normalized_columns": [
+          "country"
+        ],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 11,
+          "normalized_columns": 11,
+          "rows_processed": 2000,
+          "overall_success_rate": 1.0,
+          "processing_time": 57.06474208831787,
+          "type_distribution": {
+            "STRING": 5,
+            "NUMERIC": 5,
+            "LINK": 1
+          }
+        }
+      },
+      "dbpedia": {
+        "input_path": "output/normalization/attempt_2/dbpedia.csv",
+        "output_path": "output/normalization/attempt_3/dbpedia.csv",
+        "row_count": 10086,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "founded": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "city": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "keypeople_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "assets": [
+            "strip",
+            "normalize_whitespace",
+            "to_numeric"
+          ]
+        },
+        "country_normalized_columns": [
+          "country"
+        ],
+        "list_normalized_columns": [
+          "keypeople_name"
+        ],
+        "summary": {
+          "original_columns": 9,
+          "normalized_columns": 9,
+          "rows_processed": 10086,
+          "overall_success_rate": 1.0,
+          "processing_time": 45.23784399032593,
+          "type_distribution": {
+            "LINK": 1,
+            "STRING": 5,
+            "DATE": 1,
+            "NUMERIC": 2
+          }
+        }
+      },
+      "fullcontact": {
+        "input_path": "output/normalization/attempt_2/fullcontact.csv",
+        "output_path": "output/normalization/attempt_3/fullcontact.csv",
+        "row_count": 1931,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "city": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "keypeople_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "founded": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [
+          "country"
+        ],
+        "list_normalized_columns": [
+          "keypeople_name"
+        ],
+        "summary": {
+          "original_columns": 6,
+          "normalized_columns": 6,
+          "rows_processed": 1931,
+          "overall_success_rate": 1.0,
+          "processing_time": 27.412270069122314,
+          "type_distribution": {
+            "STRING": 5,
+            "DATE": 1
+          }
+        }
+      }
+    },
+    "warnings": [],
+    "failure_tags": [
+      "ok"
+    ],
+    "reverted_to_original": false,
+    "created_at": "2026-03-03T12:13:32.201742"
+  },
+  "normalization_directives": {
+    "country_columns": [
+      "country"
+    ],
+    "list_columns": [
+      "keypeople_name"
+    ],
+    "text_columns": [
+      "city",
+      "keypeople_name"
+    ],
+    "country_output_format": "name",
+    "list_normalization_required": true,
+    "needs_normalization": true,
+    "reasons": [
+      "Integration diagnostics flag HIGH severity list-format inconsistencies in keypeople_name (mix of json_list, malformed, bracket_like) across sources; this will break exact/list comparisons and list fusion.",
+      "Evaluation reasoning cites city string concatenation/format artifacts (e.g., milwaukeewisconsin, beijingchina, californiasan diego) consistent with canonicalization/cleanup gaps that can cause mismatches even when the underlying location is correct.",
+      "Validation hints indicate country output format should be name; keeping country in a consistent name format across sources supports exact matching (even though current country accuracy is already high)."
+    ],
+    "recommendation_summary": "Rerun normalization focusing on (1) strict, canonical JSON-array encoding for keypeople_name (repair malformed/bracket-like variants and ensure consistent list representation), (2) city text cleanup to remove/repair concatenated geo strings while keeping City in validation-style casing (not forced lowercase), and (3) ensure country is normalized to validation-style country names.",
+    "confidence": 0.84
+  },
+  "investigator_action_plan": [
+    {
+      "source": "recommendations",
+      "action": "Normalize list-like attributes to a consistent list encoding before fusion (prefer strict JSON array of strings); parse delimited strings and repair malformed bracket-like values.",
+      "target_attributes": [
+        "_fusion_source_datasets",
+        "_fusion_sources"
+      ],
+      "evidence_summary": "Detected inconsistent list encodings in 2 source/column instances; malformed bracket-like values present.",
+      "expected_impact": "HIGH",
+      "confidence": 0.84,
+      "priority_score": 0.749
+    },
+    {
+      "source": "recommendations",
+      "action": "Reduce missing fused values: verify attribute presence across sources, ensure non-null propagation in fusion, and add normalization/parsing to prevent values being treated as missing.",
+      "target_attributes": [
+        "city",
+        "founded",
+        "keypeople_name",
+        "country"
+      ],
+      "evidence_summary": "missing_fused_value events=39, ratio=0.5342465753424658",
+      "expected_impact": "HIGH",
+      "confidence": 0.75,
+      "priority_score": 0.717
+    },
+    {
+      "source": "recommendations",
+      "action": "Improve city normalization: split/clean concatenated geo strings; standardize whitespace and separators while preserving intended casing.",
+      "target_attributes": [
+        "city"
+      ],
+      "evidence_summary": "1 dataset(s) have ≥3% suspicious no-space city strings (likely concatenated city+region/country).",
+      "expected_impact": "MEDIUM",
+      "confidence": 0.7,
+      "priority_score": 0.537
+    }
+  ],
+  "normalized_datasets": [
+    "output/normalization/attempt_3/forbes.csv",
+    "output/normalization/attempt_3/dbpedia.csv",
+    "output/normalization/attempt_3/fullcontact.csv"
+  ],
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-03-03T11:19:11.838548+00:00",
+    "summary": {
+      "evaluation_stage": null,
+      "overall_accuracy": null,
+      "macro_accuracy": null,
+      "num_findings": 4,
+      "num_recommendations": 4,
+      "artifacts": {
+        "fused_csv": "output/data_fusion/fusion_data.csv",
+        "debug_jsonl": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+        "fusion_size_estimate_json": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "correspondences_dir": "output/correspondences",
+        "source_datasets": []
+      },
+      "debug_event_summary": {
+        "reason_counts": {
+          "evaluation_debug_header": 1,
+          "missing_fused_value": 39,
+          "mismatch": 33
+        },
+        "reason_ratios": {
+          "evaluation_debug_header": 0.0136986301369863,
+          "missing_fused_value": 0.5342465753424658,
+          "mismatch": 0.4520547945205479
+        },
+        "case_only_mismatch": {
+          "count": 0,
+          "ratio_of_mismatches": 0.0,
+          "examples": []
+        },
+        "missing_fused_value": {
+          "count": 39,
+          "ratio": 0.5342465753424658,
+          "attributes": {
+            "city": 18,
+            "founded": 17,
+            "keypeople_name": 3,
+            "country": 1
+          }
+        },
+        "mismatch": {
+          "count": 33,
+          "attributes": {
+            "assets": 25,
+            "city": 6,
+            "founded": 1,
+            "keypeople_name": 1
+          },
+          "examples": [
+            {
+              "attribute": "city",
+              "fused_value": "quebec city",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "city",
+              "fused_value": "london",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "city",
+              "fused_value": "houston",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "city",
+              "fused_value": "london",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "city",
+              "fused_value": "Beijing",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "city",
+              "fused_value": "californiasan diego",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "founded",
+              "fused_value": "1989-01-01",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "35.3",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "162.8",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "8.8",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "9633600000.0",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "2117.7",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "9.1",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "528.5",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "12.9",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "28.3",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "10.9",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "61540000000.0",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "3.8",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "70.7",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "6890000000.0",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "12.9",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "5.8",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "11.2",
+              "gold_value": "",
+              "id": null
+            },
+            {
+              "attribute": "assets",
+              "fused_value": "5.8",
+              "gold_value": "",
+              "id": null
+            }
+          ]
+        },
+        "total_events": 73
+      },
+      "size_estimate_drift": {
+        "estimates": {
+          "blocking": {
+            "stage": "blocking",
+            "dataset_signature": "dbpedia|forbes|fullcontact",
+            "datasets": [
+              "dbpedia",
+              "forbes",
+              "fullcontact"
+            ],
+            "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+            "expected_rows": 11890,
+            "expected_unique_ids": 11890,
+            "expected_rows_range": [
+              8284,
+              11940
+            ],
+            "expected_unique_ids_range": [
+              8284,
+              11940
+            ],
+            "three_way_intersection": {
+              "enabled": true,
+              "datasets": [
+                "forbes",
+                "dbpedia",
+                "fullcontact"
+              ],
+              "pair_cluster_estimates": {
+                "forbes_dbpedia": 2000,
+                "forbes_fullcontact": 1828,
+                "dbpedia_fullcontact": 1905
+              },
+              "triple_intersection_estimates": {
+                "via_forbes": 1828.0,
+                "via_dbpedia": 377.75133848899463,
+                "via_fullcontact": 1803.386846193682,
+                "median_used": 1803.386846193682,
+                "final_triple_intersection": 1803,
+                "triple_intersection_range": [
+                  0,
+                  1828
+                ]
+              },
+              "expected_union_clusters": 2127,
+              "expected_union_range": [
+                2077,
+                5733
+              ],
+              "formula": "E_union = E12 + E13 + E23 - 2*E123"
+            },
+            "pair_estimates": [
+              {
+                "pair_key": "forbes_dbpedia",
+                "left_dataset": "forbes",
+                "right_dataset": "dbpedia",
+                "min_pair_size": 2000,
+                "pair_completeness": 1.0,
+                "expected_cluster_count": 2000
+              },
+              {
+                "pair_key": "forbes_fullcontact",
+                "left_dataset": "forbes",
+                "right_dataset": "fullcontact",
+                "min_pair_size": 1931,
+                "pair_completeness": 0.9466666666666667,
+                "expected_cluster_count": 1828
+              },
+              {
+                "pair_key": "fullcontact_dbpedia",
+                "left_dataset": "dbpedia",
+                "right_dataset": "fullcontact",
+                "min_pair_size": 1931,
+                "pair_completeness": 0.9866666666666667,
+                "expected_cluster_count": 1905
+              }
+            ],
+            "created_at": "2026-03-03T10:54:41.002144+00:00",
+            "expected_rows_matched_only": 2127,
+            "expected_unique_ids_matched_only": 2127,
+            "expected_rows_matched_only_range": [
+              2077,
+              5733
+            ],
+            "expected_unique_ids_matched_only_range": [
+              2077,
+              5733
+            ],
+            "expected_rows_singleton_aware": 11890,
+            "expected_unique_ids_singleton_aware": 11890,
+            "expected_rows_singleton_aware_range": [
+              8284,
+              11940
+            ],
+            "expected_unique_ids_singleton_aware_range": [
+              8284,
+              11940
+            ],
+            "singleton_assumption": {
+              "assumed_include_singletons": true,
+              "total_input_rows": 14017,
+              "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+              "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+            }
+          },
+          "matching": {
+            "stage": "matching",
+            "dataset_signature": "dbpedia|forbes|fullcontact",
+            "datasets": [
+              "dbpedia",
+              "forbes",
+              "fullcontact"
+            ],
+            "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+            "expected_rows": 11378,
+            "expected_unique_ids": 11378,
+            "expected_rows_range": [
+              9818,
+              11756
+            ],
+            "expected_unique_ids_range": [
+              9818,
+              11756
+            ],
+            "three_way_intersection": {
+              "enabled": true,
+              "datasets": [
+                "forbes",
+                "dbpedia",
+                "fullcontact"
+              ],
+              "pair_cluster_estimates": {
+                "forbes_dbpedia": 1676,
+                "forbes_fullcontact": 969,
+                "dbpedia_fullcontact": 1554
+              },
+              "triple_intersection_estimates": {
+                "via_forbes": 812.022,
+                "via_dbpedia": 258.2296252230815,
+                "via_fullcontact": 779.8166752977731,
+                "median_used": 779.8166752977731,
+                "final_triple_intersection": 780,
+                "triple_intersection_range": [
+                  0,
+                  969
+                ]
+              },
+              "expected_union_clusters": 2639,
+              "expected_union_range": [
+                2261,
+                4199
+              ],
+              "formula": "E_union = E12 + E13 + E23 - 2*E123"
+            },
+            "pair_estimates": [
+              {
+                "pair_key": "forbes_dbpedia",
+                "left_dataset": "forbes",
+                "right_dataset": "dbpedia",
+                "min_pair_size": 2000,
+                "pair_completeness": 1.0,
+                "f1": 0.8379446640316205,
+                "expected_cluster_count": 1676
+              },
+              {
+                "pair_key": "forbes_fullcontact",
+                "left_dataset": "forbes",
+                "right_dataset": "fullcontact",
+                "min_pair_size": 1931,
+                "pair_completeness": 0.9466666666666667,
+                "f1": 0.5299806576402322,
+                "expected_cluster_count": 969
+              },
+              {
+                "pair_key": "fullcontact_dbpedia",
+                "left_dataset": "dbpedia",
+                "right_dataset": "fullcontact",
+                "min_pair_size": 1931,
+                "pair_completeness": 0.9866666666666667,
+                "f1": 0.8158640226628895,
+                "expected_cluster_count": 1554
+              }
+            ],
+            "created_at": "2026-03-03T10:56:00.552619+00:00",
+            "expected_rows_matched_only": 2639,
+            "expected_unique_ids_matched_only": 2639,
+            "expected_rows_matched_only_range": [
+              2261,
+              4199
+            ],
+            "expected_unique_ids_matched_only_range": [
+              2261,
+              4199
+            ],
+            "expected_rows_singleton_aware": 11378,
+            "expected_unique_ids_singleton_aware": 11378,
+            "expected_rows_singleton_aware_range": [
+              9818,
+              11756
+            ],
+            "expected_unique_ids_singleton_aware_range": [
+              9818,
+              11756
+            ],
+            "singleton_assumption": {
+              "assumed_include_singletons": true,
+              "total_input_rows": 14017,
+              "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+              "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+            }
+          }
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 11890,
+            "actual_rows": 13053,
+            "rows_abs_error": 1163,
+            "rows_pct_error": 0.09781328847771237,
+            "expected_rows_matched_only": 2127,
+            "expected_rows_singleton_aware": 11890,
+            "rows_pct_error_matched_only": 5.136812411847672,
+            "rows_pct_error_singleton_aware": 0.09781328847771237,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11890,
+            "actual_unique_ids": 13053,
+            "unique_ids_abs_error": 1163,
+            "unique_ids_pct_error": 0.09781328847771237,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-03T11:15:13.142862+00:00"
+          },
+          "matching": {
+            "expected_rows": 11378,
+            "actual_rows": 13053,
+            "rows_abs_error": 1675,
+            "rows_pct_error": 0.14721392160309368,
+            "expected_rows_matched_only": 2639,
+            "expected_rows_singleton_aware": 11378,
+            "rows_pct_error_matched_only": 3.9461917392951875,
+            "rows_pct_error_singleton_aware": 0.14721392160309368,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11378,
+            "actual_unique_ids": 13053,
+            "unique_ids_abs_error": 1675,
+            "unique_ids_pct_error": 0.14721392160309368,
+            "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-03T11:15:13.142979+00:00"
+          }
+        },
+        "updated_at": "2026-03-03T11:15:13.142995+00:00",
+        "actual": {
+          "rows": 13053,
+          "unique_ids": 13053
+        },
+        "active_dataset_signature": "dbpedia|forbes|fullcontact"
+      },
+      "normalization_sensitive_details": {
+        "country_canonicalization": {
+          "fused": {
+            "rows_scanned": 5000,
+            "mismatch_count": 91,
+            "mismatch_ratio": 0.0182,
+            "examples": [
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              },
+              {
+                "raw": "Korea, Republic of",
+                "canonical": "south korea"
+              }
+            ]
+          }
+        },
+        "list_format_inconsistencies": {
+          "fused": {
+            "_fusion_source_datasets": {
+              "rows_scanned": 5000,
+              "format_counts": {
+                "bracket_like_malformed": 5000
+              },
+              "inconsistent": true,
+              "examples": {
+                "bracket_like_malformed": [
+                  "['forbes', 'dbpedia']",
+                  "['forbes', 'dbpedia']",
+                  "['forbes', 'dbpedia', 'fullcontact']",
+                  "['forbes', 'dbpedia', 'fullcontact']",
+                  "['forbes', 'dbpedia', 'fullcontact']",
+                  "['forbes', 'dbpedia', 'fullcontact']",
+                  "['forbes', 'dbpedia']",
+                  "['forbes', 'dbpedia', 'fullcontact']"
+                ],
+                "delimited_string": [],
+                "scalar_string": []
+              }
+            },
+            "_fusion_sources": {
+              "rows_scanned": 5000,
+              "format_counts": {
+                "bracket_like_malformed": 4953,
+                "json_list": 47
+              },
+              "inconsistent": true,
+              "examples": {
+                "bracket_like_malformed": [
+                  "['http://www.forbes.com/companies/china-construction-bank/', 'http://dbpedia.org/resource/China_Construction_Bank']",
+                  "['http://www.forbes.com/companies/berkshire-hathaway/', 'http://dbpedia.org/resource/Berkshire_Hathaway']",
+                  "['http://www.forbes.com/companies/wells-fargo/', 'http://dbpedia.org/resource/Wells_Fargo', 'fullcontact_812']",
+                  "['http://www.forbes.com/companies/apple/', 'http://dbpedia.org/resource/Apple_Inc.', 'fullcontact_102']",
+                  "['http://www.forbes.com/companies/bp/', 'http://dbpedia.org/resource/BP', 'fullcontact_166']",
+                  "['http://www.forbes.com/companies/volkswagen-group/', 'http://dbpedia.org/resource/Volkswagen_Group', 'fullcontact_802']",
+                  "['http://www.forbes.com/companies/gazprom/', 'http://dbpedia.org/resource/Gazprom_Neft']",
+                  "['http://www.forbes.com/companies/petrobras/', 'http://dbpedia.org/resource/Petrobras', 'fullcontact_582']"
+                ],
+                "delimited_string": [],
+                "scalar_string": []
+              }
+            },
+            "industry": {
+              "rows_scanned": 5000,
+              "format_counts": {
+                "scalar_string": 4019,
+                "empty": 981
+              },
+              "inconsistent": false,
+              "examples": {
+                "bracket_like_malformed": [],
+                "delimited_string": [],
+                "scalar_string": [
+                  "regional banks",
+                  "investment services",
+                  "major banks",
+                  "computer hardware",
+                  "oil & gas operations",
+                  "auto & truck manufacturers",
+                  "oil & gas operations",
+                  "oil & gas operations"
+                ]
+              }
+            },
+            "keypeople_name": {
+              "rows_scanned": 5000,
+              "format_counts": {
+                "json_list": 5000
+              },
+              "inconsistent": false,
+              "examples": {
+                "bracket_like_malformed": [],
+                "delimited_string": [],
+                "scalar_string": []
+              }
+            }
+          }
+        },
+        "city_concatenation_patterns": {
+          "fused": {
+            "rows_scanned": 5000,
+            "suspicious_count": 349,
+            "suspicious_ratio": 0.0698,
+            "examples": [
+              "marylandbethesda",
+              "guangdongshenzhen",
+              "guangdongshenzhen",
+              "tokyochiyoda",
+              "mumbaimaharashtra",
+              "illinoisdeerfield",
+              "massachusettshopkinton",
+              "leventbeşiktaşistanbul",
+              "pennsylvania",
+              "tokyochiyoda",
+              "guangzhouguangdong",
+              "calgaryalberta",
+              "winston-salem",
+              "guangzhouguangdong",
+              "issy-les-moulineaux"
+            ]
+          }
+        }
+      },
+      "cluster_size_heuristics": {
+        "sizes": {
+          "fused_rows": 13053,
+          "sources": {}
+        }
+      }
+    },
+    "findings": [
+      {
+        "severity": "HIGH",
+        "title": "Many missing_fused_value debug events (fusion dropping values)",
+        "details": {
+          "missing_fused_value_count": 39,
+          "ratio": 0.5342465753424658,
+          "top_attributes": [
+            [
+              "city",
+              18
+            ],
+            [
+              "founded",
+              17
+            ],
+            [
+              "keypeople_name",
+              3
+            ],
+            [
+              "country",
+              1
+            ]
+          ]
+        },
+        "evidence": {
+          "debug_path": "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        }
+      },
+      {
+        "severity": "HIGH",
+        "title": "List-format inconsistencies detected (JSON-list vs scalar vs malformed)",
+        "details": {
+          "flagged": [
+            {
+              "source": "fused",
+              "column": "_fusion_source_datasets",
+              "format_counts": {
+                "bracket_like_malformed": 5000
+              }
+            },
+            {
+              "source": "fused",
+              "column": "_fusion_sources",
+              "format_counts": {
+                "bracket_like_malformed": 4953,
+                "json_list": 47
+              }
+            }
+          ]
+        },
+        "evidence": {
+          "examples": {
+            "fused._fusion_source_datasets": {
+              "bracket_like_malformed": [
+                "['forbes', 'dbpedia']",
+                "['forbes', 'dbpedia']",
+                "['forbes', 'dbpedia', 'fullcontact']",
+                "['forbes', 'dbpedia', 'fullcontact']",
+                "['forbes', 'dbpedia', 'fullcontact']",
+                "['forbes', 'dbpedia', 'fullcontact']",
+                "['forbes', 'dbpedia']",
+                "['forbes', 'dbpedia', 'fullcontact']"
+              ],
+              "delimited_string": [],
+              "scalar_string": []
+            },
+            "fused._fusion_sources": {
+              "bracket_like_malformed": [
+                "['http://www.forbes.com/companies/china-construction-bank/', 'http://dbpedia.org/resource/China_Construction_Bank']",
+                "['http://www.forbes.com/companies/berkshire-hathaway/', 'http://dbpedia.org/resource/Berkshire_Hathaway']",
+                "['http://www.forbes.com/companies/wells-fargo/', 'http://dbpedia.org/resource/Wells_Fargo', 'fullcontact_812']",
+                "['http://www.forbes.com/companies/apple/', 'http://dbpedia.org/resource/Apple_Inc.', 'fullcontact_102']",
+                "['http://www.forbes.com/companies/bp/', 'http://dbpedia.org/resource/BP', 'fullcontact_166']",
+                "['http://www.forbes.com/companies/volkswagen-group/', 'http://dbpedia.org/resource/Volkswagen_Group', 'fullcontact_802']",
+                "['http://www.forbes.com/companies/gazprom/', 'http://dbpedia.org/resource/Gazprom_Neft']",
+                "['http://www.forbes.com/companies/petrobras/', 'http://dbpedia.org/resource/Petrobras', 'fullcontact_582']"
+              ],
+              "delimited_string": [],
+              "scalar_string": []
+            }
+          }
+        }
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "Fused-size estimate drift detected (pipeline size differs from projection)",
+        "details": {
+          "drifted_stages": [
+            {
+              "stage": "matching",
+              "rows_pct_error": 0.14721392160309368,
+              "expected_rows": 11378,
+              "actual_rows": 13053,
+              "rows_abs_error": 1675
+            }
+          ]
+        },
+        "evidence": {
+          "size_estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+          "comparisons": {
+            "blocking": {
+              "expected_rows": 11890,
+              "actual_rows": 13053,
+              "rows_abs_error": 1163,
+              "rows_pct_error": 0.09781328847771237,
+              "expected_rows_matched_only": 2127,
+              "expected_rows_singleton_aware": 11890,
+              "rows_pct_error_matched_only": 5.136812411847672,
+              "rows_pct_error_singleton_aware": 0.09781328847771237,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 11890,
+              "actual_unique_ids": 13053,
+              "unique_ids_abs_error": 1163,
+              "unique_ids_pct_error": 0.09781328847771237,
+              "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+              "compared_at": "2026-03-03T11:15:13.142862+00:00"
+            },
+            "matching": {
+              "expected_rows": 11378,
+              "actual_rows": 13053,
+              "rows_abs_error": 1675,
+              "rows_pct_error": 0.14721392160309368,
+              "expected_rows_matched_only": 2639,
+              "expected_rows_singleton_aware": 11378,
+              "rows_pct_error_matched_only": 3.9461917392951875,
+              "rows_pct_error_singleton_aware": 0.14721392160309368,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 11378,
+              "actual_unique_ids": 13053,
+              "unique_ids_abs_error": 1675,
+              "unique_ids_pct_error": 0.14721392160309368,
+              "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+              "compared_at": "2026-03-03T11:15:13.142979+00:00"
+            }
+          }
+        }
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "City text may contain concatenation/cleanup artifacts (no-space alpha strings)",
+        "details": {
+          "sources_flagged": [
+            {
+              "source": "fused",
+              "suspicious_ratio": 0.0698,
+              "suspicious_count": 349,
+              "rows_scanned": 5000
+            }
+          ]
+        },
+        "evidence": {
+          "examples": {
+            "fused": [
+              "marylandbethesda",
+              "guangdongshenzhen",
+              "guangdongshenzhen",
+              "tokyochiyoda",
+              "mumbaimaharashtra",
+              "illinoisdeerfield",
+              "massachusettshopkinton",
+              "leventbeşiktaşistanbul",
+              "pennsylvania",
+              "tokyochiyoda",
+              "guangzhouguangdong",
+              "calgaryalberta",
+              "winston-salem",
+              "guangzhouguangdong",
+              "issy-les-moulineaux"
+            ]
+          }
+        }
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Normalize list-like attributes to a consistent list encoding before fusion (prefer strict JSON array of strings); parse delimited strings and repair malformed bracket-like values.",
+        "target_attributes": [
+          "_fusion_source_datasets",
+          "_fusion_sources"
+        ],
+        "evidence_summary": "Detected inconsistent list encodings in 2 source/column instances; malformed bracket-like values present.",
+        "expected_impact": "HIGH",
+        "confidence": 0.84,
+        "hints": {
+          "normalization": {
+            "list_columns": [
+              "_fusion_source_datasets",
+              "_fusion_sources"
+            ],
+            "strategy": "parse_to_json_array_strings"
+          }
+        },
+        "evidence": {
+          "list_format_inconsistencies": {
+            "fused": {
+              "_fusion_source_datasets": {
+                "rows_scanned": 5000,
+                "format_counts": {
+                  "bracket_like_malformed": 5000
+                },
+                "inconsistent": true,
+                "examples": {
+                  "bracket_like_malformed": [
+                    "['forbes', 'dbpedia']",
+                    "['forbes', 'dbpedia']",
+                    "['forbes', 'dbpedia', 'fullcontact']",
+                    "['forbes', 'dbpedia', 'fullcontact']",
+                    "['forbes', 'dbpedia', 'fullcontact']",
+                    "['forbes', 'dbpedia', 'fullcontact']",
+                    "['forbes', 'dbpedia']",
+                    "['forbes', 'dbpedia', 'fullcontact']"
+                  ],
+                  "delimited_string": [],
+                  "scalar_string": []
+                }
+              },
+              "_fusion_sources": {
+                "rows_scanned": 5000,
+                "format_counts": {
+                  "bracket_like_malformed": 4953,
+                  "json_list": 47
+                },
+                "inconsistent": true,
+                "examples": {
+                  "bracket_like_malformed": [
+                    "['http://www.forbes.com/companies/china-construction-bank/', 'http://dbpedia.org/resource/China_Construction_Bank']",
+                    "['http://www.forbes.com/companies/berkshire-hathaway/', 'http://dbpedia.org/resource/Berkshire_Hathaway']",
+                    "['http://www.forbes.com/companies/wells-fargo/', 'http://dbpedia.org/resource/Wells_Fargo', 'fullcontact_812']",
+                    "['http://www.forbes.com/companies/apple/', 'http://dbpedia.org/resource/Apple_Inc.', 'fullcontact_102']",
+                    "['http://www.forbes.com/companies/bp/', 'http://dbpedia.org/resource/BP', 'fullcontact_166']",
+                    "['http://www.forbes.com/companies/volkswagen-group/', 'http://dbpedia.org/resource/Volkswagen_Group', 'fullcontact_802']",
+                    "['http://www.forbes.com/companies/gazprom/', 'http://dbpedia.org/resource/Gazprom_Neft']",
+                    "['http://www.forbes.com/companies/petrobras/', 'http://dbpedia.org/resource/Petrobras', 'fullcontact_582']"
+                  ],
+                  "delimited_string": [],
+                  "scalar_string": []
+                }
+              },
+              "industry": {
+                "rows_scanned": 5000,
+                "format_counts": {
+                  "scalar_string": 4019,
+                  "empty": 981
+                },
+                "inconsistent": false,
+                "examples": {
+                  "bracket_like_malformed": [],
+                  "delimited_string": [],
+                  "scalar_string": [
+                    "regional banks",
+                    "investment services",
+                    "major banks",
+                    "computer hardware",
+                    "oil & gas operations",
+                    "auto & truck manufacturers",
+                    "oil & gas operations",
+                    "oil & gas operations"
+                  ]
+                }
+              },
+              "keypeople_name": {
+                "rows_scanned": 5000,
+                "format_counts": {
+                  "json_list": 5000
+                },
+                "inconsistent": false,
+                "examples": {
+                  "bracket_like_malformed": [],
+                  "delimited_string": [],
+                  "scalar_string": []
+                }
+              }
+            }
+          }
+        },
+        "priority_score": 2.1359999999999997
+      },
+      {
+        "action": "Reduce missing fused values: verify attribute presence across sources, ensure non-null propagation in fusion, and add normalization/parsing to prevent values being treated as missing.",
+        "target_attributes": [
+          "city",
+          "founded",
+          "keypeople_name",
+          "country"
+        ],
+        "evidence_summary": "missing_fused_value events=39, ratio=0.5342465753424658",
+        "expected_impact": "HIGH",
+        "confidence": 0.75,
+        "hints": {
+          "stage": "fusion",
+          "checks": [
+            "null-handling",
+            "attribute mapping",
+            "type parsing"
+          ],
+          "debug_path": "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        },
+        "evidence": {
+          "missing_by_attribute": {
+            "city": 18,
+            "founded": 17,
+            "keypeople_name": 3,
+            "country": 1
+          }
+        },
+        "priority_score": 2.0999999999999996
+      },
+      {
+        "action": "Investigate fused-size estimate drift: review blocking recall, matcher thresholds, and singleton handling; update estimator assumptions or fix matching output.",
+        "target_attributes": [],
+        "evidence_summary": "1 stage(s) have ≥10% row error vs estimate.",
+        "expected_impact": "MEDIUM",
+        "confidence": 0.7,
+        "hints": {
+          "stage": "blocking/matching",
+          "artifact": "output/pipeline_evaluation/fusion_size_estimate.json",
+          "checks": [
+            "singleton-aware estimate",
+            "blocking recall",
+            "match threshold"
+          ]
+        },
+        "evidence": {
+          "drifted": [
+            [
+              "matching",
+              0.14721392160309368,
+              11378,
+              13053,
+              1675
+            ]
+          ],
+          "comparisons": {
+            "blocking": {
+              "expected_rows": 11890,
+              "actual_rows": 13053,
+              "rows_abs_error": 1163,
+              "rows_pct_error": 0.09781328847771237,
+              "expected_rows_matched_only": 2127,
+              "expected_rows_singleton_aware": 11890,
+              "rows_pct_error_matched_only": 5.136812411847672,
+              "rows_pct_error_singleton_aware": 0.09781328847771237,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 11890,
+              "actual_unique_ids": 13053,
+              "unique_ids_abs_error": 1163,
+              "unique_ids_pct_error": 0.09781328847771237,
+              "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+              "compared_at": "2026-03-03T11:15:13.142862+00:00"
+            },
+            "matching": {
+              "expected_rows": 11378,
+              "actual_rows": 13053,
+              "rows_abs_error": 1675,
+              "rows_pct_error": 0.14721392160309368,
+              "expected_rows_matched_only": 2639,
+              "expected_rows_singleton_aware": 11378,
+              "rows_pct_error_matched_only": 3.9461917392951875,
+              "rows_pct_error_singleton_aware": 0.14721392160309368,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 11378,
+              "actual_unique_ids": 13053,
+              "unique_ids_abs_error": 1675,
+              "unique_ids_pct_error": 0.14721392160309368,
+              "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+              "compared_at": "2026-03-03T11:15:13.142979+00:00"
+            }
+          }
+        },
+        "priority_score": 1.48
+      },
+      {
+        "action": "Improve city normalization: split/clean concatenated geo strings; standardize whitespace and separators while preserving intended casing.",
+        "target_attributes": [
+          "city"
+        ],
+        "evidence_summary": "1 dataset(s) have ≥3% suspicious no-space city strings (likely concatenated city+region/country).",
+        "expected_impact": "MEDIUM",
+        "confidence": 0.7,
+        "hints": {
+          "normalization": {
+            "city": "split_concatenated_tokens_or_insert_spaces"
+          }
+        },
+        "evidence": {
+          "city_concatenation_patterns": {
+            "fused": {
+              "rows_scanned": 5000,
+              "suspicious_count": 349,
+              "suspicious_ratio": 0.0698,
+              "examples": [
+                "marylandbethesda",
+                "guangdongshenzhen",
+                "guangdongshenzhen",
+                "tokyochiyoda",
+                "mumbaimaharashtra",
+                "illinoisdeerfield",
+                "massachusettshopkinton",
+                "leventbeşiktaşistanbul",
+                "pennsylvania",
+                "tokyochiyoda",
+                "guangzhouguangdong",
+                "calgaryalberta",
+                "winston-salem",
+                "guangzhouguangdong",
+                "issy-les-moulineaux"
+              ]
+            }
+          }
+        },
+        "priority_score": 1.48
+      }
+    ],
+    "source_attribute_agreement": {},
+    "fusion_policy_recommendations": [],
+    "warnings": [
+      {
+        "type": "unmapped_correspondence_files",
+        "path": "output/correspondences",
+        "message": "21 correspondence-like files could not be mapped to expected pairs by filename; check naming conventions.",
+        "examples": [
+          "output/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/correspondences/correspondences_dbpedia_sales.csv",
+          "output/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/correspondences/correspondences_discogs_lastfm.csv",
+          "output/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/correspondences/correspondences_sales_metacritic.csv",
+          "output/correspondences/correspondences_sales_metacritic_pp.csv"
+        ]
+      },
+      {
+        "type": "no_aligned_sources",
+        "path": "sources",
+        "message": "No sources could be aligned to fused by ID"
+      }
+    ]
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": {
+      "what": "Human-review outputs for data-fusion run (wide fused review table, source lineage long table, fusion vs testset diffs).",
+      "fused_id_column_detected": "_id",
+      "testset_id_column_detected": "id",
+      "testset_alignment_column_used": "id",
+      "sources": {
+        "forbes": {
+          "path": "output/normalization/attempt_3/forbes.csv",
+          "id_column": "id"
+        },
+        "dbpedia": {
+          "path": "output/normalization/attempt_3/dbpedia.csv",
+          "id_column": "id"
+        },
+        "fullcontact": {
+          "path": "output/normalization/attempt_3/fullcontact.csv",
+          "id_column": "id"
+        }
+      }
+    },
+    "file_paths": {
+      "fused_csv": "output/data_fusion/fusion_data.csv",
+      "review_summary_json": "output/human_review/human_review_summary.json",
+      "review_summary_md": "output/human_review/human_review_summary.md",
+      "fused_review_csv": "output/human_review/fused_review_table.csv",
+      "source_lineage_csv": "output/human_review/source_lineage_long.csv",
+      "diff_csv": "output/human_review/fusion_vs_testset_diff.csv"
+    },
+    "counts": {
+      "fused_rows": 13053,
+      "review_rows": 13053,
+      "lineage_rows": 14016,
+      "diff_rows": 13,
+      "num_source_datasets_loaded": 3,
+      "num_source_datasets_indexed": 3,
+      "num_review_attributes": 15,
+      "testset_rows": 18
+    },
+    "warnings": [],
+    "created_at": "2026-03-03T11:20:29.625469+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.6212121212121212,
+    "macro_accuracy": 0.5980952380952381,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 82,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "city_accuracy": 0.0,
+    "city_count": 25,
+    "founded_accuracy": 0.28,
+    "founded_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.92,
+    "assets_count": 25,
+    "keypeople_name_accuracy": 0.42857142857142855,
+    "keypeople_name_count": 7
+  },
+  "token_usage": {
+    "prompt_tokens": 336119,
+    "completion_tokens": 91637,
+    "total_tokens": 427756,
+    "total_cost": 1.3365187499999998
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How do I use PyDI DataFusionEvaluator to evaluate a fused dataframe against a gold standard? What does DataFusionStrategy.add_evaluation_function expect and what metrics are returned?",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\n\n-----\n\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters\n----------\nfused_df : pd.DataFrame\nThe fused dataset to evaluate.\nfused_id_column : str\nID column name in the fused dataset.\nexpected_df : pd.DataFrame, optional\nThe expected/validation/test dataset.\nexpected_id_column : str, optional\nID column name in the expected dataset.\ngold_df : pd.DataFrame, optional\nDeprecated alias for expected_df.\ngold_id_column : str, optional\nDeprecated alias for expected_id_column.\nReturns\n-------\nDict[str, float]\nDictionary of evaluation metrics.\n\"\"\"\nself\n.\n_logger\n.\ninfo\n(\n\"Starting fusion evaluation\"\n)\nmismatch_counter\n:\nOptional\n[\nCounter\n[\nstr\n]]\n=\nCounter\n()\nif\nself\n.\n\n-----\n\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n"
+    },
+    {
+      "query": "What built-in evaluation match functions exist in PyDI.fusion (e.g., tokenized_match, year_only_match, numeric_tolerance_match, set_equality_match) and what parameters do they accept?",
+      "response": ".\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n=\n1.0\n)\n[source]\n\nEvaluation function using tokenized comparison with similarity threshold.\nFor lists: Uses Jaccard similarity between lists (order doesn’t matter).\nFor strings: Tokenizes and uses Jaccard similarity between token sets.\nUseful for actor lists and titles where order and partial matches matter.\nParameters\n:\nfused_value\n(\nAny\n) – The fused value to compare.\nexpected_value\n(\nAny\n) – The expected value to compare against.\nthreshold\n(\nfloat\n,\ndefault 1.0\n) – Minimum similarity threshold (0.0 to 1.0).\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n\n-----\n\nSimilarityRegistry.CATEGORIES\nSimilarityRegistry.EDIT_BASED\nSimilarityRegistry.ENTITY_MATCHING_RECOMMENDED\nSimilarityRegistry.PHONETIC\nSimilarityRegistry.SCHEMA_MATCHING_RECOMMENDED\nSimilarityRegistry.SEQUENCE_BASED\nSimilarityRegistry.SIMPLE\nSimilarityRegistry.TOKENIZABLE_FUNCTIONS\nSimilarityRegistry.TOKENIZATION_STRATEGIES\nSimilarityRegistry.TOKEN_BASED\nSimilarityRegistry.get_function()\nSimilarityRegistry.get_function_info()\nSimilarityRegistry.get_functions_by_category()\nSimilarityRegistry.get_recommended_functions()\nSimilarityRegistry.is_tokenizable()\nSimilarityRegistry.list_available_functions()\nSimilarityRegistry.list_tokenization_strategies()\nSimilarityRegistry.validate_functions()\nget_similarity_function()\nlist_similarity_functions()\nModule contents\n\nPyDI: Python Data Integration Framework\n\nThis package provides tools for end‑to‑end data integration, including\nschema matching, blocking, entity matching, information extraction,\nnormalization and validation, and data fusion. It is inspired by the WInte.r Java framework but takes a\npandas‑first approach. All modules aim to expose simple, composable functions\nand classes with stable signatures and rich docstrings.\nSubpackages"
+    }
+  ],
+  "integration_pipeline_code_length": 24931,
+  "evaluation_code_length": 13106,
+  "integration_diagnostics_code_length": 70905,
+  "human_review_code_length": 22404
+}

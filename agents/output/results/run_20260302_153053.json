@@ -1,0 +1,1963 @@
+{
+  "timestamp": "20260302_153053",
+  "datasets": [
+    "discogs",
+    "lastfm",
+    "musicbrainz"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "validation_set.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "discogs_lastfm": {
+      "pair_completeness": 1.0,
+      "num_candidates": 451490,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "duration"
+      ]
+    },
+    "discogs_musicbrainz": {
+      "pair_completeness": 1.0,
+      "num_candidates": 450711,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "release-date"
+      ]
+    },
+    "musicbrainz_lastfm": {
+      "pair_completeness": 1.0,
+      "num_candidates": 95134,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "duration"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "discogs_lastfm": {
+      "f1_score": 0.7654320987654321
+    },
+    "discogs_musicbrainz": {
+      "f1_score": 0.8571428571428572
+    },
+    "musicbrainz_lastfm": {
+      "f1_score": 0.6995073891625616
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.676,
+    "macro_accuracy": 0.676,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 10,
+    "total_evaluations": 250,
+    "total_correct": 169,
+    "name_accuracy": 0.92,
+    "name_count": 25,
+    "tracks_track_duration_accuracy": 0.08,
+    "tracks_track_duration_count": 25,
+    "tracks_track_position_accuracy": 0.44,
+    "tracks_track_position_count": 25,
+    "release-date_accuracy": 0.96,
+    "release-date_count": 25,
+    "label_accuracy": 0.68,
+    "label_count": 25,
+    "artist_accuracy": 0.96,
+    "artist_count": 25,
+    "duration_accuracy": 0.76,
+    "duration_count": 25,
+    "release-country_accuracy": 0.84,
+    "release-country_count": 25,
+    "genre_accuracy": 0.72,
+    "genre_count": 25,
+    "tracks_track_name_accuracy": 0.4,
+    "tracks_track_name_count": 25
+  },
+  "overall_accuracy": 0.676,
+  "blocking_config": {
+    "blocking_strategies": {
+      "discogs_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "duration"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 451490,
+        "is_acceptable": true
+      },
+      "discogs_musicbrainz": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "release-date"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 450711,
+        "is_acceptable": true
+      },
+      "musicbrainz_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "duration"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 95134,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "dataset_signature": "discogs|lastfm|musicbrainz",
+    "dataset_names": [
+      "discogs",
+      "lastfm",
+      "musicbrainz"
+    ],
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "discogs|lastfm|musicbrainz",
+      "datasets": [
+        "discogs",
+        "lastfm",
+        "musicbrainz"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 27390,
+      "expected_unique_ids": 27390,
+      "expected_rows_range": [
+        18628,
+        27390
+      ],
+      "expected_unique_ids_range": [
+        18628,
+        27390
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "discogs",
+          "lastfm",
+          "musicbrainz"
+        ],
+        "pair_cluster_estimates": {
+          "discogs_lastfm": 9865,
+          "discogs_musicbrainz": 4763,
+          "lastfm_musicbrainz": 4763
+        },
+        "triple_intersection_estimates": {
+          "via_discogs": 2076.589693728731,
+          "via_lastfm": 4763.0,
+          "via_musicbrainz": 4763.0,
+          "median_used": 4763.0,
+          "final_triple_intersection": 4763,
+          "triple_intersection_range": [
+            0,
+            4763
+          ]
+        },
+        "expected_union_clusters": 9865,
+        "expected_union_range": [
+          9865,
+          18627
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "discogs_lastfm",
+          "left_dataset": "discogs",
+          "right_dataset": "lastfm",
+          "min_pair_size": 9865,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 9865
+        },
+        {
+          "pair_key": "discogs_musicbrainz",
+          "left_dataset": "discogs",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 4763
+        },
+        {
+          "pair_key": "musicbrainz_lastfm",
+          "left_dataset": "lastfm",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 4763
+        }
+      ],
+      "created_at": "2026-03-02T13:42:10.474355+00:00",
+      "expected_rows_matched_only": 9865,
+      "expected_unique_ids_matched_only": 9865,
+      "expected_rows_matched_only_range": [
+        9865,
+        18627
+      ],
+      "expected_unique_ids_matched_only_range": [
+        9865,
+        18627
+      ],
+      "expected_rows_singleton_aware": 27390,
+      "expected_unique_ids_singleton_aware": 27390,
+      "expected_rows_singleton_aware_range": [
+        18628,
+        27390
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        18628,
+        27390
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 37255,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "matching_strategies": {
+      "discogs_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.35,
+          0.5,
+          0.15
+        ],
+        "threshold": 0.72,
+        "f1": 0.7654320987654321
+      },
+      "discogs_musicbrainz": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "release-date",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "release-country",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.4,
+          0.25,
+          0.2,
+          0.05,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.8571428571428572
+      },
+      "musicbrainz_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.45,
+          0.55
+        ],
+        "threshold": 0.78,
+        "f1": 0.6995073891625616
+      }
+    },
+    "dataset_signature": "discogs|lastfm|musicbrainz",
+    "dataset_names": [
+      "discogs",
+      "lastfm",
+      "musicbrainz"
+    ],
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "discogs|lastfm|musicbrainz",
+      "datasets": [
+        "discogs",
+        "lastfm",
+        "musicbrainz"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 27389,
+      "expected_unique_ids": 27389,
+      "expected_rows_range": [
+        22289,
+        28953
+      ],
+      "expected_unique_ids_range": [
+        22289,
+        28953
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "discogs",
+          "lastfm",
+          "musicbrainz"
+        ],
+        "pair_cluster_estimates": {
+          "discogs_lastfm": 7551,
+          "discogs_musicbrainz": 4083,
+          "lastfm_musicbrainz": 3332
+        },
+        "triple_intersection_estimates": {
+          "via_discogs": 1362.5638838555708,
+          "via_lastfm": 2550.4239229599593,
+          "via_musicbrainz": 2856.29981104346,
+          "median_used": 2550.4239229599593,
+          "final_triple_intersection": 2550,
+          "triple_intersection_range": [
+            0,
+            3332
+          ]
+        },
+        "expected_union_clusters": 9866,
+        "expected_union_range": [
+          8302,
+          14966
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "discogs_lastfm",
+          "left_dataset": "discogs",
+          "right_dataset": "lastfm",
+          "min_pair_size": 9865,
+          "pair_completeness": 1.0,
+          "f1": 0.7654320987654321,
+          "expected_cluster_count": 7551
+        },
+        {
+          "pair_key": "discogs_musicbrainz",
+          "left_dataset": "discogs",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "f1": 0.8571428571428572,
+          "expected_cluster_count": 4083
+        },
+        {
+          "pair_key": "musicbrainz_lastfm",
+          "left_dataset": "lastfm",
+          "right_dataset": "musicbrainz",
+          "min_pair_size": 4763,
+          "pair_completeness": 1.0,
+          "f1": 0.6995073891625616,
+          "expected_cluster_count": 3332
+        }
+      ],
+      "created_at": "2026-03-02T13:47:35.708257+00:00",
+      "expected_rows_matched_only": 9866,
+      "expected_unique_ids_matched_only": 9866,
+      "expected_rows_matched_only_range": [
+        8302,
+        14966
+      ],
+      "expected_unique_ids_matched_only_range": [
+        8302,
+        14966
+      ],
+      "expected_rows_singleton_aware": 27389,
+      "expected_unique_ids_singleton_aware": 27389,
+      "expected_rows_singleton_aware_range": [
+        22289,
+        28953
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        22289,
+        28953
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 37255,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 30226,
+      "unique_ids": 30226
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 27390,
+        "actual_rows": 30226,
+        "rows_abs_error": 2836,
+        "rows_pct_error": 0.10354143848119751,
+        "expected_rows_matched_only": 9865,
+        "expected_rows_singleton_aware": 27390,
+        "rows_pct_error_matched_only": 2.0639635073492144,
+        "rows_pct_error_singleton_aware": 0.10354143848119751,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 27390,
+        "actual_unique_ids": 30226,
+        "unique_ids_abs_error": 2836,
+        "unique_ids_pct_error": 0.10354143848119751,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-02T14:24:58.976675+00:00"
+      },
+      "matching": {
+        "expected_rows": 27389,
+        "actual_rows": 30226,
+        "rows_abs_error": 2837,
+        "rows_pct_error": 0.10358172989156231,
+        "expected_rows_matched_only": 9866,
+        "expected_rows_singleton_aware": 27389,
+        "rows_pct_error_matched_only": 2.0636529495236164,
+        "rows_pct_error_singleton_aware": 0.10358172989156231,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 27389,
+        "actual_unique_ids": 30226,
+        "unique_ids_abs_error": 2837,
+        "unique_ids_pct_error": 0.10358172989156231,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-02T14:24:58.976745+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 71,
+      "missing_fused_value": 14
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.8352941176470589,
+      "missing_fused_value": 0.16470588235294117
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/music/testsets/validation_set.xml",
+    "id_alignment": {
+      "gold_count": 25,
+      "direct_coverage": 4,
+      "direct_coverage_ratio": 0.16,
+      "mapped_coverage": 25,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 30226,
+        "unique_ids": 30226
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 27390,
+          "actual_rows": 30226,
+          "rows_abs_error": 2836,
+          "rows_pct_error": 0.10354143848119751,
+          "expected_rows_matched_only": 9865,
+          "expected_rows_singleton_aware": 27390,
+          "rows_pct_error_matched_only": 2.0639635073492144,
+          "rows_pct_error_singleton_aware": 0.10354143848119751,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 27390,
+          "actual_unique_ids": 30226,
+          "unique_ids_abs_error": 2836,
+          "unique_ids_pct_error": 0.10354143848119751,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-03-02T14:24:58.976675+00:00"
+        },
+        "matching": {
+          "expected_rows": 27389,
+          "actual_rows": 30226,
+          "rows_abs_error": 2837,
+          "rows_pct_error": 0.10358172989156231,
+          "expected_rows_matched_only": 9866,
+          "expected_rows_singleton_aware": 27389,
+          "rows_pct_error_matched_only": 2.0636529495236164,
+          "rows_pct_error_singleton_aware": 0.10358172989156231,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 27389,
+          "actual_unique_ids": 30226,
+          "unique_ids_abs_error": 2837,
+          "unique_ids_pct_error": 0.10358172989156231,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-03-02T14:24:58.976745+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.676
+  },
+  "normalization_execution_result": "success",
+  "normalization_attempts": 3,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 3,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/music/testsets/validation_set.xml",
+    "validation_style": {
+      "inferred_country_output_format": "name",
+      "used_country_output_format": "name",
+      "lowercase_columns_hint": [
+        "duration_provenance",
+        "genre_provenance",
+        "id",
+        "label_provenance",
+        "release-country_provenance",
+        "release-date_provenance"
+      ],
+      "validation_list_like_columns_hint": [
+        "tracks_track_duration",
+        "tracks_track_name",
+        "tracks_track_position"
+      ],
+      "case_profile": {
+        "id": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "name_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.64,
+          "sample_size": 25
+        },
+        "name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "artist_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.72,
+          "sample_size": 25
+        },
+        "artist": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "release-date_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "release-date": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "release-country_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "release-country": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "duration_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 0.96,
+          "sample_size": 25
+        },
+        "label_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "label": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.04,
+          "sample_size": 25
+        },
+        "genre_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 25
+        },
+        "genre": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        },
+        "tracks_provenance": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.4,
+          "sample_size": 25
+        },
+        "tracks_track_name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 25
+        }
+      }
+    },
+    "normalization_directives": {
+      "needs_normalization": true,
+      "reasons": [
+        "Integration diagnostics explicitly flag list-format inconsistencies (scalar vs comma/pipe-separated vs JSON-list-like) and malformed/mixed list encodings in fused output, including in columns that should be scalar in validation (artist, label, name).",
+        "List-format issue detected for label in evaluation artifacts (normalization-sensitive), and label also shows delimiter-style variation in reasoning examples (e.g., pipe-joined labels).",
+        "Validation hints indicate release-country should be normalized to country names (inferred_country_output_format='name'); release-country accuracy (0.84) suggests some remaining canonicalization mismatch risk even though near-mismatch detector did not trigger.",
+        "Text-quality canonicalization issues are mentioned (mojibake in name; 'feat.' contamination in artist), which can break exact comparisons even when matching/fusion is otherwise correct."
+      ],
+      "country_columns": [
+        "release-country"
+      ],
+      "list_columns": [
+        "genre",
+        "tracks_track_duration",
+        "tracks_track_name",
+        "tracks_track_position"
+      ],
+      "text_columns": [
+        "name",
+        "artist",
+        "label"
+      ],
+      "lowercase_columns": [
+        "duration_provenance",
+        "genre_provenance",
+        "id",
+        "label_provenance",
+        "release-country_provenance",
+        "release-date_provenance"
+      ],
+      "country_output_format": "name",
+      "list_normalization_required": true,
+      "recommendation_summary": "Rerun normalization with strict list parsing/serialization only for true multi-valued fields (genre and tracks_*), while preventing accidental listification of scalar fields (name/artist/label). Normalize release-country to country names per validation style. Apply targeted text canonicalization for scalar text fields to mitigate mojibake and 'feat.' artifacts without lowercasing title/artist/label (validation prefers original case).",
+      "confidence": 0.82
+    },
+    "shadow_precheck": {},
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "datasets": {
+      "discogs": {
+        "input_path": "output/normalization/attempt_2/discogs.csv",
+        "output_path": "output/normalization/attempt_3/discogs.csv",
+        "row_count": 22627,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "artist": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "release-date": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "release-country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "label": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "genre": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_position": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_duration": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [
+          "release-country"
+        ],
+        "list_normalized_columns": [
+          "genre",
+          "tracks_track_duration",
+          "tracks_track_name",
+          "tracks_track_position"
+        ],
+        "summary": {
+          "original_columns": 11,
+          "normalized_columns": 11,
+          "rows_processed": 22627,
+          "overall_success_rate": 1.0,
+          "processing_time": 74.24531197547913,
+          "type_distribution": {
+            "STRING": 10,
+            "DATE": 1
+          }
+        }
+      },
+      "lastfm": {
+        "input_path": "output/normalization/attempt_2/lastfm.csv",
+        "output_path": "output/normalization/attempt_3/lastfm.csv",
+        "row_count": 9865,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "artist": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_duration": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_position": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [
+          "tracks_track_duration",
+          "tracks_track_name",
+          "tracks_track_position"
+        ],
+        "summary": {
+          "original_columns": 7,
+          "normalized_columns": 7,
+          "rows_processed": 9865,
+          "overall_success_rate": 1.0,
+          "processing_time": 43.92844080924988,
+          "type_distribution": {
+            "STRING": 6,
+            "NUMERIC": 1
+          }
+        }
+      },
+      "musicbrainz": {
+        "input_path": "output/normalization/attempt_2/musicbrainz.csv",
+        "output_path": "output/normalization/attempt_3/musicbrainz.csv",
+        "row_count": 4763,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "artist": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "release-date": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "release-country": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "duration": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_duration": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "tracks_track_position": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [
+          "release-country"
+        ],
+        "list_normalized_columns": [
+          "tracks_track_duration",
+          "tracks_track_name",
+          "tracks_track_position"
+        ],
+        "summary": {
+          "original_columns": 9,
+          "normalized_columns": 9,
+          "rows_processed": 4763,
+          "overall_success_rate": 1.0,
+          "processing_time": 51.81761908531189,
+          "type_distribution": {
+            "STRING": 8,
+            "DATE": 1
+          }
+        }
+      }
+    },
+    "warnings": [],
+    "reverted_to_original": false,
+    "created_at": "2026-03-02T15:17:58.317985"
+  },
+  "normalization_directives": {
+    "needs_normalization": true,
+    "reasons": [
+      "Integration diagnostics explicitly flag list-format inconsistencies (scalar vs comma/pipe-separated vs JSON-list-like) and malformed/mixed list encodings in fused output, including in columns that should be scalar in validation (artist, label, name).",
+      "List-format issue detected for label in evaluation artifacts (normalization-sensitive), and label also shows delimiter-style variation in reasoning examples (e.g., pipe-joined labels).",
+      "Validation hints indicate release-country should be normalized to country names (inferred_country_output_format='name'); release-country accuracy (0.84) suggests some remaining canonicalization mismatch risk even though near-mismatch detector did not trigger.",
+      "Text-quality canonicalization issues are mentioned (mojibake in name; 'feat.' contamination in artist), which can break exact comparisons even when matching/fusion is otherwise correct."
+    ],
+    "country_columns": [
+      "release-country"
+    ],
+    "list_columns": [
+      "genre",
+      "tracks_track_duration",
+      "tracks_track_name",
+      "tracks_track_position"
+    ],
+    "text_columns": [
+      "name",
+      "artist",
+      "label"
+    ],
+    "lowercase_columns": [
+      "duration_provenance",
+      "genre_provenance",
+      "id",
+      "label_provenance",
+      "release-country_provenance",
+      "release-date_provenance"
+    ],
+    "country_output_format": "name",
+    "list_normalization_required": true,
+    "recommendation_summary": "Rerun normalization with strict list parsing/serialization only for true multi-valued fields (genre and tracks_*), while preventing accidental listification of scalar fields (name/artist/label). Normalize release-country to country names per validation style. Apply targeted text canonicalization for scalar text fields to mitigate mojibake and 'feat.' artifacts without lowercasing title/artist/label (validation prefers original case).",
+    "confidence": 0.82
+  },
+  "investigator_action_plan": [
+    {
+      "source": "recommendations",
+      "action": "Enforce strict list parsing/serialization only for true multi-valued fields; prevent accidental listification of scalar fields; reject malformed list encodings.",
+      "target_attributes": [
+        "tracks_track_duration",
+        "tracks_track_name",
+        "tracks_track_position",
+        "genre",
+        "duration",
+        "name",
+        "label",
+        "artist"
+      ],
+      "evidence_summary": "Top list-format conflict attributes in mismatches: [('tracks_track_duration', 23), ('tracks_track_name', 15), ('tracks_track_position', 14), ('genre', 8), ('duration', 6), ('name', 2), ('label', 2), ('artist', 1)]",
+      "expected_impact": "HIGH",
+      "confidence": 0.8,
+      "priority_score": 0.735
+    },
+    {
+      "source": "recommendations",
+      "action": "Normalize list-valued attributes to a single canonical encoding; for scalar attributes, prevent listification and strip delimiters.",
+      "target_attributes": [
+        "_fusion_sources",
+        "_fusion_source_datasets",
+        "artist",
+        "label",
+        "name",
+        "release-country"
+      ],
+      "evidence_summary": "Mixed list encodings detected in fused output columns: ['_fusion_sources', '_fusion_source_datasets', 'artist', 'label', 'name', 'release-country']",
+      "expected_impact": "HIGH",
+      "confidence": 0.8,
+      "priority_score": 0.735
+    }
+  ],
+  "normalized_datasets": [
+    "output/normalization/attempt_3/discogs.csv",
+    "output/normalization/attempt_3/lastfm.csv",
+    "output/normalization/attempt_3/musicbrainz.csv"
+  ],
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-03-02T14:28:31.325192+00:00",
+    "summary": {
+      "evaluation_stage": null,
+      "overall_accuracy": null,
+      "num_findings": 5,
+      "num_recommendations": 3,
+      "fused_rows_loaded": 30226,
+      "sources_loaded": {},
+      "debug_events_loaded": 86,
+      "correspondence_files_found": 21
+    },
+    "findings": [
+      {
+        "severity": "MEDIUM",
+        "category": "list_fusion_noise",
+        "title": "List-format inconsistencies detected in fused output (mixed scalar/delimited/JSON-list or malformed JSON-list).",
+        "evidence": {
+          "top_columns": [
+            [
+              "_fusion_sources",
+              3.0,
+              [
+                "malformed_json"
+              ],
+              5000,
+              {
+                "malformed_json_ratio": 1.0,
+                "delimited_ratio": 0.0,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.0,
+                "null_ratio": 0.0
+              }
+            ],
+            [
+              "_fusion_source_datasets",
+              3.0,
+              [
+                "malformed_json"
+              ],
+              5000,
+              {
+                "malformed_json_ratio": 1.0,
+                "delimited_ratio": 0.0,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.0,
+                "null_ratio": 0.0
+              }
+            ],
+            [
+              "artist",
+              1.502,
+              [
+                "delimited",
+                "malformed_json",
+                "scalar"
+              ],
+              3,
+              {
+                "malformed_json_ratio": 0.0006,
+                "delimited_ratio": 0.2188,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.7806,
+                "null_ratio": 0.0
+              }
+            ],
+            [
+              "label",
+              1.501,
+              [
+                "delimited",
+                "malformed_json",
+                "scalar"
+              ],
+              1,
+              {
+                "malformed_json_ratio": 0.0002,
+                "delimited_ratio": 0.0524,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.7352,
+                "null_ratio": 0.2122
+              }
+            ],
+            [
+              "name",
+              1.5,
+              [
+                "delimited",
+                "scalar"
+              ],
+              0,
+              {
+                "malformed_json_ratio": 0.0,
+                "delimited_ratio": 0.0136,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.9864,
+                "null_ratio": 0.0
+              }
+            ],
+            [
+              "release-country",
+              1.5,
+              [
+                "delimited",
+                "scalar"
+              ],
+              0,
+              {
+                "malformed_json_ratio": 0.0,
+                "delimited_ratio": 0.0026,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.8748,
+                "null_ratio": 0.1226
+              }
+            ]
+          ],
+          "note": "This can cause noisy list fusion and evaluation mismatches."
+        },
+        "paths": [
+          "output/data_fusion/fusion_data.csv"
+        ],
+        "recommendation_ids": []
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "list_fusion_noise",
+        "title": "List-format inconsistencies detected in mismatch events (scalar vs JSON-list vs delimited/malformed).",
+        "evidence": {
+          "top_attributes": [
+            [
+              "tracks_track_duration",
+              23
+            ],
+            [
+              "tracks_track_name",
+              15
+            ],
+            [
+              "tracks_track_position",
+              14
+            ],
+            [
+              "genre",
+              8
+            ],
+            [
+              "duration",
+              6
+            ],
+            [
+              "name",
+              2
+            ],
+            [
+              "label",
+              2
+            ],
+            [
+              "artist",
+              1
+            ]
+          ],
+          "debug_path": "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        },
+        "paths": [
+          "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        ],
+        "recommendation_ids": []
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "over_clustering",
+        "title": "Correspondences include high-degree nodes suggesting over-clustering/over-matching.",
+        "evidence": {
+          "files": [
+            {
+              "path": "output/correspondences/correspondences_dbpedia_metacritic.csv",
+              "max_matches_per_id1": 17,
+              "max_matches_per_id2": 105
+            },
+            {
+              "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+              "max_matches_per_id1": 8,
+              "max_matches_per_id2": 92
+            }
+          ]
+        },
+        "paths": [
+          "output/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/correspondences/correspondences_dbpedia_sales.csv"
+        ],
+        "recommendation_ids": []
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "over_clustering",
+        "title": "Potential over-matching: very high degree nodes in correspondences",
+        "evidence": {
+          "path": "output/correspondences/correspondences_dbpedia_metacritic.csv",
+          "max_matches_per_id1": 17,
+          "max_matches_per_id2": 105,
+          "one_to_many_ratio": 0.5371613521937185,
+          "many_to_one_ratio": 0.6950425085569173
+        },
+        "paths": [
+          "output/correspondences/correspondences_dbpedia_metacritic.csv"
+        ],
+        "recommendation_ids": []
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "over_clustering",
+        "title": "Potential over-matching: very high degree nodes in correspondences",
+        "evidence": {
+          "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+          "max_matches_per_id1": 8,
+          "max_matches_per_id2": 92,
+          "one_to_many_ratio": 0.34635639926515616,
+          "many_to_one_ratio": 0.5417879417879418
+        },
+        "paths": [
+          "output/correspondences/correspondences_dbpedia_sales.csv"
+        ],
+        "recommendation_ids": []
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Enforce strict list parsing/serialization only for true multi-valued fields; prevent accidental listification of scalar fields; reject malformed list encodings.",
+        "target_attributes": [
+          "tracks_track_duration",
+          "tracks_track_name",
+          "tracks_track_position",
+          "genre",
+          "duration",
+          "name",
+          "label",
+          "artist"
+        ],
+        "evidence_summary": "Top list-format conflict attributes in mismatches: [('tracks_track_duration', 23), ('tracks_track_name', 15), ('tracks_track_position', 14), ('genre', 8), ('duration', 6), ('name', 2), ('label', 2), ('artist', 1)]",
+        "expected_impact": "HIGH",
+        "confidence": 0.8,
+        "hints": {
+          "fusion": {
+            "list_fields": "configure explicit list-valued columns",
+            "serialization": "canonical JSON arrays or a single consistent delimiter"
+          }
+        },
+        "evidence": {
+          "list_format_conflicts": {
+            "tracks_track_duration": 23,
+            "tracks_track_name": 15,
+            "tracks_track_position": 14,
+            "genre": 8,
+            "duration": 6,
+            "name": 2,
+            "label": 2,
+            "artist": 1
+          }
+        }
+      },
+      {
+        "action": "Normalize list-valued attributes to a single canonical encoding; for scalar attributes, prevent listification and strip delimiters.",
+        "target_attributes": [
+          "_fusion_sources",
+          "_fusion_source_datasets",
+          "artist",
+          "label",
+          "name",
+          "release-country"
+        ],
+        "evidence_summary": "Mixed list encodings detected in fused output columns: ['_fusion_sources', '_fusion_source_datasets', 'artist', 'label', 'name', 'release-country']",
+        "expected_impact": "HIGH",
+        "confidence": 0.8,
+        "hints": {
+          "normalization": {
+            "list_serialization": "JSON arrays (recommended) OR a single delimiter, but not mixed",
+            "reject_malformed_json": true
+          },
+          "pydi": {
+            "suggested": [
+              "normalize_list_columns",
+              "validate_schema_types"
+            ]
+          }
+        },
+        "evidence": {
+          "top_list_format_issues": {
+            "_fusion_sources": {
+              "kinds": {
+                "malformed_json": 5000
+              },
+              "non_null_kinds": [
+                "malformed_json"
+              ],
+              "malformed_json_count": 5000,
+              "sampled_rows": 5000,
+              "ratios": {
+                "malformed_json_ratio": 1.0,
+                "delimited_ratio": 0.0,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.0,
+                "null_ratio": 0.0
+              }
+            },
+            "_fusion_source_datasets": {
+              "kinds": {
+                "malformed_json": 5000
+              },
+              "non_null_kinds": [
+                "malformed_json"
+              ],
+              "malformed_json_count": 5000,
+              "sampled_rows": 5000,
+              "ratios": {
+                "malformed_json_ratio": 1.0,
+                "delimited_ratio": 0.0,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.0,
+                "null_ratio": 0.0
+              }
+            },
+            "artist": {
+              "kinds": {
+                "scalar": 3903,
+                "delimited": 1094,
+                "malformed_json": 3
+              },
+              "non_null_kinds": [
+                "delimited",
+                "malformed_json",
+                "scalar"
+              ],
+              "malformed_json_count": 3,
+              "sampled_rows": 5000,
+              "ratios": {
+                "malformed_json_ratio": 0.0006,
+                "delimited_ratio": 0.2188,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.7806,
+                "null_ratio": 0.0
+              }
+            },
+            "label": {
+              "kinds": {
+                "scalar": 3676,
+                "delimited": 262,
+                "malformed_json": 1,
+                "null": 1061
+              },
+              "non_null_kinds": [
+                "delimited",
+                "malformed_json",
+                "scalar"
+              ],
+              "malformed_json_count": 1,
+              "sampled_rows": 5000,
+              "ratios": {
+                "malformed_json_ratio": 0.0002,
+                "delimited_ratio": 0.0524,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.7352,
+                "null_ratio": 0.2122
+              }
+            },
+            "name": {
+              "kinds": {
+                "scalar": 4932,
+                "delimited": 68
+              },
+              "non_null_kinds": [
+                "delimited",
+                "scalar"
+              ],
+              "malformed_json_count": 0,
+              "sampled_rows": 5000,
+              "ratios": {
+                "malformed_json_ratio": 0.0,
+                "delimited_ratio": 0.0136,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.9864,
+                "null_ratio": 0.0
+              }
+            },
+            "release-country": {
+              "kinds": {
+                "scalar": 4374,
+                "null": 613,
+                "delimited": 13
+              },
+              "non_null_kinds": [
+                "delimited",
+                "scalar"
+              ],
+              "malformed_json_count": 0,
+              "sampled_rows": 5000,
+              "ratios": {
+                "malformed_json_ratio": 0.0,
+                "delimited_ratio": 0.0026,
+                "json_list_ratio": 0.0,
+                "scalar_ratio": 0.8748,
+                "null_ratio": 0.1226
+              }
+            }
+          }
+        }
+      },
+      {
+        "action": "Reduce over-matching by tightening matching thresholds and/or improving blocking (to avoid many-to-many correspondences).",
+        "target_attributes": [],
+        "evidence_summary": "2 correspondence file(s) have very high-degree ids (>=20 matches).",
+        "expected_impact": "HIGH",
+        "confidence": 0.75,
+        "hints": {
+          "matching": {
+            "suggested": [
+              "raise threshold",
+              "add discriminative blocking keys",
+              "post-filter many-to-many edges"
+            ]
+          }
+        },
+        "evidence": {
+          "high_degree_correspondence_files": [
+            [
+              "output/correspondences/correspondences_dbpedia_metacritic.csv",
+              17,
+              105
+            ],
+            [
+              "output/correspondences/correspondences_dbpedia_sales.csv",
+              8,
+              92
+            ]
+          ]
+        }
+      }
+    ],
+    "source_attribute_agreement": {
+      "_id": {},
+      "_fusion_sources": {},
+      "_fusion_source_datasets": {},
+      "artist": {},
+      "duration": {},
+      "genre": {},
+      "label": {},
+      "name": {},
+      "release-country": {},
+      "release-date": {},
+      "tracks_track_duration": {},
+      "tracks_track_name": {},
+      "tracks_track_position": {},
+      "_fusion_confidence": {},
+      "_fusion_metadata": {}
+    },
+    "fusion_policy_recommendations": [],
+    "artifacts": {
+      "evaluation_json": "output/pipeline_evaluation/pipeline_evaluation.json",
+      "fused_csv": "output/data_fusion/fusion_data.csv",
+      "debug_jsonl": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+      "fusion_size_estimate_json": null,
+      "correspondence_files": [
+        "output/correspondences/correspondences_dbpedia_metacritic.csv",
+        "output/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+        "output/correspondences/correspondences_dbpedia_sales.csv",
+        "output/correspondences/correspondences_dbpedia_sales_pp.csv",
+        "output/correspondences/correspondences_discogs_lastfm.csv",
+        "output/correspondences/correspondences_discogs_lastfm_pp.csv",
+        "output/correspondences/correspondences_discogs_musicbrainz.csv",
+        "output/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+        "output/correspondences/correspondences_forbes_dbpedia.csv",
+        "output/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+        "output/correspondences/correspondences_forbes_fullcontact.csv",
+        "output/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+        "output/correspondences/correspondences_fullcontact_dbpedia.csv",
+        "output/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+        "output/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+        "output/correspondences/correspondences_kaggle_small_yelp_small.csv",
+        "output/correspondences/correspondences_musicbrainz_lastfm.csv",
+        "output/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+        "output/correspondences/correspondences_sales_metacritic.csv",
+        "output/correspondences/correspondences_sales_metacritic_pp.csv",
+        "output/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+      ],
+      "source_datasets": []
+    },
+    "warnings": [],
+    "correspondences_analysis": {
+      "output/correspondences/correspondences_dbpedia_metacritic.csv": {
+        "rows": 36142,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.5371613521937185,
+        "many_to_one_ratio": 0.6950425085569173,
+        "max_matches_per_id1": 17,
+        "max_matches_per_id2": 105
+      },
+      "output/correspondences/correspondences_dbpedia_metacritic_pp.csv": {
+        "rows": 7946,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_dbpedia_sales.csv": {
+        "rows": 12271,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.34635639926515616,
+        "many_to_one_ratio": 0.5417879417879418,
+        "max_matches_per_id1": 8,
+        "max_matches_per_id2": 92
+      },
+      "output/correspondences/correspondences_dbpedia_sales_pp.csv": {
+        "rows": 4112,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_discogs_lastfm.csv": {
+        "rows": 4100,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.1549652118912081,
+        "many_to_one_ratio": 0.19897084048027444,
+        "max_matches_per_id1": 12,
+        "max_matches_per_id2": 17
+      },
+      "output/correspondences/correspondences_discogs_lastfm_pp.csv": {
+        "rows": 2668,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_discogs_musicbrainz.csv": {
+        "rows": 2826,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0035511363636363635,
+        "many_to_one_ratio": 0.10079681274900398,
+        "max_matches_per_id1": 2,
+        "max_matches_per_id2": 5
+      },
+      "output/correspondences/correspondences_discogs_musicbrainz_pp.csv": {
+        "rows": 2508,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_forbes_dbpedia.csv": {
+        "rows": 577,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.18981481481481483,
+        "many_to_one_ratio": 0.12931034482758622,
+        "max_matches_per_id1": 6,
+        "max_matches_per_id2": 6
+      },
+      "output/correspondences/correspondences_forbes_dbpedia_mbm.csv": {
+        "rows": 400,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_forbes_fullcontact.csv": {
+        "rows": 226,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0273972602739726,
+        "many_to_one_ratio": 0.0228310502283105,
+        "max_matches_per_id1": 3,
+        "max_matches_per_id2": 3
+      },
+      "output/correspondences/correspondences_forbes_fullcontact_mbm.csv": {
+        "rows": 216,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_fullcontact_dbpedia.csv": {
+        "rows": 679,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.10413223140495868,
+        "many_to_one_ratio": 0.03686635944700461,
+        "max_matches_per_id1": 4,
+        "max_matches_per_id2": 3
+      },
+      "output/correspondences/correspondences_fullcontact_dbpedia_mbm.csv": {
+        "rows": 592,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_kaggle_small_uber_eats_small.csv": {
+        "rows": 101,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.1511627906976744,
+        "many_to_one_ratio": 0.06451612903225806,
+        "max_matches_per_id1": 3,
+        "max_matches_per_id2": 4
+      },
+      "output/correspondences/correspondences_kaggle_small_yelp_small.csv": {
+        "rows": 163,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.012422360248447204,
+        "many_to_one_ratio": 0.006172839506172839,
+        "max_matches_per_id1": 2,
+        "max_matches_per_id2": 2
+      },
+      "output/correspondences/correspondences_musicbrainz_lastfm.csv": {
+        "rows": 3841,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.17297111416781294,
+        "many_to_one_ratio": 0.14181240063593004,
+        "max_matches_per_id1": 9,
+        "max_matches_per_id2": 8
+      },
+      "output/correspondences/correspondences_musicbrainz_lastfm_pp.csv": {
+        "rows": 2838,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_sales_metacritic.csv": {
+        "rows": 9372,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.3168768038888045,
+        "many_to_one_ratio": 0.33951386724836397,
+        "max_matches_per_id1": 7,
+        "max_matches_per_id2": 7
+      },
+      "output/correspondences/correspondences_sales_metacritic_pp.csv": {
+        "rows": 6938,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      },
+      "output/correspondences/correspondences_uber_eats_small_yelp_small.csv": {
+        "rows": 21,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "one_to_many_ratio": 0.0,
+        "many_to_one_ratio": 0.0,
+        "max_matches_per_id1": 1,
+        "max_matches_per_id2": 1
+      }
+    },
+    "debug_analysis": {
+      "events_loaded": 86,
+      "case_only_mismatch_count": 0,
+      "total_mismatch_events": 71,
+      "list_format_conflict_attributes": {
+        "tracks_track_duration": 23,
+        "tracks_track_name": 15,
+        "name": 2,
+        "genre": 8,
+        "duration": 6,
+        "artist": 1,
+        "tracks_track_position": 14,
+        "label": 2
+      },
+      "country_style_conflicts": {}
+    },
+    "fusion_size_drift": null,
+    "fused_list_format_issues": {
+      "_fusion_sources": {
+        "kinds": {
+          "malformed_json": 5000
+        },
+        "non_null_kinds": [
+          "malformed_json"
+        ],
+        "malformed_json_count": 5000,
+        "sampled_rows": 5000,
+        "ratios": {
+          "malformed_json_ratio": 1.0,
+          "delimited_ratio": 0.0,
+          "json_list_ratio": 0.0,
+          "scalar_ratio": 0.0,
+          "null_ratio": 0.0
+        }
+      },
+      "_fusion_source_datasets": {
+        "kinds": {
+          "malformed_json": 5000
+        },
+        "non_null_kinds": [
+          "malformed_json"
+        ],
+        "malformed_json_count": 5000,
+        "sampled_rows": 5000,
+        "ratios": {
+          "malformed_json_ratio": 1.0,
+          "delimited_ratio": 0.0,
+          "json_list_ratio": 0.0,
+          "scalar_ratio": 0.0,
+          "null_ratio": 0.0
+        }
+      },
+      "artist": {
+        "kinds": {
+          "scalar": 3903,
+          "delimited": 1094,
+          "malformed_json": 3
+        },
+        "non_null_kinds": [
+          "delimited",
+          "malformed_json",
+          "scalar"
+        ],
+        "malformed_json_count": 3,
+        "sampled_rows": 5000,
+        "ratios": {
+          "malformed_json_ratio": 0.0006,
+          "delimited_ratio": 0.2188,
+          "json_list_ratio": 0.0,
+          "scalar_ratio": 0.7806,
+          "null_ratio": 0.0
+        }
+      },
+      "label": {
+        "kinds": {
+          "scalar": 3676,
+          "delimited": 262,
+          "malformed_json": 1,
+          "null": 1061
+        },
+        "non_null_kinds": [
+          "delimited",
+          "malformed_json",
+          "scalar"
+        ],
+        "malformed_json_count": 1,
+        "sampled_rows": 5000,
+        "ratios": {
+          "malformed_json_ratio": 0.0002,
+          "delimited_ratio": 0.0524,
+          "json_list_ratio": 0.0,
+          "scalar_ratio": 0.7352,
+          "null_ratio": 0.2122
+        }
+      },
+      "name": {
+        "kinds": {
+          "scalar": 4932,
+          "delimited": 68
+        },
+        "non_null_kinds": [
+          "delimited",
+          "scalar"
+        ],
+        "malformed_json_count": 0,
+        "sampled_rows": 5000,
+        "ratios": {
+          "malformed_json_ratio": 0.0,
+          "delimited_ratio": 0.0136,
+          "json_list_ratio": 0.0,
+          "scalar_ratio": 0.9864,
+          "null_ratio": 0.0
+        }
+      },
+      "release-country": {
+        "kinds": {
+          "scalar": 4374,
+          "null": 613,
+          "delimited": 13
+        },
+        "non_null_kinds": [
+          "delimited",
+          "scalar"
+        ],
+        "malformed_json_count": 0,
+        "sampled_rows": 5000,
+        "ratios": {
+          "malformed_json_ratio": 0.0,
+          "delimited_ratio": 0.0026,
+          "json_list_ratio": 0.0,
+          "scalar_ratio": 0.8748,
+          "null_ratio": 0.1226
+        }
+      }
+    },
+    "fused_country_canonicalization_issues": {},
+    "source_attribute_agreement_meta": {
+      "fused_id_col": "id",
+      "attrs_analyzed": 15,
+      "max_rows": 20000
+    },
+    "evaluation_metrics_snapshot": null
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": {
+      "status": "ok",
+      "notes": [
+        "Created reviewer-friendly wide fused table with required per-attribute columns.",
+        "Created long source lineage table mapping fused rows to up to all detected source ids (best-effort).",
+        "Created fusion vs testset diffs when testset could be loaded and aligned by id."
+      ]
+    },
+    "file_paths": {
+      "fused_input_csv": "output/data_fusion/fusion_data.csv",
+      "fused_review_table_csv": "output/human_review/fused_review_table.csv",
+      "source_lineage_long_csv": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff_csv": "output/human_review/fusion_vs_testset_diff.csv",
+      "summary_json": "output/human_review/human_review_summary.json",
+      "summary_md": "output/human_review/human_review_summary.md",
+      "testset_path": "input/datasets/music/testsets/test_set.xml"
+    },
+    "counts": {
+      "fused_rows_loaded": 30226,
+      "source_datasets_configured": 3,
+      "source_datasets_loaded_nonempty": 3,
+      "source_id_columns_detected": {
+        "discogs": "id",
+        "lastfm": "id",
+        "musicbrainz": "id"
+      },
+      "testset_rows_loaded": 216,
+      "fused_review_rows": 30226,
+      "lineage_rows": 37255,
+      "diff_rows": 0,
+      "diff_nonempty": 0
+    },
+    "warnings": [],
+    "created_at": "2026-03-02T14:30:08.431563+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.8426395939086294,
+    "macro_accuracy": 0.8366545893719807,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 166,
+    "label_accuracy": 0.8125,
+    "label_count": 16,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23,
+    "release-date_accuracy": 0.9565217391304348,
+    "release-date_count": 23,
+    "artist_accuracy": 0.9565217391304348,
+    "artist_count": 23,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "duration_accuracy": 0.6086956521739131,
+    "duration_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23,
+    "tracks_track_name_accuracy": 0.9565217391304348,
+    "tracks_track_name_count": 23,
+    "release-country_accuracy": 1.0,
+    "release-country_count": 23
+  },
+  "token_usage": {
+    "prompt_tokens": 259505,
+    "completion_tokens": 34256,
+    "total_tokens": 293761,
+    "total_cost": 0.66694125
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": [
+    {
+      "query": "DataFusionEvaluator usage example: how to evaluate fused_df against gold_df, required columns, how to register evaluation functions with DataFusionStrategy.add_evaluation_function, and what metrics are returned",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\n\n-----\n\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters\n----------\nfused_df : pd.DataFrame\nThe fused dataset to evaluate.\nfused_id_column : str\nID column name in the fused dataset.\nexpected_df : pd.DataFrame, optional\nThe expected/validation/test dataset.\nexpected_id_column : str, optional\nID column name in the expected dataset.\ngold_df : pd.DataFrame, optional\nDeprecated alias for expected_df.\ngold_id_column : str, optional\nDeprecated alias for expected_id_column.\nReturns\n-------\nDict[str, float]\nDictionary of evaluation metrics.\n\"\"\"\nself\n.\n_logger\n.\ninfo\n(\n\"Starting fusion evaluation\"\n)\nmismatch_counter\n:\nOptional\n[\nCounter\n[\nstr\n]]\n=\nCounter\n()\nif\nself\n.\n\n-----\n\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nModule contents\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nDataFusionEngine\nDataFusionEngine.run()\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()"
+    },
+    {
+      "query": "PyDI normalization: normalize_country function signature and supported output_format values (alpha_2, alpha_3, numeric, name, official_name)",
+      "response": "\nNormalize country name/code to standard format.\nParameters\n:\nvalue\n(\nstr\n) – Country name, alpha-2, alpha-3, or numeric code\noutput_format\n(\nLiteral\n[\n'alpha_2'\n,\n'alpha_3'\n,\n'numeric'\n,\n'name'\n,\n'official_name'\n]\n) – Output format - “alpha_2”, “alpha_3”, “numeric”, “name”, or “official_name”\nReturns\n:\nNormalized country identifier, or None if not found\nReturn type\n:\nstr | None\nExamples\n>>>\nnormalize_country\n(\n\"Germany\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"DEU\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"276\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"deutschland\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"Germany\"\n,\n\"name\"\n)\n'Germany'\n>>>\nnormalize_country\n(\n\"Germany\"\n,\n\"alpha_3\"\n)\n'DEU'\nPyDI.normalization.\nnormalize_currency\n(\nvalue\n,\noutput_format\n=\n'alpha_3'\n)\n[source]\n\nNormalize currency code/name to ISO 4217.\nParameters\n:\nvalue\n(\nstr\n) – Currency code or name\noutput_format\n(\nLiteral\n[\n'alpha_3'\n,\n'numeric'\n,\n'name'\n]\n) – Output format - “alpha_3”, “numeric”, or “name”\nReturns\n:\nNormalized currency identifier, or None if not found\nReturn type\n:\nstr | None\nExamples\n>>>\nnormalize_currency\n(\n\"EUR\"\n)\n'EUR'\n>>>\nnormalize_currency\n(\n\"Euro\"\n)\n'EUR'\n>>>\nnormalize_currency\n(\n\"euro\"\n)\n'EUR'\n>>>\nnormalize_currency\n(\n\"EUR\"\n\n-----\n\nReturn type\n:\nstr | None\nExamples\n>>>\nnormalize_country\n(\n\"Germany\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"DEU\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"276\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"deutschland\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"Germany\"\n,\n\"name\"\n)\n'Germany'\n>>>\nnormalize_country\n(\n\"Germany\"\n,\n\"alpha_3\"\n)\n'DEU'\nPyDI.normalization.integrations.country.\nnormalize_currency\n(\nvalue\n,\noutput_format\n=\n'alpha_3'\n)\n[source]\n\nNormalize currency code/name to ISO 4217.\nParameters\n:\nvalue\n(\nstr\n) – Currency code or name\noutput_format\n(\nLiteral\n[\n'alpha_3'\n,\n'numeric'\n,\n'name'\n]\n) – Output format - “alpha_3”, “numeric”, or “name”\nReturns\n:\nNormalized currency identifier, or None if not found\nReturn type\n:\nstr | None\nExamples\n>>>\nnormalize_currency\n(\n\"EUR\"\n)\n'EUR'\n>>>\nnormalize_currency\n(\n\"Euro\"\n)\n'EUR'\n>>>\nnormalize_currency\n(\n\"euro\"\n)\n'EUR'\n>>>\nnormalize_currency\n(\n\"EUR\"\n,\n\"name\"\n)\n'Euro'\nPyDI.normalization.integrations.country.\nnormalize_language\n(\nvalue\n,\noutput_format\n=\n'alpha_2'\n)\n[source]\n\nNormalize language code/name to ISO 639.\nParameters\n:\nvalue\n(\nstr\n) – Language code or name\noutput_format\n(\nLiteral\n[\n'alpha_2'\n,\n'alpha_3'\n,\n'name'\n]\n) – Output format - “alpha_2”, “alpha_3”, or “name”\n\n-----\n\nParameters\n:\nmodels\n(\nlist\n[\nT\n]\n) – List of Pydantic model instances\nReturns\n:\nDataFrame with model data\nReturn type\n:\npandas.DataFrame\nPyDI.normalization.integrations.\nnormalize_country\n(\nvalue\n,\noutput_format\n=\n'alpha_2'\n)\n[source]\n\nNormalize country name/code to standard format.\nParameters\n:\nvalue\n(\nstr\n) – Country name, alpha-2, alpha-3, or numeric code\noutput_format\n(\nLiteral\n[\n'alpha_2'\n,\n'alpha_3'\n,\n'numeric'\n,\n'name'\n,\n'official_name'\n]\n) – Output format - “alpha_2”, “alpha_3”, “numeric”, “name”, or “official_name”\nReturns\n:\nNormalized country identifier, or None if not found\nReturn type\n:\nstr | None\nExamples\n>>>\nnormalize_country\n(\n\"Germany\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"DEU\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"276\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"deutschland\"\n)\n'DE'\n>>>\nnormalize_country\n(\n\"Germany\"\n,\n\"name\"\n)\n'Germany'\n>>>\nnormalize_country\n(\n\"Germany\"\n,\n\"alpha_3\"\n)\n'DEU'\nPyDI.normalization.integrations.\nnormalize_currency\n(\nvalue\n,\noutput_format\n=\n'alpha_3'\n)\n[source]\n\nNormalize currency code/name to ISO 4217.\nParameters\n:\nvalue\n(\nstr\n) – Currency code or name\noutput_format\n(\nLiteral\n[\n'alpha_3'\n,\n'numeric'\n,\n'name'\n]\n\n-----\n\n=\ncountry\n.\nalpha_2\n,\nalpha_3\n=\ncountry\n.\nalpha_3\n,\nnumeric\n=\ncountry\n.\nnumeric\n,\nname\n=\ncountry\n.\nname\n,\nofficial_name\n=\ngetattr\n(\ncountry\n,\n\"official_name\"\n,\nNone\n),\n)\nreturn\nNone\n[docs]\ndef\nnormalize_country\n(\nvalue\n:\nstr\n,\noutput_format\n:\nCountryFormat\n=\n\"alpha_2\"\n,\n)\n->\nstr\n|\nNone\n:\n\"\"\"\nNormalize country name/code to standard format.\nArgs:\nvalue: Country name, alpha-2, alpha-3, or numeric code\noutput_format: Output format - \"alpha_2\", \"alpha_3\", \"numeric\", \"name\", or \"official_name\"\nReturns:\nNormalized country identifier, or None if not found\nExamples:\n>>> normalize_country(\"Germany\")\n'DE'\n>>> normalize_country(\"DEU\")\n'DE'\n>>> normalize_country(\"276\")\n'DE'\n>>> normalize_country(\"deutschland\")\n'DE'\n>>> normalize_country(\"Germany\", \"name\")\n'Germany'\n>>> normalize_country(\"Germany\", \"alpha_3\")\n'DEU'\n\"\"\"\ninfo\n=\nlookup_country\n(\nvalue\n)\nif\nnot\ninfo\n:\nreturn\nNone\nif\noutput_format\n==\n\"alpha_2\"\n:\nreturn\ninfo\n.\nalpha_2\nelif\noutput_format\n==\n\"alpha_3\"\n:\nreturn\ninfo\n.\nalpha_3\nelif\noutput_format\n==\n\"numeric\"\n:\nreturn\ninfo\n.\nnumeric\nelif\noutput_format\n==\n\"name\"\n:\nreturn\ninfo\n.\nname\nelif\noutput_format\n==\n\"official_name\"\n:\nreturn\ninfo\n.\nofficial_name\nor\ninfo\n.\nname\nelse\n:\nreturn\ninfo\n."
+    },
+    {
+      "query": "PyDI list normalization utilities: detect_list_like_columns and normalize_list_like_columns signatures and typical usage",
+      "response": "normalize_quantity\nParse and optionally convert units + expand scale modifiers\nnormalize_column\nNormalize a pandas Series of quantities\nScale Modifiers\n\ndetect_scale_modifier\nDetect MEO, MEUR, million, thousand, etc. in text\nexpand_scale\nExpand “5 MEO” → 5,000,000\nparse_scaled_number\nParse number with scale modifier\nIntegrations (External Libraries)\n\nnormalize_country, normalize_currency, normalize_language\nISO code normalization via pycountry\nvalidate_stdnum, format_stdnum, normalize_stdnum\nStandard number handling via python-stdnum\nparse_phone, format_phone, validate_phone\nPhone number handling via phonenumbers\nvalidate_email, normalize_email\nEmail handling via email-validator\nSpecification & Transformation (New API)\n\nNormalizationSpec\nDefine how columns should be normalized\nColumnSpec\nPer-column normalization settings\ntransform_dataframe\nApply transformations according to spec\nnormalize_dataframe\nMain entry point with optional auto-detection\nUsage Examples\n\nProfile a DataFrame:\n>>> from PyDI.normalization import profile_dataframe\n>>> profile = profile_dataframe(df)\n>>> print(profile.summary())\nNormalize quantities:\n>>> from PyDI.normalization import normalize_quantity\n\n-----\n\napply_column_transforms()\ncreate_normalization_config()\nload_normalization_config()\nnormalize_dataset()\nsave_normalization_config()\nPyDI.normalization.json_schema module\nFORMAT_MAPPING\nTYPE_MAPPING\nload_normalization_spec()\nload_schema()\nload_validation_spec()\nPyDI.normalization.profile module\nColumnProfile\nColumnProfile.country_info\nColumnProfile.detected_type\nColumnProfile.dtype\nColumnProfile.name\nColumnProfile.null_count\nColumnProfile.percentage_info\nColumnProfile.sample_values\nColumnProfile.scale_info\nColumnProfile.stdnum_info\nColumnProfile.suggestions\nColumnProfile.to_dict()\nColumnProfile.total_count\nColumnProfile.unique_count\nColumnProfile.unit_info\nDataFrameProfile\nDataFrameProfile.column_count\nDataFrameProfile.columns\nDataFrameProfile.row_count\nDataFrameProfile.summary()\nDataFrameProfile.to_dict()\nDataFrameProfile.to_json()\nDataTypeExtended\nDataTypeExtended.BOOLEAN\nDataTypeExtended.COORDINATE\nDataTypeExtended.CURRENCY\nDataTypeExtended.DATE\nDataTypeExtended.DATETIME\nDataTypeExtended.EMAIL\nDataTypeExtended.LINK\nDataTypeExtended.LIST\nDataTypeExtended.NUMERIC\nDataTypeExtended.PERCENTAGE\nDataTypeExtended.PHONE\nDataTypeExtended.STRING\nDataTypeExtended.UNIT\n\n-----\n\nDataTypeExtended.EMAIL\nDataTypeExtended.LINK\nDataTypeExtended.LIST\nDataTypeExtended.NUMERIC\nDataTypeExtended.PERCENTAGE\nDataTypeExtended.PHONE\nDataTypeExtended.STRING\nDataTypeExtended.UNIT\nDataTypeExtended.UNKNOWN\nDataTypeExtended.from_detected_type()\nprofile_column()\nprofile_dataframe()\nPyDI.normalization.scale module\nScaleModifier\nScaleModifier.multiplier\nScaleModifier.name\nScaleModifier.pattern\nScaleResult\nScaleResult.cleaned_text\nScaleResult.modifier\nScaleResult.original\nScaleResult.scaled_value\nScaleResult.to_dict()\nScaleResult.value\ndetect_scale_modifier()\nexpand_scale()\nparse_scaled_number()\nPyDI.normalization.spec module\nColumnSpec\nColumnSpec.output_type\nColumnSpec.on_failure\nColumnSpec.target_unit\nColumnSpec.expand_scale_modifiers\nColumnSpec.convert_percentage\nColumnSpec.country_format\nColumnSpec.currency_format\nColumnSpec.phone_format\nColumnSpec.phone_default_region\nColumnSpec.normalize_email\nColumnSpec.stdnum_format\nColumnSpec.case\nColumnSpec.strip_whitespace\nColumnSpec.case\nColumnSpec.convert_percentage\nColumnSpec.country_format\nColumnSpec.currency_format\nColumnSpec.date_format\nColumnSpec.expand_scale_modifiers\nColumnSpec.from_dict()\nColumnSpec.normalize_email\n\n-----\n\nvalidate_dict_pydantic()\nvalidate_email()\nvalidate_phone()\nvalidate_stdnum()\nSubmodules\n\nPyDI.normalization.datasets module\n\nDataset-level normalization orchestration for PyDI.\nThis module provides comprehensive dataset normalization capabilities,\norchestrating value-, column-, and dataset-level transformations to\nmatch Winter’s DataSetNormalizer functionality.\nclass\nPyDI.normalization.datasets.\nColumnNormalizationResult\n(\noriginal_name\n,\nnormalized_name\n,\ndetected_type\n,\nconfidence\n,\nunit_category\n=\nNone\n,\nspecific_unit\n=\nNone\n,\nnull_count\n=\n0\n,\ntotal_count\n=\n0\n,\nnormalization_success_rate\n=\n0.0\n,\nerrors\n=\nNone\n)\n[source]\n\nBases:\nobject\nResult of normalizing a single column.\nParameters\n:\noriginal_name\n(\nstr\n)\nnormalized_name\n(\nstr\n)\ndetected_type\n(\nDataTypeExtended\n)\nconfidence\n(\nfloat\n)\nunit_category\n(\nstr\n|\nNone\n)\nspecific_unit\n(\nstr\n|\nNone\n)\nnull_count\n(\nint\n)\ntotal_count\n(\nint\n)\nnormalization_success_rate\n(\nfloat\n)\nerrors\n(\nList\n[\nstr\n]\n)\nconfidence\n:\nfloat\n\ndetected_type\n:\nDataTypeExtended\n\nerrors\n:\nList\n[\nstr\n]\n=\nNone\n\nnormalization_success_rate\n:\nfloat\n=\n0.0\n\nnormalized_name\n:\nstr\n\nnull_count\n:\nint\n=\n0\n\noriginal_name\n:\nstr\n\nspecific_unit\n:\nstr\n|\nNone\n=\nNone\n"
+    },
+    {
+      "query": "PyDI fusion evaluation match functions: tokenized_match, year_only_match, set_equality_match, numeric_tolerance_match - signatures and how thresholds/max_diff are passed",
+      "response": ".\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n=\n1.0\n)\n[source]\n\nEvaluation function using tokenized comparison with similarity threshold.\nFor lists: Uses Jaccard similarity between lists (order doesn’t matter).\nFor strings: Tokenizes and uses Jaccard similarity between token sets.\nUseful for actor lists and titles where order and partial matches matter.\nParameters\n:\nfused_value\n(\nAny\n) – The fused value to compare.\nexpected_value\n(\nAny\n) – The expected value to compare against.\nthreshold\n(\nfloat\n,\ndefault 1.0\n) – Minimum similarity threshold (0.0 to 1.0).\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n\n-----\n\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\nPyDI.fusion.\nprefer_higher_trust\n(\nvalues\n,\n*\n,\nsources\n=\nNone\n,\nsource_datasets\n=\nNone\n,\ntrust_map\n=\nNone\n,\ndefault_trust\n=\n1.0\n,\ntrust_key\n=\n'trust'\n,\ntie_breaker\n=\n'first'\n,\n**\nkwargs\n)\n[source]\n\nPrefer the value coming from the dataset with the highest trust level.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – Candidate values for the attribute.\nsources\n(\nList\n[\nstr\n]\n) – Record IDs corresponding 1:1 to\nvalues\n(provided by the engine).\nsource_datasets\n(\nDict\n[\nstr\n,\nstr\n]\n) – Map from record ID to dataset name (provided by the engine).\ntrust_map\n(\nDict\n[\nstr\n,\nfloat\n]\n,\noptional\n) – Map from dataset name to trust score/level. Higher means more trusted.\ndefault_trust\n(\nfloat\n,\ndefault 1.0\n) – Trust to assume for datasets not in\ntrust_map\n.\ntrust_key\n(\nstr\n,\ndefault \"trust\"\n) – Key name to use for the trust value in the emitted metadata.\ntie_breaker\n(\nstr\n,\ndefault \"first\"\n) – How to break ties when multiple datasets share the highest trust.\nOptions: “first” (preserve input order).\nReturns\n:"
+    }
+  ],
+  "integration_pipeline_code_length": 22775,
+  "evaluation_code_length": 11550,
+  "integration_diagnostics_code_length": 55318,
+  "human_review_code_length": 28970
+}

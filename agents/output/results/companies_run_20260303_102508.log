@@ -1,0 +1,22 @@
+<string>:26: LangChainDeprecationWarning: Importing get_openai_callback from /Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langchain/callbacks/__init__.py is deprecated. Please replace deprecated imports:
+
+>> from /Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langchain/callbacks/__init__.py import get_openai_callback
+
+with new imports of:
+
+>> from langchain_community.callbacks.manager import get_openai_callback
+You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+[*] Starting companies run...
+[*] Running schema matching
+[*] Schema alignment columns:
+    forbes: ['name', 'Sector', 'industry', 'Continent', 'country', 'Market Value', 'Sales', 'Profits', 'assets', 'Rank', 'id']
+    dbpedia: ['id', 'name', 'founded', 'country', 'city', 'industry', 'keypeople_name', 'assets', 'Sales']
+    fullcontact: ['id', 'name', 'country', 'city', 'keypeople_name', 'founded']
+[*] Profiling datasets
+TOKEN USAGE (profile_data):
+   Model: gpt-5.2-2025-12-11
+   Prompt tokens: 285
+   Completion tokens: 80
+   Total tokens: 365
+   Estimated cost: $0.001156
+[*] Running normalization node

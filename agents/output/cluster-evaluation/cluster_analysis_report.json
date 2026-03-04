@@ -9,90 +9,85 @@
         },
         "error": null,
         "health_metrics": {
-            "total_clusters": 2185,
-            "max_cluster_size": 19,
-            "small_cluster_ratio": 0.8384,
-            "large_cluster_ratio": 0.022,
+            "total_clusters": 1978,
+            "max_cluster_size": 21,
+            "small_cluster_ratio": 0.8488,
+            "large_cluster_ratio": 0.0217,
             "is_long_tail": false,
-            "one_to_many_ratio": 0.1597
+            "one_to_many_ratio": 0.1522
         },
         "is_healthy": false,
-        "one_to_many_ratio": 0.1597,
+        "one_to_many_ratio": 0.1522,
         "cluster_distribution": [
             {
                 "cluster_size": 2,
-                "frequency": 1832,
-                "percentage": 83.84439359267735
+                "frequency": 1679,
+                "percentage": 84.88372093023256
             },
             {
                 "cluster_size": 3,
-                "frequency": 201,
-                "percentage": 9.19908466819222
+                "frequency": 166,
+                "percentage": 8.39231547017189
             },
             {
                 "cluster_size": 4,
-                "frequency": 75,
-                "percentage": 3.4324942791762014
+                "frequency": 66,
+                "percentage": 3.336703741152679
             },
             {
                 "cluster_size": 5,
-                "frequency": 29,
-                "percentage": 1.3272311212814645
+                "frequency": 24,
+                "percentage": 1.2133468149646107
             },
             {
                 "cluster_size": 6,
-                "frequency": 11,
-                "percentage": 0.5034324942791762
+                "frequency": 12,
+                "percentage": 0.6066734074823054
             },
             {
                 "cluster_size": 7,
-                "frequency": 15,
-                "percentage": 0.6864988558352403
+                "frequency": 13,
+                "percentage": 0.6572295247724975
             },
             {
                 "cluster_size": 8,
                 "frequency": 6,
-                "percentage": 0.2745995423340961
+                "percentage": 0.3033367037411527
             },
             {
                 "cluster_size": 9,
                 "frequency": 4,
-                "percentage": 0.1830663615560641
+                "percentage": 0.20222446916076847
             },
             {
                 "cluster_size": 10,
-                "frequency": 3,
-                "percentage": 0.13729977116704806
+                "frequency": 1,
+                "percentage": 0.05055611729019212
             },
             {
                 "cluster_size": 11,
                 "frequency": 2,
-                "percentage": 0.09153318077803205
+                "percentage": 0.10111223458038424
             },
             {
                 "cluster_size": 13,
                 "frequency": 2,
-                "percentage": 0.09153318077803205
+                "percentage": 0.10111223458038424
             },
             {
-                "cluster_size": 14,
+                "cluster_size": 16,
                 "frequency": 1,
-                "percentage": 0.045766590389016024
-            },
-            {
-                "cluster_size": 17,
-                "frequency": 2,
-                "percentage": 0.09153318077803205
-            },
-            {
-                "cluster_size": 18,
-                "frequency": 1,
-                "percentage": 0.045766590389016024
+                "percentage": 0.05055611729019212
             },
             {
                 "cluster_size": 19,
                 "frequency": 1,
-                "percentage": 0.045766590389016024
+                "percentage": 0.05055611729019212
+            },
+            {
+                "cluster_size": 21,
+                "frequency": 1,
+                "percentage": 0.05055611729019212
             }
         ]
     },
@@ -102,60 +97,70 @@
         "parameters": null,
         "error": null,
         "health_metrics": {
-            "total_clusters": 1771,
-            "max_cluster_size": 10,
-            "small_cluster_ratio": 0.8538,
-            "large_cluster_ratio": 0.0096,
+            "total_clusters": 2799,
+            "max_cluster_size": 13,
+            "small_cluster_ratio": 0.8335,
+            "large_cluster_ratio": 0.0068,
             "is_long_tail": true,
-            "one_to_many_ratio": 0.1462
+            "one_to_many_ratio": 0.1686
         },
         "is_healthy": true,
-        "one_to_many_ratio": 0.1462,
+        "one_to_many_ratio": 0.1686,
         "cluster_distribution": [
             {
                 "cluster_size": 2,
-                "frequency": 1512,
-                "percentage": 85.37549407114624
+                "frequency": 2333,
+                "percentage": 83.35119685602001
             },
             {
                 "cluster_size": 3,
-                "frequency": 172,
-                "percentage": 9.712027103331451
+                "frequency": 320,
+                "percentage": 11.43265451947124
             },
             {
                 "cluster_size": 4,
-                "frequency": 53,
-                "percentage": 2.9926595143986447
+                "frequency": 98,
+                "percentage": 3.5012504465880676
             },
             {
                 "cluster_size": 5,
-                "frequency": 17,
-                "percentage": 0.9599096555618294
+                "frequency": 29,
+                "percentage": 1.0360843158270812
             },
             {
                 "cluster_size": 6,
-                "frequency": 7,
-                "percentage": 0.3952569169960474
+                "frequency": 9,
+                "percentage": 0.3215434083601286
             },
             {
                 "cluster_size": 7,
-                "frequency": 7,
-                "percentage": 0.3952569169960474
+                "frequency": 4,
+                "percentage": 0.1429081814933905
             },
             {
                 "cluster_size": 8,
                 "frequency": 2,
-                "percentage": 0.1129305477131564
+                "percentage": 0.07145409074669525
             },
             {
-                "cluster_size": 10,
+                "cluster_size": 9,
+                "frequency": 2,
+                "percentage": 0.07145409074669525
+            },
+            {
+                "cluster_size": 11,
                 "frequency": 1,
-                "percentage": 0.0564652738565782
+                "percentage": 0.03572704537334762
+            },
+            {
+                "cluster_size": 13,
+                "frequency": 1,
+                "percentage": 0.03572704537334762
             }
         ]
     },
     "correspondences_musicbrainz_lastfm.csv": {
-        "diagnosis": "The cluster distribution is not long-tail and indicates potential many-to-many matches or over-clustering.",
+        "diagnosis": "Many entities map to multiple counterparts (one-to-many), which suggests ambiguous correspondences and over-matching.",
         "recommended_strategy": "AdjustMatchingConfig",
         "parameters": {
             "threshold_delta": 0.05,
@@ -164,115 +169,160 @@
         },
         "error": null,
         "health_metrics": {
-            "total_clusters": 2551,
-            "max_cluster_size": 26,
-            "small_cluster_ratio": 0.9142,
-            "large_cluster_ratio": 0.0204,
+            "total_clusters": 2421,
+            "max_cluster_size": 62,
+            "small_cluster_ratio": 0.8558,
+            "large_cluster_ratio": 0.0525,
             "is_long_tail": false,
-            "one_to_many_ratio": 0.1108
+            "one_to_many_ratio": 0.2392
         },
         "is_healthy": false,
-        "one_to_many_ratio": 0.1108,
+        "one_to_many_ratio": 0.2392,
         "cluster_distribution": [
             {
                 "cluster_size": 2,
-                "frequency": 2332,
-                "percentage": 91.41513132105057
+                "frequency": 2072,
+                "percentage": 85.58446922759191
             },
             {
                 "cluster_size": 3,
-                "frequency": 105,
-                "percentage": 4.116032928263426
+                "frequency": 117,
+                "percentage": 4.83271375464684
             },
             {
                 "cluster_size": 4,
-                "frequency": 44,
-                "percentage": 1.724813798510388
+                "frequency": 74,
+                "percentage": 3.056588186699711
             },
             {
                 "cluster_size": 5,
-                "frequency": 18,
-                "percentage": 0.7056056448451588
+                "frequency": 31,
+                "percentage": 1.2804626187525816
             },
             {
                 "cluster_size": 6,
-                "frequency": 11,
-                "percentage": 0.431203449627597
+                "frequency": 30,
+                "percentage": 1.2391573729863694
             },
             {
                 "cluster_size": 7,
-                "frequency": 10,
-                "percentage": 0.3920031360250882
+                "frequency": 16,
+                "percentage": 0.660883932259397
             },
             {
                 "cluster_size": 8,
-                "frequency": 7,
-                "percentage": 0.27440219521756176
+                "frequency": 16,
+                "percentage": 0.660883932259397
             },
             {
                 "cluster_size": 9,
-                "frequency": 5,
-                "percentage": 0.1960015680125441
+                "frequency": 12,
+                "percentage": 0.49566294919454773
             },
             {
                 "cluster_size": 10,
                 "frequency": 3,
-                "percentage": 0.11760094080752645
+                "percentage": 0.12391573729863693
             },
             {
                 "cluster_size": 11,
-                "frequency": 4,
-                "percentage": 0.15680125441003528
+                "frequency": 8,
+                "percentage": 0.3304419661296985
             },
             {
                 "cluster_size": 12,
-                "frequency": 1,
-                "percentage": 0.03920031360250882
+                "frequency": 3,
+                "percentage": 0.12391573729863693
             },
             {
                 "cluster_size": 13,
-                "frequency": 2,
-                "percentage": 0.07840062720501764
+                "frequency": 4,
+                "percentage": 0.16522098306484925
             },
             {
                 "cluster_size": 14,
-                "frequency": 2,
-                "percentage": 0.07840062720501764
+                "frequency": 6,
+                "percentage": 0.24783147459727387
             },
             {
                 "cluster_size": 15,
+                "frequency": 4,
+                "percentage": 0.16522098306484925
+            },
+            {
+                "cluster_size": 16,
                 "frequency": 1,
-                "percentage": 0.03920031360250882
+                "percentage": 0.04130524576621231
             },
             {
                 "cluster_size": 17,
-                "frequency": 1,
-                "percentage": 0.03920031360250882
-            },
-            {
-                "cluster_size": 18,
-                "frequency": 1,
-                "percentage": 0.03920031360250882
+                "frequency": 4,
+                "percentage": 0.16522098306484925
             },
             {
                 "cluster_size": 19,
-                "frequency": 1,
-                "percentage": 0.03920031360250882
+                "frequency": 3,
+                "percentage": 0.12391573729863693
+            },
+            {
+                "cluster_size": 20,
+                "frequency": 2,
+                "percentage": 0.08261049153242463
             },
             {
                 "cluster_size": 21,
                 "frequency": 1,
-                "percentage": 0.03920031360250882
+                "percentage": 0.04130524576621231
+            },
+            {
+                "cluster_size": 23,
+                "frequency": 2,
+                "percentage": 0.08261049153242463
             },
             {
                 "cluster_size": 25,
                 "frequency": 1,
-                "percentage": 0.03920031360250882
+                "percentage": 0.04130524576621231
             },
             {
-                "cluster_size": 26,
+                "cluster_size": 27,
                 "frequency": 1,
-                "percentage": 0.03920031360250882
+                "percentage": 0.04130524576621231
+            },
+            {
+                "cluster_size": 29,
+                "frequency": 1,
+                "percentage": 0.04130524576621231
+            },
+            {
+                "cluster_size": 31,
+                "frequency": 3,
+                "percentage": 0.12391573729863693
+            },
+            {
+                "cluster_size": 32,
+                "frequency": 1,
+                "percentage": 0.04130524576621231
+            },
+            {
+                "cluster_size": 35,
+                "frequency": 2,
+                "percentage": 0.08261049153242463
+            },
+            {
+                "cluster_size": 36,
+                "frequency": 1,
+                "percentage": 0.04130524576621231
+            },
+            {
+                "cluster_size": 46,
+                "frequency": 1,
+                "percentage": 0.04130524576621231
+            },
+            {
+                "cluster_size": 62,
+                "frequency": 1,
+                "percentage": 0.04130524576621231
             }
         ]
     },

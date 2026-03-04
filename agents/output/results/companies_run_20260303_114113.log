@@ -1,0 +1,945 @@
+<string>:26: LangChainDeprecationWarning: Importing get_openai_callback from /Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langchain/callbacks/__init__.py is deprecated. Please replace deprecated imports:
+
+>> from /Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langchain/callbacks/__init__.py import get_openai_callback
+
+with new imports of:
+
+>> from langchain_community.callbacks.manager import get_openai_callback
+You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+[*] Starting companies run...
+[*] Running schema matching
+[*] Schema alignment columns:
+    forbes: ['name', 'Sector', 'industry', 'Continent', 'country', 'Market Value', 'Sales', 'Profits', 'assets', 'Rank', 'id']
+    dbpedia: ['id', 'name', 'founded', 'country', 'city', 'industry', 'keypeople_name', 'assets', 'Sales']
+    fullcontact: ['id', 'name', 'country', 'city', 'keypeople_name', 'founded']
+[*] Profiling datasets
+TOKEN USAGE (profile_data):
+   Model: gpt-5.2-2025-12-11
+   Prompt tokens: 285
+   Completion tokens: 80
+   Total tokens: 365
+   Estimated cost: $0.001156
+[*] Running normalization node
+[+] Normalization completed; using normalized datasets
+[*] Running BlockingTester
+[*] Loading dataset: forbes
+[*] Loading dataset: dbpedia
+[*] Loading dataset: fullcontact
+[*] Loading gold standard for forbes <-> dbpedia
+    Loaded 460 ground truth pairs (positives: 110, negatives/other: 350)
+[*] Loading gold standard for forbes <-> fullcontact
+    Loaded 500 ground truth pairs (positives: 150, negatives/other: 350)
+[*] Loading gold standard for fullcontact <-> dbpedia
+    Loaded 500 ground truth pairs (positives: 150, negatives/other: 350)
+[*] Adaptive max_candidates set to 69,375 (r=0.35%, median_pairs=19,476,066)
+
+============================================================
+🤖 BLOCKING: forbes <-> dbpedia
+============================================================
+Gold pairs: 460, PC threshold: 0.9
+Candidate limit: 69,375 (hard: 79,781 with tolerance)
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Dataset sizes: 2,000 × 10,086 = 20,172,000 potential pairs
+Common columns: ['assets', 'Sales', 'industry', 'name', 'country']
+Guardrails: strategies=['exact_match_multi', 'exact_match_single', 'token_blocking', 'semantic_similarity'], preferred_columns=['industry', 'country']
+
+--- Attempt 1/5 ---
+LLM chose: token_blocking on ['name']
+  Params: {'min_token_len': 5}
+  Reasoning: With 20.17M possible pairs and a 69,375 candidate cap, exact-match on name is likely too brittle (ca...
+    Token (name, len>=5): 93,724 candidates
+    ⛔ SKIPPING EVALUATION: 93,724 > 79,781 (hard limit)
+    💡 Try increasing min_token_len or ngram_size, or use a more selective column
+
+--- Attempt 2/5 ---
+LLM chose: semantic_similarity on ['name', 'country', 'industry']
+  Params: {'top_k': 20}
+  Reasoning: Token blocking on name with min_token_len=5 produced too many candidates and zero PC, suggesting tok...
+    Embedding (name+country+industry, k=20): 40,000 candidates
+    ✅ PC=1.0000, RR=0.9980
+✅ Found acceptable strategy!
+
+============================================================
+🤖 BLOCKING: forbes <-> fullcontact
+============================================================
+Gold pairs: 500, PC threshold: 0.9
+Candidate limit: 69,375 (hard: 79,781 with tolerance)
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Dataset sizes: 2,000 × 1,931 = 3,862,000 potential pairs
+Common columns: ['country', 'name']
+Guardrails: strategies=['exact_match_multi', 'exact_match_single', 'token_blocking', 'sorted_neighbourhood', 'ngram_blocking', 'semantic_similarity'], preferred_columns=['country', 'name']
+
+--- Attempt 1/5 ---
+LLM chose: token_blocking on ['name']
+  Params: {'min_token_len': 4}
+  Reasoning: Need to reduce 3.86M potential pairs to <=69,375. Exact match on name would likely miss many true ma...
+    Token (name, len>=4): 27,403 candidates
+    ✅ PC=1.0000, RR=0.9929
+✅ Found acceptable strategy!
+
+============================================================
+🤖 BLOCKING: fullcontact <-> dbpedia
+============================================================
+Gold pairs: 500, PC threshold: 0.9
+Candidate limit: 69,375 (hard: 79,781 with tolerance)
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Dataset sizes: 1,931 × 10,086 = 19,476,066 potential pairs
+Common columns: ['founded', 'name', 'city', 'country', 'keypeople_name']
+Guardrails: strategies=['exact_match_multi', 'exact_match_single', 'token_blocking', 'semantic_similarity'], preferred_columns=['founded', 'city', 'country']
+
+--- Attempt 1/5 ---
+LLM chose: exact_match_multi on ['country', 'city']
+  Params: {}
+  Reasoning: Need to reduce ~19.5M potential pairs to <=69,375. Exact multi-column blocking is fastest and most s...
+    Standard (country+city): 34,454 candidates
+    ⚠️ PC=0.4267, RR=0.9982
+
+--- Attempt 2/5 ---
+LLM chose: semantic_similarity on ['name', 'city', 'country']
+  Params: {'top_k': 15}
+  Reasoning: Exact match on (country, city) was too restrictive (low PC). Use semantic_similarity to capture name...
+    Embedding (name+city+country, k=15): 28,667 candidates
+    ✅ PC=0.9867, RR=0.9985
+✅ Found acceptable strategy!
+
+============================================================
+📊 RESULTS SUMMARY: 3 pairs evaluated
+============================================================
+  ✅ forbes_dbpedia: PC=1.0000, candidates=40,000, strategy=semantic_similarity
+  ✅ forbes_fullcontact: PC=1.0000, candidates=27,403, strategy=token_blocking
+  ✅ fullcontact_dbpedia: PC=0.9867, candidates=28,667, strategy=semantic_similarity
+[*] Blocking fused-size estimate: rows=11991, unique_ids=11991
+[*] Blocking estimate breakdown: matched_only_rows=2026, singleton_aware_rows=11991
+[*] Fused-size report updated: /Users/nickblazek/Desktop/Agent_Pipeline/agents/output/pipeline_evaluation/fusion_size_estimate.json
+
+💾 Config saved to: output/blocking-evaluation/blocking_config.json
+[*] Blocking config computed:
+{
+  "blocking_strategies": {
+    "forbes_dbpedia": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "industry"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 1.0,
+      "num_candidates": 40000,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "forbes_fullcontact": {
+      "strategy": "token_blocking",
+      "columns": [
+        "name"
+      ],
+      "params": {
+        "min_token_len": 4
+      },
+      "pair_completeness": 1.0,
+      "num_candidates": 27403,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "city",
+        "country"
+      ],
+      "params": {
+        "top_k": 15
+      },
+      "pair_completeness": 0.9866666666666667,
+      "num_candidates": 28667,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    }
+  },
+  "id_columns": {
+    "forbes": "id",
+    "dbpedia": "id",
+    "fullcontact": "id"
+  },
+  "dataset_signature": "dbpedia|forbes|fullcontact",
+  "dataset_names": [
+    "dbpedia",
+    "forbes",
+    "fullcontact"
+  ],
+  "pc_threshold": 0.9,
+  "max_candidates": 69375,
+  "candidate_tolerance": 0.15,
+  "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+  "fusion_size_estimate": {
+    "stage": "blocking",
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "datasets": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+    "expected_rows": 11991,
+    "expected_unique_ids": 11991,
+    "expected_rows_range": [
+      8181,
+      11991
+    ],
+    "expected_unique_ids_range": [
+      8181,
+      11991
+    ],
+    "three_way_intersection": {
+      "enabled": true,
+      "datasets": [
+        "forbes",
+        "dbpedia",
+        "fullcontact"
+      ],
+      "pair_cluster_estimates": {
+        "forbes_dbpedia": 2000,
+        "forbes_fullcontact": 1931,
+        "dbpedia_fullcontact": 1905
+      },
+      "triple_intersection_estimates": {
+        "via_forbes": 1931.0,
+        "via_dbpedia": 377.75133848899463,
+        "via_fullcontact": 1905.0,
+        "median_used": 1905.0,
+        "final_triple_intersection": 1905,
+        "triple_intersection_range": [
+          0,
+          1905
+        ]
+      },
+      "expected_union_clusters": 2026,
+      "expected_union_range": [
+        2026,
+        5836
+      ],
+      "formula": "E_union = E12 + E13 + E23 - 2*E123"
+    },
+    "pair_estimates": [
+      {
+        "pair_key": "forbes_dbpedia",
+        "left_dataset": "forbes",
+        "right_dataset": "dbpedia",
+        "min_pair_size": 2000,
+        "pair_completeness": 1.0,
+        "expected_cluster_count": 2000
+      },
+      {
+        "pair_key": "forbes_fullcontact",
+        "left_dataset": "forbes",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 1.0,
+        "expected_cluster_count": 1931
+      },
+      {
+        "pair_key": "fullcontact_dbpedia",
+        "left_dataset": "dbpedia",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 0.9866666666666667,
+        "expected_cluster_count": 1905
+      }
+    ],
+    "created_at": "2026-03-03T10:44:14.495972+00:00",
+    "expected_rows_matched_only": 2026,
+    "expected_unique_ids_matched_only": 2026,
+    "expected_rows_matched_only_range": [
+      2026,
+      5836
+    ],
+    "expected_unique_ids_matched_only_range": [
+      2026,
+      5836
+    ],
+    "expected_rows_singleton_aware": 11991,
+    "expected_unique_ids_singleton_aware": 11991,
+    "expected_rows_singleton_aware_range": [
+      8181,
+      11991
+    ],
+    "expected_unique_ids_singleton_aware_range": [
+      8181,
+      11991
+    ],
+    "singleton_assumption": {
+      "assumed_include_singletons": true,
+      "total_input_rows": 14017,
+      "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+      "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+    }
+  }
+}
+[*] Using MatchingTester module: /Users/nickblazek/Desktop/Agent_Pipeline/agents/matching_tester.py
+[*] Running MatchingTester
+[*] Loading dataset: forbes
+[*] Loading dataset: dbpedia
+[*] Loading dataset: fullcontact
+[*] Normalized list-like columns for matching: keypeople_name
+[*] Loading matching gold standard for forbes <-> dbpedia
+    Loaded 460 ground truth pairs
+[*] Loading matching gold standard for forbes <-> fullcontact
+    Loaded 500 ground truth pairs
+[*] Loading matching gold standard for fullcontact <-> dbpedia
+    Loaded 500 ground truth pairs
+
+==================================================
+MATCHING EVALUATION
+==================================================
+
+==================================================
+MATCHING: forbes <-> dbpedia
+==================================================
+    Using ID column: 'id'
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Blocking columns: ['name', 'country', 'industry']
+Guardrails preferred columns: ['industry', 'country']
+Candidates: full=40,000, proxy_sample=40,000 (margin=0.015)
+
+--- Attempt 1/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler', 'industry:cosine']
+Weights: [0.7, 0.2, 0.1]
+Threshold: 0.82
+    Reasoning: Use blocking columns as primary signals: name is a strong identifier with low nulls (jaro_winkler for short/typo variations), country helps disambiguate with high coverage, and industry provides weaker contextual support but is noisier on dbpedia; avoid Sales/assets due to very high null rates on the dbpedia side.
+    Reasoning (100c): Use blocking columns as primary signals: name is a strong identifier with low nulls (jaro_winkler fo
+SUCCESS: F1=0.8044
+
+==================================================
+MATCHING: forbes <-> fullcontact
+==================================================
+    Using ID column: 'id'
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Blocking columns: ['name']
+Guardrails preferred columns: ['country', 'name']
+Candidates: full=27,403, proxy_sample=27,403 (margin=0.015)
+
+--- Attempt 1/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler']
+Weights: [0.85, 0.15]
+Threshold: 0.88
+    Reasoning: Use 'name' as the primary (blocking) identifier with typo-tolerant Jaro-Winkler and strong weight since it is fully populated and high-cardinality. Add 'country' as a light secondary signal due to higher null rate on the right dataset, keeping a relatively high threshold to avoid false positives.
+    Reasoning (100c): Use 'name' as the primary (blocking) identifier with typo-tolerant Jaro-Winkler and strong weight si
+F1=0.5565 < 0.75
+
+--- Attempt 2/4 ---
+Comparators: ['name:jaro_winkler', 'country:levenshtein']
+Weights: [0.85, 0.15]
+Threshold: 0.62
+    Reasoning: Use a stronger typo-tolerant comparator (jaro_winkler) and higher weight on the blocking column 'name' since it is complete and highly unique; keep 'country' as a weak auxiliary signal due to higher nulls on the right. Lower the threshold to improve recall after the prior setup underperformed.
+    Reasoning (100c): Use a stronger typo-tolerant comparator (jaro_winkler) and higher weight on the blocking column 'nam
+    Proxy stage: F1=0.4615, required>=0.5715 -> skip full
+
+--- Attempt 3/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler']
+Weights: [0.85, 0.15]
+Threshold: 0.6
+    Reasoning: Name is the blocking column and strongest identifier; use Jaro-Winkler with normalization to better handle short strings/typos/abbreviations. Country is noisy and has high nulls on the right, so down-weight it and lower the threshold to recover recall after prior low scores.
+    Reasoning (100c): Name is the blocking column and strongest identifier; use Jaro-Winkler with normalization to better 
+    Proxy stage: F1=0.4615, required>=0.5715 -> skip full
+⏹️ Early stop: repeated no-gain proxy outcomes
+Max attempts reached. Best F1=0.5565
+
+==================================================
+MATCHING: fullcontact <-> dbpedia
+==================================================
+    Using ID column: 'id'
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Blocking columns: ['name', 'city', 'country']
+Guardrails preferred columns: ['founded', 'city', 'country']
+Candidates: full=28,667, proxy_sample=28,667 (margin=0.015)
+
+--- Attempt 1/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler', 'city:jaro_winkler', 'founded:365']
+Weights: [0.55, 0.15, 0.1, 0.2]
+Threshold: 0.75
+    Reasoning: Use blocking fields (name/city/country) as strong scalar string signals with typo-tolerant Jaro-Winkler; add founded as a date with 1-year tolerance for temporal consistency. Weight name highest (complete, most unique), downweight city/country due to higher nulls/less uniqueness, and set a moderately high threshold for precision.
+    Reasoning (100c): Use blocking fields (name/city/country) as strong scalar string signals with typo-tolerant Jaro-Wink
+SUCCESS: F1=0.8296
+
+📊 Results: 3 pairs evaluated
+  OK forbes_dbpedia: F1=0.8044
+  WARN forbes_fullcontact: F1=0.5565
+  OK fullcontact_dbpedia: F1=0.8296
+[*] Matching fused-size estimate: rows=11482, unique_ids=11482
+[*] Matching estimate breakdown: matched_only_rows=2535, singleton_aware_rows=11482
+[*] Fused-size report updated: /Users/nickblazek/Desktop/Agent_Pipeline/agents/output/pipeline_evaluation/fusion_size_estimate.json
+Config saved to matching_config.json
+[*] Run report updated: output/results/run_20260302_153053_report.md
+[*] Matching config computed:
+{
+  "id_columns": {
+    "forbes": "id",
+    "dbpedia": "id",
+    "fullcontact": "id"
+  },
+  "matching_strategies": {
+    "forbes_dbpedia": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "country",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "industry",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip"
+        }
+      ],
+      "weights": [
+        0.7,
+        0.2,
+        0.1
+      ],
+      "threshold": 0.82,
+      "f1": 0.8044280442804427,
+      "skipped_due_to_blocking_gate": false,
+      "proxy_f1": null,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "forbes_fullcontact": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "country",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        }
+      ],
+      "weights": [
+        0.85,
+        0.15
+      ],
+      "threshold": 0.88,
+      "f1": 0.5564516129032259,
+      "skipped_due_to_blocking_gate": false,
+      "proxy_f1": null,
+      "failure_tags": [
+        "low_matching_quality"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "country",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "city",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "date",
+          "column": "founded",
+          "max_days_difference": 365
+        }
+      ],
+      "weights": [
+        0.55,
+        0.15,
+        0.1,
+        0.2
+      ],
+      "threshold": 0.75,
+      "f1": 0.8295819935691319,
+      "skipped_due_to_blocking_gate": false,
+      "proxy_f1": null,
+      "failure_tags": [
+        "ok"
+      ]
+    }
+  },
+  "dataset_signature": "dbpedia|forbes|fullcontact",
+  "dataset_names": [
+    "dbpedia",
+    "forbes",
+    "fullcontact"
+  ],
+  "min_blocking_pc_for_matching": 0.9,
+  "proxy_f1_margin": 0.015,
+  "proxy_max_candidates": 60000,
+  "llm_trace_path": "output/matching-evaluation/llm_matching_trace.jsonl",
+  "fusion_size_estimate": {
+    "stage": "matching",
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "datasets": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+    "expected_rows": 11482,
+    "expected_unique_ids": 11482,
+    "expected_rows_range": [
+      9752,
+      11902
+    ],
+    "expected_unique_ids_range": [
+      9752,
+      11902
+    ],
+    "three_way_intersection": {
+      "enabled": true,
+      "datasets": [
+        "forbes",
+        "dbpedia",
+        "fullcontact"
+      ],
+      "pair_cluster_estimates": {
+        "forbes_dbpedia": 1609,
+        "forbes_fullcontact": 1075,
+        "dbpedia_fullcontact": 1581
+      },
+      "triple_intersection_estimates": {
+        "via_forbes": 864.8375,
+        "via_dbpedia": 252.21386079714455,
+        "via_fullcontact": 880.152770585189,
+        "median_used": 864.8375,
+        "final_triple_intersection": 865,
+        "triple_intersection_range": [
+          0,
+          1075
+        ]
+      },
+      "expected_union_clusters": 2535,
+      "expected_union_range": [
+        2115,
+        4265
+      ],
+      "formula": "E_union = E12 + E13 + E23 - 2*E123"
+    },
+    "pair_estimates": [
+      {
+        "pair_key": "forbes_dbpedia",
+        "left_dataset": "forbes",
+        "right_dataset": "dbpedia",
+        "min_pair_size": 2000,
+        "pair_completeness": 1.0,
+        "f1": 0.8044280442804427,
+        "expected_cluster_count": 1609
+      },
+      {
+        "pair_key": "forbes_fullcontact",
+        "left_dataset": "forbes",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 1.0,
+        "f1": 0.5564516129032259,
+        "expected_cluster_count": 1075
+      },
+      {
+        "pair_key": "fullcontact_dbpedia",
+        "left_dataset": "dbpedia",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 0.9866666666666667,
+        "f1": 0.8295819935691319,
+        "expected_cluster_count": 1581
+      }
+    ],
+    "created_at": "2026-03-03T10:45:04.544882+00:00",
+    "expected_rows_matched_only": 2535,
+    "expected_unique_ids_matched_only": 2535,
+    "expected_rows_matched_only_range": [
+      2115,
+      4265
+    ],
+    "expected_unique_ids_matched_only_range": [
+      2115,
+      4265
+    ],
+    "expected_rows_singleton_aware": 11482,
+    "expected_unique_ids_singleton_aware": 11482,
+    "expected_rows_singleton_aware_range": [
+      9752,
+      11902
+    ],
+    "expected_unique_ids_singleton_aware_range": [
+      9752,
+      11902
+    ],
+    "singleton_assumption": {
+      "assumed_include_singletons": true,
+      "total_input_rows": 14017,
+      "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+      "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+    }
+  },
+  "run_report_path": "output/results/run_20260302_153053_report.md"
+}
+TOKEN USAGE (pipeline_adaption):
+   Model: gpt-5.2-2025-12-11
+   Prompt tokens: 13,371
+   Completion tokens: 3,479
+   Total tokens: 16,850
+   Estimated cost: $0.051504
+[*] Running generated pipeline
+[+] Pipeline successfully completed
+[PIPELINE STDOUT]
+Normalized list-like columns: keypeople_name
+Performing Blocking
+Matching Entities
+Fusing Data
+
+[PIPELINE STDERR]
+/Users/nickblazek/Desktop/Agent_Pipeline/agents/output/code/pipeline.py:78: DeprecationWarning: The truth value of an empty array is ambiguous. Returning False, but in future this will result in an error. Use `array.size > 0` to check that an array is not empty.
+  return bool(pd.isna(x))
+
+[FUSION SIZE COMPARISON]
+  blocking: expected_rows=11991 actual_rows=12717 rows_pct_error=0.06054540905679259
+  matching: expected_rows=11482 actual_rows=12717 rows_pct_error=0.10755965859606341
+[*] Running consolidated evaluation node
+[EVALUATION EXECUTION] Attempt 1/3
+[*] Adapting evaluation code
+TOKEN USAGE (evaluation_adaption):
+   Model: gpt-5.2-2025-12-11
+   Prompt tokens: 9,175
+   Completion tokens: 2,838
+   Total tokens: 12,013
+   Estimated cost: $0.039849
+[*] Running generated evaluation
+[+] Evaluation successfully completed
+[EVALUATION STDOUT]
+{
+  "id_alignment": {
+    "gold_ids": 25,
+    "direct__id_coverage": 11,
+    "mapped_eval_id_coverage": 25
+  },
+  "country_normalization": {
+    "output_format": "name",
+    "columns": [
+      "country"
+    ]
+  },
+  "list_normalization": {
+    "columns": [
+      "keypeople_name"
+    ]
+  }
+}
+[EVAL_FUNCTIONS] assets:numeric_tolerance_match | city:tokenized_match(threshold=0.75) | country:tokenized_match(threshold=0.7) | founded:year_only_match | keypeople_name:tokenized_match(threshold=0.75) | name:tokenized_match(threshold=0.85)
+{
+  "overall_accuracy": 0.6666666666666666,
+  "macro_accuracy": 0.638095238095238,
+  "num_evaluated_records": 25,
+  "num_evaluated_attributes": 6,
+  "total_evaluations": 132,
+  "total_correct": 88,
+  "assets_accuracy": 0.76,
+  "assets_count": 25,
+  "name_accuracy": 1.0,
+  "name_count": 25,
+  "keypeople_name_accuracy": 0.42857142857142855,
+  "keypeople_name_count": 7,
+  "founded_accuracy": 0.44,
+  "founded_count": 25,
+  "city_accuracy": 0.24,
+  "city_count": 25,
+  "country_accuracy": 0.96,
+  "country_count": 25
+}
+
+[EVALUATION EXECUTION] Status: success
+[*] Running consolidated investigator node
+[*] Running free integration diagnostics
+[*] Reading evaluation metrics
+Evaluation metrics: {"overall_accuracy": 0.6666666666666666, "macro_accuracy": 0.638095238095238, "num_evaluated_records": 25, "num_evaluated_attributes": 6, "total_evaluations": 132, "total_correct": 88, "assets_accuracy": 0.76, "assets_count": 25, "name_accuracy": 1.0, "name_count": 25, "keypeople_name_accuracy": 0.42857142857142855, "keypeople_name_count": 7, "founded_accuracy": 0.44, "founded_count": 25, "city_accuracy": 0.24, "city_count": 25, "country_accuracy": 0.96, "country_count": 25}
+[EVALUATION REPORT]
+  Stage: validation
+  Attempt: 1/3
+  Overall Accuracy: 66.667%
+  Problems Detected:
+    - overall_accuracy below target: 66.667% < 85.000%
+    - low attribute accuracy: city=24.000%, founded=44.000%, keypeople_name=42.857%
+    - low direct ID coverage: 44.000%
+    - high missing_fused_value mismatch ratio: 59.091%
+  Planned Adaptation:
+    - investigator runs diagnostics report + cluster evidence analysis
+    - reasoning node proposes targeted pipeline/code changes
+    - prioritize ID alignment and singleton handling
+    - prioritize fusion strategy changes for sparse attributes
+[*] Auto diagnostics:
+{
+  "debug_reason_counts": {
+    "mismatch": 18,
+    "missing_fused_value": 26
+  },
+  "debug_reason_ratios": {
+    "mismatch": 0.4090909090909091,
+    "missing_fused_value": 0.5909090909090909
+  },
+  "evaluation_stage": "validation",
+  "evaluation_testset_path": "input/datasets/companies/testsets/validation_set.xml",
+  "id_alignment": {
+    "gold_count": 25,
+    "direct_coverage": 11,
+    "direct_coverage_ratio": 0.44,
+    "mapped_coverage": 25,
+    "mapped_coverage_ratio": 1.0,
+    "missing_gold_ids": []
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 12717,
+      "unique_ids": 12717
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 11991,
+        "actual_rows": 12717,
+        "rows_abs_error": 726,
+        "rows_pct_error": 0.06054540905679259,
+        "expected_rows_matched_only": 2026,
+        "expected_rows_singleton_aware": 11991,
+        "rows_pct_error_matched_only": 5.27690029615005,
+        "rows_pct_error_singleton_aware": 0.06054540905679259,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11991,
+        "actual_unique_ids": 12717,
+        "unique_ids_abs_error": 726,
+        "unique_ids_pct_error": 0.06054540905679259,
+        "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-03T10:46:19.312229+00:00"
+      },
+      "matching": {
+        "expected_rows": 11482,
+        "actual_rows": 12717,
+        "rows_abs_error": 1235,
+        "rows_pct_error": 0.10755965859606341,
+        "expected_rows_matched_only": 2535,
+        "expected_rows_singleton_aware": 11482,
+        "rows_pct_error_matched_only": 4.0165680473372785,
+        "rows_pct_error_singleton_aware": 0.10755965859606341,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11482,
+        "actual_unique_ids": 12717,
+        "unique_ids_abs_error": 1235,
+        "unique_ids_pct_error": 0.10755965859606341,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-03T10:46:19.312303+00:00"
+      }
+    }
+  },
+  "overall_accuracy": 0.6666666666666666
+}
+[*] Running cluster analysis helper...
+[*] Found 3 pairwise correspondence files to analyze.
+
+
+===================
+ CLUSTER ANALYSIS
+===================
+[*] Analyzing clusters from correspondences_forbes_dbpedia.csv
+    Metrics: clusters=405, max_size=19, small=83.21%, large=1.98%, one_to_many=16.13%
+    Recommended Strategy: AdjustMatchingConfig
+[*] Analyzing clusters from correspondences_forbes_fullcontact.csv
+    Metrics: clusters=489, max_size=11, small=93.46%, large=0.61%, one_to_many=4.39%
+    Recommended Strategy: None
+[*] Analyzing clusters from correspondences_fullcontact_dbpedia.csv
+    Metrics: clusters=437, max_size=4, small=94.51%, large=0.00%, one_to_many=4.04%
+    Recommended Strategy: None
+    Overall: recommended_strategy=AdjustMatchingConfig, unhealthy_files=1
+
+    Aggregated cluster analysis report saved to output/cluster-evaluation/cluster_analysis_report.json
+[*] Evaluation reasoning:
+## 1) Dominant error types (from metrics + debug events)
+
+**A. Missing fused values (dominant, ~59% of logged errors) ⇒ recall/coverage problem in fusion**
+- `missing_fused_value` = **26** vs `mismatch` = 18.
+- Concentrated in:
+  - **city** accuracy **0.24** (many nulls)
+  - **founded** accuracy **0.44** (many nulls)
+  - **keypeople_name** accuracy **0.43** (often null)
+  - One case: **country** missing for *herbalife* (country accuracy otherwise high at 0.96)
+
+This points less to blocking (blocking PC is ~1.0) and more to **fusion policy/attribute selection + cluster contamination/under-merging** causing the “best” attribute source not to be present in the chosen cluster row, or the fuser choosing null because of how conflicts/inputs are handled.
+
+**B. Wrong fused values (mismatches, ~41%) ⇒ wrong source chosen or wrong conflict rule**
+Clear patterns:
+- **assets** mismatches (6 shown): fused values often differ materially from expected; median is a bad aggregator when sources disagree by units/definitions.
+- **city** mismatches: fused city often looks like a “compound string” (`"beijingchina"`, `"californiasan diego"`, `"milwaukeewisconsin"`, `"hamamatsushizuoka prefecture"`) or is a plausible city but **not the expected one** (London vs Newark, Houston vs London). That’s classic **wrong-source selection / noisy field formatting**.
+- **founded** mismatches: values like Yamaha Motor getting **1887** vs expected **1946** indicates either (a) cluster has wrong entity (FP match contamination), or (b) “earliest” is wrong for this attribute because sources might contain predecessor dates / founding of related entity.
+
+## 2) Likely root causes (blocking vs matching vs schema/preprocess vs pipeline logic)
+
+### Blocking
+- Reported blocking PC is **excellent** (1.0 / 1.0 / 0.9867). So **missed blocks are not dominant**.
+- Not the main lever per your instruction (“blocking/matching already determined”). Keep as-is.
+
+### Matching / clustering (still relevant because it affects fusion quality)
+Even though you said configs are fixed, the **cluster analysis shows one correspondence set is unhealthy**, which directly damages fusion:
+
+- **forbes↔dbpedia correspondences are over-clustered / many-to-many-ish**
+  - `is_long_tail=false`, **max_cluster_size=19**, one-to-many ratio **0.1613**
+  - Examples: *Wells Fargo* matching to *Wells Fargo Advisors*; *China Construction Bank* matching to *China CITIC Bank*
+- This produces **false positives inside clusters**, which then causes:
+  - wrong `city` / wrong `founded` (taking attributes from the wrong DBpedia entity)
+  - missing values if the chosen “preferred” source row in the cluster lacks that attribute
+
+So: **dominant fusion errors are consistent with FP contamination in forbes↔dbpedia links**, plus weak fusion rules.
+
+### Schema / preprocessing issues (contributes strongly for city + list fields)
+- City strings show concatenation artifacts (`"beijingchina"`, `"californiasan diego"`). That’s a **normalization/preprocessing gap** (needs token separation, state/country stripping, consistent casing).
+- `keypeople_name` sometimes missing: you already normalize list-like columns, but your fusion code then **JSON-serializes lists** in the output CSV. Evaluation re-normalizes, so format isn’t the main issue; the bigger issue is **the union fuser operating on empty inputs** (cluster doesn’t bring keypeople values through).
+
+### Fusion policy / pipeline logic (primary actionable area)
+Given the instruction to focus on fusion improvements, the biggest issues are:
+1. **`assets` fused with `median`** despite strong evidence that **dbpedia is the best source** for that attribute (diagnostics explicitly say so). Median will systematically be wrong when Forbes uses different definition/scale or has parsing artifacts.
+2. **`founded` fused with `earliest`** is unsafe: earliest date is often a predecessor/incorporation artifact and can be *earlier than the true founding year in the gold*. This is exactly what you see (e.g., Yamaha).
+3. **City fused with `prefer_higher_trust` using trust_map where Forbes is highest**. But Forbes city appears frequently missing (or different “HQ vs operational”), while DBpedia/FullContact have higher completeness. A static trust preference yields **nulls** when Forbes is null and your fuser doesn’t robustly “prefer highest trust among non-null values” (depending on PyDI’s behavior, but the symptoms match).
+4. **Key people fused with `union`**: union is fine, but only if lists are present. Missing suggests the cluster often doesn’t include the source that has keypeople, or values are stored under a different column name in one dataset (schema alignment issue).
+
+## 3) Cluster analysis report → what to do (even if configs are “fixed”)
+The report flags **only `correspondences_forbes_dbpedia.csv`** as unhealthy and recommends raising threshold by +0.05.
+
+Even if you don’t change the threshold, you should treat this as a **fusion contamination risk** and add **fusion-stage safeguards**:
+- **Do not let DBpedia attributes override / inject into a Forbes entity unless the match confidence is high enough** (a “fusion gating” rule by correspondence score).
+- Or **attribute-level gating**: only accept DBpedia `city`/`founded` if `score >= X` for the correspondence that brought DBpedia into the cluster.
+
+This directly mitigates the large-cluster FP problem without changing the matcher itself.
+
+## 4) Concrete, actionable improvements for next fusion iteration
+
+### A. Make fusion attribute-specific (stop using one-size-fits-all fusers)
+
+1) **assets: prefer DBpedia (not median)**
+- Diagnostics: dbpedia dominates assets (exact ratio ~0.883 vs 0 for Forbes).
+- Action:
+  - Replace `median` for `assets` with **prefer DBpedia when non-null**, else fallback (Forbes).
+  - If PyDI doesn’t offer “prefer_source” directly, implement a small custom fuser: pick value from highest-ranked source with non-null.
+
+2) **founded: do NOT use `earliest`**
+- Earliest creates systematic “too-early” years.
+- Better options:
+  - **prefer_higher_trust** with a trust map that favors DBpedia for `founded` (since DBpedia founded agreement is perfect in diagnostics), or
+  - if multiple values exist, pick the **mode (most frequent year)** rather than earliest.
+
+3) **city: prefer the most complete + normalized source, not Forbes**
+- Current approach leads to many nulls.
+- Action:
+  - For `city`, prefer **FullContact** (often HQ-like) then DBpedia, then Forbes, *or* choose “longest reasonable tokenized city” after normalization.
+  - Also apply city cleaning normalization before fusion (see Normalization Recommendations).
+
+4) **keypeople_name: union + de-dup + canonicalize**
+- Keep `union`, but ensure:
+  - lists are normalized **before** fusion (you do this),
+  - after union: lowercase/strip, de-duplicate, drop empty strings.
+- Also verify schema: if DBpedia uses a different key people column name in normalized outputs, map it into `keypeople_name` prior to fusion.
+
+### B. Add fusion-stage gating to reduce FP contamination (without changing matching config)
+Use correspondence `score` to control whether to accept attributes from a source:
+- If a cluster includes a DBpedia member linked via a **low score** (near threshold), do:
+  - allow it to contribute to **name/country/industry** only
+  - block it from contributing to **city/founded/assets/keypeople_name**
+This would directly address the “wrong city/wrong founded” patterns caused by forbes↔dbpedia over-clustering.
+
+### C. Fix numeric assets unit/scale and tolerance issues
+You attempted scaling Forbes assets if `<1e6` then *1e9. Yet mismatches remain (e.g., ~19.95B vs expected 39.9B).
+Actions:
+- Ensure **all sources** are in the same units (absolute USD) *and* confirm whether some are in millions vs billions.
+- Add parsing for strings like `"39.9B"`, `"39,900,000,000"`, etc., if present in any normalized dataset.
+- If DBpedia is preferred for assets, the unit issue becomes less important.
+
+### D. Ensure “prefer_higher_trust” truly prefers highest-trust *non-null*
+Many missing fused values suggest the selected source might be null.
+Actions:
+- Confirm PyDI `prefer_higher_trust` behavior with nulls; if it can output null when the top-trust source is null, replace it with a custom “prefer highest trust among available values”.
+
+---
+
+## Normalization Recommendations
+These are directly implicated by the observed `city` artifacts and occasional missing `country`.
+
+1) **Country normalization (pipeline-side, not only evaluation-side)**
+- Apply PyDI country normalization on input datasets **before blocking/matching and before fusion**:
+  - Target column: **`country`**
+  - Use: `normalize_country(value, output_format="name")`
+  - This reduces subtle mismatches and helps downstream attribute preference behave consistently.
+
+2) **City normalization**
+- Target column: **`city`**
+- Add normalization to:
+  - insert spaces between concatenated tokens (e.g., `"beijingchina"` → `"beijing"` by stripping country if appended)
+  - remove state/country suffixes (`"california san diego"` → `"san diego"`)
+  - keep diacritics but normalize whitespace; consider title-casing for output consistency.
+
+3) **List normalization reinforcement**
+- Target column: **`keypeople_name`**
+- You already use `detect_list_like_columns` / `normalize_list_like_columns`. Keep it, but add post-union cleanup:
+  - lowercase/strip elements
+  - de-duplicate
+  - drop very short tokens / empty strings
+
+---
+
+### Prioritized next iteration checklist (fusion-focused)
+1. **Change fusers**:
+   - `assets`: prefer DBpedia (fallback Forbes)
+   - `founded`: prefer DBpedia (or mode-of-year), not earliest
+   - `city`: prefer FullContact/DBpedia over Forbes; ensure non-null preference
+2. **Add score-gated attribute contribution** for DBpedia in forbes↔dbpedia clusters to mitigate FP contamination.
+3. **Normalize** `country` with `normalize_country(..., "name")` and strengthen `city` normalization rules.
+4. **Schema audit**: confirm `keypeople_name` exists and is aligned across all three sources pre-fusion (no alternate column names being ignored).
+TOKEN USAGE (investigator_normalization_assessment):
+   Model: gpt-5.2-2025-12-11
+   Prompt tokens: 10,223
+   Completion tokens: 298
+   Total tokens: 10,521
+   Estimated cost: $0.015759
+[*] Investigator decision: rerun normalization before next pipeline iteration
+[INVESTIGATION REPORT]
+  - overall_accuracy=66.667%, evaluation_attempt=1/3
+  - probes: reason_distribution: missing_fused_value=0.59, mismatch=0.41 | worst_attributes: city_accuracy=0.24, keypeople_name_accuracy=0.43, founded_accuracy=0.44, macro_accuracy=0.64, overall_accuracy=0.67 | recent_mismatches: reasons[missing_fused_value:26, mismatch:18] attrs[city:19, founded:14, assets:6] | directive_coverage: forbes: keypeople_name
+  - objective: composite=0.0 worst_pressure=0.76 missing_penalty=0.590909
+  - normalization acceptance: None (delta=None, required=None)
+  - routing score=1.398118 threshold=0.72 blocked_action_plan=False blocked_regret=False
+[*] Running normalization node

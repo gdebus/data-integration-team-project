@@ -1,0 +1,2196 @@
+{
+  "timestamp": "20260303_155056",
+  "generated_at": "2026-03-03T14:50:56.726644Z",
+  "run_id": "20260303_125833_844806",
+  "run_output_root": "output/runs/20260303_125833_844806",
+  "datasets": [
+    "dbpedia",
+    "metacritic",
+    "sales"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "validation_set.xml",
+  "sealed_evaluation_active": false,
+  "blocking_metrics": {
+    "dbpedia_sales": {
+      "pair_completeness": 0.912621359223301,
+      "num_candidates": 931501,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "developer",
+        "releaseYear"
+      ]
+    },
+    "metacritic_dbpedia": {
+      "pair_completeness": 0.9679144385026738,
+      "num_candidates": 409855,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "developer",
+        "releaseYear"
+      ]
+    },
+    "metacritic_sales": {
+      "pair_completeness": 1.0,
+      "num_candidates": 409504,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "dbpedia_sales": {
+      "f1_score": 0.8086021505376344
+    },
+    "metacritic_dbpedia": {
+      "f1_score": 0.8743961352657004
+    },
+    "metacritic_sales": {
+      "f1_score": 0.7790697674418605
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.7394957983193278,
+    "macro_accuracy": 0.7363095238095239,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 88,
+    "developer_accuracy": 0.6666666666666666,
+    "developer_count": 15,
+    "name_accuracy": 0.8,
+    "name_count": 15,
+    "userScore_accuracy": 0.35714285714285715,
+    "userScore_count": 14,
+    "criticScore_accuracy": 0.9333333333333333,
+    "criticScore_count": 15,
+    "platform_accuracy": 0.6666666666666666,
+    "platform_count": 15,
+    "ESRB_accuracy": 0.7333333333333333,
+    "ESRB_count": 15,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "releaseYear_accuracy": 0.8666666666666667,
+    "releaseYear_count": 15
+  },
+  "overall_accuracy": 0.7394957983193278,
+  "validation_metrics_final": {
+    "overall_accuracy": 0.7394957983193278,
+    "macro_accuracy": 0.7363095238095239,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 88,
+    "developer_accuracy": 0.6666666666666666,
+    "developer_count": 15,
+    "name_accuracy": 0.8,
+    "name_count": 15,
+    "userScore_accuracy": 0.35714285714285715,
+    "userScore_count": 14,
+    "criticScore_accuracy": 0.9333333333333333,
+    "criticScore_count": 15,
+    "platform_accuracy": 0.6666666666666666,
+    "platform_count": 15,
+    "ESRB_accuracy": 0.7333333333333333,
+    "ESRB_count": 15,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "releaseYear_accuracy": 0.8666666666666667,
+    "releaseYear_count": 15
+  },
+  "sealed_test_metrics_final": {},
+  "metrics_by_split": {
+    "validation_final": {
+      "overall_accuracy": 0.7394957983193278,
+      "macro_accuracy": 0.7363095238095239,
+      "num_evaluated_records": 15,
+      "num_evaluated_attributes": 8,
+      "total_evaluations": 119,
+      "total_correct": 88,
+      "developer_accuracy": 0.6666666666666666,
+      "developer_count": 15,
+      "name_accuracy": 0.8,
+      "name_count": 15,
+      "userScore_accuracy": 0.35714285714285715,
+      "userScore_count": 14,
+      "criticScore_accuracy": 0.9333333333333333,
+      "criticScore_count": 15,
+      "platform_accuracy": 0.6666666666666666,
+      "platform_count": 15,
+      "ESRB_accuracy": 0.7333333333333333,
+      "ESRB_count": 15,
+      "publisher_accuracy": 0.8666666666666667,
+      "publisher_count": 15,
+      "releaseYear_accuracy": 0.8666666666666667,
+      "releaseYear_count": 15
+    },
+    "sealed_test_final": {}
+  },
+  "blocking_config": {
+    "blocking_strategies": {
+      "dbpedia_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "developer",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.912621359223301,
+        "num_candidates": 931501,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "developer",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9679144385026738,
+        "num_candidates": 409855,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 409504,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "dataset_signature": "dbpedia|metacritic|sales",
+    "dataset_names": [
+      "dbpedia",
+      "metacritic",
+      "sales"
+    ],
+    "pc_threshold": 0.9,
+    "max_candidates": 2071389,
+    "candidate_tolerance": 0.15,
+    "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "dbpedia|metacritic|sales",
+      "datasets": [
+        "dbpedia",
+        "metacritic",
+        "sales"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 54427,
+      "expected_unique_ids": 54427,
+      "expected_rows_range": [
+        40049,
+        54427
+      ],
+      "expected_unique_ids_range": [
+        40049,
+        54427
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "dbpedia",
+          "metacritic",
+          "sales"
+        ],
+        "pair_cluster_estimates": {
+          "dbpedia_metacritic": 19836,
+          "dbpedia_sales": 7189,
+          "metacritic_sales": 7877
+        },
+        "triple_intersection_estimates": {
+          "via_dbpedia": 3061.42129669386,
+          "via_metacritic": 7624.093490777788,
+          "via_sales": 7189.0,
+          "median_used": 7189.0,
+          "final_triple_intersection": 7189,
+          "triple_intersection_range": [
+            0,
+            7189
+          ]
+        },
+        "expected_union_clusters": 20524,
+        "expected_union_range": [
+          20524,
+          34902
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "dbpedia_sales",
+          "left_dataset": "dbpedia",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.912621359223301,
+          "expected_cluster_count": 7189
+        },
+        {
+          "pair_key": "metacritic_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "metacritic",
+          "min_pair_size": 20494,
+          "pair_completeness": 0.9679144385026738,
+          "expected_cluster_count": 19836
+        },
+        {
+          "pair_key": "metacritic_sales",
+          "left_dataset": "metacritic",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 7877
+        }
+      ],
+      "created_at": "2026-03-03T13:54:11.510877+00:00",
+      "expected_rows_matched_only": 20524,
+      "expected_unique_ids_matched_only": 20524,
+      "expected_rows_matched_only_range": [
+        20524,
+        34902
+      ],
+      "expected_unique_ids_matched_only_range": [
+        20524,
+        34902
+      ],
+      "expected_rows_singleton_aware": 54427,
+      "expected_unique_ids_singleton_aware": 54427,
+      "expected_rows_singleton_aware_range": [
+        40049,
+        54427
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        40049,
+        54427
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 74951,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "matching_strategies": {
+      "dbpedia_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          }
+        ],
+        "weights": [
+          0.55,
+          0.2,
+          0.1,
+          0.15
+        ],
+        "threshold": 0.78,
+        "f1": 0.8086021505376344,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.08219178082191782,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.55,
+          0.2,
+          0.15,
+          0.1
+        ],
+        "threshold": 0.75,
+        "f1": 0.8743961352657004,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.30701754385964913,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "numeric",
+            "column": "criticScore",
+            "max_difference": 10.0
+          },
+          {
+            "type": "string",
+            "column": "ESRB",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.45,
+          0.15,
+          0.15,
+          0.1,
+          0.1,
+          0.05
+        ],
+        "threshold": 0.78,
+        "f1": 0.7790697674418605,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.25149700598802394,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "dataset_signature": "dbpedia|metacritic|sales",
+    "dataset_names": [
+      "dbpedia",
+      "metacritic",
+      "sales"
+    ],
+    "min_blocking_pc_for_matching": 0.9,
+    "proxy_f1_margin": 0.015,
+    "proxy_max_candidates": 60000,
+    "llm_trace_path": "output/matching-evaluation/llm_matching_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "dbpedia|metacritic|sales",
+      "datasets": [
+        "dbpedia",
+        "metacritic",
+        "sales"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 54714,
+      "expected_unique_ids": 54714,
+      "expected_rows_range": [
+        45656,
+        57282
+      ],
+      "expected_unique_ids_range": [
+        45656,
+        57282
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "dbpedia",
+          "metacritic",
+          "sales"
+        ],
+        "pair_cluster_estimates": {
+          "dbpedia_metacritic": 17345,
+          "dbpedia_sales": 5813,
+          "metacritic_sales": 6137
+        },
+        "triple_intersection_estimates": {
+          "via_dbpedia": 2164.587483898669,
+          "via_metacritic": 5194.0209329559875,
+          "via_sales": 4528.92992255935,
+          "median_used": 4528.92992255935,
+          "final_triple_intersection": 4529,
+          "triple_intersection_range": [
+            0,
+            5813
+          ]
+        },
+        "expected_union_clusters": 20237,
+        "expected_union_range": [
+          17669,
+          29295
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "dbpedia_sales",
+          "left_dataset": "dbpedia",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.912621359223301,
+          "f1": 0.8086021505376344,
+          "expected_cluster_count": 5813
+        },
+        {
+          "pair_key": "metacritic_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "metacritic",
+          "min_pair_size": 20494,
+          "pair_completeness": 0.9679144385026738,
+          "f1": 0.8743961352657004,
+          "expected_cluster_count": 17345
+        },
+        {
+          "pair_key": "metacritic_sales",
+          "left_dataset": "metacritic",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 1.0,
+          "f1": 0.7790697674418605,
+          "expected_cluster_count": 6137
+        }
+      ],
+      "created_at": "2026-03-03T14:06:00.739516+00:00",
+      "expected_rows_matched_only": 20237,
+      "expected_unique_ids_matched_only": 20237,
+      "expected_rows_matched_only_range": [
+        17669,
+        29295
+      ],
+      "expected_unique_ids_matched_only_range": [
+        17669,
+        29295
+      ],
+      "expected_rows_singleton_aware": 54714,
+      "expected_unique_ids_singleton_aware": 54714,
+      "expected_rows_singleton_aware_range": [
+        45656,
+        57282
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        45656,
+        57282
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 74951,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "run_report_path": "output/results/run_audit_20260303_144852_report.md"
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 54394,
+      "unique_ids": 54394
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 54427,
+        "actual_rows": 54394,
+        "rows_abs_error": 33,
+        "rows_pct_error": 0.000606316717805501,
+        "expected_rows_matched_only": 20524,
+        "expected_rows_singleton_aware": 54427,
+        "rows_pct_error_matched_only": 1.6502631066068993,
+        "rows_pct_error_singleton_aware": 0.000606316717805501,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 54427,
+        "actual_unique_ids": 54394,
+        "unique_ids_abs_error": 33,
+        "unique_ids_pct_error": 0.000606316717805501,
+        "reasoning": "Estimate is close to actual fused size. Blocking likely generated broader candidate space than what matching+fusion accepted.",
+        "compared_at": "2026-03-03T14:45:11.846757+00:00"
+      },
+      "matching": {
+        "expected_rows": 54714,
+        "actual_rows": 54394,
+        "rows_abs_error": 320,
+        "rows_pct_error": 0.005848594509631904,
+        "expected_rows_matched_only": 20237,
+        "expected_rows_singleton_aware": 54714,
+        "rows_pct_error_matched_only": 1.6878489894747246,
+        "rows_pct_error_singleton_aware": 0.005848594509631904,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 54714,
+        "actual_unique_ids": 54394,
+        "unique_ids_abs_error": 320,
+        "unique_ids_pct_error": 0.005848594509631904,
+        "reasoning": "Estimate is close to actual fused size. Matching estimate seems optimistic; thresholds or fusion constraints likely reduced surviving clusters.",
+        "compared_at": "2026-03-03T14:45:11.846815+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 48
+    },
+    "debug_reason_ratios": {
+      "mismatch": 1.0
+    },
+    "evaluation_stage": "test",
+    "evaluation_testset_path": "input/datasets/games/testsets/test_set.xml",
+    "id_alignment": {
+      "gold_count": 15,
+      "direct_coverage": 0,
+      "direct_coverage_ratio": 0.0,
+      "mapped_coverage": 15,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 54394,
+        "unique_ids": 54394
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 54427,
+          "actual_rows": 54394,
+          "rows_abs_error": 33,
+          "rows_pct_error": 0.000606316717805501,
+          "expected_rows_matched_only": 20524,
+          "expected_rows_singleton_aware": 54427,
+          "rows_pct_error_matched_only": 1.6502631066068993,
+          "rows_pct_error_singleton_aware": 0.000606316717805501,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 54427,
+          "actual_unique_ids": 54394,
+          "unique_ids_abs_error": 33,
+          "unique_ids_pct_error": 0.000606316717805501,
+          "reasoning": "Estimate is close to actual fused size. Blocking likely generated broader candidate space than what matching+fusion accepted.",
+          "compared_at": "2026-03-03T14:45:11.846757+00:00"
+        },
+        "matching": {
+          "expected_rows": 54714,
+          "actual_rows": 54394,
+          "rows_abs_error": 320,
+          "rows_pct_error": 0.005848594509631904,
+          "expected_rows_matched_only": 20237,
+          "expected_rows_singleton_aware": 54714,
+          "rows_pct_error_matched_only": 1.6878489894747246,
+          "rows_pct_error_singleton_aware": 0.005848594509631904,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 54714,
+          "actual_unique_ids": 54394,
+          "unique_ids_abs_error": 320,
+          "unique_ids_pct_error": 0.005848594509631904,
+          "reasoning": "Estimate is close to actual fused size. Matching estimate seems optimistic; thresholds or fusion constraints likely reduced surviving clusters.",
+          "compared_at": "2026-03-03T14:45:11.846815+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.7394957983193278
+  },
+  "evaluation_regression_guard": {
+    "rejected": true,
+    "overall_drop": 0.142857,
+    "macro_drop": 0.141071,
+    "severe_attribute_drops": {
+      "developer": 0.133333,
+      "criticScore": 0.4,
+      "platform": 0.133333,
+      "ESRB": 0.133333,
+      "releaseYear": 0.333333
+    },
+    "moderate_attribute_drops": {
+      "developer": 0.133333,
+      "name": 0.066667,
+      "criticScore": 0.4,
+      "platform": 0.133333,
+      "ESRB": 0.133333,
+      "releaseYear": 0.333333
+    },
+    "top_attribute_drops": {
+      "criticScore": 0.4,
+      "releaseYear": 0.333333,
+      "developer": 0.133333,
+      "platform": 0.133333,
+      "ESRB": 0.133333,
+      "name": 0.066667
+    }
+  },
+  "latest_validation_metrics": {
+    "overall_accuracy": 0.5966386554621849,
+    "macro_accuracy": 0.5952380952380951,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 71,
+    "releaseYear_accuracy": 0.5333333333333333,
+    "releaseYear_count": 15,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "criticScore_accuracy": 0.5333333333333333,
+    "criticScore_count": 15,
+    "name_accuracy": 0.7333333333333333,
+    "name_count": 15,
+    "developer_accuracy": 0.5333333333333333,
+    "developer_count": 15,
+    "userScore_accuracy": 0.42857142857142855,
+    "userScore_count": 14,
+    "ESRB_accuracy": 0.6,
+    "ESRB_count": 15,
+    "platform_accuracy": 0.5333333333333333,
+    "platform_count": 15
+  },
+  "best_validation_metrics": {
+    "overall_accuracy": 0.7394957983193278,
+    "macro_accuracy": 0.7363095238095239,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 88,
+    "developer_accuracy": 0.6666666666666666,
+    "developer_count": 15,
+    "name_accuracy": 0.8,
+    "name_count": 15,
+    "userScore_accuracy": 0.35714285714285715,
+    "userScore_count": 14,
+    "criticScore_accuracy": 0.9333333333333333,
+    "criticScore_count": 15,
+    "platform_accuracy": 0.6666666666666666,
+    "platform_count": 15,
+    "ESRB_accuracy": 0.7333333333333333,
+    "ESRB_count": 15,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "releaseYear_accuracy": 0.8666666666666667,
+    "releaseYear_count": 15
+  },
+  "evaluation_cycle_audit": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-03T14:17:45.687246Z",
+      "evaluation_stage": "test",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-03T14:17:44.553416Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_metacritic_dbpedia.csv",
+            "data_rows": 45073
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 34046
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 13220
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 73.950% < 85.000%",
+        "low attribute accuracy: userScore=35.714%",
+        "low direct ID coverage: 0.000%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-03T14:33:36.348748Z",
+      "evaluation_stage": "test",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.680672268907563,
+        "macro_accuracy": 0.6779761904761905,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 81,
+        "name_accuracy": 0.8666666666666667,
+        "name_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "releaseYear_accuracy": 0.9333333333333333,
+        "releaseYear_count": 15,
+        "criticScore_accuracy": 0.8,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.3333333333333333,
+        "platform_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_drop": 0.058824,
+        "macro_drop": 0.058333,
+        "severe_attribute_drops": {
+          "criticScore": 0.133333,
+          "platform": 0.333333
+        },
+        "moderate_attribute_drops": {
+          "developer": 0.066667,
+          "criticScore": 0.133333,
+          "platform": 0.333333,
+          "ESRB": 0.066667
+        },
+        "top_attribute_drops": {
+          "platform": 0.333333,
+          "criticScore": 0.133333,
+          "developer": 0.066667,
+          "ESRB": 0.066667
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-03T14:33:35.100966Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_metacritic_dbpedia.csv",
+            "data_rows": 46522
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 34805
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 13231
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 73.950% < 85.000%",
+        "low attribute accuracy: userScore=35.714%",
+        "regression guard rejected latest candidate: overall_drop=0.058824, macro_drop=0.058333, top_attribute_drops={'platform': 0.333333, 'criticScore': 0.133333, 'developer': 0.066667, 'ESRB': 0.066667}",
+        "low direct ID coverage: 0.000%"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-03T14:49:17.669775Z",
+      "evaluation_stage": "test",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.5966386554621849,
+        "macro_accuracy": 0.5952380952380951,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 71,
+        "releaseYear_accuracy": 0.5333333333333333,
+        "releaseYear_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.5333333333333333,
+        "criticScore_count": 15,
+        "name_accuracy": 0.7333333333333333,
+        "name_count": 15,
+        "developer_accuracy": 0.5333333333333333,
+        "developer_count": 15,
+        "userScore_accuracy": 0.42857142857142855,
+        "userScore_count": 14,
+        "ESRB_accuracy": 0.6,
+        "ESRB_count": 15,
+        "platform_accuracy": 0.5333333333333333,
+        "platform_count": 15
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7394957983193278,
+        "macro_accuracy": 0.7363095238095239,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 88,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_drop": 0.142857,
+        "macro_drop": 0.141071,
+        "severe_attribute_drops": {
+          "developer": 0.133333,
+          "criticScore": 0.4,
+          "platform": 0.133333,
+          "ESRB": 0.133333,
+          "releaseYear": 0.333333
+        },
+        "moderate_attribute_drops": {
+          "developer": 0.133333,
+          "name": 0.066667,
+          "criticScore": 0.4,
+          "platform": 0.133333,
+          "ESRB": 0.133333,
+          "releaseYear": 0.333333
+        },
+        "top_attribute_drops": {
+          "criticScore": 0.4,
+          "releaseYear": 0.333333,
+          "developer": 0.133333,
+          "platform": 0.133333,
+          "ESRB": 0.133333,
+          "name": 0.066667
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-03T14:49:16.563490Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_metacritic_dbpedia.csv",
+            "data_rows": 48296
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 34817
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 13222
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 73.950% < 85.000%",
+        "low attribute accuracy: userScore=35.714%",
+        "regression guard rejected latest candidate: overall_drop=0.142857, macro_drop=0.141071, top_attribute_drops={'criticScore': 0.4, 'releaseYear': 0.333333, 'developer': 0.133333, 'platform': 0.133333, 'ESRB': 0.133333, 'name': 0.066667}",
+        "low direct ID coverage: 0.000%"
+      ]
+    }
+  ],
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-03T14:49:16.563490Z",
+    "expected_pairs": [
+      "dbpedia_metacritic",
+      "dbpedia_sales",
+      "metacritic_sales"
+    ],
+    "pair_checks": [
+      {
+        "pair": "dbpedia_metacritic",
+        "status": "ok",
+        "path": "output/correspondences/correspondences_metacritic_dbpedia.csv",
+        "data_rows": 48296
+      },
+      {
+        "pair": "dbpedia_sales",
+        "status": "ok",
+        "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+        "data_rows": 34817
+      },
+      {
+        "pair": "metacritic_sales",
+        "status": "ok",
+        "path": "output/correspondences/correspondences_metacritic_sales.csv",
+        "data_rows": 13222
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "error:   File \"/Users/nickblazek/Desktop/Agent_Pipeline/agents/output/code/pipeline.py\", line 395\n    list_strategy=\\\"average\\\",\n                   ^\nSyntaxError: unexpected character after line continuation character\n",
+      "captured_at": "2026-03-03T14:06:48.315006Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 1,
+      "exec_attempt": 2,
+      "execution_result": "success",
+      "captured_at": "2026-03-03T14:13:41.758863Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_metacritic_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_metacritic_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_01/exec_02/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 54946,
+          "unique_ids": 54946
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 54427,
+            "actual_rows": 54946,
+            "rows_abs_error": 519,
+            "rows_pct_error": 0.00953570838003197,
+            "expected_rows_matched_only": 20524,
+            "expected_rows_singleton_aware": 54427,
+            "rows_pct_error_matched_only": 1.6771584486454882,
+            "rows_pct_error_singleton_aware": 0.00953570838003197,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54427,
+            "actual_unique_ids": 54946,
+            "unique_ids_abs_error": 519,
+            "unique_ids_pct_error": 0.00953570838003197,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-03T14:13:41.757685+00:00"
+          },
+          "matching": {
+            "expected_rows": 54714,
+            "actual_rows": 54946,
+            "rows_abs_error": 232,
+            "rows_pct_error": 0.00424023101948313,
+            "expected_rows_matched_only": 20237,
+            "expected_rows_singleton_aware": 54714,
+            "rows_pct_error_matched_only": 1.715125759746998,
+            "rows_pct_error_singleton_aware": 0.00424023101948313,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54714,
+            "actual_unique_ids": 54946,
+            "unique_ids_abs_error": 232,
+            "unique_ids_pct_error": 0.00424023101948313,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-03T14:13:41.757703+00:00"
+          }
+        }
+      }
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-03T14:29:28.919371Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_metacritic_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_metacritic_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 54834,
+          "unique_ids": 54834
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 54427,
+            "actual_rows": 54834,
+            "rows_abs_error": 407,
+            "rows_pct_error": 0.007477906186267845,
+            "expected_rows_matched_only": 20524,
+            "expected_rows_singleton_aware": 54427,
+            "rows_pct_error_matched_only": 1.6717014227246152,
+            "rows_pct_error_singleton_aware": 0.007477906186267845,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54427,
+            "actual_unique_ids": 54834,
+            "unique_ids_abs_error": 407,
+            "unique_ids_pct_error": 0.007477906186267845,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-03T14:29:28.918255+00:00"
+          },
+          "matching": {
+            "expected_rows": 54714,
+            "actual_rows": 54834,
+            "rows_abs_error": 120,
+            "rows_pct_error": 0.002193222941111964,
+            "expected_rows_matched_only": 20237,
+            "expected_rows_singleton_aware": 54714,
+            "rows_pct_error_matched_only": 1.7095913425903049,
+            "rows_pct_error_singleton_aware": 0.002193222941111964,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54714,
+            "actual_unique_ids": 54834,
+            "unique_ids_abs_error": 120,
+            "unique_ids_pct_error": 0.002193222941111964,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-03T14:29:28.918280+00:00"
+          }
+        }
+      }
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-03T14:45:11.848687Z",
+      "files": {
+        "pipeline_code": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_musicbrainz_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_fullcontact_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_fullcontact_dbpedia_mbm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_metacritic_dbpedia.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_metacritic_dbpedia_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_metacritic_sales.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_metacritic_sales_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_musicbrainz_lastfm.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_musicbrainz_lastfm_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_sales_metacritic.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_sales_metacritic_pp.csv",
+          "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260303_125833_844806/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 54394,
+          "unique_ids": 54394
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 54427,
+            "actual_rows": 54394,
+            "rows_abs_error": 33,
+            "rows_pct_error": 0.000606316717805501,
+            "expected_rows_matched_only": 20524,
+            "expected_rows_singleton_aware": 54427,
+            "rows_pct_error_matched_only": 1.6502631066068993,
+            "rows_pct_error_singleton_aware": 0.000606316717805501,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54427,
+            "actual_unique_ids": 54394,
+            "unique_ids_abs_error": 33,
+            "unique_ids_pct_error": 0.000606316717805501,
+            "reasoning": "Estimate is close to actual fused size. Blocking likely generated broader candidate space than what matching+fusion accepted.",
+            "compared_at": "2026-03-03T14:45:11.846757+00:00"
+          },
+          "matching": {
+            "expected_rows": 54714,
+            "actual_rows": 54394,
+            "rows_abs_error": 320,
+            "rows_pct_error": 0.005848594509631904,
+            "expected_rows_matched_only": 20237,
+            "expected_rows_singleton_aware": 54714,
+            "rows_pct_error_matched_only": 1.6878489894747246,
+            "rows_pct_error_singleton_aware": 0.005848594509631904,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54714,
+            "actual_unique_ids": 54394,
+            "unique_ids_abs_error": 320,
+            "unique_ids_pct_error": 0.005848594509631904,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems optimistic; thresholds or fusion constraints likely reduced surviving clusters.",
+            "compared_at": "2026-03-03T14:45:11.846815+00:00"
+          }
+        }
+      }
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "test",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-03T14:14:38.028040Z",
+      "metrics": {
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15,
+        "criticScore_accuracy": 0.9333333333333333,
+        "criticScore_count": 15,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "macro_accuracy": 0.7363095238095239,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "num_evaluated_attributes": 8,
+        "num_evaluated_records": 15,
+        "overall_accuracy": 0.7394957983193278,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.8666666666666667,
+        "releaseYear_count": 15,
+        "total_correct": 88,
+        "total_evaluations": 119,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260303_125833_844806/evaluation/test/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260303_125833_844806/evaluation/test/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260303_125833_844806/evaluation/test/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260303_125833_844806/evaluation/test/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "test",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-03T14:30:14.350698Z",
+      "metrics": {
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "criticScore_accuracy": 0.8,
+        "criticScore_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "macro_accuracy": 0.6779761904761905,
+        "name_accuracy": 0.8666666666666667,
+        "name_count": 15,
+        "num_evaluated_attributes": 8,
+        "num_evaluated_records": 15,
+        "overall_accuracy": 0.680672268907563,
+        "platform_accuracy": 0.3333333333333333,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "releaseYear_accuracy": 0.9333333333333333,
+        "releaseYear_count": 15,
+        "total_correct": 81,
+        "total_evaluations": 119,
+        "userScore_accuracy": 0.35714285714285715,
+        "userScore_count": 14
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260303_125833_844806/evaluation/test/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260303_125833_844806/evaluation/test/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260303_125833_844806/evaluation/test/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260303_125833_844806/evaluation/test/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "test",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-03T14:45:58.189683Z",
+      "metrics": {
+        "overall_accuracy": 0.5966386554621849,
+        "macro_accuracy": 0.5952380952380951,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 71,
+        "releaseYear_accuracy": 0.5333333333333333,
+        "releaseYear_count": 15,
+        "publisher_accuracy": 0.8666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.5333333333333333,
+        "criticScore_count": 15,
+        "name_accuracy": 0.7333333333333333,
+        "name_count": 15,
+        "developer_accuracy": 0.5333333333333333,
+        "developer_count": 15,
+        "userScore_accuracy": 0.42857142857142855,
+        "userScore_count": 14,
+        "ESRB_accuracy": 0.6,
+        "ESRB_count": 15,
+        "platform_accuracy": 0.5333333333333333,
+        "platform_count": 15
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260303_125833_844806/evaluation/test/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260303_125833_844806/evaluation/test/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260303_125833_844806/evaluation/test/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260303_125833_844806/evaluation/test/cycle_03/exec_01/evaluation_execution.json"
+      }
+    }
+  ],
+  "normalization_execution_result": "success",
+  "normalization_attempts": 3,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 3,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/games/testsets/test_set.xml",
+    "validation_style": {
+      "inferred_country_output_format": "name",
+      "used_country_output_format": "name",
+      "lowercase_columns_hint": [
+        "id"
+      ],
+      "validation_list_like_columns_hint": [
+        "genres_genre"
+      ],
+      "case_profile": {
+        "id": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 15
+        },
+        "name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 15
+        },
+        "developer": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 15
+        },
+        "genres_genre": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 15
+        },
+        "publisher": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 15
+        },
+        "platform": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 15
+        },
+        "ESRB": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 15
+        }
+      }
+    },
+    "normalization_directives": {
+      "lowercase_columns": [
+        "id"
+      ],
+      "text_columns": [
+        "platform",
+        "publisher"
+      ],
+      "country_output_format": "name",
+      "list_normalization_required": false,
+      "needs_normalization": true,
+      "reasons": [
+        "Evaluation reasoning and mismatch examples indicate representation mismatches (e.g., platform like \"PS3\" vs \"playstation 3\", publisher like \"SCEA\" vs \"sony computer entertainment\") that can break exact comparisons even when the entity is correct.",
+        "Fusion pipeline notes mention list scalarization behavior (\"_scalarize_list_to_str picks first element\"), which can yield unstable scalar outputs from list-like values; this is a normalization/canonicalization risk.",
+        "Diagnostics explicitly show no case-only mismatch pattern, so normalization should target platform/publisher canonical forms and list-to-scalar consistency rather than broad lowercasing."
+      ],
+      "recommendation_summary": "Rerun normalization focused on canonicalizing platform strings to validation-style abbreviations (e.g., PS3/DS/Xbox 360) and harmonizing publisher abbreviations (e.g., SCEA vs Sony Computer Entertainment) without changing case for name/developer/publisher/platform. Keep id lowercased per validation hints. Additionally ensure list-like values are deterministically scalarized (not arbitrary first-element selection) to reduce formatting-driven mismatches.",
+      "confidence": 0.74
+    },
+    "ablation_report": {
+      "evaluated_subsets": [
+        {
+          "subset": "lowercase_columns",
+          "keys": [
+            "lowercase_columns"
+          ],
+          "projected_delta": 0.009,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.009,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 1.0,
+            "normalization_pressure": 1.0,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "id"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "text_columns",
+          "keys": [
+            "text_columns"
+          ],
+          "projected_delta": 0.006333,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.006333,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.666667,
+            "normalization_pressure": 1.0,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "platform",
+              "publisher"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "combined",
+          "keys": [
+            "list_columns",
+            "country_columns",
+            "lowercase_columns",
+            "text_columns"
+          ],
+          "projected_delta": 0.005667,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.005667,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.583333,
+            "normalization_pressure": 1.0,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "genres_genre",
+              "id",
+              "platform",
+              "publisher"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "list_columns",
+          "keys": [
+            "list_columns"
+          ],
+          "projected_delta": 0.001,
+          "allow": false,
+          "details": {
+            "allow": false,
+            "projected_delta": 0.001,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.0,
+            "normalization_pressure": 1.0,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "genres_genre"
+            ],
+            "reason": "insufficient projected gain"
+          }
+        }
+      ],
+      "selected_keys": [
+        "lowercase_columns",
+        "text_columns"
+      ],
+      "pruned_directives": {
+        "lowercase_columns": [
+          "id"
+        ],
+        "text_columns": [
+          "platform",
+          "publisher"
+        ],
+        "country_output_format": "name",
+        "list_normalization_required": false,
+        "needs_normalization": true,
+        "reasons": [
+          "Evaluation reasoning and mismatch examples indicate representation mismatches (e.g., platform like \"PS3\" vs \"playstation 3\", publisher like \"SCEA\" vs \"sony computer entertainment\") that can break exact comparisons even when the entity is correct.",
+          "Fusion pipeline notes mention list scalarization behavior (\"_scalarize_list_to_str picks first element\"), which can yield unstable scalar outputs from list-like values; this is a normalization/canonicalization risk.",
+          "Diagnostics explicitly show no case-only mismatch pattern, so normalization should target platform/publisher canonical forms and list-to-scalar consistency rather than broad lowercasing."
+        ],
+        "recommendation_summary": "Rerun normalization focused on canonicalizing platform strings to validation-style abbreviations (e.g., PS3/DS/Xbox 360) and harmonizing publisher abbreviations (e.g., SCEA vs Sony Computer Entertainment) without changing case for name/developer/publisher/platform. Keep id lowercased per validation hints. Additionally ensure list-like values are deterministically scalarized (not arbitrary first-element selection) to reduce formatting-driven mismatches.",
+        "confidence": 0.74
+      },
+      "selection_reason": "selected subsets with positive projected gain"
+    },
+    "shadow_precheck": {},
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "datasets": {
+      "dbpedia": {
+        "input_path": "output/normalization/attempt_2/dbpedia.csv",
+        "output_path": "output/normalization/attempt_3/dbpedia.csv",
+        "row_count": 46580,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "releaseYear": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "developer": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "platform": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 6,
+          "normalized_columns": 6,
+          "rows_processed": 46580,
+          "overall_success_rate": 1.0,
+          "processing_time": 45.81581211090088,
+          "type_distribution": {
+            "STRING": 5,
+            "DATE": 1
+          }
+        }
+      },
+      "metacritic": {
+        "input_path": "output/normalization/attempt_2/metacritic.csv",
+        "output_path": "output/normalization/attempt_3/metacritic.csv",
+        "row_count": 20494,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "releaseYear": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "developer": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "platform": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "ESRB": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 8,
+          "normalized_columns": 8,
+          "rows_processed": 20494,
+          "overall_success_rate": 1.0,
+          "processing_time": 55.612630128860474,
+          "type_distribution": {
+            "STRING": 5,
+            "DATE": 1,
+            "NUMERIC": 2
+          }
+        }
+      },
+      "sales": {
+        "input_path": "output/normalization/attempt_2/sales.csv",
+        "output_path": "output/normalization/attempt_3/sales.csv",
+        "row_count": 7877,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "releaseYear": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "developer": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "publisher": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "platform": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "ESRB": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 10,
+          "normalized_columns": 10,
+          "rows_processed": 7877,
+          "overall_success_rate": 1.0,
+          "processing_time": 64.4963390827179,
+          "type_distribution": {
+            "STRING": 7,
+            "DATE": 1,
+            "NUMERIC": 2
+          }
+        }
+      }
+    },
+    "warnings": [],
+    "failure_tags": [
+      "ok"
+    ],
+    "reverted_to_original": false,
+    "created_at": "2026-03-03T15:37:24.859281"
+  },
+  "normalization_directives": {
+    "lowercase_columns": [
+      "id"
+    ],
+    "text_columns": [
+      "platform",
+      "publisher"
+    ],
+    "country_output_format": "name",
+    "list_normalization_required": false,
+    "needs_normalization": true,
+    "reasons": [
+      "Evaluation reasoning and mismatch examples indicate representation mismatches (e.g., platform like \"PS3\" vs \"playstation 3\", publisher like \"SCEA\" vs \"sony computer entertainment\") that can break exact comparisons even when the entity is correct.",
+      "Fusion pipeline notes mention list scalarization behavior (\"_scalarize_list_to_str picks first element\"), which can yield unstable scalar outputs from list-like values; this is a normalization/canonicalization risk.",
+      "Diagnostics explicitly show no case-only mismatch pattern, so normalization should target platform/publisher canonical forms and list-to-scalar consistency rather than broad lowercasing."
+    ],
+    "recommendation_summary": "Rerun normalization focused on canonicalizing platform strings to validation-style abbreviations (e.g., PS3/DS/Xbox 360) and harmonizing publisher abbreviations (e.g., SCEA vs Sony Computer Entertainment) without changing case for name/developer/publisher/platform. Keep id lowercased per validation hints. Additionally ensure list-like values are deterministically scalarized (not arbitrary first-element selection) to reduce formatting-driven mismatches.",
+    "confidence": 0.74
+  },
+  "investigator_action_plan": [
+    {
+      "source": "recommendations",
+      "action": "Normalize list-like attributes to a consistent representation (prefer true lists or deterministic delimited strings); avoid 'pick first element' scalarization.",
+      "target_attributes": [
+        "_fusion_source_datasets",
+        "series"
+      ],
+      "evidence_summary": "List representation issues across 2 columns; top problematic: [('fused', '_fusion_source_datasets', 1500, 0.0), ('fused', 'series', 808, 0.0)]",
+      "expected_impact": "MEDIUM",
+      "confidence": 0.72,
+      "priority_score": 0.544
+    },
+    {
+      "source": "recommendations",
+      "action": "Provide normalized source dataset CSVs for attribute-level agreement diagnostics.",
+      "target_attributes": [],
+      "evidence_summary": "No readable source CSVs in context: []",
+      "expected_impact": "MEDIUM",
+      "confidence": 0.7,
+      "priority_score": 0.537
+    }
+  ],
+  "normalized_datasets": [
+    "output/normalization/attempt_3/dbpedia.csv",
+    "output/normalization/attempt_3/metacritic.csv",
+    "output/normalization/attempt_3/sales.csv"
+  ],
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-03-03T14:49:16.072278+00:00",
+    "summary": {
+      "created_at": "2026-03-03T14:49:16.072278+00:00",
+      "evaluation_stage": null,
+      "matcher_mode": null,
+      "overall_accuracy": null,
+      "findings_count": 2,
+      "recommendations_count": 2,
+      "severity_counts": {
+        "HIGH": 0,
+        "MEDIUM": 2,
+        "LOW": 0,
+        "INFO": 0
+      },
+      "key_artifacts": {
+        "fused_csv": "output/data_fusion/fusion_data.csv",
+        "debug_jsonl": null,
+        "correspondences_dir": null,
+        "normalized_datasets": []
+      }
+    },
+    "findings": [
+      {
+        "severity": "MEDIUM",
+        "title": "List-format inconsistencies detected (JSON-list strings vs scalars vs malformed encodings)",
+        "details": {
+          "datasets": [
+            {
+              "dataset": "fused",
+              "columns": [
+                {
+                  "column": "_fusion_source_datasets",
+                  "sampled_nonempty": 1500,
+                  "scalar_count": 0,
+                  "listish_count": 1500,
+                  "json_list_count": 1500,
+                  "delimited_list_count": 0,
+                  "malformed_list_count": 1500,
+                  "mixed_representation_ratio": 0.0
+                },
+                {
+                  "column": "series",
+                  "sampled_nonempty": 1500,
+                  "scalar_count": 0,
+                  "listish_count": 1500,
+                  "json_list_count": 1500,
+                  "delimited_list_count": 0,
+                  "malformed_list_count": 808,
+                  "mixed_representation_ratio": 0.0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "No source datasets loaded",
+        "details": {
+          "paths": []
+        }
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "Normalize list-like attributes to a consistent representation (prefer true lists or deterministic delimited strings); avoid 'pick first element' scalarization.",
+        "target_attributes": [
+          "_fusion_source_datasets",
+          "series"
+        ],
+        "evidence_summary": "List representation issues across 2 columns; top problematic: [('fused', '_fusion_source_datasets', 1500, 0.0), ('fused', 'series', 808, 0.0)]",
+        "expected_impact": "MEDIUM",
+        "confidence": 0.72,
+        "hints": {
+          "normalization": {
+            "list_normalization": true,
+            "preferred_representation": "json_list_or_delimited"
+          },
+          "risk": "noisy_list_fusion"
+        }
+      },
+      {
+        "action": "Provide normalized source dataset CSVs for attribute-level agreement diagnostics.",
+        "target_attributes": [],
+        "evidence_summary": "No readable source CSVs in context: []",
+        "expected_impact": "MEDIUM",
+        "confidence": 0.7,
+        "hints": {
+          "expected_inputs": [
+            "output/normalization/**/<source>.csv"
+          ]
+        }
+      }
+    ],
+    "source_attribute_agreement": {},
+    "fusion_policy_recommendations": [],
+    "diagnostics": {
+      "correspondences": {
+        "dir": null,
+        "expected_files": [],
+        "observed_files": [],
+        "empty_expected_files": [],
+        "missing_expected_files": [],
+        "stats": {}
+      },
+      "cluster_analysis": {
+        "available": false
+      },
+      "coverage": {
+        "available": false,
+        "id_alignment": {}
+      },
+      "size_estimate": {
+        "available": false
+      },
+      "debug_case_only_mismatches": {
+        "total_comparisons_scanned": 0,
+        "case_only_mismatch_count": 0,
+        "case_only_mismatch_ratio": 0.0,
+        "samples": []
+      },
+      "country_canonicalization": {
+        "issues": []
+      },
+      "list_format_inconsistencies": [
+        {
+          "dataset": "fused",
+          "columns": [
+            {
+              "column": "_fusion_source_datasets",
+              "sampled_nonempty": 1500,
+              "scalar_count": 0,
+              "listish_count": 1500,
+              "json_list_count": 1500,
+              "delimited_list_count": 0,
+              "malformed_list_count": 1500,
+              "mixed_representation_ratio": 0.0
+            },
+            {
+              "column": "series",
+              "sampled_nonempty": 1500,
+              "scalar_count": 0,
+              "listish_count": 1500,
+              "json_list_count": 1500,
+              "delimited_list_count": 0,
+              "malformed_list_count": 808,
+              "mixed_representation_ratio": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    "warnings": [
+      {
+        "type": "missing_dir",
+        "path": null,
+        "message": "Correspondences directory not found"
+      },
+      {
+        "type": "missing_file",
+        "path": null,
+        "message": "debug_fusion_eval.jsonl not found"
+      }
+    ],
+    "artifacts": {
+      "paths_scanned": [
+        "output/pipeline_evaluation/pipeline_evaluation.json",
+        "output/data_fusion/fusion_data.csv",
+        null
+      ],
+      "hashes": {
+        "output/pipeline_evaluation/pipeline_evaluation.json": "f7805b4bbdb9d2feac5cfe23e4ab663be49e3ef2",
+        "output/data_fusion/fusion_data.csv": "2f8c520b771c349951eb81826dab65b7eb5cefad"
+      }
+    }
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": {
+      "message": "Human-review artifacts generated from fused output, with source lineage and optional testset diffs.",
+      "has_testset": false,
+      "has_sources_loaded": true
+    },
+    "file_paths": {
+      "fused_input_csv": "output/data_fusion/fusion_data.csv",
+      "fused_review_table_csv": "output/human_review/fused_review_table.csv",
+      "source_lineage_long_csv": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff_csv": "output/human_review/fusion_vs_testset_diff.csv",
+      "summary_json": "output/human_review/human_review_summary.json",
+      "summary_md": "output/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 54394,
+      "source_datasets_loaded": 3,
+      "testset_rows": 28,
+      "diff_rows": 0,
+      "review_table_rows": 54394,
+      "lineage_rows": 74951,
+      "review_attributes_count": 12
+    },
+    "warnings": [
+      "No testset loaded; writing empty diff CSV."
+    ],
+    "created_at": "2026-03-03T14:50:56.619068+00:00"
+  },
+  "final_test_evaluation_execution_result": "",
+  "final_test_evaluation_metrics": {},
+  "token_usage": {
+    "prompt_tokens": 1230580,
+    "completion_tokens": 313949,
+    "total_tokens": 1544529,
+    "total_cost": 4.677715
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": [
+    {
+      "query": "DataFusionEvaluator usage example: required inputs, output schema, and how to add evaluation functions with DataFusionStrategy.add_evaluation_function",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nModule contents\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nDataFusionEngine\nDataFusionEngine.run()\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\n\n-----\n\nschema_correspondences\n(\nOptional\n[\npd.DataFrame\n]\n) – Optional schema correspondences for attribute alignment.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column\nfor that dataset. When provided, each dataset is normalized to have\na string\n_id\ncolumn derived from the specified column. If not\nprovided, the engine will use an existing\n_id\ncolumn if present,\notherwise fall back to\nid\n.\ninclude_singletons\n(\nbool\n,\ndefault True\n) – Whether to include singleton groups (records not referenced in any\ncorrespondence) in the fused output. Set to False to return only\nrecords that participate in at least one correspondence (group size > 1).\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\n\n-----\n\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:"
+    },
+    {
+      "query": "PyDI fusion evaluation functions: tokenized_match, year_only_match, numeric_tolerance_match, set_equality_match; signatures and typical kwargs",
+      "response": ".\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n) – If provided, split string values by this separator\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nvoting\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most frequent value (majority vote).\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nweighted_voting\n(\nvalues\n,\nweights\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nSelect value using weighted voting.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nweights\n(\nList\n[\nfloat\n]\n,\noptional\n) – Weights for each value. If None, uses uniform weights.\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\n\n-----\n\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n=\n1.0\n)\n[source]\n\nEvaluation function using tokenized comparison with similarity threshold.\nFor lists: Uses Jaccard similarity between lists (order doesn’t matter).\nFor strings: Tokenizes and uses Jaccard similarity between token sets.\nUseful for actor lists and titles where order and partial matches matter.\nParameters\n:\nfused_value\n(\nAny\n) – The fused value to compare.\nexpected_value\n(\nAny\n) – The expected value to compare against.\nthreshold\n(\nfloat\n,\ndefault 1.0\n) – Minimum similarity threshold (0.0 to 1.0).\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional"
+    },
+    {
+      "query": "PyDI.io load_xml: parameters for nested_handling='aggregate' and output DataFrame schema",
+      "response": "load_with_provenance\n(\nlambda\n_p\n,\n**\n_k\n:\ndf\n,\n# already loaded\npath_or_buffer\n,\nname\n=\nname\n,\nprovenance\n=\nprovenance\n,\nadd_index\n=\nadd_index\n,\nindex_column_name\n=\nindex_column_name\n,\nid_prefix\n=\nid_prefix\n,\ninclude_provenance_columns\n=\ninclude_provenance_columns\n,\nreader_name\n=\nf\n\"read_xml\n{\nreader_suffix\n}\n\"\n,\n)\nexcept\nException\nas\ne\n:\n# Fallback to pandas if custom parsing fails\ntry\n:\nlogger\n.\ninfo\n(\n\"Custom XML processing failed (\n%s\n), falling back to pandas.read_xml\"\n,\ne\n)\nexcept\nException\n:\npass\n# Final fallback to pandas.read_xml\nif\n\"parser\"\nnot\nin\nkwargs\n:\ntry\n:\nimport\nlxml\n# type: ignore # noqa: F401\nkwargs\n[\n\"parser\"\n]\n=\n\"lxml\"\nexcept\nException\n:\nkwargs\n[\n\"parser\"\n]\n=\n\"etree\"\nreturn\nload_with_provenance\n(\npd\n.\nread_xml\n,\npath_or_buffer\n,\nname\n=\nname\n,\nprovenance\n=\nprovenance\n,\nadd_index\n=\nadd_index\n,\nindex_column_name\n=\nindex_column_name\n,\nid_prefix\n=\nid_prefix\n,\ninclude_provenance_columns\n=\ninclude_provenance_columns\n,\nreader_name\n=\n\"read_xml\"\n,\n**\nkwargs\n,\n)\ndef\n_read_and_flatten_xml\n(\nfile_path\n:\nPath\n,\nrecord_tag\n:\nOptional\n[\nstr\n]\n=\nNone\n,\nnested_handling\n:\nstr\n=\n\"aggregate\"\n,\nseparator\n:\nstr\n=\n\", \"\n)\n->\npd\n.\nDataFrame\n:\n\n-----\n\nnested_handling\nnot\nin\nvalid_modes\n:\nraise\nValueError\n(\nf\n\"nested_handling must be one of\n{\nvalid_modes\n}\n, got:\n{\nnested_handling\n}\n\"\n)\n# Handle \"raw\" mode - use pandas directly\nif\nnested_handling\n==\n\"raw\"\n:\nif\n\"parser\"\nnot\nin\nkwargs\n:\ntry\n:\nimport\nlxml\n# type: ignore # noqa: F401\nkwargs\n[\n\"parser\"\n]\n=\n\"lxml\"\nexcept\nException\n:\nkwargs\n[\n\"parser\"\n]\n=\n\"etree\"\nreturn\nload_with_provenance\n(\npd\n.\nread_xml\n,\npath_or_buffer\n,\nname\n=\nname\n,\nprovenance\n=\nprovenance\n,\nadd_index\n=\nadd_index\n,\nindex_column_name\n=\nindex_column_name\n,\nid_prefix\n=\nid_prefix\n,\ninclude_provenance_columns\n=\ninclude_provenance_columns\n,\nreader_name\n=\n\"read_xml\"\n,\n**\nkwargs\n,\n)\n# Handle custom processing modes (\"explode\" and \"aggregate\")\nif\nisinstance\n(\npath_or_buffer\n,\n(\nstr\n,\nos\n.\nPathLike\n)):\ntry\n:\ndf\n=\n_read_and_flatten_xml\n(\nPath\n(\npath_or_buffer\n),\nrecord_tag\n=\nrecord_tag\n,\nnested_handling\n=\nnested_handling\n,\nseparator\n=\nseparator\n)\nreader_suffix\n=\n\"_exploded\"\nif\nnested_handling\n==\n\"explode\"\nelse\n\"_aggregated\"\nreturn\nload_with_provenance\n(\nlambda\n_p\n,\n**\n_k\n:\ndf\n,\n# already loaded\npath_or_buffer\n,\nname\n=\nname\n,\nprovenance\n=\nprovenance\n,\nadd_index\n=\nadd_index\n,\nindex_column_name\n=\nindex_column_name\n,\nid_prefix\n\n-----\n\nrecord_tag : str, optional\nXML tag to use as record boundary. Auto-detected if not provided.\nflatten : bool, optional\nDeprecated. Use nested_handling instead.\nIf provided, maps to nested_handling: True=\"explode\", False=\"raw\".\n**kwargs\nAdditional arguments passed to pandas.read_xml.\nReturns\n-------\npd.DataFrame\nDataFrame with provenance metadata and optional identifier column.\n\"\"\"\n# Handle backward compatibility\nif\nflatten\nis\nnot\nNone\n:\ntry\n:\nimport\nwarnings\nwarnings\n.\nwarn\n(\n\"The 'flatten' parameter is deprecated. Use 'nested_handling' instead. \"\n\"flatten=True maps to nested_handling='explode', flatten=False maps to nested_handling='raw'.\"\n,\nDeprecationWarning\n,\nstacklevel\n=\n2\n)\nexcept\nException\n:\npass\n# Map old parameter to new one if nested_handling wasn't explicitly set\nif\nnested_handling\n==\n\"explode\"\n:\n# default value, assume user didn't set it\nnested_handling\n=\n\"explode\"\nif\nflatten\nelse\n\"raw\"\n# Validate nested_handling parameter\nvalid_modes\n=\n{\n\"explode\"\n,\n\"aggregate\"\n,\n\"raw\"\n}\nif\nnested_handling\nnot\nin\nvalid_modes\n:\nraise\nValueError\n(\nf\n\"nested_handling must be one of\n{\nvalid_modes\n}\n, got:\n{\nnested_handling\n}\n\"\n)\n# Handle \"raw\" mode - use pandas directly\nif\nnested_handling\n\n-----\n\nreader_fn.__name__\n.\nhandle_multi_output\n(\nbool\n,\ndefault True\n) – If True, handle list/dict outputs (e.g.,\nread_excel(sheet_name=None)\n).\n**reader_kwargs\n(\nAny\n) – Additional keyword arguments forwarded to the underlying reader.\nReturns\n:\nThe loaded frame(s) with provenance metadata and optional id column.\nReturn type\n:\nDataFrame | list[DataFrame] | dict[str, DataFrame]\nPyDI.io.\nload_xml\n(\npath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\nnested_handling\n=\n'aggregate'\n,\nseparator\n=\n',\n'\n,\nrecord_tag\n=\nNone\n,\nflatten\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nRead an XML file with a provenance-aware wrapper.\nParameters\n:\npath_or_buffer\n(\nstr\nor\nos.PathLike\n) – Path to XML file to read.\nname\n(\nstr\n,\noptional\n) – Dataset name for provenance tracking.\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n,\noptional\n) – Additional provenance metadata.\nadd_index\n(\nbool\n,\ndefault False\n) – Whether to add a unique identifier column.\nindex_column_name\n(\nstr\n,\noptional\n) – Name for the unique identifier column.\nid_prefix\n(\nstr\n,\noptional\n) – Prefix for unique identifiers.\ninclude_provenance_columns\n(\nbool\n,"
+    }
+  ],
+  "integration_pipeline_code_length": 25493,
+  "evaluation_code_length": 11668,
+  "integration_diagnostics_code_length": 62537,
+  "human_review_code_length": 30091,
+  "run_audit_path": "output/results/run_audit_20260303_155056.json",
+  "run_report_path": "output/results/run_report_20260303_155056.md"
+}

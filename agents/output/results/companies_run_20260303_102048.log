@@ -1,0 +1,407 @@
+<string>:26: LangChainDeprecationWarning: Importing get_openai_callback from /Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langchain/callbacks/__init__.py is deprecated. Please replace deprecated imports:
+
+>> from /Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langchain/callbacks/__init__.py import get_openai_callback
+
+with new imports of:
+
+>> from langchain_community.callbacks.manager import get_openai_callback
+You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+[*] Starting companies run...
+[*] Running schema matching
+[*] Schema alignment columns:
+    forbes: ['name', 'Sector', 'industry', 'Continent', 'country', 'Market Value', 'Sales', 'Profits', 'assets', 'Rank', 'id']
+    dbpedia: ['id', 'name', 'founded', 'country', 'city', 'industry', 'keypeople_name', 'assets', 'Sales']
+    fullcontact: ['id', 'name', 'country', 'city', 'keypeople_name', 'founded']
+[*] Profiling datasets
+TOKEN USAGE (profile_data):
+   Model: gpt-5.2-2025-12-11
+   Prompt tokens: 285
+   Completion tokens: 80
+   Total tokens: 365
+   Estimated cost: $0.001156
+[*] Running normalization node
+[+] Normalization completed; using normalized datasets
+[*] Running BlockingTester
+[*] Loading dataset: forbes
+[*] Loading dataset: dbpedia
+[*] Loading dataset: fullcontact
+[*] Loading gold standard for forbes <-> dbpedia
+    Loaded 460 ground truth pairs (positives: 110, negatives/other: 350)
+[*] Loading gold standard for forbes <-> fullcontact
+    Loaded 500 ground truth pairs (positives: 150, negatives/other: 350)
+[*] Loading gold standard for fullcontact <-> dbpedia
+    Loaded 500 ground truth pairs (positives: 150, negatives/other: 350)
+[*] Adaptive max_candidates set to 69,375 (r=0.35%, median_pairs=19,476,066)
+
+============================================================
+🤖 BLOCKING: forbes <-> dbpedia
+============================================================
+Gold pairs: 460, PC threshold: 0.9
+Candidate limit: 69,375 (hard: 79,781 with tolerance)
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Dataset sizes: 2,000 × 10,086 = 20,172,000 potential pairs
+Common columns: ['assets', 'Sales', 'country', 'name', 'industry']
+Guardrails: strategies=['exact_match_multi', 'exact_match_single', 'token_blocking', 'semantic_similarity'], preferred_columns=['industry', 'country']
+
+--- Attempt 1/5 ---
+LLM chose: semantic_similarity on ['name', 'country', 'industry']
+  Params: {'top_k': 20}
+  Reasoning: Exact-match and token blocking are likely to miss many true matches due to name variants/casing and ...
+    Embedding (name+country+industry, k=20): 40,000 candidates
+    ✅ PC=1.0000, RR=0.9980
+✅ Found acceptable strategy!
+
+============================================================
+🤖 BLOCKING: forbes <-> fullcontact
+============================================================
+Gold pairs: 500, PC threshold: 0.9
+Candidate limit: 69,375 (hard: 79,781 with tolerance)
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Dataset sizes: 2,000 × 1,931 = 3,862,000 potential pairs
+Common columns: ['name', 'country']
+Guardrails: strategies=['exact_match_multi', 'exact_match_single', 'token_blocking', 'sorted_neighbourhood', 'ngram_blocking', 'semantic_similarity'], preferred_columns=['country', 'name']
+
+--- Attempt 1/5 ---
+LLM chose: token_blocking on ['name']
+  Params: {'min_token_len': 5}
+  Reasoning: Exact match on name is likely too low-recall due to variations (Inc, abbreviations, punctuation). To...
+    Token (name, len>=5): 21,475 candidates
+    ✅ PC=0.9267, RR=0.9944
+✅ Found acceptable strategy!
+
+============================================================
+🤖 BLOCKING: fullcontact <-> dbpedia
+============================================================
+Gold pairs: 500, PC threshold: 0.9
+Candidate limit: 69,375 (hard: 79,781 with tolerance)
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Dataset sizes: 1,931 × 10,086 = 19,476,066 potential pairs
+Common columns: ['city', 'founded', 'country', 'name', 'keypeople_name']
+Guardrails: strategies=['exact_match_multi', 'exact_match_single', 'token_blocking', 'semantic_similarity'], preferred_columns=['founded', 'city', 'country']
+
+--- Attempt 1/5 ---
+LLM chose: exact_match_multi on ['country', 'city', 'founded']
+  Params: {}
+  Reasoning: Need to reduce 19.5M potential pairs to <=69,375. Exact match on multiple preferred, relatively stan...
+    Standard (country+city+founded): 452 candidates
+    ⚠️ PC=0.3267, RR=1.0000
+
+--- Attempt 2/5 ---
+LLM chose: semantic_similarity on ['name', 'country', 'city']
+  Params: {'top_k': 20}
+  Reasoning: Exact multi-blocking on (country, city, founded) was too restrictive (low PC). Use semantic_similari...
+    Embedding (name+country+city, k=20): 38,138 candidates
+    ✅ PC=0.9933, RR=0.9980
+✅ Found acceptable strategy!
+
+============================================================
+📊 RESULTS SUMMARY: 3 pairs evaluated
+============================================================
+  ✅ forbes_dbpedia: PC=1.0000, candidates=40,000, strategy=semantic_similarity
+  ✅ forbes_fullcontact: PC=0.9267, candidates=21,475, strategy=token_blocking
+  ✅ fullcontact_dbpedia: PC=0.9933, candidates=38,138, strategy=semantic_similarity
+[*] Blocking fused-size estimate: rows=11864, unique_ids=11864
+[*] Blocking estimate breakdown: matched_only_rows=2153, singleton_aware_rows=11864
+[*] Fused-size report updated: /Users/nickblazek/Desktop/Agent_Pipeline/agents/output/pipeline_evaluation/fusion_size_estimate.json
+
+💾 Config saved to: output/blocking-evaluation/blocking_config.json
+[*] Blocking config computed:
+{
+  "blocking_strategies": {
+    "forbes_dbpedia": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "industry"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 1.0,
+      "num_candidates": 40000,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "forbes_fullcontact": {
+      "strategy": "token_blocking",
+      "columns": [
+        "name"
+      ],
+      "params": {
+        "min_token_len": 5
+      },
+      "pair_completeness": 0.9266666666666666,
+      "num_candidates": 21475,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "city"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 0.9933333333333333,
+      "num_candidates": 38138,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    }
+  },
+  "id_columns": {
+    "forbes": "id",
+    "dbpedia": "id",
+    "fullcontact": "id"
+  },
+  "dataset_signature": "dbpedia|forbes|fullcontact",
+  "dataset_names": [
+    "dbpedia",
+    "forbes",
+    "fullcontact"
+  ],
+  "pc_threshold": 0.9,
+  "max_candidates": 69375,
+  "candidate_tolerance": 0.15,
+  "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+  "fusion_size_estimate": {
+    "stage": "blocking",
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "datasets": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+    "expected_rows": 11864,
+    "expected_unique_ids": 11864,
+    "expected_rows_range": [
+      8310,
+      11888
+    ],
+    "expected_unique_ids_range": [
+      8310,
+      11888
+    ],
+    "three_way_intersection": {
+      "enabled": true,
+      "datasets": [
+        "forbes",
+        "dbpedia",
+        "fullcontact"
+      ],
+      "pair_cluster_estimates": {
+        "forbes_dbpedia": 2000,
+        "forbes_fullcontact": 1789,
+        "dbpedia_fullcontact": 1918
+      },
+      "triple_intersection_estimates": {
+        "via_forbes": 1789.0,
+        "via_dbpedia": 380.32916914534997,
+        "via_fullcontact": 1776.9559813568098,
+        "median_used": 1776.9559813568098,
+        "final_triple_intersection": 1777,
+        "triple_intersection_range": [
+          0,
+          1789
+        ]
+      },
+      "expected_union_clusters": 2153,
+      "expected_union_range": [
+        2129,
+        5707
+      ],
+      "formula": "E_union = E12 + E13 + E23 - 2*E123"
+    },
+    "pair_estimates": [
+      {
+        "pair_key": "forbes_dbpedia",
+        "left_dataset": "forbes",
+        "right_dataset": "dbpedia",
+        "min_pair_size": 2000,
+        "pair_completeness": 1.0,
+        "expected_cluster_count": 2000
+      },
+      {
+        "pair_key": "forbes_fullcontact",
+        "left_dataset": "forbes",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 0.9266666666666666,
+        "expected_cluster_count": 1789
+      },
+      {
+        "pair_key": "fullcontact_dbpedia",
+        "left_dataset": "dbpedia",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 0.9933333333333333,
+        "expected_cluster_count": 1918
+      }
+    ],
+    "created_at": "2026-03-03T09:23:52.092645+00:00",
+    "expected_rows_matched_only": 2153,
+    "expected_unique_ids_matched_only": 2153,
+    "expected_rows_matched_only_range": [
+      2129,
+      5707
+    ],
+    "expected_unique_ids_matched_only_range": [
+      2129,
+      5707
+    ],
+    "expected_rows_singleton_aware": 11864,
+    "expected_unique_ids_singleton_aware": 11864,
+    "expected_rows_singleton_aware_range": [
+      8310,
+      11888
+    ],
+    "expected_unique_ids_singleton_aware_range": [
+      8310,
+      11888
+    ],
+    "singleton_assumption": {
+      "assumed_include_singletons": true,
+      "total_input_rows": 14017,
+      "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+      "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+    }
+  }
+}
+[*] Using MatchingTester module: /Users/nickblazek/Desktop/Agent_Pipeline/agents/matching_tester.py
+[*] Running MatchingTester
+[*] Loading dataset: forbes
+[*] Loading dataset: dbpedia
+[*] Loading dataset: fullcontact
+[*] Normalized list-like columns for matching: keypeople_name
+[*] Loading matching gold standard for forbes <-> dbpedia
+    Loaded 460 ground truth pairs
+[*] Loading matching gold standard for forbes <-> fullcontact
+    Loaded 500 ground truth pairs
+[*] Loading matching gold standard for fullcontact <-> dbpedia
+    Loaded 500 ground truth pairs
+
+==================================================
+MATCHING EVALUATION
+==================================================
+
+==================================================
+MATCHING: forbes <-> dbpedia
+==================================================
+    Using ID column: 'id'
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Blocking columns: ['name', 'country', 'industry']
+Guardrails preferred columns: ['industry', 'country']
+Candidates: full=40,000, proxy_sample=40,000 (margin=0.015)
+
+--- Attempt 1/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler', 'industry:cosine']
+Weights: [0.65, 0.2, 0.15]
+Threshold: 0.78
+    Reasoning: Use blocking/preferred scalar string columns. Name is the strongest identifier (no nulls) so highest weight with typo-robust Jaro-Winkler. Country is low-null and helps disambiguate. Industry is informative but noisier and partially null on the right, so lower weight and token-based cosine. Avoid numeric fields due to very high null rates on dbpedia.
+    Reasoning (100c): Use blocking/preferred scalar string columns. Name is the strongest identifier (no nulls) so highest
+SUCCESS: F1=0.8044
+
+==================================================
+MATCHING: forbes <-> fullcontact
+==================================================
+    Using ID column: 'id'
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Blocking columns: ['name']
+Guardrails preferred columns: ['country', 'name']
+Candidates: full=21,475, proxy_sample=21,475 (margin=0.015)
+
+--- Attempt 1/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler']
+Weights: [0.8, 0.2]
+Threshold: 0.88
+    Reasoning: Use 'name' as the primary identifier (also the blocking column, fully populated) with a typo-tolerant short-string metric; add 'country' as a secondary check but downweight due to higher null rate on the right.
+    Reasoning (100c): Use 'name' as the primary identifier (also the blocking column, fully populated) with a typo-toleran
+F1=0.5214 < 0.75
+
+--- Attempt 2/4 ---
+Comparators: ['name:jaro_winkler', 'country:levenshtein']
+Weights: [0.85, 0.15]
+Threshold: 0.62
+    Reasoning: Prior config underperformed; make matching rely primarily on the blocking key 'name' using a typo-tolerant short-string metric (jaro_winkler) with normalization. Use country as a light secondary signal due to higher null rate on the right, and lower the threshold to recover recall given likely abbreviations/acronyms in company names.
+    Reasoning (100c): Prior config underperformed; make matching rely primarily on the blocking key 'name' using a typo-to
+    Proxy stage: F1=0.4413, required>=0.5364 -> skip full
+
+--- Attempt 3/4 ---
+Comparators: ['name:jaro_winkler', 'country:jaro_winkler']
+Weights: [0.85, 0.15]
+Threshold: 0.6
+    Reasoning: Prior runs with the same columns scored low, so switch name to a typo/short-string friendly metric (jaro_winkler) and heavily weight it since it's the blocking key and fully populated. Keep country as a weak secondary signal due to high null rate on the right; lower threshold to recover recall while still requiring strong name similarity.
+    Reasoning (100c): Prior runs with the same columns scored low, so switch name to a typo/short-string friendly metric (
+    Proxy stage: F1=0.4413, required>=0.5364 -> skip full
+⏹️ Early stop: repeated no-gain proxy outcomes
+Max attempts reached. Best F1=0.5214
+
+==================================================
+MATCHING: fullcontact <-> dbpedia
+==================================================
+    Using ID column: 'id'
+    Using ID column: 'id'
+    Gold id1 -> left(id), id2 -> right(id)
+Traceback (most recent call last):
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/run_companies_only.py", line 65, in <module>
+    result = agent.graph.invoke(invoke_payload, config={"recursion_limit": 200})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3085, in invoke
+    for chunk in self.stream(
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2674, in stream
+    for _ in runner.tick(
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 162, in tick
+    run_with_retry(
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 657, in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 401, in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 1246, in run_matching_tester
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/matching_tester.py", line 1950, in run_all
+    result = self.run_pair_with_llm(name_left, name_right, id_column)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/matching_tester.py", line 1579, in run_pair_with_llm
+    analysis = self._analyze_columns_for_pair(name_left, name_right, id_column)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/matching_tester.py", line 378, in _analyze_columns_for_pair
+    "unique_left": int(left_col.nunique(dropna=True)) if hasattr(left_col, "nunique") else -1,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/pandas/core/base.py", line 1067, in nunique
+    uniqs = self.unique()
+            ^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/pandas/core/series.py", line 2419, in unique
+    return super().unique()
+           ^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/pandas/core/base.py", line 1029, in unique
+    result = algorithms.unique1d(values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/pandas/core/algorithms.py", line 401, in unique
+    return unique_with_mask(values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nickblazek/Desktop/Agent_Pipeline/agents/venv/lib/python3.12/site-packages/pandas/core/algorithms.py", line 440, in unique_with_mask
+    uniques = table.unique(values)
+              ^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7260, in pandas._libs.hashtable.PyObjectHashTable.unique
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7203, in pandas._libs.hashtable.PyObjectHashTable._unique
+TypeError: unhashable type: 'list'
+During task with name 'run_matching_tester' and id '35644dc0-400c-841a-cef9-6622c7187899'
