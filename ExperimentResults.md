@@ -2,7 +2,18 @@
 
 - Model: gpt-5.1
 
-# Experiment Results (Fusion Accuracy)
+# Experiment Results - New Evaluation Template (Fusion Accuracy)
+
+| Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
+|--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
+| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |       |             |       |       |
+| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |       |             |       |       |
+| [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|       |             |       |       |
+| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|       |             |       |       |
+| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |          |             |       |             |
+| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |          |             |       |             |
+
+# Experiment Results - Old Evaluation Template (Fusion Accuracy)
 
 | Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
