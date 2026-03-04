@@ -42,6 +42,25 @@ def apply_pipeline_guardrails(pipeline_code: str, state: Dict[str, Any]) -> str:
             count=1,
         )
 
+    # Freeze tested matching thresholds from matching_config.
+    matching_config = state.get("matching_config", {}) if isinstance(state, dict) else {}
+    strategies = matching_config.get("matching_strategies", {}) if isinstance(matching_config, dict) else {}
+    if isinstance(strategies, dict):
+        for pair_key, cfg in strategies.items():
+            if not isinstance(cfg, dict) or "threshold" not in cfg:
+                continue
+            var_name = f"threshold_{pair_key}"
+            try:
+                threshold_value = float(cfg["threshold"])
+            except Exception:
+                continue
+            updated_code = re.sub(
+                rf"({re.escape(var_name)}\s*=\s*)([0-9]*\.?[0-9]+)",
+                rf"\g<1>{threshold_value}",
+                updated_code,
+                count=1,
+            )
+
     # Ensure custom fusers are fully PyDI-compatible:
     # - callable signature supports resolver kwargs
     # - return shape is (value, confidence, metadata)

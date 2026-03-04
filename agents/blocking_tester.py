@@ -3,6 +3,8 @@ import math
 import os
 import re
 import statistics
+import traceback
+from datetime import datetime, timezone
 from typing import Dict, List, Tuple, Any, Optional
 
 import pandas as pd
@@ -30,6 +32,9 @@ except ImportError:
     )
 
 
+NO_GAIN_EPSILON = 0.005
+NO_GAIN_PATIENCE = 2
+
 
 def load_dataset(path: str) -> pd.DataFrame:
     if not os.path.exists(path):
@@ -42,13 +47,6 @@ def load_dataset(path: str) -> pd.DataFrame:
     if ext == ".xml":
         return load_xml(path, nested_handling="aggregate")
     raise ValueError(f"Unsupported format: {ext}. Supported: .csv, .parquet, .xml")
-
-
-import pandas as pd
-import re
-import traceback
-from typing import Dict, List, Tuple, Any, Optional
-from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker, TokenBlocker, SortedNeighbourhoodBlocker, EntityMatchingEvaluator
 
 # Strategy descriptions with computational guidance for LLM
 STRATEGY_DESCRIPTIONS = """
@@ -392,6 +390,8 @@ class BlockingTester:
             column_details[col] = {
                 "dtype": str(left_col.dtype),
                 "null_pct": f"{left_col.isnull().mean()*100:.0f}%/{right_col.isnull().mean()*100:.0f}%",
+                "null_rate_left": float(left_col.isnull().mean()),
+                "null_rate_right": float(right_col.isnull().mean()),
                 "unique_left": unique_left,
                 "unique_right": unique_right,
                 "avg_tokens": round(avg_tokens, 1),
@@ -410,8 +410,194 @@ class BlockingTester:
             "common_columns": list(common_cols),
             "column_details": column_details
         }
+
+    @staticmethod
+    def _column_quality_score(details: Dict[str, Any]) -> float:
+        null_left = float(details.get("null_rate_left", 1.0) or 1.0)
+        null_right = float(details.get("null_rate_right", 1.0) or 1.0)
+        avg_null = (null_left + null_right) / 2.0
+        unique_left = int(details.get("unique_left", -1))
+        unique_right = int(details.get("unique_right", -1))
+        avg_tokens = float(details.get("avg_tokens", 0.0) or 0.0)
+        dtype = str(details.get("dtype", "")).lower()
+
+        uniqueness = 0.0
+        if unique_left > 0 and unique_right > 0:
+            uniqueness = min(unique_left, unique_right) / max(unique_left, unique_right)
+        text_bonus = min(0.2, avg_tokens / 15.0)
+        dtype_penalty = 0.15 if any(x in dtype for x in ("list", "dict", "object")) and avg_tokens > 14 else 0.0
+        return max(0.0, min(1.0, (1.0 - avg_null) * 0.7 + uniqueness * 0.3 + text_bonus - dtype_penalty))
+
+    def _build_strategy_guardrails(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        details = analysis.get("column_details", {}) if isinstance(analysis, dict) else {}
+        potential_pairs = int(analysis.get("potential_pairs", 0) or 0)
+        common_columns = [c for c in analysis.get("common_columns", []) if c in details]
+
+        scored_cols = []
+        for col in common_columns:
+            d = details.get(col, {})
+            score = self._column_quality_score(d)
+            scored_cols.append((score, col, d))
+        scored_cols.sort(reverse=True, key=lambda x: x[0])
+
+        preferred_columns = [col for score, col, _ in scored_cols if score >= 0.25][:6]
+        if not preferred_columns:
+            preferred_columns = [col for _, col, _ in scored_cols[:4]]
+        low_null_columns = [
+            col for _, col, d in scored_cols
+            if (float(d.get("null_rate_left", 1.0)) + float(d.get("null_rate_right", 1.0))) / 2.0 <= 0.40
+        ]
+        if potential_pairs > 100_000_000:
+            allowed_strategies = ["exact_match_multi", "exact_match_single", "semantic_similarity"]
+        elif potential_pairs > 10_000_000:
+            allowed_strategies = ["exact_match_multi", "exact_match_single", "token_blocking", "semantic_similarity"]
+        else:
+            allowed_strategies = [
+                "exact_match_multi",
+                "exact_match_single",
+                "token_blocking",
+                "sorted_neighbourhood",
+                "ngram_blocking",
+                "semantic_similarity",
+            ]
+
+        return {
+            "allowed_strategies": allowed_strategies,
+            "preferred_columns": preferred_columns,
+            "low_null_columns": low_null_columns,
+            "pair_size_bucket": (
+                "very_large" if potential_pairs > 100_000_000 else "large" if potential_pairs > 10_000_000 else "normal"
+            ),
+        }
+
+    def _apply_strategy_guardrails(
+        self,
+        strategy_choice: Dict[str, Any],
+        guardrails: Dict[str, Any],
+        valid_columns: List[str],
+    ) -> Dict[str, Any]:
+        out = dict(strategy_choice or {})
+        allowed_strategies = set(guardrails.get("allowed_strategies", []))
+        preferred_columns = [c for c in guardrails.get("preferred_columns", []) if c in valid_columns]
+        low_null_columns = [c for c in guardrails.get("low_null_columns", []) if c in valid_columns]
+
+        strategy = out.get("strategy", "exact_match_single")
+        if allowed_strategies and strategy not in allowed_strategies:
+            strategy = "exact_match_multi" if "exact_match_multi" in allowed_strategies else "semantic_similarity"
+            out["strategy"] = strategy
+
+        columns = [c for c in out.get("columns", []) if c in valid_columns]
+        if not columns:
+            columns = preferred_columns[:2] if strategy == "exact_match_multi" else preferred_columns[:1]
+        if strategy in {"exact_match_single", "token_blocking", "ngram_blocking", "sorted_neighbourhood"}:
+            columns = columns[:1]
+            if not columns:
+                columns = (low_null_columns or preferred_columns or valid_columns[:1])[:1]
+        elif strategy == "exact_match_multi":
+            if len(columns) < 2:
+                seed = low_null_columns or preferred_columns or valid_columns
+                columns = seed[:2] if len(seed) >= 2 else seed[:1]
+        elif strategy == "semantic_similarity":
+            if len(columns) < 2:
+                seed = preferred_columns or valid_columns
+                columns = seed[: min(3, len(seed))]
+        out["columns"] = columns if columns else valid_columns[:1]
+
+        bucket = guardrails.get("pair_size_bucket")
+        if out.get("strategy") == "token_blocking" and bucket in {"large", "very_large"}:
+            out["min_token_len"] = max(5, int(out.get("min_token_len", 4)))
+        if out.get("strategy") == "ngram_blocking" and bucket in {"large", "very_large"}:
+            out["ngram_size"] = max(4, int(out.get("ngram_size", 4)))
+        if out.get("strategy") == "semantic_similarity" and bucket in {"large", "very_large"}:
+            out["top_k"] = min(20, int(out.get("top_k", 20)))
+        return out
+
+    def _append_llm_trace(self, payload: Dict[str, Any]) -> None:
+        path = os.path.join(self.output_dir, "llm_blocking_trace.jsonl")
+        try:
+            with open(path, "a", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False)
+                f.write("\n")
+        except Exception:
+            return
+
+    @staticmethod
+    def _utc_now_z() -> str:
+        return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    def _trace_event(
+        self,
+        *,
+        pair: str,
+        decision: str,
+        attempt: Optional[int] = None,
+        extra: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        payload: Dict[str, Any] = {
+            "timestamp": self._utc_now_z(),
+            "pair": pair,
+            "decision": decision,
+        }
+        if attempt is not None:
+            payload["attempt"] = attempt
+        if isinstance(extra, dict) and extra:
+            payload.update(extra)
+        self._append_llm_trace(payload)
+
+    def _strategy_choice_payload(self, strategy_choice: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "strategy": strategy_choice.get("strategy"),
+            "columns": strategy_choice.get("columns", []),
+            "params": self._strategy_params(strategy_choice),
+            "reasoning": strategy_choice.get("reasoning", ""),
+        }
+
+    @staticmethod
+    def _failure_tags_for_blocking_event(
+        *,
+        acceptance_reason: str = "",
+        pair_completeness: float = 0.0,
+        threshold: float = 0.9,
+        error: str = "",
+    ) -> List[str]:
+        tags: List[str] = []
+        reason = str(acceptance_reason or "").lower()
+        if error:
+            tags.append("runtime_error")
+        if reason in {"exceeds_hard_limit", "exceeds_soft_limit"}:
+            tags.append("candidate_explosion")
+        if reason == "low_pc" or pair_completeness < threshold:
+            tags.append("low_blocking_recall")
+        if not tags and pair_completeness >= threshold:
+            tags.append("ok")
+        if not tags:
+            tags.append("needs_review")
+        return tags
+
+    @staticmethod
+    def _confidence_stop_for_pc(pc_history: List[float], best_pc: float, threshold: float) -> Dict[str, Any]:
+        if len(pc_history) < 3:
+            return {"stop": False, "reason": "insufficient_history", "confidence": 0.0}
+        last = pc_history[-3:]
+        span = max(last) - min(last)
+        if span <= 0.003 and best_pc < threshold:
+            confidence = min(0.98, 0.70 + 0.08 * (len(pc_history) - 2))
+            return {
+                "stop": True,
+                "reason": "low_variance_below_pc_threshold",
+                "confidence": round(confidence, 3),
+                "span_last": round(span, 6),
+                "best_pc": round(best_pc, 6),
+            }
+        return {"stop": False, "reason": "continue_search", "confidence": 0.0}
     
-    def _ask_llm_for_strategy(self, analysis: Dict[str, Any], previous_attempts: List[Dict] = None, last_error: str = None) -> Dict[str, Any]:
+    def _ask_llm_for_strategy(
+        self,
+        analysis: Dict[str, Any],
+        previous_attempts: List[Dict] = None,
+        last_error: str = None,
+        guardrails: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Ask LLM to select a blocking strategy with full parameter control."""
         
         system_prompt = f"""You are a blocking strategy optimizer for entity matching.
@@ -461,6 +647,16 @@ Common columns: {analysis['common_columns']}
 Column details:
 {json.dumps(analysis['column_details'], indent=2)}"""
 
+        if isinstance(guardrails, dict) and guardrails:
+            human_content += f"""
+
+PAIR GUARDRAILS (must obey):
+- Allowed strategies: {guardrails.get('allowed_strategies', [])}
+- Preferred columns (best quality): {guardrails.get('preferred_columns', [])}
+- Low-null columns: {guardrails.get('low_null_columns', [])}
+- Pair size bucket: {guardrails.get('pair_size_bucket', 'normal')}
+"""
+
         failure_summary = self._format_previous_failures(analysis['left_dataset'], analysis['right_dataset'])
         if failure_summary:
             human_content += f"""
@@ -502,7 +698,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         response_content = response.content if hasattr(response, 'content') else response
         response_text = self._coerce_response_text(response_content)
         
-        return self._parse_llm_response(response_text, analysis['common_columns'])
+        parsed = self._parse_llm_response(response_text, analysis['common_columns'])
+        return self._apply_strategy_guardrails(parsed, guardrails or {}, analysis["common_columns"])
 
     def _format_previous_failures(self, name_left: str, name_right: str) -> str:
         if not self.previous_failures:
@@ -859,16 +1056,28 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                     )
         
         analysis = self._analyze_columns_for_pair(name_left, name_right, id_column)
+        guardrails = self._build_strategy_guardrails(analysis)
         print(f"Dataset sizes: {analysis['left_size']:,} × {analysis['right_size']:,} = {analysis['potential_pairs']:,} potential pairs")
         print(f"Common columns: {analysis['common_columns']}")
+        print(
+            f"Guardrails: strategies={guardrails.get('allowed_strategies', [])}, "
+            f"preferred_columns={guardrails.get('preferred_columns', [])[:4]}"
+        )
         
         previous_attempts = []
         best_result = None
+        no_gain_streak = 0
+        best_pc = 0.0
+        pc_history: List[float] = []
         
         for attempt in range(self.max_attempts):
             print(f"\n--- Attempt {attempt + 1}/{self.max_attempts} ---")
             
-            strategy_choice = self._ask_llm_for_strategy(analysis, previous_attempts if attempt > 0 else None)
+            strategy_choice = self._ask_llm_for_strategy(
+                analysis,
+                previous_attempts if attempt > 0 else None,
+                guardrails=guardrails,
+            )
             print(f"LLM chose: {strategy_choice['strategy']} on {strategy_choice['columns']}")
             params = self._strategy_params(strategy_choice)
             print(f"  Params: {params}")
@@ -881,7 +1090,12 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             while error_retries <= self.max_error_retries:
                 if error_retries > 0:
                     print(f"  Retry {error_retries}/{self.max_error_retries} after error...")
-                    strategy_choice = self._ask_llm_for_strategy(analysis, previous_attempts, last_error=last_error)
+                    strategy_choice = self._ask_llm_for_strategy(
+                        analysis,
+                        previous_attempts,
+                        last_error=last_error,
+                        guardrails=guardrails,
+                    )
                     print(f"  LLM retry chose: {strategy_choice['strategy']} on {strategy_choice['columns']}")
                 
                 result, error = self._try_execute_strategy(strategy_choice, name_left, name_right, gold, id_column)
@@ -895,30 +1109,99 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 break
             
             if result is None:
+                failure_tags = self._failure_tags_for_blocking_event(
+                    error=str(last_error or "strategy_execution_failed"),
+                    pair_completeness=0.0,
+                    threshold=self.pc_threshold,
+                )
                 previous_attempts.append({
                     'strategy': strategy_choice['strategy'],
                     'columns': strategy_choice['columns'],
                     'params': self._strategy_params(strategy_choice),
-                    'error': True
+                    'error': True,
+                    'failure_tags': failure_tags,
                 })
+                self._trace_event(
+                    pair=f"{name_left}_{name_right}",
+                    decision="strategy_error",
+                    attempt=attempt + 1,
+                    extra={
+                        "guardrails": guardrails,
+                        "llm_choice": self._strategy_choice_payload(strategy_choice),
+                        "result": {
+                            "pair_completeness": 0.0,
+                            "num_candidates": 0,
+                            "acceptance_reason": "error",
+                            "is_acceptable": False,
+                            "failure_tags": failure_tags,
+                        },
+                    },
+                )
                 continue
             
+            pc = float(result.get("pair_completeness", 0) or 0.0)
+            failure_tags = self._failure_tags_for_blocking_event(
+                acceptance_reason=str(result.get("acceptance_reason", "")),
+                pair_completeness=pc,
+                threshold=self.pc_threshold,
+            )
             previous_attempts.append({
                 'strategy': strategy_choice['strategy'],
                 'columns': strategy_choice['columns'],
                 'params': self._strategy_params(strategy_choice),
-                'pair_completeness': result.get('pair_completeness', 0),
+                'pair_completeness': pc,
                 'num_candidates': result.get('num_candidates', 0),
-                'error': False
+                'error': False,
+                'failure_tags': failure_tags,
             })
+            self._trace_event(
+                pair=f"{name_left}_{name_right}",
+                decision="strategy_evaluation",
+                attempt=attempt + 1,
+                extra={
+                    "guardrails": guardrails,
+                    "llm_choice": self._strategy_choice_payload(strategy_choice),
+                    "result": {
+                        "pair_completeness": pc,
+                        "num_candidates": result.get("num_candidates", 0),
+                        "acceptance_reason": result.get("acceptance_reason"),
+                        "is_acceptable": result.get("is_acceptable", False),
+                        "failure_tags": failure_tags,
+                    },
+                },
+            )
+            result["failure_tags"] = failure_tags
             
             if result.get('is_acceptable', False):
                 print(f"✅ Found acceptable strategy!")
                 best_result = result
                 break
             
-            if best_result is None or result.get('pair_completeness', 0) > best_result.get('pair_completeness', 0):
+            pc_history.append(pc)
+            if best_result is None or pc > best_result.get('pair_completeness', 0):
                 best_result = result
+            if pc > (best_pc + NO_GAIN_EPSILON):
+                best_pc = pc
+                no_gain_streak = 0
+            else:
+                no_gain_streak += 1
+                if no_gain_streak >= NO_GAIN_PATIENCE:
+                    print("⏹️ Early stop: repeated no-gain blocking attempts")
+                    break
+            confidence_stop = self._confidence_stop_for_pc(pc_history, best_pc, self.pc_threshold)
+            if confidence_stop.get("stop"):
+                print(
+                    "⏹️ Confidence stop: "
+                    f"{confidence_stop.get('reason')} "
+                    f"(confidence={confidence_stop.get('confidence')})"
+                )
+                self._trace_event(
+                    pair=f"{name_left}_{name_right}",
+                    decision="confidence_stop",
+                    attempt=attempt + 1,
+                    extra={"details": confidence_stop},
+                )
+                break
         
         if best_result is None:
             print(f"⚠️ No successful strategy found after {self.max_attempts} attempts")
@@ -928,7 +1211,11 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 'columns': [],
                 'pair_completeness': 0,
                 'num_candidates': 0,
-                'is_acceptable': False
+                'is_acceptable': False,
+                'failure_tags': self._failure_tags_for_blocking_event(
+                    pair_completeness=0.0,
+                    threshold=self.pc_threshold,
+                ),
             }
 
         if not best_result.get('is_acceptable', False):
@@ -962,9 +1249,16 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
     def run_all_pairs(self) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """Run blocking evaluation for all dataset pairs."""
         all_results = []
+        dataset_names = sorted(str(name) for name in self.datasets_loaded.keys())
         discovered_config = {
             "blocking_strategies": {},
-            "id_columns": {}
+            "id_columns": {},
+            "dataset_signature": "|".join(dataset_names),
+            "dataset_names": dataset_names,
+            "pc_threshold": self.pc_threshold,
+            "max_candidates": self.max_candidates,
+            "candidate_tolerance": self.candidate_tolerance,
+            "llm_trace_path": os.path.join(self.output_dir, "llm_blocking_trace.jsonl"),
         }
         
         for (name_left, name_right) in self.gold_standards.keys():
@@ -977,7 +1271,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 "params": result.get('params', {}),
                 "pair_completeness": result.get('pair_completeness', 0),
                 "num_candidates": result.get('num_candidates', 0),
-                "is_acceptable": result.get('is_acceptable', False)
+                "is_acceptable": result.get('is_acceptable', False),
+                "failure_tags": result.get("failure_tags", []),
             }
         
         for name, df in self.datasets_loaded.items():

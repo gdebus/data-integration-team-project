@@ -1,12 +1,21 @@
 from typing import Any, Dict
 
+try:
+    from workflow_logging import log_agent_action
+except Exception:
+    try:
+        from agents.workflow_logging import log_agent_action
+    except Exception:
+        from helpers.workflow_logging import log_agent_action
+
 
 def run_evaluation_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
-    agent._log_action(
-        "evaluation_node",
-        "start",
-        "Run evaluation loop",
-        "Generates and executes evaluation in one node",
+    log_agent_action(
+        agent,
+        step="evaluation_node",
+        action="start",
+        why="Run evaluation loop",
+        improvement="Generates and executes evaluation in one node",
     )
     print("[*] Running consolidated evaluation node")
 

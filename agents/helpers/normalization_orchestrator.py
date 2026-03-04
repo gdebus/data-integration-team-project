@@ -11,6 +11,17 @@ from helpers.normalization_policy import (
     infer_country_output_format_from_validation,
     infer_validation_text_case_map,
 )
+from helpers.investigator_acceptance import create_pending_normalization_acceptance
+try:
+    from workflow_logging import log_agent_action
+except Exception:
+    try:
+        from agents.workflow_logging import log_agent_action
+    except Exception:
+        from helpers.workflow_logging import log_agent_action
+
+SHADOW_MIN_PROJECTED_DELTA = 0.002
+ABLATION_KEYS = ("list_columns", "country_columns", "lowercase_columns", "text_columns")
 
 
 def _clamp_directives_to_validation_style(
@@ -21,7 +32,7 @@ def _clamp_directives_to_validation_style(
     inferred_country_output_format: str,
 ) -> Dict[str, Any]:
     """
-    Enforce validation-set style as the single source of truth for normalization format.
+    Keep directives compatible with validation style without discarding useful hints.
     """
     if not isinstance(directives, dict):
         directives = {}
@@ -51,7 +62,11 @@ def _clamp_directives_to_validation_style(
             kept.append(s)
         return kept
 
-    out["list_columns"] = _filter(out.get("list_columns", []), allowed_list)
+    hinted_list = _filter(out.get("list_columns", []), allowed_validation_cols or allowed_list)
+    for col in sorted(allowed_list):
+        if col not in {c.lower() for c in hinted_list}:
+            hinted_list.append(col)
+    out["list_columns"] = hinted_list
     out["lowercase_columns"] = _filter(out.get("lowercase_columns", []), allowed_lower)
 
     country_cols = out.get("country_columns", [])
@@ -70,23 +85,362 @@ def _clamp_directives_to_validation_style(
         filtered_country_cols.append(s)
     out["country_columns"] = filtered_country_cols
 
-    # Validation representation is authoritative.
+    # Validation representation is authoritative for country normalization.
     out["country_output_format"] = inferred_country_output_format
     out["list_normalization_required"] = bool(out.get("list_columns", []))
     return out
 
 
+def _compute_shadow_normalization_precheck(
+    *,
+    dataset_paths: List[str],
+    load_dataset_fn,
+    directives: Dict[str, Any],
+    metrics: Dict[str, Any],
+    auto_diagnostics: Dict[str, Any],
+) -> Dict[str, Any]:
+    directive_cols: set[str] = set()
+    for key in ("list_columns", "country_columns", "text_columns", "lowercase_columns"):
+        values = directives.get(key, []) if isinstance(directives, dict) else []
+        if isinstance(values, list):
+            directive_cols.update([str(v).strip().lower() for v in values if str(v).strip()])
+
+    low_acc_cols: set[str] = set()
+    for k, v in (metrics.items() if isinstance(metrics, dict) else []):
+        if not (isinstance(k, str) and k.endswith("_accuracy")):
+            continue
+        if k in {"overall_accuracy", "macro_accuracy"}:
+            continue
+        try:
+            if float(v) < 0.60:
+                low_acc_cols.add(k[: -len("_accuracy")].lower())
+        except Exception:
+            continue
+
+    matched_problem_cols = low_acc_cols.intersection(directive_cols)
+    overlap = len(matched_problem_cols) / max(1, len(low_acc_cols))
+
+    present_hits = 0
+    total_checks = 0
+    sample_rows = 0
+    for path in dataset_paths[:4]:
+        try:
+            df = load_dataset_fn(path)
+            if df is None or df.empty:
+                continue
+            sample_rows += min(200, len(df))
+            cols = {str(c).strip().lower() for c in df.columns}
+            for col in directive_cols:
+                total_checks += 1
+                if col in cols:
+                    present_hits += 1
+        except Exception:
+            continue
+    coverage = present_hits / max(1, total_checks)
+
+    ratios = auto_diagnostics.get("debug_reason_ratios", {}) if isinstance(auto_diagnostics, dict) else {}
+    norm_pressure = 0.0
+    if isinstance(ratios, dict):
+        for key, value in ratios.items():
+            if any(x in str(key).lower() for x in ("mismatch", "list", "type", "format", "encoding")):
+                try:
+                    norm_pressure += float(value)
+                except Exception:
+                    pass
+    norm_pressure = max(0.0, min(1.0, norm_pressure))
+
+    projected_delta = (
+        (0.008 * overlap)
+        + (0.005 * coverage)
+        + (0.004 * norm_pressure)
+        - (0.003 * (1.0 - coverage if total_checks > 0 else 1.0))
+    )
+    allow = projected_delta >= SHADOW_MIN_PROJECTED_DELTA
+    return {
+        "allow": allow,
+        "projected_delta": round(projected_delta, 6),
+        "min_projected_delta": SHADOW_MIN_PROJECTED_DELTA,
+        "overlap_with_low_accuracy": round(overlap, 6),
+        "directive_coverage": round(coverage, 6),
+        "normalization_pressure": round(norm_pressure, 6),
+        "matched_problem_columns": sorted(list(matched_problem_cols)),
+        "sample_rows_scanned": sample_rows,
+        "directive_columns": sorted(list(directive_cols)),
+        "reason": "insufficient projected gain" if not allow else "projected gain acceptable",
+    }
+
+
+def _directive_subset(directives: Dict[str, Any], keys: List[str]) -> Dict[str, Any]:
+    if not isinstance(directives, dict):
+        directives = {}
+    out: Dict[str, Any] = {}
+    for key in keys:
+        value = directives.get(key, [])
+        if isinstance(value, list) and value:
+            out[key] = list(value)
+    if directives.get("country_output_format"):
+        out["country_output_format"] = directives.get("country_output_format")
+    out["list_normalization_required"] = bool(out.get("list_columns"))
+    return out
+
+
+def _run_directive_ablation_precheck(
+    *,
+    dataset_paths: List[str],
+    load_dataset_fn,
+    directives: Dict[str, Any],
+    metrics: Dict[str, Any],
+    auto_diagnostics: Dict[str, Any],
+) -> Dict[str, Any]:
+    subset_specs: List[tuple[str, List[str]]] = []
+    for key in ABLATION_KEYS:
+        values = directives.get(key, []) if isinstance(directives, dict) else []
+        if isinstance(values, list) and values:
+            subset_specs.append((key, [key]))
+    subset_specs.append(("combined", [k for k in ABLATION_KEYS if isinstance(directives.get(k, []), list)]))
+
+    results: List[Dict[str, Any]] = []
+    for name, keys in subset_specs:
+        subset = _directive_subset(directives, keys)
+        if not subset:
+            continue
+        score = _compute_shadow_normalization_precheck(
+            dataset_paths=dataset_paths,
+            load_dataset_fn=load_dataset_fn,
+            directives=subset,
+            metrics=metrics,
+            auto_diagnostics=auto_diagnostics,
+        )
+        results.append(
+            {
+                "subset": name,
+                "keys": keys,
+                "projected_delta": score.get("projected_delta", 0.0),
+                "allow": bool(score.get("allow", False)),
+                "details": score,
+            }
+        )
+
+    results.sort(key=lambda x: float(x.get("projected_delta", 0.0)), reverse=True)
+    selected_keys: set[str] = set()
+    for item in results:
+        if item.get("subset") == "combined":
+            continue
+        if item.get("allow") and float(item.get("projected_delta", 0.0)) > 0.0:
+            selected_keys.update(item.get("keys", []))
+    if not selected_keys and results:
+        best = results[0]
+        if best.get("subset") != "combined":
+            selected_keys.update(best.get("keys", []))
+    if not selected_keys:
+        selected_keys = set([k for k in ABLATION_KEYS if isinstance(directives.get(k, []), list) and directives.get(k)])
+
+    pruned = _directive_subset(directives, sorted(list(selected_keys)))
+    for key in directives.keys():
+        if key not in pruned and key not in ABLATION_KEYS:
+            pruned[key] = directives[key]
+    return {
+        "evaluated_subsets": results,
+        "selected_keys": sorted(list(selected_keys)),
+        "pruned_directives": pruned,
+        "selection_reason": "selected subsets with positive projected gain",
+    }
+
+
+def _write_normalization_report(attempt_dir: str, report: Dict[str, Any]) -> None:
+    try:
+        os.makedirs(attempt_dir, exist_ok=True)
+        with open(os.path.join(attempt_dir, "normalization_report.json"), "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2, ensure_ascii=False, default=str)
+    except Exception:
+        return
+
+
+def _import_list_normalization_tools():
+    detect_fn = None
+    normalize_fn = None
+    warning = None
+    try:
+        from list_normalization import (
+            detect_list_like_columns,
+            normalize_list_like_columns,
+        )
+        detect_fn = detect_list_like_columns
+        normalize_fn = normalize_list_like_columns
+    except ModuleNotFoundError:
+        try:
+            module_name = "list_normalization.py"
+            for candidate in (Path.cwd(), Path.cwd() / "agents"):
+                if (candidate / module_name).is_file():
+                    candidate_str = str(candidate.resolve())
+                    if candidate_str not in sys.path:
+                        sys.path.append(candidate_str)
+            from list_normalization import (
+                detect_list_like_columns,
+                normalize_list_like_columns,
+            )
+            detect_fn = detect_list_like_columns
+            normalize_fn = normalize_list_like_columns
+        except Exception as e:
+            warning = f"list_normalization import failed: {e}"
+    except Exception as e:
+        warning = f"list_normalization import failed: {e}"
+    return detect_fn, normalize_fn, warning
+
+
+def _detect_validation_list_like_columns(detect_fn, validation_df, existing_warning: str | None = None):
+    warning = existing_warning
+    validation_list_like_columns: set[str] = set()
+    if callable(detect_fn) and validation_df is not None and not validation_df.empty:
+        try:
+            inferred_list_cols = detect_fn(
+                [validation_df],
+                exclude_columns={"id", "_id", "eval_id", "_eval_cluster_id"},
+            )
+            validation_list_like_columns = {str(c).lower() for c in inferred_list_cols}
+        except Exception as e:
+            warnings_hint = f"validation list-like detection failed: {e}"
+            warning = f"{warning}; {warnings_hint}" if warning else warnings_hint
+    return validation_list_like_columns, warning
+
+
+def _build_shadow_gate_skip_result(
+    *,
+    attempts: int,
+    max_attempts: int,
+    eval_path: str,
+    directives: Dict[str, Any],
+    ablation_report: Dict[str, Any],
+    shadow_precheck: Dict[str, Any],
+    gate_request: Dict[str, Any],
+    dataset_paths: List[str],
+) -> Dict[str, Any]:
+    report = {
+        "status": "skipped_by_shadow_gate",
+        "attempt": attempts,
+        "max_attempts": max_attempts,
+        "validation_set": eval_path,
+        "normalization_directives": directives,
+        "ablation_report": ablation_report,
+        "shadow_precheck": shadow_precheck,
+        "acceptance_gate": {
+            "requested": bool(gate_request),
+            "request": gate_request,
+            "pending": {},
+        },
+        "datasets": {},
+        "warnings": ["Normalization rerun skipped by shadow precheck (low projected gain)."],
+        "failure_tags": ["normalization_regression", "shadow_precheck_blocked"],
+        "reverted_to_original": False,
+        "created_at": datetime.now().isoformat(),
+    }
+    attempt_dir = os.path.join("output/normalization", f"attempt_{attempts}")
+    _write_normalization_report(attempt_dir, report)
+    return {
+        "datasets": dataset_paths,
+        "normalized_datasets": [],
+        "normalization_execution_result": "skipped_by_shadow_gate",
+        "normalization_attempts": attempts,
+        "normalization_report": report,
+        "normalization_directives": directives,
+        "normalization_pending_acceptance": {},
+        "normalization_gate_request": {},
+        "normalization_rework_required": False,
+        "normalization_rework_reasons": ["Shadow precheck projected insufficient gain."],
+        "pipeline_execution_result": "",
+        "pipeline_execution_attempts": 0,
+        "evaluation_execution_result": "",
+        "evaluation_execution_attempts": 0,
+    }
+
+
+def _detect_id_column(df: pd.DataFrame) -> Any:
+    for candidate in ("id", "_id"):
+        if candidate in df.columns:
+            return candidate
+    for col in df.columns:
+        if "id" in str(col).lower():
+            return col
+    return None
+
+
+def _build_column_transforms(
+    *,
+    df: pd.DataFrame,
+    id_column: Any,
+    attempts: int,
+    validation_columns: set[str],
+    validation_lowercase_columns: set[str],
+    low_accuracy_columns: set[str],
+    directive_lowercase_columns: set[str],
+    directive_text_columns: set[str],
+) -> Dict[Any, Any]:
+    transforms: Dict[Any, Any] = {}
+    for col in df.columns:
+        c_lower = str(col).lower()
+        if id_column is not None and col == id_column:
+            continue
+        if validation_columns and col not in validation_columns:
+            continue
+
+        series = df[col]
+        ops: List[str] = []
+        if pd.api.types.is_object_dtype(series) or pd.api.types.is_string_dtype(series):
+            ops.extend(["strip", "normalize_whitespace"])
+            should_lower_from_validation = c_lower in validation_lowercase_columns
+            should_lower_from_directive = c_lower in directive_lowercase_columns
+            if should_lower_from_directive or (
+                attempts > 1
+                and (c_lower in low_accuracy_columns or c_lower in directive_text_columns)
+                and should_lower_from_validation
+            ):
+                ops.append("lower")
+
+        if c_lower in {"assets", "profits", "sales", "market_value", "market value", "revenue"}:
+            ops = ["strip", "normalize_whitespace", "to_numeric"]
+
+        deduped_ops: List[str] = []
+        for op in ops:
+            if op not in deduped_ops:
+                deduped_ops.append(op)
+        if deduped_ops:
+            transforms[col] = deduped_ops
+    return transforms
+
+
+def _normalize_country_value(value: Any, normalize_country_fn, output_format: str):
+    if value is None:
+        return value
+    try:
+        if pd.isna(value):
+            return value
+    except Exception:
+        pass
+    text = str(value).strip()
+    if not text:
+        return value
+    try:
+        normalized = normalize_country_fn(text, output_format=output_format)
+    except Exception:
+        normalized = None
+    return normalized if normalized else text
+
+
 def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
-    agent._log_action(
-        "normalization_node",
-        "start",
-        "Normalize source datasets",
-        "Applies PyDI normalization with safe fallback",
+    log_agent_action(
+        agent,
+        step="normalization_node",
+        action="start",
+        why="Normalize source datasets",
+        improvement="Applies PyDI normalization with safe fallback",
     )
     print("[*] Running normalization node")
 
     attempts = int(state.get("normalization_attempts", 0)) + 1
     max_attempts = 3
+    gate_request = state.get("normalization_gate_request", {}) if isinstance(state, dict) else {}
+    if not isinstance(gate_request, dict):
+        gate_request = {}
 
     dataset_paths = list(state.get("datasets", []) or [])
     original_paths = list(state.get("original_datasets", dataset_paths) or dataset_paths)
@@ -148,57 +502,17 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
                 "reverted_to_original": True,
             },
             "normalization_directives": directives,
+            "normalization_pending_acceptance": {},
+            "normalization_gate_request": {},
             "normalization_rework_required": False,
             "normalization_rework_reasons": [],
         }
 
-    detect_list_like_columns = None
-    normalize_list_like_columns = None
-    normalize_list_value = None
-    pending_list_import_warning = None
-    try:
-        from list_normalization import (
-            detect_list_like_columns,
-            normalize_list_like_columns,
-            normalize_list_value,
-        )
-    except ModuleNotFoundError:
-        try:
-            module_name = "list_normalization.py"
-            for candidate in (Path.cwd(), Path.cwd() / "agents"):
-                if (candidate / module_name).is_file():
-                    candidate_str = str(candidate.resolve())
-                    if candidate_str not in sys.path:
-                        sys.path.append(candidate_str)
-            from list_normalization import (
-                detect_list_like_columns,
-                normalize_list_like_columns,
-                normalize_list_value,
-            )
-        except Exception as e:
-            pending_list_import_warning = f"list_normalization import failed: {e}"
-    except Exception as e:
-        pending_list_import_warning = f"list_normalization import failed: {e}"
-
-    validation_list_like_columns: set[str] = set()
-    if callable(detect_list_like_columns) and validation_df is not None and not validation_df.empty:
-        try:
-            inferred_list_cols = detect_list_like_columns(
-                [validation_df],
-                exclude_columns={"id", "_id", "eval_id", "_eval_cluster_id"},
-            )
-            validation_list_like_columns = {str(c).lower() for c in inferred_list_cols}
-        except Exception as e:
-            warnings_hint = f"validation list-like detection failed: {e}"
-            pending_list_import_warning = (
-                f"{pending_list_import_warning}; {warnings_hint}"
-                if pending_list_import_warning
-                else warnings_hint
-            )
-
-    list_norm_requested = bool(
-        directives.get("list_normalization_required")
-        or validation_list_like_columns
+    detect_list_like_columns, normalize_list_like_columns, pending_list_import_warning = _import_list_normalization_tools()
+    validation_list_like_columns, pending_list_import_warning = _detect_validation_list_like_columns(
+        detect_list_like_columns,
+        validation_df,
+        pending_list_import_warning,
     )
 
     directives = _clamp_directives_to_validation_style(
@@ -215,13 +529,45 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
     directive_lowercase_columns = {
         str(c).lower() for c in directives.get("lowercase_columns", []) if str(c).strip()
     }
-    list_norm_requested = bool(directive_list_columns or validation_list_like_columns)
+    target_list_columns = directive_list_columns | validation_list_like_columns
 
     country_output_format = inferred_country_output_format
     directives["country_output_format"] = country_output_format
-    directives["lowercase_columns"] = sorted(list(validation_lowercase_columns))
-    directives["list_columns"] = sorted(list(validation_list_like_columns))
-    directives["list_normalization_required"] = bool(list_norm_requested)
+    directives["lowercase_columns"] = sorted(list(directive_lowercase_columns))
+    directives["list_columns"] = sorted(list(target_list_columns))
+    directives["list_normalization_required"] = bool(target_list_columns)
+
+    ablation_report = _run_directive_ablation_precheck(
+        dataset_paths=dataset_paths,
+        load_dataset_fn=load_dataset_fn,
+        directives=directives,
+        metrics=metrics if isinstance(metrics, dict) else {},
+        auto_diagnostics=state.get("auto_diagnostics", {}) if isinstance(state, dict) else {},
+    )
+    if isinstance(ablation_report, dict):
+        directives = ablation_report.get("pruned_directives", directives) or directives
+        directives["list_normalization_required"] = bool(directives.get("list_columns"))
+
+    shadow_precheck = {}
+    if gate_request:
+        shadow_precheck = _compute_shadow_normalization_precheck(
+            dataset_paths=dataset_paths,
+            load_dataset_fn=load_dataset_fn,
+            directives=directives,
+            metrics=metrics if isinstance(metrics, dict) else {},
+            auto_diagnostics=state.get("auto_diagnostics", {}) if isinstance(state, dict) else {},
+        )
+        if not shadow_precheck.get("allow", True):
+            return _build_shadow_gate_skip_result(
+                attempts=attempts,
+                max_attempts=max_attempts,
+                eval_path=eval_path,
+                directives=directives,
+                ablation_report=ablation_report,
+                shadow_precheck=shadow_precheck,
+                gate_request=gate_request,
+                dataset_paths=dataset_paths,
+            )
 
     os.makedirs("output/normalization", exist_ok=True)
     attempt_dir = os.path.join("output/normalization", f"attempt_{attempts}")
@@ -241,49 +587,19 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
             if df is None or df.empty:
                 raise ValueError("dataset empty or failed to load")
 
-            id_column = None
-            for candidate in ("id", "_id"):
-                if candidate in df.columns:
-                    id_column = candidate
-                    break
-            if id_column is None:
-                for col in df.columns:
-                    if "id" in str(col).lower():
-                        id_column = col
-                        break
-
-            transforms: Dict[Any, Any] = {}
+            id_column = _detect_id_column(df)
             country_columns_used: List[str] = []
             list_columns_used: List[str] = []
-            for col in df.columns:
-                c_lower = str(col).lower()
-                if id_column is not None and col == id_column:
-                    continue
-                if validation_columns and col not in validation_columns:
-                    continue
-
-                series = df[col]
-                ops: List[str] = []
-                if pd.api.types.is_object_dtype(series) or pd.api.types.is_string_dtype(series):
-                    ops.extend(["strip", "normalize_whitespace"])
-                    should_lower_from_validation = c_lower in validation_lowercase_columns
-                    should_lower_from_directive = c_lower in directive_lowercase_columns
-                    if should_lower_from_directive or (
-                        attempts > 1
-                        and (c_lower in low_accuracy_columns or c_lower in directive_text_columns)
-                        and should_lower_from_validation
-                    ):
-                        ops.append("lower")
-
-                if c_lower in {"assets", "profits", "sales", "market_value", "market value", "revenue"}:
-                    ops = ["strip", "normalize_whitespace", "to_numeric"]
-
-                if ops:
-                    deduped_ops: List[str] = []
-                    for op in ops:
-                        if op not in deduped_ops:
-                            deduped_ops.append(op)
-                    transforms[col] = deduped_ops
+            transforms = _build_column_transforms(
+                df=df,
+                id_column=id_column,
+                attempts=attempts,
+                validation_columns=validation_columns,
+                validation_lowercase_columns=validation_lowercase_columns,
+                low_accuracy_columns=low_accuracy_columns,
+                directive_lowercase_columns=directive_lowercase_columns,
+                directive_text_columns=directive_text_columns,
+            )
 
             cfg = create_normalization_config(
                 enable_unit_conversion=True,
@@ -318,36 +634,23 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
                     candidate_country_columns.append(col)
 
             if candidate_country_columns:
-
-                def _normalize_country_safe(value: Any):
-                    if value is None:
-                        return value
-                    try:
-                        if pd.isna(value):
-                            return value
-                    except Exception:
-                        pass
-                    text = str(value).strip()
-                    if not text:
-                        return value
-                    try:
-                        normalized = normalize_country(text, output_format=country_output_format)
-                    except Exception:
-                        normalized = None
-                    return normalized if normalized else text
-
                 for col in candidate_country_columns:
                     if col in normalized_df.columns:
-                        normalized_df[col] = normalized_df[col].apply(_normalize_country_safe)
+                        normalized_df[col] = normalized_df[col].apply(
+                            lambda value: _normalize_country_value(
+                                value=value,
+                                normalize_country_fn=normalize_country,
+                                output_format=country_output_format,
+                            )
+                        )
                         country_columns_used.append(str(col))
 
             if (
                 callable(detect_list_like_columns)
                 and callable(normalize_list_like_columns)
-                and callable(normalize_list_value)
             ):
-                # Structural detection can be broad (source-driven), but representation style
-                # must follow validation: keep lists only where validation is list-like.
+                # Structural detection can be broad; keep explicitly requested list columns
+                # and validation list columns. Do not force scalarization back.
                 all_structural_list_cols: set[str] = set()
                 try:
                     auto_list_cols = detect_list_like_columns(
@@ -358,19 +661,16 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
                 except Exception as e:
                     warnings.append(f"{dataset_name}: list detection failed: {e}")
 
-                if directive_list_columns:
+                if target_list_columns:
                     for col in normalized_df.columns:
-                        if str(col).lower() in directive_list_columns:
+                        if str(col).lower() in target_list_columns:
                             all_structural_list_cols.add(str(col))
 
                 keep_list_cols: set[str] = set()
-                scalarize_cols: set[str] = set()
                 for col in all_structural_list_cols:
                     col_l = str(col).lower()
-                    if col_l in validation_list_like_columns:
+                    if col_l in target_list_columns:
                         keep_list_cols.add(str(col))
-                    else:
-                        scalarize_cols.add(str(col))
 
                 if keep_list_cols:
                     try:
@@ -378,22 +678,6 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
                         list_columns_used = sorted(list(keep_list_cols))
                     except Exception as e:
                         warnings.append(f"{dataset_name}: list normalization failed: {e}")
-
-                # If validation expects scalar style, collapse structural lists back to scalars.
-                if scalarize_cols:
-                    def _collapse_to_scalar(value: Any):
-                        tokens = normalize_list_value(value, dedupe=False)
-                        if not tokens:
-                            return value
-                        return str(tokens[0]).strip()
-
-                    for col in sorted(scalarize_cols):
-                        if col not in normalized_df.columns:
-                            continue
-                        try:
-                            normalized_df[col] = normalized_df[col].apply(_collapse_to_scalar)
-                        except Exception as e:
-                            warnings.append(f"{dataset_name}: scalarization failed for {col}: {e}")
 
             if len(normalized_df) != len(df):
                 raise ValueError(f"row count changed from {len(df)} to {len(normalized_df)}")
@@ -451,6 +735,24 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
         for warning in warnings:
             print(f"[WARN] {warning}")
 
+    failure_tags: List[str] = []
+    if status == "fallback_to_original":
+        failure_tags.append("runtime_error")
+        failure_tags.append("normalization_regression")
+    if status == "success" and warnings:
+        failure_tags.append("needs_review")
+    if not failure_tags and status == "success":
+        failure_tags.append("ok")
+
+    pending_acceptance = {}
+    if status == "success" and gate_request:
+        pending_acceptance = create_pending_normalization_acceptance(
+            gate_request=gate_request,
+            normalized_datasets=normalized_paths,
+            normalization_attempt=attempts,
+            evaluation_attempt=int(state.get("evaluation_attempts", 0)),
+        )
+
     report = {
         "status": status,
         "attempt": attempts,
@@ -464,17 +766,21 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
             "case_profile": validation_case_map,
         },
         "normalization_directives": directives,
+        "ablation_report": ablation_report,
+        "shadow_precheck": shadow_precheck,
+        "acceptance_gate": {
+            "requested": bool(gate_request),
+            "request": gate_request,
+            "pending": pending_acceptance,
+        },
         "datasets": dataset_reports,
         "warnings": warnings,
+        "failure_tags": failure_tags,
         "reverted_to_original": reverted,
         "created_at": datetime.now().isoformat(),
     }
 
-    try:
-        with open(os.path.join(attempt_dir, "normalization_report.json"), "w", encoding="utf-8") as f:
-            json.dump(report, f, indent=2, ensure_ascii=False, default=str)
-    except Exception:
-        pass
+    _write_normalization_report(attempt_dir, report)
 
     return {
         "datasets": datasets_for_next,
@@ -483,6 +789,8 @@ def run_normalization_node(agent, state: Dict[str, Any], load_dataset_fn):
         "normalization_attempts": attempts,
         "normalization_report": report,
         "normalization_directives": directives,
+        "normalization_pending_acceptance": pending_acceptance,
+        "normalization_gate_request": {},
         "normalization_rework_required": False,
         "normalization_rework_reasons": [],
         "pipeline_execution_result": "",

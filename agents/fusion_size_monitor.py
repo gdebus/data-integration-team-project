@@ -14,8 +14,41 @@ def estimate_from_blocking(
     dataset_sizes: Mapping[str, int],
     blocking_strategies: Mapping[str, Any],
 ) -> Optional[Dict[str, Any]]:
-    pair_estimates = []
+    pair_estimates = _build_blocking_pair_estimates(
+        dataset_sizes=dataset_sizes,
+        blocking_strategies=blocking_strategies,
+    )
+    return _estimate_stage_payload(
+        stage="blocking",
+        dataset_sizes=dataset_sizes,
+        pair_estimates=pair_estimates,
+        fallback_method="mean(min_pair_dataset_size * pair_completeness) across dataset pairs",
+    )
 
+
+def estimate_from_matching(
+    dataset_sizes: Mapping[str, int],
+    blocking_strategies: Mapping[str, Any],
+    matching_strategies: Mapping[str, Any],
+) -> Optional[Dict[str, Any]]:
+    pair_estimates = _build_matching_pair_estimates(
+        dataset_sizes=dataset_sizes,
+        blocking_strategies=blocking_strategies,
+        matching_strategies=matching_strategies,
+    )
+    return _estimate_stage_payload(
+        stage="matching",
+        dataset_sizes=dataset_sizes,
+        pair_estimates=pair_estimates,
+        fallback_method="mean(min_pair_dataset_size * pair_completeness * f1) across dataset pairs",
+    )
+
+
+def _build_blocking_pair_estimates(
+    dataset_sizes: Mapping[str, int],
+    blocking_strategies: Mapping[str, Any],
+) -> list[Dict[str, Any]]:
+    pair_estimates: list[Dict[str, Any]] = []
     for pair_key, cfg in blocking_strategies.items():
         resolved = _resolve_pair_key(pair_key, dataset_sizes)
         if not resolved:
@@ -24,7 +57,6 @@ def estimate_from_blocking(
         min_pair_size = min(int(dataset_sizes[left_name]), int(dataset_sizes[right_name]))
         pair_completeness = _clamp(_to_float(_get(cfg, "pair_completeness"), 0.0), 0.0, 1.0)
         expected_pair_clusters = int(round(min_pair_size * pair_completeness))
-
         pair_estimates.append(
             {
                 "pair_key": pair_key,
@@ -35,47 +67,15 @@ def estimate_from_blocking(
                 "expected_cluster_count": expected_pair_clusters,
             }
         )
-
-    if not pair_estimates:
-        return None
-
-    three_way = _estimate_three_way_union(dataset_sizes, pair_estimates)
-    if three_way:
-        expected_rows = three_way["expected_union_clusters"]
-        rows_min = three_way["expected_union_range"][0]
-        rows_max = three_way["expected_union_range"][1]
-        method = (
-            "3-way inclusion-exclusion over pair estimates: "
-            "E=E12+E13+E23-2*E123, "
-            "with E123 estimated from per-dataset overlap probabilities"
-        )
-    else:
-        expected_rows = int(round(sum(item["expected_cluster_count"] for item in pair_estimates) / len(pair_estimates)))
-        rows_min, rows_max = _range_from_pair_estimates(pair_estimates, "expected_cluster_count")
-        method = "mean(min_pair_dataset_size * pair_completeness) across dataset pairs"
-    expected_unique_ids = expected_rows
-
-    payload = {
-        "stage": "blocking",
-        "method": method,
-        "expected_rows": expected_rows,
-        "expected_unique_ids": expected_unique_ids,
-        "expected_rows_range": [rows_min, rows_max],
-        "expected_unique_ids_range": [rows_min, rows_max],
-        "three_way_intersection": three_way,
-        "pair_estimates": pair_estimates,
-        "created_at": _now_iso(),
-    }
-    return _attach_singleton_aware_projection(payload, dataset_sizes)
+    return pair_estimates
 
 
-def estimate_from_matching(
+def _build_matching_pair_estimates(
     dataset_sizes: Mapping[str, int],
     blocking_strategies: Mapping[str, Any],
     matching_strategies: Mapping[str, Any],
-) -> Optional[Dict[str, Any]]:
-    pair_estimates = []
-
+) -> list[Dict[str, Any]]:
+    pair_estimates: list[Dict[str, Any]] = []
     for pair_key, cfg in matching_strategies.items():
         resolved = _resolve_pair_key(pair_key, dataset_sizes)
         if not resolved:
@@ -85,11 +85,8 @@ def estimate_from_matching(
         f1_score = _clamp(_to_float(_get(cfg, "f1"), 0.0), 0.0, 1.0)
         blocking_cfg = _lookup_pair_config(blocking_strategies, left_name, right_name)
         pair_completeness = _clamp(_to_float(_get(blocking_cfg, "pair_completeness"), 1.0), 0.0, 1.0)
-
-        # Keep a non-zero floor so incomplete or noisy matching runs still produce a conservative estimate.
         quality_factor = max(0.05, f1_score)
         expected_pair_clusters = int(round(min_pair_size * pair_completeness * quality_factor))
-
         pair_estimates.append(
             {
                 "pair_key": pair_key,
@@ -101,7 +98,16 @@ def estimate_from_matching(
                 "expected_cluster_count": expected_pair_clusters,
             }
         )
+    return pair_estimates
 
+
+def _estimate_stage_payload(
+    *,
+    stage: str,
+    dataset_sizes: Mapping[str, int],
+    pair_estimates: list[Dict[str, Any]],
+    fallback_method: str,
+) -> Optional[Dict[str, Any]]:
     if not pair_estimates:
         return None
 
@@ -118,14 +124,15 @@ def estimate_from_matching(
     else:
         expected_rows = int(round(sum(item["expected_cluster_count"] for item in pair_estimates) / len(pair_estimates)))
         rows_min, rows_max = _range_from_pair_estimates(pair_estimates, "expected_cluster_count")
-        method = "mean(min_pair_dataset_size * pair_completeness * f1) across dataset pairs"
-    expected_unique_ids = expected_rows
+        method = fallback_method
 
     payload = {
-        "stage": "matching",
+        "stage": stage,
+        "dataset_signature": _dataset_signature(dataset_sizes),
+        "datasets": sorted([str(k) for k in dataset_sizes.keys()]),
         "method": method,
         "expected_rows": expected_rows,
-        "expected_unique_ids": expected_unique_ids,
+        "expected_unique_ids": expected_rows,
         "expected_rows_range": [rows_min, rows_max],
         "expected_unique_ids_range": [rows_min, rows_max],
         "three_way_intersection": three_way,
@@ -139,6 +146,20 @@ def upsert_stage_estimate(estimate_path: str, stage: str, stage_payload: Dict[st
     doc = _read_json(estimate_path)
     doc.setdefault("estimates", {})
     doc.setdefault("comparisons", {})
+    stage_signature = str(stage_payload.get("dataset_signature", "")).strip()
+    if stage_signature:
+        stale_stages = []
+        for existing_stage, payload in doc.get("estimates", {}).items():
+            if not isinstance(payload, dict):
+                stale_stages.append(existing_stage)
+                continue
+            existing_signature = str(payload.get("dataset_signature", "")).strip()
+            if existing_signature and existing_signature != stage_signature:
+                stale_stages.append(existing_stage)
+        for stale in stale_stages:
+            doc["estimates"].pop(stale, None)
+            doc["comparisons"].pop(stale, None)
+        doc["active_dataset_signature"] = stage_signature
     doc["estimates"][stage] = stage_payload
     doc["updated_at"] = _now_iso()
     _write_json(estimate_path, doc)
@@ -492,3 +513,8 @@ def _get(mapping: Any, key: str) -> Any:
     if isinstance(mapping, dict):
         return mapping.get(key)
     return None
+
+
+def _dataset_signature(dataset_sizes: Mapping[str, int]) -> str:
+    names = sorted(str(name) for name in dataset_sizes.keys())
+    return "|".join(names)

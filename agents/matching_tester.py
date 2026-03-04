@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from datetime import datetime, timezone
 from typing import Dict, List, Tuple, Any, Optional
 from pathlib import Path
 import sys
@@ -31,6 +32,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score, make_scorer
 from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.svm import SVC
+
+PROXY_F1_MARGIN_DEFAULT = 0.015
+PROXY_MAX_CANDIDATES_DEFAULT = 60_000
+PROXY_MIN_F1_ATTEMPT1 = 0.03
+NO_GAIN_EPSILON = 0.003
+NO_GAIN_PATIENCE = 2
 
 AGENTS_ROOT = Path(__file__).resolve().parent
 if str(AGENTS_ROOT) not in sys.path:
@@ -96,6 +103,11 @@ class MatchingTester:
         matcher_mode: str = "ml",
         previous_failures: Optional[List[Dict[str, Any]]] = None,
         disallow_list_comparators: bool = True,
+        min_blocking_pc_for_matching: Optional[float] = None,
+        proxy_f1_margin: float = PROXY_F1_MARGIN_DEFAULT,
+        proxy_max_candidates: int = PROXY_MAX_CANDIDATES_DEFAULT,
+        no_gain_patience: int = NO_GAIN_PATIENCE,
+        no_gain_epsilon: float = NO_GAIN_EPSILON,
     ):
         self.llm = llm
         self.output_dir = output_dir
@@ -112,6 +124,14 @@ class MatchingTester:
         self.blocking_config = blocking_config or {}
         self.blocking_strategies = self.blocking_config.get("blocking_strategies", {})
         self.id_columns = self.blocking_config.get("id_columns", {})
+        configured_blocking_threshold = self.blocking_config.get("pc_threshold")
+        if min_blocking_pc_for_matching is None:
+            min_blocking_pc_for_matching = configured_blocking_threshold
+        self.min_blocking_pc_for_matching = float(min_blocking_pc_for_matching) if min_blocking_pc_for_matching is not None else None
+        self.proxy_f1_margin = max(0.0, float(proxy_f1_margin))
+        self.proxy_max_candidates = max(1000, int(proxy_max_candidates))
+        self.no_gain_patience = max(1, int(no_gain_patience))
+        self.no_gain_epsilon = max(0.0, float(no_gain_epsilon))
 
         os.makedirs(self.output_dir, exist_ok=True)
 
@@ -227,6 +247,30 @@ class MatchingTester:
         vals = series.dropna().astype(str).unique().tolist()
         return vals[:n]
 
+    @staticmethod
+    def _safe_nunique(series: pd.Series) -> int:
+        if not hasattr(series, "nunique"):
+            return -1
+        try:
+            return int(series.nunique(dropna=True))
+        except TypeError:
+            # pandas cannot hash raw list/dict objects; coerce nested values to stable scalars first.
+            try:
+                coerced = series.dropna().apply(
+                    lambda v: tuple(v)
+                    if isinstance(v, list)
+                    else tuple(sorted(v))
+                    if isinstance(v, set)
+                    else json.dumps(v, sort_keys=True, ensure_ascii=False)
+                    if isinstance(v, dict)
+                    else str(v)
+                )
+                return int(coerced.nunique(dropna=True))
+            except Exception:
+                return -1
+        except Exception:
+            return -1
+
     def _align_ids_with_gold(
         self,
         name_left: str,
@@ -340,9 +384,24 @@ class MatchingTester:
 
         column_details = {}
         column_types = {}
-        for col in common_cols:
+        eligible_common_cols: List[str] = []
+        for col in sorted(common_cols):
             left_col, right_col = df_left[col], df_right[col]
-            col_type = self._infer_column_type(left_col, col)
+            left_type = self._infer_column_type(left_col, col)
+            right_type = self._infer_column_type(right_col, col)
+            if "list" in (left_type, right_type):
+                col_type = "list"
+            elif "numeric" in (left_type, right_type):
+                col_type = "numeric"
+            elif "date" in (left_type, right_type):
+                col_type = "date"
+            else:
+                col_type = "string"
+
+            if self.disallow_list_comparators and col_type == "list":
+                continue
+
+            eligible_common_cols.append(col)
             column_types[col] = col_type
             try:
                 sample_left = [str(x)[:50] for x in left_col.dropna().head(2).tolist()]
@@ -353,13 +412,17 @@ class MatchingTester:
                 "dtype": str(left_col.dtype),
                 "type": col_type,
                 "null_pct": f"{left_col.isnull().mean()*100:.0f}%/{right_col.isnull().mean()*100:.0f}%",
+                "null_rate_left": float(left_col.isnull().mean()),
+                "null_rate_right": float(right_col.isnull().mean()),
+                "unique_left": self._safe_nunique(left_col),
+                "unique_right": self._safe_nunique(right_col),
                 "samples": sample_left[:1] + sample_right[:1],
             }
 
         return {
             "left_dataset": name_left,
             "right_dataset": name_right,
-            "common_columns": list(common_cols),
+            "common_columns": eligible_common_cols,
             "column_details": column_details,
             "column_types": column_types,
         }
@@ -372,6 +435,236 @@ class MatchingTester:
         if reverse_key in self.blocking_strategies:
             return self.blocking_strategies[reverse_key], reverse_key
         return None, key
+
+    def _get_blocking_quality_for_pair(self, name_left: str, name_right: str) -> Dict[str, Any]:
+        blocking_cfg, key = self._get_blocking_config(name_left, name_right)
+        if not isinstance(blocking_cfg, dict):
+            return {"pair_key": key, "available": False}
+        pc = float(blocking_cfg.get("pair_completeness", 0.0) or 0.0)
+        return {
+            "pair_key": key,
+            "available": True,
+            "pair_completeness": pc,
+            "is_acceptable": bool(blocking_cfg.get("is_acceptable", False)),
+            "strategy": blocking_cfg.get("strategy"),
+            "columns": list(blocking_cfg.get("columns", []) or []),
+        }
+
+    def _should_skip_pair_for_blocking_quality(self, name_left: str, name_right: str) -> Tuple[bool, Dict[str, Any]]:
+        quality = self._get_blocking_quality_for_pair(name_left, name_right)
+        threshold = self.min_blocking_pc_for_matching
+        if threshold is None:
+            return False, {"threshold": None, **quality}
+        pair_pc = float(quality.get("pair_completeness", 0.0) or 0.0)
+        skip = quality.get("available", False) and pair_pc < float(threshold)
+        return skip, {"threshold": float(threshold), **quality}
+
+    def _sample_candidate_pairs(self, candidates: pd.DataFrame, max_rows: int) -> pd.DataFrame:
+        if not isinstance(candidates, pd.DataFrame):
+            return candidates
+        if len(candidates) <= max_rows:
+            return candidates
+        return candidates.sample(n=max_rows, random_state=42).reset_index(drop=True)
+
+    def _append_llm_trace(self, payload: Dict[str, Any]) -> None:
+        trace_path = os.path.join(self.output_dir, "llm_matching_trace.jsonl")
+        try:
+            with open(trace_path, "a", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False)
+                f.write("\n")
+        except Exception:
+            return
+
+    @staticmethod
+    def _utc_now_z() -> str:
+        return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    def _trace_event(
+        self,
+        *,
+        pair: str,
+        decision: str,
+        attempt: Optional[int] = None,
+        extra: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        payload: Dict[str, Any] = {
+            "timestamp": self._utc_now_z(),
+            "pair": pair,
+            "decision": decision,
+        }
+        if attempt is not None:
+            payload["attempt"] = attempt
+        if isinstance(extra, dict) and extra:
+            payload.update(extra)
+        self._append_llm_trace(payload)
+
+    def _emit_confidence_stop_if_needed(
+        self,
+        *,
+        pair: str,
+        attempt: int,
+        f1_history: List[float],
+        best_result: Optional[Dict[str, Any]],
+    ) -> bool:
+        confidence_stop = self._confidence_stop_for_f1(
+            f1_history=f1_history,
+            best_f1=float(best_result.get("f1", 0.0) if best_result else 0.0),
+            target_f1=self.f1_threshold,
+            epsilon=self.no_gain_epsilon,
+        )
+        if not confidence_stop.get("stop"):
+            return False
+        print(
+            "⏹️ Confidence stop: "
+            f"{confidence_stop.get('reason')} "
+            f"(confidence={confidence_stop.get('confidence')})"
+        )
+        self._trace_event(
+            pair=pair,
+            attempt=attempt,
+            decision="confidence_stop",
+            extra={"details": confidence_stop},
+        )
+        return True
+
+    @staticmethod
+    def _confidence_stop_for_f1(
+        f1_history: List[float],
+        best_f1: float,
+        target_f1: float,
+        epsilon: float,
+    ) -> Dict[str, Any]:
+        # Conservative stop heuristic: if attempts have converged tightly below target,
+        # future improvements are unlikely.
+        if len(f1_history) < 3:
+            return {"stop": False, "reason": "insufficient_history", "confidence": 0.0}
+        last = f1_history[-3:]
+        span = max(last) - min(last)
+        mean_last = sum(last) / len(last)
+        gap = max(0.0, target_f1 - best_f1)
+        if span <= max(epsilon, 0.002) and gap > 0.02:
+            confidence = min(0.98, 0.65 + (0.10 * (len(f1_history) - 2)))
+            return {
+                "stop": True,
+                "reason": "low_variance_below_target",
+                "confidence": round(confidence, 3),
+                "mean_last": round(mean_last, 6),
+                "span_last": round(span, 6),
+                "target_gap": round(gap, 6),
+            }
+        return {
+            "stop": False,
+            "reason": "continue_search",
+            "confidence": 0.0,
+            "mean_last": round(mean_last, 6),
+            "span_last": round(span, 6),
+            "target_gap": round(gap, 6),
+        }
+
+    @staticmethod
+    def _failure_tags_for_matching_event(
+        *,
+        skipped_due_to_blocking_gate: bool = False,
+        proxy_rejected: bool = False,
+        f1: float = 0.0,
+        target_f1: float = 0.75,
+        error: str = "",
+        fallback_blocking: bool = False,
+    ) -> List[str]:
+        tags: List[str] = []
+        if skipped_due_to_blocking_gate:
+            tags.append("low_blocking_recall")
+        if proxy_rejected:
+            tags.append("proxy_rejected")
+        if error:
+            tags.append("runtime_error")
+        if fallback_blocking:
+            tags.append("blocking_fallback")
+        if f1 < target_f1:
+            tags.append("low_matching_quality")
+        if not tags:
+            tags.append("ok")
+        return tags
+
+    def _build_matching_guardrails(
+        self,
+        analysis: Dict[str, Any],
+        blocking_columns: List[str],
+    ) -> Dict[str, Any]:
+        common_columns = analysis.get("common_columns", []) if isinstance(analysis, dict) else []
+        details = analysis.get("column_details", {}) if isinstance(analysis, dict) else {}
+        column_types = analysis.get("column_types", {}) if isinstance(analysis, dict) else {}
+        quality_scores: List[Tuple[float, str]] = []
+
+        for col in common_columns:
+            detail = details.get(col, {}) if isinstance(details, dict) else {}
+            null_left = float(detail.get("null_rate_left", 1.0) or 1.0)
+            null_right = float(detail.get("null_rate_right", 1.0) or 1.0)
+            null_penalty = (null_left + null_right) / 2.0
+            uniq_left = int(detail.get("unique_left", -1))
+            uniq_right = int(detail.get("unique_right", -1))
+            uniqueness = 0.0
+            if uniq_left > 0 and uniq_right > 0:
+                uniqueness = min(uniq_left, uniq_right) / max(uniq_left, uniq_right)
+            score = max(0.0, min(1.0, (1.0 - null_penalty) * 0.7 + uniqueness * 0.3))
+            if col in blocking_columns:
+                score += 0.08
+            if column_types.get(col) == "list":
+                score -= 0.20
+            quality_scores.append((score, col))
+
+        quality_scores.sort(reverse=True, key=lambda x: x[0])
+        preferred_columns = [c for score, c in quality_scores if score >= 0.25][:6]
+        if not preferred_columns:
+            preferred_columns = [c for _, c in quality_scores[:4]]
+        return {
+            "preferred_columns": preferred_columns,
+            "blocking_columns": [c for c in blocking_columns if c in common_columns],
+            "avoid_list_columns": bool(self.disallow_list_comparators),
+        }
+
+    def _apply_matcher_guardrails(
+        self,
+        choice: Dict[str, Any],
+        guardrails: Dict[str, Any],
+        valid_columns: List[str],
+        column_types: Dict[str, str],
+    ) -> Dict[str, Any]:
+        if not isinstance(choice, dict):
+            return choice
+        preferred = [c for c in guardrails.get("preferred_columns", []) if c in valid_columns]
+        blocking_cols = [c for c in guardrails.get("blocking_columns", []) if c in valid_columns]
+        out = dict(choice)
+        comparators = []
+        for comp in out.get("comparators", []):
+            if not isinstance(comp, dict):
+                continue
+            col = comp.get("column")
+            if col not in valid_columns:
+                continue
+            if self.disallow_list_comparators and (
+                column_types.get(col) == "list" or bool(comp.get("list_strategy"))
+            ):
+                continue
+            comparators.append(comp)
+
+        if blocking_cols and not any(c.get("column") in blocking_cols for c in comparators):
+            seed = next((c for c in blocking_cols if c in preferred), blocking_cols[0])
+            comparators.insert(
+                0,
+                {
+                    "type": "string",
+                    "column": seed,
+                    "similarity_function": "cosine",
+                    "preprocess": "lower",
+                },
+            )
+        if not comparators:
+            defaults = self._default_comparators(valid_columns, column_types, blocking_cols)
+            comparators = defaults[:]
+        out["comparators"] = comparators
+        out["weights"] = self._normalize_weights(out.get("weights", []), len(comparators))
+        return out
 
     def _create_blocker_from_config(
         self,
@@ -656,6 +949,7 @@ class MatchingTester:
         matcher_mode: str,
         previous_attempts: List[Dict[str, Any]] = None,
         last_error: str = None,
+        guardrails: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         if self.llm is None:
             return self._default_choice(
@@ -713,6 +1007,13 @@ Guidance:
                 human_content += (
                     f"\nList-like columns to avoid for comparators: {list_like_cols}"
                 )
+        if isinstance(guardrails, dict) and guardrails:
+            human_content += (
+                f"\n\nPAIR GUARDRAILS:\n"
+                f"- preferred_columns={guardrails.get('preferred_columns', [])}\n"
+                f"- blocking_columns={guardrails.get('blocking_columns', [])}\n"
+                f"- avoid_list_columns={guardrails.get('avoid_list_columns', False)}"
+            )
 
         failure_summary = self._format_previous_failures(analysis['left_dataset'], analysis['right_dataset'])
         if failure_summary:
@@ -734,8 +1035,14 @@ Guidance:
         )
         response_content = response.content if hasattr(response, "content") else response
         response_text = self._coerce_response_text(response_content)
-        return self._parse_llm_response(
+        parsed = self._parse_llm_response(
             response_text, analysis["common_columns"], analysis["column_types"], blocking_columns
+        )
+        return self._apply_matcher_guardrails(
+            parsed,
+            guardrails or {},
+            analysis["common_columns"],
+            analysis["column_types"],
         )
 
     def _format_previous_failures(self, name_left: str, name_right: str) -> str:
@@ -929,6 +1236,59 @@ Guidance:
             filtered = self._default_comparators(common_columns, column_types, blocking_columns)
         return filtered
 
+    def _prepare_active_choice(
+        self,
+        *,
+        choice: Dict[str, Any],
+        matcher_mode: str,
+        analysis: Dict[str, Any],
+        blocking_columns: List[str],
+    ) -> Dict[str, Any]:
+        active_choice = dict(choice)
+        if matcher_mode == "ml":
+            active_choice["comparators"] = self._filter_ml_comparators(
+                choice["comparators"],
+                analysis["common_columns"],
+                analysis["column_types"],
+                blocking_columns,
+            )
+        return self._apply_execution_choice_guard(active_choice, analysis, blocking_columns)
+
+    def _apply_execution_choice_guard(
+        self,
+        choice: Dict[str, Any],
+        analysis: Dict[str, Any],
+        blocking_columns: List[str],
+    ) -> Dict[str, Any]:
+        filtered_comps = [
+            c
+            for c in choice.get("comparators", [])
+            if not (
+                self.disallow_list_comparators
+                and (
+                    analysis["column_types"].get(c.get("column")) == "list"
+                    or bool(c.get("list_strategy"))
+                )
+            )
+        ]
+        if len(filtered_comps) == len(choice.get("comparators", [])):
+            return choice
+
+        active_choice = dict(choice)
+        active_choice["comparators"] = filtered_comps
+        active_choice["weights"] = self._normalize_weights(
+            active_choice.get("weights", []),
+            len(filtered_comps),
+        )
+        if not active_choice["comparators"]:
+            active_choice["comparators"] = self._default_comparators(
+                analysis["common_columns"],
+                analysis["column_types"],
+                blocking_columns,
+            )
+            active_choice["weights"] = self._normalize_weights([], len(active_choice["comparators"]))
+        return active_choice
+
     def _normalize_metrics(self, metrics: Any) -> Dict[str, Any]:
         if isinstance(metrics, dict):
             return metrics
@@ -1015,7 +1375,7 @@ Guidance:
         self,
         name_left: str,
         name_right: str,
-        blocker,
+        candidates_input,
         id_column: str,
         choice: Dict[str, Any],
         gold: pd.DataFrame,
@@ -1027,7 +1387,7 @@ Guidance:
             correspondences = matcher.match(
                 df_left=self.datasets_loaded[name_left],
                 df_right=self.datasets_loaded[name_right],
-                candidates=blocker,
+                candidates=candidates_input,
                 comparators=comparators,
                 weights=stable_choice["weights"],
                 threshold=stable_choice["threshold"],
@@ -1052,7 +1412,7 @@ Guidance:
         self,
         name_left: str,
         name_right: str,
-        blocker,
+        candidates_input,
         id_column: str,
         choice: Dict[str, Any],
         gold_train: pd.DataFrame,
@@ -1115,7 +1475,7 @@ Guidance:
             correspondences = ml_matcher.match(
                 self.datasets_loaded[name_left],
                 self.datasets_loaded[name_right],
-                candidates=blocker,
+                candidates=candidates_input,
                 id_column=id_column,
                 trained_classifier=classifier,
             )
@@ -1200,6 +1560,38 @@ Guidance:
             raise ValueError(f"No matching gold standard found for pair: {pair_key}")
 
         print(f"\n{'='*50}\nMATCHING: {name_left} <-> {name_right}\n{'='*50}")
+        skip_pair, gate_info = self._should_skip_pair_for_blocking_quality(name_left, name_right)
+        if skip_pair:
+            print(
+                "⛔ Skipping matching due to blocking quality gate: "
+                f"PC={gate_info.get('pair_completeness', 0.0):.4f} < {gate_info.get('threshold')}"
+            )
+            failure_tags = self._failure_tags_for_matching_event(
+                skipped_due_to_blocking_gate=True,
+                f1=0.0,
+                target_f1=self.f1_threshold,
+            )
+            skipped = {
+                "pair": f"{name_left}_{name_right}",
+                "skipped_due_to_blocking_gate": True,
+                "blocking_gate": gate_info,
+                "f1": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "failure_tags": failure_tags,
+            }
+            self.results_history.append(skipped)
+            self._trace_event(
+                pair=f"{name_left}_{name_right}",
+                decision="skip_pair",
+                extra={
+                    "stage": "matching_gate",
+                    "blocking_gate": gate_info,
+                    "failure_tags": failure_tags,
+                },
+            )
+            return skipped
+
         if id_column is None:
             gold, id_column = self._align_ids_with_gold(name_left, name_right, gold)
         print(f"    Using ID column: '{id_column}'")
@@ -1226,10 +1618,32 @@ Guidance:
         analysis = self._analyze_columns_for_pair(name_left, name_right, id_column)
         blocking_cfg, _ = self._get_blocking_config(name_left, name_right)
         blocking_columns = blocking_cfg.get("columns", []) if blocking_cfg else []
+        guardrails = self._build_matching_guardrails(analysis, blocking_columns)
         print(f"Blocking columns: {blocking_columns}")
+        print(f"Guardrails preferred columns: {guardrails.get('preferred_columns', [])[:5]}")
 
         blocker = self._create_blocker_from_config(
             name_left, name_right, id_column, analysis["common_columns"], blocking_cfg
+        )
+        try:
+            candidates_full = blocker.materialize()
+        except Exception as e:
+            err = f"{type(e).__name__}: {e}"
+            print(f"⛔ Failed to materialize blocker candidates: {err}")
+            failed = {
+                "pair": f"{name_left}_{name_right}",
+                "f1": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "error": err,
+                "blocking_strategy": blocking_cfg.get("strategy") if blocking_cfg else "fallback",
+            }
+            self.results_history.append(failed)
+            return failed
+        proxy_candidates = self._sample_candidate_pairs(candidates_full, self.proxy_max_candidates)
+        print(
+            f"Candidates: full={len(candidates_full):,}, proxy_sample={len(proxy_candidates):,} "
+            f"(margin={self.proxy_f1_margin:.3f})"
         )
 
         matcher_mode = self.matcher_mode
@@ -1253,6 +1667,8 @@ Guidance:
                 matcher_mode = "rule_based"
 
         previous_attempts, best_result = [], None
+        no_gain_streak = 0
+        f1_history: List[float] = []
 
         for attempt in range(1, self.max_attempts + 1):
             print(f"\n--- Attempt {attempt}/{self.max_attempts} ---")
@@ -1261,53 +1677,16 @@ Guidance:
                 blocking_columns,
                 matcher_mode,
                 previous_attempts if attempt > 1 else None,
+                guardrails=guardrails,
             )
-            active_choice = choice
-            if matcher_mode == "ml":
-                active_choice = dict(choice)
-                active_choice["comparators"] = self._filter_ml_comparators(
-                    choice["comparators"],
-                    analysis["common_columns"],
-                    analysis["column_types"],
-                    blocking_columns,
-                )
-                if active_choice["comparators"] != choice["comparators"]:
-                    print(
-                        f"ML comparators filtered to: {[c['column'] for c in active_choice['comparators']]}"
-                    )
-
-            # Final hard guard: never allow list-based comparators at execution time.
-            filtered_comps = [
-                c for c in active_choice.get("comparators", [])
-                if not (
-                    self.disallow_list_comparators and (
-                        analysis["column_types"].get(c.get("column")) == "list" or bool(c.get("list_strategy"))
-                    )
-                )
-            ]
-            if len(filtered_comps) != len(active_choice.get("comparators", [])):
-                removed = [
-                    c.get("column") for c in active_choice.get("comparators", [])
-                    if (
-                        self.disallow_list_comparators and (
-                            analysis["column_types"].get(c.get("column")) == "list" or bool(c.get("list_strategy"))
-                        )
-                    )
-                ]
-                print(f"    [GUARD] Removed list-based comparator columns: {removed}")
-                active_choice = dict(active_choice)
-                active_choice["comparators"] = filtered_comps
-                active_choice["weights"] = self._normalize_weights(
-                    active_choice.get("weights", []),
-                    len(filtered_comps),
-                )
-                if not active_choice["comparators"]:
-                    active_choice["comparators"] = self._default_comparators(
-                        analysis["common_columns"],
-                        analysis["column_types"],
-                        blocking_columns,
-                    )
-                    active_choice["weights"] = self._normalize_weights([], len(active_choice["comparators"]))
+            active_choice = self._prepare_active_choice(
+                choice=choice,
+                matcher_mode=matcher_mode,
+                analysis=analysis,
+                blocking_columns=blocking_columns,
+            )
+            if matcher_mode == "ml" and active_choice.get("comparators") != choice.get("comparators"):
+                print(f"ML comparators filtered to: {[c['column'] for c in active_choice['comparators']]}")
             comparator_info = []
             for comp in active_choice["comparators"]:
                 sim = comp.get("similarity_function") or comp.get("max_difference") or comp.get("max_days_difference")
@@ -1315,11 +1694,12 @@ Guidance:
             print(f"Comparators: {comparator_info}")
             if matcher_mode != "ml":
                 print(f"Weights: {choice['weights']}")
-            print(f"Threshold: {choice['threshold']}")
+                print(f"Threshold: {choice['threshold']}")
             print(f"    Reasoning: {choice['reasoning']}")
             print(f"    Reasoning (100c): {choice['reasoning'][:100]}")
 
             last_error = None
+            attempt_result: Optional[Dict[str, Any]] = None
             for error_retry in range(self.max_error_retries + 1):
                 if error_retry > 0:
                     print(f"    Retry {error_retry}: fixing error...")
@@ -1328,13 +1708,110 @@ Guidance:
                         blocking_columns,
                         matcher_mode,
                         last_error=last_error,
+                        guardrails=guardrails,
                     )
+                    active_choice = self._prepare_active_choice(
+                        choice=choice,
+                        matcher_mode=matcher_mode,
+                        analysis=analysis,
+                        blocking_columns=blocking_columns,
+                    )
+
+                proxy_metrics = None
+                proxy_error = None
+                proxy_f1 = None
+                run_proxy = (len(candidates_full) > self.proxy_max_candidates) or (best_result is not None)
+                if run_proxy:
+                    if matcher_mode == "ml":
+                        proxy_metrics, proxy_error = self._try_execute_ml_matcher(
+                            name_left,
+                            name_right,
+                            proxy_candidates,
+                            id_column,
+                            active_choice,
+                            ml_split["train"],
+                            ml_split["eval"],
+                        )
+                    else:
+                        proxy_metrics, proxy_error = self._try_execute_matcher(
+                            name_left, name_right, proxy_candidates, id_column, active_choice, gold
+                        )
+                    if proxy_error:
+                        error = proxy_error
+                    else:
+                        proxy_f1 = float((proxy_metrics or {}).get("f1", 0.0) or 0.0)
+                        required = (
+                            float(best_result.get("f1", 0.0) or 0.0) + self.proxy_f1_margin
+                            if best_result is not None
+                            else PROXY_MIN_F1_ATTEMPT1
+                        )
+                        print(
+                            f"    Proxy stage: F1={proxy_f1:.4f}, required>={required:.4f} "
+                            f"-> {'run full' if proxy_f1 >= required else 'skip full'}"
+                        )
+                        if proxy_f1 < required:
+                            attempt_result = {
+                                "pair": f"{name_left}_{name_right}",
+                                "comparators": active_choice["comparators"],
+                                "weights": choice["weights"],
+                                "threshold": choice["threshold"],
+                                "reasoning": choice["reasoning"],
+                                "matcher_type": matcher_mode,
+                                "blocking_strategy": blocking_cfg.get("strategy") if blocking_cfg else "fallback",
+                                "blocking_columns": blocking_columns,
+                                "attempt": attempt,
+                                "error_retries": error_retry,
+                                "precision": proxy_metrics.get("precision"),
+                                "recall": proxy_metrics.get("recall"),
+                                "f1": proxy_f1,
+                                "proxy_only": True,
+                                "proxy_sample_size": len(proxy_candidates),
+                                "full_candidate_size": len(candidates_full),
+                                "proxy_margin_required": self.proxy_f1_margin,
+                                "failure_tags": self._failure_tags_for_matching_event(
+                                    proxy_rejected=True,
+                                    f1=proxy_f1,
+                                    target_f1=self.f1_threshold,
+                                    fallback_blocking=(blocking_cfg is None),
+                                ),
+                            }
+                            self._trace_event(
+                                pair=f"{name_left}_{name_right}",
+                                attempt=attempt,
+                                decision="skip_full_by_proxy_gate",
+                                extra={
+                                    "mode": matcher_mode,
+                                    "proxy_f1": proxy_f1,
+                                    "required_f1": required,
+                                    "choice": {
+                                        "comparators": active_choice["comparators"],
+                                        "weights": choice["weights"],
+                                        "threshold": choice["threshold"],
+                                        "reasoning": choice.get("reasoning", ""),
+                                    },
+                                    "failure_tags": attempt_result["failure_tags"],
+                                },
+                            )
+                            no_gain_streak += 1
+                            previous_attempts.append(
+                                {
+                                    "columns": [c["column"] for c in choice["comparators"]],
+                                    "f1": proxy_f1,
+                                    "proxy_only": True,
+                                }
+                            )
+                            break
+                else:
+                    proxy_f1 = None
+
+                if attempt_result is not None:
+                    break
 
                 if matcher_mode == "ml":
                     metrics, error = self._try_execute_ml_matcher(
                         name_left,
                         name_right,
-                        blocker,
+                        candidates_full,
                         id_column,
                         active_choice,
                         ml_split["train"],
@@ -1347,7 +1824,7 @@ Guidance:
                         continue
                 else:
                     metrics, error = self._try_execute_matcher(
-                        name_left, name_right, blocker, id_column, active_choice, gold
+                        name_left, name_right, candidates_full, id_column, active_choice, gold
                     )
                 if error:
                     first_line = error.splitlines()[0] if isinstance(error, str) else str(error)
@@ -1368,6 +1845,12 @@ Guidance:
                                 "columns": [c["column"] for c in choice["comparators"]],
                                 "f1": 0.0,
                                 "error": error[:200],
+                                "failure_tags": self._failure_tags_for_matching_event(
+                                    error=error[:200],
+                                    f1=0.0,
+                                    target_f1=self.f1_threshold,
+                                    fallback_blocking=(blocking_cfg is None),
+                                ),
                             }
                         )
                         break
@@ -1388,14 +1871,43 @@ Guidance:
                     "precision": metrics.get("precision"),
                     "recall": metrics.get("recall"),
                     "f1": f1,
+                    "proxy_f1": proxy_f1,
+                    "proxy_sample_size": len(proxy_candidates),
+                    "full_candidate_size": len(candidates_full),
+                    "failure_tags": self._failure_tags_for_matching_event(
+                        f1=f1,
+                        target_f1=self.f1_threshold,
+                        fallback_blocking=(blocking_cfg is None),
+                    ),
                 }
                 if ml_split and result["matcher_type"] == "ml":
                     result["ml_split_method"] = ml_split["info"]["method"]
                     result["ml_train_size"] = ml_split["info"]["train_size"]
                     result["ml_eval_size"] = ml_split["info"]["eval_size"]
+                self._trace_event(
+                    pair=f"{name_left}_{name_right}",
+                    attempt=attempt,
+                    decision="full_evaluation",
+                    extra={
+                        "mode": matcher_mode,
+                        "proxy_f1": proxy_f1,
+                        "result_f1": f1,
+                        "threshold": self.f1_threshold,
+                        "choice": {
+                            "comparators": active_choice["comparators"],
+                            "weights": choice["weights"],
+                            "threshold": choice["threshold"],
+                            "reasoning": choice.get("reasoning", ""),
+                        },
+                    },
+                )
 
-                if best_result is None or f1 > best_result.get("f1", 0):
+                if best_result is None or f1 > (float(best_result.get("f1", 0.0) or 0.0) + self.no_gain_epsilon):
                     best_result = result
+                    no_gain_streak = 0
+                else:
+                    no_gain_streak += 1
+                f1_history.append(float(f1))
 
                 if f1 >= self.f1_threshold:
                     print(f"SUCCESS: F1={f1:.4f}")
@@ -1407,20 +1919,70 @@ Guidance:
                     {
                         "columns": [c["column"] for c in choice["comparators"]],
                         "f1": f1,
+                        "failure_tags": result.get("failure_tags", []),
                     }
                 )
+                break
+
+            if attempt_result is not None and attempt_result.get("proxy_only"):
+                f1_history.append(float(attempt_result.get("f1", 0.0) or 0.0))
+                if no_gain_streak >= self.no_gain_patience:
+                    print("⏹️ Early stop: repeated no-gain proxy outcomes")
+                    break
+                if self._emit_confidence_stop_if_needed(
+                    pair=f"{name_left}_{name_right}",
+                    attempt=attempt,
+                    f1_history=f1_history,
+                    best_result=best_result,
+                ):
+                    break
+                continue
+            if no_gain_streak >= self.no_gain_patience:
+                print("⏹️ Early stop: repeated no-gain matching attempts")
+                break
+            if self._emit_confidence_stop_if_needed(
+                pair=f"{name_left}_{name_right}",
+                attempt=attempt,
+                f1_history=f1_history,
+                best_result=best_result,
+            ):
                 break
 
         print(f"Max attempts reached. Best F1={best_result.get('f1', 0) if best_result else 0:.4f}")
         if best_result:
             self.results_history.append(best_result)
-        return best_result
+            return best_result
+        fallback = {
+            "pair": f"{name_left}_{name_right}",
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "blocking_strategy": blocking_cfg.get("strategy") if blocking_cfg else "fallback",
+            "blocking_columns": blocking_columns,
+            "failure_tags": self._failure_tags_for_matching_event(
+                f1=0.0,
+                target_f1=self.f1_threshold,
+                fallback_blocking=(blocking_cfg is None),
+            ),
+        }
+        self.results_history.append(fallback)
+        return fallback
 
     def run_all(self, id_column: str = None) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         print(f"\n{'='*50}\nMATCHING EVALUATION\n{'='*50}")
 
         all_results = []
-        discovered_config = {"id_columns": dict(self.id_columns), "matching_strategies": {}}
+        dataset_names = sorted(str(name) for name in self.datasets_loaded.keys())
+        discovered_config = {
+            "id_columns": dict(self.id_columns),
+            "matching_strategies": {},
+            "dataset_signature": "|".join(dataset_names),
+            "dataset_names": dataset_names,
+            "min_blocking_pc_for_matching": self.min_blocking_pc_for_matching,
+            "proxy_f1_margin": self.proxy_f1_margin,
+            "proxy_max_candidates": self.proxy_max_candidates,
+            "llm_trace_path": os.path.join(self.output_dir, "llm_matching_trace.jsonl"),
+        }
 
         for pair in self.gold_standards.keys():
             name_left, name_right = pair
@@ -1432,6 +1994,9 @@ Guidance:
                     "weights": result.get("weights"),
                     "threshold": result.get("threshold"),
                     "f1": result.get("f1", 0),
+                    "skipped_due_to_blocking_gate": bool(result.get("skipped_due_to_blocking_gate", False)),
+                    "proxy_f1": result.get("proxy_f1"),
+                    "failure_tags": result.get("failure_tags", []),
                 }
 
         df = pd.DataFrame(all_results)
@@ -1440,8 +2005,17 @@ Guidance:
             df.to_csv(os.path.join(self.output_dir, "matching_tester_results.csv"), index=False)
             print(f"\n📊 Results: {len(df)} pairs evaluated")
             for _, row in df.iterrows():
+                if bool(row.get("skipped_due_to_blocking_gate", False)):
+                    status = "SKIP"
+                    print(f"  {status} {row['pair']}: blocked by low blocking PC")
+                    continue
                 status = "OK" if row.get("f1", 0) >= self.f1_threshold else "WARN"
-                print(f"  {status} {row['pair']}: F1={row.get('f1', 0):.4f}")
+                proxy_txt = (
+                    f", proxy={float(row.get('proxy_f1')):.4f}"
+                    if pd.notna(row.get("proxy_f1"))
+                    else ""
+                )
+                print(f"  {status} {row['pair']}: F1={row.get('f1', 0):.4f}{proxy_txt}")
 
         dataset_sizes = {name: len(df) for name, df in self.datasets_loaded.items()}
         matching_estimate = estimate_from_matching(
@@ -1469,5 +2043,15 @@ Guidance:
         with open(os.path.join(self.output_dir, "matching_config.json"), "w") as f:
             json.dump(discovered_config, f, indent=2)
         print("Config saved to matching_config.json")
+
+        try:
+            from helpers.run_report import write_agent_run_report
+
+            output_root = os.path.dirname(self.output_dir.rstrip("/"))
+            report_path = write_agent_run_report(output_root=output_root)
+            print(f"[*] Run report updated: {report_path}")
+            discovered_config["run_report_path"] = report_path
+        except Exception as report_err:
+            print(f"[WARN] Could not generate run report: {report_err}")
 
         return df, discovered_config

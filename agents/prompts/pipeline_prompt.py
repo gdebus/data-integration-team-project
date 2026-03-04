@@ -10,6 +10,8 @@ IMPORTANT NORMALIZATION RULES:
 
 PIPELINE_MATCHING_SAFETY_RULES_BLOCK = """
 MATCHING/COMPARATOR SAFETY RULES (MANDATORY):
+- Blocking and matching are pre-tested inputs: do NOT invent new strategies or tune thresholds.
+- Use `blocking_config` and `matching_config` exactly as provided for strategy/columns/weights/thresholds.
 - Never leave StringComparator list_strategy unspecified when values may be lists.
 - Never leave NumericComparator list_strategy unspecified when values may be lists.
 - Avoid introducing preprocessing that changes representation style away from validation set conventions unless diagnostics explicitly justify it.
