@@ -1,6 +1,6 @@
 # Pipeline Snapshots
 
-notebook_name=AdaptationPipeline_Final_Blocker_Matcher_Restaurant
+notebook_name=AdaptationPipeline_Final_Blocker_Matcher
 matcher_mode=rule_based
 
 ============================================================

@@ -1,6 +1,6 @@
 # Pipeline Snapshots
 
-notebook_name=AdaptationPipeline_Final_Blocker_Matcher_Music
+notebook_name=AdaptationPipeline_Final_Blocker_Matcher
 matcher_mode=rule_based
 
 ============================================================
