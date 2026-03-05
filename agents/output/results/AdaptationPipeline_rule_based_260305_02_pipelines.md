@@ -1,6 +1,6 @@
 # Pipeline Snapshots
 
-notebook_name=AdaptationPipeline_Games
+notebook_name=AdaptationPipeline
 matcher_mode=rule_based
 
 ============================================================

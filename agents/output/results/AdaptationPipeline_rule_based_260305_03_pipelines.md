@@ -1,6 +1,6 @@
 # Pipeline Snapshots
 
-notebook_name=AdaptationPipeline_Music
+notebook_name=AdaptationPipeline
 matcher_mode=rule_based
 
 ============================================================
