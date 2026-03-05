@@ -10,8 +10,8 @@
 | [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |       |             |       |       |
 | [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|70.558%|78.612%      |       |65.000%|
 | [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|51.78% |75.924%      |       |62.857%|
-| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |54.822%  |63.830% |       |             |
-| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |53.807% |81.227% |       |             |
+| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |54.822%  |63.830% |       |46.429%  |
+| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |53.807% |81.227% |       |60.000%  |
 
 # Experiment Results - Old Evaluation Template (Fusion Accuracy)
 
