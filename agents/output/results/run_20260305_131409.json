@@ -1,0 +1,1208 @@
+{
+  "timestamp": "20260305_131409",
+  "model": "gpt-5.1",
+  "datasets": [
+    "amazon_small",
+    "goodreads_small",
+    "metabooks_small"
+  ],
+  "matcher_mode": "ml",
+  "fusion_testset": "golden_fused_books.csv",
+  "blocking_metrics": {
+    "goodreads_small_amazon_small": {
+      "pair_completeness": 0.9955156950672646,
+      "num_candidates": 149916,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publish_year"
+      ]
+    },
+    "metabooks_small_amazon_small": {
+      "pair_completeness": 0.9969788519637462,
+      "num_candidates": 149696,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publish_year"
+      ]
+    },
+    "metabooks_small_goodreads_small": {
+      "pair_completeness": 0.9930434782608696,
+      "num_candidates": 149304,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publish_year"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "goodreads_small_amazon_small": {
+      "f1_score": 0.9080459770114943
+    },
+    "metabooks_small_amazon_small": {
+      "f1_score": 0.906367041198502
+    },
+    "metabooks_small_goodreads_small": {
+      "f1_score": 0.8755364806866952
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.5571428571428572,
+    "macro_accuracy": 0.5571428571428572,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 7,
+    "total_evaluations": 140,
+    "total_correct": 78,
+    "genres_accuracy": 0.05,
+    "genres_count": 20,
+    "page_count_accuracy": 0.65,
+    "page_count_count": 20,
+    "author_accuracy": 0.4,
+    "author_count": 20,
+    "publisher_accuracy": 0.6,
+    "publisher_count": 20,
+    "publish_year_accuracy": 0.8,
+    "publish_year_count": 20,
+    "title_accuracy": 0.6,
+    "title_count": 20,
+    "language_accuracy": 0.8,
+    "language_count": 20
+  },
+  "overall_accuracy": 0.5571428571428572,
+  "blocking_config": {
+    "blocking_strategies": {
+      "goodreads_small_amazon_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "title",
+          "author",
+          "publish_year"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 0.9955156950672646,
+        "num_candidates": 149916,
+        "is_acceptable": true
+      },
+      "metabooks_small_amazon_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "title",
+          "author",
+          "publish_year"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 0.9969788519637462,
+        "num_candidates": 149696,
+        "is_acceptable": true
+      },
+      "metabooks_small_goodreads_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "title",
+          "author",
+          "publish_year"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 0.9930434782608696,
+        "num_candidates": 149304,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "amazon_small": "id",
+      "goodreads_small": "id",
+      "metabooks_small": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "amazon_small": "id",
+      "goodreads_small": "id",
+      "metabooks_small": "id"
+    },
+    "matching_strategies": {
+      "goodreads_small_amazon_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "title",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "author",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "publish_year",
+            "max_difference": 2.0
+          },
+          {
+            "type": "string",
+            "column": "publisher",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          }
+        ],
+        "weights": [
+          0.45,
+          0.3,
+          0.15,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.9080459770114943
+      },
+      "metabooks_small_amazon_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "title",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "author",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "publisher",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "publish_year",
+            "max_days_difference": 366
+          }
+        ],
+        "weights": [
+          0.45,
+          0.3,
+          0.15,
+          0.1
+        ],
+        "threshold": 0.75,
+        "f1": 0.906367041198502
+      },
+      "metabooks_small_goodreads_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "title",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "author",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "publish_year",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "publisher",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "page_count",
+            "max_difference": 30.0
+          },
+          {
+            "type": "numeric",
+            "column": "rating",
+            "max_difference": 0.3
+          },
+          {
+            "type": "numeric",
+            "column": "numratings",
+            "max_difference": 5000.0
+          },
+          {
+            "type": "string",
+            "column": "genres",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.25,
+          0.2,
+          0.1,
+          0.1,
+          0.08,
+          0.08,
+          0.04,
+          0.15
+        ],
+        "threshold": 0.7,
+        "f1": 0.8755364806866952
+      }
+    }
+  },
+  "token_usage": {
+    "prompt_tokens": 92910,
+    "completion_tokens": 17850,
+    "total_tokens": 110760,
+    "total_cost": 0.0
+  },
+  "token_usage_by_node": {
+    "per_call": {
+      "profile_data": [
+        {
+          "prompt_tokens": 292,
+          "completion_tokens": 93,
+          "total_tokens": 385,
+          "total_cost": 0.0
+        }
+      ],
+      "pipeline_adaption": [
+        {
+          "prompt_tokens": 7081,
+          "completion_tokens": 105,
+          "total_tokens": 7186,
+          "total_cost": 0.0
+        },
+        {
+          "prompt_tokens": 11041,
+          "completion_tokens": 3584,
+          "total_tokens": 14625,
+          "total_cost": 0.0
+        },
+        {
+          "prompt_tokens": 14627,
+          "completion_tokens": 3596,
+          "total_tokens": 18223,
+          "total_cost": 0.0
+        },
+        {
+          "prompt_tokens": 18219,
+          "completion_tokens": 3595,
+          "total_tokens": 21814,
+          "total_cost": 0.0
+        }
+      ],
+      "evaluation_adaption": [
+        {
+          "prompt_tokens": 6301,
+          "completion_tokens": 76,
+          "total_tokens": 6377,
+          "total_cost": 0.0
+        },
+        {
+          "prompt_tokens": 9546,
+          "completion_tokens": 2195,
+          "total_tokens": 11741,
+          "total_cost": 0.0
+        },
+        {
+          "prompt_tokens": 11744,
+          "completion_tokens": 2312,
+          "total_tokens": 14056,
+          "total_cost": 0.0
+        },
+        {
+          "prompt_tokens": 14059,
+          "completion_tokens": 2294,
+          "total_tokens": 16353,
+          "total_cost": 0.0
+        }
+      ]
+    },
+    "totals": {
+      "profile_data": {
+        "prompt_tokens": 292,
+        "completion_tokens": 93,
+        "total_tokens": 385,
+        "total_cost": 0.0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 50968,
+        "completion_tokens": 10880,
+        "total_tokens": 61848,
+        "total_cost": 0.0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 41650,
+        "completion_tokens": 6877,
+        "total_tokens": 48527,
+        "total_cost": 0.0
+      }
+    }
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "ml"
+  },
+  "execution_trace": {
+    "node_counts": {
+      "match_schemas": 1,
+      "profile_data": 1,
+      "run_blocking_tester": 1,
+      "run_matching_tester": 1,
+      "pipeline_adaption": 3,
+      "execute_pipeline": 3,
+      "cluster_analysis": 3,
+      "evaluation_adaption": 3,
+      "execute_evaluation": 3,
+      "evaluation_decision": 3,
+      "evaluation_reasoning": 2,
+      "save_results": 1
+    },
+    "transitions": [
+      {
+        "current_node": "match_schemas",
+        "next_node": "profile_data",
+        "timestamp": "2026-03-05 12:47:27,984"
+      },
+      {
+        "current_node": "profile_data",
+        "next_node": "run_blocking_tester",
+        "timestamp": "2026-03-05 12:47:29,589"
+      },
+      {
+        "current_node": "run_blocking_tester",
+        "next_node": "run_matching_tester",
+        "timestamp": "2026-03-05 12:50:07,727"
+      },
+      {
+        "current_node": "run_matching_tester",
+        "next_node": "pipeline_adaption",
+        "timestamp": "2026-03-05 12:54:19,288"
+      },
+      {
+        "current_node": "pipeline_adaption",
+        "next_node": "execute_pipeline",
+        "timestamp": "2026-03-05 12:55:14,381"
+      },
+      {
+        "current_node": "execute_pipeline",
+        "next_node": "cluster_analysis",
+        "timestamp": "2026-03-05 13:00:37,169"
+      },
+      {
+        "current_node": "evaluation_adaption",
+        "next_node": "execute_evaluation",
+        "timestamp": "2026-03-05 13:01:18,852"
+      },
+      {
+        "current_node": "execute_evaluation",
+        "next_node": "evaluation_decision",
+        "timestamp": "2026-03-05 13:01:20,474"
+      },
+      {
+        "current_node": "evaluation_decision",
+        "next_node": "evaluation_reasoning",
+        "timestamp": "2026-03-05 13:01:20,492"
+      },
+      {
+        "current_node": "pipeline_adaption",
+        "next_node": "execute_pipeline",
+        "timestamp": "2026-03-05 13:04:10,958"
+      },
+      {
+        "current_node": "execute_pipeline",
+        "next_node": "cluster_analysis",
+        "timestamp": "2026-03-05 13:07:14,962"
+      },
+      {
+        "current_node": "evaluation_adaption",
+        "next_node": "execute_evaluation",
+        "timestamp": "2026-03-05 13:08:04,791"
+      },
+      {
+        "current_node": "execute_evaluation",
+        "next_node": "evaluation_decision",
+        "timestamp": "2026-03-05 13:08:05,914"
+      },
+      {
+        "current_node": "evaluation_decision",
+        "next_node": "evaluation_reasoning",
+        "timestamp": "2026-03-05 13:08:05,925"
+      },
+      {
+        "current_node": "pipeline_adaption",
+        "next_node": "execute_pipeline",
+        "timestamp": "2026-03-05 13:10:35,217"
+      },
+      {
+        "current_node": "execute_pipeline",
+        "next_node": "cluster_analysis",
+        "timestamp": "2026-03-05 13:13:28,550"
+      },
+      {
+        "current_node": "evaluation_adaption",
+        "next_node": "execute_evaluation",
+        "timestamp": "2026-03-05 13:14:07,836"
+      },
+      {
+        "current_node": "execute_evaluation",
+        "next_node": "evaluation_decision",
+        "timestamp": "2026-03-05 13:14:09,088"
+      },
+      {
+        "current_node": "evaluation_decision",
+        "next_node": "save_results",
+        "timestamp": "2026-03-05 13:14:09,098"
+      }
+    ],
+    "log_actions": [
+      {
+        "step": "match_schemas",
+        "action": "start",
+        "why": "Align dataset schemas before blocking/matching",
+        "improvement": "Improves comparator compatibility",
+        "details": {
+          "datasets": [
+            "input/datasets/books/amazon_small.parquet",
+            "input/datasets/books/goodreads_small.parquet",
+            "input/datasets/books/metabooks_small.parquet"
+          ]
+        },
+        "_timestamp": "2026-03-05 12:47:24,860"
+      },
+      {
+        "step": "profile_data",
+        "action": "start",
+        "why": "Profile datasets to guide feature/threshold choices",
+        "improvement": "Improves matching signal selection",
+        "details": {
+          "datasets": [
+            "output/schema-matching/amazon_small.parquet",
+            "output/schema-matching/goodreads_small.parquet",
+            "output/schema-matching/metabooks_small.parquet"
+          ]
+        },
+        "_timestamp": "2026-03-05 12:47:27,984"
+      },
+      {
+        "step": "run_blocking_tester",
+        "action": "start",
+        "why": "Select blocking strategy to reduce candidates",
+        "improvement": "Improves runtime and recall balance",
+        "details": {
+          "skip": false
+        },
+        "_timestamp": "2026-03-05 12:47:29,589"
+      },
+      {
+        "step": "run_matching_tester",
+        "action": "start",
+        "why": "Select matching strategy and thresholds",
+        "improvement": "Improves correspondence quality",
+        "details": {
+          "skip": false,
+          "matcher_mode": "ml"
+        },
+        "_timestamp": "2026-03-05 12:50:07,727"
+      },
+      {
+        "step": "pipeline_adaption",
+        "action": "start",
+        "why": "Generate integration pipeline code",
+        "improvement": "Incorporates configs and prior feedback",
+        "_timestamp": "2026-03-05 12:54:19,288"
+      },
+      {
+        "step": "execute_pipeline",
+        "action": "start",
+        "why": "Run generated pipeline",
+        "improvement": "Produces correspondences for analysis",
+        "details": {
+          "attempt": 1
+        },
+        "_timestamp": "2026-03-05 12:55:14,380"
+      },
+      {
+        "step": "cluster_analysis",
+        "action": "start",
+        "why": "Analyze clusters for over/under-matching",
+        "improvement": "Guides next-iteration improvements",
+        "_timestamp": "2026-03-05 13:00:37,168"
+      },
+      {
+        "step": "evaluation_adaption",
+        "action": "start",
+        "why": "Generate evaluation code",
+        "improvement": "Measures fusion quality",
+        "_timestamp": "2026-03-05 13:00:42,960"
+      },
+      {
+        "step": "execute_evaluation",
+        "action": "start",
+        "why": "Run evaluation",
+        "improvement": "Produces accuracy metrics",
+        "details": {
+          "attempt": 1
+        },
+        "_timestamp": "2026-03-05 13:01:18,851"
+      },
+      {
+        "step": "evaluation_decision",
+        "action": "start",
+        "why": "Decide whether to iterate",
+        "improvement": "Drives improvement loop",
+        "_timestamp": "2026-03-05 13:01:20,474"
+      },
+      {
+        "step": "evaluation_reasoning",
+        "action": "start",
+        "why": "Analyze errors",
+        "improvement": "Suggests concrete fixes for next run",
+        "_timestamp": "2026-03-05 13:01:20,492"
+      },
+      {
+        "step": "pipeline_adaption",
+        "action": "start",
+        "why": "Generate integration pipeline code",
+        "improvement": "Incorporates configs and prior feedback",
+        "_timestamp": "2026-03-05 13:03:07,459"
+      },
+      {
+        "step": "execute_pipeline",
+        "action": "start",
+        "why": "Run generated pipeline",
+        "improvement": "Produces correspondences for analysis",
+        "details": {
+          "attempt": 1
+        },
+        "_timestamp": "2026-03-05 13:04:10,957"
+      },
+      {
+        "step": "cluster_analysis",
+        "action": "start",
+        "why": "Analyze clusters for over/under-matching",
+        "improvement": "Guides next-iteration improvements",
+        "_timestamp": "2026-03-05 13:07:14,961"
+      },
+      {
+        "step": "evaluation_adaption",
+        "action": "start",
+        "why": "Generate evaluation code",
+        "improvement": "Measures fusion quality",
+        "_timestamp": "2026-03-05 13:07:20,254"
+      },
+      {
+        "step": "execute_evaluation",
+        "action": "start",
+        "why": "Run evaluation",
+        "improvement": "Produces accuracy metrics",
+        "details": {
+          "attempt": 1
+        },
+        "_timestamp": "2026-03-05 13:08:04,791"
+      },
+      {
+        "step": "evaluation_decision",
+        "action": "start",
+        "why": "Decide whether to iterate",
+        "improvement": "Drives improvement loop",
+        "_timestamp": "2026-03-05 13:08:05,914"
+      },
+      {
+        "step": "evaluation_reasoning",
+        "action": "start",
+        "why": "Analyze errors",
+        "improvement": "Suggests concrete fixes for next run",
+        "_timestamp": "2026-03-05 13:08:05,925"
+      },
+      {
+        "step": "pipeline_adaption",
+        "action": "start",
+        "why": "Generate integration pipeline code",
+        "improvement": "Incorporates configs and prior feedback",
+        "_timestamp": "2026-03-05 13:09:45,589"
+      },
+      {
+        "step": "execute_pipeline",
+        "action": "start",
+        "why": "Run generated pipeline",
+        "improvement": "Produces correspondences for analysis",
+        "details": {
+          "attempt": 1
+        },
+        "_timestamp": "2026-03-05 13:10:35,217"
+      },
+      {
+        "step": "cluster_analysis",
+        "action": "start",
+        "why": "Analyze clusters for over/under-matching",
+        "improvement": "Guides next-iteration improvements",
+        "_timestamp": "2026-03-05 13:13:28,549"
+      },
+      {
+        "step": "evaluation_adaption",
+        "action": "start",
+        "why": "Generate evaluation code",
+        "improvement": "Measures fusion quality",
+        "_timestamp": "2026-03-05 13:13:33,237"
+      },
+      {
+        "step": "execute_evaluation",
+        "action": "start",
+        "why": "Run evaluation",
+        "improvement": "Produces accuracy metrics",
+        "details": {
+          "attempt": 1
+        },
+        "_timestamp": "2026-03-05 13:14:07,836"
+      },
+      {
+        "step": "evaluation_decision",
+        "action": "start",
+        "why": "Decide whether to iterate",
+        "improvement": "Drives improvement loop",
+        "_timestamp": "2026-03-05 13:14:09,088"
+      },
+      {
+        "step": "save_results",
+        "action": "start",
+        "why": "Persist run artifacts",
+        "improvement": "Enables reproducibility",
+        "_timestamp": "2026-03-05 13:14:09,098"
+      }
+    ]
+  },
+  "pipeline_search_tool_responses": [
+    {
+      "query": "PyDI EmbeddingBlocker parameters and usage",
+      "response": "PyDI.entitymatching.blocking package\n\nSubmodules\n\nPyDI.entitymatching.blocking.base module\n\nBase interfaces and utils for streaming candidate generators (blockers).\nclass\nPyDI.entitymatching.blocking.base.\nBaseBlocker\n(\ndf_left\n,\ndf_right\n,\nid_column\n,\n*\n,\nbatch_size\n=\n100000\n)\n[source]\n\nBases:\nABC\nAbstract base class for streaming candidate generators.\nContract:\n- Initialized with left/right DataFrames and strategy params\n- Iterable yielding DataFrames with columns [“id1”, “id2”, “block_key?”].\n- Each yielded batch should be <=\nbatch_size\nrows.\n-\nestimate_pairs()\nmay return an estimate or None.\n-\nstats()\nreturns simple diagnostics.\n-\nmaterialize()\nreturns all candidates as a single DataFrame (for small data).\nParameters\n:\ndf_left\n(\npd.DataFrame\n)\ndf_right\n(\npd.DataFrame\n)\nid_column\n(\nstr\n)\nbatch_size\n(\nint\n)\nestimate_pairs\n(\n)\n[source]\n\nReturn type\n:\nint | None\nmaterialize\n(\n)\n[source]\n\nCollect all candidates into a single DataFrame. For small datasets only.\nReturn type\n:\npandas.DataFrame\nstats\n(\n)\n[source]\n\nReturn type\n:\ndict\nPyDI.entitymatching.blocking.embedding module\n\nEmbedding-based blocking for entity matching using nearest neighbor search.\n\n-----\n\nParameters\n:\nrecord1\n(\npandas.Series\n)\nrecord2\n(\npandas.Series\n)\nReturn type\n:\nfloat\nclass\nPyDI.entitymatching.\nEmbeddingBlocker\n(\ndf_left\n,\ndf_right\n,\ntext_cols\n,\nid_column\n,\n*\n,\nmodel\n=\n'sentence-transformers/all-MiniLM-L6-v2'\n,\nindex_backend\n=\n'sklearn'\n,\nmetric\n=\n'cosine'\n,\ntop_k\n=\n50\n,\nthreshold\n=\n0.3\n,\nnormalize\n=\nTrue\n,\nbatch_size\n=\n25000\n,\nquery_batch_size\n=\n2048\n,\nembedder\n=\nNone\n,\nleft_embeddings\n=\nNone\n,\nright_embeddings\n=\nNone\n,\ndevice\n=\nNone\n,\noutput_dir\n=\n'output'\n,\npreprocess\n=\nNone\n)\n[source]\n\nBases:\nBaseBlocker\nEmbedding-based blocking using nearest neighbor search over text embeddings.\nThis blocker combines text columns into a single string representation,\ncomputes embeddings using sentence transformers or a custom embedder,\nand uses nearest neighbor search to find candidate pairs above a similarity threshold.\nParameters\n:\ndf_left\n(\npd.DataFrame\n) – Left dataset for blocking\ndf_right\n(\npd.DataFrame\n) – Right dataset for blocking\ntext_cols\n(\nlist\n[\nstr\n]\n) – Column names to use for text embedding (must exist in both datasets)\nmodel\n(\nstr\n,\ndefault \"sentence-transformers/all-MiniLM-L6-v2\"\n) – Model name for sentence transformers embedding\nindex_backend\n(\n\n-----\n\nembedder\n(\ncallable\n,\noptional\n) – Custom embedding function: embedder(df, text_cols) -> np.ndarray\nleft_embeddings\n(\nnp.ndarray\n,\noptional\n) – Pre-computed embeddings for left dataset\nright_embeddings\n(\nnp.ndarray\n,\noptional\n) – Pre-computed embeddings for right dataset\ndevice\n(\nstr\n,\noptional\n) – Device for embedding computation (e.g., “cpu”, “cuda:0”)\nid_column\n(\nstr\n)\noutput_dir\n(\nstr\n)\npreprocess\n(\nCallable\n[\n[\nstr\n]\n,\nstr\n]\n|\nNone\n)\nestimate_pairs\n(\n)\n[source]\n\nEstimate number of candidate pairs using sampling.\nReturn type\n:\nint | None\nclass\nPyDI.entitymatching.blocking.\nNoBlocker\n(\ndf_left\n,\ndf_right\n,\nid_column\n,\n*\n,\nbatch_size\n=\n100000\n)\n[source]\n\nBases:\nBaseBlocker\nGenerate all pairs in the Cartesian product (streamed in batches).\nSuitable for small datasets or as a baseline. For n=|L|, m=|R|, this yields\nn*m pairs split across batches of at most\nbatch_size\nrows.\nParameters\n:\ndf_left\n(\npd.DataFrame\n)\ndf_right\n(\npd.DataFrame\n)\nid_column\n(\nstr\n)\nbatch_size\n(\nint\n)\nestimate_pairs\n(\n)\n[source]\n\nReturn type\n:\nint | None\nclass\nPyDI.entitymatching.blocking.\nSortedNeighbourhoodBlocker\n(\ndf_left\n,\ndf_right\n,\nkey\n,\nid_column\n,\nwindow\n,\n*\n,\nbatch_size\n=\n100000\n,\noutput_dir\n=\n\n-----\n\nPyDI package\n\nSubpackages\n\nPyDI.entitymatching package\nSubpackages\nPyDI.entitymatching.blocking package\nSubmodules\nPyDI.entitymatching.blocking.base module\nPyDI.entitymatching.blocking.embedding module\nPyDI.entitymatching.blocking.noblocking module\nPyDI.entitymatching.blocking.sorted_neighbourhood module\nPyDI.entitymatching.blocking.standard module\nPyDI.entitymatching.blocking.token_blocking module\nModule contents\nPyDI.entitymatching.post_clustering package\nSubmodules\nPyDI.entitymatching.post_clustering.base module\nPyDI.entitymatching.post_clustering.connected_components module\nPyDI.entitymatching.post_clustering.greedy_one_to_one module\nPyDI.entitymatching.post_clustering.hierarchical_clusterer module\nPyDI.entitymatching.post_clustering.maximum_bipartite_matching module\nPyDI.entitymatching.post_clustering.stable_matching module\nModule contents\nSubmodules\nPyDI.entitymatching.base module\nBaseComparator\nBaseComparator.compare()\nBaseMatcher\nBaseMatcher.match()\nPyDI.entitymatching.comparators module\nDateComparator\nDateComparator.compare()\nNumericComparator\nNumericComparator.compare()\nStringComparator\nStringComparator.compare()\nPyDI.entitymatching.evaluation module"
+    },
+    {
+      "query": "PyDI StringComparator NumericComparator DateComparator FeatureExtractor MLBasedMatcher usage and parameters",
+      "response": "DateComparator\nDateComparator.compare()\nNumericComparator\nNumericComparator.compare()\nStringComparator\nStringComparator.compare()\nPyDI.entitymatching.evaluation module\nEntityMatchingEvaluator\nEntityMatchingEvaluator.create_cluster_consistency_report()\nEntityMatchingEvaluator.create_cluster_size_distribution()\nEntityMatchingEvaluator.evaluate_blocking()\nEntityMatchingEvaluator.evaluate_blocking_batched()\nEntityMatchingEvaluator.evaluate_matching()\nEntityMatchingEvaluator.threshold_sweep()\nEntityMatchingEvaluator.write_cluster_details()\nEntityMatchingEvaluator.write_debug_results()\nEntityMatchingEvaluator.write_record_groups_by_consistency()\nPyDI.entitymatching.feature_extraction module\nFeatureExtractor\nFeatureExtractor.create_features()\nFeatureExtractor.get_feature_names()\nVectorFeatureExtractor\nVectorFeatureExtractor.create_features()\nVectorFeatureExtractor.get_feature_names()\nPyDI.entitymatching.llm_based module\nLLMBasedMatcher\nLLMBasedMatcher.match()\nPyDI.entitymatching.ml_based module\nMLBasedMatcher\nMLBasedMatcher.get_feature_importance()\nMLBasedMatcher.match()\nMLBasedMatcher.predict_pairs()\nPyDI.entitymatching.plm_based module\nPLMBasedMatcher\nPLMBasedMatcher.match()\n\n-----\n\nMLBasedMatcher\nMLBasedMatcher.get_feature_importance()\nMLBasedMatcher.match()\nMLBasedMatcher.predict_pairs()\nPyDI.entitymatching.plm_based module\nPLMBasedMatcher\nPLMBasedMatcher.match()\nPLMBasedMatcher.predict_pairs()\nPyDI.entitymatching.rule_based module\nRuleBasedMatcher\nRuleBasedMatcher.match()\nPyDI.entitymatching.text_formatting module\nTextFormatter\nTextFormatter.format_pairs()\nTextFormatter.format_single_entities()\nTextFormatter.get_feature_names()\nModule contents\nBaseBlocker\nBaseBlocker.estimate_pairs()\nBaseBlocker.materialize()\nBaseBlocker.stats()\nBaseComparator\nBaseComparator.compare()\nBaseMatcher\nBaseMatcher.match()\nBasePostClusterer\nBasePostClusterer.cluster()\nConnectedComponentClusterer\nConnectedComponentClusterer.cluster()\nConnectedComponentClusterer.get_clusters()\nDateComparator\nDateComparator.compare()\nEmbeddingBlocker\nEmbeddingBlocker.estimate_pairs()\nEntityMatchingEvaluator\nEntityMatchingEvaluator.create_cluster_consistency_report()\nEntityMatchingEvaluator.create_cluster_size_distribution()\nEntityMatchingEvaluator.evaluate_blocking()\nEntityMatchingEvaluator.evaluate_blocking_batched()\nEntityMatchingEvaluator.evaluate_matching()\n\n-----\n\nMatchingSessionResult.metrics\nMatchingSessionResult.config\nMatchingSessionResult.candidate_pairs\nMatchingSessionResult.config\nMatchingSessionResult.feature_matrix\nMatchingSessionResult.metrics\nMatchingSessionResult.sampled_batch\nMatchingSessionResult.scored_pairs\nMaximumBipartiteMatching\nMaximumBipartiteMatching.cluster()\nMaximumBipartiteMatching.get_matching_quality()\nNoBlocker\nNoBlocker.estimate_pairs()\nNumericComparator\nNumericComparator.compare()\nPLMBasedMatcher\nPLMBasedMatcher.match()\nPLMBasedMatcher.predict_pairs()\nRuleBasedMatcher\nRuleBasedMatcher.match()\nSortedNeighbourhoodBlocker\nSortedNeighbourhoodBlocker.estimate_pairs()\nStableMatching\nStableMatching.cluster()\nStableMatching.get_stability_analysis()\nStandardBlocker\nStandardBlocker.estimate_pairs()\nStringComparator\nStringComparator.compare()\nTextFormatter\nTextFormatter.format_pairs()\nTextFormatter.format_single_entities()\nTextFormatter.get_feature_names()\nTokenBlocker\nTokenBlocker.estimate_pairs()\nVectorFeatureExtractor\nVectorFeatureExtractor.create_features()\nVectorFeatureExtractor.get_feature_names()\nrun_interactive_matching()\nPyDI.fusion package\nSubpackages\nPyDI.fusion.conflict_resolution package\nSubmodules\n\n-----\n\n(\nFeatureExtractor\nor\nVectorFeatureExtractor\n) – Feature extraction component that converts entity pairs to feature vectors.\nExamples\n>>>\nfrom\nPyDI.entitymatching\nimport\nMLBasedMatcher\n,\nFeatureExtractor\n>>>\nfrom\nPyDI.entitymatching.comparators\nimport\nStringComparator\n>>>\nfrom\nsklearn.ensemble\nimport\nRandomForestClassifier\n>>>\n>>>\n# Create feature extractor\n>>>\nextractor\n=\nFeatureExtractor\n([\n...\nStringComparator\n(\n\"title\"\n,\n\"jaro_winkler\"\n),\n...\nNumericComparator\n(\n\"year\"\n,\n\"absolute_difference\"\n)\n...\n])\n>>>\n>>>\n# Prepare training data\n>>>\ntrain_features\n=\nextractor\n.\ncreate_features\n(\ndf_left\n,\ndf_right\n,\ntrain_pairs\n,\ntrain_labels\n)\n>>>\nX\n=\ntrain_features\n.\ndrop\n([\n'label'\n,\n'id1'\n,\n'id2'\n],\naxis\n=\n1\n)\n>>>\ny\n=\ntrain_features\n[\n'label'\n]\n>>>\n>>>\n# Train classifier using full scikit-learn workflow\n>>>\nclf\n=\nRandomForestClassifier\n(\nn_estimators\n=\n100\n)\n>>>\nclf\n.\nfit\n(\nX\n,\ny\n)\n>>>\n>>>\n# Use trained classifier with matcher\n>>>\nmatcher\n=\nMLBasedMatcher\n(\nextractor\n)\n>>>\nmatches\n=\nmatcher\n.\nmatch\n(\ndf_left\n,\ndf_right\n,\ncandidates\n,\nclf\n,\nthreshold\n=\n0.7\n)\nget_feature_importance\n(\ntrained_classifier\n,\nfeature_names\n=\nNone\n)\n[source]\n"
+    },
+    {
+      "query": "PyDI MaximumBipartiteMatching and DataFusionEngine usage",
+      "response": "MatchingSessionResult.metrics\nMatchingSessionResult.config\nMatchingSessionResult.candidate_pairs\nMatchingSessionResult.config\nMatchingSessionResult.feature_matrix\nMatchingSessionResult.metrics\nMatchingSessionResult.sampled_batch\nMatchingSessionResult.scored_pairs\nMaximumBipartiteMatching\nMaximumBipartiteMatching.cluster()\nMaximumBipartiteMatching.get_matching_quality()\nNoBlocker\nNoBlocker.estimate_pairs()\nNumericComparator\nNumericComparator.compare()\nPLMBasedMatcher\nPLMBasedMatcher.match()\nPLMBasedMatcher.predict_pairs()\nRuleBasedMatcher\nRuleBasedMatcher.match()\nSortedNeighbourhoodBlocker\nSortedNeighbourhoodBlocker.estimate_pairs()\nStableMatching\nStableMatching.cluster()\nStableMatching.get_stability_analysis()\nStandardBlocker\nStandardBlocker.estimate_pairs()\nStringComparator\nStringComparator.compare()\nTextFormatter\nTextFormatter.format_pairs()\nTextFormatter.format_single_entities()\nTextFormatter.get_feature_names()\nTokenBlocker\nTokenBlocker.estimate_pairs()\nVectorFeatureExtractor\nVectorFeatureExtractor.create_features()\nVectorFeatureExtractor.get_feature_names()\nrun_interactive_matching()\nPyDI.fusion package\nSubpackages\nPyDI.fusion.conflict_resolution package\nSubmodules\n\n-----\n\nPyDI.fusion.conflict_resolution.date\nPyDI.fusion.conflict_resolution.general\nPyDI.fusion.conflict_resolution.list\nPyDI.fusion.conflict_resolution.numeric\nPyDI.fusion.conflict_resolution.string\nPyDI.fusion.engine\nPyDI.fusion.evaluation\nPyDI.fusion.provenance\nPyDI.fusion.reporting\nPyDI.fusion.strategy\nPyDI.informationextraction.autorules\nPyDI.informationextraction.base\nPyDI.informationextraction.code\nPyDI.informationextraction.evaluation\nPyDI.informationextraction.llm\nPyDI.informationextraction.regex\nPyDI.informationextraction.rules\nPyDI.io.loaders\nPyDI.normalization.datasets\nPyDI.normalization.integrations.babel_numbers\nPyDI.normalization.integrations.country\nPyDI.normalization.integrations.email\nPyDI.normalization.integrations.phone\nPyDI.normalization.integrations.pint_units\nPyDI.normalization.integrations.pydantic_validation\nPyDI.normalization.integrations.stdnum\nPyDI.normalization.json_schema\nPyDI.normalization.profile\nPyDI.normalization.scale\nPyDI.normalization.spec\nPyDI.normalization.text\nPyDI.normalization.transform\nPyDI.normalization.transforms\nPyDI.normalization.types\nPyDI.normalization.units\nPyDI.normalization.validators\nPyDI.normalization.values\nPyDI.schemamatching.base\n\n-----\n\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionResult\nFusionResult.confidence\nFusionResult.metadata\nFusionResult.rule_used\nFusionResult.sources\nFusionResult.value\nRecordGroup\nRecordGroup.add_record()\nRecordGroup.get_all_attributes()\nRecordGroup.group_id\nRecordGroup.records\nRecordGroup.source_datasets\nget_callable_name()\nPyDI.fusion.engine module\nDataFusionEngine\nDataFusionEngine.run()\napply_schema_correspondences()\nbuild_record_groups_from_correspondences()\nPyDI.fusion.evaluation module\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\n\n-----\n\nSource code for PyDI.fusion\n\"\"\"\nData fusion tools for PyDI.\nThis module provides comprehensive data fusion capabilities including:\n- Record grouping from correspondences\n- Attribute-level conflict resolution\n- Strategy-based fusion management\n- Quality evaluation and reporting\n- Provenance tracking\nThe implementation is designed to be pandas-first, modular, and extensible.\n\"\"\"\nfrom\n__future__\nimport\nannotations\n# New fusion framework components\nfrom\n.base\nimport\n(\nConflictResolutionFunction\n,\nAttributeValueFuser\n,\nFusionContext\n,\nFusionResult\n,\nRecordGroup\n,\n)\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n.engine\nimport\nDataFusionEngine\n,\nbuild_record_groups_from_correspondences\nfrom\n.evaluation\nimport\n(\nDataFusionEvaluator\n,\ncalculate_consistency_metrics\n,\ncalculate_coverage_metrics\n,\nexact_match\n,\ntokenized_match\n,\nyear_only_match\n,\nnumeric_tolerance_match\n,\nset_equality_match\n,\nboolean_match\n,\n)\nfrom\n.reporting\nimport\nFusionReport\nfrom\n.provenance\nimport\nProvenanceTracker\n,\nProvenanceInfo\n# Import built-in conflict resolution functions\nfrom\n.conflict_resolution\nimport\n(\n# String functions\nlongest_string\n,\nshortest_string\n,\nmost_complete\n,\n# Numeric functions\naverage\n,\nmedian\n,"
+    }
+  ],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "DataFusionEvaluator usage and parameters",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nModule contents\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nDataFusionEngine\nDataFusionEngine.run()\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\n\n-----\n\nschema_correspondences\n(\nOptional\n[\npd.DataFrame\n]\n) – Optional schema correspondences for attribute alignment.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column\nfor that dataset. When provided, each dataset is normalized to have\na string\n_id\ncolumn derived from the specified column. If not\nprovided, the engine will use an existing\n_id\ncolumn if present,\notherwise fall back to\nid\n.\ninclude_singletons\n(\nbool\n,\ndefault True\n) – Whether to include singleton groups (records not referenced in any\ncorrespondence) in the fused output. Set to False to return only\nrecords that participate in at least one correspondence (group size > 1).\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\n\n-----\n\n(‘score’ or ‘similarity’). When a sequence is provided, all DataFrames\nare validated and concatenated before processing. This is compatible\nwith PyDI’s CorrespondenceSet format.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column for\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy"
+    },
+    {
+      "query": "tokenized_match year_only_match set_equality_match numeric_tolerance_match in fusion evaluation",
+      "response": ".\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\nPyDI.fusion.\nprefer_higher_trust\n(\nvalues\n,\n*\n,\nsources\n=\nNone\n,\nsource_datasets\n=\nNone\n,\ntrust_map\n=\nNone\n,\ndefault_trust\n=\n1.0\n,\ntrust_key\n=\n'trust'\n,\ntie_breaker\n=\n'first'\n,\n**\nkwargs\n)\n[source]\n\nPrefer the value coming from the dataset with the highest trust level.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – Candidate values for the attribute.\nsources\n(\nList\n[\nstr\n]\n) – Record IDs corresponding 1:1 to\nvalues\n(provided by the engine).\nsource_datasets\n(\nDict\n[\nstr\n,\nstr\n]\n) – Map from record ID to dataset name (provided by the engine).\ntrust_map\n(\nDict\n[\nstr\n,\nfloat\n]\n,\noptional\n) – Map from dataset name to trust score/level. Higher means more trusted.\ndefault_trust\n(\nfloat\n,\ndefault 1.0\n) – Trust to assume for datasets not in\ntrust_map\n.\ntrust_key\n(\nstr\n,\ndefault \"trust\"\n) – Key name to use for the trust value in the emitted metadata.\ntie_breaker\n(\nstr\n,\ndefault \"first\"\n) – How to break ties when multiple datasets share the highest trust.\nOptions: “first” (preserve input order).\nReturns\n:\n\n-----\n\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\n)]\nexpected_list\n=\nexpected_value\nif\nisinstance\n(\nexpected_value\n,\nlist\n)\nelse\n[\nstr\n(\nexpected_value\n)]\nsimilarity\n=\njaccard_sim\n(\nset\n(\nfused_list\n),\nset\n(\nexpected_list\n))\nreturn\nsimilarity\n>=\nthreshold\n# String tokenization logic - clean and use Jaccard similarity\nimport\nstring\ndef\nclean_tokens\n(\ntext\n):\n# Split into words and remove punctuation\nwords\n=\nstr\n(\ntext\n)\n.\nlower\n()\n.\nsplit\n()\nclean_words\n=\n[]\nfor\nword\nin\nwords\n:\n# Remove punctuation from each word\ncleaned\n=\nword\n.\ntranslate\n(\nstr\n.\nmaketrans\n(\n''\n,\n''\n,\nstring\n.\npunctuation\n))\nif\ncleaned\n:\n# Only keep non-empty words\nclean_words\n.\nappend\n(\ncleaned\n)\nreturn\nset\n(\nclean_words\n)\nfused_tokens\n=\nclean_tokens\n(\nfused_value\n)\nexpected_tokens\n=\nclean_tokens\n(\nexpected_value\n)\n# Use Jaccard similarity between token sets\nif\nlen\n(\nfused_tokens\n)\n==\n0\nand\nlen\n(\nexpected_tokens\n)\n==\n0\n:\nreturn\nTrue\n# Both empty\nif\nlen\n(\nfused_tokens\n)\n==\n0\nor\nlen\n(\nexpected_tokens\n)\n==\n0\n:\nreturn\nFalse\n# One empty, one not\nsimilarity\n=\njaccard_sim\n(\nfused_tokens\n,\nexpected_tokens\n)\nreturn\nsimilarity\n>=\nthreshold\n[docs]\ndef\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function comparing only the year part of dates."
+    }
+  ],
+  "cluster_analysis_result": {
+    "correspondences_metabooks_small_goodreads_small.csv": {
+      "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+      "recommended_strategy": "None",
+      "recommended_action": "None",
+      "parameters": {},
+      "error": null,
+      "health_metrics": {
+        "total_clusters": 1400,
+        "max_cluster_size": 2,
+        "small_cluster_ratio": 1.0,
+        "large_cluster_ratio": 0.0,
+        "is_long_tail": true,
+        "one_to_many_ratio": 0.0,
+        "max_degree": 1,
+        "ambiguous_ratio": 0.0
+      },
+      "duplicate_stats": {
+        "one_to_many_ratio": 0.0,
+        "id1_one_to_many_ratio": 0.0,
+        "id2_one_to_many_ratio": 0.0,
+        "max_degree": 1,
+        "ambiguous_ratio": 0.0
+      },
+      "score_stats": {
+        "mean": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0
+      },
+      "adjustment_signals": {
+        "large_cluster_ratio": 0.0,
+        "one_to_many_ratio": 0.0,
+        "ambiguous_ratio": 0.0
+      },
+      "meets_target": true,
+      "is_healthy": true,
+      "cluster_distribution": [
+        {
+          "cluster_size": 2,
+          "frequency": 1400,
+          "percentage": 100.0
+        }
+      ],
+      "deep_analysis": {
+        "multi_match_entities": {
+          "left": {
+            "count": 0,
+            "top": []
+          },
+          "right": {
+            "count": 0,
+            "top": []
+          }
+        },
+        "large_clusters": []
+      }
+    },
+    "correspondences_metabooks_small_amazon_small.csv": {
+      "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+      "recommended_strategy": "None",
+      "recommended_action": "None",
+      "parameters": {},
+      "error": null,
+      "health_metrics": {
+        "total_clusters": 3281,
+        "max_cluster_size": 2,
+        "small_cluster_ratio": 1.0,
+        "large_cluster_ratio": 0.0,
+        "is_long_tail": true,
+        "one_to_many_ratio": 0.0,
+        "max_degree": 1,
+        "ambiguous_ratio": 0.0
+      },
+      "duplicate_stats": {
+        "one_to_many_ratio": 0.0,
+        "id1_one_to_many_ratio": 0.0,
+        "id2_one_to_many_ratio": 0.0,
+        "max_degree": 1,
+        "ambiguous_ratio": 0.0
+      },
+      "score_stats": {
+        "mean": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0
+      },
+      "adjustment_signals": {
+        "large_cluster_ratio": 0.0,
+        "one_to_many_ratio": 0.0,
+        "ambiguous_ratio": 0.0
+      },
+      "meets_target": true,
+      "is_healthy": true,
+      "cluster_distribution": [
+        {
+          "cluster_size": 2,
+          "frequency": 3281,
+          "percentage": 100.0
+        }
+      ],
+      "deep_analysis": {
+        "multi_match_entities": {
+          "left": {
+            "count": 0,
+            "top": []
+          },
+          "right": {
+            "count": 0,
+            "top": []
+          }
+        },
+        "large_clusters": []
+      }
+    },
+    "correspondences_goodreads_small_amazon_small.csv": {
+      "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+      "recommended_strategy": "None",
+      "recommended_action": "None",
+      "parameters": {},
+      "error": null,
+      "health_metrics": {
+        "total_clusters": 729,
+        "max_cluster_size": 2,
+        "small_cluster_ratio": 1.0,
+        "large_cluster_ratio": 0.0,
+        "is_long_tail": true,
+        "one_to_many_ratio": 0.0,
+        "max_degree": 1,
+        "ambiguous_ratio": 0.0
+      },
+      "duplicate_stats": {
+        "one_to_many_ratio": 0.0,
+        "id1_one_to_many_ratio": 0.0,
+        "id2_one_to_many_ratio": 0.0,
+        "max_degree": 1,
+        "ambiguous_ratio": 0.0
+      },
+      "score_stats": {
+        "mean": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0
+      },
+      "adjustment_signals": {
+        "large_cluster_ratio": 0.0,
+        "one_to_many_ratio": 0.0,
+        "ambiguous_ratio": 0.0
+      },
+      "meets_target": true,
+      "is_healthy": true,
+      "cluster_distribution": [
+        {
+          "cluster_size": 2,
+          "frequency": 729,
+          "percentage": 100.0
+        }
+      ],
+      "deep_analysis": {
+        "multi_match_entities": {
+          "left": {
+            "count": 0,
+            "top": []
+          },
+          "right": {
+            "count": 0,
+            "top": []
+          }
+        },
+        "large_clusters": []
+      }
+    },
+    "_overall": {
+      "diagnosis": "All correspondence files show healthy long-tail distributions.",
+      "recommended_strategy": "None",
+      "recommended_action": "None",
+      "parameters": {},
+      "unhealthy_files": [],
+      "target_thresholds": {
+        "small_cluster_ratio": 0.9,
+        "large_cluster_ratio": 0.005,
+        "one_to_many_ratio": 0.03
+      }
+    },
+    "_before": {
+      "correspondences_metabooks_small_goodreads_small.csv": {
+        "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+        "recommended_strategy": "None",
+        "recommended_action": "None",
+        "parameters": {},
+        "error": null,
+        "health_metrics": {
+          "total_clusters": 1400,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "is_long_tail": true,
+          "one_to_many_ratio": 0.0,
+          "max_degree": 1,
+          "ambiguous_ratio": 0.0
+        },
+        "duplicate_stats": {
+          "one_to_many_ratio": 0.0,
+          "id1_one_to_many_ratio": 0.0,
+          "id2_one_to_many_ratio": 0.0,
+          "max_degree": 1,
+          "ambiguous_ratio": 0.0
+        },
+        "score_stats": {
+          "mean": 1.0,
+          "p50": 1.0,
+          "p75": 1.0,
+          "p90": 1.0
+        },
+        "adjustment_signals": {
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0,
+          "ambiguous_ratio": 0.0
+        },
+        "meets_target": true,
+        "is_healthy": true,
+        "cluster_distribution": [
+          {
+            "cluster_size": 2,
+            "frequency": 1400,
+            "percentage": 100.0
+          }
+        ],
+        "deep_analysis": {
+          "multi_match_entities": {
+            "left": {
+              "count": 0,
+              "top": []
+            },
+            "right": {
+              "count": 0,
+              "top": []
+            }
+          },
+          "large_clusters": []
+        }
+      },
+      "correspondences_metabooks_small_amazon_small.csv": {
+        "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+        "recommended_strategy": "None",
+        "recommended_action": "None",
+        "parameters": {},
+        "error": null,
+        "health_metrics": {
+          "total_clusters": 3281,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "is_long_tail": true,
+          "one_to_many_ratio": 0.0,
+          "max_degree": 1,
+          "ambiguous_ratio": 0.0
+        },
+        "duplicate_stats": {
+          "one_to_many_ratio": 0.0,
+          "id1_one_to_many_ratio": 0.0,
+          "id2_one_to_many_ratio": 0.0,
+          "max_degree": 1,
+          "ambiguous_ratio": 0.0
+        },
+        "score_stats": {
+          "mean": 1.0,
+          "p50": 1.0,
+          "p75": 1.0,
+          "p90": 1.0
+        },
+        "adjustment_signals": {
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0,
+          "ambiguous_ratio": 0.0
+        },
+        "meets_target": true,
+        "is_healthy": true,
+        "cluster_distribution": [
+          {
+            "cluster_size": 2,
+            "frequency": 3281,
+            "percentage": 100.0
+          }
+        ],
+        "deep_analysis": {
+          "multi_match_entities": {
+            "left": {
+              "count": 0,
+              "top": []
+            },
+            "right": {
+              "count": 0,
+              "top": []
+            }
+          },
+          "large_clusters": []
+        }
+      },
+      "correspondences_goodreads_small_amazon_small.csv": {
+        "diagnosis": "The cluster distribution shows a healthy long-tail pattern with mostly small clusters and very few large clusters.",
+        "recommended_strategy": "None",
+        "recommended_action": "None",
+        "parameters": {},
+        "error": null,
+        "health_metrics": {
+          "total_clusters": 729,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "is_long_tail": true,
+          "one_to_many_ratio": 0.0,
+          "max_degree": 1,
+          "ambiguous_ratio": 0.0
+        },
+        "duplicate_stats": {
+          "one_to_many_ratio": 0.0,
+          "id1_one_to_many_ratio": 0.0,
+          "id2_one_to_many_ratio": 0.0,
+          "max_degree": 1,
+          "ambiguous_ratio": 0.0
+        },
+        "score_stats": {
+          "mean": 1.0,
+          "p50": 1.0,
+          "p75": 1.0,
+          "p90": 1.0
+        },
+        "adjustment_signals": {
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0,
+          "ambiguous_ratio": 0.0
+        },
+        "meets_target": true,
+        "is_healthy": true,
+        "cluster_distribution": [
+          {
+            "cluster_size": 2,
+            "frequency": 729,
+            "percentage": 100.0
+          }
+        ],
+        "deep_analysis": {
+          "multi_match_entities": {
+            "left": {
+              "count": 0,
+              "top": []
+            },
+            "right": {
+              "count": 0,
+              "top": []
+            }
+          },
+          "large_clusters": []
+        }
+      },
+      "_overall": {
+        "diagnosis": "All correspondence files show healthy long-tail distributions.",
+        "recommended_strategy": "None",
+        "recommended_action": "None",
+        "parameters": {},
+        "unhealthy_files": [],
+        "target_thresholds": {
+          "small_cluster_ratio": 0.9,
+          "large_cluster_ratio": 0.005,
+          "one_to_many_ratio": 0.03
+        }
+      },
+      "_matching_config_update": {
+        "updated": false,
+        "changes": {},
+        "notes": "All pairs meet target thresholds; skipping weight update.",
+        "pairs_to_update": [],
+        "skipped_pairs": [
+          "goodreads_small_amazon_small",
+          "metabooks_small_amazon_small",
+          "metabooks_small_goodreads_small"
+        ],
+        "skipped_due_to_max": [],
+        "max_update_attempts": 2,
+        "update_attempts": {}
+      }
+    },
+    "_matching_config_update": {
+      "updated": false,
+      "changes": {},
+      "notes": "All pairs meet target thresholds; skipping weight update.",
+      "pairs_to_update": [],
+      "skipped_pairs": [
+        "goodreads_small_amazon_small",
+        "metabooks_small_amazon_small",
+        "metabooks_small_goodreads_small"
+      ],
+      "skipped_due_to_max": [],
+      "max_update_attempts": 2,
+      "update_attempts": {}
+    },
+    "_comparison_prev": {
+      "correspondences_metabooks_small_amazon_small.csv": {
+        "before": {
+          "total_clusters": 3281,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0
+        },
+        "after": {
+          "total_clusters": 3281,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0
+        },
+        "delta": {
+          "small_cluster_ratio": 0.0,
+          "large_cluster_ratio": 0.0,
+          "max_cluster_size": 0,
+          "total_clusters": 0,
+          "one_to_many_ratio": 0.0
+        }
+      },
+      "correspondences_metabooks_small_goodreads_small.csv": {
+        "before": {
+          "total_clusters": 1400,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0
+        },
+        "after": {
+          "total_clusters": 1400,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0
+        },
+        "delta": {
+          "small_cluster_ratio": 0.0,
+          "large_cluster_ratio": 0.0,
+          "max_cluster_size": 0,
+          "total_clusters": 0,
+          "one_to_many_ratio": 0.0
+        }
+      },
+      "correspondences_goodreads_small_amazon_small.csv": {
+        "before": {
+          "total_clusters": 729,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0
+        },
+        "after": {
+          "total_clusters": 729,
+          "max_cluster_size": 2,
+          "small_cluster_ratio": 1.0,
+          "large_cluster_ratio": 0.0,
+          "one_to_many_ratio": 0.0
+        },
+        "delta": {
+          "small_cluster_ratio": 0.0,
+          "large_cluster_ratio": 0.0,
+          "max_cluster_size": 0,
+          "total_clusters": 0,
+          "one_to_many_ratio": 0.0
+        }
+      }
+    }
+  },
+  "evaluation_reasoning_history": [
+    {
+      "analysis": "1. Dominant error types (from debug events + metrics)\n----------------------------------------------------\n\nAcross 20 gold records × 7 attributes = 140 checks:\n\n- **Genres is the main failure**  \n  - Accuracy 0.05 → 19/20 wrong.  \n  - All genres mismatches are of type `'mismatch'` (sets don’t match), not missing values.\n  - Pattern: fused has multiple genre lists (one per source) instead of a single merged set; evaluation expects a *flattened* union-of-genres set.\n\n- **Author and Title also weak**\n  - Author accuracy 0.45; Title accuracy 0.60.\n  - Two main patterns:\n    - `'missing_fused_value'` for all attributes of some gold records (e.g. amazon_135479, goodreads_8611, amazon_12422). That means **those gold IDs never appear in any fused cluster** → fusion never created a record that includes them.\n    - `'mismatch'` where value is semantically correct but has extra decorations or series info:\n      - Author: `'Name (Goodreads Author)'`, `'Name (Editor)'`, `'Name (Illustrator)'`.\n      - Title: `'The Upstairs Room (Trophy Newbery)'` vs `'The Upstairs Room'`, series labels in parentheses, reordered series info, etc.\n      - Publisher: `'Simon &amp; Schuster (Trade Division)'` vs `'Simon & Schuster'`, “Vintage Books USA” vs “Vintage”, etc.\n\n- **Publisher and Page Count moderate**\n  - Publisher accuracy 0.65; Page count 0.65.\n  - Publisher: similar semantic but non-identical strings (extra imprint words).\n  - Page count: numeric differences of 10–20 pages, and some completely missing values (no fused value for that gold ID).\n\n- **Language and Publish Year are good**\n  - Language 0.85, Publish year 0.85. Remaining errors are mostly due to **completely missing fused rows** for some gold IDs, not incorrect values.\n\n- **Error types split**\n  - A substantial share of errors: `'missing_fused_value'` — these are effectively **false negatives at the cluster level** (the gold entity is not represented at all in fusion output, or not mapped in evaluation).\n  - The rest are `'mismatch'` where fused value is *plausible/correct but formatted differently* from gold → **fusion/preprocessing / evaluation mismatch**, not entity resolution.\n\n2. Root causes: where in the pipeline?\n--------------------------------------\n\nGiven:\n- Blocking: very high pair completeness (~0.99) and “healthy long-tail” clusters.\n- Matching: high F1 (0.87–0.91) per pair; cluster analysis shows only 1:1 pairs, no large or ambiguous clusters.\n- Therefore, blocking/matching are not the main pain point. Fusion + evaluation alignment are.\n\n### 2.1 Missing fused values (`fused_id: NaN`)\n\nFor amazon_135479, goodreads_8611, amazon_12422, every attribute is missing:\n\n- This means **no fused record had a `_fusion_sources` including those IDs**, or the evaluator failed to map them.\n- Likely causes:\n  - `include_singletons=False` in `engine.run(...)`: entities that matched no other source are dropped entirely, even if they exist in gold. If a gold record is a singleton (or matched only across non-gold sources), it can go missing.\n  - `build_eval_view` mapping:  \n    - It selects `source_ids` from `_fusion_sources`.  \n    - Then filters to those with the majority prefix (`amazon_`, `goodreads_`, etc.) or those in gold_ids.  \n    - If a gold ID is *never* in `_fusion_sources` (e.g. only appears as `_id` or is missing from correspondences), it’s not evaluated.\n- Given we see *systematic* missing for three gold IDs, the primary cause is:\n  - **Fusion engine plus include_singletons=False dropping some gold IDs** due to lack of matches or incomplete correspondences.\n\nThis is a **fusion-logic / evaluation-coverage** problem, not blocking or matching.\n\n### 2.2 Mismatched text fields (author, title, publisher, language)\n\nPatterns:\n\n- Authors with roles / platform tags:\n  - `'Johanna Reiss (Goodreads Author)'` vs `'Johanna Reiss'`\n  - `'Dina Anastasio (Adaptation), Sharon Ross (Illustrator)'` vs `'Dina Anastasio'`\n  - `'Isaac Bashevis Singer, Herb Johnson (Designed by)'` vs `'Isaac Bashevis Singer'`\n\n- Titles with series or edition info:\n  - `'The Upstairs Room (Trophy Newbery)'` vs `'The Upstairs Room'`\n  - `'Chilly Scenes of Winter (Vintage Contemporaries)'` vs `'Chilly Scenes of Winter'`\n  - `'Secret Circle Vol I: The Initiation (Secret Circle, Vol I)'` vs `'The Initiation (The Secret Circle, Vol. 1)'`\n\n- Publishers with imprint/region:\n  - `'Vintage Books USA'` vs `'Vintage'`\n  - `'Simon &amp; Schuster (Trade Division)'` vs `'Simon & Schuster'`\n  - `'Barron's Educational Series'` vs `'B.E.S. Publishing'`\n  - `'Jove Books'` vs `'Berkley'` (imprint vs parent publisher)\n\nAll these are not blocking or matching errors; they are **fusion choice + lack of normalization**:\n\n- Current fusion strategy always uses `longest_string` for these attributes, which systematically prefers the most verbose variant, often including series, roles, or imprint details.\n- Evaluation uses `tokenized_match`, which is somewhat tolerant but:\n  - Parentheticals and additional names/roles often change token sets.\n  - For publishers like “Vintage Books USA” vs “Vintage”, token sets differ noticeably (extra tokens, no synonyming, HTML-encoded `&amp;` etc.).\n\nSo this is primarily:\n\n- **Fusion design issue**: `longest_string` is not semantically appropriate for normalized keys like author, title, publisher.\n- **Preprocessing issue**: no regex/HTML normalization, no role filtering, no series/edition stripping.\n\n### 2.3 Page count mismatches\n\n- Differences like 216 vs 240, 464 vs 480, 342 vs 352, etc.\n- Evaluation uses `numeric_tolerance_match` but fused strategy uses `longest_string` (string-based) for `page_count`, i.e., no numeric reasoning in fusion.\n- Likely pattern:\n  - Different sources have slightly different editions (paperback vs hardcover) or counting (appendices, forewords, etc.).\n  - `longest_string` tends to pick an arbitrary variant, sometimes not the gold reference.\n- This is **fusion logic**, not matching: you’re not aggregating numbers thoughtfully (e.g., majority vote, median, or closest-to-gold semantics).\n\n### 2.4 Genres: systematic fusion failure\n\n- Gold example: a **single list** (conceptually a set) like:  \n  `'Wicca, Nonfiction, Spirituality, Religion, Witchcraft, Paganism, Occult, Reference, Magick, New Age, Religion, Spirituality, New Age'`\n- Fused example: **list of lists**:\n  ```python\n  [\n    'Religion, Spirituality, New Age',\n    'Wicca, Nonfiction, Spirituality, Religion, Witchcraft, Paganism, Occult, Reference, Magick, New Age',\n    'Wicca, Paganism, Spirituality, Nonfiction, Religion, Witchcraft, Occult, Magick, Reference, New Age'\n  ]\n  ```\n- Evaluator uses `set_equality_match`, and you normalize list-like columns. But the fusion strategy is:\n  ```python\n  strategy.add_attribute_fuser('genres', union)\n  ```\n  In PyDI, `union` likely unions **iterables**, but your inputs appear to be strings of comma-separated tags or lists of such strings. The output ends up as multiple comma-joined strings, not a flat set of atomic genres. After normalization, this still does not match the gold’s single flattened set.\n\nSo:\n- Dominant failure cause here is **fusion semantics for multi-valued attributes**: `union` is not flattening the text categories into a single unique set of tags, but producing a union of lists/strings. Evaluation expects atomic genre tokens.\n\n3. Cluster analysis: what it tells us\n-------------------------------------\n\nCluster report says:\n\n- Each correspondence file has:\n  - `max_cluster_size = 2`\n  - `one_to_many_ratio = 0.0`\n  - `ambiguous_ratio = 0.0`\n  - Score mean and percentiles = 1.0 (because after bipartite matching, you kept only top-1 matches).\n- Diagnosis: “healthy long-tail”, “meets target”, “no strategy changes”.\n\nInterpretation:\n\n- The **pairwise match sets are clean and mostly 1–1**. No big over-merging or under-constrained clusters.\n- `'MaximumBipartiteMatching().cluster(...)'` enforces 1–1 by design, so large clusters never appear.\n- This reinforces that **blocking and pairwise matching are not our main problem**.\n- However, 1–1 bipartite clustering on each pair doesn’t automatically give you *global* 3-way clusters (amazon–goodreads–metabooks); you’re simply concatenating all correspondences later:\n  ```python\n  all_ml_correspondences = pd.concat([...])\n  ```\n  It’s important that PyDI’s `DataFusionEngine` knows how to resolve these into multi-source clusters. The cluster analysis shows that **within each pair**, there are no multi-matches, so global clustering should be relatively straightforward.\n\nConclusion: no need to modify blocking/matching. Focus efforts on:\n\n- Ensuring **coverage** of gold IDs in fusion output.\n- Improving **attribute fusion functions and normalization**.\n\n4. Concrete, actionable improvements for next iteration\n-------------------------------------------------------\n\n### 4.1 Fix missing fused values / coverage\n\n1. **Include singletons in fusion output**  \n\n   Change:\n\n   ```python\n   ml_fused = engine.run(\n       datasets=[amazon_small, goodreads_small, metabooks_small],\n       correspondences=all_ml_correspondences,\n       id_column='id',\n       include_singletons=False,\n   )\n   ```\n\n   to:\n\n   ```python\n   ml_fused = engine.run(\n       datasets=[amazon_small, goodreads_small, metabooks_small],\n       correspondences=all_ml_correspondences,\n       id_column='id',\n       include_singletons=True,\n   )\n   ```\n\n   This ensures gold entities that don’t match any other source still appear and can be evaluated.\n\n2. **Tighten `build_eval_view` mapping for gold IDs**\n\n   Add a fallback that, for any gold `id` that is not covered by `eval_id`, tries to:\n   - Match on `_id` directly if equal to gold id.\n   - Or, if there’s no fused record at all (even with singletons on), treat it as an uncovered case (currently it simply never appears in evaluation).\n\n   Minimal addition after computing `fused_eval`:\n\n   ```python\n   # Ensure every gold id is represented once if possible\n   gold_ids = set(fusion_test_set['id'].dropna().astype(str))\n   covered = set(fused_eval['eval_id'].astype(str))\n   missing_ids = gold_ids - covered\n\n   if missing_ids:\n       # Try to match by _id if present\n       fused_by_id = fused.set_index('_id') if '_id' in fused.columns else None\n       extra_rows = []\n       for gid in missing_ids:\n           if fused_by_id is not None and gid in fused_by_id.index:\n               r = fused_by_id.loc[gid].to_dict()\n               r['eval_id'] = gid\n               r['_eval_cluster_id'] = str(r.get('_id', gid))\n               extra_rows.append(r)\n       if extra_rows:\n           fused_eval = pd.concat([fused_eval, pd.DataFrame(extra_rows)], ignore_index=True)\n   ```\n\n   This reduces “missing_fused_value” for gold entities that *do* exist as singleton fused records.\n\n### 4.2 Replace `longest_string` with smarter fusers\n\n#### 4.2.1 Author\n\nGoal: single, normalized author name (no roles/tags).\n\nImplement a custom fuser:\n\n```python\nimport re\n\nROLE_PATTERN = re.compile(r'\\s*\\([^)]*\\)')\nSEPARATOR_PATTERN = re.compile(r'\\s*,\\s*')\n\ndef normalize_author(value: str) -> str:\n    if not isinstance(value, str):\n        return ''\n    v = value.strip()\n    # Drop everything after first ',' (co-authors, illustrators)\n    v = SEPARATOR_PATTERN.split(v)[0]\n    # Remove parenthetical tags: (Goodreads Author), (Editor), etc.\n    v = ROLE_PATTERN.sub('', v)\n    return v.strip()\n\ndef author_fuser(values):\n    # values: list of source values\n    candidates = [normalize_author(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    # Majority vote by normalized string\n    from collections import Counter\n    cnt = Counter(candidates)\n    return cnt.most_common(1)[0][0]\n```\n\nThen update strategy:\n\n```python\nstrategy.add_attribute_fuser('author', author_fuser)\n```\n\nThis should fix nearly all author “(Goodreads Author)” and role-related mismatches.\n\n#### 4.2.2 Title\n\nGoal: base work title, de-emphasizing series/periphery.\n\n```python\nSERIES_PATTERN = re.compile(r'\\s*\\([^)]*\\)$')  # strip trailing parentheses\n\ndef normalize_title(value: str) -> str:\n    if not isinstance(value, str):\n        return ''\n    v = value.strip()\n    # Remove trailing series/edition marker in parentheses\n    v = SERIES_PATTERN.sub('', v)\n    return v.strip()\n\ndef title_fuser(values):\n    candidates = [normalize_title(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    from collections import Counter\n    cnt = Counter(candidates)\n    # pick most common normalized form\n    return cnt.most_common(1)[0][0]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('title', title_fuser)\n```\n\nThis addresses “The Upstairs Room (Trophy Newbery)” vs “The Upstairs Room” and similar.\n\n#### 4.2.3 Publisher\n\nGoal: normalize imprints and clean HTML.\n\n```python\nimport html\n\ndef normalize_publisher(value: str) -> str:\n    if not isinstance(value, str):\n        return ''\n    v = html.unescape(value)  # fix &amp;\n    v = v.strip()\n    # Drop text in parentheses: divisions/imprints\n    v = re.sub(r'\\s*\\([^)]*\\)', '', v)\n    v = v.strip()\n    return v\n\ndef publisher_fuser(values):\n    cands = [normalize_publisher(v) for v in values if isinstance(v, str) and v.strip()]\n    if not cands:\n        return None\n    from collections import Counter\n    cnt = Counter(cands)\n    return cnt.most_common(1)[0][0]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('publisher', publisher_fuser)\n```\n\nThis will handle `'Simon &amp; Schuster (Trade Division)'` vs `'Simon & Schuster'`.  \nThe “Jove Books” vs “Berkley” case might remain a mismatch (imprint vs parent) — acceptable unless you add an imprint-to-parent map.\n\n#### 4.2.4 Publish year\n\nCurrently fused with `longest_string` while evaluation uses `numeric_tolerance_match`. Use numeric fuser:\n\n```python\ndef publish_year_fuser(values):\n    nums = []\n    for v in values:\n        try:\n            if pd.isna(v):\n                continue\n            nums.append(int(str(v).strip()[:4]))  # extract year\n        except Exception:\n            continue\n    if not nums:\n        return None\n    # majority or median; median is robust to outliers\n    return int(round(np.median(nums)))\n```\n\nUpdate:\n\n```python\nstrategy.add_attribute_fuser('publish_year', publish_year_fuser)\n```\n\nThis should push publish_year accuracy toward 1.0.\n\n#### 4.2.5 Page count\n\nTreat as numeric:\n\n```python\ndef page_count_fuser(values):\n    nums = []\n    for v in values:\n        try:\n            if pd.isna(v):\n                continue\n            nums.append(int(v))\n        except Exception:\n            continue\n    if not nums:\n        return None\n    # Choose median or mode to be robust\n    return int(round(np.median(nums)))\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('page_count', page_count_fuser)\n```\n\nThat should significantly reduce mismatches within the evaluation’s numeric tolerance.\n\n#### 4.2.6 Language\n\nLanguage is simple; but you currently use `longest_string`. Normalize:\n\n```python\ndef normalize_language(value: str) -> str:\n    if not isinstance(value, str):\n        return ''\n    return value.strip().lower()\n\ndef language_fuser(values):\n    cands = [normalize_language(v) for v in values if isinstance(v, str) and v.strip()]\n    if not cands:\n        return None\n    from collections import Counter\n    cnt = Counter(cands)\n    return cnt.most_common(1)[0][0]\n```\n\n```python\nstrategy.add_attribute_fuser('language', language_fuser)\n```\n\nThis mainly cures casing or minor variants.\n\n### 4.3 Fix genres fusion (dominant error driver)\n\nImplement a **flat set-merge fuser** that works well with your evaluation’s `set_equality_match` and list normalization.\n\n```python\ndef split_genre_string(s: str):\n    # Split 'A, B, C' into ['A','B','C']\n    return [g.strip() for g in s.split(',') if g.strip()]\n\ndef genres_fuser(values):\n    # values can be strings or lists (from different sources)\n    genres = set()\n    for v in values:\n        if v is None or (isinstance(v, float) and pd.isna(v)):\n            continue\n        if isinstance(v, str):\n            # Treat entire string as comma-separated list\n            genres.update(split_genre_string(v))\n        elif isinstance(v, (list, tuple, set)):\n            for item in v:\n                if isinstance(item, str):\n                    genres.update(split_genre_string(item))\n                else:\n                    # fallback: cast to string and split\n                    genres.update(split_genre_string(str(item)))\n        else:\n            genres.update(split_genre_string(str(v)))\n    if not genres:\n        return None\n    # return as sorted, comma-joined string – consistent with gold format\n    return ', '.join(sorted(genres))\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('genres', genres_fuser)\n```\n\nThis will:\n\n- Convert all comma-separated genre strings into atomic tags.\n- Union them across all sources into a single unique set.\n- Produce almost exactly what the gold appears to have: one string with all genres.\n\nGiven the current failures are all due to having lists of list-strings instead of one flattened set, this change alone should dramatically increase genres accuracy from 0.05 to near 1.0.\n\n### 4.4 Clean up “numeric-like attributes as strings”\n\nYou currently fuse `rating`, `numratings`, `page_count`, `price` with `longest_string`. At minimum, make them numeric:\n\n```python\ndef numeric_median_fuser(values, to_type=float):\n    nums = []\n    for v in values:\n        try:\n            if pd.isna(v):\n                continue\n            nums.append(to_type(v))\n        except Exception:\n            continue\n    if not nums:\n        return None\n    return to_type(np.median(nums))\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('rating', lambda vs: numeric_median_fuser(vs, float))\nstrategy.add_attribute_fuser('numratings', lambda vs: numeric_median_fuser(vs, int))\nstrategy.add_attribute_fuser('page_count', lambda vs: numeric_median_fuser(vs, int))  # as above\nstrategy.add_attribute_fuser('price', lambda vs: numeric_median_fuser(vs, float))\n```\n\nThis will better align with `numeric_tolerance_match` for any numeric fields the evaluator checks.\n\n5. Summary of primary causes and fixes\n--------------------------------------\n\n- **Dominant error types**\n  - Genres: almost all mismatches due to incorrect fusion (multi-list instead of flattened set).\n  - Author/Title/Publisher: semantic matches but formatting mismatches (roles, series info, imprints, HTML).\n  - Missing_fused_value: some gold IDs not present in fusion/eval due to `include_singletons=False` and ID-mapping limitations.\n\n- **Not caused by**:\n  - Blocking: pair completeness ~0.99; cluster health good.\n  - Matching: high F1 per pair; correspondences are 1–1, no large/ambiguous clusters.\n\n- **Main causes**:\n  - Fusion design: overuse of `longest_string`, inappropriate for normalized identifiers and numerics.\n  - Preprocessing / schema normalization: no stripping of parenthetical metadata, roles, HTML entities.\n  - Evaluation alignment: dropped singletons and imperfect mapping of fused IDs to gold IDs.\n\n- **Key actions for next iteration**:\n  1. Set `include_singletons=True` and improve `build_eval_view` fallback mapping for uncovered gold IDs.\n  2. Replace `longest_string` with custom, semantics-aware fusers:\n     - Author: strip roles and extra contributors; majority vote on normalized name.\n     - Title: strip trailing series/edition parentheses; majority vote.\n     - Publisher: HTML-unescape, strip parentheses; majority vote.\n     - Publish year, page_count, rating, numratings, price: use numeric median/majority, not string.\n     - Language: simple normalized majority vote.\n  3. Implement a **genres_fuser** that flattens comma-separated strings into a single deduplicated sorted set (string representation), aligning exactly with `set_equality_match`.\n  4. Re-run evaluation; expect large gains especially in genres, author, title, and publisher accuracy, pushing overall accuracy substantially above 0.58.\n\nThese changes focus solely on fusion and evaluation alignment, keeping your already-validated blocking/matching untouched.",
+      "evaluation_attempt": 1,
+      "overall_accuracy": 0.5857142857142857
+    },
+    {
+      "analysis": "1. Dominant error types (from debug events and metrics)\n------------------------------------------------------\n\nAcross 140 attribute evaluations:\n\n- **Genres is the main failure point**  \n  - Accuracy: **0.05** (1/20 correct)  \n  - All 20 debug lines for `genres` are mismatches.\n  - Pattern: gold = single flattened list of genres; fused = 2-element list where each element is itself a long comma‑separated string.  \n  - Evaluation rule is `set_equality_match`, so this representation mismatch makes almost everything wrong.\n\n- **Authors have systematic but mild formatting errors**\n  - Accuracy: **0.45**  \n  - Many mismatches are of the form:\n    - `'Nora Roberts (Goodreads Author)'` vs `'Nora Roberts'`\n    - `'Frances Hodgson Burnett, Nancy Bond (Foreword)'` vs `'Frances Hodgson Burnett'`\n  - This is **not** an entity-matching error; it’s a fusion/normalization issue.\n\n- **Titles: errors mostly from extra series/edition info**\n  - Accuracy: **0.65**  \n  - Mismatches like:\n    - `'The Upstairs Room (Trophy Newbery)'` vs `'The Upstairs Room'`\n    - `'Chilly Scenes of Winter (Vintage Contemporaries)'` vs `'Chilly Scenes of Winter'`\n    - `'Secret Circle Vol I: The Initiation (Secret Circle, Vol I)'` vs `'The Initiation (The Secret Circle, Vol. 1)'`  \n  - Again: fusion favors the “longest” string; gold is often the cleaner canonical title.\n\n- **Publishers: imprint / formatted name differences**\n  - Accuracy: **0.65**  \n  - Examples:\n    - `'Vintage Books USA'` vs `'Vintage'`\n    - `'Barron's Educational Series'` vs `'B.E.S. Publishing'`\n    - `'Simon &amp; Schuster (Trade Division)'` vs `'Simon & Schuster'`\n  - These are schema/normalization and choice-of-source issues.\n\n- **Language, publish_year, page_count perform relatively well**\n  - language_accuracy: **0.85**  \n  - publish_year_accuracy: **0.85**  \n  - page_count_accuracy: **0.7** (only one mismatch shown: 464 vs 480, likely outside numeric tolerance, or poor source choice)\n\n- **Missing fused values (false negatives / coverage issues)**\n  - Repeated `fused_id: NaN` + `reason: 'missing_fused_value'` for:\n    - ids like `amazon_135479`, `goodreads_8611`, `amazon_12422`  \n    - across attributes: `genres`, `author`, `language`, `title`, `publisher`, `page_count`, etc.\n  - This indicates: some gold entities **never appear in any fused cluster** (include_singletons=False; or no matches reached them).\n\nSummary of dominant error types:\n- **Type A – Representation errors:**  \n  - Genres: 2-level list-of-strings vs flattened tag list → catastrophic accuracy.\n  - Author/title/publisher: extra roles, series, imprints, HTML entities, etc.\n- **Type B – Source selection errors:**  \n  - Fusion choosing the “longest string” (noisy) instead of the canonical / majority value.\n- **Type C – Coverage / missing clusters:**  \n  - Some gold ids not present in fused output at all → `missing_fused_value` across attributes.\n- **Type D – A few numeric tolerance mismatches:**  \n  - E.g., page_count 464 vs 480.\n\nFalse positives vs false negatives:\n- Within attributes where values exist, issues are mostly **systematic mismatches** (not random FP/ FN) due to fusion logic.\n- `NaN` fused_id rows indicate **false negatives at the cluster level** (missing entities / no cluster coverage).\n\n\n2. Root causes: blocking, matching, schema/preprocessing, or pipeline logic?\n----------------------------------------------------------------------------\n\nGiven:\n\n- Blocking configs: pair completeness ≈ 0.99+, marked acceptable/healthy.\n- Matching configs: best F1 around 0.88–0.91; cluster analysis shows:\n  - max_cluster_size = 2, one_to_many_ratio = 0, ambiguous_ratio = 0, mean score=1.0 for all pairs.\n  - Diagnosis: all correspondence files healthy; no adjustment recommended.\n\nSo:\n\n### 2.1 Blocking\n\n- High pair completeness (≈0.99+) and healthy long-tail, no large clusters, no one-to-many.\n- Errors we see (e.g., for `amazon_135479`, `goodreads_8611`, `amazon_12422`) are **missing from fused output**, but:\n  - That can stem from:\n    - No matches classified for these ids, or\n    - They were never matched and we **excluded singletons**:\n      ```python\n      ml_fused = engine.run(..., include_singletons=False)\n      ```\n- Given blocking completeness and good matching F1, the **main coverage loss is from `include_singletons=False`**, not from blocking being too restrictive.\n\nConclusion: blocking is not the main issue.\n\n### 2.2 Matching thresholds / comparator choices\n\n- Matching has been tuned and independently evaluated with good F1.\n- Cluster health (no multi-matches, all scores = 1.0 after bipartite matching) suggests we’re using a very precise candidate set in correspondences.\n- None of the debug mismatches look like “wrong entity selected”; they are “correct entity but wrong fused attribute value”.\n- Therefore: **matching is not the dominant problem** for fusion quality.\n\n### 2.3 Schema / preprocessing issues\n\nClear schema/preprocessing issues:\n\n- **Genres representation mismatch**\n  - Gold: single normalized list of tags (after `normalize_list_like_columns`).\n  - Fused: `strategy.add_attribute_fuser('genres', union)` combined with raw list-like fields yields:\n    ```json\n    [\n      'Fantasy, Young Adult, ...',\n      'Literature, Fiction, Genre Fiction'\n    ]\n    ```\n  - Then evaluation uses `set_equality_match` on these, so the fused “items” are the entire comma-separated strings, not individual genres.\n  - Root cause: fusion uses `union` on pre-normalized lists, but those lists are actually **raw comma-separated strings**, not tokenized tags.\n\n- **Authors / titles / publishers formatting**\n  - Extra suffixes `(Goodreads Author)`, roles `(Illustrator)`, imprint info, HTML entities in publisher:\n    - These come from some sources; fusion’s `longest_string` favors those noisy variants.\n  - No normalization applied in fusion (only in matching comparators, via `lower_strip`).\n\n- **Numeric attributes treated as strings**\n  - publish_year, rating, numratings, page_count, price all fused via `longest_string`:\n    ```python\n    # Numeric attributes (fused as strings for simplicity here)\n    strategy.add_attribute_fuser('publish_year', longest_string)\n    ...\n    strategy.add_attribute_fuser('page_count', longest_string)\n    ```\n  - This increases risk of inconsistent types and makes the notion of “longest” meaningless for numerics.\n\nConclusion: **schema and preprocessing choices in fusion are a major cause**, especially for genres and string normalization.\n\n### 2.4 Logic in the current pipeline code (fusion & evaluation)\n\nKey logic problems:\n\n1. **Fusion source selection: always “longest_string”**\n   - For title, author, publisher, language, bookformat, edition, and even numeric attributes:\n     - No notion of:\n       - Source reliability (e.g., prefer Amazon title over noisy Goodreads title)\n       - Majority vote\n       - Normalized form\n     - This systematically chooses “most verbose” values, which deviate from gold canonical strings.\n\n2. **Genres fusion: `union` without tokenization**\n   - `union` assumes each cell is a list of atomic items.\n   - In practice, each cell is a comma-separated string; union yields a list of big strings.\n   - Combined with evaluation’s `set_equality_match` on normalized lists, this guarantees mismatches.\n\n3. **Singleton exclusion**:\n   - `include_singletons=False` in `DataFusionEngine.run`:\n     - Any book that had no matches across datasets is dropped from fused output.\n     - These become `missing_fused_value` for all attributes in the evaluation.\n   - Given small test set (20 records), just a few such omissions significantly reduce accuracy/coverage.\n\n4. **ID alignment heuristics** in evaluation:\n   - `build_eval_view` relies on `_fusion_sources` and `_id` to map fused clusters to gold ids.\n   - This is generally fine, but `include_singletons=False` means any gold id that appears in only one source and didn’t match gets lost entirely.\n\nConclusion: **fusion logic and configuration are the primary causes of the observed errors**; blocking and matching are healthy.\n\n\n3. Cluster analysis implications\n--------------------------------\n\n- All three correspondence files show:\n  - total_clusters equals number of matches (mostly 2-node clusters).\n  - No large clusters, no multi-matches, ambiguous_ratio=0.\n- Deep analysis: **no multi-match entities** on either side.\n- Score stats: all scores = 1.0 (post-bipartite-matching edges are extremely confident / exact).\n\nImplications:\n\n- **Clustering is conservative and clean**:\n  - Very low risk of wrong entities being grouped together.\n- However:\n  - Because every cluster size is 2 and we exclude singletons, any book with no high-confidence match is completely absent from the fused result.\n  - There is no “fuse singletons as-is” behavior, so the fusion system currently behaves like a *pure deduplication over matched pairs*, not a full integration of all sources.\n\nThus, the cluster analysis suggests **no need to change matching or clustering**, but it highlights that **coverage is intentionally limited by excluding singletons**.\n\n\n4. Concrete, actionable improvements for the next pipeline iteration\n--------------------------------------------------------------------\n\nFocus: **Fusion improvements** (per instructions), not blocking/matching.\n\n### 4.1 Enable inclusion of singletons to fix missing_fused_value errors\n\n**Problem:** Some gold records (e.g., `amazon_135479`, `goodreads_8611`, `amazon_12422`) never appear in fused output → all attributes missing.\n\n**Change:**\n\n```python\nml_fused = engine.run(\n    datasets=[amazon_small, goodreads_small, metabooks_small],\n    correspondences=all_ml_correspondences,\n    id_column='id',\n    include_singletons=True,  # instead of False\n)\n```\n\nEffect:\n\n- Any entity not matched to others will still appear as its own 1-element cluster.\n- Evaluation will now have fused values for those ids; attribute-level accuracy will increase purely from coverage.\n\n\n### 4.2 Fix genres fusion: tokenize + proper set union\n\n**Problem:** Fused genres are lists of large comma-separated strings; gold uses lists of individual genres; evaluation uses `set_equality_match`.\n\n**Goal:** Fused genres should be a **set of atomic genre tags**, comparable to gold.\n\n**Options:**\n\n1. **Implement a custom genre fuser that:**\n   - Takes all input genre values for the cluster.\n   - For each non-null value:\n     - If it’s a list, iterate elements; if it’s a string, split on commas.\n     - Strip, lowercase (or consistent case), and deduplicate.\n   - Returns a list (or sorted list) of unique tags.\n\n   Example (conceptual):\n\n   ```python\n   def normalized_genre_union(values):\n       tags = set()\n       for v in values:\n           if v is None:\n               continue\n           if isinstance(v, (list, tuple)):\n               items = v\n           else:\n               items = [v]\n           for item in items:\n               if item is None:\n                   continue\n               for token in str(item).split(','):\n                   token_norm = token.strip()\n                   if token_norm:\n                       tags.add(token_norm)\n       return list(sorted(tags))  # or just list(tags)\n   ```\n\n   Then:\n\n   ```python\n   from PyDI.fusion import DataFusionStrategy, DataFusionEngine\n\n   strategy.add_attribute_fuser('genres', normalized_genre_union)\n   ```\n\n2. **Alternatively**, normalize genres in the source data before fusion:\n   - Use the same `normalize_list_like_columns` function or similar logic **before** running `DataFusionEngine`, so each dataset has `genres` as a list of atomic items.\n   - Then `union` will work correctly.\n\nGiven your existing list-normalization utilities used in evaluation, reusing that logic upstream is attractive.\n\nExpected impact:\n\n- `genres_accuracy` should jump from 0.05 to near-perfect, since gold values explicitly merge the same per-source genre lists that you already have; once representation is aligned, set equality will succeed.\n\n\n### 4.3 Replace longest_string with smarter fusers for core attributes\n\n#### 4.3.1 Title\n\n**Problem:** Gold title is often a clean base title; longest_string picks the variant with series/imprint information.\n\n**Better approach:**\n\n- A fuser that:\n  1. Normalizes and strips parenthetical series/edition imprints (e.g., `(Trophy Newbery)`, `(Vintage Contemporaries)`).\n  2. Picks the **shortest normalized** title, or majority vote among normalized forms.\n\nSimplest actionable change:\n\n```python\ndef clean_title(s: str) -> str:\n    if not isinstance(s, str):\n        return ''\n    s = s.strip()\n    # Heuristic: drop trailing parentheses often used for series/edition\n    # Keep first part before ' ('\n    if ' (' in s:\n        s = s.split(' (', 1)[0]\n    return s\n\ndef canonical_title_fuser(values):\n    # filter non-empty\n    candidates = [clean_title(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    # choose shortest cleaned title (closer to canonical)\n    return min(candidates, key=len)\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('title', canonical_title_fuser)\n```\n\nThis should fix mismatches like:\n- `'The Upstairs Room (Trophy Newbery)'` vs `'The Upstairs Room'`.\n- `'Chilly Scenes of Winter (Vintage Contemporaries)'` vs `'Chilly Scenes of Winter'`.\n\n#### 4.3.2 Author\n\n**Problem:** Extra roles / annotations, multiple contributors, etc.\n\n**Better approach:**\n\n- Normalize away role qualifiers and GoodReads tags.\n- Prefer the **primary author only**.\n\nFor example:\n\n```python\nimport re\n\ndef normalize_author_name(s: str) -> str:\n    if not isinstance(s, str):\n        return ''\n    s = s.strip()\n    # Remove Goodreads Author tag and role parentheses\n    s = re.sub(r'\\s*\\(.*?\\)', '', s)  # remove all parenthetical tags\n    # Take first author before comma if multiple\n    s = s.split(',')[0]\n    return s.strip()\n\ndef canonical_author_fuser(values):\n    candidates = [normalize_author_name(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    # majority vote over normalized names\n    from collections import Counter\n    cnt = Counter(candidates)\n    return cnt.most_common(1)[0][0]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('author', canonical_author_fuser)\n```\n\nThis will align:\n- `'Nora Roberts (Goodreads Author)'` → `'Nora Roberts'`.\n- `'Frances Hodgson Burnett, Nancy Bond (Foreword)'` → `'Frances Hodgson Burnett'`.\n\n#### 4.3.3 Publisher\n\n**Problem:** Different imprints, divisions, HTML entities, expanded vs abbreviated names.\n\nYou can start with light normalization:\n\n```python\ndef normalize_publisher(s: str) -> str:\n    if not isinstance(s, str):\n        return ''\n    s = s.strip()\n    # Basic HTML entity normalization\n    s = s.replace('&amp;', '&')\n    # Remove parenthetical divisions\n    if ' (' in s:\n        s = s.split(' (', 1)[0]\n    return s.strip()\n\ndef canonical_publisher_fuser(values):\n    from collections import Counter\n    candidates = [normalize_publisher(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    cnt = Counter(candidates)\n    return cnt.most_common(1)[0][0]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('publisher', canonical_publisher_fuser)\n```\n\nThis will clean up:\n- `'Simon &amp; Schuster (Trade Division)'` → `'Simon & Schuster'`.\n\nYou could go further (mapping imprints like `'Vintage Books USA'` → `'Vintage'`), but even simple normalization should improve alignment.\n\n#### 4.3.4 Language\n\nLanguage is already high-accuracy; you can leave `longest_string` or just pick majority vote:\n\n```python\ndef majority_string_fuser(values):\n    from collections import Counter\n    candidates = [str(v).strip() for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    return Counter(candidates).most_common(1)[0][0]\n\nstrategy.add_attribute_fuser('language', majority_string_fuser)\n```\n\n### 4.4 Use numeric aggregation for numeric fields instead of longest_string\n\n**Problem:** Numerics fused as strings, risk of choosing an outlier or inconsistent type.\n\n**Better approach:**\n\nFor each numeric attribute (`publish_year`, `page_count`, `rating`, `numratings`, `price`):\n\n- Parse numeric values, ignore non-numeric.\n- Use a robust aggregator: median or mean, or majority among near-equal values.\n\nExample:\n\n```python\nimport math\nimport numpy as np\n\ndef numeric_median_fuser(values):\n    nums = []\n    for v in values:\n        try:\n            if v is None or (isinstance(v, float) and math.isnan(v)):\n                continue\n            nums.append(float(v))\n        except (ValueError, TypeError):\n            continue\n    if not nums:\n        return None\n    return float(np.median(nums))\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser('publish_year', numeric_median_fuser)\nstrategy.add_attribute_fuser('page_count', numeric_median_fuser)\nstrategy.add_attribute_fuser('rating', numeric_median_fuser)\nstrategy.add_attribute_fuser('numratings', numeric_median_fuser)\nstrategy.add_attribute_fuser('price', numeric_median_fuser)\n```\n\nThis will better align with `numeric_tolerance_match` and `year_only_match` used in evaluation, and avoid failures like 464 vs 480 when there may be multiple close-but-different page counts.\n\n### 4.5 Align list normalization between fusion and evaluation\n\nYou already use:\n\n```python\nlist_eval_columns = detect_list_like_columns(...)\nfused_eval, fusion_test_set = normalize_list_like_columns([...], list_eval_columns)\n```\n\nFor attributes like `genres` (and any other list-like fields), consider:\n\n- Applying the **same normalization logic before fusion**, so that all source datasets have consistent list representations.\n- Then `union` or your custom fuser can operate over already-normalized lists.\n\nAction:\n\n- Introduce a preprocessing step right after loading & schema-matching the parquet files:\n\n  ```python\n  from list_normalization import detect_list_like_columns, normalize_list_like_columns\n\n  datasets = [amazon_small, goodreads_small, metabooks_small]\n  list_columns = detect_list_like_columns(datasets, exclude_columns={'id'})\n  amazon_small, goodreads_small, metabooks_small = normalize_list_like_columns(\n      datasets, list_columns\n  )\n  ```\n\n- Then adjust `genres` fuser to just `union` over these lists, or keep the custom `normalized_genre_union` but it will become simpler/safer.\n\n---\n\nSummary of what to change for the next iteration\n------------------------------------------------\n\n1. **Increase coverage:**\n   - Set `include_singletons=True` in `DataFusionEngine.run`.\n\n2. **Fix genres representation:**\n   - Either:\n     - Pre-normalize list-like columns (including `genres`) before fusion, then use `union`, or\n     - Implement and register a `normalized_genre_union` fuser that splits on commas and deduplicates.\n\n3. **Improve canonical string selection:**\n   - Replace `longest_string` for:\n     - `title` → `canonical_title_fuser` that trims series/imprint parentheses and chooses shortest/majority.\n     - `author` → `canonical_author_fuser` that strips role tags and secondary authors, majority vote.\n     - `publisher` → `canonical_publisher_fuser` with HTML and parenthesis cleanup, majority vote.\n     - Optionally `language` → majority vote fuser.\n\n4. **Use numeric aggregators for numeric fields:**\n   - Replace `longest_string` with a numeric median/mean fuser for `publish_year`, `page_count`, `rating`, `numratings`, `price`.\n\n5. **Upstream normalization:**\n   - Reuse `normalize_list_like_columns` for list-like attributes (especially `genres`) before fusion so fused representation matches evaluation expectations.\n\nImplementing these will directly address the observed dominant errors (genres mismatch, noisy titles/authors/publishers, missing fused values) without changing blocking/matching, and should significantly lift overall fusion accuracy and per-attribute scores.",
+      "evaluation_attempt": 2,
+      "overall_accuracy": 0.6
+    }
+  ],
+  "evaluation_analysis_latest": "1. Dominant error types (from debug events and metrics)\n------------------------------------------------------\n\nAcross 140 attribute evaluations:\n\n- **Genres is the main failure point**  \n  - Accuracy: **0.05** (1/20 correct)  \n  - All 20 debug lines for `genres` are mismatches.\n  - Pattern: gold = single flattened list of genres; fused = 2-element list where each element is itself a long comma‑separated string.  \n  - Evaluation rule is `set_equality_match`, so this representation mismatch makes almost everything wrong.\n\n- **Authors have systematic but mild formatting errors**\n  - Accuracy: **0.45**  \n  - Many mismatches are of the form:\n    - `\"Nora Roberts (Goodreads Author)\"` vs `\"Nora Roberts\"`\n    - `\"Frances Hodgson Burnett, Nancy Bond (Foreword)\"` vs `\"Frances Hodgson Burnett\"`\n  - This is **not** an entity-matching error; it’s a fusion/normalization issue.\n\n- **Titles: errors mostly from extra series/edition info**\n  - Accuracy: **0.65**  \n  - Mismatches like:\n    - `\"The Upstairs Room (Trophy Newbery)\"` vs `\"The Upstairs Room\"`\n    - `\"Chilly Scenes of Winter (Vintage Contemporaries)\"` vs `\"Chilly Scenes of Winter\"`\n    - `\"Secret Circle Vol I: The Initiation (Secret Circle, Vol I)\"` vs `\"The Initiation (The Secret Circle, Vol. 1)\"`  \n  - Again: fusion favors the “longest” string; gold is often the cleaner canonical title.\n\n- **Publishers: imprint / formatted name differences**\n  - Accuracy: **0.65**  \n  - Examples:\n    - `\"Vintage Books USA\"` vs `\"Vintage\"`\n    - `\"Barron's Educational Series\"` vs `\"B.E.S. Publishing\"`\n    - `\"Simon &amp; Schuster (Trade Division)\"` vs `\"Simon & Schuster\"`\n  - These are schema/normalization and choice-of-source issues.\n\n- **Language, publish_year, page_count perform relatively well**\n  - language_accuracy: **0.85**  \n  - publish_year_accuracy: **0.85**  \n  - page_count_accuracy: **0.7** (only one mismatch shown: 464 vs 480, likely outside numeric tolerance, or poor source choice)\n\n- **Missing fused values (false negatives / coverage issues)**\n  - Repeated `fused_id: NaN` + `reason: \"missing_fused_value\"` for:\n    - ids like `amazon_135479`, `goodreads_8611`, `amazon_12422`  \n    - across attributes: `genres`, `author`, `language`, `title`, `publisher`, `page_count`, etc.\n  - This indicates: some gold entities **never appear in any fused cluster** (include_singletons=False; or no matches reached them).\n\nSummary of dominant error types:\n- **Type A – Representation errors:**  \n  - Genres: 2-level list-of-strings vs flattened tag list → catastrophic accuracy.\n  - Author/title/publisher: extra roles, series, imprints, HTML entities, etc.\n- **Type B – Source selection errors:**  \n  - Fusion choosing the “longest string” (noisy) instead of the canonical / majority value.\n- **Type C – Coverage / missing clusters:**  \n  - Some gold ids not present in fused output at all → `missing_fused_value` across attributes.\n- **Type D – A few numeric tolerance mismatches:**  \n  - E.g., page_count 464 vs 480.\n\nFalse positives vs false negatives:\n- Within attributes where values exist, issues are mostly **systematic mismatches** (not random FP/ FN) due to fusion logic.\n- `NaN` fused_id rows indicate **false negatives at the cluster level** (missing entities / no cluster coverage).\n\n\n2. Root causes: blocking, matching, schema/preprocessing, or pipeline logic?\n----------------------------------------------------------------------------\n\nGiven:\n\n- Blocking configs: pair completeness ≈ 0.99+, marked acceptable/healthy.\n- Matching configs: best F1 around 0.88–0.91; cluster analysis shows:\n  - max_cluster_size = 2, one_to_many_ratio = 0, ambiguous_ratio = 0, mean score=1.0 for all pairs.\n  - Diagnosis: all correspondence files healthy; no adjustment recommended.\n\nSo:\n\n### 2.1 Blocking\n\n- High pair completeness (≈0.99+) and healthy long-tail, no large clusters, no one-to-many.\n- Errors we see (e.g., for `amazon_135479`, `goodreads_8611`, `amazon_12422`) are **missing from fused output**, but:\n  - That can stem from:\n    - No matches classified for these ids, or\n    - They were never matched and we **excluded singletons**:\n      ```python\n      ml_fused = engine.run(..., include_singletons=False)\n      ```\n- Given blocking completeness and good matching F1, the **main coverage loss is from `include_singletons=False`**, not from blocking being too restrictive.\n\nConclusion: blocking is not the main issue.\n\n### 2.2 Matching thresholds / comparator choices\n\n- Matching has been tuned and independently evaluated with good F1.\n- Cluster health (no multi-matches, all scores = 1.0 after bipartite matching) suggests we’re using a very precise candidate set in correspondences.\n- None of the debug mismatches look like “wrong entity selected”; they are “correct entity but wrong fused attribute value”.\n- Therefore: **matching is not the dominant problem** for fusion quality.\n\n### 2.3 Schema / preprocessing issues\n\nClear schema/preprocessing issues:\n\n- **Genres representation mismatch**\n  - Gold: single normalized list of tags (after `normalize_list_like_columns`).\n  - Fused: `strategy.add_attribute_fuser(\"genres\", union)` combined with raw list-like fields yields:\n    ```json\n    [\n      \"Fantasy, Young Adult, ...\",\n      \"Literature, Fiction, Genre Fiction\"\n    ]\n    ```\n  - Then evaluation uses `set_equality_match` on these, so the fused “items” are the entire comma-separated strings, not individual genres.\n  - Root cause: fusion uses `union` on pre-normalized lists, but those lists are actually **raw comma-separated strings**, not tokenized tags.\n\n- **Authors / titles / publishers formatting**\n  - Extra suffixes `(Goodreads Author)`, roles `(Illustrator)`, imprint info, HTML entities in publisher:\n    - These come from some sources; fusion’s `longest_string` favors those noisy variants.\n  - No normalization applied in fusion (only in matching comparators, via `lower_strip`).\n\n- **Numeric attributes treated as strings**\n  - publish_year, rating, numratings, page_count, price all fused via `longest_string`:\n    ```python\n    # Numeric attributes (fused as strings for simplicity here)\n    strategy.add_attribute_fuser(\"publish_year\", longest_string)\n    ...\n    strategy.add_attribute_fuser(\"page_count\", longest_string)\n    ```\n  - This increases risk of inconsistent types and makes the notion of “longest” meaningless for numerics.\n\nConclusion: **schema and preprocessing choices in fusion are a major cause**, especially for genres and string normalization.\n\n### 2.4 Logic in the current pipeline code (fusion & evaluation)\n\nKey logic problems:\n\n1. **Fusion source selection: always “longest_string”**\n   - For title, author, publisher, language, bookformat, edition, and even numeric attributes:\n     - No notion of:\n       - Source reliability (e.g., prefer Amazon title over noisy Goodreads title)\n       - Majority vote\n       - Normalized form\n     - This systematically chooses “most verbose” values, which deviate from gold canonical strings.\n\n2. **Genres fusion: `union` without tokenization**\n   - `union` assumes each cell is a list of atomic items.\n   - In practice, each cell is a comma-separated string; union yields a list of big strings.\n   - Combined with evaluation’s `set_equality_match` on normalized lists, this guarantees mismatches.\n\n3. **Singleton exclusion**:\n   - `include_singletons=False` in `DataFusionEngine.run`:\n     - Any book that had no matches across datasets is dropped from fused output.\n     - These become `missing_fused_value` for all attributes in the evaluation.\n   - Given small test set (20 records), just a few such omissions significantly reduce accuracy/coverage.\n\n4. **ID alignment heuristics** in evaluation:\n   - `build_eval_view` relies on `_fusion_sources` and `_id` to map fused clusters to gold ids.\n   - This is generally fine, but `include_singletons=False` means any gold id that appears in only one source and didn’t match gets lost entirely.\n\nConclusion: **fusion logic and configuration are the primary causes of the observed errors**; blocking and matching are healthy.\n\n\n3. Cluster analysis implications\n--------------------------------\n\n- All three correspondence files show:\n  - total_clusters equals number of matches (mostly 2-node clusters).\n  - No large clusters, no multi-matches, ambiguous_ratio=0.\n- Deep analysis: **no multi-match entities** on either side.\n- Score stats: all scores = 1.0 (post-bipartite-matching edges are extremely confident / exact).\n\nImplications:\n\n- **Clustering is conservative and clean**:\n  - Very low risk of wrong entities being grouped together.\n- However:\n  - Because every cluster size is 2 and we exclude singletons, any book with no high-confidence match is completely absent from the fused result.\n  - There is no “fuse singletons as-is” behavior, so the fusion system currently behaves like a *pure deduplication over matched pairs*, not a full integration of all sources.\n\nThus, the cluster analysis suggests **no need to change matching or clustering**, but it highlights that **coverage is intentionally limited by excluding singletons**.\n\n\n4. Concrete, actionable improvements for the next pipeline iteration\n--------------------------------------------------------------------\n\nFocus: **Fusion improvements** (per instructions), not blocking/matching.\n\n### 4.1 Enable inclusion of singletons to fix missing_fused_value errors\n\n**Problem:** Some gold records (e.g., `amazon_135479`, `goodreads_8611`, `amazon_12422`) never appear in fused output → all attributes missing.\n\n**Change:**\n\n```python\nml_fused = engine.run(\n    datasets=[amazon_small, goodreads_small, metabooks_small],\n    correspondences=all_ml_correspondences,\n    id_column=\"id\",\n    include_singletons=True,  # instead of False\n)\n```\n\nEffect:\n\n- Any entity not matched to others will still appear as its own 1-element cluster.\n- Evaluation will now have fused values for those ids; attribute-level accuracy will increase purely from coverage.\n\n\n### 4.2 Fix genres fusion: tokenize + proper set union\n\n**Problem:** Fused genres are lists of large comma-separated strings; gold uses lists of individual genres; evaluation uses `set_equality_match`.\n\n**Goal:** Fused genres should be a **set of atomic genre tags**, comparable to gold.\n\n**Options:**\n\n1. **Implement a custom genre fuser that:**\n   - Takes all input genre values for the cluster.\n   - For each non-null value:\n     - If it’s a list, iterate elements; if it’s a string, split on commas.\n     - Strip, lowercase (or consistent case), and deduplicate.\n   - Returns a list (or sorted list) of unique tags.\n\n   Example (conceptual):\n\n   ```python\n   def normalized_genre_union(values):\n       tags = set()\n       for v in values:\n           if v is None:\n               continue\n           if isinstance(v, (list, tuple)):\n               items = v\n           else:\n               items = [v]\n           for item in items:\n               if item is None:\n                   continue\n               for token in str(item).split(\",\"):\n                   token_norm = token.strip()\n                   if token_norm:\n                       tags.add(token_norm)\n       return list(sorted(tags))  # or just list(tags)\n   ```\n\n   Then:\n\n   ```python\n   from PyDI.fusion import DataFusionStrategy, DataFusionEngine\n\n   strategy.add_attribute_fuser(\"genres\", normalized_genre_union)\n   ```\n\n2. **Alternatively**, normalize genres in the source data before fusion:\n   - Use the same `normalize_list_like_columns` function or similar logic **before** running `DataFusionEngine`, so each dataset has `genres` as a list of atomic items.\n   - Then `union` will work correctly.\n\nGiven your existing list-normalization utilities used in evaluation, reusing that logic upstream is attractive.\n\nExpected impact:\n\n- `genres_accuracy` should jump from 0.05 to near-perfect, since gold values explicitly merge the same per-source genre lists that you already have; once representation is aligned, set equality will succeed.\n\n\n### 4.3 Replace longest_string with smarter fusers for core attributes\n\n#### 4.3.1 Title\n\n**Problem:** Gold title is often a clean base title; longest_string picks the variant with series/imprint information.\n\n**Better approach:**\n\n- A fuser that:\n  1. Normalizes and strips parenthetical series/edition imprints (e.g., `(Trophy Newbery)`, `(Vintage Contemporaries)`).\n  2. Picks the **shortest normalized** title, or majority vote among normalized forms.\n\nSimplest actionable change:\n\n```python\ndef clean_title(s: str) -> str:\n    if not isinstance(s, str):\n        return \"\"\n    s = s.strip()\n    # Heuristic: drop trailing parentheses often used for series/edition\n    # Keep first part before ' ('\n    if \" (\" in s:\n        s = s.split(\" (\", 1)[0]\n    return s\n\ndef canonical_title_fuser(values):\n    # filter non-empty\n    candidates = [clean_title(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    # choose shortest cleaned title (closer to canonical)\n    return min(candidates, key=len)\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser(\"title\", canonical_title_fuser)\n```\n\nThis should fix mismatches like:\n- `\"The Upstairs Room (Trophy Newbery)\"` vs `\"The Upstairs Room\"`.\n- `\"Chilly Scenes of Winter (Vintage Contemporaries)\"` vs `\"Chilly Scenes of Winter\"`.\n\n#### 4.3.2 Author\n\n**Problem:** Extra roles / annotations, multiple contributors, etc.\n\n**Better approach:**\n\n- Normalize away role qualifiers and GoodReads tags.\n- Prefer the **primary author only**.\n\nFor example:\n\n```python\nimport re\n\ndef normalize_author_name(s: str) -> str:\n    if not isinstance(s, str):\n        return \"\"\n    s = s.strip()\n    # Remove Goodreads Author tag and role parentheses\n    s = re.sub(r\"\\s*\\(.*?\\)\", \"\", s)  # remove all parenthetical tags\n    # Take first author before comma if multiple\n    s = s.split(\",\")[0]\n    return s.strip()\n\ndef canonical_author_fuser(values):\n    candidates = [normalize_author_name(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    # majority vote over normalized names\n    from collections import Counter\n    cnt = Counter(candidates)\n    return cnt.most_common(1)[0][0]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser(\"author\", canonical_author_fuser)\n```\n\nThis will align:\n- `\"Nora Roberts (Goodreads Author)\"` → `\"Nora Roberts\"`.\n- `\"Frances Hodgson Burnett, Nancy Bond (Foreword)\"` → `\"Frances Hodgson Burnett\"`.\n\n#### 4.3.3 Publisher\n\n**Problem:** Different imprints, divisions, HTML entities, expanded vs abbreviated names.\n\nYou can start with light normalization:\n\n```python\ndef normalize_publisher(s: str) -> str:\n    if not isinstance(s, str):\n        return \"\"\n    s = s.strip()\n    # Basic HTML entity normalization\n    s = s.replace(\"&amp;\", \"&\")\n    # Remove parenthetical divisions\n    if \" (\" in s:\n        s = s.split(\" (\", 1)[0]\n    return s.strip()\n\ndef canonical_publisher_fuser(values):\n    from collections import Counter\n    candidates = [normalize_publisher(v) for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    cnt = Counter(candidates)\n    return cnt.most_common(1)[0][0]\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser(\"publisher\", canonical_publisher_fuser)\n```\n\nThis will clean up:\n- `\"Simon &amp; Schuster (Trade Division)\"` → `\"Simon & Schuster\"`.\n\nYou could go further (mapping imprints like `\"Vintage Books USA\"` → `\"Vintage\"`), but even simple normalization should improve alignment.\n\n#### 4.3.4 Language\n\nLanguage is already high-accuracy; you can leave `longest_string` or just pick majority vote:\n\n```python\ndef majority_string_fuser(values):\n    from collections import Counter\n    candidates = [str(v).strip() for v in values if isinstance(v, str) and v.strip()]\n    if not candidates:\n        return None\n    return Counter(candidates).most_common(1)[0][0]\n\nstrategy.add_attribute_fuser(\"language\", majority_string_fuser)\n```\n\n### 4.4 Use numeric aggregation for numeric fields instead of longest_string\n\n**Problem:** Numerics fused as strings, risk of choosing an outlier or inconsistent type.\n\n**Better approach:**\n\nFor each numeric attribute (`publish_year`, `page_count`, `rating`, `numratings`, `price`):\n\n- Parse numeric values, ignore non-numeric.\n- Use a robust aggregator: median or mean, or majority among near-equal values.\n\nExample:\n\n```python\nimport math\nimport numpy as np\n\ndef numeric_median_fuser(values):\n    nums = []\n    for v in values:\n        try:\n            if v is None or (isinstance(v, float) and math.isnan(v)):\n                continue\n            nums.append(float(v))\n        except (ValueError, TypeError):\n            continue\n    if not nums:\n        return None\n    return float(np.median(nums))\n```\n\nThen:\n\n```python\nstrategy.add_attribute_fuser(\"publish_year\", numeric_median_fuser)\nstrategy.add_attribute_fuser(\"page_count\", numeric_median_fuser)\nstrategy.add_attribute_fuser(\"rating\", numeric_median_fuser)\nstrategy.add_attribute_fuser(\"numratings\", numeric_median_fuser)\nstrategy.add_attribute_fuser(\"price\", numeric_median_fuser)\n```\n\nThis will better align with `numeric_tolerance_match` and `year_only_match` used in evaluation, and avoid failures like 464 vs 480 when there may be multiple close-but-different page counts.\n\n### 4.5 Align list normalization between fusion and evaluation\n\nYou already use:\n\n```python\nlist_eval_columns = detect_list_like_columns(...)\nfused_eval, fusion_test_set = normalize_list_like_columns([...], list_eval_columns)\n```\n\nFor attributes like `genres` (and any other list-like fields), consider:\n\n- Applying the **same normalization logic before fusion**, so that all source datasets have consistent list representations.\n- Then `union` or your custom fuser can operate over already-normalized lists.\n\nAction:\n\n- Introduce a preprocessing step right after loading & schema-matching the parquet files:\n\n  ```python\n  from list_normalization import detect_list_like_columns, normalize_list_like_columns\n\n  datasets = [amazon_small, goodreads_small, metabooks_small]\n  list_columns = detect_list_like_columns(datasets, exclude_columns={\"id\"})\n  amazon_small, goodreads_small, metabooks_small = normalize_list_like_columns(\n      datasets, list_columns\n  )\n  ```\n\n- Then adjust `genres` fuser to just `union` over these lists, or keep the custom `normalized_genre_union` but it will become simpler/safer.\n\n---\n\nSummary of what to change for the next iteration\n------------------------------------------------\n\n1. **Increase coverage:**\n   - Set `include_singletons=True` in `DataFusionEngine.run`.\n\n2. **Fix genres representation:**\n   - Either:\n     - Pre-normalize list-like columns (including `genres`) before fusion, then use `union`, or\n     - Implement and register a `normalized_genre_union` fuser that splits on commas and deduplicates.\n\n3. **Improve canonical string selection:**\n   - Replace `longest_string` for:\n     - `title` → `canonical_title_fuser` that trims series/imprint parentheses and chooses shortest/majority.\n     - `author` → `canonical_author_fuser` that strips role tags and secondary authors, majority vote.\n     - `publisher` → `canonical_publisher_fuser` with HTML and parenthesis cleanup, majority vote.\n     - Optionally `language` → majority vote fuser.\n\n4. **Use numeric aggregators for numeric fields:**\n   - Replace `longest_string` with a numeric median/mean fuser for `publish_year`, `page_count`, `rating`, `numratings`, `price`.\n\n5. **Upstream normalization:**\n   - Reuse `normalize_list_like_columns` for list-like attributes (especially `genres`) before fusion so fused representation matches evaluation expectations.\n\nImplementing these will directly address the observed dominant errors (genres mismatch, noisy titles/authors/publishers, missing fused values) without changing blocking/matching, and should significantly lift overall fusion accuracy and per-attribute scores.",
+  "integration_pipeline_code_length": 15367,
+  "evaluation_code_length": 10234
+}

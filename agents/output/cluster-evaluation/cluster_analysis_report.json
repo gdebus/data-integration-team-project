@@ -1,201 +1,3226 @@
 {
-    "correspondences_discogs_lastfm.csv": {
-        "diagnosis": "The cluster distribution is generally healthy: the vast majority of clusters are small (mostly size 2\u20134) with a long tail of larger clusters. This suggests the blocking/clustering is working reasonably well and does not obviously suffer from severe over-matching or fragmentation.",
+    "correspondences_metabooks_small_goodreads_small.csv": {
+        "diagnosis": "Many entities have multiple close-scoring matches. This indicates ambiguous duplicates and suggests matcher weights or thresholds need refinement.",
         "recommended_strategy": "None",
+        "recommended_action": "update_matching_config",
         "parameters": {},
         "error": null,
+        "health_metrics": {
+            "total_clusters": 1406,
+            "max_cluster_size": 90,
+            "small_cluster_ratio": 0.6294,
+            "large_cluster_ratio": 0.1166,
+            "is_long_tail": false,
+            "one_to_many_ratio": 0.3659,
+            "max_degree": 13,
+            "ambiguous_ratio": 0.6756
+        },
+        "duplicate_stats": {
+            "one_to_many_ratio": 0.3659,
+            "id1_one_to_many_ratio": 0.3659,
+            "id2_one_to_many_ratio": 0.2914,
+            "max_degree": 13,
+            "ambiguous_ratio": 0.6756
+        },
+        "score_stats": {
+            "mean": 0.6763,
+            "p50": 0.6554,
+            "p75": 0.6932,
+            "p90": 0.7807
+        },
+        "adjustment_signals": {
+            "large_cluster_ratio": 0.1166,
+            "one_to_many_ratio": 0.3659,
+            "ambiguous_ratio": 0.6756,
+            "max_cluster_size": 90
+        },
+        "meets_target": false,
+        "is_healthy": false,
         "cluster_distribution": [
             {
                 "cluster_size": 2,
-                "frequency": 1763,
-                "percentage": 81.54486586493988
+                "frequency": 885,
+                "percentage": 62.944523470839265
             },
             {
                 "cluster_size": 3,
-                "frequency": 216,
-                "percentage": 9.990749306197964
+                "frequency": 210,
+                "percentage": 14.935988620199147
             },
             {
                 "cluster_size": 4,
-                "frequency": 86,
-                "percentage": 3.9777983348751156
+                "frequency": 99,
+                "percentage": 7.0412517780938835
             },
             {
                 "cluster_size": 5,
-                "frequency": 36,
-                "percentage": 1.6651248843663276
+                "frequency": 48,
+                "percentage": 3.4139402560455197
             },
             {
                 "cluster_size": 6,
-                "frequency": 17,
-                "percentage": 0.786308973172988
+                "frequency": 33,
+                "percentage": 2.3470839260312943
             },
             {
                 "cluster_size": 7,
-                "frequency": 15,
-                "percentage": 0.6938020351526364
+                "frequency": 32,
+                "percentage": 2.275960170697013
             },
             {
                 "cluster_size": 8,
-                "frequency": 9,
-                "percentage": 0.4162812210915819
+                "frequency": 17,
+                "percentage": 1.209103840682788
             },
             {
                 "cluster_size": 9,
-                "frequency": 3,
-                "percentage": 0.13876040703052728
+                "frequency": 15,
+                "percentage": 1.0668563300142246
             },
             {
                 "cluster_size": 10,
-                "frequency": 3,
-                "percentage": 0.13876040703052728
+                "frequency": 17,
+                "percentage": 1.209103840682788
             },
             {
                 "cluster_size": 11,
-                "frequency": 3,
-                "percentage": 0.13876040703052728
+                "frequency": 11,
+                "percentage": 0.7823613086770981
+            },
+            {
+                "cluster_size": 12,
+                "frequency": 4,
+                "percentage": 0.2844950213371266
             },
             {
                 "cluster_size": 13,
-                "frequency": 3,
-                "percentage": 0.13876040703052728
+                "frequency": 5,
+                "percentage": 0.35561877667140823
             },
             {
                 "cluster_size": 14,
-                "frequency": 2,
-                "percentage": 0.09250693802035154
+                "frequency": 5,
+                "percentage": 0.35561877667140823
             },
             {
                 "cluster_size": 15,
-                "frequency": 1,
-                "percentage": 0.04625346901017577
+                "frequency": 6,
+                "percentage": 0.42674253200568996
             },
             {
                 "cluster_size": 16,
-                "frequency": 1,
-                "percentage": 0.04625346901017577
+                "frequency": 2,
+                "percentage": 0.1422475106685633
             },
             {
                 "cluster_size": 17,
-                "frequency": 1,
-                "percentage": 0.04625346901017577
+                "frequency": 3,
+                "percentage": 0.21337126600284498
             },
             {
                 "cluster_size": 18,
+                "frequency": 2,
+                "percentage": 0.1422475106685633
+            },
+            {
+                "cluster_size": 19,
                 "frequency": 1,
-                "percentage": 0.04625346901017577
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 20,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 21,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
             },
             {
                 "cluster_size": 22,
                 "frequency": 1,
-                "percentage": 0.04625346901017577
+                "percentage": 0.07112375533428165
             },
             {
-                "cluster_size": 32,
+                "cluster_size": 23,
                 "frequency": 1,
-                "percentage": 0.04625346901017577
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 24,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 28,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 31,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 37,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 49,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 83,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
+            },
+            {
+                "cluster_size": 90,
+                "frequency": 1,
+                "percentage": 0.07112375533428165
             }
-        ]
+        ],
+        "deep_analysis": {
+            "multi_match_entities": {
+                "left": {
+                    "count": 791,
+                    "top": [
+                        {
+                            "id": "metabooks_275423",
+                            "matches": 13
+                        },
+                        {
+                            "id": "metabooks_269561",
+                            "matches": 13
+                        },
+                        {
+                            "id": "metabooks_198698",
+                            "matches": 13
+                        },
+                        {
+                            "id": "metabooks_269075",
+                            "matches": 13
+                        },
+                        {
+                            "id": "metabooks_42988",
+                            "matches": 12
+                        }
+                    ]
+                },
+                "right": {
+                    "count": 786,
+                    "top": [
+                        {
+                            "id": "goodreads_27621",
+                            "matches": 8
+                        },
+                        {
+                            "id": "goodreads_43632",
+                            "matches": 8
+                        },
+                        {
+                            "id": "goodreads_8214",
+                            "matches": 8
+                        },
+                        {
+                            "id": "goodreads_38039",
+                            "matches": 8
+                        },
+                        {
+                            "id": "goodreads_14986",
+                            "matches": 8
+                        }
+                    ]
+                }
+            },
+            "large_clusters": [
+                {
+                    "cluster_rank": 1,
+                    "size_left": 41,
+                    "size_right": 49,
+                    "total_nodes": 90,
+                    "total_edges": 132,
+                    "density": 0.0657,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_70749",
+                            "matches": 9,
+                            "avg_score": 0.6697,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_139134",
+                            "matches": 8,
+                            "avg_score": 0.6728,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_267543",
+                            "matches": 8,
+                            "avg_score": 0.681,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_524090",
+                            "matches": 8,
+                            "avg_score": 0.6693,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_70",
+                            "matches": 8,
+                            "avg_score": 0.6818,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "goodreads_14986",
+                            "matches": 8,
+                            "avg_score": 0.6711,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_38039",
+                            "matches": 8,
+                            "avg_score": 0.6698,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_8214",
+                            "matches": 8,
+                            "avg_score": 0.6757,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_7820",
+                            "matches": 8,
+                            "avg_score": 0.6648,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_43632",
+                            "matches": 8,
+                            "avg_score": 0.6579,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "ambiguous_ratio": 0.8077,
+                    "score_stats": {
+                        "mean": 0.6713,
+                        "std": 0.0496,
+                        "min": 0.6202,
+                        "max": 0.87
+                    },
+                    "attribute_agreement": [],
+                    "dominant_attributes": [],
+                    "hub_explanations": [],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity."
+                    ]
+                },
+                {
+                    "cluster_rank": 2,
+                    "size_left": 42,
+                    "size_right": 41,
+                    "total_nodes": 83,
+                    "total_edges": 91,
+                    "density": 0.0528,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_106331",
+                            "matches": 6,
+                            "avg_score": 0.6387,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_375158",
+                            "matches": 5,
+                            "avg_score": 0.721,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_524187",
+                            "matches": 4,
+                            "avg_score": 0.6438,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_294796",
+                            "matches": 4,
+                            "avg_score": 0.6381,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_466541",
+                            "matches": 4,
+                            "avg_score": 0.6456,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "goodreads_27621",
+                            "matches": 8,
+                            "avg_score": 0.6586,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_23985",
+                            "matches": 7,
+                            "avg_score": 0.6575,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_40905",
+                            "matches": 6,
+                            "avg_score": 0.6484,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_37142",
+                            "matches": 5,
+                            "avg_score": 0.6428,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_47976",
+                            "matches": 5,
+                            "avg_score": 0.6667,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "ambiguous_ratio": 0.72,
+                    "score_stats": {
+                        "mean": 0.6581,
+                        "std": 0.0429,
+                        "min": 0.6201,
+                        "max": 0.8388
+                    },
+                    "attribute_agreement": [],
+                    "dominant_attributes": [],
+                    "hub_explanations": [],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity."
+                    ]
+                },
+                {
+                    "cluster_rank": 3,
+                    "size_left": 21,
+                    "size_right": 28,
+                    "total_nodes": 49,
+                    "total_edges": 68,
+                    "density": 0.1156,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_228152",
+                            "matches": 8,
+                            "avg_score": 0.6968,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_345713",
+                            "matches": 7,
+                            "avg_score": 0.6524,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_296369",
+                            "matches": 7,
+                            "avg_score": 0.6739,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_249282",
+                            "matches": 5,
+                            "avg_score": 0.6288,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_440354",
+                            "matches": 5,
+                            "avg_score": 0.6507,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "goodreads_9016",
+                            "matches": 7,
+                            "avg_score": 0.6661,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_39556",
+                            "matches": 7,
+                            "avg_score": 0.643,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_13111",
+                            "matches": 5,
+                            "avg_score": 0.6864,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_21442",
+                            "matches": 5,
+                            "avg_score": 0.6601,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_6811",
+                            "matches": 4,
+                            "avg_score": 0.6628,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "ambiguous_ratio": 0.7778,
+                    "score_stats": {
+                        "mean": 0.6586,
+                        "std": 0.0396,
+                        "min": 0.62,
+                        "max": 0.822
+                    },
+                    "attribute_agreement": [],
+                    "dominant_attributes": [],
+                    "hub_explanations": [],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity."
+                    ]
+                },
+                {
+                    "cluster_rank": 4,
+                    "size_left": 15,
+                    "size_right": 22,
+                    "total_nodes": 37,
+                    "total_edges": 81,
+                    "density": 0.2455,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_246426",
+                            "matches": 12,
+                            "avg_score": 0.6694,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_42988",
+                            "matches": 12,
+                            "avg_score": 0.6687,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_285471",
+                            "matches": 11,
+                            "avg_score": 0.6673,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_202327",
+                            "matches": 11,
+                            "avg_score": 0.6958,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_225450",
+                            "matches": 9,
+                            "avg_score": 0.6718,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "goodreads_2550",
+                            "matches": 6,
+                            "avg_score": 0.6601,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_17414",
+                            "matches": 6,
+                            "avg_score": 0.653,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_20702",
+                            "matches": 5,
+                            "avg_score": 0.6853,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_21477",
+                            "matches": 5,
+                            "avg_score": 0.6398,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_7343",
+                            "matches": 5,
+                            "avg_score": 0.6609,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "ambiguous_ratio": 0.7059,
+                    "score_stats": {
+                        "mean": 0.669,
+                        "std": 0.0475,
+                        "min": 0.6211,
+                        "max": 0.87
+                    },
+                    "attribute_agreement": [],
+                    "dominant_attributes": [],
+                    "hub_explanations": [],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity."
+                    ]
+                },
+                {
+                    "cluster_rank": 5,
+                    "size_left": 11,
+                    "size_right": 20,
+                    "total_nodes": 31,
+                    "total_edges": 53,
+                    "density": 0.2409,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_190605",
+                            "matches": 10,
+                            "avg_score": 0.6697,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_268925",
+                            "matches": 9,
+                            "avg_score": 0.663,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_12202",
+                            "matches": 9,
+                            "avg_score": 0.6533,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_445092",
+                            "matches": 7,
+                            "avg_score": 0.6493,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "metabooks_275218",
+                            "matches": 5,
+                            "avg_score": 0.6611,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "goodreads_28009",
+                            "matches": 6,
+                            "avg_score": 0.6694,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_38328",
+                            "matches": 5,
+                            "avg_score": 0.6514,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_29624",
+                            "matches": 5,
+                            "avg_score": 0.6693,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_50597",
+                            "matches": 4,
+                            "avg_score": 0.6352,
+                            "attribute_overlap": []
+                        },
+                        {
+                            "id": "goodreads_51185",
+                            "matches": 4,
+                            "avg_score": 0.6747,
+                            "attribute_overlap": []
+                        }
+                    ],
+                    "ambiguous_ratio": 1.0,
+                    "score_stats": {
+                        "mean": 0.6545,
+                        "std": 0.0276,
+                        "min": 0.6208,
+                        "max": 0.7361
+                    },
+                    "attribute_agreement": [],
+                    "dominant_attributes": [],
+                    "hub_explanations": [],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity."
+                    ]
+                }
+            ]
+        }
     },
-    "correspondences_discogs_musicbrainz.csv": {
-        "diagnosis": "The cluster distribution is healthy, dominated by size-2 clusters with a smooth long tail of slightly larger clusters and only two moderately large clusters (sizes 8 and 14). This suggests generally well-resolved entity groupings without clear evidence of systematic over-matching or under-clustering based solely on these statistics.",
+    "correspondences_metabooks_small_amazon_small.csv": {
+        "diagnosis": "Many entities have multiple close-scoring matches. This indicates ambiguous duplicates and suggests matcher weights or thresholds need refinement.",
         "recommended_strategy": "None",
+        "recommended_action": "update_matching_config",
         "parameters": {},
         "error": null,
+        "health_metrics": {
+            "total_clusters": 1442,
+            "max_cluster_size": 21,
+            "small_cluster_ratio": 0.8842,
+            "large_cluster_ratio": 0.0111,
+            "is_long_tail": false,
+            "one_to_many_ratio": 0.1009,
+            "max_degree": 7,
+            "ambiguous_ratio": 0.469
+        },
+        "duplicate_stats": {
+            "one_to_many_ratio": 0.1009,
+            "id1_one_to_many_ratio": 0.1009,
+            "id2_one_to_many_ratio": 0.0891,
+            "max_degree": 7,
+            "ambiguous_ratio": 0.469
+        },
+        "score_stats": {
+            "mean": 0.8508,
+            "p50": 0.83,
+            "p75": 0.9021,
+            "p90": 0.9886
+        },
+        "adjustment_signals": {
+            "large_cluster_ratio": 0.0111,
+            "one_to_many_ratio": 0.1009,
+            "ambiguous_ratio": 0.469,
+            "max_cluster_size": 21
+        },
+        "meets_target": false,
+        "is_healthy": false,
         "cluster_distribution": [
             {
                 "cluster_size": 2,
-                "frequency": 2324,
-                "percentage": 86.32986627043091
+                "frequency": 1275,
+                "percentage": 88.41886269070736
             },
             {
                 "cluster_size": 3,
-                "frequency": 271,
-                "percentage": 10.066864784546805
+                "frequency": 101,
+                "percentage": 7.004160887656033
             },
             {
                 "cluster_size": 4,
-                "frequency": 75,
-                "percentage": 2.786032689450223
+                "frequency": 36,
+                "percentage": 2.496532593619972
             },
             {
                 "cluster_size": 5,
-                "frequency": 15,
-                "percentage": 0.5572065378900446
+                "frequency": 14,
+                "percentage": 0.9708737864077669
             },
             {
                 "cluster_size": 6,
-                "frequency": 5,
-                "percentage": 0.18573551263001484
-            },
-            {
-                "cluster_size": 8,
-                "frequency": 1,
-                "percentage": 0.03714710252600297
-            },
-            {
-                "cluster_size": 14,
-                "frequency": 1,
-                "percentage": 0.03714710252600297
-            }
-        ]
-    },
-    "correspondences_musicbrainz_lastfm.csv": {
-        "diagnosis": "The cluster distribution is dominated by size-2 clusters (\u224895%), with a small number of slightly larger clusters and a modest maximum size of 13. This indicates generally clean, well-resolved groupings without evidence of widespread over-matching or massive, messy clusters.",
-        "recommended_strategy": "None",
-        "parameters": {},
-        "error": null,
-        "cluster_distribution": [
-            {
-                "cluster_size": 2,
-                "frequency": 2183,
-                "percentage": 94.95432796868204
-            },
-            {
-                "cluster_size": 3,
-                "frequency": 65,
-                "percentage": 2.827316224445411
-            },
-            {
-                "cluster_size": 4,
-                "frequency": 30,
-                "percentage": 1.3049151805132666
-            },
-            {
-                "cluster_size": 5,
-                "frequency": 7,
-                "percentage": 0.3044802087864289
-            },
-            {
-                "cluster_size": 6,
-                "frequency": 6,
-                "percentage": 0.26098303610265333
+                "frequency": 4,
+                "percentage": 0.27739251040221913
             },
             {
                 "cluster_size": 7,
                 "frequency": 2,
-                "percentage": 0.08699434536755112
+                "percentage": 0.13869625520110956
             },
             {
                 "cluster_size": 8,
-                "frequency": 2,
-                "percentage": 0.08699434536755112
+                "frequency": 4,
+                "percentage": 0.27739251040221913
             },
             {
                 "cluster_size": 9,
-                "frequency": 1,
-                "percentage": 0.04349717268377556
-            },
-            {
-                "cluster_size": 12,
                 "frequency": 2,
-                "percentage": 0.08699434536755112
+                "percentage": 0.13869625520110956
             },
             {
-                "cluster_size": 13,
+                "cluster_size": 10,
                 "frequency": 1,
-                "percentage": 0.04349717268377556
+                "percentage": 0.06934812760055478
+            },
+            {
+                "cluster_size": 14,
+                "frequency": 2,
+                "percentage": 0.13869625520110956
+            },
+            {
+                "cluster_size": 21,
+                "frequency": 1,
+                "percentage": 0.06934812760055478
             }
-        ]
+        ],
+        "deep_analysis": {
+            "multi_match_entities": {
+                "left": {
+                    "count": 160,
+                    "top": [
+                        {
+                            "id": "metabooks_499661",
+                            "matches": 7
+                        },
+                        {
+                            "id": "metabooks_78304",
+                            "matches": 6
+                        },
+                        {
+                            "id": "metabooks_364157",
+                            "matches": 6
+                        },
+                        {
+                            "id": "metabooks_307258",
+                            "matches": 5
+                        },
+                        {
+                            "id": "metabooks_396578",
+                            "matches": 5
+                        }
+                    ]
+                },
+                "right": {
+                    "count": 145,
+                    "top": [
+                        {
+                            "id": "amazon_16685",
+                            "matches": 7
+                        },
+                        {
+                            "id": "amazon_91656",
+                            "matches": 7
+                        },
+                        {
+                            "id": "amazon_229249",
+                            "matches": 7
+                        },
+                        {
+                            "id": "amazon_212247",
+                            "matches": 6
+                        },
+                        {
+                            "id": "amazon_133459",
+                            "matches": 6
+                        }
+                    ]
+                }
+            },
+            "large_clusters": [
+                {
+                    "cluster_rank": 1,
+                    "size_left": 11,
+                    "size_right": 10,
+                    "total_nodes": 21,
+                    "total_edges": 24,
+                    "density": 0.2182,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_96681",
+                            "matches": 5,
+                            "avg_score": 0.859,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Nora Roberts",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1993,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "One Summer (Nora Roberts, Language of Love, No 31)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_242894",
+                            "matches": 3,
+                            "avg_score": 0.8097,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Nora Roberts",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1992,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Irish Thoroughbred (Silhouette Language of Love #1)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette Books",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_17258",
+                            "matches": 3,
+                            "avg_score": 0.774,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1994,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Bewitched (Jock'S Boys, Man Of The Month) (Silhouette Desire)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Jennifer Greene",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_106663",
+                            "matches": 2,
+                            "avg_score": 0.8913,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1994,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Christine Rimmer",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Sweetbriar Summit (The Jones Gang) (Silhouette Special Edition, No 896)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_131820",
+                            "matches": 2,
+                            "avg_score": 0.7567,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Rachel Lee",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "An Officer and a Gentleman (Silhouette Intimate Moments, No 370)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "amazon_203673",
+                            "matches": 4,
+                            "avg_score": 0.806,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1992,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Nora Roberts",
+                                    "type": "text",
+                                    "match_rate": 0.75,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 0.75,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "One Man'S Art #17 (Nora Roberts : Language of Love No. 17)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_145053",
+                            "matches": 3,
+                            "avg_score": 0.7858,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1992,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Nora Roberts",
+                                    "type": "text",
+                                    "match_rate": 0.6667,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 0.6667,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Search For Love",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_57252",
+                            "matches": 3,
+                            "avg_score": 0.7854,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1994,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Nora Roberts",
+                                    "type": "text",
+                                    "match_rate": 0.6667,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Night Smoke (American Hero, Night Tales) (Silhouette Intimate Moments No 595)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_208179",
+                            "matches": 3,
+                            "avg_score": 0.7599,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1994,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Rachel Lee",
+                                    "type": "text",
+                                    "match_rate": 0.6667,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Question Of Justice (Conard County, American Hero) (Silhouette Intimate Moments, No 7613)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_201715",
+                            "matches": 3,
+                            "avg_score": 0.7768,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Rachel Lee",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Silhouette",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Cherokee Thunder (Silhouette Intimate Moments, No 463)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "ambiguous_ratio": 0.75,
+                    "score_stats": {
+                        "mean": 0.802,
+                        "std": 0.0641,
+                        "min": 0.7512,
+                        "max": 0.9986
+                    },
+                    "attribute_agreement": [
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 0.2353,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 0.875,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 0.6667,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "title",
+                            "type": "text",
+                            "match_rate": 0.0,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "dominant_attributes": [
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 0.2353,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 0.875,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "hub_explanations": [
+                        {
+                            "side": "left",
+                            "id": "metabooks_96681",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_242894",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_17258",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_106663",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_131820",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_203673",
+                            "attribute": "publish_year",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_145053",
+                            "attribute": "publish_year",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_57252",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_208179",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_201715",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        }
+                    ],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity.",
+                        "High agreement on specific attributes suggests shared identifiers.",
+                        "Hub entities share a dominant attribute value across many matches."
+                    ]
+                },
+                {
+                    "cluster_rank": 2,
+                    "size_left": 7,
+                    "size_right": 7,
+                    "total_nodes": 14,
+                    "total_edges": 35,
+                    "density": 0.7143,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_78304",
+                            "matches": 6,
+                            "avg_score": 0.7936,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Stan Berenstain",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 0.8333,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears: The Wrong Crowd",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_364157",
+                            "matches": 6,
+                            "avg_score": 0.8077,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Stan Berenstain",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2000,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 0.8333,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and the Great Ant Attack",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_104776",
+                            "matches": 5,
+                            "avg_score": 0.7933,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Stan Berenstain",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and Too Much Vacation",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_481427",
+                            "matches": 5,
+                            "avg_score": 0.7953,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Stan Berenstain",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and Too Much TV",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_307258",
+                            "matches": 5,
+                            "avg_score": 0.7957,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Stan Berenstain",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears Ride the Thunderbolt (Step-Into-Reading, Step 1)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "amazon_16685",
+                            "matches": 7,
+                            "avg_score": 0.8023,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "STAN BERENSTAIN",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1992,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and the Trouble with Grownups (First Time Books)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_229249",
+                            "matches": 7,
+                            "avg_score": 0.7892,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Stan Berenstain",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1987,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and the Trouble With Friends (First Time Books)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_91656",
+                            "matches": 7,
+                            "avg_score": 0.7903,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "STAN BERENSTAIN",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1980,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and the Missing Dinosaur Bone (Beginner Books)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_212247",
+                            "matches": 6,
+                            "avg_score": 0.7923,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "STAN BERENSTAIN",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1987,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears Blaze a Trail (First Time Readers)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_133459",
+                            "matches": 6,
+                            "avg_score": 0.7941,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "STAN BERENSTAIN",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Random House Books for Young Readers",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1988,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Berenstain Bears and the Ghost of the Forest (First Time Readers)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "ambiguous_ratio": 0.8,
+                    "score_stats": {
+                        "mean": 0.7959,
+                        "std": 0.0221,
+                        "min": 0.7514,
+                        "max": 0.8829
+                    },
+                    "attribute_agreement": [
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 10.0,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 0.9429,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "title",
+                            "type": "text",
+                            "match_rate": 0.0,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "dominant_attributes": [
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 10.0,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 0.9429,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "hub_explanations": [
+                        {
+                            "side": "left",
+                            "id": "metabooks_78304",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_364157",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_104776",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_481427",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_307258",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_16685",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_229249",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_91656",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_212247",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_133459",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        }
+                    ],
+                    "suspected_reasons": [
+                        "Dense bipartite structure suggests overly broad blocking or highly generic attributes.",
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity.",
+                        "High agreement on specific attributes suggests shared identifiers.",
+                        "Hub entities share a dominant attribute value across many matches."
+                    ]
+                },
+                {
+                    "cluster_rank": 3,
+                    "size_left": 5,
+                    "size_right": 9,
+                    "total_nodes": 14,
+                    "total_edges": 18,
+                    "density": 0.4,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_499661",
+                            "matches": 7,
+                            "avg_score": 0.8278,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1992,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 0.4286,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Dawn and the Big Sleepover (Baby-Sitters Club, 44)",
+                                    "type": "text",
+                                    "match_rate": 0.1429,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_393836",
+                            "matches": 4,
+                            "avg_score": 0.8066,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1995,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Karen's New Bike (Baby-Sitter's Little Sister #62)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_78777",
+                            "matches": 3,
+                            "avg_score": 0.8099,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1991,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Dawn and the Impossible Three (The Baby-Sitters Club, No. 5)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_311646",
+                            "matches": 2,
+                            "avg_score": 0.7552,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Karen's Big Lie;Baby-Sitters Little Sister, 38",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_84416",
+                            "matches": 2,
+                            "avg_score": 0.7546,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Mallory's Christmas Wish (The Baby-Sitters Club, No. 92)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "amazon_19941",
+                            "matches": 5,
+                            "avg_score": 0.7834,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1993,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Dawn's Wicked Stepsister (Baby-Sitters Club, 31)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_138098",
+                            "matches": 4,
+                            "avg_score": 0.7798,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1993,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Jessi and the Awful Secret (Baby-Sitters Club, 61)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_138089",
+                            "matches": 2,
+                            "avg_score": 0.7653,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1993,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Karen's Big Lie (Baby-Sitters Little Sister, 38)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks (Mm)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_62624",
+                            "matches": 2,
+                            "avg_score": 0.9415,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic Paperbacks",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1992,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Dawn and the Big Sleepover (Baby-Sitters Club, 44)",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_53115",
+                            "matches": 1,
+                            "avg_score": 0.9091,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Ann M. Martin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1995,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Karen's New Bike (Baby-Sitters Little Sister, 62)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Scholastic",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "ambiguous_ratio": 0.4,
+                    "score_stats": {
+                        "mean": 0.8039,
+                        "std": 0.0711,
+                        "min": 0.7509,
+                        "max": 1.0
+                    },
+                    "attribute_agreement": [
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 1.0714,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 0.6111,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "title",
+                            "type": "text",
+                            "match_rate": 0.0556,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "dominant_attributes": [
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 1.0714,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "hub_explanations": [
+                        {
+                            "side": "left",
+                            "id": "metabooks_499661",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_393836",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_78777",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_311646",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_84416",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_19941",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_138098",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_138089",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_62624",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_53115",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        }
+                    ],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity.",
+                        "High agreement on specific attributes suggests shared identifiers.",
+                        "Hub entities share a dominant attribute value across many matches."
+                    ]
+                },
+                {
+                    "cluster_rank": 4,
+                    "size_left": 4,
+                    "size_right": 6,
+                    "total_nodes": 10,
+                    "total_edges": 13,
+                    "density": 0.5417,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_515694",
+                            "matches": 4,
+                            "avg_score": 0.845,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Louis L'Amour",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1985,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 0.75,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Over on the Dry Side (Talon and Chantry)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_109834",
+                            "matches": 4,
+                            "avg_score": 0.866,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Louis L'Amour",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1984,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 0.75,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Lonesome Gods",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_110763",
+                            "matches": 3,
+                            "avg_score": 0.8338,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Louis L'Amour",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1984,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 0.6667,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Man Called Noon: A Novel",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_385861",
+                            "matches": 2,
+                            "avg_score": 0.8215,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1984,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Leon Uris",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Angry Hills, The",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "amazon_138639",
+                            "matches": 4,
+                            "avg_score": 0.8512,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1984,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "LOUIS L'AMOUR",
+                                    "type": "text",
+                                    "match_rate": 0.75,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Down the Long Hills",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_93934",
+                            "matches": 3,
+                            "avg_score": 0.8656,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "LOUIS L'AMOUR",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1985,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Over on the Dry Side",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_80771",
+                            "matches": 2,
+                            "avg_score": 0.8442,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "LOUIS L'AMOUR",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1984,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "How the West Was Won",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_260751",
+                            "matches": 2,
+                            "avg_score": 0.8295,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Louis L'Amour",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1984,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Lonesome God's",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam Books",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_217030",
+                            "matches": 1,
+                            "avg_score": 0.7925,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Louis L'Amour",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 1985,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Ferguson Rifle",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Bantam Books",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "ambiguous_ratio": 0.25,
+                    "score_stats": {
+                        "mean": 0.8453,
+                        "std": 0.056,
+                        "min": 0.7925,
+                        "max": 0.975
+                    },
+                    "attribute_agreement": [
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 0.3077,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 0.9231,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 0.6923,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "title",
+                            "type": "text",
+                            "match_rate": 0.0,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "dominant_attributes": [
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 0.3077,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 0.9231,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "hub_explanations": [
+                        {
+                            "side": "left",
+                            "id": "metabooks_515694",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_109834",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_110763",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_385861",
+                            "attribute": "publish_year",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_138639",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_93934",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_80771",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_260751",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_217030",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        }
+                    ],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity.",
+                        "High agreement on specific attributes suggests shared identifiers.",
+                        "Hub entities share a dominant attribute value across many matches."
+                    ]
+                },
+                {
+                    "cluster_rank": 5,
+                    "size_left": 4,
+                    "size_right": 5,
+                    "total_nodes": 9,
+                    "total_edges": 8,
+                    "density": 0.4,
+                    "top_left_hubs": [
+                        {
+                            "id": "metabooks_339264",
+                            "matches": 4,
+                            "avg_score": 0.7889,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Someone's Baby (Trueblood, Texas #1) (Harlequin Intrigue Series #613)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Dani Sinclair",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_231900",
+                            "matches": 2,
+                            "avg_score": 0.8099,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Amanda Stevens",
+                                    "type": "text",
+                                    "match_rate": 0.5,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Forgiven (Eden's Children) (Harlequin Intrigue, No. 630)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_170337",
+                            "matches": 1,
+                            "avg_score": 0.988,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Mystery Bride (Harlequin Intrigue 604)",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "B. J. Daniels",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "metabooks_394438",
+                            "matches": 1,
+                            "avg_score": 0.7808,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "The Doc's Double Delivery / Down-Home Diva",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Jacqueline Diamond",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "top_right_hubs": [
+                        {
+                            "id": "amazon_133255",
+                            "matches": 3,
+                            "avg_score": 0.8452,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Mystery Bride (Harlequin Intrigue 604)",
+                                    "type": "text",
+                                    "match_rate": 0.3333,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "B.J. Daniels",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_70621",
+                            "matches": 2,
+                            "avg_score": 0.794,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Straight From The Heart (Twins) (Harlequin Superromance, No 991)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Linda Warren",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_66951",
+                            "matches": 1,
+                            "avg_score": 0.774,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Baby By The Book (American Baby) (Harlequin American Romance, No. 893)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Kara Lennox",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_77562",
+                            "matches": 1,
+                            "avg_score": 0.7948,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2001,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Bodyguard'S Baby (Top Secret Babies) (Harlequin Intrigue, No 597)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Simon Webb",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amazon_61362",
+                            "matches": 1,
+                            "avg_score": 0.8518,
+                            "attribute_overlap": [
+                                {
+                                    "attribute": "author",
+                                    "hub_value": "Amanda Stevens",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publisher",
+                                    "hub_value": "Harlequin",
+                                    "type": "text",
+                                    "match_rate": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "publish_year",
+                                    "hub_value": 2002,
+                                    "type": "numeric",
+                                    "pct_within_5pct": 1.0,
+                                    "coverage": 1.0
+                                },
+                                {
+                                    "attribute": "title",
+                                    "hub_value": "Secret Sanctuary (Moriah'S Landing) (Harlequin Intrigue, No. 650)",
+                                    "type": "text",
+                                    "match_rate": 0.0,
+                                    "coverage": 1.0
+                                }
+                            ]
+                        }
+                    ],
+                    "ambiguous_ratio": 0.5,
+                    "score_stats": {
+                        "mean": 0.818,
+                        "std": 0.0737,
+                        "min": 0.768,
+                        "max": 0.988
+                    },
+                    "attribute_agreement": [
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 0.125,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "title",
+                            "type": "text",
+                            "match_rate": 0.125,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "author",
+                            "type": "text",
+                            "match_rate": 0.125,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "dominant_attributes": [
+                        {
+                            "attribute": "publisher",
+                            "type": "text",
+                            "match_rate": 1.0,
+                            "coverage": 1.0
+                        },
+                        {
+                            "attribute": "publish_year",
+                            "type": "numeric",
+                            "mean_abs_diff": 0.125,
+                            "pct_within_5pct": 1.0,
+                            "coverage": 1.0
+                        }
+                    ],
+                    "hub_explanations": [
+                        {
+                            "side": "left",
+                            "id": "metabooks_339264",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_231900",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_170337",
+                            "attribute": "title",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "left",
+                            "id": "metabooks_394438",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_133255",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_70621",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_66951",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_77562",
+                            "attribute": "publisher",
+                            "overlap_rate": 1.0
+                        },
+                        {
+                            "side": "right",
+                            "id": "amazon_61362",
+                            "attribute": "author",
+                            "overlap_rate": 1.0
+                        }
+                    ],
+                    "suspected_reasons": [
+                        "A left-side hub entity matches many right entities, indicating ambiguity.",
+                        "A right-side hub entity matches many left entities, indicating ambiguity.",
+                        "High agreement on specific attributes suggests shared identifiers.",
+                        "Hub entities share a dominant attribute value across many matches."
+                    ]
+                }
+            ]
+        }
+    },
+    "correspondences_goodreads_small_amazon_small.csv": {
+        "diagnosis": "Many entities have multiple close-scoring matches. This indicates ambiguous duplicates and suggests matcher weights or thresholds need refinement.",
+        "recommended_strategy": "None",
+        "recommended_action": "update_matching_config",
+        "parameters": {},
+        "error": null,
+        "health_metrics": {
+            "total_clusters": 690,
+            "max_cluster_size": 5,
+            "small_cluster_ratio": 0.9159,
+            "large_cluster_ratio": 0.0,
+            "is_long_tail": true,
+            "one_to_many_ratio": 0.0541,
+            "max_degree": 4,
+            "ambiguous_ratio": 0.4375
+        },
+        "duplicate_stats": {
+            "one_to_many_ratio": 0.0541,
+            "id1_one_to_many_ratio": 0.0437,
+            "id2_one_to_many_ratio": 0.0541,
+            "max_degree": 4,
+            "ambiguous_ratio": 0.4375
+        },
+        "score_stats": {
+            "mean": 0.8677,
+            "p50": 0.8593,
+            "p75": 0.9301,
+            "p90": 0.9649
+        },
+        "adjustment_signals": {
+            "large_cluster_ratio": 0.0,
+            "one_to_many_ratio": 0.0541,
+            "ambiguous_ratio": 0.4375,
+            "max_cluster_size": 5
+        },
+        "meets_target": false,
+        "is_healthy": false,
+        "cluster_distribution": [
+            {
+                "cluster_size": 2,
+                "frequency": 632,
+                "percentage": 91.59420289855072
+            },
+            {
+                "cluster_size": 3,
+                "frequency": 46,
+                "percentage": 6.666666666666667
+            },
+            {
+                "cluster_size": 4,
+                "frequency": 9,
+                "percentage": 1.3043478260869565
+            },
+            {
+                "cluster_size": 5,
+                "frequency": 3,
+                "percentage": 0.43478260869565216
+            }
+        ],
+        "deep_analysis": {
+            "multi_match_entities": {
+                "left": {
+                    "count": 32,
+                    "top": [
+                        {
+                            "id": "goodreads_22112",
+                            "matches": 3
+                        },
+                        {
+                            "id": "goodreads_23870",
+                            "matches": 3
+                        },
+                        {
+                            "id": "goodreads_8383",
+                            "matches": 3
+                        },
+                        {
+                            "id": "goodreads_18910",
+                            "matches": 2
+                        },
+                        {
+                            "id": "goodreads_1874",
+                            "matches": 2
+                        }
+                    ]
+                },
+                "right": {
+                    "count": 39,
+                    "top": [
+                        {
+                            "id": "amazon_181300",
+                            "matches": 4
+                        },
+                        {
+                            "id": "amazon_86911",
+                            "matches": 4
+                        },
+                        {
+                            "id": "amazon_236221",
+                            "matches": 3
+                        },
+                        {
+                            "id": "amazon_36995",
+                            "matches": 3
+                        },
+                        {
+                            "id": "amazon_205848",
+                            "matches": 3
+                        }
+                    ]
+                }
+            },
+            "large_clusters": []
+        }
+    },
+    "_overall": {
+        "diagnosis": "One or more correspondence files show a non-long-tail distribution.",
+        "recommended_strategy": "None",
+        "recommended_action": "update_matching_config",
+        "parameters": {},
+        "unhealthy_files": [
+            "correspondences_metabooks_small_goodreads_small.csv",
+            "correspondences_metabooks_small_amazon_small.csv",
+            "correspondences_goodreads_small_amazon_small.csv"
+        ],
+        "target_thresholds": {
+            "small_cluster_ratio": 0.9,
+            "large_cluster_ratio": 0.005,
+            "one_to_many_ratio": 0.03
+        }
     }
 }
