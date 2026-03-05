@@ -6,8 +6,8 @@
 
 | Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
-| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |       |             |       |       |
-| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |       |             |       |       |
+| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |42.13% |77.97%       |84.87% |56.43% |
+| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |33.50% |64.96%       |       |       |
 | [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|70.558%|78.612%      |       |65.000%|
 | [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|51.78% |75.924%      |       |62.857%|
 | [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |54.822%  |63.830% |       |46.429%  |
