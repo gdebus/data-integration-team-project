@@ -4,6 +4,7 @@ import json
 import os
 import re
 import time
+from contextlib import contextmanager
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 
@@ -203,6 +204,42 @@ class WorkflowLogger:
             },
         }
 
+    def _build_token_complexity(self) -> Dict[str, Any]:
+        per_node: Dict[str, Dict[str, int]] = {}
+        global_prompt = 0
+        global_output = 0
+        global_total = 0
+
+        for record in self._activity_records:
+            node_name = str(record.get("current_node", "") or "")
+            if not node_name:
+                continue
+
+            prompt_tokens = int(record.get("prompt_tokens", 0) or 0)
+            output_tokens = int(record.get("completion_tokens", 0) or 0)
+            total_tokens = int(record.get("total_tokens", 0) or 0)
+
+            node_totals = per_node.setdefault(
+                node_name,
+                {"prompt_tokens": 0, "output_tokens": 0, "total_tokens": 0},
+            )
+            node_totals["prompt_tokens"] += prompt_tokens
+            node_totals["output_tokens"] += output_tokens
+            node_totals["total_tokens"] += total_tokens
+
+            global_prompt += prompt_tokens
+            global_output += output_tokens
+            global_total += total_tokens
+
+        return {
+            "per_node_cumulative_tokens": per_node,
+            "global_tokens": {
+                "prompt_tokens": global_prompt,
+                "output_tokens": global_output,
+                "total_tokens": global_total,
+            },
+        }
+
     def start_run(self, state: Dict[str, Any], token_usage: Optional[Dict[str, Any]] = None):
         matcher_mode = "rule_based"
         if isinstance(state, dict):
@@ -295,6 +332,7 @@ class WorkflowLogger:
             payload["evaluation_runs"] = self._evaluation_runs
         payload["transition_stats"] = self._build_transition_stats()
         payload["time_complexity"] = self._build_time_complexity()
+        payload["token_complexity"] = self._build_token_complexity()
         with open(self._activity_log_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
 
@@ -2051,8 +2089,20 @@ class WorkflowLogger:
 class _TokenTracker:
     def __init__(self, token_usage: Dict[str, Any]):
         self.token_usage = token_usage
+        self._suppress_depth = 0
+
+    @contextmanager
+    def suppressed(self):
+        self._suppress_depth += 1
+        try:
+            yield
+        finally:
+            self._suppress_depth = max(0, self._suppress_depth - 1)
 
     def add_from_response(self, response: Any):
+        if self._suppress_depth > 0:
+            return
+
         usage = None
         if hasattr(response, "usage_metadata") and isinstance(response.usage_metadata, dict):
             usage = response.usage_metadata
@@ -2088,6 +2138,16 @@ class _InvokeTokenProxy:
             pass
         return resp
 
+    async def ainvoke(self, *args, **kwargs):
+        if not hasattr(self._target, "ainvoke"):
+            raise AttributeError(f"{type(self._target).__name__} has no attribute 'ainvoke'")
+        resp = await self._target.ainvoke(*args, **kwargs)
+        try:
+            self._tracker.add_from_response(resp)
+        except Exception:
+            pass
+        return resp
+
     def __getattr__(self, item):
         return getattr(self._target, item)
 
@@ -2113,10 +2173,48 @@ def _maybe_wrap_invoke_for_tokens(obj: Any, tracker: _TokenTracker):
     wrapped_invoke.__workflow_token_wrapped__ = True
     try:
         setattr(obj, "invoke", wrapped_invoke)
-        return obj
     except Exception:
         # Some langchain objects (e.g., RunnableBinding) are pydantic models and disallow setattr.
         return _InvokeTokenProxy(obj, tracker)
+
+    original_ainvoke = getattr(obj, "ainvoke", None)
+    if callable(original_ainvoke) and not getattr(original_ainvoke, "__workflow_token_awrapped__", False):
+        async def wrapped_ainvoke(*args, **kwargs):
+            resp = await original_ainvoke(*args, **kwargs)
+            try:
+                tracker.add_from_response(resp)
+            except Exception:
+                pass
+            return resp
+
+        wrapped_ainvoke.__workflow_token_awrapped__ = True
+        try:
+            setattr(obj, "ainvoke", wrapped_ainvoke)
+        except Exception:
+            # If ainvoke cannot be patched but invoke already can, keep invoke patch.
+            pass
+
+    return obj
+
+
+def _maybe_wrap_invoke_with_usage(agent: Any, tracker: _TokenTracker):
+    original = getattr(agent, "_invoke_with_usage", None)
+    if not callable(original):
+        return
+    if getattr(original, "__workflow_usage_guard_wrapped__", False):
+        return
+
+    def wrapped_invoke_with_usage(*args, **kwargs):
+        # _invoke_with_usage already records tokens via callbacks;
+        # suppress response-metadata tracking here to avoid double counting.
+        with tracker.suppressed():
+            return original(*args, **kwargs)
+
+    wrapped_invoke_with_usage.__workflow_usage_guard_wrapped__ = True
+    try:
+        setattr(agent, "_invoke_with_usage", wrapped_invoke_with_usage)
+    except Exception:
+        pass
 
 
 def _disable_existing_notebook_logger(agent: Any):
@@ -2197,14 +2295,16 @@ def attach_logging(
     # If notebook already has its own logger internals, neutralize duplicate writes.
     _disable_existing_notebook_logger(agent)
 
-    # For notebooks without _invoke_with_usage, capture usage directly from model responses.
-    if not hasattr(agent, "_invoke_with_usage"):
-        wrapped_model = _maybe_wrap_invoke_for_tokens(getattr(agent, "model", None), tracker)
-        wrapped_base_model = _maybe_wrap_invoke_for_tokens(getattr(agent, "base_model", None), tracker)
-        if wrapped_model is not None:
-            agent.model = wrapped_model
-        if wrapped_base_model is not None:
-            agent.base_model = wrapped_base_model
+    # Always capture usage directly from model responses so direct invokes inside any node are tracked.
+    wrapped_model = _maybe_wrap_invoke_for_tokens(getattr(agent, "model", None), tracker)
+    wrapped_base_model = _maybe_wrap_invoke_for_tokens(getattr(agent, "base_model", None), tracker)
+    if wrapped_model is not None:
+        agent.model = wrapped_model
+    if wrapped_base_model is not None:
+        agent.base_model = wrapped_base_model
+
+    # Guard callback-based token accounting paths to avoid double counting.
+    _maybe_wrap_invoke_with_usage(agent, tracker)
 
     graph = agent.graph
     _attach_node_timing(graph, logger)
