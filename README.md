@@ -36,7 +36,7 @@ OPENAI_API_KEY=<API-KEY>
 
 # Architecture
 
-<img width="883" height="694" alt="architecture" src="docs/architecture_v0.2.png" />
+<img width="883" height="694" alt="architecture" src="docs/images/architecture_v0.2.png" />
 
 # Requirements
 
