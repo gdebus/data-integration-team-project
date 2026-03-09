@@ -1,0 +1,45 @@
+site_name: Team Project - Using LLM-Agents in Data Integration Pipelines
+site_description: Documentation for the Team Project on LLM-Agents in Data Integration Pipelines.
+site_author: Onur Can Memis, Gregor Debus, Abdullah Momin, Nicolas Blazek
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Components:
+      - Data Fusion: components/data-fusion.md
+      - Entity Matching: components/entity-matching.md
+      - Schema Matching: components/schema-matching.md
+  - Notebooks: notebooks.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
