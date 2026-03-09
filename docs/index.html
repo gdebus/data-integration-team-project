@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Project - LLM-Agents in Data Integration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+<body>
+
+    <button id="menu-toggle">☰</button>
+
+    <aside id="sidebar">
+        <h1>Team Project</h1>
+        <nav>
+            <ul>
+                <li><a href="#home" class="active">Introduction</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li>
+                    <a href="#components">Components</a>
+                    <ul>
+                        <li><a href="#schema-matching">Schema Matching</a></li>
+                        <li><a href="#entity-matching">Entity Matching</a></li>
+                        <li><a href="#data-fusion">Data Fusion</a></li>
+                    </ul>
+                </li>
+                <li><a href="#notebooks">Notebooks</a></li>
+            </ul>
+        </nav>
+        <div style="margin-top: 2rem; font-size: 0.8rem; color: #777;">
+            <p>University of Mannheim</p>
+            <p>Data Integration & LLMs</p>
+        </div>
+    </aside>
+
+    <main id="main-content">
+        
+        <!-- Home / Introduction -->
+        <section id="home">
+            <h1>Using LLM-Agents in Data Integration Pipelines</h1>
+            <p>Welcome to the documentation for our team project. This site explains how we use LLM-based agents to build robust and scalable data integration pipelines.</p>
+            
+            <div class="admonition">
+                <span class="admonition-title">Status</span>
+                <p>This project is currently under active development. Some features may still be experimental.</p>
+            </div>
+
+            <h2>Project Overview</h2>
+            <p>Data integration is the process of combining data from multiple sources into a unified view. Our project explores how modern Large Language Models (LLMs) can be integrated into traditional pipelines to handle complex tasks like schema matching, entity resolution, and data fusion.</p>
+
+            <h3>Core Goals</h3>
+            <ul>
+                <li><strong>Automation:</strong> Reduce manual intervention in mapping and merging data.</li>
+                <li><strong>Accuracy:</strong> Leverage LLM reasoning to improve matching precision.</li>
+                <li><strong>Scalability:</strong> Design a pipeline that handles diverse datasets from multiple domains.</li>
+            </ul>
+        </section>
+
+        <!-- Architecture -->
+        <section id="architecture">
+            <h1>Architecture</h1>
+            <p>Our pipeline follows a modular design, separating schema matching, entity matching, and data fusion.</p>
+            
+            <img src="images/architecture_v0.3.png" alt="System Architecture Diagram">
+            
+            <h2>Workflow Overview</h2>
+            <ol>
+                <li><strong>Data Loading:</strong> Ingesting datasets in various formats (Parquet, CSV).</li>
+                <li><strong>Schema Matching:</strong> Mapping attributes from different sources to a target schema.</li>
+                <li><strong>Entity Matching:</strong> Identifying records that represent the same real-world entity.</li>
+                <li><strong>Data Fusion:</strong> Merging matching records into a single, high-quality representation.</li>
+            </ol>
+        </section>
+
+        <!-- Components Wrapper (Logical grouping, no specific content needed but good for spacing) -->
+        <section id="components">
+            <h1>Pipeline Components</h1>
+            <p>The system is built upon three main independent agents that collaborate to process data.</p>
+        </section>
+
+        <!-- Schema Matching -->
+        <section id="schema-matching">
+            <h2>Schema Matching</h2>
+            <p><em>Documentation coming soon.</em></p>
+            <p>This component handles the alignment of attributes from heterogeneous sources to a unified target schema.</p>
+        </section>
+
+        <!-- Entity Matching -->
+        <section id="entity-matching">
+            <h2>Entity Matching</h2>
+            <p><em>Documentation coming soon.</em></p>
+            <p>This component identifies records that refer to the same real-world entity across different datasets.</p>
+        </section>
+
+        <!-- Data Fusion -->
+        <section id="data-fusion">
+            <h2>Data Fusion</h2>
+            <p>Data Fusion is the final stage of our integration pipeline, where we reconcile conflicting values and merge information.</p>
+
+            <h3>Strategy</h3>
+            <ul>
+                <li><strong>Conflict Resolution:</strong> We use LLM-based reasoning to choose the most accurate value when sources disagree.</li>
+                <li><strong>Normalization:</strong> Standardizing formats for dates, currencies, and names.</li>
+            </ul>
+        </section>
+
+        <!-- Notebooks -->
+        <section id="notebooks">
+            <h1>Notebooks & Evaluation</h1>
+            <p><em>Documentation coming soon.</em></p>
+            <p>This section will contain links to our interactive Jupyter notebooks and evaluation results.</p>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

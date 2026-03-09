@@ -1,5 +1,7 @@
 # Team Project - Using LLM-Agents in Data Integration Pipelines
 
+**[Introduction](#project-overview) | [Architecture](architecture.md) | [Data Fusion](components/data-fusion.md) | [Entity Matching](components/entity-matching.md) | [Schema Matching](components/schema-matching.md) | [Notebooks](notebooks.md)**
+
 Welcome to the documentation for our team project. This site explains how we use LLM-based agents to build robust and scalable data integration pipelines.
 
 ## Project Overview
