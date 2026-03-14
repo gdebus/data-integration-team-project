@@ -61,6 +61,137 @@ def apply_pipeline_guardrails(pipeline_code: str, state: Dict[str, Any]) -> str:
                 count=1,
             )
 
+    fusion_guidance = state.get("fusion_guidance", {}) if isinstance(state, dict) else {}
+    attribute_strategies = (
+        fusion_guidance.get("attribute_strategies", {}) if isinstance(fusion_guidance, dict) else {}
+    )
+    trust_map_available = bool(re.search(r"(?m)^\s*trust_map\s*=", updated_code))
+    def _split_import_items(text: str) -> list[str]:
+        cleaned = str(text or "").strip()
+        if cleaned.startswith("(") and cleaned.endswith(")"):
+            cleaned = cleaned[1:-1]
+        parts = []
+        for token in cleaned.split(","):
+            item = token.strip()
+            if item:
+                parts.append(item)
+        return parts
+
+    def _collect_imported_fusion_symbols(code: str) -> set[str]:
+        symbols = set()
+        for match in re.finditer(
+            r"from\s+PyDI\.fusion\s+import\s+(\([^\)]*\)|[^\n]+)",
+            code,
+            flags=re.MULTILINE | re.DOTALL,
+        ):
+            symbols.update(_split_import_items(match.group(1)))
+        return symbols
+
+    imported_fusion_symbols = _collect_imported_fusion_symbols(updated_code)
+
+    def _ensure_fusion_import(code: str, symbol: str) -> str:
+        if symbol in imported_fusion_symbols:
+            return code
+        multiline_match = re.search(
+            r"from\s+PyDI\.fusion\s+import\s+\((?P<body>[^\)]*)\)",
+            code,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        if multiline_match:
+            body = multiline_match.group("body")
+            items = _split_import_items(body)
+            if symbol not in items:
+                items.append(symbol)
+            indent_match = re.search(r"\n([ \t]*)\S", body)
+            indent = indent_match.group(1) if indent_match else "    "
+            rebuilt = "from PyDI.fusion import (\n"
+            rebuilt += "".join(f"{indent}{item},\n" for item in items)
+            rebuilt += ")"
+            imported_fusion_symbols.add(symbol)
+            return code[: multiline_match.start()] + rebuilt + code[multiline_match.end() :]
+
+        single_match = re.search(r"(from\s+PyDI\.fusion\s+import\s+)([^\n]+)", code)
+        if single_match:
+            existing = _split_import_items(single_match.group(2))
+            if symbol not in existing:
+                existing.append(symbol)
+            imported_fusion_symbols.add(symbol)
+            return (
+                code[: single_match.start()]
+                + single_match.group(1)
+                + ", ".join(existing)
+                + code[single_match.end() :]
+            )
+
+        imported_fusion_symbols.add(symbol)
+        return f"from PyDI.fusion import {symbol}\n" + code
+
+    def _effective_resolver_name(resolver_name: str, trust_details: Dict[str, Any] | None = None) -> str:
+        field_shape = str((trust_details or {}).get("field_shape", "")).strip().lower()
+        effective = str(resolver_name or "").strip()
+        if effective == "prefer_higher_trust" and not trust_map_available:
+            effective = "intersection" if field_shape == "list_like" else "voting"
+        return effective
+
+    def _patch_attribute_fuser(
+        code: str,
+        attr_name: str,
+        resolver_name: str,
+        trust_details: Dict[str, Any] | None = None,
+    ) -> tuple[str, int]:
+        pattern = re.compile(
+            rf"(add_attribute_fuser\(\s*[\"']{re.escape(attr_name)}[\"']\s*,\s*)([A-Za-z_][A-Za-z0-9_]*)(?P<rest>[^\\n]*\))"
+        )
+
+        def _repl(match: re.Match) -> str:
+            rest = match.group("rest")
+            replacement_resolver = _effective_resolver_name(resolver_name, trust_details)
+            replacement_rest = rest
+            if replacement_resolver == "prefer_higher_trust" and "trust_map=" not in replacement_rest:
+                replacement_rest = replacement_rest[:-1] + ", trust_map=trust_map)"
+            if replacement_resolver != "prefer_higher_trust":
+                replacement_rest = re.sub(r",\s*trust_map\s*=\s*[^,\)]*", "", replacement_rest)
+            return match.group(1) + replacement_resolver + replacement_rest
+
+        return pattern.subn(_repl, code)
+
+    guidance_updates = 0
+    if isinstance(attribute_strategies, dict):
+        for attr_name, strategy in attribute_strategies.items():
+            if not isinstance(strategy, dict):
+                continue
+            recommended_fuser = str(strategy.get("recommended_fuser", "")).strip()
+            field_shape = str(strategy.get("field_shape", "")).strip().lower()
+            if field_shape == "list_like" and recommended_fuser == "voting":
+                recommended_fuser = "prefer_higher_trust" if trust_map_available else "intersection"
+            effective_fuser = _effective_resolver_name(recommended_fuser, strategy)
+            if effective_fuser not in {"prefer_higher_trust", "voting", "intersection", "earliest"}:
+                continue
+            updated_code = _ensure_fusion_import(updated_code, effective_fuser)
+            updated_code, count = _patch_attribute_fuser(
+                updated_code,
+                str(attr_name),
+                recommended_fuser,
+                strategy if isinstance(strategy, dict) else {},
+            )
+            guidance_updates += count
+
+    if trust_map_available and isinstance(attribute_strategies, dict):
+        for attr_name, strategy in attribute_strategies.items():
+            if not isinstance(strategy, dict):
+                continue
+            if str(strategy.get("recommended_fuser", "")).strip() != "prefer_higher_trust":
+                continue
+            trust_details = strategy.get("trust_map", {})
+            if not isinstance(trust_details, dict) or not trust_details:
+                continue
+            for source_name, score in trust_details.items():
+                updated_code = re.sub(
+                    rf"([\"']{re.escape(str(source_name))}[\"']\s*:\s*)([0-9]*\.?[0-9]+)",
+                    rf"\g<1>{float(score):.3f}",
+                    updated_code,
+                )
+
     # Ensure custom fusers are fully PyDI-compatible:
     # - callable signature supports resolver kwargs
     # - return shape is (value, confidence, metadata)
@@ -275,6 +406,8 @@ def _pydi_safe_fuser(fn):
         print(f"[GUARDRAIL] Updated {lambda_updates} lambda fuser signature(s).")
     if wrapped_resolvers:
         print(f"[GUARDRAIL] Wrapped {wrapped_resolvers} custom resolver usage(s) with _pydi_safe_fuser.")
+    if guidance_updates:
+        print(f"[GUARDRAIL] Applied {guidance_updates} evidence-driven attribute fuser update(s).")
 
     return updated_code
 

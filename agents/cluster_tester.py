@@ -26,7 +26,9 @@ def load_dataset(path):
 
 class ClusterTester:
     """
-    Analyzes entity clusters and recommends specific PyDI post-processing steps.
+    Analyzes entity clusters and recommends specific PyDI post-clustering steps.
+    It must not recommend changing matching thresholds, comparator weights, or
+    matcher configuration.
     """
 
     def __init__(
@@ -95,7 +97,7 @@ class ClusterTester:
     def _get_recommendation(
         self, cluster_stats: pd.DataFrame, one_to_many_ratio: float
     ) -> Dict[str, Any]:
-        """Recommend matching threshold adjustments when distribution is not long-tail."""
+        """Recommend post-clustering when distribution is not long-tail."""
         health = self._analyze_cluster_health(cluster_stats)
         health["one_to_many_ratio"] = round(one_to_many_ratio, 4)
 
@@ -115,21 +117,24 @@ class ClusterTester:
         if not is_one_to_many_ok:
             diagnosis = (
                 "Many entities map to multiple counterparts (one-to-many), which suggests "
-                "ambiguous correspondences and over-matching."
+                "ambiguous correspondences and over-matching. Apply a one-to-one "
+                "post-clustering step instead of changing matcher thresholds."
             )
         else:
             diagnosis = (
                 "The cluster distribution is not long-tail and indicates potential many-to-many "
-                "matches or over-clustering."
+                "matches or over-clustering. Apply post-clustering rather than editing "
+                "matching weights or thresholds."
             )
 
         return {
             "diagnosis": diagnosis,
-            "recommended_strategy": "AdjustMatchingConfig",
+            "recommended_strategy": "MaximumBipartiteMatching",
             "parameters": {
-                "threshold_delta": 0.05,
-                "threshold_cap": 0.95,
-                "reason": "Increase match thresholds to reduce over-matching and large clusters.",
+                "threshold": 0.0,
+                "preserve_scores": True,
+                "use_weight_scaling": True,
+                "reason": "Enforce one-to-one post-clustering to reduce over-matching without changing the matcher configuration.",
             },
             "health_metrics": health,
             "is_healthy": False,
@@ -255,7 +260,7 @@ class ClusterTester:
                 if report.get("recommended_strategy") not in (None, "None")
             ]
             overall_recommendation = (
-                "AdjustMatchingConfig" if unhealthy_files else "None"
+                "MaximumBipartiteMatching" if unhealthy_files else "None"
             )
             overall_diagnosis = (
                 "One or more correspondence files show a non-long-tail distribution."
@@ -267,9 +272,10 @@ class ClusterTester:
                 "recommended_strategy": overall_recommendation,
                 "parameters": (
                     {
-                        "threshold_delta": 0.05,
-                        "threshold_cap": 0.95,
-                        "reason": "Increase match thresholds to reduce over-matching and large clusters.",
+                        "threshold": 0.0,
+                        "preserve_scores": True,
+                        "use_weight_scaling": True,
+                        "reason": "Enforce one-to-one post-clustering to reduce over-matching without changing the matcher configuration.",
                     }
                     if unhealthy_files
                     else {}

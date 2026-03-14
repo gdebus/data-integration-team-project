@@ -135,6 +135,87 @@ def load_dataset(path):
     else:
         raise ValueError(f"Unsupported format: {ext}. Supported: .csv, .parquet, .xml")
     return df
+
+
+def _clean_report_text(value: Any) -> str:
+    text = str(value or "").replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def _extract_report_section(text: str, headings: List[str]) -> str:
+    content = _clean_report_text(text)
+    if not content:
+        return ""
+    lines = content.split("\n")
+    heading_set = {h.lower() for h in headings}
+    collected: List[str] = []
+    active = False
+    for raw_line in lines:
+        line = raw_line.strip()
+        normalized = re.sub(r"^[#*\\-\\s]+", "", line).strip()
+        normalized = normalized.rstrip(":").strip().lower()
+        if normalized in heading_set:
+            active = True
+            continue
+        if active and line and re.match(r"^[#A-Z][A-Za-z ]{2,40}:?$", line):
+            break
+        if active and line:
+            collected.append(line)
+    return _clean_report_text("\n".join(collected))
+
+
+def _first_sentences(text: str, limit: int = 2) -> str:
+    cleaned = _clean_report_text(text)
+    if not cleaned:
+        return ""
+    parts = [p.strip() for p in re.split(r"(?<=[.!?])\\s+", cleaned) if p.strip()]
+    if not parts:
+        return cleaned
+    return " ".join(parts[:limit]).strip()
+
+
+def _build_reasoning_brief(analysis: str) -> Dict[str, str]:
+    cleaned = _clean_report_text(analysis)
+    if not cleaned:
+        return {}
+    problem = _extract_report_section(cleaned, ["What went wrong", "Main problem", "Problem"])
+    next_step = _extract_report_section(
+        cleaned,
+        ["What the agent should try next", "Next pass focus", "Next step", "What to try next"],
+    )
+    normalization = _extract_report_section(
+        cleaned,
+        ["Normalization recommendations", "Normalization recommendation"],
+    )
+    takeaway = _extract_report_section(cleaned, ["Report takeaway", "Takeaway"])
+    if not problem:
+        problem = _first_sentences(cleaned, limit=2)
+    if not next_step:
+        fallback = _extract_report_section(cleaned, ["Recommendations", "Recommended changes"])
+        next_step = _first_sentences(fallback or cleaned, limit=2)
+    if not takeaway:
+        takeaway = _first_sentences(next_step or cleaned, limit=1)
+    return {
+        "problem": problem,
+        "next_step": next_step,
+        "normalization": normalization,
+        "takeaway": takeaway,
+    }
+
+
+def _compact_report_list(items: Any, limit: int = 3) -> List[str]:
+    if not isinstance(items, list):
+        return []
+    out: List[str] = []
+    for item in items:
+        text = _clean_report_text(item)
+        if text:
+            out.append(text)
+        if len(out) >= limit:
+            break
+    return out
     
 
 
@@ -324,6 +405,7 @@ class SimpleModelAgentState(TypedDict):
     evaluation_regression_guard: Dict
     evaluation_cycle_audit: List[Dict[str, Any]]
     evaluation_analysis: str
+    evaluation_reasoning_brief: Dict
     fusion_size_comparison: Dict
     auto_diagnostics: Dict
     correspondence_integrity: Dict
@@ -336,7 +418,9 @@ class SimpleModelAgentState(TypedDict):
     normalization_rework_reasons: List[str]
     normalization_directives: Dict
     investigator_action_plan: List[Dict[str, Any]]
+    fusion_guidance: Dict
     investigator_decision: str
+    investigator_routing_decision: Dict
     validation_metrics_final: Dict
     sealed_test_metrics_final: Dict
     run_audit_path: str
@@ -347,6 +431,9 @@ class SimpleModelAgentState(TypedDict):
     run_output_root: str
     pipeline_run_started_at: float
     pipeline_run_finished_at: float
+    evaluation_metrics_raw: Dict
+    evaluation_metrics_for_adaptation: Dict
+    enable_cross_run_memory: bool
 
 class SimpleModelAgent:
     
@@ -357,12 +444,9 @@ class SimpleModelAgent:
         self.tools = tools
         self.model = model.bind_tools(list(self.tools.values()))
         self.base_model = model
-        self.run_id = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        self.run_output_root = os.path.join(OUTPUT_DIR, "runs", self.run_id)
-        os.makedirs(self.run_output_root, exist_ok=True)
-        os.makedirs(os.path.join(self.run_output_root, "pipeline"), exist_ok=True)
-        os.makedirs(os.path.join(self.run_output_root, "evaluation"), exist_ok=True)
-        os.makedirs(os.path.join(self.run_output_root, "snapshots"), exist_ok=True)
+        self.run_id = ""
+        self.run_output_root = ""
+        self._reset_run_context()
 
         # prepare the StateGraph
         graph = StateGraph(SimpleModelAgentState)
@@ -447,6 +531,7 @@ class SimpleModelAgent:
             lambda state: state.get("investigator_decision", "human_review_export"),
             {
                 "normalization_node": "normalization_node",
+                "run_matching_tester": "run_matching_tester",
                 "pipeline_adaption": "pipeline_adaption",
                 "human_review_export": "human_review_export",
                 END: END
@@ -478,6 +563,75 @@ class SimpleModelAgent:
             )
         except Exception as e:
             print(f"[!] Workflow logging attachment failed: {e}")
+
+    def _cross_run_memory_enabled(self, state: Dict[str, Any] | None = None) -> bool:
+        if isinstance(state, dict) and "enable_cross_run_memory" in state:
+            return bool(state.get("enable_cross_run_memory"))
+        return os.getenv("AGENT_ENABLE_CROSS_RUN_MEMORY", "").strip().lower() in {"1", "true", "yes", "on"}
+
+    def _reset_volatile_output_dirs(self) -> None:
+        volatile_dirs = [
+            OUTPUT_DIR + "blocking-evaluation",
+            OUTPUT_DIR + "matching-evaluation",
+            OUTPUT_DIR + "correspondences",
+            OUTPUT_DIR + "cluster-evaluation",
+            OUTPUT_DIR + "pipeline_evaluation",
+            OUTPUT_DIR + "normalization",
+            OUTPUT_DIR + "human_review",
+            OUTPUT_DIR + "code",
+            OUTPUT_DIR + "data_fusion",
+            OUTPUT_DIR + "schema-matching",
+        ]
+        for path in volatile_dirs:
+            try:
+                if os.path.isdir(path):
+                    shutil.rmtree(path)
+            except Exception:
+                continue
+            os.makedirs(path, exist_ok=True)
+
+    def _reset_run_context(self, state: Dict[str, Any] | None = None) -> Dict[str, Any]:
+        self.run_id = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        self.run_output_root = os.path.join(OUTPUT_DIR, "runs", self.run_id)
+        os.makedirs(self.run_output_root, exist_ok=True)
+        os.makedirs(os.path.join(self.run_output_root, "pipeline"), exist_ok=True)
+        os.makedirs(os.path.join(self.run_output_root, "evaluation"), exist_ok=True)
+        os.makedirs(os.path.join(self.run_output_root, "snapshots"), exist_ok=True)
+        self.token_usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0, "total_cost": 0.0}
+        self._reset_volatile_output_dirs()
+        return {
+            "run_id": self.run_id,
+            "run_output_root": self.run_output_root,
+            "enable_cross_run_memory": self._cross_run_memory_enabled(state),
+        }
+
+    def prepare_for_new_run(self, state: Dict[str, Any] | None = None) -> Dict[str, Any]:
+        return self._reset_run_context(state)
+
+    @staticmethod
+    def _matching_refresh_gate(state: Dict[str, Any], min_pair_f1: float = 0.65) -> Dict[str, Any]:
+        cfg = state.get("matching_config", {}) if isinstance(state, dict) else {}
+        strategies = cfg.get("matching_strategies", {}) if isinstance(cfg, dict) else {}
+        weak_pairs: List[Dict[str, Any]] = []
+        if not isinstance(strategies, dict):
+            return {"triggered": False, "weak_pairs": []}
+        for pair_name, pair_cfg in strategies.items():
+            if not isinstance(pair_cfg, dict):
+                continue
+            try:
+                f1 = float(pair_cfg.get("f1", 0.0) or 0.0)
+            except Exception:
+                f1 = 0.0
+            tags = {str(tag) for tag in pair_cfg.get("failure_tags", []) if str(tag).strip()}
+            if f1 < min_pair_f1 or "low_matching_quality" in tags:
+                weak_pairs.append(
+                    {
+                        "pair": str(pair_name),
+                        "f1": round(f1, 6),
+                        "failure_tags": sorted(tags),
+                    }
+                )
+        return {"triggered": bool(weak_pairs), "weak_pairs": weak_pairs, "threshold": min_pair_f1}
 
     def _extract_usage_from_result(self, result: Any) -> Dict[str, int]:
         def _to_int(value: Any) -> int:
@@ -924,12 +1078,15 @@ class SimpleModelAgent:
         best_overall = float(best.get("overall_accuracy", 0.0) or 0.0)
         current_macro = float(current.get("macro_accuracy", 0.0) or 0.0)
         best_macro = float(best.get("macro_accuracy", 0.0) or 0.0)
-        overall_drop = best_overall - current_overall
-        macro_drop = best_macro - current_macro
+        overall_gain = current_overall - best_overall
+        macro_gain = current_macro - best_macro
+        overall_regression = max(0.0, best_overall - current_overall)
+        macro_regression = max(0.0, best_macro - current_macro)
 
         current_attr = self._attribute_accuracy_map(current)
         best_attr = self._attribute_accuracy_map(best)
         drops: Dict[str, float] = {}
+        gains: Dict[str, float] = {}
         for attr, best_score in best_attr.items():
             if attr not in current_attr:
                 continue
@@ -941,25 +1098,37 @@ class SimpleModelAgent:
                 b_count = 0
             if min(c_count, b_count) < 3:
                 continue
-            drop = float(best_score) - float(current_attr[attr])
-            if drop > 0.0:
-                drops[attr] = round(drop, 6)
+            delta = float(current_attr[attr]) - float(best_score)
+            if delta < 0.0:
+                drops[attr] = round(abs(delta), 6)
+            elif delta > 0.0:
+                gains[attr] = round(delta, 6)
 
-        severe_drops = {k: v for k, v in drops.items() if v >= 0.08}
-        moderate_drops = {k: v for k, v in drops.items() if v >= 0.04}
+        catastrophic_drops = {k: v for k, v in drops.items() if v >= 0.2}
+        severe_drops = {k: v for k, v in drops.items() if v >= 0.12}
+        moderate_drops = {k: v for k, v in drops.items() if v >= 0.08}
+        meaningful_gain = overall_gain >= 0.02 or macro_gain >= 0.02
         rejected = (
-            overall_drop >= 0.02
-            or macro_drop >= 0.02
-            or len(severe_drops) >= 1
-            or len(moderate_drops) >= 2
+            overall_regression >= 0.02
+            or macro_regression >= 0.02
+            or len(catastrophic_drops) >= 1
+            or (
+                not meaningful_gain
+                and (len(severe_drops) >= 1 or len(moderate_drops) >= 2)
+            )
         )
         return {
             "rejected": bool(rejected),
-            "overall_drop": round(overall_drop, 6),
-            "macro_drop": round(macro_drop, 6),
+            "overall_gain": round(overall_gain, 6),
+            "macro_gain": round(macro_gain, 6),
+            "overall_drop": round(overall_regression, 6),
+            "macro_drop": round(macro_regression, 6),
+            "meaningful_gain": bool(meaningful_gain),
+            "catastrophic_attribute_drops": catastrophic_drops,
             "severe_attribute_drops": severe_drops,
             "moderate_attribute_drops": moderate_drops,
             "top_attribute_drops": dict(sorted(drops.items(), key=lambda x: x[1], reverse=True)[:8]),
+            "top_attribute_gains": dict(sorted(gains.items(), key=lambda x: x[1], reverse=True)[:8]),
         }
 
     def _is_metrics_better(self, candidate: Dict[str, Any], baseline: Dict[str, Any]) -> bool:
@@ -1528,6 +1697,14 @@ except ModuleNotFoundError:
 
     # Creates tool calls to profile the data and saves it into agent state 
     def match_schemas(self, state: SimpleModelAgentState):
+        if state.get("run_id") == self.run_id and state.get("run_output_root") == self.run_output_root:
+            run_updates = {
+                "run_id": self.run_id,
+                "run_output_root": self.run_output_root,
+                "enable_cross_run_memory": self._cross_run_memory_enabled(state),
+            }
+        else:
+            run_updates = self._reset_run_context(state)
         self._log_action("match_schemas", "start", "Align dataset schemas before blocking/matching", "Improves comparator compatibility", {"datasets": state.get("datasets")})
 
         self.logger.info("----------------------- Entering match_schemas -----------------------")
@@ -1542,7 +1719,9 @@ except ModuleNotFoundError:
             output_dir="output/schema-matching",
         )
         self.logger.info("Leaving match_schemas")
-        return result
+        out = dict(result) if isinstance(result, dict) else {}
+        out.update(run_updates)
+        return out
 
     def profile_data(self, state:SimpleModelAgentState):
         self._log_action("profile_data", "start", "Profile datasets to guide feature/threshold choices", "Improves matching signal selection", {"datasets": state.get("datasets")})
@@ -1593,7 +1772,8 @@ except ModuleNotFoundError:
 
         self.logger.info("----------------------- Entering run_blocking_tester -----------------------")
 
-        if SKIP_BLOCKING_TESTER:
+        cross_run_memory_enabled = self._cross_run_memory_enabled(state)
+        if SKIP_BLOCKING_TESTER and cross_run_memory_enabled:
             path = Path(OUTPUT_DIR + "blocking-evaluation/blocking_config.json")
             if path.exists():
                 with path.open("r", encoding="utf-8") as f:
@@ -1608,6 +1788,8 @@ except ModuleNotFoundError:
                         return {"blocking_config": blocking_config}
             else:
                 print("[-] Cannot skip blocking tester. No saved blocking strategy found")
+        elif SKIP_BLOCKING_TESTER:
+            print("[*] Cross-run memory disabled; ignoring saved blocking strategy and recomputing.")
         
         if state.get("blocking_config"):
             cfg = state.get("blocking_config", {})
@@ -1671,7 +1853,30 @@ except ModuleNotFoundError:
             except Exception:
                 return False
 
-        if SKIP_MATCHING_TESTER:
+        def _matching_config_needs_refresh(cfg: Dict[str, Any]) -> tuple[bool, str]:
+            if not isinstance(cfg, dict):
+                return True, "matching config is not a dict"
+            strategies = cfg.get("matching_strategies", {})
+            if not isinstance(strategies, dict) or not strategies:
+                return True, "matching strategies are missing"
+            weak_pairs = []
+            for pair_name, pair_cfg in strategies.items():
+                if not isinstance(pair_cfg, dict):
+                    weak_pairs.append(f"{pair_name}:invalid")
+                    continue
+                try:
+                    f1 = float(pair_cfg.get("f1", 0.0) or 0.0)
+                except Exception:
+                    f1 = 0.0
+                failure_tags = {str(tag) for tag in pair_cfg.get("failure_tags", []) if str(tag).strip()}
+                if "low_matching_quality" in failure_tags or f1 < 0.75:
+                    weak_pairs.append(f"{pair_name}:F1={f1:.3f}")
+            if weak_pairs:
+                return True, "low-quality matching strategies present (" + ", ".join(weak_pairs[:5]) + ")"
+            return False, ""
+
+        cross_run_memory_enabled = self._cross_run_memory_enabled(state)
+        if SKIP_MATCHING_TESTER and cross_run_memory_enabled:
             path = Path(OUTPUT_DIR + "matching-evaluation/matching_config.json")
             if path.exists():
                 with path.open("r", encoding="utf-8") as f:
@@ -1681,10 +1886,16 @@ except ModuleNotFoundError:
                     elif _config_has_list_based_comparators(matching_config):
                         print("[WARN] Saved matching config contains list-based comparators; recomputing matcher.")
                     else:
-                        print("[+] Using saved matching strategy: " + json.dumps(matching_config, indent=2))
-                        return {"matching_config": matching_config}
+                        needs_refresh, refresh_reason = _matching_config_needs_refresh(matching_config)
+                        if needs_refresh:
+                            print(f"[WARN] Saved matching config needs refresh; recomputing matcher ({refresh_reason}).")
+                        else:
+                            print("[+] Using saved matching strategy: " + json.dumps(matching_config, indent=2))
+                            return {"matching_config": matching_config}
             else:
                 print("[-] Cannot skip matching tester. No saved matching strategy found")
+        elif SKIP_MATCHING_TESTER:
+            print("[*] Cross-run memory disabled; ignoring saved matching strategy and recomputing.")
         
         if state.get("matching_config"):
             existing_cfg = state.get("matching_config", {})
@@ -1693,8 +1904,12 @@ except ModuleNotFoundError:
             elif _config_has_list_based_comparators(existing_cfg):
                 print("[WARN] State matching config contains list-based comparators; recomputing matcher.")
             else:
-                print("[*] Matching config already present in state; skipping MatchingTester")
-                return {"matching_config": existing_cfg, "matcher_mode": matcher_mode}
+                needs_refresh, refresh_reason = _matching_config_needs_refresh(existing_cfg)
+                if needs_refresh:
+                    print(f"[WARN] State matching config needs refresh; recomputing matcher ({refresh_reason}).")
+                else:
+                    print("[*] Matching config already present in state; skipping MatchingTester")
+                    return {"matching_config": existing_cfg, "matcher_mode": matcher_mode}
 
         # Always reload matching_tester from disk so notebook sessions do not use stale class code.
         try:
@@ -1716,11 +1931,12 @@ except ModuleNotFoundError:
             blocking_config=state.get("blocking_config", {}),
             output_dir="output/matching-evaluation",
             f1_threshold=0.75,
-            max_attempts=4,
+            max_attempts=8,
             max_error_retries=2,
             verbose=True,
             matcher_mode=matcher_mode,
             disallow_list_comparators=True,
+            no_gain_patience=4,
         )
         _, matching_config = tester.run_all()
         print("[*] Matching config computed:\n" + json.dumps(matching_config, indent=2))
@@ -1755,9 +1971,9 @@ except ModuleNotFoundError:
 
         ####### PREPARE SYSTEM PROMT #######
 
-        # Sync matching_config from disk only when dataset signature matches current run
+        # Sync matching_config from disk only when explicitly allowed.
         matching_path = os.path.join(OUTPUT_DIR, "matching-evaluation", "matching_config.json")
-        if os.path.exists(matching_path):
+        if self._cross_run_memory_enabled(state) and os.path.exists(matching_path):
             with open(matching_path, "r", encoding="utf-8") as f:
                 disk_matching_config = json.load(f)
             cfg_names = disk_matching_config.get("dataset_names", []) if isinstance(disk_matching_config, dict) else []
@@ -1912,13 +2128,16 @@ except ModuleNotFoundError:
         - Do NOT define custom fusion resolvers or lambda resolvers unless absolutely unavoidable.
         - If unavoidable, custom fusers must be minimal, PyDI-compatible, and justified by diagnostics evidence.
         - Prefer this built-in mapping by inferred attribute type:
-          * string-like scalar fields -> `longest_string` or `prefer_higher_trust`
+          * string-like scalar fields -> `voting` or `prefer_higher_trust`
           * numeric fields -> `median` (or `average` when justified)
-          * date/time fields -> `most_recent` (or `earliest` when justified)
-          * list-like fields -> `union` (or `intersection` when diagnostics indicate noise)
+          * date/time fields -> `earliest` or `prefer_higher_trust` unless recency is explicitly justified
+          * list-like fields -> `prefer_higher_trust`, `intersection`, or `intersection_k_sources`; use `union` only when diagnostics indicate clean, consistent lists
         - For trust-based fusion, pass trust configuration only at registration time:
           `strategy.add_attribute_fuser(attr, prefer_higher_trust, trust_map=trust_map)`
         - Do NOT wrap `prefer_higher_trust` in another function that hardcodes `trust_map` again.
+        - Avoid `longest_string` as a default conflict resolver for canonical scalar fields unless diagnostics explicitly show low disagreement and enrichment-only differences.
+        - Avoid `most_recent` as a default temporal resolver unless diagnostics explicitly show recency is the correct target semantics.
+        - Avoid `union` for list-like fields when cluster purity is weak or list-format inconsistencies are present.
 
         {PIPELINE_MATCHING_SAFETY_RULES_BLOCK}
         """
@@ -1928,6 +2147,14 @@ except ModuleNotFoundError:
             system_prompt += f"""
             8. Evaluation reasoning from prior pipeline run:
             {evaluation_analysis}
+            """
+        reasoning_brief = state.get("evaluation_reasoning_brief", {})
+        if isinstance(reasoning_brief, dict) and reasoning_brief:
+            system_prompt += f"""
+            8b. COMPACT NEXT-PASS SUMMARY:
+            {json.dumps(reasoning_brief, indent=2)}
+
+            Treat this as the highest-signal summary of what went wrong and what to try next.
             """
 
         auto_diagnostics = state.get("auto_diagnostics")
@@ -1958,6 +2185,18 @@ except ModuleNotFoundError:
 
             Implement highest-priority actions first.
             Do not implement low-confidence actions unless supported by additional evidence.
+            """
+        fusion_guidance = state.get("fusion_guidance")
+        if fusion_guidance:
+            system_prompt += f"""
+            11b. GENERIC FUSION GUIDANCE FROM DIAGNOSTICS:
+            {json.dumps(fusion_guidance, indent=2)}
+
+            Apply this guidance in a dataset-agnostic way:
+            - If `attribute_strategies[attr]` exists, use its `recommended_fuser` for that attribute unless the current code already implements an equally safe choice with the same rationale.
+            - If `post_clustering.recommended_strategy` is present, apply that post-clustering strategy before fusion.
+            - If a dominant source is indicated for an attribute, express that via `prefer_higher_trust` with a transparent `trust_map` rather than hard-coded dataset-specific logic.
+            - Keep the implementation generic: decisions should depend on evidence classes such as cluster impurity, disagreement, malformed lists, and source agreement, not on dataset names.
             """
         #### Cluster Analysis ####
         cluster_analysis = state.get("cluster_analysis_result")
@@ -2006,7 +2245,9 @@ except ModuleNotFoundError:
 
         1.  **Analyze the feedback:** Prefer `_overall.recommended_strategy` if present; otherwise scan the per-file entries.
         2.  **CLUSTER-DRIVEN ACTIONS:**
-                - If the Recommended strategy is `AdjustMatchingConfig`, do NOT change matching thresholds. Keep pre-tested matching_config unchanged.
+                - Cluster analysis may only influence post-clustering after matching.
+                - Do NOT change matching thresholds, comparator weights, comparator columns, or matcher type based on cluster analysis.
+                - Keep pre-tested matching_config unchanged.
                 - If the Recommended strategy is a post-clustering function, you **MUST** add that step to your generated code.
         3.  **FOLLOW THIS EXAMPLE FOR INCORPORATING POST-CLUSTERING:**
                 - DO NOT change the earlier parts of the pipeline (data loading, blocking, matching).
@@ -2018,14 +2259,20 @@ except ModuleNotFoundError:
         Your task is to modify the integration pipeline to incorporate the recommended post-clustering step.
         """
 
+        broken_pipeline_path = OUTPUT_DIR + "code/pipeline.py"
+        has_existing_pipeline = os.path.exists(broken_pipeline_path) and os.path.getsize(broken_pipeline_path) > 0
+        has_execution_feedback = bool(str(state.get("pipeline_execution_result", "") or "").strip())
+        has_evaluation_feedback = self._is_metrics_payload(
+            state.get("evaluation_metrics_for_adaptation", state.get("evaluation_metrics", {}))
+        )
+
         # Determine if this is initial generation, fix due to execution error, or fix due to poor evaluation
-        if "pipeline_execution_result" not in state and "evaluation_metrics" not in state:
+        if not has_existing_pipeline or (not has_execution_feedback and not has_evaluation_feedback):
             print("[*] Creating initial pipeline")
             human_content = "Create the integration pipeline for the provided datasets."
     
         else:
             # Either a pipeline execution error or evaluation-based adaption
-            broken_pipeline_path = OUTPUT_DIR + "code/pipeline.py"
             with open(broken_pipeline_path, "r", encoding="utf-8", errors="ignore") as f:
                 broken_code = f.read()
     
@@ -2328,6 +2575,12 @@ except ModuleNotFoundError:
             system_prompt += f"""
             Evaluation reasoning from prior pipeline run:
             {evaluation_analysis}
+            """
+        reasoning_brief = state.get("evaluation_reasoning_brief", {})
+        if isinstance(reasoning_brief, dict) and reasoning_brief:
+            system_prompt += f"""
+            Compact summary from the prior reasoning:
+            {json.dumps(reasoning_brief, indent=2)}
             """
 
         ####### HUMAN PROMPT #######
@@ -3054,8 +3307,12 @@ except ModuleNotFoundError:
             elif not self._is_metrics_payload(best_metrics) and self._is_metrics_payload(raw_metrics):
                 best_metrics = dict(raw_metrics)
 
+        analysis_metrics = raw_metrics if self._is_metrics_payload(raw_metrics) else accepted_metrics
+
         self.logger.info(f"Evaluation metrics ({metrics_source}): {raw_metrics}")
         print(f"Evaluation metrics: {json.dumps(accepted_metrics)}")
+        if accepted_metrics != raw_metrics:
+            print(f"[EVALUATION CANDIDATE] Raw metrics: {json.dumps(raw_metrics)}")
         if structural_invalid:
             invalid_pairs = correspondence_integrity.get("invalid_pairs", [])
             print(
@@ -3068,14 +3325,16 @@ except ModuleNotFoundError:
         state["evaluation_regression_guard"] = regression
         state["correspondence_integrity"] = correspondence_integrity
         state["evaluation_metrics"] = accepted_metrics
+        state["evaluation_metrics_raw"] = raw_metrics
+        state["evaluation_metrics_for_adaptation"] = analysis_metrics
 
         eval_stage = self._evaluation_stage_label(state, force_test=False)
         try:
-            overall_acc = float(accepted_metrics.get("overall_accuracy", 0.0))
+            overall_acc = float(analysis_metrics.get("overall_accuracy", 0.0))
         except Exception:
             overall_acc = 0.0
 
-        auto_diagnostics = self._compute_auto_diagnostics(state, accepted_metrics)
+        auto_diagnostics = self._compute_auto_diagnostics(state, analysis_metrics)
         state["auto_diagnostics"] = auto_diagnostics
 
         problems: List[str] = []
@@ -3083,8 +3342,8 @@ except ModuleNotFoundError:
             problems.append(f"overall_accuracy below target: {overall_acc:.3%} < 85.000%")
 
         low_acc_columns: List[str] = []
-        if isinstance(accepted_metrics, dict):
-            for key, value in accepted_metrics.items():
+        if isinstance(analysis_metrics, dict):
+            for key, value in analysis_metrics.items():
                 if not (isinstance(key, str) and key.endswith("_accuracy") and key != "overall_accuracy"):
                     continue
                 try:
@@ -3171,6 +3430,7 @@ except ModuleNotFoundError:
                 "metrics_source": metrics_source,
                 "raw_metrics": raw_metrics,
                 "accepted_metrics": accepted_metrics,
+                "analysis_metrics": analysis_metrics,
                 "best_validation_metrics": best_metrics if isinstance(best_metrics, dict) else {},
                 "regression_guard": regression,
                 "correspondence_integrity": correspondence_integrity,
@@ -3193,6 +3453,8 @@ except ModuleNotFoundError:
             "evaluation_regression_guard": regression,
             "latest_validation_metrics": raw_metrics,
             "best_validation_metrics": best_metrics if isinstance(best_metrics, dict) else {},
+            "evaluation_metrics_raw": raw_metrics,
+            "evaluation_metrics_for_adaptation": analysis_metrics,
             "correspondence_integrity": correspondence_integrity,
             "evaluation_cycle_audit": cycle_audit,
         }
@@ -3201,9 +3463,9 @@ except ModuleNotFoundError:
 
         self.logger.info('----------------------- Entering evaluation_reasoning -----------------------')
     
-        # Sync matching_config from disk so updated thresholds carry over
+        # Sync matching_config from disk only when explicitly allowed.
         matching_path = os.path.join(OUTPUT_DIR, "matching-evaluation", "matching_config.json")
-        if os.path.exists(matching_path):
+        if self._cross_run_memory_enabled(state) and os.path.exists(matching_path):
             with open(matching_path, "r", encoding="utf-8") as f:
                 state["matching_config"] = json.load(f)
 
@@ -3244,12 +3506,22 @@ except ModuleNotFoundError:
            Prefer these capabilities when appropriate:
            - PyDI country normalization: normalize_country(value, output_format="name")
            - list formatting normalization via helper functions: detect_list_like_columns / normalize_list_like_columns
+        6. Phrase recommendations as generic evidence-driven patterns, not dataset-specific hacks:
+           - field-shape-aware fusion
+           - post-clustering cleanup when cluster impurity is high
+           - consensus vs trust-based source preference when source agreement is strong
+           - safer list handling when list-format noise is high
 
-        IMPORTANT: The blocking and matching strategies have been determined earlier and have been already evaluated. Therefore, 
-        focus on improving the fusion of the pipeline.
-    
-        Respond with concise, structured reasoning.
-        Include a short section named `Normalization Recommendations` when relevant.
+        IMPORTANT:
+        - Blocking and matching have already been evaluated for the current pass, so focus primarily on fusion and preprocessing.
+        - If diagnostics show pairwise matching quality remains weak, you may say that rerunning matching is justified, but do not recommend dataset-specific comparator hacks.
+
+        Write concise reasoning that is readable in a report.
+        Keep the response natural-language, but organize it with these short headings:
+        - What Went Wrong
+        - What The Agent Should Try Next
+        - Normalization Recommendations (only when relevant)
+        - Report Takeaway
         """
     
         # Prepare human content
@@ -3293,11 +3565,15 @@ except ModuleNotFoundError:
     
         result = self._invoke_with_usage(message, "evaluation_reasoning")
         analysis = result.content if hasattr(result, "content") else str(result)
+        reasoning_brief = _build_reasoning_brief(analysis)
     
         self.logger.info("Evaluation reasoning produced")
         print("[*] Evaluation reasoning:\n" + analysis)
     
-        return {"evaluation_analysis": analysis}
+        return {
+            "evaluation_analysis": analysis,
+            "evaluation_reasoning_brief": reasoning_brief,
+        }
         
     def save_results(self, state: SimpleModelAgentState):
         self._log_action("save_results", "start", "Persist run artifacts", "Enables reproducibility")
@@ -3395,6 +3671,54 @@ except ModuleNotFoundError:
             else evaluation_metrics
         )
         sealed_test_metrics_final = state.get("final_test_evaluation_metrics", {})
+        evaluation_analysis = state.get("evaluation_analysis", "")
+        reasoning_brief = state.get("evaluation_reasoning_brief", {})
+        if not isinstance(reasoning_brief, dict) or not reasoning_brief:
+            reasoning_brief = _build_reasoning_brief(evaluation_analysis)
+        investigator_decision = state.get("investigator_decision", "")
+        routing_decision = state.get("investigator_routing_decision", {})
+        cycle_audit = list(state.get("evaluation_cycle_audit", []) or [])
+        latest_cycle = cycle_audit[-1] if cycle_audit else {}
+        latest_problems = _compact_report_list(
+            latest_cycle.get("problems", []) if isinstance(latest_cycle, dict) else [],
+            limit=4,
+        )
+        action_plan = state.get("investigator_action_plan", [])
+        top_actions: List[str] = []
+        if isinstance(action_plan, list):
+            for item in action_plan[:3]:
+                if not isinstance(item, dict):
+                    continue
+                action_text = _clean_report_text(item.get("action", ""))
+                if action_text:
+                    top_actions.append(action_text)
+        route_label_map = {
+            "run_matching_tester": "rerun matching search",
+            "normalization_node": "rerun normalization",
+            "pipeline_adaption": "iterate pipeline adaptation",
+            "human_review_export": "finish automatic passes and export for human review",
+        }
+        route_label = route_label_map.get(investigator_decision, investigator_decision or "not recorded")
+        route_score = None
+        route_threshold = None
+        if isinstance(routing_decision, dict):
+            route_score = routing_decision.get("score")
+            route_threshold = routing_decision.get("threshold")
+        agent_run_summary = {
+            "agent_loop_overview": (
+                "The agent profiles the datasets, optionally reruns normalization, keeps the tested "
+                "blocking setup, searches or refreshes matching when needed, generates a fusion pipeline, "
+                "generates and runs an evaluation script, diagnoses the result, and then routes either "
+                "back to matching, back to normalization, back to pipeline adaptation, or to final human review."
+            ),
+            "final_route": route_label,
+            "current_problem": reasoning_brief.get("problem", ""),
+            "next_step_advice": reasoning_brief.get("next_step", ""),
+            "normalization_note": reasoning_brief.get("normalization", ""),
+            "report_takeaway": reasoning_brief.get("takeaway", ""),
+            "top_detected_problems": latest_problems,
+            "top_planned_actions": top_actions,
+        }
 
         # Collect pipeline execution info
         pipeline_info = {
@@ -3447,9 +3771,13 @@ except ModuleNotFoundError:
             "auto_diagnostics": state.get("auto_diagnostics", {}),
             "evaluation_regression_guard": state.get("evaluation_regression_guard", {}),
             "latest_validation_metrics": state.get("latest_validation_metrics", {}),
+            "evaluation_metrics_raw": state.get("evaluation_metrics_raw", {}),
+            "evaluation_metrics_for_adaptation": state.get("evaluation_metrics_for_adaptation", {}),
             "best_validation_metrics": state.get("best_validation_metrics", {}),
             "evaluation_cycle_audit": state.get("evaluation_cycle_audit", []),
             "correspondence_integrity": state.get("correspondence_integrity", {}),
+            "evaluation_analysis": evaluation_analysis,
+            "evaluation_reasoning_brief": reasoning_brief,
             "pipeline_snapshots": state.get("pipeline_snapshots", []),
             "evaluation_snapshots": state.get("evaluation_snapshots", []),
             "normalization_execution_result": state.get("normalization_execution_result", ""),
@@ -3457,6 +3785,11 @@ except ModuleNotFoundError:
             "normalization_report": state.get("normalization_report", {}),
             "normalization_directives": state.get("normalization_directives", {}),
             "investigator_action_plan": state.get("investigator_action_plan", []),
+            "fusion_guidance": state.get("fusion_guidance", {}),
+            "investigator_decision": investigator_decision,
+            "investigator_routing_decision": routing_decision,
+            "matching_refresh_gate": state.get("matching_refresh_gate", {}),
+            "cross_run_memory_enabled": state.get("cross_run_memory_enabled", False),
             "normalized_datasets": state.get("normalized_datasets", []),
             "integration_diagnostics_execution_result": state.get("integration_diagnostics_execution_result", ""),
             "integration_diagnostics_report": state.get("integration_diagnostics_report", {}),
@@ -3465,6 +3798,7 @@ except ModuleNotFoundError:
             "human_review_report": state.get("human_review_report", {}),
             "final_test_evaluation_execution_result": state.get("final_test_evaluation_execution_result", ""),
             "final_test_evaluation_metrics": state.get("final_test_evaluation_metrics", {}),
+            "agent_run_summary": agent_run_summary,
 
             # Token usage
             "token_usage": self.token_usage.copy(),
@@ -3491,7 +3825,6 @@ except ModuleNotFoundError:
         results["run_audit_path"] = run_audit_file
         results["run_report_path"] = run_report_file
 
-        cycle_audit = list(state.get("evaluation_cycle_audit", []) or [])
         run_audit = {
             "timestamp": timestamp,
             "generated_at": generated_at,
@@ -3521,6 +3854,23 @@ except ModuleNotFoundError:
         report_lines.append(f"- Sealed test overall (final): `{sealed_test_metrics_final.get('overall_accuracy', 'n/a')}`")
         report_lines.append(f"- Sealed test macro (final): `{sealed_test_metrics_final.get('macro_accuracy', 'n/a')}`")
         report_lines.append(f"- Correspondence structurally valid: `{state.get('correspondence_integrity', {}).get('structurally_valid', 'n/a')}`")
+        report_lines.append(f"- Final route: `{route_label}`")
+        if route_score is not None and route_threshold is not None:
+            report_lines.append(f"- Last routing score / threshold: `{route_score}` / `{route_threshold}`")
+        report_lines.append("")
+        report_lines.append("## Agent Overview")
+        report_lines.append(agent_run_summary["agent_loop_overview"])
+        report_lines.append("")
+        report_lines.append("## Run Narrative")
+        report_lines.append(f"- Main problem: {reasoning_brief.get('problem', 'n/a') or 'n/a'}")
+        report_lines.append(f"- Next-step advice: {reasoning_brief.get('next_step', 'n/a') or 'n/a'}")
+        if reasoning_brief.get("normalization"):
+            report_lines.append(f"- Normalization note: {reasoning_brief.get('normalization')}")
+        report_lines.append(f"- Report takeaway: {reasoning_brief.get('takeaway', 'n/a') or 'n/a'}")
+        if latest_problems:
+            report_lines.append(f"- Latest detected problems: {' | '.join(latest_problems)}")
+        if top_actions:
+            report_lines.append(f"- Top planned actions: {' | '.join(top_actions)}")
         report_lines.append("")
         report_lines.append("## Attempt Timeline")
         report_lines.append(

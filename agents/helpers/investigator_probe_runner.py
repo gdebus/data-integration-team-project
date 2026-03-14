@@ -52,7 +52,11 @@ def _probe_reason_distribution(state: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _probe_worst_attributes(state: Dict[str, Any]) -> Dict[str, Any]:
-    metrics = state.get("evaluation_metrics", {}) if isinstance(state, dict) else {}
+    metrics = (
+        state.get("evaluation_metrics_for_adaptation", state.get("evaluation_metrics", {}))
+        if isinstance(state, dict)
+        else {}
+    )
     rows: List[tuple[str, float]] = []
     if isinstance(metrics, dict):
         for key, value in metrics.items():

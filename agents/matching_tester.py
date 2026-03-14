@@ -37,7 +37,7 @@ PROXY_F1_MARGIN_DEFAULT = 0.015
 PROXY_MAX_CANDIDATES_DEFAULT = 60_000
 PROXY_MIN_F1_ATTEMPT1 = 0.03
 NO_GAIN_EPSILON = 0.003
-NO_GAIN_PATIENCE = 2
+NO_GAIN_PATIENCE = 4
 
 AGENTS_ROOT = Path(__file__).resolve().parent
 if str(AGENTS_ROOT) not in sys.path:
@@ -97,7 +97,7 @@ class MatchingTester:
         blocking_config: Optional[Dict[str, Any]] = None,
         output_dir: str = "output/matching-evaluation",
         f1_threshold: float = 0.75,
-        max_attempts: int = 4,
+        max_attempts: int = 8,
         max_error_retries: int = 2,
         verbose: bool = True,
         matcher_mode: str = "ml",
@@ -534,10 +534,20 @@ class MatchingTester:
         target_f1: float,
         epsilon: float,
     ) -> Dict[str, Any]:
-        # Conservative stop heuristic: if attempts have converged tightly below target,
-        # future improvements are unlikely.
-        if len(f1_history) < 3:
+        # Conservative stop heuristic: only stop after enough exploration and only
+        # once the search is already near a plausible plateau. Low-F1 runs should
+        # continue exploring rather than converging early on a bad region.
+        if len(f1_history) < 5:
             return {"stop": False, "reason": "insufficient_history", "confidence": 0.0}
+        exploration_floor = max(0.6, target_f1 - 0.12)
+        if best_f1 < exploration_floor:
+            return {
+                "stop": False,
+                "reason": "best_f1_still_too_low_for_confidence_stop",
+                "confidence": 0.0,
+                "best_f1": round(best_f1, 6),
+                "exploration_floor": round(exploration_floor, 6),
+            }
         last = f1_history[-3:]
         span = max(last) - min(last)
         mean_last = sum(last) / len(last)

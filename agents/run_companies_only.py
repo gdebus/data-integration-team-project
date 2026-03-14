@@ -5,7 +5,7 @@ from pathlib import Path
 AGENTS_DIR = Path(__file__).resolve().parent
 os.chdir(str(AGENTS_DIR))
 
-script_path = AGENTS_DIR / "AdaptationPipeline_nblazek_setcount_exec.py.py"
+script_path = AGENTS_DIR / "AdaptationPipeline_nblazek_setcount_exec.py"
 source = script_path.read_text(encoding="utf-8")
 marker = "# Music Dataset"
 if marker not in source:

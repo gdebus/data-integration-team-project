@@ -2325,6 +2325,13 @@ def attach_logging(
         return agent
 
     def wrapped_graph_invoke(input_data, *args, **kwargs):
+        if isinstance(input_data, dict) and hasattr(agent, "prepare_for_new_run"):
+            try:
+                prepared = agent.prepare_for_new_run(input_data)
+                if isinstance(prepared, dict):
+                    input_data.update(prepared)
+            except Exception:
+                pass
         logger.start_run(input_data if isinstance(input_data, dict) else {}, token_usage=agent.token_usage)
         try:
             result = original_graph_invoke(input_data, *args, **kwargs)

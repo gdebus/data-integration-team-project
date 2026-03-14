@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
@@ -222,6 +223,11 @@ def _build_investigator_action_plan(report: Dict[str, Any], limit: int = 5) -> L
                 text = rec.strip()
                 if not text:
                     continue
+                text_lower = text.lower()
+                if any(token in text_lower for token in ("threshold", "weight", "comparator")) and any(
+                    token in text_lower for token in ("matching", "matcher", "rulebasedmatcher", "rule_based_matcher")
+                ):
+                    continue
                 candidates.append(
                     {
                         "source": source_name,
@@ -245,7 +251,9 @@ def _build_investigator_action_plan(report: Dict[str, Any], limit: int = 5) -> L
             if not action:
                 continue
             action_lower = action.lower()
-            if "threshold" in action_lower and ("matching" in action_lower or "matcher" in action_lower):
+            if any(token in action_lower for token in ("threshold", "weight", "comparator")) and any(
+                token in action_lower for token in ("matching", "matcher", "rulebasedmatcher", "rule_based_matcher")
+            ):
                 continue
 
             targets = rec.get("target_attributes", rec.get("columns", []))
@@ -287,6 +295,10 @@ def _build_investigator_action_plan(report: Dict[str, Any], limit: int = 5) -> L
                     "source": source_name,
                     "action": action,
                     "target_attributes": targets,
+                    "evidence_class": str(rec.get("evidence_class", "")).strip(),
+                    "suggested_pydi_function": str(
+                        rec.get("suggested_pydi_function", rec.get("suggested_function", ""))
+                    ).strip(),
                     "evidence_summary": str(
                         rec.get("evidence_summary", rec.get("evidence", rec.get("rationale", "")))
                     ).strip(),
@@ -310,6 +322,196 @@ def _build_investigator_action_plan(report: Dict[str, Any], limit: int = 5) -> L
         reverse=True,
     )
     return ranked[:limit]
+
+
+def _safe_text_blob(value: Any) -> str:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        parts = []
+        for key in ("action", "recommendation", "summary", "title", "evidence_summary", "evidence", "rationale"):
+            text = str(value.get(key, "")).strip()
+            if text:
+                parts.append(text)
+        return " ".join(parts)
+    return str(value or "")
+
+
+def _extract_target_attributes(item: Any) -> List[str]:
+    if isinstance(item, dict):
+        raw = item.get("target_attributes", item.get("columns", []))
+    else:
+        raw = []
+    if isinstance(raw, list):
+        return [str(v).strip() for v in raw if str(v).strip()]
+    text = str(raw or "").strip()
+    return [text] if text else []
+
+
+def _field_shape_from_text(text: str, attrs: List[str]) -> str:
+    lowered = str(text or "").lower()
+    if any(tok in lowered for tok in ("tracklist", "list-like", "list format", "malformed_json_list", "over-union", "union")):
+        return "list_like"
+    if any(tok in lowered for tok in ("date", "most_recent", "earliest", "reissue", "year mismatch")):
+        return "temporal"
+    if any(tok in lowered for tok in ("duration", "numeric", "tolerance", "median", "average")):
+        return "numeric"
+    if attrs and all("date" in a.lower() for a in attrs):
+        return "temporal"
+    return "scalar"
+
+
+def _infer_action_kind(text: str) -> str:
+    lowered = str(text or "").lower()
+    if "maximumbipartitematching" in lowered or "one-to-one" in lowered or "bipartite" in lowered:
+        return "post_clustering_one_to_one"
+    if "avoid" in lowered and "union" in lowered:
+        return "avoid_union"
+    if "longest_string" in lowered:
+        return "avoid_longest_string"
+    if "most_recent" in lowered and any(tok in lowered for tok in ("replace", "avoid", "reissue", "too new", "newer")):
+        return "prefer_earliest"
+    if "prefer" in lowered and "source" in lowered:
+        return "prefer_trusted_source"
+    if "consensus" in lowered or "majority vote" in lowered or "most common" in lowered:
+        return "prefer_consensus"
+    return ""
+
+
+def _extract_dominant_source_preferences(report: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    agreement = report.get("source_attribute_agreement", {}) if isinstance(report, dict) else {}
+    if not isinstance(agreement, dict):
+        return {}
+
+    out: Dict[str, Dict[str, Any]] = {}
+    for attr, source_map in agreement.items():
+        if not isinstance(source_map, dict):
+            continue
+        scored = []
+        for source_name, metrics in source_map.items():
+            if not isinstance(metrics, dict):
+                continue
+            exact_ratio = to_float(metrics.get("exact_ratio", metrics.get("similarity_ratio", 0.0)), 0.0)
+            support = to_float(metrics.get("support_count", metrics.get("count", 0.0)), 0.0)
+            score = exact_ratio + min(0.25, support / 100.0)
+            scored.append((score, exact_ratio, support, str(source_name)))
+        if len(scored) < 2:
+            continue
+        scored.sort(reverse=True)
+        best_score, best_ratio, best_support, best_source = scored[0]
+        next_score = scored[1][0]
+        if best_support < 2:
+            continue
+        if (best_score - next_score) < 0.12 and best_ratio < 0.7:
+            continue
+        trust_map = {}
+        ordered_sources = []
+        max_score = max(item[0] for item in scored) or 1.0
+        for score, _, _, source_name in scored:
+            trust_map[source_name] = round(max(0.05, score / max_score), 3)
+            ordered_sources.append(source_name)
+        out[str(attr)] = {
+            "preferred_source": best_source,
+            "trust_map": trust_map,
+            "ordered_sources": ordered_sources,
+            "dominance_score": round(best_score - next_score, 3),
+        }
+    return out
+
+
+def _build_fusion_guidance(
+    report: Dict[str, Any],
+    auto_diagnostics: Dict[str, Any],
+    cluster_analysis: Dict[str, Any],
+) -> Dict[str, Any]:
+    guidance: Dict[str, Any] = {
+        "attribute_strategies": {},
+        "post_clustering": {},
+        "global_hints": [],
+    }
+    if not isinstance(report, dict):
+        report = {}
+    if not isinstance(auto_diagnostics, dict):
+        auto_diagnostics = {}
+    if not isinstance(cluster_analysis, dict):
+        cluster_analysis = {}
+
+    dominant_sources = _extract_dominant_source_preferences(report)
+    if dominant_sources:
+        guidance["dominant_sources"] = dominant_sources
+
+    cluster_overall = cluster_analysis.get("_overall", {}) if isinstance(cluster_analysis, dict) else {}
+    if isinstance(cluster_overall, dict):
+        recommended = str(cluster_overall.get("recommended_strategy", "")).strip()
+        if recommended and recommended != "None":
+            guidance["post_clustering"] = {
+                "recommended_strategy": recommended,
+                "parameters": cluster_overall.get("parameters", {}),
+                "reason": "cluster impurity indicators suggest enforcing one-to-one correspondences before fusion",
+            }
+
+    debug_ratios = auto_diagnostics.get("debug_reason_ratios", {}) if isinstance(auto_diagnostics, dict) else {}
+    mismatch_ratio = to_float(
+        debug_ratios.get("mismatch", 0.0) if isinstance(debug_ratios, dict) else 0.0,
+        0.0,
+    )
+    if mismatch_ratio >= 0.75:
+        guidance["global_hints"].append(
+            "High mismatch with low missing coverage suggests fused value selection is a bigger issue than entity coverage."
+        )
+
+    candidates: List[Any] = []
+    for key in ("fusion_policy_recommendations", "recommendations", "findings"):
+        value = report.get(key, [])
+        if isinstance(value, list):
+            candidates.extend(value)
+
+    for item in candidates:
+        text = _safe_text_blob(item)
+        if not text.strip():
+            continue
+        attrs = _extract_target_attributes(item)
+        action_kind = _infer_action_kind(text)
+        field_shape = _field_shape_from_text(text, attrs)
+        recommended_fuser = ""
+        if action_kind == "avoid_union":
+            recommended_fuser = "prefer_higher_trust" if attrs and all(a in dominant_sources for a in attrs) else "intersection"
+        elif action_kind in {"avoid_longest_string", "prefer_trusted_source"}:
+            recommended_fuser = "prefer_higher_trust" if attrs and any(a in dominant_sources for a in attrs) else "voting"
+        elif action_kind == "prefer_consensus":
+            recommended_fuser = "voting"
+        elif action_kind == "prefer_earliest":
+            recommended_fuser = "earliest"
+
+        if field_shape == "list_like" and recommended_fuser == "voting":
+            recommended_fuser = "prefer_higher_trust" if attrs and any(a in dominant_sources for a in attrs) else "intersection"
+
+        if action_kind == "post_clustering_one_to_one" and not guidance.get("post_clustering"):
+            guidance["post_clustering"] = {
+                "recommended_strategy": "MaximumBipartiteMatching",
+                "parameters": {},
+                "reason": text.strip(),
+            }
+
+        if not attrs or not recommended_fuser:
+            continue
+
+        for attr in attrs:
+            attr_key = str(attr)
+            entry: Dict[str, Any] = {
+                "recommended_fuser": recommended_fuser,
+                "field_shape": field_shape,
+                "reason": text.strip(),
+            }
+            if recommended_fuser == "prefer_higher_trust" and attr_key in dominant_sources:
+                entry.update(dominant_sources[attr_key])
+            guidance["attribute_strategies"][attr_key] = entry
+
+    if guidance["attribute_strategies"]:
+        guidance["global_hints"].append(
+            "Prefer field-shape-aware fusion: consensus/trust for noisy scalar text, cautious list fusion, and non-recency-biased temporal fusion unless evidence explicitly supports recency."
+        )
+    return guidance
 
 
 def _apply_acceptance_feedback(local_state: Dict[str, Any], acceptance_feedback: Dict[str, Any]) -> tuple[bool, bool]:
@@ -435,7 +637,13 @@ def _print_investigation_report(
             )
     if rollback_applied:
         print("  - rollback: applied rejected-normalization dataset rollback")
-    if investigator_decision == "normalization_node":
+    if investigator_decision == "run_matching_tester":
+        weak_pairs = routing_decision.get("weak_pairs", []) if isinstance(routing_decision, dict) else []
+        pair_txt = ", ".join(
+            [f"{item.get('pair')}={item.get('f1')}" for item in weak_pairs[:5] if isinstance(item, dict)]
+        ) or "n/a"
+        print(f"  - rerunning matching due to weak pairwise F1: {pair_txt}")
+    elif investigator_decision == "normalization_node":
         print(
             f"  - routing score={routing_decision.get('score')} threshold={routing_decision.get('threshold')} "
             f"blocked_action_plan={routing_decision.get('blocked_by_action_plan')} "
@@ -465,8 +673,14 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
     decision_updates = agent.evaluation_decision(local_state)
     local_state.update(decision_updates)
 
-    metrics = local_state.get("evaluation_metrics", {}) if isinstance(local_state, dict) else {}
+    accepted_metrics = local_state.get("evaluation_metrics", {}) if isinstance(local_state, dict) else {}
+    metrics = (
+        local_state.get("evaluation_metrics_for_adaptation", local_state.get("latest_validation_metrics", accepted_metrics))
+        if isinstance(local_state, dict)
+        else {}
+    )
     overall_acc = to_float(metrics.get("overall_accuracy", 0.0), 0.0)
+    accepted_overall_acc = to_float(accepted_metrics.get("overall_accuracy", 0.0), 0.0)
     attempts = int(local_state.get("evaluation_attempts", 0))
     max_attempts = MAX_INVESTIGATION_ATTEMPTS
 
@@ -476,23 +690,47 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         current_evaluation_attempt=attempts,
         current_total_evaluations=int(to_float(metrics.get("total_evaluations"), 0.0)),
         current_total_correct=int(to_float(metrics.get("total_correct"), 0.0)),
-        current_metrics=metrics if isinstance(metrics, dict) else {},
+        current_metrics=accepted_metrics if isinstance(accepted_metrics, dict) else {},
     )
     force_skip_normalization, rollback_applied = _apply_acceptance_feedback(local_state, acceptance_feedback)
 
-    learning_state = load_learning_state(local_state)
-    learning_state = apply_learning_decay_for_drift(learning_state, _learning_context_key(local_state))
+    cross_run_memory_enabled = bool(getattr(agent, "_cross_run_memory_enabled", lambda _state=None: False)(local_state))
+    if cross_run_memory_enabled:
+        learning_state = load_learning_state(local_state)
+        learning_state = apply_learning_decay_for_drift(learning_state, _learning_context_key(local_state))
+    else:
+        learning_state = {
+            "routing": {
+                "normalization_node": {"count": 0, "ema_gain": 0.0, "wins": 0, "losses": 0, "last_gain": 0.0},
+                "pipeline_adaption": {"count": 0, "ema_gain": 0.0, "wins": 0, "losses": 0, "last_gain": 0.0},
+            },
+            "pending_observation": {},
+            "normalization_stall_streak": 0,
+            "last_observation": {},
+            "last_context_key": "",
+            "drift_events": 0,
+            "disabled_for_run_isolation": True,
+        }
     dataset_signature = dataset_signature_from_state(local_state)
-    learning_state, learning_observation = update_learning_from_observation(
-        learning_state,
-        current_accuracy=overall_acc,
-        current_eval_attempt=attempts,
-        dataset_signature=dataset_signature,
-    )
+    if cross_run_memory_enabled:
+        learning_state, learning_observation = update_learning_from_observation(
+            learning_state,
+            current_accuracy=overall_acc,
+            current_eval_attempt=attempts,
+            dataset_signature=dataset_signature,
+        )
+    else:
+        learning_observation = None
     learning_signals = learning_routing_signals(learning_state)
 
     diagnostics_report = local_state.get("integration_diagnostics_report", {})
     action_plan = _build_investigator_action_plan(diagnostics_report if isinstance(diagnostics_report, dict) else {})
+    fusion_guidance = _build_fusion_guidance(
+        diagnostics_report if isinstance(diagnostics_report, dict) else {},
+        local_state.get("auto_diagnostics", {}) if isinstance(local_state, dict) else {},
+        local_state.get("cluster_analysis_result", {}) if isinstance(local_state, dict) else {},
+    )
+    local_state["fusion_guidance"] = fusion_guidance
     probe_outputs = run_investigator_probes(
         state=local_state,
         action_plan=action_plan,
@@ -520,10 +758,21 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
     normalization_gate_request: Dict[str, Any] = {}
     routing_decision: Dict[str, Any] = _default_routing_decision(learning_signals)
     validation_style_for_clamp: Dict[str, Any] = _resolve_validation_style_for_clamp(agent, local_state)
+    matching_refresh_gate = (
+        agent._matching_refresh_gate(local_state)
+        if hasattr(agent, "_matching_refresh_gate")
+        else {"triggered": False, "weak_pairs": []}
+    )
 
     if overall_acc < 0.85 and attempts < max_attempts:
         cluster_updates = agent.cluster_analysis(local_state)
         local_state.update(cluster_updates)
+        fusion_guidance = _build_fusion_guidance(
+            diagnostics_report if isinstance(diagnostics_report, dict) else {},
+            local_state.get("auto_diagnostics", {}) if isinstance(local_state, dict) else {},
+            local_state.get("cluster_analysis_result", {}) if isinstance(local_state, dict) else {},
+        )
+        local_state["fusion_guidance"] = fusion_guidance
         reasoning_updates = agent.evaluation_reasoning(local_state)
         local_state.update(reasoning_updates)
 
@@ -569,7 +818,16 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         )
         normalization_rerun = bool(routing_decision.get("route_to_normalization", False))
 
-        if normalization_rerun and int(local_state.get("normalization_attempts", 0)) < 3:
+        if matching_refresh_gate.get("triggered"):
+            routing_decision = {
+                **(routing_decision if isinstance(routing_decision, dict) else {}),
+                "reason": "matching_refresh_gate",
+                "weak_pairs": matching_refresh_gate.get("weak_pairs", []),
+                "threshold": matching_refresh_gate.get("threshold"),
+            }
+            investigator_decision = "run_matching_tester"
+            print("[*] Investigator decision: rerun matching before next pipeline iteration")
+        elif normalization_rerun and int(local_state.get("normalization_attempts", 0)) < 3:
             investigator_decision = "normalization_node"
             normalization_gate_request = build_normalization_gate_request(
                 state=local_state,
@@ -584,7 +842,7 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         investigator_decision = "human_review_export"
         print("[*] Investigator decision: proceed to human review")
 
-    if investigator_decision in {"normalization_node", "pipeline_adaption"}:
+    if cross_run_memory_enabled and investigator_decision in {"normalization_node", "pipeline_adaption", "run_matching_tester"}:
         learning_state = record_learning_checkpoint(
             learning_state,
             decision=investigator_decision,
@@ -594,7 +852,8 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         )
     else:
         learning_state["pending_observation"] = {}
-    save_learning_state(local_state, learning_state)
+    if cross_run_memory_enabled:
+        save_learning_state(local_state, learning_state)
 
     history_tags = _history_failure_tags(acceptance_feedback, routing_decision)
     history_payload = {
@@ -603,8 +862,10 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         "overall_accuracy": round(float(overall_acc), 6),
         "evaluation_attempt": attempts,
         "decision": investigator_decision,
+        "accepted_overall_accuracy": round(float(accepted_overall_acc), 6),
         "normalization_needed": bool(normalization_needed),
         "normalization_rerun": bool(normalization_rerun),
+        "matching_refresh_gate": matching_refresh_gate,
         "routing_decision": routing_decision,
         "probe_summary": probe_outputs,
         "routing_objective": routing_objective,
@@ -613,6 +874,7 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         "learning_state": learning_state,
         "learning_observation": learning_observation,
         "failure_tags": history_tags,
+        "cross_run_memory_enabled": cross_run_memory_enabled,
     }
     append_jsonl(INVESTIGATION_HISTORY_PATH, history_payload)
 
@@ -643,11 +905,14 @@ def run_investigator_node(agent, state: Dict[str, Any]) -> Dict[str, Any]:
         "normalization_acceptance_feedback": acceptance_feedback,
         "normalization_rollback_applied": rollback_applied,
         "investigator_action_plan": action_plan,
+        "fusion_guidance": fusion_guidance,
         "investigator_probe_results": probe_outputs,
         "investigator_routing_objective": routing_objective,
         "investigator_learning_state": learning_state,
         "investigator_learning_observation": learning_observation,
         "investigator_routing_decision": routing_decision,
+        "matching_refresh_gate": matching_refresh_gate,
+        "cross_run_memory_enabled": cross_run_memory_enabled,
     }
     if rollback_applied:
         out["datasets"] = local_state.get("datasets", [])
