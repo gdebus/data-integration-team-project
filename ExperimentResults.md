@@ -1,19 +1,19 @@
-# Setup
-
-- Model: gpt-5.1
-
 # Experiment Results - New Evaluation Template (Fusion Accuracy)
+
+- Model: gpt-5.4
 
 | Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
-| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |42.13% |77.97%       |84.87% |56.43% |
-| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |33.50% |64.96%       |       |       |
-| [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|70.558%|78.612%      |       |65.000%|
-| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|51.78% |75.924%      |       |62.857%|
-| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |54.822%  |63.830% |       |46.429%  |
+| [RL Based matcher (Adaptation Pipeline Only)](/agents/AdaptationPipeline.ipynb)                                                            |36.04% |69.46%       |84.87% |59.28% |
+| [RL Based Matcher ( Matcher + Blocker)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher.ipynb)                |51.27% |45.88%       |73.95% |69.28% |
+| [RL Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|62.94% |66.15%       |84.87% |65.71% |
+| [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|65.48% |77.60%       |84.87% |65.00% |
+| [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |54.822% |63.830% |       |46.429%  |
 | [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |53.807% |81.227% |       |60.000%  |
 
 # Experiment Results - Old Evaluation Template (Fusion Accuracy)
+
+- Model: gpt-5.1
 
 | Agent Version                                                                                                                              | Music | Restaurants | Games | Books |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------|-------------|-------|-------|
@@ -1223,7 +1223,332 @@
 
 - Matches all on `isbn_clean` and therefore achieves high accuracy
 
-### Used Blocking Configuration:
+### NEW Used Blocking Configuration:
+
+| Datasets                                                | Strategy                                                     | Parameters                              | PC     |
+|---------------------------------------------------------|--------------------------------------------------------------|-----------------------------------------|--------|
+| goodreads <-> amazon                                    | Embedding Blocker (`title`, `author`, `publish_year`)        |                                         | 0.9978 |
+| metabooks <-> amazon                                    | Embedding Blocker (`title`, `author`, `publisher`)           |                                         | 0.9940 |
+| metabooks <-> goodreads                                 | Embedding Blocker (`title`, `author`, `publisher`)           |                                         | 0.9948 |
+
+```json
+{
+  "blocking_strategies": {
+    "goodreads_small_amazon_small": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publish_year"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 0.9977578475336323,
+      "num_candidates": 199823,
+      "is_acceptable": true
+    },
+    "metabooks_small_amazon_small": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publisher"
+      ],
+      "params": {
+        "top_k": 15
+      },
+      "pair_completeness": 0.9939577039274925,
+      "num_candidates": 149824,
+      "is_acceptable": true
+    },
+    "metabooks_small_goodreads_small": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publisher"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 0.9947826086956522,
+      "num_candidates": 199106,
+      "is_acceptable": true
+    }
+  },
+  "id_columns": {
+    "amazon_small": "id",
+    "goodreads_small": "id",
+    "metabooks_small": "id"
+  }
+}
+```
+
+### NEW Matcher Configurations
+
+| Datasets                                                | F1 (RB) | F1 (ML)|
+|---------------------------------------------------------|---------|--------|
+| goodreads <-> amazon                                    | 0.8029  | 0.7636 |
+| metabooks <-> amazon                                    | 0.8526  | 0.9004 |
+| metabooks <-> goodreads                                 | 0.8363  | 0.8879 |
+
+#### Rule Based
+
+```json
+{
+  "id_columns": {
+    "amazon_small": "id",
+    "goodreads_small": "id",
+    "metabooks_small": "id"
+  },
+  "matching_strategies": {
+    "goodreads_small_amazon_small": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "title",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "author",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "numeric",
+          "column": "publish_year",
+          "max_difference": 1.0
+        },
+        {
+          "type": "string",
+          "column": "publisher",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip"
+        }
+      ],
+      "weights": [
+        0.42,
+        0.33,
+        0.15,
+        0.1
+      ],
+      "threshold": 0.66,
+      "f1": 0.8029330889092575
+    },
+    "metabooks_small_amazon_small": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "title",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "author",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "publisher",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "numeric",
+          "column": "publish_year",
+          "max_difference": 1.0
+        }
+      ],
+      "weights": [
+        0.5,
+        0.25,
+        0.15,
+        0.1
+      ],
+      "threshold": 0.72,
+      "f1": 0.852589641434263
+    },
+    "metabooks_small_goodreads_small": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "title",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "author",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "publisher",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "genres",
+          "similarity_function": "jaccard",
+          "preprocess": "lower_strip",
+          "list_strategy": "set_jaccard"
+        },
+        {
+          "type": "numeric",
+          "column": "publish_year",
+          "max_difference": 1.0
+        }
+      ],
+      "weights": [
+        0.42,
+        0.23,
+        0.12,
+        0.15,
+        0.08
+      ],
+      "threshold": 0.68,
+      "f1": 0.8362676056338028
+    }
+  }
+}
+```
+
+#### Machine Learning
+
+```json
+{
+  "id_columns": {
+    "amazon_small": "id",
+    "goodreads_small": "id",
+    "metabooks_small": "id"
+  },
+  "matching_strategies": {
+    "goodreads_small_amazon_small": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "title",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "author",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "date",
+          "column": "publish_year",
+          "max_days_difference": 365
+        },
+        {
+          "type": "string",
+          "column": "publisher",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        }
+      ],
+      "weights": [
+        0.4,
+        0.35,
+        0.15,
+        0.1
+      ],
+      "threshold": 0.78,
+      "f1": 0.7636363636363636
+    },
+    "metabooks_small_amazon_small": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "title",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "author",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        },
+        {
+          "type": "string",
+          "column": "publisher",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip",
+          "list_strategy": "concatenate"
+        }
+      ],
+      "weights": [
+        0.55,
+        0.3,
+        0.15
+      ],
+      "threshold": 0.72,
+      "f1": 0.9003690036900369
+    },
+    "metabooks_small_goodreads_small": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "title",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "author",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "publisher",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "numeric",
+          "column": "page_count",
+          "max_difference": 10.0
+        },
+        {
+          "type": "date",
+          "column": "publish_year",
+          "max_days_difference": 366
+        }
+      ],
+      "weights": [
+        0.42,
+        0.28,
+        0.12,
+        0.1,
+        0.08
+      ],
+      "threshold": 0.76,
+      "f1": 0.8879310344827586
+    }
+  }
+}
+```
+
+### OLD Used Blocking Configuration:
 
 | Datasets                                                | Strategy                                                     | Parameters                              | PC     |
 |---------------------------------------------------------|--------------------------------------------------------------|-----------------------------------------|--------|
@@ -1273,7 +1598,7 @@
 }
 ```
 
-### Matcher Configurations
+### OLD Matcher Configurations
 
 | Datasets                                                | F1 (RB) | F1 (ML)|
 |---------------------------------------------------------|---------|--------|
