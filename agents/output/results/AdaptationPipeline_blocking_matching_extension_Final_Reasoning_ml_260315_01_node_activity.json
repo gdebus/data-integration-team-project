@@ -1,0 +1,768 @@
+{
+  "use_case": "Music",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: discogs, lastfm, musicbrainz; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 5789,
+      "completion_tokens": 158,
+      "total_tokens": 5947,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 8.641,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "profiled datasets: discogs, lastfm, musicbrainz."
+      ],
+      "prompt_tokens": 236,
+      "completion_tokens": 83,
+      "total_tokens": 319,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.007,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for discogs_lastfm, musicbrainz_lastfm, blocking on name, artist; `sorted_neighbourhood` for discogs_musicbrainz, blocking on name.",
+        "Performance-wise, pair completeness ranges from 0.90 to 0.96 and candidate counts range from 47615 to 225831.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `ml` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.7, f1=0.9549549549549549, threshold=0.75, f1=0.9473684210526316, f1=0.9605263157894737); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.008,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline.",
+        "The pipeline loads the aligned Discogs, LastFM, and MusicBrainz CSV outputs and builds a full blocking, matching, clustering, and fusion workflow.",
+        "It applies pair-specific blocking with an embedding blocker for Discogs-LastFM, a sorted neighbourhood blocker for Discogs-MusicBrainz, and an embedding blocker for MusicBrainz-LastFM.",
+        "It defines pair-specific comparison features over name, artist, track names, duration, and where available release date and release country.",
+        "It trains a separate machine-learning matcher for each dataset pair by running grid search over RandomForest, LogisticRegression, GradientBoosting, and SVM models with F1-based cross-validation.",
+        "It clusters each pairwise correspondence set with MaximumBipartiteMatching, concatenates all correspondences, and runs data fusion across the three datasets.",
+        "It adds fusion rules for ten attributes, using longest_string for seven scalar fields and union for three track-list fields.",
+        "The workflow shifts to an ML-driven entity matching strategy that selects the best classifier independently for each dataset pair instead of using a single fixed matcher."
+      ],
+      "prompt_tokens": 6773,
+      "completion_tokens": 2863,
+      "total_tokens": 9636,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 26.61,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 236.112,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run created an initial draft of the evaluation script for the current fused output.",
+        "The run evaluated fused records against the XML gold set by first building an eval_id-aligned view from fusion source IDs and then applying per-column match functions through a DataFusionStrategy and DataFusionEvaluator.",
+        "Name, artist, release-country, label, and genre were evaluated with tokenized_match.",
+        "Duration was evaluated with numeric_tolerance_match.",
+        "Release-date was evaluated with year_only_match.",
+        "Track-level fields tracks_track_name, tracks_track_position, and tracks_track_duration were evaluated with set_equality_match.",
+        "Additional detected list-like non-system columns were normalized and then evaluated with set_equality_match.",
+        "The script added _parse_source_ids to decode _fusion_sources from native collections or serialized list-like text using json.loads and ast.literal_eval.",
+        "The script added _detect_gold_prefix and build_eval_view to map fused cluster rows to gold-compatible eval_id values, expand candidate matches, sort by _fusion_confidence, and drop duplicate eval_id rows.",
+        "The script included a fallback path that uses _id as eval_id and _eval_cluster_id when no expanded rows can be built."
+      ],
+      "prompt_tokens": 5502,
+      "completion_tokens": 1667,
+      "total_tokens": 7169,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.03,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.138,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 65.48%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.007,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The main problem in this run is overly permissive fusion that creates false positives and over-unioned outputs, especially in track-level fields.",
+        "The current fusion strategy uses union for track attributes and longest_string for scalar attributes, which systematically favors contaminated supersets and noisy text variants rather than canonical values.",
+        "Preprocessing and schema normalization issues are also contributing by preserving case variants, malformed encoding, and unnormalized edition or remix markers as distinct values.",
+        "The weakest metrics are tracks_track_name_accuracy at 0.17391304347826086, tracks_track_duration_accuracy at 0.25, and duration_accuracy at 0.391304347826087.",
+        "Overall_accuracy is 0.6548223350253807 across 197 evaluations, while tracks_track_position_accuracy, release-date_accuracy, and release-country_accuracy are each 0.9565217391304348, which indicates the main failures are not in those attributes.",
+        "Debug examples cited in the analysis show fused outputs becoming supersets with extra track names and durations for records such as mbrainz_9448, mbrainz_15029, mbrainz_5463, mbrainz_6947, and mbrainz_3388."
+      ],
+      "prompt_tokens": 16944,
+      "completion_tokens": 2312,
+      "total_tokens": 19256,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 41.991,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement of the existing evaluation pipeline focused on fixing fusion behavior after evaluation diagnosed over-unioning and noisy scalar selection.",
+        "The fusion strategy replaced longest_string with normalized majority-vote selection for name, artist, label, genre, and release-country.",
+        "The pipeline replaced union-based fusion for tracks_track_name, tracks_track_position, and tracks_track_duration with custom track-specific fusers.",
+        "The pipeline replaced text-based duration fusion with a numeric fuse_duration function and replaced text-based release-date fusion with a dedicated fuse_release_date function.",
+        "The run added preprocessing helpers for null handling, text normalization, title cleaning, numeric parsing, date parsing, country cleaning, list parsing, and track-name normalization before blocking, matching, and fusion.",
+        "Fusion shifted away from permissive longest-string and union rules toward normalization-aware consensus selection intended to reduce false-positive contamination.",
+        "Track fusion shifted from independent value accumulation to selecting canonical parsed list variants, favoring repeated and cleaner tracklists instead of supersets."
+      ],
+      "prompt_tokens": 12276,
+      "completion_tokens": 5367,
+      "total_tokens": 17643,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 58.779,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "execute_pipeline",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline execution failed on attempt 1: error: SyntaxError: Non-UTF-8 code starting with '\\x92' in file D:\\Studium\\Master\\Semester 5\\Team Project\\workspace\\data-integration-team-project\\agents\\output\\code\\pipeline.py on line 95, but no encoding declared; see https://peps.python.o; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.044,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a repair iteration in execution_repair mode after a previous pipeline failure caused by a non-UTF-8 syntax error.",
+        "The fusion strategy was shifted away from permissive scalar and list fusion toward majority-based scalar selection for name, artist, release-country, and label, plus dedicated fusers for release-date and duration.",
+        "The pipeline introduced custom tracklist handling through extract_tracklists, choose_best_tracklist, and build_cluster_tracklist_fusers to select one coherent tracklist instead of over-unioning track attributes.",
+        "Text normalization was strengthened by adding explicit quote replacement, attempted latin1-to-utf8 repair, ASCII normalization, and broader country canonicalization before fusion.",
+        "Preprocessing now cleans artist and label values with normalize_text_basic, canonicalizes track positions, canonicalizes track names, and canonicalizes track durations before fusion.",
+        "The genre fuser was removed from the configured fusion rules in this run.",
+        "Fusion behavior shifted from longest-string and union style selection toward normalized majority voting for scalar attributes."
+      ],
+      "prompt_tokens": 14856,
+      "completion_tokens": 5669,
+      "total_tokens": 20525,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 58.9,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 2; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 250.836,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation setup in evaluation_refinement mode.",
+        "The dominant strategy kept tokenized matching for scalar text fields, numeric_tolerance_match for duration, year_only_match for release-date, and set_equality_match for list-like fields while aligning the registered evaluation functions more tightly to the generated fusion pipeline.",
+        "Text scalar fields were evaluated with tokenized_match for name, artist, release-country, and label.",
+        "Temporal and numeric fields were evaluated with year_only_match for release-date and numeric_tolerance_match for duration.",
+        "List-like and nested fields were evaluated with set_equality_match, including tracks_track_name and any additional detected list-like columns.",
+        "The after_evaluation script removed explicit registration of genre, tracks_track_position, and tracks_track_duration, leaving only tracks_track_name explicitly registered before the generic list-column loop.",
+        "The run retained helper logic for parsing fusion source identifiers, detecting the gold ID prefix, and expanding fused rows into an evaluation view keyed by eval_id.",
+        "The run kept automatic detection and normalization of list-like columns before evaluation."
+      ],
+      "prompt_tokens": 10626,
+      "completion_tokens": 1608,
+      "total_tokens": 12234,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 15.762,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.628,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 33.50%; previous logged accuracy was 65.48%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.007,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is failing mainly in fusion logic and value standardization rather than in blocking or matching.",
+        "The dominant degradation happens after correspondences are produced, with very low fusion accuracy despite previously strong matching performance.",
+        "Track-level fusion is severely broken, and scalar fusion often selects the wrong variant or non-canonical value from otherwise matched clusters.",
+        "The evaluation reports overall_accuracy of 0.3350253807106599, macro_accuracy of 0.3330314009661836, and only 66 correct evaluations out of 197.",
+        "Track attributes are especially poor, with tracks_track_duration_accuracy of 0.25, tracks_track_name_accuracy of 0.2608695652173913, and tracks_track_position_accuracy of 0.391304347826087.",
+        "Album duration is also very weak, with duration_accuracy of 0.21739130434782608.",
+        "Release-country accuracy is only 0.30434782608695654, and examples include semantically plausible but evaluation-failing outputs such as \"US\" versus \"United States of America\" and \"UK\" versus a full country name.",
+        "Name accuracy is only 0.4782608695652174, and the reported mismatches include selecting related but wrong variants such as \"Guns At Dawn / Ratpack\" instead of \"Guns At Dawn\" and \"Warning / Jack Ur Body\" instead of \"Warning\"."
+      ],
+      "prompt_tokens": 14850,
+      "completion_tokens": 2348,
+      "total_tokens": 17198,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 36.498,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation-driven refinement of the existing pipeline.",
+        "The run replaced the previous stateful per-attribute track fusers by removing the dedicated fusers for tracks_track_position, tracks_track_name, tracks_track_duration, and duration from the attribute fuser configuration.",
+        "The run introduced cluster-local tracklist reconstruction logic using extract_tracklists, _tracklist_similarity, choose_best_tracklist, and build_tracklist_cluster_map to select a supported and complete tracklist per cluster.",
+        "The run changed scalar fusion for name, artist, label, and release-country from shortest-preference voting to longest and completeness-oriented majority voting.",
+        "The run added title_variant_penalty and used it in name fusion to downweight slash-joined and edition-like title variants.",
+        "The run changed country cleaning to emit canonical full country names such as United States of America and United Kingdom of Great Britain and Northern Ireland instead of abbreviations like US and UK.",
+        "Fusion behavior shifted away from naive shortest-string majority selection toward majority support with completeness and specificity preferences."
+      ],
+      "prompt_tokens": 15120,
+      "completion_tokens": 6949,
+      "total_tokens": 22069,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 64.234,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 254.689,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or repair.",
+        "The dominant strategy was to refine evaluation around fusion-stage failure modes rather than revisit blocking or matching.",
+        "The analysis focused on diagnosing low fusion accuracy through attribute-specific metric inspection and mismatched fused-versus-gold value examples.",
+        "Tracklist fields were treated as the highest-risk group because tracks_track_duration_accuracy was 0.25, tracks_track_name_accuracy was 0.2609, and tracks_track_position_accuracy was 0.3913, indicating severe cluster track fusion problems.",
+        "Scalar descriptive fields including name, artist, label, and release-country were grouped together as majority-vote fusion fields that were selecting plausible but wrong variants or overly short forms.",
+        "Evaluation-sensitive standardized fields were grouped around release-country because abbreviated outputs such as US and UK were judged incompatible with tokenized_match against gold full country names.",
+        "Derived aggregate fields were grouped around album duration because duration_accuracy was 0.217 and the errors appeared tied to bad fused tracklists or weak scalar duration selection."
+      ],
+      "prompt_tokens": 11942,
+      "completion_tokens": 1830,
+      "total_tokens": 13772,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 17.236,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 22,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.601,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 23,
+      "current_node": "evaluation_decision",
+      "next_node": "END",
+      "output_summary": [
+        "overall accuracy is 36.55%; previous logged accuracy was 33.50%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.007,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "discogs_lastfm": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "artist"
+          ],
+          "params": {
+            "top_k": 10
+          },
+          "pair_completeness": 0.9642857142857143,
+          "num_candidates": 225831,
+          "is_acceptable": true
+        },
+        "discogs_musicbrainz": {
+          "strategy": "sorted_neighbourhood",
+          "columns": [
+            "name"
+          ],
+          "params": {
+            "window": 15
+          },
+          "pair_completeness": 0.9,
+          "num_candidates": 115280,
+          "is_acceptable": true
+        },
+        "musicbrainz_lastfm": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "artist",
+            "duration"
+          ],
+          "params": {
+            "top_k": 10
+          },
+          "pair_completeness": 0.9240506329113924,
+          "num_candidates": 47615,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "discogs": "id",
+        "lastfm": "id",
+        "musicbrainz": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "discogs": "id",
+        "lastfm": "id",
+        "musicbrainz": "id"
+      },
+      "matching_strategies": {
+        "discogs_lastfm": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "artist",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "tracks_track_name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            },
+            {
+              "type": "numeric",
+              "column": "duration",
+              "max_difference": 15.0
+            }
+          ],
+          "weights": [
+            0.4,
+            0.25,
+            0.2,
+            0.15
+          ],
+          "threshold": 0.7,
+          "f1": 0.9549549549549549
+        },
+        "discogs_musicbrainz": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "artist",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "tracks_track_name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            },
+            {
+              "type": "numeric",
+              "column": "duration",
+              "max_difference": 10.0
+            },
+            {
+              "type": "date",
+              "column": "release-date",
+              "max_days_difference": 365
+            },
+            {
+              "type": "string",
+              "column": "release-country",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            }
+          ],
+          "weights": [
+            0.3,
+            0.2,
+            0.2,
+            0.1,
+            0.1,
+            0.1
+          ],
+          "threshold": 0.75,
+          "f1": 0.9473684210526316
+        },
+        "musicbrainz_lastfm": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "artist",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "tracks_track_name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            },
+            {
+              "type": "numeric",
+              "column": "duration",
+              "max_difference": 5.0
+            }
+          ],
+          "weights": [
+            0.3,
+            0.4,
+            0.2,
+            0.1
+          ],
+          "threshold": 0.75,
+          "f1": 0.9605263157894737
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_position": "union",
+        "tracks_track_duration": "union"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "65.48%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "lambda values: majority_vote_scalar( values, normalizer=normalize_for_compare, cleaner=clean_title_value, prefer_shortest=True, )",
+        "artist": "lambda values: majority_vote_scalar( values, normalizer=normalize_for_compare, cleaner=normalize_text_basic, prefer_shortest=True, )",
+        "release-date": "fuse_release_date",
+        "release-country": "lambda values: majority_vote_scalar( [clean_country_value(v) for v in values], normalizer=normalize_for_compare, cleaner=clean_country_value, prefer_shortest=True, )",
+        "duration": "fuse_duration",
+        "label": "lambda values: majority_vote_scalar( values, normalizer=normalize_for_compare, cleaner=normalize_text_basic, prefer_shortest=True, )",
+        "tracks_track_position": "fuse_track_positions",
+        "tracks_track_name": "fuse_track_names",
+        "tracks_track_duration": "fuse_track_durations"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "33.50%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "lambda values: majority_vote_scalar( values, normalizer=normalize_for_compare, cleaner=clean_title_value, prefer_longest=True, penalize_title_variants=True, )",
+        "artist": "lambda values: majority_vote_scalar( values, normalizer=normalize_for_compare, cleaner=normalize_text_basic, prefer_longest=True, penalize_title_variants=False, )",
+        "release-date": "fuse_release_date",
+        "release-country": "lambda values: majority_vote_scalar( [clean_country_value(v) for v in values], normalizer=normalize_for_compare, cleaner=clean_country_value, prefer_longest=True, penalize_title_variants=False, )",
+        "label": "lambda values: majority_vote_scalar( values, normalizer=normalize_for_compare, cleaner=normalize_text_basic, prefer_longest=True, penalize_title_variants=False, )"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "36.55%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 4
+      },
+      "execute_pipeline": {
+        "evaluation_adaption": 3,
+        "pipeline_adaption": 1
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "evaluation_reasoning": 2,
+        "END": 1
+      },
+      "evaluation_reasoning": {
+        "pipeline_adaption": 2
+      }
+    },
+    "total_nodes_logged": 23
+  },
+  "time_complexity": {
+    "total_duration_seconds": 1187.287,
+    "sum_of_logged_node_durations_seconds": 1093.766,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 8.641,
+      "profile_data": 2.007,
+      "run_blocking_tester": 0.001,
+      "run_matching_tester": 0.008,
+      "pipeline_adaption": 208.523,
+      "execute_pipeline": 741.681,
+      "evaluation_adaption": 49.028,
+      "execute_evaluation": 5.367,
+      "evaluation_decision": 0.021,
+      "evaluation_reasoning": 78.489
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 5789,
+        "output_tokens": 158,
+        "total_tokens": 5947
+      },
+      "profile_data": {
+        "prompt_tokens": 236,
+        "output_tokens": 83,
+        "total_tokens": 319
+      },
+      "run_blocking_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "run_matching_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 49025,
+        "output_tokens": 20848,
+        "total_tokens": 69873
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 28070,
+        "output_tokens": 5105,
+        "total_tokens": 33175
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_reasoning": {
+        "prompt_tokens": 31794,
+        "output_tokens": 4660,
+        "total_tokens": 36454
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 114914,
+      "output_tokens": 30854,
+      "total_tokens": 145768
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 80629,
+    "output_tokens": 5730,
+    "total_tokens": 86359,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}

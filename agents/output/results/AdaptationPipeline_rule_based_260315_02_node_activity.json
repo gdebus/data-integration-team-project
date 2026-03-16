@@ -1,0 +1,425 @@
+{
+  "use_case": "Games",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "profile_data",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "profiled datasets: dbpedia, metacritic, sales."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 4.148,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run produced an initial draft of the pipeline.",
+        "The pipeline was created to load three XML game datasets named dbpedia, metacritic, and sales, align schemas with an LLM-based schema matcher using dbpedia as the reference schema, and rename columns in the other two datasets accordingly.",
+        "The pipeline added lightweight normalization fields including name_norm, releaseYear_norm, criticScore_num, userScore_num, and globalSales_num to support comparison across sources.",
+        "The pipeline introduced pairwise blocking for dbpedia-metacritic, dbpedia-sales, and metacritic-sales using StandardBlocker on the normalized game name field name_norm.",
+        "The pipeline introduced rule-based entity matching for all three dataset pairs using Jaccard string comparators on normalized name, developer, and platform plus a numeric comparator on normalized release year, with weights of 0.55, 0.2, 0.15, and 0.1 and a threshold of 0.75.",
+        "The pipeline concatenated all pairwise correspondences and added a rule-based fusion strategy with longest_string for name, releaseYear, developer, platform, series, ESRB, and publisher, and maximum for criticScore, userScore, and globalSales."
+      ],
+      "prompt_tokens": 3871,
+      "completion_tokens": 1917,
+      "total_tokens": 5788,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 20.176,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 51.811,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run created an initial draft of the evaluation script for the fused output.",
+        "The run aligned fused records to gold IDs through an evaluation view derived from _fusion_sources and then evaluated fields with type-specific matching functions registered in a DataFusionStrategy.",
+        "The strategy used tokenized matching for text-like entity fields, year-only matching for releaseYear, numeric tolerance matching for score fields, and set equality matching for list-like fields.",
+        "The fields name, developer, platform, publisher, and ESRB were grouped under tokenized_match.",
+        "The field releaseYear was evaluated with year_only_match.",
+        "The fields criticScore and userScore were grouped under numeric_tolerance_match.",
+        "The field genres_genre and any additional detected list-like non-underscore-prefixed columns were grouped under set_equality_match after normalization.",
+        "The run added _parse_source_ids to parse serialized source ID collections from _fusion_sources using json.loads and ast.literal_eval.",
+        "The run added _detect_gold_prefix to infer the dominant gold ID prefix and use it during candidate eval_id selection."
+      ],
+      "prompt_tokens": 4171,
+      "completion_tokens": 1616,
+      "total_tokens": 5787,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.898,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.347,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "evaluation_decision",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "overall accuracy is 61.34%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation refinement of the existing pipeline.",
+        "The pipeline replaced lightweight normalization with broader helper-based normalization for names, platforms, companies, years, and numeric fields.",
+        "Blocking was tightened from using only name_norm to using both name_norm and releaseYear_num across all dataset pairs.",
+        "Matching shifted to comparators on name_norm, exact releaseYear_num, platform_norm, and developer_norm with weights changed to [0.6, 0.15, 0.15, 0.1] and the threshold raised from 0.75 to 0.82.",
+        "Fusion changed several attribute fusers, including releaseYear to prefer_non_null, developer and publisher to most_common_string, platform to best_platform, criticScore to best_critic_score, userScore to best_user_score, ESRB to most_common_string, and globalSales to max_numeric_as_string.",
+        "Entity resolution became more conservative by requiring stronger agreement on normalized title and exact release year instead of relying on title-only blocking with a one-year tolerance.",
+        "Fusion behavior shifted away from longest-string and raw maximum heuristics toward consensus-based and domain-aware fusers for categorical and score attributes."
+      ],
+      "prompt_tokens": 6067,
+      "completion_tokens": 3377,
+      "total_tokens": 9444,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 34.911,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 44.906,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or a repair.",
+        "The dominant strategy kept tokenized matching for text fields, year-only matching for releaseYear, and numeric tolerance matching for criticScore and userScore.",
+        "The refinement changed the default handling for detected list-like columns from set equality matching to tokenized matching.",
+        "Name, developer, publisher, platform, and ESRB were evaluated with tokenized matching as a text-oriented field group.",
+        "ReleaseYear was evaluated separately with year-only matching as a date-specific field.",
+        "CriticScore and userScore were evaluated as numeric fields with numeric tolerance matching.",
+        "Auto-detected list-like columns that were not already assigned explicit functions were grouped under tokenized matching in the revised logic, replacing the previous set-equality treatment.",
+        "The run retained the eval-view construction that maps fused records to gold IDs through parsed fusion sources, gold-prefix detection, confidence-based sorting, and eval_id deduplication.",
+        "List-like column detection and normalization across fused and gold data were preserved to support fair comparison before evaluation."
+      ],
+      "prompt_tokens": 5631,
+      "completion_tokens": 1745,
+      "total_tokens": 7376,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 17.471,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.191,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "evaluation_decision",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "overall accuracy is 84.87%; previous logged accuracy was 61.34%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement of the existing evaluation pipeline.",
+        "The blocking strategy changed from using both normalized name and exact release year to using a new title-only blocking key called name_block.",
+        "The matcher relaxed release year comparison from an exact match with max_difference 0 to a near match with max_difference 1 while keeping title, platform, and developer comparators.",
+        "Fusion changed developer and publisher from most_common_string to canonical_from_norm with normalize_company, and changed ESRB from most_common_string to a normalized canonical_from_norm-based fuser.",
+        "The normalization layer was expanded with stronger text cleanup, richer title normalization, a blocking_name helper, broader platform mappings, ESRB normalization, and releaseYear_clean generation.",
+        "The run shifted matching behavior away from strict title-plus-year blocking toward title-centered blocking with a slightly more tolerant year match.",
+        "The run shifted fusion behavior from raw majority string selection toward normalization-aware canonical value selection for company fields and ESRB values."
+      ],
+      "prompt_tokens": 7526,
+      "completion_tokens": 4142,
+      "total_tokens": 11668,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 47.547,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 71.39,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or repair.",
+        "The dominant strategy kept field-specific evaluation functions and refined them by using tokenized matching for text fields, year-only matching for releaseYear, numeric tolerance matching for score and sales fields, and a new exact case-insensitive matcher for ESRB.",
+        "Name, developer, publisher, platform, and series were grouped under tokenized matching behavior.",
+        "ReleaseYear was handled as a dedicated year-only comparison field.",
+        "CriticScore, userScore, and globalSales were grouped under numeric tolerance comparison behavior.",
+        "ESRB was separated from generic tokenized text fields and evaluated with exact case-insensitive matching.",
+        "The run added an exact_match_case_insensitive helper to tighten ESRB evaluation semantics.",
+        "The run added registrations for globalSales with numeric_tolerance_match and series with tokenized_match.",
+        "The list-normalization import fallback was made safer by guarding __file__ access and using Path composition consistently.",
+        "The evaluation logging was simplified through compact_metric_view to print a smaller structured summary."
+      ],
+      "prompt_tokens": 6396,
+      "completion_tokens": 1849,
+      "total_tokens": 8245,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 18.372,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.548,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "evaluation_decision",
+      "next_node": "END",
+      "output_summary": [
+        "overall accuracy is 59.66%; previous logged accuracy was 84.87%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.007,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "longest_string",
+        "developer": "longest_string",
+        "platform": "longest_string",
+        "series": "longest_string",
+        "criticScore": "maximum",
+        "userScore": "maximum",
+        "ESRB": "longest_string",
+        "publisher": "longest_string",
+        "globalSales": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "61.34%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "prefer_non_null",
+        "developer": "most_common_string",
+        "platform": "best_platform",
+        "series": "longest_string",
+        "criticScore": "best_critic_score",
+        "userScore": "best_user_score",
+        "ESRB": "most_common_string",
+        "publisher": "most_common_string",
+        "globalSales": "max_numeric_as_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "84.87%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "prefer_non_null",
+        "developer": "lambda values: canonical_from_norm(values, normalize_company)",
+        "platform": "best_platform",
+        "series": "longest_string",
+        "criticScore": "best_critic_score",
+        "userScore": "best_user_score",
+        "ESRB": "lambda values: canonical_from_norm([normalize_esrb(v) for v in values if pd.notna(v)])",
+        "publisher": "lambda values: canonical_from_norm(values, normalize_company)",
+        "globalSales": "max_numeric_as_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "59.66%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "profile_data": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 3
+      },
+      "execute_pipeline": {
+        "evaluation_adaption": 3
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "pipeline_adaption": 2,
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 16
+  },
+  "time_complexity": {
+    "total_duration_seconds": 383.997,
+    "sum_of_logged_node_durations_seconds": 331.735,
+    "per_node_cumulative_durations_seconds": {
+      "profile_data": 4.148,
+      "pipeline_adaption": 102.634,
+      "execute_pipeline": 168.107,
+      "evaluation_adaption": 52.741,
+      "execute_evaluation": 4.086,
+      "evaluation_decision": 0.019
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "profile_data": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 17464,
+        "output_tokens": 9436,
+        "total_tokens": 26900
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 16198,
+        "output_tokens": 5210,
+        "total_tokens": 21408
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 33662,
+      "output_tokens": 14646,
+      "total_tokens": 48308
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 34665,
+    "output_tokens": 3186,
+    "total_tokens": 37851,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}

@@ -1,0 +1,744 @@
+{
+  "use_case": "Books",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: amazon_small, goodreads_small, metabooks_small; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 3674,
+      "completion_tokens": 72,
+      "total_tokens": 3746,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.617,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "profiled datasets: amazon_small, goodreads_small, metabooks_small."
+      ],
+      "prompt_tokens": 241,
+      "completion_tokens": 88,
+      "total_tokens": 329,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.627,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for goodreads_small_amazon_small, metabooks_small_amazon_small, metabooks_small_goodreads_small, blocking on title, author, publish_year.",
+        "Performance-wise, pair completeness ranges from 0.99 to 1.00 and candidate counts range from 149824 to 199823.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `rule_based` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.66, f1=0.8029330889092575, threshold=0.72, f1=0.852589641434263, threshold=0.68); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline.",
+        "The pipeline was created from scratch to load the three parquet datasets, align schemas by renaming Goodreads and Metabooks columns to the Amazon schema using an LLM-based schema matcher, perform pairwise entity matching, and run data fusion on the combined correspondences.",
+        "The matching stage uses three preconfigured EmbeddingBlockers for Goodreads-to-Amazon, Metabooks-to-Amazon, and Metabooks-to-Goodreads candidate generation.",
+        "The entity matching stage uses RuleBasedMatcher with pair-specific comparator sets, weights, and thresholds for the three dataset pairs.",
+        "The fusion stage defines attribute-level fusers for 12 fields and writes the fused result to output/data_fusion/fusion_data.csv along with correspondence CSV files for each pair.",
+        "Fusion behavior is centered on longest_string as the dominant strategy for textual attributes such as title, author, publisher, language, bookformat, and edition.",
+        "The strategy uses maximum for numeric or score-like fields including publish_year, rating, numratings, page_count, and price.",
+        "The strategy uses union specifically for genres, shifting multivalue combination toward set-style aggregation rather than selecting a single source value."
+      ],
+      "prompt_tokens": 5138,
+      "completion_tokens": 2011,
+      "total_tokens": 7149,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 20.046,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 322.35,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an initial draft that generated a new evaluation script for the current fused output.",
+        "The evaluation used schema-specific matching with tokenized comparison for text fields, set equality for list-like fields, numeric tolerance for numeric fields, and an eval view that remapped fused rows to gold IDs before scoring.",
+        "The script grouped title, author, language, and publisher under tokenized_match.",
+        "The script evaluated genres and any detected list-like non-underscore columns with set_equality_match after normalization.",
+        "The script evaluated publish_year and page_count with numeric_tolerance_match.",
+        "The run added build_eval_view to expand fused rows by parsed _fusion_sources, prefer source IDs matching the detected gold prefix or explicit gold IDs, and fall back to _id when no mapping candidates were found.",
+        "The run added _parse_source_ids using json.loads and ast.literal_eval to tolerate multiple serialized source-list formats.",
+        "The run added _detect_gold_prefix to infer the dominant gold ID prefix from the gold dataset.",
+        "The run added list-like column detection and normalization across fused_eval and gold, excluding identifier and internal confidence columns."
+      ],
+      "prompt_tokens": 4494,
+      "completion_tokens": 1565,
+      "total_tokens": 6059,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 15.775,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.118,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 62.14%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is failing mainly in fusion rather than blocking or matching.",
+        "Fusion is dropping or failing to surface some gold entities, which causes repeated missing fused values across multiple attributes for the same IDs.",
+        "The fusion rules are also selecting wrong attribute values within matched clusters, especially for author, title, publisher, publish_year, page_count, and genres.",
+        "Normalization is insufficient for author, title, publisher, and genres, which amplifies fusion errors.",
+        "Overall accuracy is 0.6214285714285714 across 140 evaluations with 87 correct values.",
+        "Author accuracy is 0.45, title accuracy is 0.65, publisher accuracy is 0.65, and genres accuracy is 0.05, while language accuracy is 0.9, page_count accuracy is 0.8, and publish_year accuracy is 0.85.",
+        "The same gold IDs have multiple missing attributes, including amazon_135479 missing author, language, page_count, title, genres, publish_year, and publisher, and amazon_12422 missing author, language, page_count, title, genres, and publish_year.",
+        "The pipeline code sets include_singletons=False in DataFusionEngine.run, which can remove unmatched records from fused output."
+      ],
+      "prompt_tokens": 11574,
+      "completion_tokens": 2647,
+      "total_tokens": 14221,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 41.324,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation-driven refinement of the existing pipeline.",
+        "The fusion stage was revised to keep singleton records by changing include_singletons from False to True.",
+        "The attribute fusers for title, author, publisher, language, bookformat, publish_year, and page_count were changed to voting.",
+        "The edition fuser was changed from longest_string to shortest_string.",
+        "Pre-fusion preprocessing was added to normalize title, author, publisher, language, and genres fields across all datasets.",
+        "Post-fusion cleanup was added to re-normalize fused genres, title, author, and publisher values.",
+        "The pipeline shifted away from longest-string and maximum-heavy fusion toward voting-based fusion for most bibliographic attributes.",
+        "Fusion behavior now favors normalized consensus values instead of verbose variants, later years, or larger page counts.",
+        "Singleton retention changed the output behavior from dropping unmatched records to preserving them in the fused result.",
+        "Blocking configurations and matching thresholds were left unchanged in this run.",
+        "New helper functions were introduced for missing-value detection, HTML unescaping, whitespace cleanup, and field-specific normalization.",
+        "Title normalization removes trailing parenthetical qualifiers."
+      ],
+      "prompt_tokens": 10039,
+      "completion_tokens": 3051,
+      "total_tokens": 13090,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 29.109,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 307.956,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation configuration in evaluation_refinement mode rather than an initial draft or repair.",
+        "The dominant strategy was to keep the gold-ID-aligned fused evaluation view and list normalization flow while refining field-specific evaluation functions, especially changing publish_year from numeric_tolerance_match to year_only_match.",
+        "The run also emphasized clearer structured evaluation reporting through a new print_metrics helper without changing the core fused-to-gold alignment logic.",
+        "Title, author, language, and publisher continued to use tokenized_match as a text-field evaluation family.",
+        "Genres remained grouped under set-based comparison using set_equality_match, including automatic registration for other detected list-like columns.",
+        "Numeric-like fields were split so that publish_year used year_only_match while page_count continued to use numeric_tolerance_match.",
+        "The import block was expanded to include year_only_match alongside the existing evaluation helpers.",
+        "A new print_metrics helper was added to emit compact overall, per-attribute, and error-summary diagnostics from the evaluation results."
+      ],
+      "prompt_tokens": 8191,
+      "completion_tokens": 1812,
+      "total_tokens": 10003,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 18.402,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.248,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 65.71%; previous logged accuracy was 62.14%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.007,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is primarily failing in fusion logic and preprocessing rather than blocking.",
+        "Two gold Amazon entities are completely missing from the evaluated fused output, creating systematic coverage errors.",
+        "For records that do exist, several attribute fusers are selecting poor fused values or collapsing useful bibliographic information.",
+        "Overall accuracy is 0.6571428571428571 across 140 evaluations, with 92 correct values.",
+        "Two gold ids, amazon_135479 and amazon_12422, are missing for all 7 evaluated attributes, contributing 14 of 48 mismatches.",
+        "The missing-record cases show fused_id = NaN and inputs = [], which indicates a coverage or ID-lineage problem rather than a bad attribute choice.",
+        "Genres accuracy is 0.05, which is the worst attribute and is consistent with the current use of union plus string flattening.",
+        "Title accuracy is 0.65, and the analysis reports many fused titles are shortened variants after normalization removes parenthetical qualifiers.",
+        "Publisher accuracy is 0.6, and the analysis reports fused publishers often choose imprint or alias variants instead of the expected canonical publisher.",
+        "Page_count accuracy is 0.65, and the analysis reports voting is unstable when page counts differ by edition."
+      ],
+      "prompt_tokens": 12405,
+      "completion_tokens": 1844,
+      "total_tokens": 14249,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 33.556,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement in evaluation_refinement mode driven by the prior error analysis.",
+        "The fusion strategy was reworked so that title, author, publisher, bookformat, and edition now use longest_string instead of voting or shortest_string.",
+        "Numeric fusion was changed so that publish_year and page_count use choose_consensus_numeric, while rating, numratings, and price use choose_max_numeric.",
+        "Genres fusion was changed from union to choose_best_genres, and language fusion was changed from voting to choose_best_language.",
+        "The preprocessing was revised to preserve more information by separating title normalization for matching from title_core creation, retaining full author strings for output-oriented handling, converting genres into lists, and coercing publish_year and page_count to integers.",
+        "The prepared datasets now add a _source field and define a source_priority map for source-aware fusion behavior.",
+        "The pipeline shifted away from generic voting and union toward completeness-based and attribute-specific fusion rules.",
+        "Fusion now prefers richer bibliographic strings via longest_string for key text attributes rather than majority variants that can shorten titles or drop author and publisher detail."
+      ],
+      "prompt_tokens": 10280,
+      "completion_tokens": 4236,
+      "total_tokens": 14516,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 43.067,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 302.771,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or repair.",
+        "The dominant strategy was to refine evaluation alignment and comparison behavior by keeping the gold-id mapping view, normalizing list-like columns, and adjusting field-specific evaluation functions.",
+        "The only substantive evaluation-function change in this run was switching publish_year from year_only_match to numeric_tolerance_match while retaining tokenized matching for title, author, publisher, and language and set equality for genres.",
+        "Title, author, publisher, and language were evaluated as tokenized text fields with tokenized_match.",
+        "Genres was treated as a list-like set field and evaluated with set_equality_match after list normalization.",
+        "Publish_year and page_count were grouped as numeric-style fields and evaluated with numeric_tolerance_match in the refined script.",
+        "Identifier and coverage behavior was handled through the build_eval_view mapping that expands _fusion_sources into eval_id values aligned to gold ids.",
+        "The run preserved the build_eval_view helper that maps fused rows to gold-aligned eval_id values using parsed _fusion_sources and cluster fallback behavior."
+      ],
+      "prompt_tokens": 8573,
+      "completion_tokens": 1554,
+      "total_tokens": 10127,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.507,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.336,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "evaluation_decision",
+      "next_node": "END",
+      "output_summary": [
+        "overall accuracy is 59.29%; previous logged accuracy was 65.71%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "goodreads_small_amazon_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "title",
+            "author",
+            "publish_year"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 0.9977578475336323,
+          "num_candidates": 199823,
+          "is_acceptable": true
+        },
+        "metabooks_small_amazon_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "title",
+            "author",
+            "publisher"
+          ],
+          "params": {
+            "top_k": 15
+          },
+          "pair_completeness": 0.9939577039274925,
+          "num_candidates": 149824,
+          "is_acceptable": true
+        },
+        "metabooks_small_goodreads_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "title",
+            "author",
+            "publisher"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 0.9947826086956522,
+          "num_candidates": 199106,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "amazon_small": "id",
+        "goodreads_small": "id",
+        "metabooks_small": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "amazon_small": "id",
+        "goodreads_small": "id",
+        "metabooks_small": "id"
+      },
+      "matching_strategies": {
+        "goodreads_small_amazon_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "title",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "author",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "numeric",
+              "column": "publish_year",
+              "max_difference": 1.0
+            },
+            {
+              "type": "string",
+              "column": "publisher",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip"
+            }
+          ],
+          "weights": [
+            0.42,
+            0.33,
+            0.15,
+            0.1
+          ],
+          "threshold": 0.66,
+          "f1": 0.8029330889092575
+        },
+        "metabooks_small_amazon_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "title",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "author",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "publisher",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "publish_year",
+              "max_difference": 1.0
+            }
+          ],
+          "weights": [
+            0.5,
+            0.25,
+            0.15,
+            0.1
+          ],
+          "threshold": 0.72,
+          "f1": 0.852589641434263
+        },
+        "metabooks_small_goodreads_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "title",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "author",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "publisher",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "genres",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            },
+            {
+              "type": "numeric",
+              "column": "publish_year",
+              "max_difference": 1.0
+            }
+          ],
+          "weights": [
+            0.42,
+            0.23,
+            0.12,
+            0.15,
+            0.08
+          ],
+          "threshold": 0.68,
+          "f1": 0.8362676056338028
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "title": "longest_string",
+        "author": "longest_string",
+        "publish_year": "maximum",
+        "publisher": "longest_string",
+        "rating": "maximum",
+        "numratings": "maximum",
+        "language": "longest_string",
+        "genres": "union",
+        "bookformat": "longest_string",
+        "edition": "longest_string",
+        "page_count": "maximum",
+        "price": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "62.14%"
+    },
+    {
+      "attribute_fusers": {
+        "title": "voting",
+        "author": "voting",
+        "publish_year": "voting",
+        "publisher": "voting",
+        "rating": "maximum",
+        "numratings": "maximum",
+        "language": "voting",
+        "genres": "union",
+        "bookformat": "voting",
+        "edition": "shortest_string",
+        "page_count": "voting",
+        "price": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "65.71%"
+    },
+    {
+      "attribute_fusers": {
+        "title": "longest_string",
+        "author": "longest_string",
+        "publish_year": "choose_consensus_numeric",
+        "publisher": "longest_string",
+        "rating": "choose_max_numeric",
+        "numratings": "choose_max_numeric",
+        "language": "choose_best_language",
+        "genres": "choose_best_genres",
+        "bookformat": "longest_string",
+        "edition": "longest_string",
+        "page_count": "choose_consensus_numeric",
+        "price": "choose_max_numeric"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "59.29%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 3
+      },
+      "execute_pipeline": {
+        "evaluation_adaption": 3
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "evaluation_reasoning": 2,
+        "END": 1
+      },
+      "evaluation_reasoning": {
+        "pipeline_adaption": 2
+      }
+    },
+    "total_nodes_logged": 21
+  },
+  "time_complexity": {
+    "total_duration_seconds": 1245.546,
+    "sum_of_logged_node_durations_seconds": 1160.83,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 2.617,
+      "profile_data": 1.627,
+      "run_blocking_tester": 0.001,
+      "run_matching_tester": 0.001,
+      "pipeline_adaption": 92.222,
+      "execute_pipeline": 933.077,
+      "evaluation_adaption": 50.684,
+      "execute_evaluation": 5.702,
+      "evaluation_decision": 0.019,
+      "evaluation_reasoning": 74.88
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 3674,
+        "output_tokens": 72,
+        "total_tokens": 3746
+      },
+      "profile_data": {
+        "prompt_tokens": 241,
+        "output_tokens": 88,
+        "total_tokens": 329
+      },
+      "run_blocking_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "run_matching_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 25457,
+        "output_tokens": 9298,
+        "total_tokens": 34755
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 21258,
+        "output_tokens": 4931,
+        "total_tokens": 26189
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_reasoning": {
+        "prompt_tokens": 23979,
+        "output_tokens": 4491,
+        "total_tokens": 28470
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 74609,
+      "output_tokens": 18880,
+      "total_tokens": 93489
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 63806,
+    "output_tokens": 4828,
+    "total_tokens": 68634,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}

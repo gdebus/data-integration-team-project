@@ -1,0 +1,465 @@
+{
+  "use_case": "Music",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "profile_data",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "profiled datasets: musicbrainz, discogs, lastfm."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 6.507,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run produced an initial draft of the pipeline.",
+        "The pipeline was created to load three XML music datasets, align schemas with an LLM-based matcher, perform pairwise blocking and rule-based entity matching, and then fuse matched records across all three sources.",
+        "The matching stage uses StandardBlocker on artist_norm for all three dataset pairs and RuleBasedMatcher with four comparators: name_norm, artist_norm, duration_num, and tracks_track_name.",
+        "The fusion stage adds attribute fusers for name, artist, release-date, release-country, duration, tracks_track_name, tracks_track_duration, tracks_track_position, and conditionally for label and genre.",
+        "The fusion engine concatenates all pairwise correspondence tables and writes the fused result to output/data_fusion/fusion_data.csv with JSONL debug output enabled.",
+        "Fusion is primarily value-selection based, using longest_string as the dominant strategy for scalar attributes and union for multi-valued track fields.",
+        "Matching behavior emphasizes artist-based candidate generation first and then scores candidates with weighted name, artist, duration, and track-name evidence rather than relying on exact identifiers or broader blocking keys."
+      ],
+      "prompt_tokens": 4045,
+      "completion_tokens": 1994,
+      "total_tokens": 6039,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 24.617,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "execute_pipeline",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline execution failed on attempt 1: error: Traceback (most recent call last):",
+        "File \"D:\\Studium\\Master\\Semester 5\\Team Project\\workspace\\data-integration-team-project\\agents\\output/code/pipeline.py\", line 106, in <module>",
+        "df[\"duration_num\"] = df[\"duration\"].apply(to_nume; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 15.579,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an execution repair of the existing pipeline.",
+        "The normalization layer was rewritten to add an is_missing helper and to make normalize_text and to_numeric robust to None values and collection-valued fields.",
+        "The pipeline now creates a normalized tracks_track_name_norm column when tracks_track_name exists and uses that normalized field in all three matching comparator sets instead of the raw tracks_track_name field with inline preprocessing and concatenate list handling.",
+        "Matching behavior shifted toward pre-normalized comparison inputs for track names, replacing comparator-level list preprocessing with dataset-level normalization.",
+        "The overall blocking, pairwise matcher type, weights, thresholds, and fusion strategy remained unchanged, so the repair focused on making existing matching behavior execute reliably on heterogeneous XML field shapes rather than changing the decision policy.",
+        "The new is_missing helper treats None and pandas-missing scalars as missing while leaving container types to be handled explicitly.",
+        "normalize_text now joins list, tuple, and set values into a single space-separated string before lowercasing and whitespace normalization."
+      ],
+      "prompt_tokens": 6555,
+      "completion_tokens": 2165,
+      "total_tokens": 8720,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 24.483,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 2; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 34.687,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an initial draft of the evaluation script for the current fused output.",
+        "The run used a rule-based evaluation strategy with column-specific matching functions mapped to the fused schema.",
+        "It aligned fused records to gold records through an evaluation view that derived eval_id values from fusion source identifiers before running DataFusionEvaluator.",
+        "Name, artist, release-country, label, and genre were evaluated with tokenized matching.",
+        "Duration was evaluated with numeric tolerance matching.",
+        "Release-date was evaluated with year-only matching.",
+        "Track-level fields such as tracks_track_name, tracks_track_duration, and tracks_track_position were evaluated with set equality matching.",
+        "Additional detected list-like columns were grouped under set equality matching after normalization.",
+        "The run added helper functions to parse serialized fusion source identifiers and detect the dominant gold ID prefix.",
+        "The build_eval_view helper expanded fused rows into evaluation rows, attached eval_id and _eval_cluster_id fields, sorted by _fusion_confidence when available, and dropped duplicate eval_id entries.",
+        "A fallback path assigned eval_id from _id when no expanded evaluation rows could be built."
+      ],
+      "prompt_tokens": 4749,
+      "completion_tokens": 1611,
+      "total_tokens": 6360,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.145,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.349,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "evaluation_decision",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "overall accuracy is 36.04%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement of the existing evaluation pipeline.",
+        "Blocking changed from using only \"artist_norm\" to using a composite \"artist_name_block\" built from normalized artist and normalized release name.",
+        "Matching added a track position string comparator, increased the duration comparator tolerance from 180 to 240, changed comparator weights to [0.35, 0.25, 0.25, 0.10, 0.05], and raised the match threshold from 0.65 to 0.75.",
+        "Fusion behavior changed so that tracks_track_name, tracks_track_position, and tracks_track_duration now use longest_string instead of union, while genre now uses union instead of longest_string.",
+        "The pipeline now normalizes and writes cleaned values back into core fusion fields such as name, artist, release-country, duration, tracks_track_name, and tracks_track_position before running fusion.",
+        "The matching strategy shifted from broader artist-based candidate generation to stricter artist-plus-name blocking.",
+        "The matcher shifted toward requiring stronger agreement on release identity and track-level evidence by adding track position comparison and using a higher acceptance threshold."
+      ],
+      "prompt_tokens": 6526,
+      "completion_tokens": 3317,
+      "total_tokens": 9843,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 38.312,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 33.394,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or a repair.",
+        "The run kept the gold-ID-aligned evaluation view built from _fusion_sources and cluster IDs before executing DataFusionEvaluator.",
+        "The run continued to use field-specific evaluation functions, with tokenized matching for name-like fields, numeric tolerance for duration, year-only matching for release-date, and set equality for list-like fields.",
+        "The evaluation retained tokenized_match for name, artist, release-country, and label.",
+        "The evaluation retained numeric_tolerance_match for duration and year_only_match for release-date.",
+        "The evaluation retained set_equality_match for tracks_track_name and continued to assign set_equality_match to detected list-like columns not already registered.",
+        "The evaluation removed explicit registrations for genre, tracks_track_duration, and tracks_track_position from the fixed evaluation-function list.",
+        "The import of DataFusionEvaluator was split into a separate import statement without changing execution behavior.",
+        "A print_structured_metrics helper was added to print nested evaluation results in a structured line-by-line format instead of dumping the full JSON string directly."
+      ],
+      "prompt_tokens": 5901,
+      "completion_tokens": 1648,
+      "total_tokens": 7549,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.441,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.064,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "evaluation_decision",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "overall accuracy is 26.90%; previous logged accuracy was 36.04%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement in evaluation_refinement mode after a poor evaluation result with overall accuracy 0.2690 and zero accuracy on all three track-level attributes.",
+        "The pipeline added stable optional columns across all datasets for release-date, release-country, label, genre, and tracks_track_duration before normalization and fusion.",
+        "The normalization logic was expanded to add artist-prefix removal from release names, release-date normalization, more robust release-country normalization, scalar numeric parsing helpers, and list-based normalization for track names, positions, and durations.",
+        "The blocking key changed from artist plus name_key to artist plus a new name_block derived from the artist-prefix-cleaned name_norm.",
+        "The matching configuration tightened duration tolerance from a max_difference of 240 to 180 and lowered match thresholds from 0.75 to dataset-pair-specific values around 0.65 to 0.68 while also reweighting comparators toward release name similarity.",
+        "The pipeline now materializes normalized list and joined-string track fields and computes a track_count support field before matching and fusion."
+      ],
+      "prompt_tokens": 7673,
+      "completion_tokens": 3746,
+      "total_tokens": 11419,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 42.165,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 44.019,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation script in evaluation_refinement mode.",
+        "The changes adjusted the existing evaluation configuration rather than repairing a runtime failure.",
+        "The dominant strategy was schema-aligned evaluation refinement by registering field-specific comparison functions against the generated fusion output schema.",
+        "The run kept tokenized matching for name-like text fields, numeric tolerance for duration, year-only matching for release-date, and set equality for list-like or nested track fields.",
+        "Name-oriented fields were grouped under tokenized_match for name, artist, release-country, and label.",
+        "Temporal and numeric scalar fields were grouped under year_only_match for release-date and numeric_tolerance_match for duration.",
+        "Nested or list-like fields were grouped under set_equality_match, including tracks_track_name, tracks_track_duration, tracks_track_position, and genre.",
+        "The refinement explicitly added evaluation coverage for genre, tracks_track_duration, and tracks_track_position, which were not explicitly registered before.",
+        "The run retained gold-ID alignment logic through build_eval_view, including source ID parsing, gold prefix detection, confidence-based sorting, and deduplication by eval_id."
+      ],
+      "prompt_tokens": 6330,
+      "completion_tokens": 1592,
+      "total_tokens": 7922,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 17.756,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.378,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "evaluation_decision",
+      "next_node": "END",
+      "output_summary": [
+        "overall accuracy is 26.90%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_duration": "union",
+        "tracks_track_position": "union",
+        "label": "longest_string",
+        "genre": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "36.04%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "tracks_track_name": "longest_string",
+        "tracks_track_duration": "longest_string",
+        "tracks_track_position": "longest_string",
+        "label": "longest_string",
+        "genre": "union"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "26.90%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "tracks_track_name": "longest_string",
+        "tracks_track_duration": "longest_string",
+        "tracks_track_position": "longest_string",
+        "label": "longest_string",
+        "genre": "union"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "26.90%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "profile_data": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 4
+      },
+      "execute_pipeline": {
+        "pipeline_adaption": 1,
+        "evaluation_adaption": 3
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "pipeline_adaption": 2,
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 18
+  },
+  "time_complexity": {
+    "total_duration_seconds": 387.607,
+    "sum_of_logged_node_durations_seconds": 317.914,
+    "per_node_cumulative_durations_seconds": {
+      "profile_data": 6.507,
+      "pipeline_adaption": 129.577,
+      "execute_pipeline": 127.679,
+      "evaluation_adaption": 50.342,
+      "execute_evaluation": 3.791,
+      "evaluation_decision": 0.018
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "profile_data": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 24799,
+        "output_tokens": 11222,
+        "total_tokens": 36021
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 16980,
+        "output_tokens": 4851,
+        "total_tokens": 21831
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 41779,
+      "output_tokens": 16073,
+      "total_tokens": 57852
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 37789,
+    "output_tokens": 3551,
+    "total_tokens": 41340,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}

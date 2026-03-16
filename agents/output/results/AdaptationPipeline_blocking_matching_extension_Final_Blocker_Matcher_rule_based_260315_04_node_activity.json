@@ -1,0 +1,737 @@
+{
+  "use_case": "Games",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: dbpedia, metacritic, sales; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 3182,
+      "completion_tokens": 82,
+      "total_tokens": 3264,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 5.644,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "profiled datasets: dbpedia, metacritic, sales."
+      ],
+      "prompt_tokens": 234,
+      "completion_tokens": 82,
+      "total_tokens": 316,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.526,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for dbpedia_sales, metacritic_dbpedia, metacritic_sales, blocking on name, platform, releaseYear.",
+        "Performance-wise, pair completeness ranges from 0.91 to 1.00 and candidate counts range from 409504 to 929573.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `rule_based` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.75, f1=0.864367816091954, threshold=0.8, f1=0.8866995073891625, threshold=0.78); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run created an initial draft of the pipeline.",
+        "The pipeline was built to load the schema-matched dbpedia, metacritic, and sales CSV files from output/schema-matching/.",
+        "It added three pairwise EmbeddingBlocker configurations for dbpedia-sales, metacritic-dbpedia, and metacritic-sales using the sentence-transformers/all-MiniLM-L6-v2 model with sklearn indexing and top_k=20.",
+        "It added three rule-based matching configurations with pair-specific comparator sets, weights, and thresholds, and wrote the resulting correspondences to output/correspondences/.",
+        "It added a data fusion stage that concatenates all pairwise correspondences and fuses 10 attributes, then writes fused output to output/data_fusion/fusion_data.csv.",
+        "Fusion behavior is centered on longest_string, which is used for 7 of the 10 fused attributes including name, releaseYear, developer, platform, series, publisher, and ESRB.",
+        "Numeric-style fusion is limited to maximum for criticScore, userScore, and globalSales.",
+        "Matching behavior is pair-specific rather than uniform, with different comparator mixes, weights, and thresholds for each dataset pair.",
+        "The pipeline uses a lowercasing and trimming preprocess helper for string comparators when values are not null."
+      ],
+      "prompt_tokens": 5017,
+      "completion_tokens": 1673,
+      "total_tokens": 6690,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 18.287,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1363.614,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run created an initial draft of the evaluation script for the fused output.",
+        "The run evaluated fused records by first building an eval_id-aligned view from fusion sources and then applying column-specific match functions through a rule-based DataFusionStrategy and DataFusionEvaluator.",
+        "Name, developer, publisher, platform, and ESRB were evaluated with tokenized_match.",
+        "releaseYear was evaluated with year_only_match.",
+        "criticScore and userScore were evaluated with numeric_tolerance_match.",
+        "Detected list-like non-metadata columns were normalized across fused and gold data and then evaluated with set_equality_match.",
+        "The run added _parse_source_ids to parse _fusion_sources values from native collections or serialized JSON and Python literals.",
+        "The run added _detect_gold_prefix to infer the dominant gold ID prefix and use it when mapping fused source IDs to gold evaluation IDs.",
+        "The run added build_eval_view to expand fused rows into eval_id candidates, preserve cluster IDs, sort by _fusion_confidence when present, and deduplicate by eval_id.",
+        "The run added a fallback that uses fused _id as eval_id and _eval_cluster_id when no expanded evaluation rows can be built."
+      ],
+      "prompt_tokens": 3983,
+      "completion_tokens": 1502,
+      "total_tokens": 5485,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.424,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.29,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "evaluation_decision",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "overall accuracy is 29.41%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement of the existing evaluation pipeline.",
+        "The pipeline added dataset-wide normalization before matching, including generic text cleanup, releaseYear date normalization, and platform alias standardization.",
+        "The matching thresholds were raised for all three pairwise matchers from 0.75 to 0.78 for dbpedia-sales, from 0.8 to 0.82 for metacritic-dbpedia, and from 0.78 to 0.82 for metacritic-sales.",
+        "Fusion behavior was changed to include singleton records by setting include_singletons to True.",
+        "The pipeline added post-fusion cleanup for releaseYear, platform, name, developer, publisher, and ESRB before writing the fused output.",
+        "The run shifted toward a more conservative matching strategy by tightening all rule-based match thresholds.",
+        "The run also shifted fusion coverage toward retaining unmatched records through singleton inclusion instead of emitting only matched clusters.",
+        "The attribute fusion strategy itself did not change, and it still relies primarily on longest_string with maximum for numeric score and sales fields.",
+        "The run introduced helper functions lower_strip, normalize_text, normalize_year_date, and normalize_platform to standardize values across all three source datasets."
+      ],
+      "prompt_tokens": 6974,
+      "completion_tokens": 2288,
+      "total_tokens": 9262,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 23.4,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1393.228,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or repair.",
+        "The dominant strategy was to keep the same field-specific evaluation functions while refining evaluation execution and aligning the evaluator to the correct fusion strategy name.",
+        "The evaluation still used tokenized matching for name, developer, publisher, platform, and ESRB, year-only matching for releaseYear, numeric tolerance matching for criticScore and userScore, and set equality for detected list-like fields.",
+        "Textual identity and entity fields were grouped under tokenized_match, including name, developer, publisher, platform, and ESRB.",
+        "Temporal fields were handled separately with year_only_match for releaseYear.",
+        "Numeric score fields were grouped under numeric_tolerance_match for criticScore and userScore.",
+        "Any detected list-like fields not already assigned were grouped under set_equality_match.",
+        "The run added a print_structured_metrics helper to print nested evaluation results in a structured way instead of dumping formatted JSON to stdout.",
+        "The evaluator was switched from DataFusionStrategy(\"rule_based_fusion_strategy_eval\") to DataFusionStrategy(\"rule_based_fusion_strategy\")."
+      ],
+      "prompt_tokens": 4598,
+      "completion_tokens": 1614,
+      "total_tokens": 6212,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.719,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 3.583,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "evaluation_decision",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "overall accuracy is 35.29%; previous logged accuracy was 29.41%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation-driven refinement of the existing pipeline.",
+        "The matching thresholds were relaxed from 0.78 to 0.75 for dbpedia-sales, from 0.82 to 0.80 for metacritic-dbpedia, and from 0.82 to 0.78 for metacritic-sales.",
+        "The fusion strategy changed developer and series from longest_string to union.",
+        "The fusion strategy changed criticScore, userScore, and globalSales from maximum to longest_string.",
+        "The fusion engine was changed to run with include_singletons set to false instead of true.",
+        "The pipeline shifted toward looser entity matching by lowering all three rule-based match thresholds.",
+        "The fusion behavior shifted away from numeric maximum selection for score and sales fields and toward longest_string selection.",
+        "The fusion behavior shifted developer and series aggregation toward multi-value preservation through union rather than picking a single longest value.",
+        "Normalization was tightened so invalid text and unparsable dates now become null values instead of being retained.",
+        "Platform normalization was expanded with additional aliases such as x-box 360, x-box one, gba, gbc, and gc.",
+        "ESRB normalization was added to standardize labels such as Everyone, Teen, Mature, and related variants."
+      ],
+      "prompt_tokens": 7599,
+      "completion_tokens": 2565,
+      "total_tokens": 10164,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 26.771,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "execute_pipeline",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline execution failed on attempt 1: error: Traceback (most recent call last):",
+        "File \"D:\\Studium\\Master\\Semester 5\\Team Project\\workspace\\data-integration-team-project\\agents\\output\\code\\pipeline.py\", line 352, in <module>",
+        "rb_fused_standard_blocker = engine.run(; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1361.435,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an execution repair that reworked the pipeline after the previous engine.run failure.",
+        "The matching thresholds were raised for all three pairwise matches, from 0.75 to 0.82 for dbpedia-sales, from 0.80 to 0.85 for metacritic-dbpedia, and from 0.78 to 0.83 for metacritic-sales.",
+        "A new deduplicate_pairwise_correspondences helper was added to prune many-to-many links by keeping the highest-scoring match per left and right id before fusion.",
+        "The fusion strategy was substantially revised so that name now uses best_name, releaseYear, developer, platform, and ESRB use most_frequent_non_null, publisher uses first_non_null, and criticScore, userScore, and globalSales use maximum instead of longest_string or union.",
+        "The pipeline shifted from a more permissive correspondence and string-length-driven fusion approach to a more conservative one-to-one matching and value-selection approach.",
+        "Fusion behavior moved away from longest_string and union toward consensus-based categorical selection and numeric maxima, which favors stable canonical values over concatenated or arbitrarily long text.",
+        "The code now imports maximum from PyDI.fusion and defines new helper fusers first_non_null, most_frequent_non_null, and best_name."
+      ],
+      "prompt_tokens": 8314,
+      "completion_tokens": 3233,
+      "total_tokens": 11547,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 34.389,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 2; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1348.833,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation logic in evaluation_refinement mode rather than an initial draft or a repair.",
+        "The evaluation kept a field-specific strategy that used tokenized matching for textual game attributes, year-only matching for releaseYear, numeric-tolerance matching for score and sales fields, and set-equality matching for detected list-like columns.",
+        "Name, developer, publisher, platform, and ESRB were grouped under tokenized_match as text-oriented fields.",
+        "ReleaseYear was evaluated with year_only_match as a date-specific field.",
+        "CriticScore, userScore, and the newly added globalSales were grouped under numeric_tolerance_match as numeric fields.",
+        "Any detected list-like non-system columns not already assigned were evaluated with set_equality_match.",
+        "The import fallback for list_normalization was hardened by guarding __file__ access with globals checks and falling back to Path.cwd() when needed.",
+        "List-normalization execution now prints an explicit 'none' message when no list-like columns are detected.",
+        "The strategy name was changed from rule_based_fusion_strategy to games_fusion_evaluation_strategy.",
+        "Structured result printing was simplified to direct JSON dumping instead of a custom print_structured_metrics helper."
+      ],
+      "prompt_tokens": 5543,
+      "completion_tokens": 1645,
+      "total_tokens": 7188,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 16.875,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.449,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "evaluation_decision",
+      "next_node": "END",
+      "output_summary": [
+        "overall accuracy is 73.95%; previous logged accuracy was 35.29%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.006,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "dbpedia_sales": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "platform",
+            "releaseYear"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 0.912621359223301,
+          "num_candidates": 929573,
+          "is_acceptable": true
+        },
+        "metacritic_dbpedia": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "developer",
+            "platform"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 0.9625668449197861,
+          "num_candidates": 409850,
+          "is_acceptable": true
+        },
+        "metacritic_sales": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "platform",
+            "releaseYear"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 1.0,
+          "num_candidates": 409504,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "dbpedia": "id",
+        "metacritic": "id",
+        "sales": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "dbpedia": "id",
+        "metacritic": "id",
+        "sales": "id"
+      },
+      "matching_strategies": {
+        "dbpedia_sales": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "platform",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "developer",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "date",
+              "column": "releaseYear",
+              "max_days_difference": 365
+            }
+          ],
+          "weights": [
+            0.45,
+            0.2,
+            0.15,
+            0.2
+          ],
+          "threshold": 0.75,
+          "f1": 0.864367816091954
+        },
+        "metacritic_dbpedia": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "platform",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "developer",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "date",
+              "column": "releaseYear",
+              "max_days_difference": 366
+            }
+          ],
+          "weights": [
+            0.45,
+            0.2,
+            0.2,
+            0.15
+          ],
+          "threshold": 0.8,
+          "f1": 0.8866995073891625
+        },
+        "metacritic_sales": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "platform",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "developer",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "criticScore",
+              "max_difference": 5.0
+            },
+            {
+              "type": "numeric",
+              "column": "userScore",
+              "max_difference": 1.0
+            },
+            {
+              "type": "date",
+              "column": "releaseYear",
+              "max_days_difference": 365
+            }
+          ],
+          "weights": [
+            0.35,
+            0.2,
+            0.15,
+            0.12,
+            0.08,
+            0.1
+          ],
+          "threshold": 0.78,
+          "f1": 0.8844884488448845
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "longest_string",
+        "developer": "longest_string",
+        "platform": "longest_string",
+        "series": "longest_string",
+        "publisher": "longest_string",
+        "criticScore": "maximum",
+        "userScore": "maximum",
+        "ESRB": "longest_string",
+        "globalSales": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "29.41%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "longest_string",
+        "developer": "longest_string",
+        "platform": "longest_string",
+        "series": "longest_string",
+        "publisher": "longest_string",
+        "criticScore": "maximum",
+        "userScore": "maximum",
+        "ESRB": "longest_string",
+        "globalSales": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "35.29%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "best_name",
+        "releaseYear": "most_frequent_non_null",
+        "developer": "most_frequent_non_null",
+        "platform": "most_frequent_non_null",
+        "series": "union",
+        "publisher": "first_non_null",
+        "criticScore": "maximum",
+        "userScore": "maximum",
+        "ESRB": "most_frequent_non_null",
+        "globalSales": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "73.95%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 4
+      },
+      "execute_pipeline": {
+        "evaluation_adaption": 3,
+        "pipeline_adaption": 1
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "pipeline_adaption": 2,
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 21
+  },
+  "time_complexity": {
+    "total_duration_seconds": 5697.233,
+    "sum_of_logged_node_durations_seconds": 5633.497,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 5.644,
+      "profile_data": 1.526,
+      "run_blocking_tester": 0.006,
+      "run_matching_tester": 0.006,
+      "pipeline_adaption": 102.847,
+      "execute_pipeline": 5467.11,
+      "evaluation_adaption": 50.018,
+      "execute_evaluation": 6.322,
+      "evaluation_decision": 0.018
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 3182,
+        "output_tokens": 82,
+        "total_tokens": 3264
+      },
+      "profile_data": {
+        "prompt_tokens": 234,
+        "output_tokens": 82,
+        "total_tokens": 316
+      },
+      "run_blocking_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "run_matching_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 27904,
+        "output_tokens": 9759,
+        "total_tokens": 37663
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 14124,
+        "output_tokens": 4761,
+        "total_tokens": 18885
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 45444,
+      "output_tokens": 14684,
+      "total_tokens": 60128
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 36467,
+    "output_tokens": 3362,
+    "total_tokens": 39829,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}

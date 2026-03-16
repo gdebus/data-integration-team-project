@@ -1,0 +1,878 @@
+{
+  "use_case": "Restaurants",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: kaggle_small, uber_eats_small, yelp_small; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 9671,
+      "completion_tokens": 258,
+      "total_tokens": 9929,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 4.176,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "profiled datasets: kaggle_small, uber_eats_small, yelp_small."
+      ],
+      "prompt_tokens": 243,
+      "completion_tokens": 90,
+      "total_tokens": 333,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.665,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for kaggle_small_uber_eats_small, uber_eats_small_yelp_small, blocking on name_norm, city, state; `exact_match_multi` for kaggle_small_yelp_small, blocking on phone_e164, postal_code.",
+        "Performance-wise, pair completeness is 1.00 for all pairs and candidate counts range from 179 to 199972.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `ml` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.72, f1=0.975609756097561, threshold=0.75, f1=1.0); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.008,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run produced an initial draft of the pipeline.",
+        "The pipeline was created from scratch to load three parquet restaurant datasets and three CSV gold-standard correspondence files for supervised matching.",
+        "It introduced pair-specific blocking with embedding blocking for kaggle_small versus uber_eats_small and uber_eats_small versus yelp_small, and standard blocking on phone_e164 and postal_code for kaggle_small versus yelp_small.",
+        "It added feature extraction and ML-based matching for all three dataset pairs using configured string and numeric comparators plus per-pair model selection via GridSearchCV across RandomForest, LogisticRegression, GradientBoosting, and SVM.",
+        "It added MaximumBipartiteMatching clustering on each pairwise correspondence output before concatenating correspondences for fusion.",
+        "It defined a new fusion strategy covering 20 attributes, using longest_string for 19 fields and union for categories.",
+        "The run shifted matching behavior to a supervised, pair-specific ML workflow rather than a single uniform rule-based matcher."
+      ],
+      "prompt_tokens": 7944,
+      "completion_tokens": 3280,
+      "total_tokens": 11224,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 33.924,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 167.676,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an initial draft that added a new evaluation script for the fused output.",
+        "The dominant strategy was to align fused clusters to gold records through an eval_id mapping derived from _fusion_sources and then evaluate columns with field-specific match functions.",
+        "The evaluation used tokenized matching for text-like fields, numeric tolerance matching for numeric fields, and set equality matching for list-like fields.",
+        "Name, address, location text, contact, URL, and source fields were grouped under tokenized_match, including name, name_norm, address_line1, address_line2, street, house_number, city, state, postal_code, country, website, map_url, phone_raw, phone_e164, and source.",
+        "Latitude, longitude, rating, and rating_count were grouped under numeric_tolerance_match.",
+        "Categories was explicitly grouped under set_equality_match, and any additional detected list-like non-underscore columns were also assigned set_equality_match after normalization.",
+        "The run added _parse_source_ids to read _fusion_sources from JSON or Python-literal list formats and return source IDs safely.",
+        "The run added _detect_gold_prefix to infer a dominant gold ID prefix and use it when choosing source IDs for evaluation alignment."
+      ],
+      "prompt_tokens": 8756,
+      "completion_tokens": 1754,
+      "total_tokens": 10510,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 19.367,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.054,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 50.19%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.009,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is failing mainly because fusion output is poorly aligned with evaluation and because fusion logic is dropping or misconstructing entity records rather than because blocking or matching are missing true pairs.",
+        "Many expected gold entities are absent from fused output or cannot be mapped back during evaluation, causing widespread missing fused values and near-zero accuracy on several fields.",
+        "Overall accuracy is 0.5018773466833542 and macro accuracy is 0.5061656241443946 across 799 evaluations.",
+        "Blocking has pair completeness of 1.0 for all pairs according to the analysis, which argues against blocking recall as the main failure.",
+        "Matching F1 is reported as very high at 0.976 to 1.0 in the supplied optimal configurations, which argues against matcher quality as the dominant issue.",
+        "Debug events repeatedly show fused_id equal to NaN with inputs equal to an empty list, indicating fused rows are missing or not mapped into evaluation.",
+        "The analysis reports many mismatches with reason equal to missing_fused_value repeated across multiple fields for the same expected ids."
+      ],
+      "prompt_tokens": 12300,
+      "completion_tokens": 2003,
+      "total_tokens": 14303,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 33.752,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation-driven refinement of the existing pipeline.",
+        "The pipeline now enables singleton retention in fusion output by setting include_singletons to True.",
+        "The fusion strategy replaced longest_string with type-aware fusers across many structured fields, including most_frequent_non_null for phone, address, name, and location text fields, median_numeric for latitude, longitude, rating, and rating_count, shortest_non_null_string for website and map_url, and union for categories and source.",
+        "The pipeline added dataset-level normalization before matching and fusion for phone numbers, postal codes, house numbers, URLs, text fields, categories, and numeric fields.",
+        "The preprocessing helpers were expanded with functions such as normalize_phone, normalize_postal_code, normalize_house_number, normalize_categories, normalize_float, most_frequent_non_null, shortest_non_null_string, and median_numeric.",
+        "Fusion behavior shifted away from length-based value selection toward consensus-based and type-aware resolution.",
+        "Structured text attributes such as phone_e164, phone_raw, address_line1, postal_code, city, state, country, street, and name fields now prefer the most frequent non-null value instead of the longest string."
+      ],
+      "prompt_tokens": 13760,
+      "completion_tokens": 5088,
+      "total_tokens": 18848,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 50.671,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "execute_pipeline",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline execution failed on attempt 1: error: WARNING:PyDI.fusion.base:Function resolver most_frequent_non_null failed: most_frequent_non_null() got an unexpected keyword argument 'sources'",
+        "WARNING:PyDI.fusion.base:Function resolver most_frequent_non_null failed: most_frequent_n; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 167.175,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an execution repair that reworked the fusion stage after resolver functions failed due to unexpected keyword arguments.",
+        "The pipeline enabled singleton retention in fusion by setting include_singletons to True.",
+        "The fusion logic shifted away from longest_string-heavy resolution to attribute-specific resolvers, using most_frequent_non_null for 12 fields, median_numeric for latitude, longitude, rating, and rating_count, shortest_non_null_string for website and map_url, and union for categories and source.",
+        "The repair wrapped custom resolvers with a make_resolver adapter so they accept fusion-call keyword arguments such as sources without failing.",
+        "The pipeline added _id as an alignment field and retained lineage support for fused output.",
+        "Fusion behavior shifted from brittle generic string-length selection toward type-aware and frequency-based value selection.",
+        "The run also shifted entity coverage behavior by retaining singleton entities in the fused output instead of dropping unmatched records.",
+        "The strategy improved evaluation alignment by explicitly aligning on _id rather than relying only on implicit fused row mapping."
+      ],
+      "prompt_tokens": 17671,
+      "completion_tokens": 5300,
+      "total_tokens": 22971,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 48.98,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "execute_pipeline",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline execution failed on attempt 2: error: WARNING:PyDI.fusion.base:Function resolver wrapper failed: too many values to unpack (expected 3)",
+        "WARNING:PyDI.fusion.base:Function resolver wrapper failed: too many values to unpack (expected 3)",
+        "WARNING:PyDI.fusion.base:Function res; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 164.872,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an execution repair focused on fixing fusion resolver failures and improving fusion evaluation alignment.",
+        "The pipeline enabled singleton retention by setting include_singletons to True.",
+        "The fusion strategy now uses type-aware attribute resolvers instead of relying on generic longest-string and union behavior across structured fields.",
+        "The source and categories fusers were changed from union to a custom union_resolver.",
+        "The repaired pipeline added resolver implementations that can handle fusion input values robustly, including tuple-shaped inputs that previously caused wrapper failures.",
+        "Fusion behavior shifted away from generic text-length selection toward field-specific resolution using most_frequent_non_null for 12 attributes, median_numeric for numeric attributes, shortest_non_null_string for website and map_url, and union_resolver for multi-valued provenance-like fields.",
+        "The run also shifted fusion coverage toward producing rows for unmatched entities by retaining singletons, which directly addresses missing fused records during evaluation.",
+        "Alignment behavior remained anchored on the _id field, with lineage fields including _id."
+      ],
+      "prompt_tokens": 18129,
+      "completion_tokens": 5699,
+      "total_tokens": 23828,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 58.829,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 3; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 166.878,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or repair.",
+        "The dominant strategy was to refine evaluation alignment and normalization so fused rows map more reliably to gold ids and comparisons use type-appropriate preprocessing.",
+        "The evaluation kept tokenized matching for text-like fields, numeric tolerance matching for numeric fields, and set equality matching for list-like fields while improving the inputs passed into those functions.",
+        "Phone fields were grouped for dedicated normalization by stripping null-like values, removing trailing .0 artifacts, and converting values to digit-only strings before evaluation.",
+        "General scalar text fields such as postal_code, house_number, source, ids, names, URLs, and address components were grouped under scalar text normalization that trims whitespace, removes null-like text, and strips numeric .0 suffixes when applicable.",
+        "Numeric fields including latitude, longitude, rating, and rating_count were grouped under numeric coercion before evaluation with numeric tolerance matching."
+      ],
+      "prompt_tokens": 13184,
+      "completion_tokens": 2332,
+      "total_tokens": 15516,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 24.536,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 3.005,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 77.60%; previous logged accuracy was 50.19%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.007,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is dominated by fusion and value-selection errors rather than blocking or matching failures.",
+        "The largest systematic failure is categories fusion and evaluation alignment, with category outputs failing completely.",
+        "The current fusion logic uses generic resolvers that pick plausible but wrong values for ratings, provenance fields, URLs, and some address attributes.",
+        "Pair completeness is 1.0 for all three dataset pairs, so blocking is not the dominant problem in this run.",
+        "Pairwise matching F1 is 0.976 for kaggle–uber_eats, 1.0 for kaggle–yelp, and 0.976 for uber_eats–yelp, so matching errors are unlikely to explain the fusion drop.",
+        "Overall accuracy is 0.7759699624530664 across 799 evaluations with 620 correct results.",
+        "The worst attribute metric is categories_accuracy at 0.0 over 40 evaluated records.",
+        "Rating accuracy is only 0.4 over 40 records, indicating weak numeric conflict resolution for ratings.",
+        "Provenance-related metrics are also poor, with _id_accuracy at 0.3, source_accuracy at 0.3, and map_url_accuracy at 0.35.",
+        "Address-related errors are smaller but present, with house_number_accuracy at 0.925, street_accuracy at 0.925, and address_line1_accuracy at 0.875."
+      ],
+      "prompt_tokens": 16098,
+      "completion_tokens": 2124,
+      "total_tokens": 18222,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 36.798,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was a refinement of the pipeline after evaluation exposed weak fusion behavior.",
+        "The pipeline replaced generic fusion with attribute-specific resolvers across many fields, with `source_priority_text` becoming the dominant resolver for 10 attributes including name, phone, street, city, state, postal_code, and country.",
+        "The `rating` fuser changed from `median_numeric` to `prefer_yelp_rating`, and `rating_count` changed from `median_numeric` to `prefer_non_null_max_numeric`.",
+        "The `categories` fuser changed from `union_resolver` to `categories_resolver`, and `source` changed from `union_resolver` to `source_union_resolver`.",
+        "The URL rules were changed so `website` now uses `choose_best_website` instead of `shortest_non_null_string`, and `map_url` now uses `choose_best_map_url` instead of `shortest_non_null_string`.",
+        "The `address_line1` resolver changed from `most_frequent_non_null` to `choose_best_address_line1`, while `latitude` and `longitude` changed from `median_numeric` to `first_non_null`.",
+        "Fusion behavior shifted away from frequency-based and median-based conflict resolution toward source-priority selection and field-specific heuristics."
+      ],
+      "prompt_tokens": 16291,
+      "completion_tokens": 7135,
+      "total_tokens": 23426,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 68.305,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 22,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 167.9,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 23,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or a repair.",
+        "The dominant strategy was to refine evaluation so that field-specific comparison functions better matched the fused output schema and error profile.",
+        "The run emphasized shifting evaluation attention toward fusion and value-selection failures instead of blocking or matching failures because pair completeness was 1.0 and matching F1 remained very high across dataset pairs.",
+        "Text-like fields such as name, name_norm, website, map_url, phone_raw, phone_e164, address_line1, address_line2, street, house_number, city, state, postal_code, and country were grouped under tokenized_match evaluation.",
+        "Numeric fields such as latitude, longitude, rating, and rating_count were grouped under numeric_tolerance_match evaluation.",
+        "Set-like fields such as categories, source, _fusion_sources, and _fusion_source_datasets were grouped under set_equality_match evaluation.",
+        "The analysis also grouped problem severity by field family, with categories as the worst failure at 0.0 accuracy, ratings as weak at 0.4 accuracy, provenance-style fields such as _id, source, and map_url as poor, and address components as only minor residual issues."
+      ],
+      "prompt_tokens": 14741,
+      "completion_tokens": 1921,
+      "total_tokens": 16662,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 21.267,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 24,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.958,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 25,
+      "current_node": "evaluation_decision",
+      "next_node": "END",
+      "output_summary": [
+        "overall accuracy is 45.18%; previous logged accuracy was 77.60%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.009,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "kaggle_small_uber_eats_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name_norm",
+            "city",
+            "state"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 1.0,
+          "num_candidates": 199719,
+          "is_acceptable": true
+        },
+        "kaggle_small_yelp_small": {
+          "strategy": "exact_match_multi",
+          "columns": [
+            "phone_e164",
+            "postal_code"
+          ],
+          "params": {},
+          "pair_completeness": 1.0,
+          "num_candidates": 179,
+          "is_acceptable": true
+        },
+        "uber_eats_small_yelp_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name_norm",
+            "street",
+            "city"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 1.0,
+          "num_candidates": 199972,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "kaggle_small": "kaggle380k_id",
+        "uber_eats_small": "kaggle380k_id",
+        "yelp_small": "kaggle380k_id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "kaggle_small": "kaggle380k_id",
+        "uber_eats_small": "kaggle380k_id",
+        "yelp_small": "kaggle380k_id"
+      },
+      "matching_strategies": {
+        "kaggle_small_uber_eats_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "state",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "string",
+              "column": "categories",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            }
+          ],
+          "weights": [
+            0.3,
+            0.12,
+            0.08,
+            0.2,
+            0.2,
+            0.1
+          ],
+          "threshold": 0.72,
+          "f1": 0.975609756097561
+        },
+        "kaggle_small_yelp_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "phone_e164",
+              "similarity_function": "jaro_winkler",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.001
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.001
+            },
+            {
+              "type": "string",
+              "column": "postal_code",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            }
+          ],
+          "weights": [
+            0.25,
+            0.25,
+            0.15,
+            0.15,
+            0.1,
+            0.1
+          ],
+          "threshold": 0.75,
+          "f1": 1.0
+        },
+        "uber_eats_small_yelp_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "street",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "postal_code",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "string",
+              "column": "categories",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            }
+          ],
+          "weights": [
+            0.28,
+            0.16,
+            0.12,
+            0.08,
+            0.16,
+            0.16,
+            0.04
+          ],
+          "threshold": 0.75,
+          "f1": 0.975609756097561
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "name_norm": "longest_string",
+        "website": "longest_string",
+        "map_url": "longest_string",
+        "phone_raw": "longest_string",
+        "phone_e164": "longest_string",
+        "address_line1": "longest_string",
+        "address_line2": "longest_string",
+        "street": "longest_string",
+        "house_number": "longest_string",
+        "city": "longest_string",
+        "state": "longest_string",
+        "postal_code": "longest_string",
+        "country": "longest_string",
+        "latitude": "longest_string",
+        "longitude": "longest_string",
+        "categories": "union",
+        "rating": "longest_string",
+        "rating_count": "longest_string",
+        "source": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "50.19%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "most_frequent_non_null",
+        "name_norm": "most_frequent_non_null",
+        "website": "shortest_non_null_string",
+        "map_url": "shortest_non_null_string",
+        "phone_raw": "most_frequent_non_null",
+        "phone_e164": "most_frequent_non_null",
+        "address_line1": "most_frequent_non_null",
+        "address_line2": "most_frequent_non_null",
+        "street": "most_frequent_non_null",
+        "house_number": "most_frequent_non_null",
+        "city": "most_frequent_non_null",
+        "state": "most_frequent_non_null",
+        "postal_code": "most_frequent_non_null",
+        "country": "most_frequent_non_null",
+        "latitude": "median_numeric",
+        "longitude": "median_numeric",
+        "categories": "union_resolver",
+        "rating": "median_numeric",
+        "rating_count": "median_numeric",
+        "source": "union_resolver"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "77.60%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "source_priority_text",
+        "name_norm": "source_priority_text",
+        "website": "choose_best_website",
+        "map_url": "choose_best_map_url",
+        "phone_raw": "source_priority_text",
+        "phone_e164": "source_priority_text",
+        "address_line1": "choose_best_address_line1",
+        "address_line2": "most_frequent_non_null",
+        "street": "source_priority_text",
+        "house_number": "source_priority_text",
+        "city": "source_priority_text",
+        "state": "source_priority_text",
+        "postal_code": "source_priority_text",
+        "country": "source_priority_text",
+        "latitude": "first_non_null",
+        "longitude": "first_non_null",
+        "categories": "categories_resolver",
+        "rating": "prefer_yelp_rating",
+        "rating_count": "prefer_non_null_max_numeric",
+        "source": "source_union_resolver"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "45.18%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 5
+      },
+      "execute_pipeline": {
+        "evaluation_adaption": 3,
+        "pipeline_adaption": 2
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "evaluation_reasoning": 2,
+        "END": 1
+      },
+      "evaluation_reasoning": {
+        "pipeline_adaption": 2
+      }
+    },
+    "total_nodes_logged": 25
+  },
+  "time_complexity": {
+    "total_duration_seconds": 1355.718,
+    "sum_of_logged_node_durations_seconds": 1243.822,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 4.176,
+      "profile_data": 1.665,
+      "run_blocking_tester": 0.001,
+      "run_matching_tester": 0.008,
+      "pipeline_adaption": 260.709,
+      "execute_pipeline": 834.501,
+      "evaluation_adaption": 65.17,
+      "execute_evaluation": 7.017,
+      "evaluation_decision": 0.025,
+      "evaluation_reasoning": 70.55
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 9671,
+        "output_tokens": 258,
+        "total_tokens": 9929
+      },
+      "profile_data": {
+        "prompt_tokens": 243,
+        "output_tokens": 90,
+        "total_tokens": 333
+      },
+      "run_blocking_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "run_matching_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 73795,
+        "output_tokens": 26502,
+        "total_tokens": 100297
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 36681,
+        "output_tokens": 6007,
+        "total_tokens": 42688
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_reasoning": {
+        "prompt_tokens": 28398,
+        "output_tokens": 4127,
+        "total_tokens": 32525
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 148788,
+      "output_tokens": 36984,
+      "total_tokens": 185772
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 96068,
+    "output_tokens": 6474,
+    "total_tokens": 102542,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}
