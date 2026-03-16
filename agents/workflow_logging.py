@@ -104,6 +104,31 @@ NODE_SUMMARY_EXTRACTORS: Dict[str, str] = {
     "save_results": "_extract_save_results_facts",
 }
 
+SUMMARY_MODEL_PRICING_USD_PER_1M: Dict[str, Dict[str, float]] = {
+    "gpt-5.4": {"input": 2.50, "output": 15.00},
+    "gpt-5.2": {"input": 1.75, "output": 14.00},
+    "gpt-5.1": {"input": 1.25, "output": 10.00},
+    "gpt-5": {"input": 1.25, "output": 10.00},
+    "gpt-5-mini": {"input": 0.25, "output": 2.00},
+    "gpt-5-nano": {"input": 0.05, "output": 0.40},
+    "gpt-5.3-chat-latest": {"input": 1.75, "output": 14.00},
+    "gpt-5.2-chat-latest": {"input": 1.75, "output": 14.00},
+    "gpt-5.1-chat-latest": {"input": 1.25, "output": 10.00},
+    "gpt-5-chat-latest": {"input": 1.25, "output": 10.00},
+    "gpt-5.3-codex": {"input": 1.75, "output": 14.00},
+    "gpt-5.2-codex": {"input": 1.75, "output": 14.00},
+    "gpt-5.1-codex-max": {"input": 1.25, "output": 10.00},
+    "gpt-5.1-codex": {"input": 1.25, "output": 10.00},
+    "gpt-5-codex": {"input": 1.25, "output": 10.00},
+    "gpt-5.2-pro": {"input": 21.00, "output": 168.00},
+    "gpt-5-pro": {"input": 15.00, "output": 120.00},
+    "gpt-4.1-mini": {"input": 0.40, "output": 1.60},
+    "gpt-4.1-nano": {"input": 0.10, "output": 0.40},
+    "gpt-4.1": {"input": 2.00, "output": 8.00},
+    "gpt-4o-mini": {"input": 0.15, "output": 0.60},
+    "gpt-4o": {"input": 2.50, "output": 10.00},
+}
+
 
 class WorkflowLogger:
     def __init__(
@@ -150,6 +175,8 @@ class WorkflowLogger:
         self._run_finished_at_ns: Optional[int] = None
         self._pending_node_durations_seconds: Dict[str, List[float]] = {}
         self._has_current_run_density = False
+        self._density_cache_signature: Optional[tuple] = None
+        self._density_cache_value: Optional[Dict[str, Any]] = None
         self._summ_prompt_tokens = 0
         self._summ_output_tokens = 0
         self._summ_total_tokens = 0
@@ -332,12 +359,15 @@ class WorkflowLogger:
             global_output += output_tokens
             global_total += total_tokens
 
+        global_cost = self._estimate_agent_call_cost_usd(global_prompt, global_output)
+
         return {
             "per_node_cumulative_tokens": per_node,
             "global_tokens": {
                 "prompt_tokens": global_prompt,
                 "output_tokens": global_output,
                 "total_tokens": global_total,
+                "total_cost_usd": round(float(global_cost), 8),
             },
         }
 
@@ -354,6 +384,56 @@ class WorkflowLogger:
             return float(value)
         except Exception:
             return 0.0
+
+    def _resolve_summary_pricing(self) -> Optional[Dict[str, float]]:
+        model = str(self.summary_model_name or "").strip().lower()
+        if not model:
+            return None
+        if model in SUMMARY_MODEL_PRICING_USD_PER_1M:
+            return SUMMARY_MODEL_PRICING_USD_PER_1M[model]
+        # Longest-key match first avoids collisions (e.g., gpt-5 matching gpt-5-mini).
+        for known_model in sorted(SUMMARY_MODEL_PRICING_USD_PER_1M.keys(), key=len, reverse=True):
+            pricing = SUMMARY_MODEL_PRICING_USD_PER_1M[known_model]
+            if model.startswith(known_model) or known_model in model:
+                return pricing
+        return None
+
+    def _estimate_summary_call_cost_usd(self, prompt_tokens: int, output_tokens: int) -> float:
+        pricing = self._resolve_summary_pricing()
+        if not pricing:
+            return 0.0
+        input_rate = float(pricing.get("input", 0.0) or 0.0)
+        output_rate = float(pricing.get("output", 0.0) or 0.0)
+        if input_rate <= 0 and output_rate <= 0:
+            return 0.0
+        in_cost = (max(0, int(prompt_tokens)) / 1_000_000.0) * input_rate
+        out_cost = (max(0, int(output_tokens)) / 1_000_000.0) * output_rate
+        return max(0.0, in_cost + out_cost)
+
+    def _resolve_agent_pricing(self) -> Optional[Dict[str, float]]:
+        model = str(self.llm_model or "").strip().lower()
+        if not model:
+            return None
+        if model in SUMMARY_MODEL_PRICING_USD_PER_1M:
+            return SUMMARY_MODEL_PRICING_USD_PER_1M[model]
+        # Longest-key match first avoids collisions (e.g., gpt-5 vs gpt-5-mini).
+        for known_model in sorted(SUMMARY_MODEL_PRICING_USD_PER_1M.keys(), key=len, reverse=True):
+            pricing = SUMMARY_MODEL_PRICING_USD_PER_1M[known_model]
+            if model.startswith(known_model) or known_model in model:
+                return pricing
+        return None
+
+    def _estimate_agent_call_cost_usd(self, prompt_tokens: int, output_tokens: int) -> float:
+        pricing = self._resolve_agent_pricing()
+        if not pricing:
+            return 0.0
+        input_rate = float(pricing.get("input", 0.0) or 0.0)
+        output_rate = float(pricing.get("output", 0.0) or 0.0)
+        if input_rate <= 0 and output_rate <= 0:
+            return 0.0
+        in_cost = (max(0, int(prompt_tokens)) / 1_000_000.0) * input_rate
+        out_cost = (max(0, int(output_tokens)) / 1_000_000.0) * output_rate
+        return max(0.0, in_cost + out_cost)
 
     def _extract_usage_from_response(self, response: Any) -> tuple[int, int, int, float]:
         usage = {}
@@ -392,6 +472,8 @@ class WorkflowLogger:
             if parsed > 0:
                 cost = parsed
                 break
+        if cost <= 0 and (prompt_tokens > 0 or output_tokens > 0):
+            cost = self._estimate_summary_call_cost_usd(prompt_tokens, output_tokens)
         return max(0, prompt_tokens), max(0, output_tokens), max(0, total_tokens), max(0.0, cost)
 
     def _invoke_summary_model(self, messages: List[Any], purpose: str):
@@ -441,23 +523,107 @@ class WorkflowLogger:
             "density": density,
         }
 
-    def _extract_density_from_state(self) -> Dict[str, Any]:
+    def _resolve_fusion_size_artifact_paths(self) -> Dict[str, Optional[str]]:
+        estimate_candidates: List[str] = []
+        fusion_candidates: List[str] = []
+
+        try:
+            from fusion_size_monitor import estimate_path_for_output_dir
+
+            monitor_estimate = estimate_path_for_output_dir(self.output_dir)
+            if isinstance(monitor_estimate, str) and monitor_estimate.strip():
+                estimate_candidates.append(monitor_estimate)
+        except Exception:
+            try:
+                from agents.fusion_size_monitor import estimate_path_for_output_dir
+
+                monitor_estimate = estimate_path_for_output_dir(self.output_dir)
+                if isinstance(monitor_estimate, str) and monitor_estimate.strip():
+                    estimate_candidates.append(monitor_estimate)
+            except Exception:
+                pass
+
+        estimate_candidates.extend(
+            [
+                os.path.join(self.output_dir, "pipeline_evaluation", "fusion_size_estimate.json"),
+                os.path.join("output", "pipeline_evaluation", "fusion_size_estimate.json"),
+                os.path.join("agents", "output", "pipeline_evaluation", "fusion_size_estimate.json"),
+            ]
+        )
+        fusion_candidates.extend(
+            [
+                os.path.join(self.output_dir, "data_fusion", "fusion_data.csv"),
+                os.path.join("output", "data_fusion", "fusion_data.csv"),
+                os.path.join("agents", "output", "data_fusion", "fusion_data.csv"),
+            ]
+        )
+
+        def _first_existing(candidates: List[str]) -> Optional[str]:
+            seen = set()
+            for candidate in candidates:
+                abs_candidate = os.path.abspath(candidate)
+                if abs_candidate in seen:
+                    continue
+                seen.add(abs_candidate)
+                if os.path.exists(abs_candidate):
+                    return abs_candidate
+            return None
+
+        return {
+            "estimate_path": _first_existing(estimate_candidates),
+            "fusion_csv_path": _first_existing(fusion_candidates),
+        }
+
+    def _extract_density_from_comparisons(self, comparisons: Dict[str, Any]) -> Dict[str, Any]:
         base = {
             "stage": None,
             "estimated_rows": None,
             "actual_rows": None,
             "density": None,
         }
-        fusion_size = {}
-        if isinstance(self._latest_values_state, dict):
-            fusion_size = self._latest_values_state.get("fusion_size_comparison", {})
-        if not isinstance(fusion_size, dict):
-            return base
-
-        from_state = self._stage_from_comparisons(fusion_size.get("comparisons", {}))
-        if from_state:
-            return from_state
+        stage_payload = self._stage_from_comparisons(comparisons)
+        if stage_payload:
+            return stage_payload
         return base
+
+    def _load_density_payload_from_monitor(self, estimate_path: str, fusion_csv_path: Optional[str]) -> Dict[str, Any]:
+        # Use fusion_size_monitor's own comparison function to avoid re-implementing estimator logic.
+        if fusion_csv_path:
+            try:
+                from fusion_size_monitor import compare_estimates_with_actual
+
+                compared = compare_estimates_with_actual(
+                    fusion_csv_path=fusion_csv_path,
+                    estimate_path=estimate_path,
+                )
+                if isinstance(compared, dict):
+                    comparisons = compared.get("comparisons", {})
+                    if isinstance(comparisons, dict):
+                        return {"comparisons": comparisons}
+            except Exception:
+                try:
+                    from agents.fusion_size_monitor import compare_estimates_with_actual
+
+                    compared = compare_estimates_with_actual(
+                        fusion_csv_path=fusion_csv_path,
+                        estimate_path=estimate_path,
+                    )
+                    if isinstance(compared, dict):
+                        comparisons = compared.get("comparisons", {})
+                        if isinstance(comparisons, dict):
+                            return {"comparisons": comparisons}
+                except Exception:
+                    pass
+
+        # Fallback to reading the monitor artifact directly.
+        try:
+            with open(estimate_path, "r", encoding="utf-8") as f:
+                payload = json.load(f)
+            if isinstance(payload, dict):
+                return payload
+        except Exception:
+            pass
+        return {}
 
     def _build_density(self) -> Dict[str, Any]:
         base = {
@@ -466,9 +632,28 @@ class WorkflowLogger:
             "actual_rows": None,
             "density": None,
         }
-        if not self._has_current_run_density:
+        artifact_paths = self._resolve_fusion_size_artifact_paths()
+        estimate_path = artifact_paths.get("estimate_path")
+        fusion_csv_path = artifact_paths.get("fusion_csv_path")
+        if not estimate_path:
             return base
-        return self._extract_density_from_state()
+
+        pre_estimate_mtime = os.path.getmtime(estimate_path) if os.path.exists(estimate_path) else None
+        pre_fusion_mtime = os.path.getmtime(fusion_csv_path) if fusion_csv_path and os.path.exists(fusion_csv_path) else None
+        signature = (estimate_path, pre_estimate_mtime, fusion_csv_path, pre_fusion_mtime)
+        if signature == self._density_cache_signature and isinstance(self._density_cache_value, dict):
+            return self._density_cache_value
+
+        try:
+            payload = self._load_density_payload_from_monitor(estimate_path, fusion_csv_path)
+            density = self._extract_density_from_comparisons(payload.get("comparisons", {}))
+            post_estimate_mtime = os.path.getmtime(estimate_path) if os.path.exists(estimate_path) else None
+            post_fusion_mtime = os.path.getmtime(fusion_csv_path) if fusion_csv_path and os.path.exists(fusion_csv_path) else None
+            self._density_cache_signature = (estimate_path, post_estimate_mtime, fusion_csv_path, post_fusion_mtime)
+            self._density_cache_value = density
+            return density
+        except Exception:
+            return base
 
     def start_run(self, state: Dict[str, Any], token_usage: Optional[Dict[str, Any]] = None):
         matcher_mode = "rule_based"
@@ -523,6 +708,8 @@ class WorkflowLogger:
         self._run_finished_at_ns = None
         self._pending_node_durations_seconds = {}
         self._has_current_run_density = False
+        self._density_cache_signature = None
+        self._density_cache_value = None
         self._summ_prompt_tokens = 0
         self._summ_output_tokens = 0
         self._summ_total_tokens = 0
@@ -821,6 +1008,13 @@ class WorkflowLogger:
                 "quality_controls": ["Warnings, gate/ablation/acceptance outcomes, and safeguards triggered."],
                 "impact": ["Direct effect on next workflow step and data readiness."],
             },
+            "investigator_node": {
+                "decision": ["What routing decision was made in this run and at which attempt."],
+                "performance_context": ["Current accuracy context and key metric signals used for the decision."],
+                "diagnostic_findings": ["Most important diagnostics or probe findings from this cycle."],
+                "proposed_actions": ["Concrete high-priority fixes or action-plan items suggested in this cycle."],
+                "routing_rationale": ["Why this route was chosen now, including normalization/routing pressure when relevant."],
+            },
         }
         expected = schemas.get(schema_name)
         if not expected:
@@ -836,6 +1030,11 @@ class WorkflowLogger:
             system_prompt += (
                 " For normalization_node, explicitly describe dominant transform behavior and exception columns when available. "
                 "Mention gate/ablation/warnings only if present in evidence."
+            )
+        if schema_name == "investigator_node":
+            system_prompt += (
+                " For investigator_node, focus on concrete run-specific evidence driving the route decision. "
+                "Do not describe generic investigator behavior."
             )
         human_prompt = (
             f"NODE\n{node_name}\n\n"
@@ -904,6 +1103,25 @@ class WorkflowLogger:
         lines: List[str] = []
         if payload:
             for key in ["action", "main_changes", "transform_pattern", "exceptions", "quality_controls", "impact"]:
+                lines.extend(payload.get(key, []))
+        if not lines:
+            lines.extend(self._normalize_sentence_list(fallback_lines))
+        return self._normalize_sentence_list(lines)
+
+    def _render_investigator_summary_lines(
+        self,
+        payload: Optional[Dict[str, List[str]]],
+        fallback_lines: List[str],
+    ) -> List[str]:
+        lines: List[str] = []
+        if payload:
+            for key in [
+                "decision",
+                "performance_context",
+                "diagnostic_findings",
+                "proposed_actions",
+                "routing_rationale",
+            ]:
                 lines.extend(payload.get(key, []))
         if not lines:
             lines.extend(self._normalize_sentence_list(fallback_lines))
@@ -1332,8 +1550,219 @@ class WorkflowLogger:
 
     @staticmethod
     def _extract_error_excerpt(value: Any) -> str:
-        text = str(value or "").strip()
+        text = WorkflowLogger._sanitize_error_text(str(value or "").strip())
         return text[:240]
+
+    @staticmethod
+    def _sanitize_error_text(text: str) -> str:
+        if not text:
+            return ""
+        sanitized = str(text)
+        # Collapse local absolute paths so summaries don't leak user directories.
+        sanitized = re.sub(r'"/Users/[^"]+"', lambda m: f"\"{os.path.basename(m.group(0).strip('\"'))}\"", sanitized)
+        sanitized = re.sub(r'"/home/[^"]+"', lambda m: f"\"{os.path.basename(m.group(0).strip('\"'))}\"", sanitized)
+        sanitized = re.sub(r'"[A-Za-z]:\\[^"]+"', lambda m: f"\"{os.path.basename(m.group(0).strip('\"'))}\"", sanitized)
+        # Keep line breaks out of fallback clauses.
+        sanitized = sanitized.replace("\r\n", "\n").strip()
+        return sanitized
+
+    @staticmethod
+    def _parse_error_details(raw_error: str) -> Dict[str, Any]:
+        text = WorkflowLogger._sanitize_error_text(raw_error or "")
+        lines = [line.rstrip() for line in text.splitlines() if line.strip()]
+        details: Dict[str, Any] = {
+            "error_class": None,
+            "error_message": None,
+            "file_path": None,
+            "file_basename": None,
+            "line_no": None,
+            "source_line": None,
+        }
+        if not lines:
+            return details
+
+        file_match = re.search(r'File "([^"]+)", line (\d+)', text)
+        if file_match:
+            file_path = file_match.group(1)
+            details["file_path"] = file_path
+            details["file_basename"] = os.path.basename(file_path)
+            try:
+                details["line_no"] = int(file_match.group(2))
+            except Exception:
+                details["line_no"] = None
+
+        class_message_match = re.search(r"([A-Za-z_][A-Za-z0-9_]*(?:Error|Exception)):\s*(.+)", text)
+        if class_message_match:
+            details["error_class"] = class_message_match.group(1).strip()
+            details["error_message"] = class_message_match.group(2).strip()
+        else:
+            # fallback from leading "error: ..."
+            lowered = lines[0].lower()
+            if lowered.startswith("error:"):
+                details["error_message"] = lines[0][6:].strip()
+            elif lowered.startswith("error "):
+                details["error_message"] = lines[0][6:].strip()
+
+        # Syntax traces often include the failing source line followed by caret (^).
+        for idx, line in enumerate(lines):
+            if line.strip() == "^" and idx > 0:
+                prev = lines[idx - 1].strip()
+                if prev:
+                    details["source_line"] = prev
+                    break
+        if details["source_line"] is None and details.get("line_no") and details.get("file_basename"):
+            pass
+        return details
+
+    @staticmethod
+    def _read_error_context_lines(file_path: Optional[str], line_no: Optional[int], window: int = 2) -> List[str]:
+        if not file_path or not line_no:
+            return []
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                lines = f.readlines()
+        except Exception:
+            return []
+        if not lines:
+            return []
+        start = max(1, int(line_no) - int(window))
+        end = min(len(lines), int(line_no) + int(window))
+        context = []
+        for idx in range(start, end + 1):
+            snippet = lines[idx - 1].rstrip("\n")
+            context.append(f"{idx}: {snippet.strip()}")
+        return context
+
+    @staticmethod
+    def _infer_error_fix_direction(error_class: Optional[str], error_message: Optional[str]) -> str:
+        cls = str(error_class or "").lower()
+        msg = str(error_message or "").lower()
+        if cls == "syntaxerror":
+            if "line continuation" in msg or "unexpected character" in msg:
+                return "Fix string escaping/quoting around the failing statement and remove malformed backslashes."
+            return "Fix Python syntax around the failing line and re-run generation."
+        if cls in {"modulenotfounderror", "importerror"}:
+            return "Verify import paths/dependencies and add safe fallback imports where needed."
+        if cls == "nameerror":
+            return "Define or import the missing symbol before use."
+        if cls == "typeerror" and "unexpected keyword argument" in msg:
+            return "Align function call arguments with the target function signature."
+        if cls in {"keyerror", "indexerror", "attributeerror"}:
+            return "Add guards/validation for missing fields before accessing them."
+        return "Inspect the failing statement and apply a targeted code repair before the next retry."
+
+    def _build_error_summary_lines(
+        self,
+        node_label: str,
+        attempts: Any,
+        raw_error: str,
+        code_path: Optional[str],
+    ) -> List[str]:
+        details = self._parse_error_details(raw_error or "")
+        error_class = details.get("error_class")
+        error_message = details.get("error_message")
+        file_basename = details.get("file_basename") or (os.path.basename(code_path) if code_path else None)
+        line_no = details.get("line_no")
+        source_line = details.get("source_line")
+        if source_line:
+            source_line = source_line.replace('\\"', '"').strip()
+        context_lines = self._read_error_context_lines(code_path, line_no, window=2)
+
+        headline = f"{node_label} failed on attempt {attempts}"
+        if error_class:
+            headline += f" with {error_class}"
+        headline += "."
+        lines = [headline]
+
+        if error_message:
+            lines.append(f"Failure reason: {error_message}.")
+        if file_basename and line_no:
+            lines.append(f"Failure location: {file_basename}:{line_no}.")
+        if source_line:
+            lines.append(f"Failing code line: `{source_line}`.")
+        if context_lines:
+            lines.append("Nearby code context: " + " | ".join(context_lines[:5]) + ".")
+        lines.append(self._infer_error_fix_direction(error_class, error_message))
+        return [self._ensure_sentence(line) for line in lines if str(line).strip()]
+
+    def _extract_execution_error_message(
+        self,
+        node_name: str,
+        state_in: Any,
+        node_output: Any,
+    ) -> Optional[str]:
+        state = self._safe_dict(state_in)
+        output = self._safe_dict(node_output)
+        priority_keys = [
+            "pipeline_execution_result",
+            "evaluation_execution_result",
+            "integration_diagnostics_execution_result",
+            "human_review_execution_result",
+            "final_test_evaluation_execution_result",
+        ]
+        node_specific_keys = {
+            "execute_pipeline": ["pipeline_execution_result"],
+            "pipeline_adaption": ["pipeline_execution_result"],
+            "execute_evaluation": ["evaluation_execution_result"],
+            "evaluation_node": ["evaluation_execution_result"],
+            "evaluation_adaption": ["evaluation_execution_result"],
+            "integration_diagnostics": ["integration_diagnostics_execution_result"],
+            "human_review_export": ["human_review_execution_result"],
+            "sealed_final_test_evaluation": ["final_test_evaluation_execution_result"],
+        }
+        ordered_keys = node_specific_keys.get(node_name, []) + [
+            k for k in priority_keys if k not in node_specific_keys.get(node_name, [])
+        ]
+        execution_result: Optional[str] = None
+
+        for key in ordered_keys:
+            value = output.get(key)
+            if isinstance(value, str) and value.lower().startswith("error"):
+                execution_result = value
+                break
+        if execution_result is None:
+            # State fallback is restricted to node-relevant known keys to avoid stale cross-node errors.
+            for key in node_specific_keys.get(node_name, []):
+                value = state.get(key)
+                if isinstance(value, str) and value.lower().startswith("error"):
+                    execution_result = value
+                    break
+
+        if execution_result is None:
+            # Generic fallback for unknown nodes: only inspect node_output to avoid stale state bleed.
+            for key, value in output.items():
+                if not isinstance(key, str):
+                    continue
+                if not key.endswith("_execution_result"):
+                    continue
+                if isinstance(value, str) and value.lower().startswith("error"):
+                    execution_result = value
+                    break
+
+        if not execution_result:
+            return None
+
+        details = self._parse_error_details(execution_result)
+        cls = str(details.get("error_class") or "").strip()
+        msg = str(details.get("error_message") or "").strip()
+        if cls and msg:
+            return f"{cls}: {msg}"
+        if msg:
+            return msg
+        one_line = re.sub(r"\s+", " ", self._sanitize_error_text(execution_result)).strip()
+        if one_line.lower().startswith("error:"):
+            one_line = one_line[6:].strip()
+        return one_line or None
+
+    def _code_path_for_node(self, node_name: str) -> Optional[str]:
+        mapping = {
+            "execute_pipeline": os.path.join(self.output_dir, "code", "pipeline.py"),
+            "pipeline_adaption": os.path.join(self.output_dir, "code", "pipeline.py"),
+            "execute_evaluation": os.path.join(self.output_dir, "code", "evaluation.py"),
+            "evaluation_node": os.path.join(self.output_dir, "code", "evaluation.py"),
+            "evaluation_adaption": os.path.join(self.output_dir, "code", "evaluation.py"),
+        }
+        return mapping.get(node_name)
 
     @staticmethod
     def _normalize_transform_signature(value: Any) -> str:
@@ -2059,29 +2488,37 @@ class WorkflowLogger:
             metrics = state.get("evaluation_metrics", {}) if isinstance(state.get("evaluation_metrics"), dict) else {}
 
         summary_lines = []
-        if str(execution_result).startswith("success"):
+        error_mode = isinstance(execution_result, str) and execution_result.lower().startswith("error")
+        if error_mode:
+            evaluation_code_path = self._code_path_for_node("evaluation_node")
+            summary_lines.extend(
+                self._build_error_summary_lines(
+                    node_label="Evaluation execution",
+                    attempts=attempts,
+                    raw_error=execution_result,
+                    code_path=evaluation_code_path,
+                )
+            )
+        elif str(execution_result).startswith("success"):
             summary_lines.append(
                 f"The consolidated evaluation node succeeded after {attempts} execution attempt(s)."
-            )
-        elif str(execution_result).startswith("error"):
-            summary_lines.append(
-                f"The consolidated evaluation node ended with an execution error after {attempts} attempt(s): {self._extract_error_excerpt(execution_result)}."
             )
         else:
             summary_lines.append(
                 f"The consolidated evaluation node completed with status `{execution_result}` after {attempts} attempt(s)."
             )
 
-        accuracy = self._format_accuracy(metrics)
-        if accuracy:
-            summary_lines.append(f"Observed overall accuracy from this evaluation pass is {accuracy}.")
-        if source:
-            summary_lines.append(f"Metrics source for this pass is `{source}`.")
-        if isinstance(metrics, dict):
-            macro = metrics.get("macro_accuracy")
-            if isinstance(macro, (int, float)):
-                macro_pct = float(macro) * 100.0 if float(macro) <= 1.0 else float(macro)
-                summary_lines.append(f"Macro accuracy is {macro_pct:.2f}% for this evaluation stage.")
+        if not error_mode:
+            accuracy = self._format_accuracy(metrics)
+            if accuracy:
+                summary_lines.append(f"Observed overall accuracy from this evaluation pass is {accuracy}.")
+            if source:
+                summary_lines.append(f"Metrics source for this pass is `{source}`.")
+            if isinstance(metrics, dict):
+                macro = metrics.get("macro_accuracy")
+                if isinstance(macro, (int, float)):
+                    macro_pct = float(macro) * 100.0 if float(macro) <= 1.0 else float(macro)
+                    summary_lines.append(f"Macro accuracy is {macro_pct:.2f}% for this evaluation stage.")
 
         return {
             "registered": True,
@@ -2111,6 +2548,12 @@ class WorkflowLogger:
             metrics = state.get("evaluation_metrics", {}) if isinstance(state.get("evaluation_metrics"), dict) else {}
         attempts = output.get("evaluation_attempts", state.get("evaluation_attempts"))
         diagnostics_result = output.get("integration_diagnostics_execution_result", state.get("integration_diagnostics_execution_result", ""))
+        diagnostics_report = output.get("integration_diagnostics_report")
+        if not isinstance(diagnostics_report, dict):
+            diagnostics_report = state.get("integration_diagnostics_report", {}) if isinstance(state.get("integration_diagnostics_report"), dict) else {}
+        auto_diagnostics = output.get("auto_diagnostics")
+        if not isinstance(auto_diagnostics, dict):
+            auto_diagnostics = state.get("auto_diagnostics", {}) if isinstance(state.get("auto_diagnostics"), dict) else {}
         normalization_required = output.get(
             "normalization_rework_required",
             state.get("normalization_rework_required"),
@@ -2121,9 +2564,18 @@ class WorkflowLogger:
         action_plan = output.get("investigator_action_plan")
         if not isinstance(action_plan, list):
             action_plan = state.get("investigator_action_plan", []) if isinstance(state.get("investigator_action_plan"), list) else []
+        probe_results = output.get("investigator_probe_results")
+        if not isinstance(probe_results, dict):
+            probe_results = state.get("investigator_probe_results", {}) if isinstance(state.get("investigator_probe_results"), dict) else {}
+        routing_objective = output.get("investigator_routing_objective")
+        if not isinstance(routing_objective, dict):
+            routing_objective = state.get("investigator_routing_objective", {}) if isinstance(state.get("investigator_routing_objective"), dict) else {}
         routing = output.get("investigator_routing_decision")
         if not isinstance(routing, dict):
             routing = state.get("investigator_routing_decision", {}) if isinstance(state.get("investigator_routing_decision"), dict) else {}
+        evaluation_analysis = output.get("evaluation_analysis")
+        if not isinstance(evaluation_analysis, str):
+            evaluation_analysis = str(state.get("evaluation_analysis", "") or "")
 
         summary_lines = []
         summary_lines.append(
@@ -2167,6 +2619,54 @@ class WorkflowLogger:
                 summary_lines.append(
                     f"Routing score details: score={score}, threshold={threshold}, route_to_normalization={routing.get('route_to_normalization')}."
                 )
+        if isinstance(probe_results, dict) and probe_results:
+            pressure = probe_results.get("normalization_pressure")
+            best_repair = probe_results.get("best_repair_action")
+            if pressure is not None:
+                probe_line = f"Probe-estimated normalization pressure is {pressure}"
+                if best_repair:
+                    probe_line += f", with best repair action `{best_repair}`"
+                probe_line += "."
+                summary_lines.append(probe_line)
+        if isinstance(auto_diagnostics, dict) and auto_diagnostics:
+            reason_ratios = auto_diagnostics.get("debug_reason_ratios", {})
+            if isinstance(reason_ratios, dict) and reason_ratios:
+                dominant_reason = sorted(
+                    reason_ratios.items(),
+                    key=lambda item: float(item[1]) if isinstance(item[1], (int, float)) else -1.0,
+                    reverse=True,
+                )[0]
+                summary_lines.append(
+                    f"Dominant mismatch signal is `{dominant_reason[0]}` with ratio {dominant_reason[1]}."
+                )
+        if isinstance(diagnostics_report, dict) and diagnostics_report:
+            issue_count = diagnostics_report.get("issue_count")
+            severity = diagnostics_report.get("severity")
+            if issue_count is not None or severity is not None:
+                summary_lines.append(
+                    f"Diagnostics report indicates issue_count={issue_count} and severity={severity}."
+                )
+
+        evidence = {
+            "node": "investigator_node",
+            "decision": decision,
+            "attempts": attempts,
+            "metrics": metrics,
+            "diagnostics_result": diagnostics_result,
+            "diagnostics_report": diagnostics_report,
+            "auto_diagnostics": auto_diagnostics,
+            "normalization_rework_required": normalization_required,
+            "normalization_rework_reasons": reasons,
+            "action_plan": action_plan,
+            "probe_results": probe_results,
+            "routing_objective": routing_objective,
+            "routing_decision": routing,
+            "evaluation_analysis": self._limit_context(evaluation_analysis, 5000),
+            "next_node": next_node,
+            "fallback_summary_lines": summary_lines,
+        }
+        payload = self._run_structured_summary_extractor("investigator_node", evidence, "investigator_node")
+        summary_lines = self._render_investigator_summary_lines(payload, summary_lines)
 
         return {
             "registered": True,
@@ -2461,7 +2961,23 @@ class WorkflowLogger:
         fusion_csv = os.path.join(self.output_dir, "data_fusion", "fusion_data.csv")
         summary_clauses = []
         if isinstance(execution_result, str) and execution_result.lower().startswith("error"):
-            summary_clauses.append(f"pipeline execution failed on attempt {attempts}: {self._extract_error_excerpt(execution_result)}")
+            pipeline_code_path = self._code_path_for_node("execute_pipeline")
+            error_lines = self._build_error_summary_lines(
+                node_label="Pipeline execution",
+                attempts=attempts,
+                raw_error=execution_result,
+                code_path=pipeline_code_path,
+            )
+            return {
+                "registered": True,
+                "node_name": "execute_pipeline",
+                "next_node": next_node,
+                "status": status,
+                "error": error_text or "",
+                "summary_lines": error_lines,
+                "summary_clauses": [],
+                "file_bundle": file_bundle,
+            }
         else:
             summary_clauses.append(f"pipeline execution succeeded on attempt {attempts}")
         if os.path.exists(fusion_csv):
@@ -2500,7 +3016,23 @@ class WorkflowLogger:
         eval_json = os.path.join(self.output_dir, "pipeline_evaluation", "pipeline_evaluation.json")
         summary_clauses = []
         if isinstance(execution_result, str) and execution_result.lower().startswith("error"):
-            summary_clauses.append(f"evaluation execution failed on attempt {attempts}: {self._extract_error_excerpt(execution_result)}")
+            evaluation_code_path = self._code_path_for_node("execute_evaluation")
+            error_lines = self._build_error_summary_lines(
+                node_label="Evaluation execution",
+                attempts=attempts,
+                raw_error=execution_result,
+                code_path=evaluation_code_path,
+            )
+            return {
+                "registered": True,
+                "node_name": "execute_evaluation",
+                "next_node": next_node,
+                "status": status,
+                "error": error_text or "",
+                "summary_lines": error_lines,
+                "summary_clauses": [],
+                "file_bundle": file_bundle,
+            }
         else:
             summary_clauses.append(f"evaluation execution succeeded on attempt {attempts}")
         if os.path.exists(eval_json):
@@ -2865,6 +3397,7 @@ class WorkflowLogger:
         node_output = {}
         status = "ok"
         error_text = None
+        raised_exception = False
 
         try:
             result = call_fn()
@@ -2878,6 +3411,7 @@ class WorkflowLogger:
             status = "error"
             error_text = f"{type(e).__name__}: {str(e)}"
             result = None
+            raised_exception = True
 
         after_files = self._capture_tracked_files(node_name)
         file_bundle = self._build_file_bundle(node_name, before_files, after_files)
@@ -2890,7 +3424,20 @@ class WorkflowLogger:
         total_delta = max(0, int((token_usage or {}).get("total_tokens", 0) - before_tokens.get("total_tokens", 0)))
         cost_delta = max(0.0, float((token_usage or {}).get("total_cost", 0.0) - before_tokens.get("total_cost", 0.0)))
 
-        facts = self._build_node_facts(node_name, state_in, node_output, file_bundle, status, error_text, "PENDING")
+        execution_error = self._extract_execution_error_message(node_name, state_in, node_output)
+        record_status = status
+        if execution_error and not raised_exception:
+            record_status = "error"
+
+        facts = self._build_node_facts(
+            node_name,
+            state_in,
+            node_output,
+            file_bundle,
+            record_status,
+            error_text,
+            "PENDING",
+        )
         summary = self._summarize_step(node_name, "PENDING", facts)
 
         upstream_error = None
@@ -2899,24 +3446,24 @@ class WorkflowLogger:
             if isinstance(prior_exec, str) and prior_exec.lower().startswith("error"):
                 upstream_error = prior_exec
 
-        logged_error = error_text or upstream_error
+        logged_error = error_text or execution_error or upstream_error
 
         self._node_index += 1
         record = {
             "node_index": self._node_index,
             "current_node": node_name,
-            "next_node": "PENDING" if status == "ok" else "__EXCEPTION__",
+            "next_node": "__EXCEPTION__" if raised_exception else "PENDING",
             "output_summary": self._summary_output_value(summary),
             "prompt_tokens": prompt_delta,
             "completion_tokens": completion_delta,
             "total_tokens": total_delta,
             "estimated_cost_usd": round(cost_delta, 8),
             "duration_seconds": self._round_seconds((time.perf_counter_ns() - start_ns) / 1_000_000_000),
-            "status": status,
-            "error": self._truncate_summary(logged_error) if logged_error else None,
+            "status": record_status,
+            "error": self._truncate_summary(re.sub(r"\s+", " ", str(logged_error))) if logged_error else None,
         }
         self._activity_records.append(record)
-        self._last_record_index = len(self._activity_records) - 1 if status == "ok" else None
+        self._last_record_index = len(self._activity_records) - 1
 
         # Enrich top-level sections
         if node_name == "run_blocking_tester":
@@ -2940,7 +3487,7 @@ class WorkflowLogger:
         self.append_pipeline_snapshot(node_name, state_in, node_output)
         self._write_activity_payload()
 
-        if status == "error":
+        if raised_exception:
             raise RuntimeError(error_text)
         return result
 
@@ -2978,7 +3525,18 @@ class WorkflowLogger:
 
         prompt_delta, completion_delta, total_delta, cost_delta = self._consume_token_deltas(token_usage)
 
-        facts = self._build_node_facts(node_name, state_in, node_output, file_bundle, "ok", None, "PENDING")
+        execution_error = self._extract_execution_error_message(node_name, state_in, node_output)
+        record_status = "error" if execution_error else "ok"
+
+        facts = self._build_node_facts(
+            node_name,
+            state_in,
+            node_output,
+            file_bundle,
+            record_status,
+            execution_error,
+            "PENDING",
+        )
         summary = self._summarize_step(node_name, "PENDING", facts)
 
         upstream_error = None
@@ -3000,8 +3558,8 @@ class WorkflowLogger:
             "total_tokens": total_delta,
             "estimated_cost_usd": round(cost_delta, 8),
             "duration_seconds": duration_seconds,
-            "status": "ok",
-            "error": self._truncate_summary(upstream_error) if upstream_error else None,
+            "status": record_status,
+            "error": self._truncate_summary(re.sub(r"\s+", " ", str(execution_error or upstream_error))) if (execution_error or upstream_error) else None,
         }
         self._activity_records.append(record)
         self._last_record_index = len(self._activity_records) - 1
