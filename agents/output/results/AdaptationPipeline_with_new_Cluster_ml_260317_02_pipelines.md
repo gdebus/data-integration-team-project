@@ -8,7 +8,7 @@ PIPELINE SNAPSHOT 01 START
 ============================================================
 node_index=6
 node_name=execute_pipeline
-accuracy_score=72.59%
+accuracy_score=74.72%
 ------------------------------------------------------------
 
 ```python
@@ -1000,7 +1000,7 @@ PIPELINE SNAPSHOT 03 START
 ============================================================
 node_index=20
 node_name=execute_pipeline
-accuracy_score=pending
+accuracy_score=72.59%
 ------------------------------------------------------------
 
 ```python

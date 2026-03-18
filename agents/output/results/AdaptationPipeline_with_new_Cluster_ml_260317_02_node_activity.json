@@ -160,7 +160,7 @@
       "current_node": "evaluation_decision",
       "next_node": "evaluation_reasoning",
       "output_summary": [
-        "evaluation attempt counter is 1."
+        "overall accuracy is 74.72%; evaluation attempt counter is 1."
       ],
       "prompt_tokens": 0,
       "completion_tokens": 0,
@@ -448,11 +448,7 @@
       "blocking_strategies": {
         "kaggle_small_uber_eats_small": {
           "strategy": "semantic_similarity",
-          "columns": [
-            "name_norm",
-            "city",
-            "state"
-          ],
+          "columns": ["name_norm", "city", "state"],
           "params": {
             "top_k": 20
           },
@@ -462,10 +458,7 @@
         },
         "kaggle_small_yelp_small": {
           "strategy": "exact_match_multi",
-          "columns": [
-            "phone_e164",
-            "postal_code"
-          ],
+          "columns": ["phone_e164", "postal_code"],
           "params": {},
           "pair_completeness": 1.0,
           "num_candidates": 179,
@@ -473,11 +466,7 @@
         },
         "uber_eats_small_yelp_small": {
           "strategy": "semantic_similarity",
-          "columns": [
-            "name_norm",
-            "street",
-            "city"
-          ],
+          "columns": ["name_norm", "street", "city"],
           "params": {
             "top_k": 20
           },
@@ -540,14 +529,7 @@
               "list_strategy": "set_jaccard"
             }
           ],
-          "weights": [
-            0.3,
-            0.12,
-            0.08,
-            0.2,
-            0.2,
-            0.1
-          ],
+          "weights": [0.3, 0.12, 0.08, 0.2, 0.2, 0.1],
           "threshold": 0.72,
           "f1": 0.975609756097561
         },
@@ -591,14 +573,7 @@
               "list_strategy": "concatenate"
             }
           ],
-          "weights": [
-            0.25,
-            0.25,
-            0.15,
-            0.15,
-            0.1,
-            0.1
-          ],
+          "weights": [0.25, 0.25, 0.15, 0.15, 0.1, 0.1],
           "threshold": 0.75,
           "f1": 1.0
         },
@@ -650,15 +625,7 @@
               "list_strategy": "set_jaccard"
             }
           ],
-          "weights": [
-            0.28,
-            0.16,
-            0.12,
-            0.08,
-            0.16,
-            0.16,
-            0.04
-          ],
+          "weights": [0.28, 0.16, 0.12, 0.08, 0.16, 0.16, 0.04],
           "threshold": 0.75,
           "f1": 0.975609756097561
         }
@@ -690,7 +657,7 @@
         "source": "longest_string"
       },
       "evaluation_functions": {},
-      "accuracy_score": null
+      "accuracy_score": "74.72%"
     },
     {
       "attribute_fusers": {
