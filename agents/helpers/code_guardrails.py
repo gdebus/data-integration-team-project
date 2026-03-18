@@ -2,6 +2,15 @@ import re
 from typing import Any, Dict
 
 
+def _sanitize_list_strategy_escapes(code_text: str) -> str:
+    """Normalize accidentally escaped list_strategy values into valid Python strings."""
+    return re.sub(
+        r'list_strategy\s*=\s*\\"([A-Za-z_][A-Za-z0-9_]*)\\"',
+        r'list_strategy="\1"',
+        code_text,
+    )
+
+
 def apply_pipeline_guardrails(pipeline_code: str, state: Dict[str, Any]) -> str:
     """
     Apply generic safety guardrails to generated pipeline code.
@@ -210,7 +219,7 @@ def _pydi_safe_fuser(fn):
             return block
         return re.sub(
             r"\n([ \t]*)\)$",
-            r"\n\1    list_strategy=\"average\",\n\1)",
+            r'\n\1    list_strategy="average",\n\1)',
             block,
             count=1,
         )
@@ -235,7 +244,7 @@ def _pydi_safe_fuser(fn):
             strategy = "concatenate"
         return re.sub(
             r"\n([ \t]*)\)$",
-            rf"\n\1    list_strategy=\"{strategy}\",\n\1)",
+            rf'\n\1    list_strategy="{strategy}",\n\1)',
             block,
             count=1,
         )
@@ -276,6 +285,7 @@ def _pydi_safe_fuser(fn):
     if wrapped_resolvers:
         print(f"[GUARDRAIL] Wrapped {wrapped_resolvers} custom resolver usage(s) with _pydi_safe_fuser.")
 
+    updated_code = _sanitize_list_strategy_escapes(updated_code)
     return updated_code
 
 

@@ -1,0 +1,11 @@
+uma-pydi
+langgraph
+langchain
+langchain-groq
+langchain-google-genai
+langchain-community
+fastparquet
+pyarrow
+uma-pydi
+chromadb
+ipykernel
