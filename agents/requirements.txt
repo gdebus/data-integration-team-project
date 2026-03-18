@@ -4,8 +4,11 @@ langchain
 langchain-groq
 langchain-google-genai
 langchain-community
+langchain-text-splitters
 fastparquet
 pyarrow
-uma-pydi
+beautifulsoup4
+requests
+python-dotenv
 chromadb
 ipykernel

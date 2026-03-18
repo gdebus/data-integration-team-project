@@ -1,0 +1,914 @@
+{
+  "use_case": "Music",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: discogs, lastfm, musicbrainz; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 5730,
+      "completion_tokens": 158,
+      "total_tokens": 5888,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 13.186,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "profiled datasets: discogs, lastfm, musicbrainz."
+      ],
+      "prompt_tokens": 287,
+      "completion_tokens": 82,
+      "total_tokens": 369,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.026,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for discogs_lastfm, musicbrainz_lastfm, blocking on name, artist; `sorted_neighbourhood` for discogs_musicbrainz, blocking on name.",
+        "Performance-wise, pair completeness ranges from 0.90 to 0.96 and candidate counts range from 47615 to 225831.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `rule_based` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.6, f1=0.896551724137931, threshold=0.7, f1=0.8732394366197184, threshold=0.75); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run produced an initial draft of the pipeline.",
+        "The pipeline loads three schema-aligned CSV datasets named discogs, lastfm, and musicbrainz and normalizes duration before matching.",
+        "It defines three pairwise blocking stages using an EmbeddingBlocker for discogs-lastfm, a SortedNeighbourhoodBlocker for discogs-musicbrainz, and an EmbeddingBlocker for musicbrainz-lastfm.",
+        "It adds rule-based pairwise matching configurations with dataset-specific comparator sets, weights, and thresholds for all three source pairs.",
+        "It concatenates all pairwise correspondences and runs data fusion across the three datasets.",
+        "It adds longest_string attribute fusers for 10 fields including name, artist, release-date, release-country, duration, label, genre, tracks_track_name, tracks_track_position, and tracks_track_duration.",
+        "The matching behavior shifts to a hybrid pair-specific strategy where two source pairs use embedding-based candidate generation and one pair uses sorted-neighbourhood blocking on normalized name values.",
+        "The fusion behavior shifts to a uniform longest_string policy across all fused attributes instead of mixing field-specific fusion rules."
+      ],
+      "prompt_tokens": 15760,
+      "completion_tokens": 1957,
+      "total_tokens": 17717,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 28.027,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 179.763,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "cluster_analysis",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "cluster_analysis flagged output/correspondences/correspondences_musicbrainz_lastfm.csv as unhealthy; recommended_action=update_matching_config; health_metrics total_clusters=2336, max_cluster_size=27, small_cluster_ratio=0.9148, large_cluster_ratio=0.0214, one_to_many_ratio=0.1191, max_degree=9, ambiguous_ratio=0.4455, meets_target=false, is_healthy=false; matching_config artifact was updated, so next node remains PENDING for matcher config refinement"
+      ],
+      "prompt_tokens": 46231,
+      "completion_tokens": 1631,
+      "total_tokens": 47862,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 29.97,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft adaptation of the pipeline.",
+        "The embedding blockers for discogs-lastfm and musicbrainz-lastfm were changed to use batch_size=1000 instead of batch_size=25000.",
+        "The SortedNeighbourhoodBlocker for discogs-musicbrainz no longer applies the preprocess=lower_strip argument.",
+        "The rule-based matcher weights were retuned for all three dataset pairs while keeping the same comparators and thresholds.",
+        "Matching emphasis shifted toward stronger reliance on title and artist similarity through weight changes rather than changing comparator types or thresholds.",
+        "For discogs-lastfm, the weight on name increased and the weight on artist decreased, with slightly more influence from track names and less from duration.",
+        "For discogs-musicbrainz, the weighting shifted toward artist and duration, with less reliance on name, release date, and release country.",
+        "For musicbrainz-lastfm, the weighting shifted toward artist, with reduced emphasis on name and slightly increased emphasis on duration.",
+        "All fusion attribute fusers remained unchanged and continue to use longest_string for 10 attributes.",
+        "The correspondence export, fusion debug output, and include_singletons=False behavior were preserved."
+      ],
+      "prompt_tokens": 53352,
+      "completion_tokens": 1829,
+      "total_tokens": 55181,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 24.566,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 2; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 181.575,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "cluster_analysis",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline.py changed matching_config artifact: EmbeddingBlocker batch_size reduced 25000→1000 for discogs↔lastfm and musicbrainz↔lastfm; removed preprocess=lower_strip from one blocker config; RuleBasedMatcher weights changed discogs↔lastfm [0.3,0.35,0.25,0.1]→[0.18,0.46,0.28,0.08], discogs↔musicbrainz [0.35,0.25,0.2,0.1,0.1]→[0.28,0.34,0.14,0.06,0.18], musicbrainz↔lastfm [0.35,0.45,0.2]→[0.5,0.28,0.22]."
+      ],
+      "prompt_tokens": 37709,
+      "completion_tokens": 1410,
+      "total_tokens": 39119,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 32.253,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline adaptation.",
+        "The matching logic was changed only by reweighting the existing rule-based comparator sets for all three dataset pairs.",
+        "The discogs-lastfm matcher weights were changed from [0.18, 0.46, 0.28, 0.08] to [0.24, 0.27, 0.35, 0.14].",
+        "The discogs-musicbrainz matcher weights were changed from [0.28, 0.34, 0.14, 0.06, 0.18] to [0.24, 0.28, 0.2, 0.12, 0.16].",
+        "The musicbrainz-lastfm matcher weights were changed from [0.5, 0.28, 0.22] to [0.33, 0.47, 0.2].",
+        "The fusion strategy did not change and continued to use longest_string for all 10 fused attributes.",
+        "The matching emphasis shifted away from artist-heavy weighting toward more balanced use of track names, duration, release-date, release-country, and name depending on the pair.",
+        "For musicbrainz-lastfm, the highest emphasis moved from artist similarity to name similarity.",
+        "The blocking setup was unchanged and still used embedding blockers for discogs-lastfm and musicbrainz-lastfm and a sorted neighbourhood blocker for discogs-musicbrainz.",
+        "The comparator definitions were unchanged across all pairs, including string, numeric, and date comparators."
+      ],
+      "prompt_tokens": 91164,
+      "completion_tokens": 1829,
+      "total_tokens": 92993,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 25.844,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 3; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 192.681,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline.py matching weights changed in three RuleBasedMatcher calls: discogs_lastfm [0.18, 0.46, 0.28, 0.08]→[0.24, 0.27, 0.35, 0.14]; discogs_musicbrainz [0.28, 0.34, 0.14, 0.06, 0.18]→[0.24, 0.28, 0.2, 0.12, 0.16]; musicbrainz_lastfm [0.5, 0.28, 0.22]→[0.33, 0.47, 0.2]; matching_config artifact updated; cluster summary artifacts/run-id were written; cluster analysis flagged correspondences_musicbrainz_lastfm as unhealthy with recommended_action=update_matching_config."
+      ],
+      "prompt_tokens": 73991,
+      "completion_tokens": 2445,
+      "total_tokens": 76436,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 46.802,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an initial draft of the evaluation script for the current fused output.",
+        "The evaluation was built around an ID-aligned evaluation view that maps fused clusters to gold record IDs before running field-specific comparison functions.",
+        "The strategy combined tokenized matching for textual metadata, year-only matching for release dates, numeric tolerance matching for duration, and set equality matching for track-list and detected list-like fields.",
+        "Name, artist, release-country, label, and genre were grouped under tokenized_match.",
+        "Duration was evaluated with numeric_tolerance_match.",
+        "Release-date was evaluated with year_only_match.",
+        "Track-level fields such as tracks_track_name, tracks_track_duration, and tracks_track_position were grouped under set_equality_match.",
+        "Additional detected list-like non-underscore columns were normalized and then evaluated with set_equality_match.",
+        "The run added _parse_source_ids to parse _fusion_sources values from JSON or Python-literal list forms.",
+        "The run added _detect_gold_prefix to infer a dominant gold ID prefix and use it during fused-to-gold ID candidate selection."
+      ],
+      "prompt_tokens": 10732,
+      "completion_tokens": 1600,
+      "total_tokens": 12332,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 19.866,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.244,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 52.28%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is dominated by fusion errors where fused records are present but contain values taken from the wrong linked records inside over-merged clusters.",
+        "A secondary problem is missing fused records for some gold MusicBrainz entities because unmatched entities are dropped when include_singletons is set to false.",
+        "The central pipeline issue is that longest_string is being applied universally, including numeric and track-list attributes where that strategy is semantically inappropriate.",
+        "The overall evaluation accuracy is 0.5228426395939086 with 103 correct out of 197 total evaluations across 23 records and 9 attributes.",
+        "The weakest attribute accuracies are duration at 0.30434782608695654, tracks_track_name at 0.391304347826087, and name at 0.43478260869565216.",
+        "Many mismatches have a non-null fused identifier aligned to the expected MusicBrainz entity but wrong fused values, including artist expected Duc, Catherine but fused Newcomer, Carrie, artist expected Deepfunk but fused Franklin De Costa, label expected Piemont Records but fused Epic, release-country expected Australia but fused United States of America, and tracks_track_position expected 10 tracks but fused 12."
+      ],
+      "prompt_tokens": 84556,
+      "completion_tokens": 2166,
+      "total_tokens": 86722,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 40.165,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline.",
+        "The pipeline loads aligned CSV datasets for discogs, lastfm, and musicbrainz and performs blocking, rule-based matching, and data fusion in one draft.",
+        "It introduced preprocessing helpers for lowercasing and trimming text, parsing list-like values, coercing duration to numeric, and forcing key columns to object dtype before matching and fusion.",
+        "It configured three pairwise blockers and three rule-based matcher setups with explicit comparator sets, weights, and thresholds for discogs-lastfm, discogs-musicbrainz, and musicbrainz-lastfm.",
+        "It added fusion rules for ten attributes and assigned longest_string as the fuser for every fused field, including duration and all track-related attributes.",
+        "The fusion behavior in this run is dominated by a universal longest_string strategy rather than attribute-specific or source-priority selection.",
+        "The matching behavior uses separate pair-specific comparator mixes and thresholds, but the fused output does not incorporate MusicBrainz-first or agreement-based protection against ambiguous clusters.",
+        "Track attributes are fused independently by the same generic string heuristic instead of selecting a single coherent source record for the full tracklist."
+      ],
+      "prompt_tokens": 92996,
+      "completion_tokens": 1829,
+      "total_tokens": 94825,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 22.012,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 292.522,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "cluster_analysis produced cluster_analysis_result for correspondences_musicbrainz_lastfm.csv with recommended_action=update_matching_config, recommended_strategy=None, meets_target=false, is_healthy=false; health_metrics total_clusters=2316, max_cluster_size=39, small_cluster_ratio=0.9098, large_cluster_ratio=0.0233, one_to_many_ratio=0.1335, max_degree=10, ambiguous_ratio=0.4598."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 5.486,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation adaptation under evaluation_refinement mode.",
+        "The dominant strategy was to refine evaluation guidance around fusion behavior by shifting from generic longest-string assumptions toward attribute-specific, source-aware, and cluster-robust assessment criteria.",
+        "Scalar text fields such as name, artist, label, and release-country were grouped as candidates for trusted-source or normalized majority-based evaluation and fusion behavior instead of longest-string selection.",
+        "Temporal and numeric fields such as release-date and duration were grouped for semantics-aware handling, with year-tolerant date comparison and numeric duration treatment rather than string-length heuristics.",
+        "Tracklist-related fields such as tracks_track_name, tracks_track_position, and tracks_track_duration were grouped as a single coherent family that should be evaluated and fused together from one internally consistent source record.",
+        "The run identified singleton retention as a key stability change and recommended include_singletons=True so unmatched gold entities remain evaluable instead of appearing as missing fused values."
+      ],
+      "prompt_tokens": 7587,
+      "completion_tokens": 1562,
+      "total_tokens": 9149,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 23.604,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 22,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.443,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 23,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 52.28%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.002,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 24,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The dominant problem in this run is fusion-level false positives where fused records contain values from the wrong entity in over-merged or ambiguous correspondence clusters.",
+        "A secondary problem is recall loss from unmatched entities that never appear in the fused output.",
+        "Overall accuracy is 0.5228426395939086 with 103 correct out of 197 evaluations across 23 evaluated records.",
+        "The worst attribute accuracies are duration at 0.30434782608695654, tracks_track_name at 0.391304347826087, name at 0.43478260869565216, and tracks_track_duration at 0.55.",
+        "Several mismatches reportedly have fused_id equal to expected_id while fused values come from another release, including mbrainz_2807, mbrainz_10613, mbrainz_15029, mbrainz_5463, and mbrainz_18462.",
+        "Several cases are reported as missing_fused_value with fused_id equal to NaN, including mbrainz_1834, mbrainz_25432, mbrainz_9448, mbrainz_3787, and mbrainz_6947.",
+        "The current fusion code applies longest_string to name, artist, release-date, release-country, duration, label, genre, tracks_track_name, tracks_track_position, and tracks_track_duration.",
+        "The current run uses include_singletons=False in DataFusionEngine.run, which prevents unmatched entities from appearing in fused output."
+      ],
+      "prompt_tokens": 83217,
+      "completion_tokens": 1920,
+      "total_tokens": 85137,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 36.137,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 25,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or a repair.",
+        "There were no concrete code changes in this run because the before and after pipelines are identical.",
+        "The pipeline continued to use `longest_string` as the fuser for all ten fused attributes, including `name`, `artist`, `release-date`, `release-country`, `duration`, `label`, `genre`, and all `tracks_*` fields.",
+        "The pipeline continued to run data fusion over the concatenated correspondence sets without changing the blocking, matching, or fusion configuration.",
+        "There was no implemented shift in fusion or matching behavior in this run.",
+        "The evaluation analysis recommended moving away from cluster-wide length-based fusion toward MusicBrainz-first, type-aware, and representative-record fusion, but those recommendations were not applied in the pipeline code.",
+        "The matching thresholds, comparators, and blockers remained unchanged, so behavior stayed anchored to the existing rule-based matching and naive fusion setup.",
+        "Singleton handling remained unchanged with `include_singletons=False`.",
+        "The helper `parse_list_like` that existed before was removed from the after pipeline, and no replacement list parsing was added."
+      ],
+      "prompt_tokens": 94828,
+      "completion_tokens": 1761,
+      "total_tokens": 96589,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 22.641,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 26,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 196.964,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 27,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "matching_config artifact changed; pipeline.py removed unused ast import and deleted parse_list_like(x) helper entirely (pd.isna/list passthrough, ast.literal_eval parsing, fallback-to-str list logic); evaluation.py added code; cluster_analysis_history/result, cluster_summary_path/run_id/written, and matching_config_updated were set."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.221,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 28,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was an evaluation refinement rather than an initial draft or repair.",
+        "The dominant strategy was to refine evaluation around source-aligned fused-to-gold mapping and field-specific comparison functions while diagnosing fusion-level contamination as the primary error source.",
+        "Scalar text fields such as name, artist, release-country, and label were evaluated with tokenized matching.",
+        "Numeric and temporal fields such as duration and release-date were evaluated with numeric tolerance matching and year-only matching respectively.",
+        "List-like and nested track fields such as tracks_track_name, tracks_track_duration, and tracks_track_position were grouped under set-equality evaluation after automatic list-like column detection and normalization.",
+        "Additional detected list-like columns that were not explicitly registered were assigned set-equality evaluation functions.",
+        "The evaluation built an expanded eval view by parsing _fusion_sources and mapping fused rows to candidate gold-side eval_id values, with fallback to cluster _id when needed.",
+        "The evaluation added duplicate control by sorting on _fusion_confidence when available and dropping duplicate eval_id entries."
+      ],
+      "prompt_tokens": 9152,
+      "completion_tokens": 1558,
+      "total_tokens": 10710,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 15.264,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 29,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.43,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 30,
+      "current_node": "evaluation_decision",
+      "next_node": "save_results",
+      "output_summary": [
+        "overall accuracy is 52.28%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 31,
+      "current_node": "save_results",
+      "next_node": "END",
+      "output_summary": [
+        "Run results were persisted for reproducibility and offline analysis.",
+        "Snapshot counts captured in state: pipeline=0, evaluation=0."
+      ],
+      "prompt_tokens": 86764,
+      "completion_tokens": 1386,
+      "total_tokens": 88150,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 26.916,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "discogs_lastfm": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "artist"
+          ],
+          "params": {
+            "top_k": 10
+          },
+          "pair_completeness": 0.9642857142857143,
+          "num_candidates": 225831,
+          "is_acceptable": true
+        },
+        "discogs_musicbrainz": {
+          "strategy": "sorted_neighbourhood",
+          "columns": [
+            "name"
+          ],
+          "params": {
+            "window": 15
+          },
+          "pair_completeness": 0.9,
+          "num_candidates": 115280,
+          "is_acceptable": true
+        },
+        "musicbrainz_lastfm": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name",
+            "artist",
+            "duration"
+          ],
+          "params": {
+            "top_k": 10
+          },
+          "pair_completeness": 0.9240506329113924,
+          "num_candidates": 47615,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "discogs": "id",
+        "lastfm": "id",
+        "musicbrainz": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "discogs": "id",
+        "lastfm": "id",
+        "musicbrainz": "id"
+      },
+      "matching_strategies": {
+        "discogs_lastfm": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "artist",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "tracks_track_name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            },
+            {
+              "type": "numeric",
+              "column": "duration",
+              "max_difference": 10.0
+            }
+          ],
+          "weights": [
+            0.3,
+            0.35,
+            0.25,
+            0.1
+          ],
+          "threshold": 0.6,
+          "f1": 0.896551724137931
+        },
+        "discogs_musicbrainz": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "artist",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "date",
+              "column": "release-date",
+              "max_days_difference": 365
+            },
+            {
+              "type": "string",
+              "column": "release-country",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "duration",
+              "max_difference": 60.0
+            }
+          ],
+          "weights": [
+            0.35,
+            0.25,
+            0.2,
+            0.1,
+            0.1
+          ],
+          "threshold": 0.7,
+          "f1": 0.8732394366197184
+        },
+        "musicbrainz_lastfm": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "artist",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "duration",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            }
+          ],
+          "weights": [
+            0.35,
+            0.45,
+            0.2
+          ],
+          "threshold": 0.75,
+          "f1": 0.8652482269503546
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "longest_string",
+        "tracks_track_position": "longest_string",
+        "tracks_track_duration": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "52.28%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "longest_string",
+        "tracks_track_position": "longest_string",
+        "tracks_track_duration": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "52.28%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "longest_string",
+        "tracks_track_position": "longest_string",
+        "tracks_track_duration": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "52.28%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 5
+      },
+      "execute_pipeline": {
+        "cluster_analysis": 5
+      },
+      "cluster_analysis": {
+        "pipeline_adaption": 2,
+        "evaluation_adaption": 3
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "evaluation_reasoning": 2,
+        "save_results": 1
+      },
+      "evaluation_reasoning": {
+        "pipeline_adaption": 2
+      },
+      "save_results": {
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 31
+  },
+  "time_complexity": {
+    "total_duration_seconds": 1595.794,
+    "sum_of_logged_node_durations_seconds": 1467.614,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 13.186,
+      "profile_data": 2.026,
+      "run_blocking_tester": 0.001,
+      "run_matching_tester": 0.001,
+      "pipeline_adaption": 123.09,
+      "execute_pipeline": 1043.505,
+      "cluster_analysis": 116.732,
+      "evaluation_adaption": 58.734,
+      "execute_evaluation": 7.117,
+      "evaluation_decision": 0.004,
+      "evaluation_reasoning": 76.302,
+      "save_results": 26.916
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 5730,
+        "output_tokens": 158,
+        "total_tokens": 5888
+      },
+      "profile_data": {
+        "prompt_tokens": 287,
+        "output_tokens": 82,
+        "total_tokens": 369
+      },
+      "run_blocking_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "run_matching_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 348100,
+        "output_tokens": 9205,
+        "total_tokens": 357305
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "cluster_analysis": {
+        "prompt_tokens": 157931,
+        "output_tokens": 5486,
+        "total_tokens": 163417
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 27471,
+        "output_tokens": 4720,
+        "total_tokens": 32191
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_reasoning": {
+        "prompt_tokens": 167773,
+        "output_tokens": 4086,
+        "total_tokens": 171859
+      },
+      "save_results": {
+        "prompt_tokens": 86764,
+        "output_tokens": 1386,
+        "total_tokens": 88150
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 794056,
+      "output_tokens": 25123,
+      "total_tokens": 819179,
+      "total_cost_usd": 2.361985
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 87206,
+    "output_tokens": 6634,
+    "total_tokens": 93840,
+    "estimated_cost_usd": 0.317525
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}

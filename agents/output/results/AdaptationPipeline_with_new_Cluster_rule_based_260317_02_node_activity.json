@@ -1,0 +1,1001 @@
+{
+  "use_case": "Restaurants",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: kaggle_small, uber_eats_small, yelp_small; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 9616,
+      "completion_tokens": 258,
+      "total_tokens": 9874,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 4.371,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "profiled datasets: kaggle_small, uber_eats_small, yelp_small."
+      ],
+      "prompt_tokens": 293,
+      "completion_tokens": 88,
+      "total_tokens": 381,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.75,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for kaggle_small_uber_eats_small, uber_eats_small_yelp_small, blocking on name_norm, city, state; `exact_match_multi` for kaggle_small_yelp_small, blocking on phone_e164, postal_code.",
+        "Performance-wise, pair completeness is 1.00 for all pairs and candidate counts range from 179 to 199972.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `rule_based` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.75, f1=0.8947368421052632, f1=0.983050847457627, threshold=0.72, f1=0.9302325581395349); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline.",
+        "The pipeline was created to load the schema-matched parquet datasets for kaggle_small, uber_eats_small, and yelp_small and process all three pairwise matches.",
+        "It added pair-specific blocking with an EmbeddingBlocker for kaggle_small versus uber_eats_small, a StandardBlocker on phone_e164 and postal_code for kaggle_small versus yelp_small, and an EmbeddingBlocker for uber_eats_small versus yelp_small.",
+        "It defined rule-based matching for each dataset pair with explicit comparator sets, weights, and thresholds, then wrote the three correspondence outputs to the output/correspondences directory.",
+        "It concatenated all pairwise correspondences and added a fusion stage using DataFusionStrategy and DataFusionEngine to write fused results to output/data_fusion/fusion_data.csv.",
+        "The matching strategy uses a hybrid pair-specific approach instead of one uniform matcher, combining embedding-based candidate generation for text-driven pairs with exact-key standard blocking for the pair that shares phone and postal information.",
+        "The fusion strategy is strongly standardized around longest_string for most attributes, with only categories using union across sources."
+      ],
+      "prompt_tokens": 6653,
+      "completion_tokens": 2171,
+      "total_tokens": 8824,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 21.541,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 96.722,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "cluster_analysis",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "cluster analysis generated results for correspondences_kaggle_small_uber_eats_small.csv and correspondences_uber_eats_small_yelp_small.csv; flagged uber_eats_small↔yelp_small with recommended_action=update_matching_config; matching_config artifact was updated."
+      ],
+      "prompt_tokens": 6469,
+      "completion_tokens": 720,
+      "total_tokens": 7189,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 12.429,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline adaptation.",
+        "The only concrete pipeline change in this run was a reweighting of the uber_eats_small to yelp_small rule-based matcher from [0.28, 0.16, 0.12, 0.16, 0.16, 0.12] to [0.38, 0.08, 0.08, 0.18, 0.18, 0.1].",
+        "The updated uber_eats_small to yelp_small matcher now places more emphasis on name_norm and geographic coordinates, while reducing the influence of street, city, and categories.",
+        "The matching behavior shifted only for the uber_eats_small and yelp_small pair toward stronger reliance on business name and latitude and longitude agreement.",
+        "The fusion behavior did not shift, because the same fusion strategy remained in place with longest_string used for 19 attributes and union used for categories.",
+        "The blocking setup was unchanged, including embedding blockers for kaggle_small to uber_eats_small and uber_eats_small to yelp_small, and a standard blocker on phone_e164 and postal_code for kaggle_small to yelp_small.",
+        "All three pairwise thresholds remained unchanged at 0.75 for kaggle_small to uber_eats_small, 0.75 for kaggle_small to yelp_small, and 0.72 for uber_eats_small to yelp_small.",
+        "Singleton retention remained disabled with include_singletons set to False."
+      ],
+      "prompt_tokens": 13919,
+      "completion_tokens": 2192,
+      "total_tokens": 16111,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 21.966,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 2; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 103.041,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "cluster_analysis",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "pipeline.py changed only for uber_eats_small↔yelp_small RuleBasedMatcher weights: [0.28, 0.16, 0.12, 0.16, 0.16, 0.12] → [0.38, 0.08, 0.08, 0.18, 0.18, 0.1]; matching_config artifact was updated and matching_config_updated set; cluster analysis recorded correspondences_uber_eats_small_yelp_small.csv as unhealthy with one_to_many_ratio 0.0488, ambiguous_ratio 0.5, max_cluster_size 3, 3 size-3 clusters, recommended_action=update_matching_config, while kaggle_small↔uber_eats_small remained healthy."
+      ],
+      "prompt_tokens": 3858,
+      "completion_tokens": 625,
+      "total_tokens": 4483,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 11.966,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline adaptation.",
+        "The only concrete pipeline change in this run was a reweighting of the uber_eats_small to yelp_small matcher from [0.38, 0.08, 0.08, 0.18, 0.18, 0.1] to [0.3, 0.14, 0.1, 0.2, 0.2, 0.06].",
+        "The blocking setup, comparator definitions, thresholds, correspondence exports, and fusion configuration were otherwise preserved from the prior pipeline.",
+        "The matching behavior for uber_eats_small versus yelp_small shifted away from heavy reliance on name similarity and category overlap toward relatively more emphasis on street, city, latitude, and longitude agreement.",
+        "The overall fusion behavior did not shift, because attribute fusers remained dominated by longest_string with union retained only for categories.",
+        "No thresholds were added, removed, or changed in this run.",
+        "No attribute fusers were added, removed, or changed in this run.",
+        "Singleton retention remained disabled with include_singletons set to False.",
+        "The fusion strategy still used longest_string for 19 attributes and union for the categories field.",
+        "The pipeline continued to use the same precomputed blockers, the same aligned parquet inputs, and the same output file paths."
+      ],
+      "prompt_tokens": 16770,
+      "completion_tokens": 2171,
+      "total_tokens": 18941,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 23.727,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 3; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 111.853,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "pipeline.py changed only for rb_correspondences_uber_eats_small_yelp_small matcher weights: [0.38, 0.08, 0.08, 0.18, 0.18, 0.1] -> [0.3, 0.14, 0.1, 0.2, 0.2, 0.06]; matching_config artifact was updated; cluster_analysis_result flagged correspondences_uber_eats_small_yelp_small.csv recommended_action=update_matching_config after unhealthy clusters (50 total, max_cluster_size 11, one_to_many_ratio 0.3, ambiguous_ratio 0.5714); cluster summary was written with a new run_id."
+      ],
+      "prompt_tokens": 15253,
+      "completion_tokens": 1808,
+      "total_tokens": 17061,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 28.448,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run produced an initial draft of the evaluation script for the current fused output.",
+        "The evaluation aligned fused records to gold IDs by deriving eval_id values from _fusion_sources or falling back to cluster _id values before running DataFusionEvaluator.",
+        "The strategy then assigned field-specific match functions, using tokenized matching for most textual attributes, numeric tolerance matching for numeric and coordinate attributes, and set equality matching for detected list-like columns.",
+        "Name, website, map URL, phone, address, locality, postal, country, and source fields were evaluated with tokenized_match.",
+        "House number, latitude, longitude, rating, and rating count were evaluated with numeric_tolerance_match.",
+        "Detected list-like non-system columns were normalized across fused and gold data and then evaluated with set_equality_match when no explicit function had already been assigned.",
+        "The run added helper functions to parse _fusion_sources values from JSON-like or Python-literal strings and to detect the dominant gold ID prefix."
+      ],
+      "prompt_tokens": 17070,
+      "completion_tokens": 1802,
+      "total_tokens": 18872,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 24.846,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.059,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 75.47%; evaluation attempt counter is 1."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.001,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The main failure in this run is incorrect fusion value selection rather than blocking failure, because matched clusters often exist but the fused attribute value is chosen poorly.",
+        "The current pipeline overuses longest_string for semantically different field types, which causes wrong outputs for URLs, normalized names, ratings, phones, coordinates, and provenance fields.",
+        "A secondary problem is record-level coverage loss because include_singletons is set to false, so unmatched records can disappear entirely from fused output.",
+        "Overall accuracy is 0.7546933667083855 across 799 evaluations, with 603 correct values over 40 evaluated records and 21 evaluated attributes.",
+        "Map URL accuracy is 0.4, and the analysis states that fused values are usually Google Maps URLs while the gold data expects Yelp URLs.",
+        "Name normalization accuracy is 0.875, and the analysis reports that fusion picks longer variants such as \"the sycamore restaurant\" instead of the expected \"the sycamore\".",
+        "Rating accuracy is 0.7, and the analysis states that fused outputs often select a lower or older alternative rating.",
+        "Phone raw accuracy is 0.0 and phone E.164 accuracy is 0.0, which strongly indicates formatting or type normalization problems."
+      ],
+      "prompt_tokens": 30677,
+      "completion_tokens": 2090,
+      "total_tokens": 32767,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 35.693,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline.",
+        "The pipeline was newly drafted using the provided schema-matching outputs for kaggle_small, uber_eats_small, and yelp_small.",
+        "Blocking and matching were configured with the supplied pair-specific blockers, comparators, weights, and thresholds of 0.75 for kaggle_small to uber_eats_small, 0.75 for kaggle_small to yelp_small, and 0.72 for uber_eats_small to yelp_small.",
+        "A data fusion stage was added with longest_string assigned to 19 attributes and union assigned to categories.",
+        "The fused output was produced from concatenated correspondences across all three dataset pairs and written to output/data_fusion/fusion_data.csv.",
+        "The fusion behavior in this draft is dominated by generic longest_string selection rather than attribute-specific or type-aware value selection.",
+        "Categories were fused by set-style aggregation with union, while nearly every other field was resolved by choosing the longest textual value.",
+        "Matching behavior remained based on the precomputed pair-specific rules, with the most permissive threshold applied to the uber_eats_small to yelp_small pair at 0.72.",
+        "Singleton retention was disabled by setting include_singletons to False, so unmatched records are excluded from fused output."
+      ],
+      "prompt_tokens": 18944,
+      "completion_tokens": 2171,
+      "total_tokens": 21115,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 21.894,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 109.683,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 20,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "cluster analysis produced results for correspondences_kaggle_small_uber_eats_small.csv: healthy long-tail, 58 clusters, max_cluster_size 2, small_cluster_ratio 1.0, large_cluster_ratio 0.0, one_to_many_ratio 0.0, ambiguous_ratio 0.0, mean score 0.8169, p90 0.906, meets_target=true; correspondences_uber_eats_small_yelp_small.csv: recommended_action=update_matching_config; matching_config artifact was updated; cluster_summary_path/run_id written; effect: next node remains PENDING."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.883,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 21,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation logic in evaluation_refinement mode rather than an initial draft or a repair.",
+        "The dominant strategy was to refine evaluation alignment by mapping fused records to gold ids through parsed fusion sources and corrected gold-prefix detection while preserving field-specific evaluators such as tokenized matching, numeric tolerance matching, and set equality for list-like columns.",
+        "Identifier-alignment behavior was tightened by changing gold prefix parsing from underscore-based splitting to hyphen-based splitting and by allowing cluster-id fallback only when the cluster id exists in the gold id set.",
+        "Schema-handling behavior was improved for gold inputs by renaming a gold _id column to id when needed before evaluation.",
+        "List-like fields continued to be detected and normalized jointly across fused and gold data, with non-underscore-prefixed list columns evaluated using set equality.",
+        "Text fields such as name, name_norm, website, map_url, phone_raw, phone_e164, address lines, street, city, state, postal_code, country, and source continued to use tokenized_match.",
+        "Numeric-like fields such as house_number, latitude, longitude, rating, and rating_count continued to use numeric_tolerance_match."
+      ],
+      "prompt_tokens": 10926,
+      "completion_tokens": 1721,
+      "total_tokens": 12647,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 17.505,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 22,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.485,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 23,
+      "current_node": "evaluation_decision",
+      "next_node": "evaluation_reasoning",
+      "output_summary": [
+        "overall accuracy is 51.69%; previous logged accuracy was 75.47%; evaluation attempt counter is 2."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 24,
+      "current_node": "evaluation_reasoning",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "The run is primarily failing because fused output coverage is incomplete, causing many gold entities to be absent or unmapped in evaluation and producing missing fused values.",
+        "The run is secondarily failing because schema and preprocessing mismatches are degrading attribute accuracy, especially for phone, street, source, map_url, and _id fields.",
+        "The run is also affected by ambiguous uber_eats_small to yelp_small clusters that can contaminate fused values through over-merged entities.",
+        "Overall accuracy is 0.5168961201501877 and macro accuracy is 0.5206393083549207 across 40 evaluated records and 799 evaluations.",
+        "Many debug mismatches reportedly show fused_id as NaN with reason equal to missing_fused_value for fields including street, latitude, and phone_raw.",
+        "The current fusion engine is run with include_singletons set to False.",
+        "The analysis states that unmatched test entities are excluded from fused output entirely when include_singletons is False, which explains widespread missing fused values.",
+        "Several field accuracies are extremely low, including phone_raw_accuracy at 0.0, phone_e164_accuracy at 0.0, source_accuracy at 0.0, _id_accuracy at 0.0, and map_url_accuracy at 0.125."
+      ],
+      "prompt_tokens": 36307,
+      "completion_tokens": 2267,
+      "total_tokens": 38574,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 43.166,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 25,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an evaluation-driven refinement pass rather than an initial draft or a repair with implemented code changes.",
+        "The before and after pipelines remained identical in this run.",
+        "No concrete pipeline changes were applied in this run.",
+        "The fusion configuration still uses longest_string for 19 attributes and union only for categories.",
+        "Singleton retention remained disabled with include_singletons set to False.",
+        "There was no actual shift in fusion or matching behavior because the executed pipeline did not change.",
+        "The analysis recommended shifting away from coverage-dropping fusion toward singleton-inclusive fusion and type-aware attribute selection, but that recommendation was not implemented in this run.",
+        "The analysis also recommended making fusion more conservative around ambiguous Uber Eats to Yelp clusters, but matching thresholds and correspondence handling stayed unchanged.",
+        "No fuser additions, removals, or modifications were recorded in this run.",
+        "No threshold additions, removals, or modifications were recorded in this run.",
+        "The pipeline still leaves source fused with longest_string instead of lineage-style provenance handling."
+      ],
+      "prompt_tokens": 21118,
+      "completion_tokens": 2177,
+      "total_tokens": 23295,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 22.769,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 26,
+      "current_node": "execute_pipeline",
+      "next_node": "cluster_analysis",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 99.831,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 27,
+      "current_node": "cluster_analysis",
+      "next_node": "evaluation_adaption",
+      "output_summary": [
+        "cluster_analysis wrote cluster_summary_path/cluster_summary_run_id and set cluster_summary_written=true; matching_config artifact was updated from cluster_analysis_result: correspondences_uber_eats_small_yelp_small.csv flagged recommended_action=update_matching_config with unhealthy metrics total_clusters=50, max_cluster_size=11, small_cluster_ratio=0.7, large_cluster_ratio=0.06, one_to_many_ratio=0.3, max_degree=4, ambiguous_ratio=0.5714."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.75,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 28,
+      "current_node": "evaluation_adaption",
+      "next_node": "execute_evaluation",
+      "output_summary": [
+        "This run was a refinement of the evaluation script in evaluation_refinement mode rather than an initial draft or repair.",
+        "The dominant strategy was to refine field-specific evaluation behavior by explicitly assigning comparison functions based on data shape and semantics while keeping the existing eval-view alignment and normalization flow.",
+        "The run kept tokenized_match for text-like scalar fields including name, name_norm, website, map_url, phone_raw, phone_e164, address_line1, address_line2, street, city, state, postal_code, country, and source.",
+        "The run kept numeric_tolerance_match for numeric or tolerance-sensitive fields including house_number, latitude, longitude, rating, and rating_count.",
+        "The run newly assigned categories to set_equality_match explicitly, aligning it with list-like or set-valued comparison behavior.",
+        "The run continued to register set_equality_match for detected list-like columns that were not already assigned a function.",
+        "The only code change shown was the addition of register_eval(\"categories\", set_equality_match, \"set_equality_match\").",
+        "The run preserved helper logic for parsing _fusion_sources, detecting gold ID prefixes, and building an eval view that maps fused rows to gold eval_id values."
+      ],
+      "prompt_tokens": 12650,
+      "completion_tokens": 1737,
+      "total_tokens": 14387,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 17.384,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 29,
+      "current_node": "execute_evaluation",
+      "next_node": "evaluation_decision",
+      "output_summary": [
+        "evaluation execution succeeded on attempt 1; pipeline_evaluation.json is available."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 1.073,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 30,
+      "current_node": "evaluation_decision",
+      "next_node": "save_results",
+      "output_summary": [
+        "overall accuracy is 51.69%; evaluation attempt counter is 3."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 31,
+      "current_node": "save_results",
+      "next_node": "END",
+      "output_summary": [
+        "Run results were persisted for reproducibility and offline analysis.",
+        "Snapshot counts captured in state: pipeline=0, evaluation=0."
+      ],
+      "prompt_tokens": 40429,
+      "completion_tokens": 1805,
+      "total_tokens": 42234,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 25.15,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "kaggle_small_uber_eats_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name_norm",
+            "city",
+            "state"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 1.0,
+          "num_candidates": 199719,
+          "is_acceptable": true
+        },
+        "kaggle_small_yelp_small": {
+          "strategy": "exact_match_multi",
+          "columns": [
+            "phone_e164",
+            "postal_code"
+          ],
+          "params": {},
+          "pair_completeness": 1.0,
+          "num_candidates": 179,
+          "is_acceptable": true
+        },
+        "uber_eats_small_yelp_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "name_norm",
+            "street",
+            "city"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 1.0,
+          "num_candidates": 199972,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "kaggle_small": "id",
+        "uber_eats_small": "id",
+        "yelp_small": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "kaggle_small": "id",
+        "uber_eats_small": "id",
+        "yelp_small": "id"
+      },
+      "matching_strategies": {
+        "kaggle_small_uber_eats_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "street",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "state",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.01
+            },
+            {
+              "type": "string",
+              "column": "categories",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            }
+          ],
+          "weights": [
+            0.35,
+            0.12,
+            0.08,
+            0.05,
+            0.16,
+            0.16,
+            0.08
+          ],
+          "threshold": 0.75,
+          "f1": 0.8947368421052632
+        },
+        "kaggle_small_yelp_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "phone_e164",
+              "similarity_function": "jaro_winkler",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "postal_code",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.002
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.002
+            },
+            {
+              "type": "string",
+              "column": "categories",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            }
+          ],
+          "weights": [
+            0.2,
+            0.25,
+            0.15,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ],
+          "threshold": 0.75,
+          "f1": 0.983050847457627
+        },
+        "uber_eats_small_yelp_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "name_norm",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "street",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "city",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "latitude",
+              "max_difference": 0.002
+            },
+            {
+              "type": "numeric",
+              "column": "longitude",
+              "max_difference": 0.002
+            },
+            {
+              "type": "string",
+              "column": "categories",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            }
+          ],
+          "weights": [
+            0.28,
+            0.16,
+            0.12,
+            0.16,
+            0.16,
+            0.12
+          ],
+          "threshold": 0.72,
+          "f1": 0.9302325581395349
+        }
+      }
+    }
+  },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "name_norm": "longest_string",
+        "website": "longest_string",
+        "map_url": "longest_string",
+        "phone_raw": "longest_string",
+        "phone_e164": "longest_string",
+        "address_line1": "longest_string",
+        "address_line2": "longest_string",
+        "street": "longest_string",
+        "house_number": "longest_string",
+        "city": "longest_string",
+        "state": "longest_string",
+        "postal_code": "longest_string",
+        "country": "longest_string",
+        "latitude": "longest_string",
+        "longitude": "longest_string",
+        "categories": "union",
+        "rating": "longest_string",
+        "rating_count": "longest_string",
+        "source": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "75.47%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "name_norm": "longest_string",
+        "website": "longest_string",
+        "map_url": "longest_string",
+        "phone_raw": "longest_string",
+        "phone_e164": "longest_string",
+        "address_line1": "longest_string",
+        "address_line2": "longest_string",
+        "street": "longest_string",
+        "house_number": "longest_string",
+        "city": "longest_string",
+        "state": "longest_string",
+        "postal_code": "longest_string",
+        "country": "longest_string",
+        "latitude": "longest_string",
+        "longitude": "longest_string",
+        "categories": "union",
+        "rating": "longest_string",
+        "rating_count": "longest_string",
+        "source": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "51.69%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "name_norm": "longest_string",
+        "website": "longest_string",
+        "map_url": "longest_string",
+        "phone_raw": "longest_string",
+        "phone_e164": "longest_string",
+        "address_line1": "longest_string",
+        "address_line2": "longest_string",
+        "street": "longest_string",
+        "house_number": "longest_string",
+        "city": "longest_string",
+        "state": "longest_string",
+        "postal_code": "longest_string",
+        "country": "longest_string",
+        "latitude": "longest_string",
+        "longitude": "longest_string",
+        "categories": "union",
+        "rating": "longest_string",
+        "rating_count": "longest_string",
+        "source": "longest_string"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "51.69%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "run_blocking_tester": 1
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 1
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 1
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 5
+      },
+      "execute_pipeline": {
+        "cluster_analysis": 5
+      },
+      "cluster_analysis": {
+        "pipeline_adaption": 2,
+        "evaluation_adaption": 3
+      },
+      "evaluation_adaption": {
+        "execute_evaluation": 3
+      },
+      "execute_evaluation": {
+        "evaluation_decision": 3
+      },
+      "evaluation_decision": {
+        "evaluation_reasoning": 2,
+        "save_results": 1
+      },
+      "evaluation_reasoning": {
+        "pipeline_adaption": 2
+      },
+      "save_results": {
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 31
+  },
+  "time_complexity": {
+    "total_duration_seconds": 980.914,
+    "sum_of_logged_node_durations_seconds": 860.988,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 4.371,
+      "profile_data": 1.75,
+      "run_blocking_tester": 0.001,
+      "run_matching_tester": 0.001,
+      "pipeline_adaption": 111.897,
+      "execute_pipeline": 521.13,
+      "cluster_analysis": 54.476,
+      "evaluation_adaption": 59.735,
+      "execute_evaluation": 3.617,
+      "evaluation_decision": 0.001,
+      "evaluation_reasoning": 78.859,
+      "save_results": 25.15
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 9616,
+        "output_tokens": 258,
+        "total_tokens": 9874
+      },
+      "profile_data": {
+        "prompt_tokens": 293,
+        "output_tokens": 88,
+        "total_tokens": 381
+      },
+      "run_blocking_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "run_matching_tester": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "pipeline_adaption": {
+        "prompt_tokens": 77404,
+        "output_tokens": 10882,
+        "total_tokens": 88286
+      },
+      "execute_pipeline": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "cluster_analysis": {
+        "prompt_tokens": 25580,
+        "output_tokens": 3153,
+        "total_tokens": 28733
+      },
+      "evaluation_adaption": {
+        "prompt_tokens": 40646,
+        "output_tokens": 5260,
+        "total_tokens": 45906
+      },
+      "execute_evaluation": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_decision": {
+        "prompt_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "evaluation_reasoning": {
+        "prompt_tokens": 66984,
+        "output_tokens": 4357,
+        "total_tokens": 71341
+      },
+      "save_results": {
+        "prompt_tokens": 40429,
+        "output_tokens": 1805,
+        "total_tokens": 42234
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 260952,
+      "output_tokens": 25803,
+      "total_tokens": 286755,
+      "total_cost_usd": 1.039425
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 95400,
+    "output_tokens": 6615,
+    "total_tokens": 102015,
+    "estimated_cost_usd": 0.337725
+  },
+  "density": {
+    "stage": null,
+    "estimated_rows": null,
+    "actual_rows": null,
+    "density": null
+  }
+}
