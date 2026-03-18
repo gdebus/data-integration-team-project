@@ -811,9 +811,18 @@ class MatchingTester:
                     "preprocess": "lower",
                 }
                 if ctype == "list":
-                    comp["list_strategy"] = "concatenate"
+                    comp["list_strategy"] = "best_match"
                 comparators.append(comp)
         return comparators
+
+    @staticmethod
+    def _sanitize_string_list_strategy(value: Any, similarity_function: str = "cosine") -> str:
+        strategy = str(value or "").strip()
+        if strategy in {"set_jaccard", "best_match", "set_overlap"}:
+            return strategy
+        if strategy == "concatenate":
+            return "set_jaccard" if similarity_function == "jaccard" else "best_match"
+        return "set_jaccard" if similarity_function == "jaccard" else "best_match"
 
     def _normalize_weights(self, weights: List[Any], count: int) -> List[float]:
         cleaned = []
@@ -850,7 +859,7 @@ class MatchingTester:
 
         allowed_similarity = {"jaccard", "jaro_winkler", "levenshtein", "cosine"}
         allowed_preprocess = {"lower", "strip", "lower_strip", "none"}
-        allowed_list_strategy = {"concatenate", "set_jaccard", "best_match", "set_overlap"}
+        allowed_list_strategy = {"set_jaccard", "best_match", "set_overlap"}
         allowed_numeric_list_strategy = {"average", "best_match", "range_overlap", "set_jaccard"}
         cleaned_comps = []
 
@@ -880,10 +889,10 @@ class MatchingTester:
                 if preprocess != "none":
                     entry["preprocess"] = preprocess
                 list_strategy = comp.get("list_strategy")
-                if list_strategy in allowed_list_strategy:
-                    entry["list_strategy"] = list_strategy
+                if list_strategy is not None:
+                    entry["list_strategy"] = self._sanitize_string_list_strategy(list_strategy, sim)
                 elif column_types.get(column) == "list":
-                    entry["list_strategy"] = "concatenate"
+                    entry["list_strategy"] = self._sanitize_string_list_strategy(None, sim)
             elif ctype == "numeric":
                 max_diff = comp.get("max_difference", 5)
                 try:
@@ -969,7 +978,7 @@ class MatchingTester:
         system_prompt = f"""Select the best RuleBasedMatcher configuration based on the provided schema/profile context. Respond with ONLY valid JSON:
 {{
   "comparators": [
-    {{"type": "string", "column": "col1", "similarity_function": "cosine", "preprocess": "lower", "list_strategy": "concatenate"}},
+    {{"type": "string", "column": "col1", "similarity_function": "cosine", "preprocess": "lower", "list_strategy": "best_match"}},
     {{"type": "numeric", "column": "col2", "max_difference": 5, "list_strategy": "average"}},
     {{"type": "date", "column": "col3", "max_days_difference": 365}}
   ],
@@ -989,7 +998,8 @@ Guidance:
   - jaccard or cosine for token sets/longer text/list-ish strings
   - cosine is the default fallback for strings if unsure
 - Use preprocess to normalize text: lower, strip, lower_strip, none.
-- list_strategy options for string comparators: concatenate, set_jaccard, best_match, set_overlap.
+- list_strategy options for string comparators: set_jaccard, best_match, set_overlap.
+- Never use `concatenate` for list-like string comparison.
 - list_strategy options for numeric comparators: average, best_match, range_overlap, set_jaccard.
 - If blocking columns are provided, include at least one comparator using them unless they are clearly low quality.
 - Weights should be non-negative, sum to 1, and match the number of comparators.
@@ -1215,7 +1225,15 @@ Guidance:
                 if ctype == "numeric":
                     comp_fixed["list_strategy"] = "average"
                 elif ctype == "string":
-                    comp_fixed["list_strategy"] = "concatenate"
+                    comp_fixed["list_strategy"] = self._sanitize_string_list_strategy(
+                        None,
+                        str(comp_fixed.get("similarity_function", "cosine")),
+                    )
+            elif ctype == "string" and comp_fixed.get("list_strategy") is not None:
+                comp_fixed["list_strategy"] = self._sanitize_string_list_strategy(
+                    comp_fixed.get("list_strategy"),
+                    str(comp_fixed.get("similarity_function", "cosine")),
+                )
 
             self._sanitize_dataframe_column_for_comparator(
                 self.datasets_loaded[name_left],

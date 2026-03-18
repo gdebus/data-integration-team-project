@@ -357,13 +357,17 @@ def _pydi_safe_fuser(fn):
     def _ensure_string_list_strategy(match: re.Match) -> str:
         block = match.group(0)
         if "list_strategy" in block:
-            return block
-        strategy = "concatenate"
+            return re.sub(
+                r"list_strategy\s*=\s*[\"']concatenate[\"']",
+                "list_strategy=\"set_jaccard\"" if re.search(r"similarity_function\s*=\s*[\"']jaccard[\"']", block) else "list_strategy=\"best_match\"",
+                block,
+            )
+        strategy = "best_match"
         try:
             if re.search(r"similarity_function\s*=\s*[\"']jaccard[\"']", block):
                 strategy = "set_jaccard"
         except Exception:
-            strategy = "concatenate"
+            strategy = "best_match"
         return re.sub(
             r"\n([ \t]*)\)$",
             rf"\n\1    list_strategy=\"{strategy}\",\n\1)",

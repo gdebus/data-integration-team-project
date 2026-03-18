@@ -1425,13 +1425,17 @@ except ModuleNotFoundError:
         def _ensure_string_list_strategy(match: re.Match) -> str:
             block = match.group(0)
             if "list_strategy" in block:
-                return block
-            strategy = "concatenate"
+                return re.sub(
+                    r"list_strategy\s*=\s*[\"']concatenate[\"']",
+                    "list_strategy=\"set_jaccard\"" if re.search(r"similarity_function\\s*=\\s*[\"\\']jaccard[\"\\']", block) else "list_strategy=\"best_match\"",
+                    block,
+                )
+            strategy = "best_match"
             try:
                 if re.search(r"similarity_function\\s*=\\s*[\"\\']jaccard[\"\\']", block):
                     strategy = "set_jaccard"
             except Exception:
-                strategy = "concatenate"
+                strategy = "best_match"
             return re.sub(
                 r"\\n([ \\t]*)\\)$",
                 rf"\\n\\1    list_strategy=\\\"{strategy}\\\",\\n\\1)",
@@ -1960,12 +1964,14 @@ except ModuleNotFoundError:
                 "- Keep IDs unchanged (case and content must be preserved exactly).\n"
                 "- If you convert a column to list-like values, any comparator on that column MUST set list_strategy.\n"
                 "- If StringComparator is used on potentially list-like columns (artist/name/tracks/etc.), set list_strategy explicitly.\n"
+                "- Never use `concatenate` as a list_strategy for StringComparator.\n"
                 "- Prefer normalization that aligns fused output with validation representation, not a random canonical style."
             )
             PIPELINE_MATCHING_SAFETY_RULES_BLOCK = (
                 "MATCHING/COMPARATOR SAFETY RULES (MANDATORY):\n"
                 "- Never leave StringComparator list_strategy unspecified when values may be lists.\n"
                 "- Never leave NumericComparator list_strategy unspecified when values may be lists.\n"
+                "- Do not use `concatenate` for list-like string comparison; use `best_match`, `set_jaccard`, or `set_overlap`.\n"
                 "- Avoid introducing preprocessing that changes representation style away from validation set conventions unless diagnostics explicitly justify it."
             )
 
