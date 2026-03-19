@@ -906,6 +906,56 @@
       "run_report_path": "output/results/run_20260319_141339_report.md"
     }
   },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_position": "union",
+        "tracks_track_duration": "union"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "67.86%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "choose_name",
+        "artist": "choose_artist",
+        "release-date": "choose_release_date",
+        "release-country": "choose_release_country",
+        "duration": "choose_duration",
+        "label": "choose_label",
+        "genre": "choose_genre",
+        "tracks_track_name": "lambda values: None",
+        "tracks_track_position": "lambda values: None",
+        "tracks_track_duration": "lambda values: None"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "67.86%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "choose_scalar_placeholder",
+        "artist": "choose_scalar_placeholder",
+        "release-date": "choose_scalar_placeholder",
+        "release-country": "choose_scalar_placeholder",
+        "duration": "choose_scalar_placeholder",
+        "label": "choose_scalar_placeholder",
+        "genre": "choose_scalar_placeholder",
+        "tracks_track_name": "choose_scalar_placeholder",
+        "tracks_track_position": "choose_scalar_placeholder",
+        "tracks_track_duration": "choose_scalar_placeholder"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "72.14%"
+    }
+  ],
   "transition_stats": {
     "transition_counts": {
       "match_schemas": {

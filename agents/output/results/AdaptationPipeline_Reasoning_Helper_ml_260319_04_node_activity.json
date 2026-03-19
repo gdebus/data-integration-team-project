@@ -752,6 +752,24 @@
       "run_report_path": "output/results/run_20260319_154022_report.md"
     }
   },
+  "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "artist": "longest_string",
+        "release-date": "longest_string",
+        "release-country": "longest_string",
+        "duration": "longest_string",
+        "label": "longest_string",
+        "genre": "longest_string",
+        "tracks_track_name": "union",
+        "tracks_track_position": "union",
+        "tracks_track_duration": "union"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "74.22%"
+    }
+  ],
   "transition_stats": {
     "transition_counts": {
       "match_schemas": {
