@@ -1,0 +1,1795 @@
+{
+  "timestamp": "20260319_154022",
+  "datasets": [
+    "amazon_small",
+    "goodreads_small",
+    "metabooks_small"
+  ],
+  "matcher_mode": "ml",
+  "fusion_testset": "golden_fused_books.csv",
+  "validation_fusion_testset": "",
+  "sealed_evaluation_active": false,
+  "blocking_metrics": {
+    "goodreads_small_amazon_small": {
+      "pair_completeness": 0.9977578475336323,
+      "num_candidates": 149874,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publish_year"
+      ]
+    },
+    "metabooks_small_amazon_small": {
+      "pair_completeness": 0.9939577039274925,
+      "num_candidates": 149820,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publisher"
+      ]
+    },
+    "metabooks_small_goodreads_small": {
+      "pair_completeness": 0.9947826086956522,
+      "num_candidates": 149517,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "title",
+        "author",
+        "publisher"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "goodreads_small_amazon_small": {
+      "f1_score": 0.7738095238095238
+    },
+    "metabooks_small_amazon_small": {
+      "f1_score": 0.8962962962962964
+    },
+    "metabooks_small_goodreads_small": {
+      "f1_score": 0.8831168831168832
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.7214285714285714,
+    "macro_accuracy": 0.7214285714285714,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 7,
+    "total_evaluations": 140,
+    "total_correct": 101,
+    "publish_year_accuracy": 0.65,
+    "publish_year_count": 20,
+    "page_count_accuracy": 0.65,
+    "page_count_count": 20,
+    "genres_accuracy": 0.7,
+    "genres_count": 20,
+    "language_accuracy": 0.85,
+    "language_count": 20,
+    "publisher_accuracy": 0.75,
+    "publisher_count": 20,
+    "author_accuracy": 0.7,
+    "author_count": 20,
+    "title_accuracy": 0.75,
+    "title_count": 20
+  },
+  "overall_accuracy": 0.7214285714285714,
+  "blocking_config": {
+    "blocking_strategies": {
+      "goodreads_small_amazon_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "title",
+          "author",
+          "publish_year"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 0.9977578475336323,
+        "num_candidates": 149874,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metabooks_small_amazon_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "title",
+          "author",
+          "publisher"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 0.9939577039274925,
+        "num_candidates": 149820,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metabooks_small_goodreads_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "title",
+          "author",
+          "publisher"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 0.9947826086956522,
+        "num_candidates": 149517,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "id_columns": {
+      "amazon_small": "id",
+      "goodreads_small": "id",
+      "metabooks_small": "id"
+    },
+    "dataset_signature": "amazon_small|goodreads_small|metabooks_small",
+    "dataset_names": [
+      "amazon_small",
+      "goodreads_small",
+      "metabooks_small"
+    ],
+    "pc_threshold": 0.9,
+    "max_candidates": 350000,
+    "candidate_tolerance": 0.15,
+    "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "amazon_small|goodreads_small|metabooks_small",
+      "datasets": [
+        "amazon_small",
+        "goodreads_small",
+        "metabooks_small"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 19970,
+      "expected_unique_ids": 19970,
+      "expected_rows_range": [
+        15000,
+        20014
+      ],
+      "expected_unique_ids_range": [
+        15000,
+        20014
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "amazon_small",
+          "goodreads_small",
+          "metabooks_small"
+        ],
+        "pair_cluster_estimates": {
+          "amazon_small_goodreads_small": 9978,
+          "amazon_small_metabooks_small": 9940,
+          "goodreads_small_metabooks_small": 9948
+        },
+        "triple_intersection_estimates": {
+          "via_amazon_small": 9918.132,
+          "via_goodreads_small": 9926.1144,
+          "via_metabooks_small": 9888.312,
+          "median_used": 9918.132,
+          "final_triple_intersection": 9918,
+          "triple_intersection_range": [
+            0,
+            9940
+          ]
+        },
+        "expected_union_clusters": 10030,
+        "expected_union_range": [
+          9986,
+          15000
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "goodreads_small_amazon_small",
+          "left_dataset": "amazon_small",
+          "right_dataset": "goodreads_small",
+          "min_pair_size": 10000,
+          "pair_completeness": 0.9977578475336323,
+          "expected_cluster_count": 9978
+        },
+        {
+          "pair_key": "metabooks_small_amazon_small",
+          "left_dataset": "amazon_small",
+          "right_dataset": "metabooks_small",
+          "min_pair_size": 10000,
+          "pair_completeness": 0.9939577039274925,
+          "expected_cluster_count": 9940
+        },
+        {
+          "pair_key": "metabooks_small_goodreads_small",
+          "left_dataset": "goodreads_small",
+          "right_dataset": "metabooks_small",
+          "min_pair_size": 10000,
+          "pair_completeness": 0.9947826086956522,
+          "expected_cluster_count": 9948
+        }
+      ],
+      "created_at": "2026-03-19T13:35:03.710830+00:00",
+      "expected_rows_matched_only": 10030,
+      "expected_unique_ids_matched_only": 10030,
+      "expected_rows_matched_only_range": [
+        9986,
+        15000
+      ],
+      "expected_unique_ids_matched_only_range": [
+        9986,
+        15000
+      ],
+      "expected_rows_singleton_aware": 19970,
+      "expected_unique_ids_singleton_aware": 19970,
+      "expected_rows_singleton_aware_range": [
+        15000,
+        20014
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        15000,
+        20014
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 30000,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "amazon_small": "id",
+      "goodreads_small": "id",
+      "metabooks_small": "id"
+    },
+    "matching_strategies": {
+      "goodreads_small_amazon_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "title",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "string",
+            "column": "author",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "date",
+            "column": "publish_year",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "publisher",
+            "similarity_function": "cosine",
+            "preprocess": "lower"
+          }
+        ],
+        "weights": [
+          0.45,
+          0.3,
+          0.15,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.7738095238095238,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.4552845528455285,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metabooks_small_amazon_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "title",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "author",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "publisher",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.5,
+          0.3,
+          0.2
+        ],
+        "threshold": 0.72,
+        "f1": 0.8962962962962964,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.49462365591397844,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metabooks_small_goodreads_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "title",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "author",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "publisher",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "numeric",
+            "column": "page_count",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.5,
+          0.25,
+          0.15,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.8831168831168832,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.5325443786982248,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "dataset_signature": "amazon_small|goodreads_small|metabooks_small",
+    "dataset_names": [
+      "amazon_small",
+      "goodreads_small",
+      "metabooks_small"
+    ],
+    "min_blocking_pc_for_matching": 0.9,
+    "proxy_f1_margin": 0.015,
+    "proxy_max_candidates": 60000,
+    "llm_trace_path": "output/matching-evaluation/llm_matching_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "amazon_small|goodreads_small|metabooks_small",
+      "datasets": [
+        "amazon_small",
+        "goodreads_small",
+        "metabooks_small"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 18343,
+      "expected_unique_ids": 18343,
+      "expected_rows_range": [
+        15000,
+        20027
+      ],
+      "expected_unique_ids_range": [
+        15000,
+        20027
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "amazon_small",
+          "goodreads_small",
+          "metabooks_small"
+        ],
+        "pair_cluster_estimates": {
+          "amazon_small_goodreads_small": 7721,
+          "amazon_small_metabooks_small": 8909,
+          "goodreads_small_metabooks_small": 8785
+        },
+        "triple_intersection_estimates": {
+          "via_amazon_small": 6878.6389,
+          "via_goodreads_small": 6782.8985,
+          "via_metabooks_small": 7826.5565,
+          "median_used": 6878.6389,
+          "final_triple_intersection": 6879,
+          "triple_intersection_range": [
+            0,
+            7721
+          ]
+        },
+        "expected_union_clusters": 11657,
+        "expected_union_range": [
+          9973,
+          15000
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "goodreads_small_amazon_small",
+          "left_dataset": "amazon_small",
+          "right_dataset": "goodreads_small",
+          "min_pair_size": 10000,
+          "pair_completeness": 0.9977578475336323,
+          "f1": 0.7738095238095238,
+          "expected_cluster_count": 7721
+        },
+        {
+          "pair_key": "metabooks_small_amazon_small",
+          "left_dataset": "amazon_small",
+          "right_dataset": "metabooks_small",
+          "min_pair_size": 10000,
+          "pair_completeness": 0.9939577039274925,
+          "f1": 0.8962962962962964,
+          "expected_cluster_count": 8909
+        },
+        {
+          "pair_key": "metabooks_small_goodreads_small",
+          "left_dataset": "goodreads_small",
+          "right_dataset": "metabooks_small",
+          "min_pair_size": 10000,
+          "pair_completeness": 0.9947826086956522,
+          "f1": 0.8831168831168832,
+          "expected_cluster_count": 8785
+        }
+      ],
+      "created_at": "2026-03-19T13:38:06.003589+00:00",
+      "expected_rows_matched_only": 11657,
+      "expected_unique_ids_matched_only": 11657,
+      "expected_rows_matched_only_range": [
+        9973,
+        15000
+      ],
+      "expected_unique_ids_matched_only_range": [
+        9973,
+        15000
+      ],
+      "expected_rows_singleton_aware": 18343,
+      "expected_unique_ids_singleton_aware": 18343,
+      "expected_rows_singleton_aware_range": [
+        15000,
+        20027
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        15000,
+        20027
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 30000,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "run_report_path": "output/results/run_20260319_141339_report.md"
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 22878,
+      "unique_ids": 22878
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 19970,
+        "actual_rows": 22878,
+        "rows_abs_error": 2908,
+        "rows_pct_error": 0.14561842764146218,
+        "expected_rows_matched_only": 10030,
+        "expected_rows_singleton_aware": 19970,
+        "rows_pct_error_matched_only": 1.2809571286141574,
+        "rows_pct_error_singleton_aware": 0.14561842764146218,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 19970,
+        "actual_unique_ids": 22878,
+        "unique_ids_abs_error": 2908,
+        "unique_ids_pct_error": 0.14561842764146218,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-19T14:34:17.820134+00:00"
+      },
+      "matching": {
+        "expected_rows": 18343,
+        "actual_rows": 22878,
+        "rows_abs_error": 4535,
+        "rows_pct_error": 0.24723327699940031,
+        "expected_rows_matched_only": 11657,
+        "expected_rows_singleton_aware": 18343,
+        "rows_pct_error_matched_only": 0.9625975808527065,
+        "rows_pct_error_singleton_aware": 0.24723327699940031,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 18343,
+        "actual_unique_ids": 22878,
+        "unique_ids_abs_error": 4535,
+        "unique_ids_pct_error": 0.24723327699940031,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-19T14:34:17.820167+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "missing_fused_value": 21,
+      "mismatch": 18
+    },
+    "debug_reason_ratios": {
+      "missing_fused_value": 0.5384615384615384,
+      "mismatch": 0.46153846153846156
+    },
+    "evaluation_stage": "test",
+    "evaluation_testset_path": "input/datasets/books/testsets/golden_fused_books.csv",
+    "id_alignment": {
+      "gold_count": 20,
+      "direct_coverage": 1,
+      "direct_coverage_ratio": 0.05,
+      "mapped_coverage": 17,
+      "mapped_coverage_ratio": 0.85,
+      "missing_gold_ids": [
+        "amazon_12422",
+        "amazon_135479",
+        "goodreads_8611"
+      ]
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 22878,
+        "unique_ids": 22878
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 19970,
+          "actual_rows": 22878,
+          "rows_abs_error": 2908,
+          "rows_pct_error": 0.14561842764146218,
+          "expected_rows_matched_only": 10030,
+          "expected_rows_singleton_aware": 19970,
+          "rows_pct_error_matched_only": 1.2809571286141574,
+          "rows_pct_error_singleton_aware": 0.14561842764146218,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 19970,
+          "actual_unique_ids": 22878,
+          "unique_ids_abs_error": 2908,
+          "unique_ids_pct_error": 0.14561842764146218,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-03-19T14:34:17.820134+00:00"
+        },
+        "matching": {
+          "expected_rows": 18343,
+          "actual_rows": 22878,
+          "rows_abs_error": 4535,
+          "rows_pct_error": 0.24723327699940031,
+          "expected_rows_matched_only": 11657,
+          "expected_rows_singleton_aware": 18343,
+          "rows_pct_error_matched_only": 0.9625975808527065,
+          "rows_pct_error_singleton_aware": 0.24723327699940031,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 18343,
+          "actual_unique_ids": 22878,
+          "unique_ids_abs_error": 4535,
+          "unique_ids_pct_error": 0.24723327699940031,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-03-19T14:34:17.820167+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.7214285714285714
+  },
+  "normalization_execution_result": "success",
+  "normalization_attempts": 3,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 3,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/books/testsets/golden_fused_books.csv",
+    "validation_style": {
+      "inferred_country_output_format": "name",
+      "used_country_output_format": "name",
+      "lowercase_columns_hint": [
+        "author_provenance",
+        "genres_provenance",
+        "id",
+        "language_provenance",
+        "page_count_provenance",
+        "publisher_provenance",
+        "publisher_year_provenance",
+        "title_provenance"
+      ],
+      "validation_list_like_columns_hint": [],
+      "case_profile": {
+        "id": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "title_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "title": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 20
+        },
+        "author_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "author": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 20
+        },
+        "language_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "language": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 20
+        },
+        "genres_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "genres": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 20
+        },
+        "publisher_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "publisher": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 20
+        },
+        "publisher_year_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        },
+        "page_count_provenance": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 20
+        }
+      }
+    },
+    "normalization_directives": {
+      "list_columns": [
+        "author",
+        "genres"
+      ],
+      "text_columns": [
+        "language",
+        "publisher",
+        "title"
+      ],
+      "country_output_format": "name",
+      "list_normalization_required": true,
+      "needs_normalization": true,
+      "reasons": [
+        "Strong evidence of list/scalar/stringified-list inconsistencies, especially for genres, with 19 normalization-sensitive mismatches reported.",
+        "Author also shows mixed list-like and text encodings, including multi-contributor strings and role suffixes versus canonical single-author text.",
+        "Language has evidence of multi-valued fused strings like 'english, german' versus validation-style scalar values, so scalar text canonicalization is needed.",
+        "Publisher/title mismatches include canonicalization-sensitive variants such as shortened imprints, abbreviations, punctuation, and whitespace/token differences.",
+        "No case-only mismatch pattern is present, so blanket lowercasing is not supported.",
+        "No country canonicalization evidence is present; country normalization is not indicated."
+      ],
+      "recommendation_summary": "Rerun normalization focused on validation-compatible list and text canonicalization: normalize genres and author as list-like fields, flatten stringified list artifacts, clean author role/multi-contributor text, and canonicalize scalar language plus publisher/title whitespace and variant forms. Do not add country normalization or blanket lowercasing.",
+      "confidence": 0.95
+    },
+    "ablation_report": {
+      "evaluated_subsets": [
+        {
+          "subset": "text_columns",
+          "keys": [
+            "text_columns"
+          ],
+          "projected_delta": 0.006556,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.006556,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.888889,
+            "normalization_pressure": 0.611111,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "language",
+              "publisher",
+              "title"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "combined",
+          "keys": [
+            "list_columns",
+            "country_columns",
+            "lowercase_columns",
+            "text_columns"
+          ],
+          "projected_delta": 0.006378,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.006378,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.866667,
+            "normalization_pressure": 0.611111,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "author",
+              "genres",
+              "language",
+              "publisher",
+              "title"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "list_columns",
+          "keys": [
+            "list_columns"
+          ],
+          "projected_delta": 0.006111,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.006111,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.833333,
+            "normalization_pressure": 0.611111,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "author",
+              "genres"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        }
+      ],
+      "selected_keys": [
+        "list_columns",
+        "text_columns"
+      ],
+      "pruned_directives": {
+        "list_columns": [
+          "author",
+          "genres"
+        ],
+        "text_columns": [
+          "language",
+          "publisher",
+          "title"
+        ],
+        "country_output_format": "name",
+        "list_normalization_required": true,
+        "needs_normalization": true,
+        "reasons": [
+          "Strong evidence of list/scalar/stringified-list inconsistencies, especially for genres, with 19 normalization-sensitive mismatches reported.",
+          "Author also shows mixed list-like and text encodings, including multi-contributor strings and role suffixes versus canonical single-author text.",
+          "Language has evidence of multi-valued fused strings like 'english, german' versus validation-style scalar values, so scalar text canonicalization is needed.",
+          "Publisher/title mismatches include canonicalization-sensitive variants such as shortened imprints, abbreviations, punctuation, and whitespace/token differences.",
+          "No case-only mismatch pattern is present, so blanket lowercasing is not supported.",
+          "No country canonicalization evidence is present; country normalization is not indicated."
+        ],
+        "recommendation_summary": "Rerun normalization focused on validation-compatible list and text canonicalization: normalize genres and author as list-like fields, flatten stringified list artifacts, clean author role/multi-contributor text, and canonicalize scalar language plus publisher/title whitespace and variant forms. Do not add country normalization or blanket lowercasing.",
+        "confidence": 0.95
+      },
+      "selection_reason": "selected subsets with positive projected gain"
+    },
+    "shadow_precheck": {},
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "datasets": {
+      "amazon_small": {
+        "input_path": "output/normalization/attempt_2/amazon_small.csv",
+        "output_path": "output/normalization/attempt_3/amazon_small.csv",
+        "row_count": 10000,
+        "id_column": "id",
+        "applied_transforms": {
+          "title": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "author": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "publisher": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [
+          "author"
+        ],
+        "summary": {
+          "original_columns": 5,
+          "normalized_columns": 5,
+          "rows_processed": 10000,
+          "overall_success_rate": 1.0,
+          "processing_time": 145.35183691978455,
+          "type_distribution": {
+            "STRING": 4,
+            "NUMERIC": 1
+          }
+        }
+      },
+      "goodreads_small": {
+        "input_path": "output/normalization/attempt_2/goodreads_small.csv",
+        "output_path": "output/normalization/attempt_3/goodreads_small.csv",
+        "row_count": 10000,
+        "id_column": "id",
+        "applied_transforms": {
+          "title": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "author": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "language": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "genres": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "publisher": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [
+          "author",
+          "genres"
+        ],
+        "summary": {
+          "original_columns": 13,
+          "normalized_columns": 13,
+          "rows_processed": 10000,
+          "overall_success_rate": 1.0,
+          "processing_time": 241.79101181030273,
+          "type_distribution": {
+            "STRING": 8,
+            "NUMERIC": 5
+          }
+        }
+      },
+      "metabooks_small": {
+        "input_path": "output/normalization/attempt_2/metabooks_small.csv",
+        "output_path": "output/normalization/attempt_3/metabooks_small.csv",
+        "row_count": 10000,
+        "id_column": "id",
+        "applied_transforms": {
+          "title": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "author": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "language": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "genres": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "publisher": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [
+          "author",
+          "genres"
+        ],
+        "summary": {
+          "original_columns": 11,
+          "normalized_columns": 11,
+          "rows_processed": 10000,
+          "overall_success_rate": 1.0,
+          "processing_time": 157.5543839931488,
+          "type_distribution": {
+            "STRING": 6,
+            "NUMERIC": 5
+          }
+        }
+      }
+    },
+    "warnings": [],
+    "failure_tags": [
+      "ok"
+    ],
+    "reverted_to_original": false,
+    "created_at": "2026-03-19T15:27:27.390319"
+  },
+  "normalization_directives": {
+    "list_columns": [
+      "author",
+      "genres"
+    ],
+    "text_columns": [
+      "language",
+      "publisher",
+      "title"
+    ],
+    "country_output_format": "name",
+    "list_normalization_required": true,
+    "needs_normalization": true,
+    "reasons": [
+      "Strong evidence of list/scalar/stringified-list inconsistencies, especially for genres, with 19 normalization-sensitive mismatches reported.",
+      "Author also shows mixed list-like and text encodings, including multi-contributor strings and role suffixes versus canonical single-author text.",
+      "Language has evidence of multi-valued fused strings like 'english, german' versus validation-style scalar values, so scalar text canonicalization is needed.",
+      "Publisher/title mismatches include canonicalization-sensitive variants such as shortened imprints, abbreviations, punctuation, and whitespace/token differences.",
+      "No case-only mismatch pattern is present, so blanket lowercasing is not supported.",
+      "No country canonicalization evidence is present; country normalization is not indicated."
+    ],
+    "recommendation_summary": "Rerun normalization focused on validation-compatible list and text canonicalization: normalize genres and author as list-like fields, flatten stringified list artifacts, clean author role/multi-contributor text, and canonicalize scalar language plus publisher/title whitespace and variant forms. Do not add country normalization or blanket lowercasing.",
+    "confidence": 0.95
+  },
+  "investigator_action_plan": [
+    {
+      "source": "recommendations",
+      "action": "improve_id_alignment_and_traceability",
+      "target_attributes": [
+        "id"
+      ],
+      "evidence_summary": "Mapped evaluation coverage is only 0.850; 3 gold IDs are explicitly missing from aligned fused output.",
+      "expected_impact": "high",
+      "confidence": 0.93,
+      "priority_score": 0.78
+    },
+    {
+      "source": "recommendations",
+      "action": "add_attribute_specific_fusion_rules",
+      "target_attributes": [
+        "genres",
+        "publisher",
+        "page_count"
+      ],
+      "evidence_summary": "Attributes with low evaluation accuracy: genres=0.05, publisher=0.35, page_count=0.65.",
+      "expected_impact": "high",
+      "confidence": 0.87,
+      "priority_score": 0.759
+    },
+    {
+      "source": "recommendations",
+      "action": "improve_attribute_coverage_before_fusion",
+      "target_attributes": [
+        "genres",
+        "publisher",
+        "page_count"
+      ],
+      "evidence_summary": "21 debug events are missing fused values, indicating upstream coverage or projection gaps.",
+      "expected_impact": "high",
+      "confidence": 0.8,
+      "priority_score": 0.735
+    },
+    {
+      "source": "recommendations",
+      "action": "canonicalize_text_fields_without_blanket_lowercasing",
+      "target_attributes": [
+        "language",
+        "publisher",
+        "title"
+      ],
+      "evidence_summary": "Normalization directives indicate text canonicalization need, but case-only mismatch evidence does not justify blanket lowercasing.",
+      "expected_impact": "medium",
+      "confidence": 0.95,
+      "priority_score": 0.625
+    }
+  ],
+  "normalized_datasets": [
+    "output/normalization/attempt_3/amazon_small.csv",
+    "output/normalization/attempt_3/goodreads_small.csv",
+    "output/normalization/attempt_3/metabooks_small.csv"
+  ],
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-03-19T14:39:03.345333+00:00",
+    "summary": {
+      "created_at": "2026-03-19T14:39:03.345333+00:00",
+      "fused_output_path": "output/data_fusion/fusion_data.csv",
+      "fused_rows": 22878,
+      "source_dataset_count": 3,
+      "overall_accuracy": 0.6142857142857143,
+      "macro_accuracy": 0.6142857142857142,
+      "mapped_eval_id_coverage_ratio": 0.85,
+      "direct_eval_id_coverage_ratio": 0.05,
+      "low_accuracy_attributes": [
+        {
+          "attribute": "genres",
+          "accuracy": 0.05
+        },
+        {
+          "attribute": "publisher",
+          "accuracy": 0.35
+        },
+        {
+          "attribute": "page_count",
+          "accuracy": 0.65
+        }
+      ],
+      "debug_event_count": 40,
+      "case_only_mismatch_count": 0,
+      "list_like_mismatch_count": 0,
+      "country_canonicalization_count": 0,
+      "correspondence_nonempty_files": 12,
+      "correspondence_empty_expected_pairs": 0,
+      "correspondence_missing_expected_pairs": 0,
+      "top_recommendation": {
+        "action": "add_attribute_specific_fusion_rules",
+        "target_attributes": [
+          "genres",
+          "publisher",
+          "page_count"
+        ],
+        "evidence_summary": "Attributes with low evaluation accuracy: genres=0.05, publisher=0.35, page_count=0.65.",
+        "expected_impact": "high",
+        "confidence": 0.87,
+        "machine_hints": {
+          "target_columns": [
+            "genres",
+            "publisher",
+            "page_count"
+          ],
+          "suggested_pydi_functions": [
+            "attribute_specific_resolution_rule",
+            "custom_conflict_resolution",
+            "trust_your_sources"
+          ]
+        },
+        "evidence": {
+          "attribute_accuracies": [
+            {
+              "attribute": "genres",
+              "accuracy": 0.05
+            },
+            {
+              "attribute": "publisher",
+              "accuracy": 0.35
+            },
+            {
+              "attribute": "page_count",
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "priority_score": 0.912
+      }
+    },
+    "findings": [
+      {
+        "severity": "HIGH",
+        "title": "Coverage gaps causing missing fused values",
+        "evidence_summary": "21 debug events indicate missing fused values.",
+        "evidence": {
+          "debug_reason_counts": {
+            "missing_fused_value": 21,
+            "mismatch": 33
+          },
+          "debug_jsonl_path": "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        },
+        "recommendation_refs": [
+          "improve_attribute_coverage_before_fusion"
+        ]
+      },
+      {
+        "severity": "HIGH",
+        "title": "Evaluation ID coverage gap",
+        "evidence_summary": "Mapped evaluation ID coverage is 0.850; some gold IDs are not aligned to fused records.",
+        "evidence": {
+          "mapped_eval_id_coverage": {
+            "matched": 17,
+            "total_gold": 20,
+            "ratio": 0.85
+          },
+          "missing_gold_ids": [
+            "amazon_12422",
+            "amazon_135479",
+            "goodreads_8611"
+          ]
+        },
+        "recommendation_refs": [
+          "improve_id_alignment_and_traceability"
+        ]
+      },
+      {
+        "severity": "HIGH",
+        "title": "Fusion size estimate drift at matching stage",
+        "evidence_summary": "matching size estimate drift is 0.247 (4535 rows).",
+        "evidence": {
+          "stage": "matching",
+          "comparison": {
+            "expected_rows": 18343,
+            "actual_rows": 22878,
+            "rows_abs_error": 4535,
+            "rows_pct_error": 0.24723327699940031,
+            "expected_rows_matched_only": 11657,
+            "expected_rows_singleton_aware": 18343,
+            "rows_pct_error_matched_only": 0.9625975808527065,
+            "rows_pct_error_singleton_aware": 0.24723327699940031,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 18343,
+            "actual_unique_ids": 22878,
+            "unique_ids_abs_error": 4535,
+            "unique_ids_pct_error": 0.24723327699940031,
+            "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-19T14:34:17.820167+00:00"
+          },
+          "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json"
+        },
+        "recommendation_refs": [
+          "review_matching_thresholds_and_cluster_retention"
+        ]
+      },
+      {
+        "severity": "HIGH",
+        "title": "Low attribute-level fusion accuracy",
+        "evidence_summary": "Several attributes underperform on evaluation: genres=0.05, publisher=0.35, page_count=0.65.",
+        "evidence": {
+          "low_accuracy_attributes": [
+            {
+              "attribute": "genres",
+              "accuracy": 0.05
+            },
+            {
+              "attribute": "publisher",
+              "accuracy": 0.35
+            },
+            {
+              "attribute": "page_count",
+              "accuracy": 0.65
+            }
+          ],
+          "metrics_path_context": {
+            "evaluation_set": "input/datasets/books/testsets/golden_fused_books.csv",
+            "fused_output": "output/data_fusion/fusion_data.csv",
+            "metrics": {
+              "overall_accuracy": 0.6142857142857143,
+              "macro_accuracy": 0.6142857142857142,
+              "num_evaluated_records": 20,
+              "num_evaluated_attributes": 7,
+              "total_evaluations": 140,
+              "total_correct": 86,
+              "publish_year_accuracy": 0.85,
+              "publish_year_count": 20,
+              "language_accuracy": 0.85,
+              "language_count": 20,
+              "page_count_accuracy": 0.65,
+              "page_count_count": 20,
+              "publisher_accuracy": 0.35,
+              "publisher_count": 20,
+              "genres_accuracy": 0.05,
+              "genres_count": 20,
+              "author_accuracy": 0.8,
+              "author_count": 20,
+              "title_accuracy": 0.75,
+              "title_count": 20
+            },
+            "diagnostics": {
+              "rows_fused_raw": 22825,
+              "rows_fused_eval_view": 22978,
+              "rows_gold": 20,
+              "direct_id_coverage": {
+                "matched": 1,
+                "total_gold": 20,
+                "ratio": 0.05
+              },
+              "mapped_eval_id_coverage": {
+                "matched": 17,
+                "total_gold": 20,
+                "ratio": 0.85
+              },
+              "evaluation_functions": {
+                "title": "tokenized_match(threshold=0.85)",
+                "author": "tokenized_match(threshold=0.8)",
+                "language": "tokenized_match(threshold=0.85)",
+                "genres": "tokenized_match(threshold=0.7)",
+                "publisher": "tokenized_match(threshold=0.8)",
+                "publish_year": "numeric_tolerance_match(tolerance=1.0)",
+                "page_count": "numeric_tolerance_match(tolerance=2.0)"
+              }
+            }
+          }
+        },
+        "recommendation_refs": [
+          "add_attribute_specific_fusion_rules"
+        ]
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "Moderate fusion size estimate drift at blocking stage",
+        "evidence_summary": "blocking size estimate drift is 0.146.",
+        "evidence": {
+          "stage": "blocking",
+          "comparison": {
+            "expected_rows": 19970,
+            "actual_rows": 22878,
+            "rows_abs_error": 2908,
+            "rows_pct_error": 0.14561842764146218,
+            "expected_rows_matched_only": 10030,
+            "expected_rows_singleton_aware": 19970,
+            "rows_pct_error_matched_only": 1.2809571286141574,
+            "rows_pct_error_singleton_aware": 0.14561842764146218,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 19970,
+            "actual_unique_ids": 22878,
+            "unique_ids_abs_error": 2908,
+            "unique_ids_pct_error": 0.14561842764146218,
+            "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-19T14:34:17.820134+00:00"
+          }
+        },
+        "recommendation_refs": []
+      },
+      {
+        "severity": "MEDIUM",
+        "title": "Possible under-matching / over-splitting of entities",
+        "evidence_summary": "Fused row count (22878) is close to per-source singleton baseline (10000), suggesting many records remain unmerged.",
+        "evidence": {
+          "fused_rows": 22878,
+          "total_source_rows": 30000,
+          "source_count": 3,
+          "singleton_baseline": 10000.0
+        },
+        "recommendation_refs": [
+          "review_matching_thresholds_and_cluster_retention"
+        ]
+      },
+      {
+        "severity": "INFO",
+        "title": "No case-only mismatch pattern detected",
+        "evidence_summary": "Debug fusion evaluation events do not show a systematic case-only mismatch pattern; blanket lowercasing is not supported by observed evidence.",
+        "evidence": {
+          "case_only_mismatch_count": 0,
+          "by_attribute": {},
+          "samples": []
+        },
+        "recommendation_refs": []
+      },
+      {
+        "severity": "INFO",
+        "title": "No country canonicalization issue detected",
+        "evidence_summary": "No strong evidence of long-form vs short-form country mismatches was found in available artifacts.",
+        "evidence": {
+          "country_column_hits": [],
+          "debug_country_count": 0
+        },
+        "recommendation_refs": []
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "add_attribute_specific_fusion_rules",
+        "target_attributes": [
+          "genres",
+          "publisher",
+          "page_count"
+        ],
+        "evidence_summary": "Attributes with low evaluation accuracy: genres=0.05, publisher=0.35, page_count=0.65.",
+        "expected_impact": "high",
+        "confidence": 0.87,
+        "machine_hints": {
+          "target_columns": [
+            "genres",
+            "publisher",
+            "page_count"
+          ],
+          "suggested_pydi_functions": [
+            "attribute_specific_resolution_rule",
+            "custom_conflict_resolution",
+            "trust_your_sources"
+          ]
+        },
+        "evidence": {
+          "attribute_accuracies": [
+            {
+              "attribute": "genres",
+              "accuracy": 0.05
+            },
+            {
+              "attribute": "publisher",
+              "accuracy": 0.35
+            },
+            {
+              "attribute": "page_count",
+              "accuracy": 0.65
+            }
+          ]
+        },
+        "priority_score": 0.912
+      },
+      {
+        "action": "improve_id_alignment_and_traceability",
+        "target_attributes": [
+          "id"
+        ],
+        "evidence_summary": "Mapped evaluation coverage is only 0.850; 3 gold IDs are explicitly missing from aligned fused output.",
+        "expected_impact": "high",
+        "confidence": 0.93,
+        "machine_hints": {
+          "target_columns": [
+            "id"
+          ],
+          "suggested_pydi_functions": [
+            "ensure_source_id_projection",
+            "preserve_cluster_member_ids",
+            "evaluation_id_mapping"
+          ]
+        },
+        "evidence": {
+          "mapped_eval_id_coverage": {
+            "matched": 17,
+            "total_gold": 20,
+            "ratio": 0.85
+          },
+          "missing_gold_ids": [
+            "amazon_12422",
+            "amazon_135479",
+            "goodreads_8611"
+          ],
+          "paths": [
+            "output/data_fusion/fusion_data.csv",
+            "input/datasets/books/testsets/golden_fused_books.csv"
+          ]
+        },
+        "priority_score": 0.888
+      },
+      {
+        "action": "improve_attribute_coverage_before_fusion",
+        "target_attributes": [
+          "genres",
+          "publisher",
+          "page_count"
+        ],
+        "evidence_summary": "21 debug events are missing fused values, indicating upstream coverage or projection gaps.",
+        "expected_impact": "high",
+        "confidence": 0.8,
+        "machine_hints": {
+          "suggested_pydi_functions": [
+            "source_completeness_preference",
+            "fill_from_any_source",
+            "preserve_non_null_values"
+          ]
+        },
+        "evidence": {
+          "debug_reason_counts": {
+            "missing_fused_value": 21,
+            "mismatch": 33
+          },
+          "path": "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        },
+        "priority_score": 0.87
+      },
+      {
+        "action": "review_matching_thresholds_and_cluster_retention",
+        "target_attributes": [
+          "cluster_size",
+          "entity_count"
+        ],
+        "evidence_summary": "matching estimate underpredicts fused rows by 4535 (24.7%), consistent with conservative matching or over-splitting drift.",
+        "expected_impact": "high",
+        "confidence": 0.84,
+        "machine_hints": {
+          "suggested_pydi_functions": [
+            "tune_matching_thresholds",
+            "inspect_cluster_graph",
+            "compare_estimated_vs_actual_entities"
+          ]
+        },
+        "evidence": {
+          "stage": "matching",
+          "comparison": {
+            "expected_rows": 18343,
+            "actual_rows": 22878,
+            "rows_abs_error": 4535,
+            "rows_pct_error": 0.24723327699940031,
+            "expected_rows_matched_only": 11657,
+            "expected_rows_singleton_aware": 18343,
+            "rows_pct_error_matched_only": 0.9625975808527065,
+            "rows_pct_error_singleton_aware": 0.24723327699940031,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 18343,
+            "actual_unique_ids": 22878,
+            "unique_ids_abs_error": 4535,
+            "unique_ids_pct_error": 0.24723327699940031,
+            "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-19T14:34:17.820167+00:00"
+          },
+          "path": "output/pipeline_evaluation/fusion_size_estimate.json"
+        },
+        "priority_score": 0.864
+      },
+      {
+        "action": "canonicalize_text_fields_without_blanket_lowercasing",
+        "target_attributes": [
+          "language",
+          "publisher",
+          "title"
+        ],
+        "evidence_summary": "Normalization directives indicate text canonicalization need, but case-only mismatch evidence does not justify blanket lowercasing.",
+        "expected_impact": "medium",
+        "confidence": 0.95,
+        "machine_hints": {
+          "target_columns": [
+            "language",
+            "publisher",
+            "title"
+          ],
+          "suggested_pydi_functions": [
+            "strip",
+            "normalize_whitespace",
+            "canonical_value_mapping",
+            "token_cleanup"
+          ]
+        },
+        "evidence": {
+          "normalization_directives": {
+            "list_columns": [
+              "author",
+              "genres"
+            ],
+            "text_columns": [
+              "language",
+              "publisher",
+              "title"
+            ],
+            "country_output_format": "name",
+            "list_normalization_required": true,
+            "needs_normalization": true,
+            "reasons": [
+              "Strong evidence of list/scalar/stringified-list inconsistencies, especially for genres, with 19 normalization-sensitive mismatches reported.",
+              "Author also shows mixed list-like and text encodings, including multi-contributor strings and role suffixes versus canonical single-author text.",
+              "Language has evidence of multi-valued fused strings like 'english, german' versus validation-style scalar values, so scalar text canonicalization is needed.",
+              "Publisher/title mismatches include canonicalization-sensitive variants such as shortened imprints, abbreviations, punctuation, and whitespace/token differences.",
+              "No case-only mismatch pattern is present, so blanket lowercasing is not supported.",
+              "No country canonicalization evidence is present; country normalization is not indicated."
+            ],
+            "recommendation_summary": "Rerun normalization focused on validation-compatible list and text canonicalization: normalize genres and author as list-like fields, flatten stringified list artifacts, clean author role/multi-contributor text, and canonicalize scalar language plus publisher/title whitespace and variant forms. Do not add country normalization or blanket lowercasing.",
+            "confidence": 0.95
+          }
+        },
+        "priority_score": 0.86
+      }
+    ],
+    "source_attribute_agreement": {},
+    "fusion_policy_recommendations": [],
+    "artifacts": {
+      "fused_csv": "output/data_fusion/fusion_data.csv",
+      "evaluation_json": "output/pipeline_evaluation/pipeline_evaluation.json",
+      "debug_jsonl": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+      "fusion_size_estimate_json": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "correspondences_dir": "output/correspondences",
+      "source_datasets": {
+        "amazon_small": "output/normalization/attempt_3/amazon_small.csv",
+        "goodreads_small": "output/normalization/attempt_3/goodreads_small.csv",
+        "metabooks_small": "output/normalization/attempt_3/metabooks_small.csv"
+      }
+    },
+    "warnings": [],
+    "evidence": {
+      "context_evaluation_metrics": {
+        "evaluation_set": "input/datasets/books/testsets/golden_fused_books.csv",
+        "fused_output": "output/data_fusion/fusion_data.csv",
+        "metrics": {
+          "overall_accuracy": 0.6142857142857143,
+          "macro_accuracy": 0.6142857142857142,
+          "num_evaluated_records": 20,
+          "num_evaluated_attributes": 7,
+          "total_evaluations": 140,
+          "total_correct": 86,
+          "publish_year_accuracy": 0.85,
+          "publish_year_count": 20,
+          "language_accuracy": 0.85,
+          "language_count": 20,
+          "page_count_accuracy": 0.65,
+          "page_count_count": 20,
+          "publisher_accuracy": 0.35,
+          "publisher_count": 20,
+          "genres_accuracy": 0.05,
+          "genres_count": 20,
+          "author_accuracy": 0.8,
+          "author_count": 20,
+          "title_accuracy": 0.75,
+          "title_count": 20
+        },
+        "diagnostics": {
+          "rows_fused_raw": 22825,
+          "rows_fused_eval_view": 22978,
+          "rows_gold": 20,
+          "direct_id_coverage": {
+            "matched": 1,
+            "total_gold": 20,
+            "ratio": 0.05
+          },
+          "mapped_eval_id_coverage": {
+            "matched": 17,
+            "total_gold": 20,
+            "ratio": 0.85
+          },
+          "evaluation_functions": {
+            "title": "tokenized_match(threshold=0.85)",
+            "author": "tokenized_match(threshold=0.8)",
+            "language": "tokenized_match(threshold=0.85)",
+            "genres": "tokenized_match(threshold=0.7)",
+            "publisher": "tokenized_match(threshold=0.8)",
+            "publish_year": "numeric_tolerance_match(tolerance=1.0)",
+            "page_count": "numeric_tolerance_match(tolerance=2.0)"
+          }
+        }
+      },
+      "context_auto_diagnostics": {
+        "debug_reason_counts": {
+          "missing_fused_value": 21,
+          "mismatch": 33
+        },
+        "debug_reason_ratios": {
+          "missing_fused_value": 0.3888888888888889,
+          "mismatch": 0.6111111111111112
+        },
+        "evaluation_stage": "test",
+        "evaluation_testset_path": "input/datasets/books/testsets/golden_fused_books.csv",
+        "id_alignment": {
+          "gold_count": 20,
+          "direct_coverage": 1,
+          "direct_coverage_ratio": 0.05,
+          "mapped_coverage": 17,
+          "mapped_coverage_ratio": 0.85,
+          "missing_gold_ids": [
+            "amazon_12422",
+            "amazon_135479",
+            "goodreads_8611"
+          ]
+        },
+        "fusion_size_comparison": {
+          "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+          "actual": {
+            "rows": 22825,
+            "unique_ids": 22825
+          },
+          "comparisons": {
+            "blocking": {
+              "expected_rows": 19970,
+              "actual_rows": 22825,
+              "rows_abs_error": 2855,
+              "rows_pct_error": 0.14296444667000502,
+              "expected_rows_matched_only": 10030,
+              "expected_rows_singleton_aware": 19970,
+              "rows_pct_error_matched_only": 1.2756729810568295,
+              "rows_pct_error_singleton_aware": 0.14296444667000502,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 19970,
+              "actual_unique_ids": 22825,
+              "unique_ids_abs_error": 2855,
+              "unique_ids_pct_error": 0.14296444667000502,
+              "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+              "compared_at": "2026-03-19T14:12:28.391169+00:00"
+            },
+            "matching": {
+              "expected_rows": 18343,
+              "actual_rows": 22825,
+              "rows_abs_error": 4482,
+              "rows_pct_error": 0.24434389140271492,
+              "expected_rows_matched_only": 11657,
+              "expected_rows_singleton_aware": 18343,
+              "rows_pct_error_matched_only": 0.9580509565068199,
+              "rows_pct_error_singleton_aware": 0.24434389140271492,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 18343,
+              "actual_unique_ids": 22825,
+              "unique_ids_abs_error": 4482,
+              "unique_ids_pct_error": 0.24434389140271492,
+              "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+              "compared_at": "2026-03-19T14:12:28.391228+00:00"
+            }
+          }
+        },
+        "overall_accuracy": null
+      },
+      "correspondence_scan": {
+        "dir": "output/correspondences",
+        "files": [
+          {
+            "path": "output/correspondences/correspondences_amazon_small__goodreads_small.csv",
+            "size_bytes": 64411,
+            "row_count": 1263,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_goodreads_amazon.csv",
+            "size_bytes": 64411,
+            "row_count": 1263,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_metacritic_dbpedia.csv",
+            "size_bytes": 2386770,
+            "row_count": 33559,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_musicbrainz_lastfm.csv",
+            "size_bytes": 124842,
+            "row_count": 1859,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_discogs_lastfm.csv",
+            "size_bytes": 120133,
+            "row_count": 2456,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_goodreads_small__metabooks_small.csv",
+            "size_bytes": 162112,
+            "row_count": 2974,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_metabooks_goodreads.csv",
+            "size_bytes": 162112,
+            "row_count": 2974,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_metacritic_sales.csv",
+            "size_bytes": 501351,
+            "row_count": 7345,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_discogs_musicbrainz.csv",
+            "size_bytes": 114074,
+            "row_count": 1677,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+            "size_bytes": 135264,
+            "row_count": 2061,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_amazon_small__metabooks_small.csv",
+            "size_bytes": 759238,
+            "row_count": 10658,
+            "empty": false
+          },
+          {
+            "path": "output/correspondences/correspondences_metabooks_amazon.csv",
+            "size_bytes": 759238,
+            "row_count": 10658,
+            "empty": false
+          }
+        ],
+        "empty_expected_pairs": [],
+        "missing_expected_pairs": [],
+        "nonempty_files": 12,
+        "empty_files": 0
+      },
+      "case_only_mismatch_analysis": {
+        "case_only_mismatch_count": 0,
+        "by_attribute": {},
+        "samples": []
+      },
+      "normalization_sensitive_debug_patterns": {
+        "list_like_mismatch_count": 0,
+        "country_canonicalization_count": 0,
+        "samples": {
+          "list_like": [],
+          "country": []
+        }
+      },
+      "list_format_findings": [],
+      "country_hits": []
+    }
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": "Created reviewer-friendly fused, lineage, and diff outputs. Mapped 20 test rows to fused records.",
+    "file_paths": {
+      "fused_review_table_csv": "output/human_review/fused_review_table.csv",
+      "source_lineage_long_csv": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff_csv": "output/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 22878,
+      "review_table_rows": 22878,
+      "source_lineage_rows": 30000,
+      "diff_rows": 160,
+      "source_datasets_requested": 3,
+      "source_ids_indexed": 30000,
+      "testset_rows": 20,
+      "testset_rows_mapped": 20,
+      "review_attributes_count": 22
+    },
+    "warnings": [],
+    "created_at": "2026-03-19T14:40:16.019831+00:00"
+  },
+  "final_test_evaluation_execution_result": "",
+  "final_test_evaluation_metrics": {},
+  "token_usage": {
+    "prompt_tokens": 412837,
+    "completion_tokens": 91672,
+    "total_tokens": 504509,
+    "total_cost": 0.73792625
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 3,
+    "matcher_mode": "ml"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to evaluate a fusion output with PyDI DataFusionEvaluator, including add_evaluation_function usage and evaluate arguments?",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\n(‘score’ or ‘similarity’). When a sequence is provided, all DataFrames\nare validated and concatenated before processing. This is compatible\nwith PyDI’s CorrespondenceSet format.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column for\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n\n-----\n\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionResult\nFusionResult.confidence\nFusionResult.metadata\nFusionResult.rule_used\nFusionResult.sources\nFusionResult.value\nRecordGroup\nRecordGroup.add_record()\nRecordGroup.get_all_attributes()\nRecordGroup.group_id\nRecordGroup.records\nRecordGroup.source_datasets\nget_callable_name()\nPyDI.fusion.engine module\nDataFusionEngine\nDataFusionEngine.run()\napply_schema_correspondences()\nbuild_record_groups_from_correspondences()\nPyDI.fusion.evaluation module\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\n\n-----\n\nschema_correspondences\n(\nOptional\n[\npd.DataFrame\n]\n) – Optional schema correspondences for attribute alignment.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column\nfor that dataset. When provided, each dataset is normalized to have\na string\n_id\ncolumn derived from the specified column. If not\nprovided, the engine will use an existing\n_id\ncolumn if present,\notherwise fall back to\nid\n.\ninclude_singletons\n(\nbool\n,\ndefault True\n) – Whether to include singleton groups (records not referenced in any\ncorrespondence) in the fused output. Set to False to return only\nrecords that participate in at least one correspondence (group size > 1).\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject"
+    },
+    {
+      "query": "What evaluation functions are available in PyDI fusion for textual, numeric, date, and list-like comparison such as tokenized_match, year_only_match, set_equality_match, numeric_tolerance_match?",
+      "response": "Tuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\n.\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nDateComparator\nDateComparator.compare()\nNumericComparator\nNumericComparator.compare()\nStringComparator\nStringComparator.compare()\nPyDI.entitymatching.evaluation module\nEntityMatchingEvaluator\nEntityMatchingEvaluator.create_cluster_consistency_report()\nEntityMatchingEvaluator.create_cluster_size_distribution()\nEntityMatchingEvaluator.evaluate_blocking()\nEntityMatchingEvaluator.evaluate_blocking_batched()\nEntityMatchingEvaluator.evaluate_matching()\nEntityMatchingEvaluator.threshold_sweep()\nEntityMatchingEvaluator.write_cluster_details()\nEntityMatchingEvaluator.write_debug_results()\nEntityMatchingEvaluator.write_record_groups_by_consistency()\nPyDI.entitymatching.feature_extraction module\nFeatureExtractor\nFeatureExtractor.create_features()\nFeatureExtractor.get_feature_names()\nVectorFeatureExtractor\nVectorFeatureExtractor.create_features()\nVectorFeatureExtractor.get_feature_names()\nPyDI.entitymatching.llm_based module\nLLMBasedMatcher\nLLMBasedMatcher.match()\nPyDI.entitymatching.ml_based module\nMLBasedMatcher\nMLBasedMatcher.get_feature_importance()\nMLBasedMatcher.match()\nMLBasedMatcher.predict_pairs()\nPyDI.entitymatching.plm_based module\nPLMBasedMatcher\nPLMBasedMatcher.match()\n\n-----\n\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\nPyDI.fusion.\nprefer_higher_trust\n(\nvalues\n,\n*\n,\nsources\n=\nNone\n,\nsource_datasets\n=\nNone\n,\ntrust_map\n=\nNone\n,\ndefault_trust\n=\n1.0\n,\ntrust_key\n=\n'trust'\n,\ntie_breaker\n=\n'first'\n,\n**\nkwargs\n)\n[source]\n\nPrefer the value coming from the dataset with the highest trust level.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – Candidate values for the attribute.\nsources\n(\nList\n[\nstr\n]\n) – Record IDs corresponding 1:1 to\nvalues\n(provided by the engine).\nsource_datasets\n(\nDict\n[\nstr\n,\nstr\n]\n) – Map from record ID to dataset name (provided by the engine).\ntrust_map\n(\nDict\n[\nstr\n,\nfloat\n]\n,\noptional\n) – Map from dataset name to trust score/level. Higher means more trusted.\ndefault_trust\n(\nfloat\n,\ndefault 1.0\n) – Trust to assume for datasets not in\ntrust_map\n.\ntrust_key\n(\nstr\n,\ndefault \"trust\"\n) – Key name to use for the trust value in the emitted metadata.\ntie_breaker\n(\nstr\n,\ndefault \"first\"\n) – How to break ties when multiple datasets share the highest trust.\nOptions: “first” (preserve input order).\nReturns\n:"
+    }
+  ],
+  "integration_pipeline_code_length": 29695,
+  "evaluation_code_length": 16356,
+  "integration_diagnostics_code_length": 75184,
+  "human_review_code_length": 21689
+}

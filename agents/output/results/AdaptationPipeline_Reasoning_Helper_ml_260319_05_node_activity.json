@@ -1,0 +1,84 @@
+{
+  "use_case": "Games",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: kaggle_small, uber_eats_small, yelp_small; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 9636,
+      "completion_tokens": 258,
+      "total_tokens": 9894,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 5.342,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "PENDING",
+      "output_summary": [
+        "profiled datasets: kaggle_small, uber_eats_small, yelp_small."
+      ],
+      "prompt_tokens": 293,
+      "completion_tokens": 88,
+      "total_tokens": 381,
+      "estimated_cost_usd": 0.00124625,
+      "duration_seconds": 1.587,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      }
+    },
+    "total_nodes_logged": 2
+  },
+  "time_complexity": {
+    "total_duration_seconds": 7.06,
+    "sum_of_logged_node_durations_seconds": 6.929,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 5.342,
+      "profile_data": 1.587
+    }
+  },
+  "token_complexity": {
+    "per_node_cumulative_tokens": {
+      "match_schemas": {
+        "prompt_tokens": 9636,
+        "output_tokens": 258,
+        "total_tokens": 9894
+      },
+      "profile_data": {
+        "prompt_tokens": 293,
+        "output_tokens": 88,
+        "total_tokens": 381
+      }
+    },
+    "global_tokens": {
+      "prompt_tokens": 9929,
+      "output_tokens": 346,
+      "total_tokens": 10275,
+      "total_cost_usd": 0.0300125
+    }
+  },
+  "summarization_tokens": {
+    "prompt_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "estimated_cost_usd": 0.0
+  },
+  "density": {
+    "stage": "matching",
+    "estimated_rows": 10500,
+    "actual_rows": 29607,
+    "density": 2.819714
+  }
+}

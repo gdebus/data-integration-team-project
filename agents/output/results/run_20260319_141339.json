@@ -1,0 +1,2212 @@
+{
+  "timestamp": "20260319_141339",
+  "datasets": [
+    "dbpedia",
+    "metacritic",
+    "sales"
+  ],
+  "matcher_mode": "ml",
+  "fusion_testset": "test_set_fusion.xml",
+  "validation_fusion_testset": "validation_set_fusion.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "dbpedia_sales": {
+      "pair_completeness": 0.9029126213592233,
+      "num_candidates": 24817,
+      "stategy": "exact_match_single",
+      "columns": [
+        "name"
+      ]
+    },
+    "metacritic_dbpedia": {
+      "pair_completeness": 0.9679144385026738,
+      "num_candidates": 409850,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "developer",
+        "platform"
+      ]
+    },
+    "metacritic_sales": {
+      "pair_completeness": 1.0,
+      "num_candidates": 409504,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "dbpedia_sales": {
+      "f1_score": 0.972972972972973
+    },
+    "metacritic_dbpedia": {
+      "f1_score": 0.9444444444444444
+    },
+    "metacritic_sales": {
+      "f1_score": 0.9629629629629629
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.8625,
+    "macro_accuracy": 0.8625,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 80,
+    "total_correct": 69,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "platform_accuracy": 1.0,
+    "platform_count": 10,
+    "userScore_accuracy": 0.5,
+    "userScore_count": 10,
+    "publisher_accuracy": 0.9,
+    "publisher_count": 10,
+    "criticScore_accuracy": 0.9,
+    "criticScore_count": 10,
+    "name_accuracy": 0.9,
+    "name_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "releaseYear_accuracy": 0.9,
+    "releaseYear_count": 10
+  },
+  "overall_accuracy": 0.8625,
+  "blocking_config": {
+    "blocking_strategies": {
+      "dbpedia_sales": {
+        "strategy": "exact_match_single",
+        "columns": [
+          "name"
+        ],
+        "params": {},
+        "pair_completeness": 0.9029126213592233,
+        "num_candidates": 24817,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "developer",
+          "platform"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9679144385026738,
+        "num_candidates": 409850,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 409504,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "dataset_signature": "dbpedia|metacritic|sales",
+    "dataset_names": [
+      "dbpedia",
+      "metacritic",
+      "sales"
+    ],
+    "pc_threshold": 0.9,
+    "max_candidates": 2071389,
+    "candidate_tolerance": 0.15,
+    "llm_trace_path": "output/blocking-evaluation/llm_blocking_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "dbpedia|metacritic|sales",
+      "datasets": [
+        "dbpedia",
+        "metacritic",
+        "sales"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 54350,
+      "expected_unique_ids": 54350,
+      "expected_rows_range": [
+        40126,
+        54350
+      ],
+      "expected_unique_ids_range": [
+        40126,
+        54350
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "dbpedia",
+          "metacritic",
+          "sales"
+        ],
+        "pair_cluster_estimates": {
+          "dbpedia_metacritic": 19836,
+          "dbpedia_sales": 7112,
+          "metacritic_sales": 7877
+        },
+        "triple_intersection_estimates": {
+          "via_dbpedia": 3028.6310004293687,
+          "via_metacritic": 7624.093490777788,
+          "via_sales": 7112.0,
+          "median_used": 7112.0,
+          "final_triple_intersection": 7112,
+          "triple_intersection_range": [
+            0,
+            7112
+          ]
+        },
+        "expected_union_clusters": 20601,
+        "expected_union_range": [
+          20601,
+          34825
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "dbpedia_sales",
+          "left_dataset": "dbpedia",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.9029126213592233,
+          "expected_cluster_count": 7112
+        },
+        {
+          "pair_key": "metacritic_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "metacritic",
+          "min_pair_size": 20494,
+          "pair_completeness": 0.9679144385026738,
+          "expected_cluster_count": 19836
+        },
+        {
+          "pair_key": "metacritic_sales",
+          "left_dataset": "metacritic",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 7877
+        }
+      ],
+      "created_at": "2026-03-19T12:32:14.500259+00:00",
+      "expected_rows_matched_only": 20601,
+      "expected_unique_ids_matched_only": 20601,
+      "expected_rows_matched_only_range": [
+        20601,
+        34825
+      ],
+      "expected_unique_ids_matched_only_range": [
+        20601,
+        34825
+      ],
+      "expected_rows_singleton_aware": 54350,
+      "expected_unique_ids_singleton_aware": 54350,
+      "expected_rows_singleton_aware_range": [
+        40126,
+        54350
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        40126,
+        54350
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 74951,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "matching_strategies": {
+      "dbpedia_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.5,
+          0.15,
+          0.2,
+          0.15
+        ],
+        "threshold": 0.78,
+        "f1": 0.972972972972973,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          }
+        ],
+        "weights": [
+          0.45,
+          0.2,
+          0.2,
+          0.15
+        ],
+        "threshold": 0.72,
+        "f1": 0.9444444444444444,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.27906976744186046,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "metacritic_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower"
+          },
+          {
+            "type": "numeric",
+            "column": "criticScore",
+            "max_difference": 5.0
+          }
+        ],
+        "weights": [
+          0.34,
+          0.18,
+          0.16,
+          0.2,
+          0.12
+        ],
+        "threshold": 0.78,
+        "f1": 0.9629629629629629,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.13793103448275862,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "dataset_signature": "dbpedia|metacritic|sales",
+    "dataset_names": [
+      "dbpedia",
+      "metacritic",
+      "sales"
+    ],
+    "min_blocking_pc_for_matching": 0.9,
+    "proxy_f1_margin": 0.015,
+    "proxy_max_candidates": 60000,
+    "llm_trace_path": "output/matching-evaluation/llm_matching_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "dbpedia|metacritic|sales",
+      "datasets": [
+        "dbpedia",
+        "metacritic",
+        "sales"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 55038,
+      "expected_unique_ids": 55038,
+      "expected_rows_range": [
+        41712,
+        55552
+      ],
+      "expected_unique_ids_range": [
+        41712,
+        55552
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "dbpedia",
+          "metacritic",
+          "sales"
+        ],
+        "pair_cluster_estimates": {
+          "dbpedia_metacritic": 18734,
+          "dbpedia_sales": 6920,
+          "metacritic_sales": 7585
+        },
+        "triple_intersection_estimates": {
+          "via_dbpedia": 2783.1532846715327,
+          "via_metacritic": 6933.6093490777785,
+          "via_sales": 6663.475942617748,
+          "median_used": 6663.475942617748,
+          "final_triple_intersection": 6663,
+          "triple_intersection_range": [
+            0,
+            6920
+          ]
+        },
+        "expected_union_clusters": 19913,
+        "expected_union_range": [
+          19399,
+          33239
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "dbpedia_sales",
+          "left_dataset": "dbpedia",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 0.9029126213592233,
+          "f1": 0.972972972972973,
+          "expected_cluster_count": 6920
+        },
+        {
+          "pair_key": "metacritic_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "metacritic",
+          "min_pair_size": 20494,
+          "pair_completeness": 0.9679144385026738,
+          "f1": 0.9444444444444444,
+          "expected_cluster_count": 18734
+        },
+        {
+          "pair_key": "metacritic_sales",
+          "left_dataset": "metacritic",
+          "right_dataset": "sales",
+          "min_pair_size": 7877,
+          "pair_completeness": 1.0,
+          "f1": 0.9629629629629629,
+          "expected_cluster_count": 7585
+        }
+      ],
+      "created_at": "2026-03-19T12:40:58.792251+00:00",
+      "expected_rows_matched_only": 19913,
+      "expected_unique_ids_matched_only": 19913,
+      "expected_rows_matched_only_range": [
+        19399,
+        33239
+      ],
+      "expected_unique_ids_matched_only_range": [
+        19399,
+        33239
+      ],
+      "expected_rows_singleton_aware": 55038,
+      "expected_unique_ids_singleton_aware": 55038,
+      "expected_rows_singleton_aware_range": [
+        41712,
+        55552
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        41712,
+        55552
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 74951,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "run_report_path": "output/results/run_20260319_132619_report.md"
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 61042,
+      "unique_ids": 61042
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 54350,
+        "actual_rows": 61042,
+        "rows_abs_error": 6692,
+        "rows_pct_error": 0.1231278748850046,
+        "expected_rows_matched_only": 20601,
+        "expected_rows_singleton_aware": 54350,
+        "rows_pct_error_matched_only": 1.963060045628853,
+        "rows_pct_error_singleton_aware": 0.1231278748850046,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 54350,
+        "actual_unique_ids": 61042,
+        "unique_ids_abs_error": 6692,
+        "unique_ids_pct_error": 0.1231278748850046,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-19T13:07:39.991854+00:00"
+      },
+      "matching": {
+        "expected_rows": 55038,
+        "actual_rows": 61042,
+        "rows_abs_error": 6004,
+        "rows_pct_error": 0.10908826628874596,
+        "expected_rows_matched_only": 19913,
+        "expected_rows_singleton_aware": 55038,
+        "rows_pct_error_matched_only": 2.0654346406869886,
+        "rows_pct_error_singleton_aware": 0.10908826628874596,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 55038,
+        "actual_unique_ids": 61042,
+        "unique_ids_abs_error": 6004,
+        "unique_ids_pct_error": 0.10908826628874596,
+        "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-19T13:07:39.991888+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 10,
+      "missing_fused_value": 1
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.9090909090909091,
+      "missing_fused_value": 0.09090909090909091
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/games/testsets/validation_set_fusion.xml",
+    "id_alignment": {
+      "gold_count": 10,
+      "direct_coverage": 5,
+      "direct_coverage_ratio": 0.5,
+      "mapped_coverage": 10,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 61042,
+        "unique_ids": 61042
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 54350,
+          "actual_rows": 61042,
+          "rows_abs_error": 6692,
+          "rows_pct_error": 0.1231278748850046,
+          "expected_rows_matched_only": 20601,
+          "expected_rows_singleton_aware": 54350,
+          "rows_pct_error_matched_only": 1.963060045628853,
+          "rows_pct_error_singleton_aware": 0.1231278748850046,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 54350,
+          "actual_unique_ids": 61042,
+          "unique_ids_abs_error": 6692,
+          "unique_ids_pct_error": 0.1231278748850046,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-03-19T13:07:39.991854+00:00"
+        },
+        "matching": {
+          "expected_rows": 55038,
+          "actual_rows": 61042,
+          "rows_abs_error": 6004,
+          "rows_pct_error": 0.10908826628874596,
+          "expected_rows_matched_only": 19913,
+          "expected_rows_singleton_aware": 55038,
+          "rows_pct_error_matched_only": 2.0654346406869886,
+          "rows_pct_error_singleton_aware": 0.10908826628874596,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 55038,
+          "actual_unique_ids": 61042,
+          "unique_ids_abs_error": 6004,
+          "unique_ids_pct_error": 0.10908826628874596,
+          "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-03-19T13:07:39.991888+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.8625
+  },
+  "normalization_execution_result": "success",
+  "normalization_attempts": 2,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 2,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/games/testsets/validation_set_fusion.xml",
+    "validation_style": {
+      "inferred_country_output_format": "name",
+      "used_country_output_format": "name",
+      "lowercase_columns_hint": [
+        "id"
+      ],
+      "validation_list_like_columns_hint": [
+        "genres_genre"
+      ],
+      "case_profile": {
+        "id": {
+          "prefer_lowercase": true,
+          "lower_ratio": 1.0,
+          "sample_size": 10
+        },
+        "name": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 10
+        },
+        "developer": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 10
+        },
+        "genres_genre": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 10
+        },
+        "publisher": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 10
+        },
+        "platform": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 10
+        },
+        "ESRB": {
+          "prefer_lowercase": false,
+          "lower_ratio": 0.0,
+          "sample_size": 10
+        }
+      }
+    },
+    "normalization_directives": {
+      "lowercase_columns": [
+        "id"
+      ],
+      "text_columns": [
+        "platform",
+        "ESRB",
+        "userScore"
+      ],
+      "country_output_format": "name",
+      "list_normalization_required": false,
+      "needs_normalization": true,
+      "reasons": [
+        "There is no evidence of country-name canonicalization problems: diagnostics show zero country canonicalization events and no country near-mismatches.",
+        "There is no evidence of list-format inconsistencies: diagnostics report zero list-format events and observed_list_formats are empty across attributes.",
+        "Validation hints indicate scalar formatting for fields like platform, developer, publisher, and ESRB; they should not be treated as list columns.",
+        "The strongest normalization-sensitive issue mentioned in reasoning is semantic/text canonicalization for platform aliases (e.g. PC vs linux vs xbox 360), which can break exact comparisons and categorical survivorship.",
+        "Reasoning also recommends ESRB label canonicalization to a closed set, indicating text normalization could improve categorical consistency.",
+        "Reasoning recommends normalizing numeric-text handling for userScore and criticScore, but the evidence points more to fusion-rule/semantic issues than to case or list formatting."
+      ],
+      "recommendation_summary": "Rerun limited normalization focused on scalar text canonicalization for platform and ESRB, plus consistent userScore value formatting/parsing. Do not add country normalization or list normalization, since diagnostics show no evidence for those issues and validation style treats relevant fields as scalar. Keep id lowercase only, and preserve validation-style casing for other fields.",
+      "confidence": 0.81
+    },
+    "ablation_report": {
+      "evaluated_subsets": [
+        {
+          "subset": "text_columns",
+          "keys": [
+            "text_columns"
+          ],
+          "projected_delta": 0.012313,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.012313,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 1.0,
+            "directive_coverage": 0.777778,
+            "normalization_pressure": 0.272727,
+            "matched_problem_columns": [
+              "userscore"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "esrb",
+              "platform",
+              "userscore"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "combined",
+          "keys": [
+            "list_columns",
+            "country_columns",
+            "lowercase_columns",
+            "text_columns"
+          ],
+          "projected_delta": 0.011424,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.011424,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 1.0,
+            "directive_coverage": 0.666667,
+            "normalization_pressure": 0.272727,
+            "matched_problem_columns": [
+              "userscore"
+            ],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "esrb",
+              "genres_genre",
+              "id",
+              "platform",
+              "userscore"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "lowercase_columns",
+          "keys": [
+            "lowercase_columns"
+          ],
+          "projected_delta": 0.006091,
+          "allow": true,
+          "details": {
+            "allow": true,
+            "projected_delta": 0.006091,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 1.0,
+            "normalization_pressure": 0.272727,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "id"
+            ],
+            "reason": "projected gain acceptable"
+          }
+        },
+        {
+          "subset": "list_columns",
+          "keys": [
+            "list_columns"
+          ],
+          "projected_delta": -0.001909,
+          "allow": false,
+          "details": {
+            "allow": false,
+            "projected_delta": -0.001909,
+            "min_projected_delta": 0.002,
+            "overlap_with_low_accuracy": 0.0,
+            "directive_coverage": 0.0,
+            "normalization_pressure": 0.272727,
+            "matched_problem_columns": [],
+            "sample_rows_scanned": 600,
+            "directive_columns": [
+              "genres_genre"
+            ],
+            "reason": "insufficient projected gain"
+          }
+        }
+      ],
+      "selected_keys": [
+        "lowercase_columns",
+        "text_columns"
+      ],
+      "pruned_directives": {
+        "lowercase_columns": [
+          "id"
+        ],
+        "text_columns": [
+          "platform",
+          "ESRB",
+          "userScore"
+        ],
+        "country_output_format": "name",
+        "list_normalization_required": false,
+        "needs_normalization": true,
+        "reasons": [
+          "There is no evidence of country-name canonicalization problems: diagnostics show zero country canonicalization events and no country near-mismatches.",
+          "There is no evidence of list-format inconsistencies: diagnostics report zero list-format events and observed_list_formats are empty across attributes.",
+          "Validation hints indicate scalar formatting for fields like platform, developer, publisher, and ESRB; they should not be treated as list columns.",
+          "The strongest normalization-sensitive issue mentioned in reasoning is semantic/text canonicalization for platform aliases (e.g. PC vs linux vs xbox 360), which can break exact comparisons and categorical survivorship.",
+          "Reasoning also recommends ESRB label canonicalization to a closed set, indicating text normalization could improve categorical consistency.",
+          "Reasoning recommends normalizing numeric-text handling for userScore and criticScore, but the evidence points more to fusion-rule/semantic issues than to case or list formatting."
+        ],
+        "recommendation_summary": "Rerun limited normalization focused on scalar text canonicalization for platform and ESRB, plus consistent userScore value formatting/parsing. Do not add country normalization or list normalization, since diagnostics show no evidence for those issues and validation style treats relevant fields as scalar. Keep id lowercase only, and preserve validation-style casing for other fields.",
+        "confidence": 0.81
+      },
+      "selection_reason": "selected subsets with positive projected gain"
+    },
+    "shadow_precheck": {},
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "datasets": {
+      "dbpedia": {
+        "input_path": "output/normalization/attempt_1/dbpedia.csv",
+        "output_path": "output/normalization/attempt_2/dbpedia.csv",
+        "row_count": 46580,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "releaseYear": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "developer": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "platform": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 6,
+          "normalized_columns": 6,
+          "rows_processed": 46580,
+          "overall_success_rate": 1.0,
+          "processing_time": 54.085111141204834,
+          "type_distribution": {
+            "STRING": 5,
+            "DATE": 1
+          }
+        }
+      },
+      "metacritic": {
+        "input_path": "output/normalization/attempt_1/metacritic.csv",
+        "output_path": "output/normalization/attempt_2/metacritic.csv",
+        "row_count": 20494,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "releaseYear": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "developer": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "platform": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "ESRB": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 8,
+          "normalized_columns": 8,
+          "rows_processed": 20494,
+          "overall_success_rate": 1.0,
+          "processing_time": 67.18551206588745,
+          "type_distribution": {
+            "STRING": 5,
+            "DATE": 1,
+            "NUMERIC": 2
+          }
+        }
+      },
+      "sales": {
+        "input_path": "output/normalization/attempt_1/sales.csv",
+        "output_path": "output/normalization/attempt_2/sales.csv",
+        "row_count": 7877,
+        "id_column": "id",
+        "applied_transforms": {
+          "name": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "releaseYear": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "developer": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "publisher": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "platform": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "ESRB": [
+            "strip",
+            "normalize_whitespace"
+          ]
+        },
+        "country_normalized_columns": [],
+        "list_normalized_columns": [],
+        "summary": {
+          "original_columns": 10,
+          "normalized_columns": 10,
+          "rows_processed": 7877,
+          "overall_success_rate": 1.0,
+          "processing_time": 78.18428802490234,
+          "type_distribution": {
+            "STRING": 7,
+            "DATE": 1,
+            "NUMERIC": 2
+          }
+        }
+      }
+    },
+    "warnings": [],
+    "failure_tags": [
+      "ok"
+    ],
+    "reverted_to_original": false,
+    "created_at": "2026-03-19T13:57:49.287756"
+  },
+  "normalization_directives": {
+    "lowercase_columns": [
+      "id"
+    ],
+    "text_columns": [
+      "platform",
+      "ESRB",
+      "userScore"
+    ],
+    "country_output_format": "name",
+    "list_normalization_required": false,
+    "needs_normalization": true,
+    "reasons": [
+      "There is no evidence of country-name canonicalization problems: diagnostics show zero country canonicalization events and no country near-mismatches.",
+      "There is no evidence of list-format inconsistencies: diagnostics report zero list-format events and observed_list_formats are empty across attributes.",
+      "Validation hints indicate scalar formatting for fields like platform, developer, publisher, and ESRB; they should not be treated as list columns.",
+      "The strongest normalization-sensitive issue mentioned in reasoning is semantic/text canonicalization for platform aliases (e.g. PC vs linux vs xbox 360), which can break exact comparisons and categorical survivorship.",
+      "Reasoning also recommends ESRB label canonicalization to a closed set, indicating text normalization could improve categorical consistency.",
+      "Reasoning recommends normalizing numeric-text handling for userScore and criticScore, but the evidence points more to fusion-rule/semantic issues than to case or list formatting."
+    ],
+    "recommendation_summary": "Rerun limited normalization focused on scalar text canonicalization for platform and ESRB, plus consistent userScore value formatting/parsing. Do not add country normalization or list normalization, since diagnostics show no evidence for those issues and validation style treats relevant fields as scalar. Keep id lowercase only, and preserve validation-style casing for other fields.",
+    "confidence": 0.81
+  },
+  "investigator_action_plan": [
+    {
+      "source": "fusion_policy_recommendations",
+      "action": "prefer_source_for_attribute",
+      "target_attributes": [
+        "userScore"
+      ],
+      "evidence_summary": "metacritic dominates agreement for userScore (1.000 exact vs next sales 0.294, support=18718)",
+      "expected_impact": "high",
+      "confidence": 0.95,
+      "priority_score": 0.787
+    },
+    {
+      "source": "recommendations",
+      "action": "improve_survivorship_for_missing_values",
+      "target_attributes": [
+        "platform",
+        "userScore"
+      ],
+      "evidence_summary": "Missing fused values are the dominant evaluation error mode.",
+      "expected_impact": "high",
+      "confidence": 0.84,
+      "priority_score": 0.749
+    },
+    {
+      "source": "recommendations",
+      "action": "recalibrate_fusion_size_estimator",
+      "target_attributes": [
+        "pipeline estimator"
+      ],
+      "evidence_summary": "Observed fusion size drift in blocking comparison (rows_pct_error=0.123).",
+      "expected_impact": "medium",
+      "confidence": 0.72,
+      "priority_score": 0.544
+    },
+    {
+      "source": "recommendations",
+      "action": "standardize_list_encoding",
+      "target_attributes": [
+        "name"
+      ],
+      "evidence_summary": "Observed mixed list encodings or malformed list strings across artifacts.",
+      "expected_impact": "medium",
+      "confidence": 0.7,
+      "priority_score": 0.537
+    }
+  ],
+  "normalized_datasets": [
+    "output/normalization/attempt_2/dbpedia.csv",
+    "output/normalization/attempt_2/metacritic.csv",
+    "output/normalization/attempt_2/sales.csv"
+  ],
+  "integration_diagnostics_execution_result": "success",
+  "integration_diagnostics_report": {
+    "created_at": "2026-03-19T13:11:16.587490+00:00",
+    "summary": {
+      "created_at": "2026-03-19T13:11:16.587490+00:00",
+      "evaluation_stage": "validation",
+      "overall_accuracy": 0.725,
+      "fused_rows": 61042,
+      "source_datasets_loaded": {
+        "dbpedia": 46580,
+        "metacritic": 20494,
+        "sales": 7877
+      },
+      "num_findings": 10,
+      "high_severity_findings": 3,
+      "medium_severity_findings": 7,
+      "num_recommendations": 5,
+      "warnings_count": 0
+    },
+    "findings": [
+      {
+        "severity": "HIGH",
+        "category": "over_clustering",
+        "title": "Over-clustering or over-matching detected in correspondences_metacritic_dbpedia.csv",
+        "evidence": {
+          "one_to_many_ratio": 0.7057,
+          "health_metrics": {
+            "total_clusters": 2044,
+            "max_cluster_size": 479,
+            "small_cluster_ratio": 0.3268,
+            "large_cluster_ratio": 0.319,
+            "is_long_tail": false,
+            "one_to_many_ratio": 0.7057
+          },
+          "recommended_strategy": "AdjustMatchingConfig",
+          "parameters": {
+            "threshold_delta": 0.05,
+            "threshold_cap": 0.95,
+            "reason": "Increase match thresholds to reduce over-matching and large clusters."
+          }
+        },
+        "recommendation": "Tighten match thresholds and inspect ambiguous features for this pair.",
+        "paths": [
+          "output/correspondences/correspondences_metacritic_dbpedia.csv"
+        ]
+      },
+      {
+        "severity": "HIGH",
+        "category": "coverage_gap",
+        "title": "Gold/testset coverage is incomplete after id mapping",
+        "evidence": {
+          "gold_count": 10,
+          "direct_coverage": 4,
+          "direct_coverage_ratio": 0.4,
+          "mapped_coverage": 8,
+          "mapped_coverage_ratio": 0.8,
+          "missing_gold_ids": [
+            "metacritic_1593",
+            "metacritic_474"
+          ]
+        },
+        "recommendation": "Improve id alignment or lineage preservation so evaluation records map reliably to fused entities.",
+        "paths": [
+          "input/datasets/games/testsets/validation_set_fusion.xml"
+        ]
+      },
+      {
+        "severity": "HIGH",
+        "category": "coverage_gap",
+        "title": "Missing fused values dominate evaluation errors",
+        "evidence": {
+          "missing_fused_value_ratio": 0.7272727272727273,
+          "debug_reason_counts": {
+            "missing_fused_value": 16,
+            "mismatch": 6
+          }
+        },
+        "recommendation": "Prioritize survivorship and coverage rules before fine-grained value canonicalization.",
+        "paths": [
+          "output/pipeline_evaluation/debug_fusion_eval.jsonl"
+        ]
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "coverage_gap",
+        "title": "Expected pairwise correspondence artifact missing: correspondences_dbpedia_metacritic.csv",
+        "evidence": {
+          "expected_pair_file": "correspondences_dbpedia_metacritic.csv",
+          "correspondences_dir": "output/correspondences"
+        },
+        "recommendation": "Generate or verify the missing pairwise matching output for this source pair.",
+        "paths": [
+          "output/correspondences"
+        ]
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "coverage_gap",
+        "title": "Expected pairwise correspondence artifact missing: correspondences_sales_dbpedia.csv",
+        "evidence": {
+          "expected_pair_file": "correspondences_sales_dbpedia.csv",
+          "correspondences_dir": "output/correspondences"
+        },
+        "recommendation": "Generate or verify the missing pairwise matching output for this source pair.",
+        "paths": [
+          "output/correspondences"
+        ]
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "coverage_gap",
+        "title": "Expected pairwise correspondence artifact missing: correspondences_sales_metacritic.csv",
+        "evidence": {
+          "expected_pair_file": "correspondences_sales_metacritic.csv",
+          "correspondences_dir": "output/correspondences"
+        },
+        "recommendation": "Generate or verify the missing pairwise matching output for this source pair.",
+        "paths": [
+          "output/correspondences"
+        ]
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "attribute_quality",
+        "title": "Low-accuracy fused attributes detected",
+        "evidence": {
+          "attributes": [
+            {
+              "attribute": "platform",
+              "accuracy": 0.6,
+              "count": 10
+            },
+            {
+              "attribute": "userScore",
+              "accuracy": 0.5,
+              "count": 10
+            }
+          ]
+        },
+        "recommendation": "Apply attribute-specific fusion policies and targeted normalization for low-accuracy attributes.",
+        "paths": []
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "noisy_list_fusion",
+        "title": "List-format inconsistencies detected across datasets or fused output",
+        "evidence": {
+          "name": {
+            "observed_list_formats": {
+              "dbpedia": {
+                "json_list_string": 0,
+                "delimited_scalar": 5,
+                "plain_scalar": 1995,
+                "malformed_list": 0
+              },
+              "metacritic": {
+                "json_list_string": 0,
+                "delimited_scalar": 3,
+                "plain_scalar": 1997,
+                "malformed_list": 0
+              },
+              "sales": {
+                "json_list_string": 0,
+                "delimited_scalar": 0,
+                "plain_scalar": 1996,
+                "malformed_list": 4
+              },
+              "fused": {
+                "json_list_string": 0,
+                "delimited_scalar": 2,
+                "plain_scalar": 1998,
+                "malformed_list": 0
+              }
+            },
+            "malformed_count": 4
+          }
+        },
+        "recommendation": "Standardize list-bearing attributes to a single encoding and parse malformed list strings before fusion.",
+        "paths": []
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "size_estimate_drift",
+        "title": "Fusion size estimator has moderate drift",
+        "evidence": {
+          "comparisons": {
+            "blocking": {
+              "expected_rows": 54350,
+              "actual_rows": 61042,
+              "rows_abs_error": 6692,
+              "rows_pct_error": 0.1231278748850046,
+              "expected_rows_matched_only": 20601,
+              "expected_rows_singleton_aware": 54350,
+              "rows_pct_error_matched_only": 1.963060045628853,
+              "rows_pct_error_singleton_aware": 0.1231278748850046,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 54350,
+              "actual_unique_ids": 61042,
+              "unique_ids_abs_error": 6692,
+              "unique_ids_pct_error": 0.1231278748850046,
+              "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+              "compared_at": "2026-03-19T13:07:39.991854+00:00"
+            },
+            "matching": {
+              "expected_rows": 55038,
+              "actual_rows": 61042,
+              "rows_abs_error": 6004,
+              "rows_pct_error": 0.10908826628874596,
+              "expected_rows_matched_only": 19913,
+              "expected_rows_singleton_aware": 55038,
+              "rows_pct_error_matched_only": 2.0654346406869886,
+              "rows_pct_error_singleton_aware": 0.10908826628874596,
+              "better_variant": "singleton_aware",
+              "expected_unique_ids": 55038,
+              "actual_unique_ids": 61042,
+              "unique_ids_abs_error": 6004,
+              "unique_ids_pct_error": 0.10908826628874596,
+              "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+              "compared_at": "2026-03-19T13:07:39.991888+00:00"
+            }
+          }
+        },
+        "recommendation": "Recalibrate estimator with observed cluster retention and singleton-aware adjustments.",
+        "paths": [
+          "output/pipeline_evaluation/fusion_size_estimate.json"
+        ]
+      },
+      {
+        "severity": "MEDIUM",
+        "category": "source_dominance",
+        "title": "One source strongly dominates agreement for some attributes",
+        "evidence": {
+          "dominant_attributes": [
+            {
+              "attribute": "userScore",
+              "top_source": "metacritic",
+              "top_exact_ratio": 1.0,
+              "next_source": "sales",
+              "next_exact_ratio": 0.294394,
+              "support_count": 18718
+            }
+          ]
+        },
+        "recommendation": "Use per-attribute source preference rather than uniform fusion across all fields.",
+        "paths": []
+      }
+    ],
+    "recommendations": [
+      {
+        "action": "prefer_source_for_attribute",
+        "target_attributes": [
+          "userScore"
+        ],
+        "preferred_source": "metacritic",
+        "machine_hints": {
+          "strategy": "source_preference",
+          "suggested_pydi_functions": [
+            "ConflictResolution",
+            "AttributeFuser",
+            "SourceTrust"
+          ],
+          "target_columns": [
+            "userScore"
+          ]
+        },
+        "evidence_summary": "metacritic dominates agreement for userScore (1.000 exact vs next sales 0.294, support=18718)",
+        "expected_impact": "high",
+        "confidence": 0.95,
+        "evidence": {
+          "attribute": "userScore",
+          "top_source": "metacritic",
+          "top_exact_ratio": 1.0,
+          "next_source": "sales",
+          "next_exact_ratio": 0.294394,
+          "support_count": 18718
+        }
+      },
+      {
+        "action": "tighten_matching_thresholds",
+        "target_attributes": [
+          "correspondences_metacritic_dbpedia.csv"
+        ],
+        "evidence_summary": "Over-clustering detected with high one-to-many ratio and large clusters.",
+        "expected_impact": "high",
+        "confidence": 0.86,
+        "machine_hints": {
+          "target_pair_files": [
+            "correspondences_metacritic_dbpedia.csv"
+          ],
+          "suggested_pydi_functions": [
+            "LinearCombinationMatchingRule",
+            "MatchingEngine"
+          ],
+          "parameter_hint": {
+            "threshold_delta": 0.05,
+            "threshold_cap": 0.95
+          }
+        },
+        "evidence": {
+          "unhealthy_pairs": [
+            {
+              "file": "correspondences_metacritic_dbpedia.csv",
+              "one_to_many_ratio": 0.7057,
+              "max_cluster_size": 479
+            }
+          ]
+        }
+      },
+      {
+        "action": "improve_survivorship_for_missing_values",
+        "target_attributes": [
+          "platform",
+          "userScore"
+        ],
+        "evidence_summary": "Missing fused values are the dominant evaluation error mode.",
+        "expected_impact": "high",
+        "confidence": 0.84,
+        "machine_hints": {
+          "target_columns": [
+            "platform",
+            "userScore"
+          ],
+          "suggested_pydi_functions": [
+            "MostComplete",
+            "ConflictResolution",
+            "MissingValueHandler"
+          ]
+        },
+        "evidence": {
+          "missing_fused_value_ratio": 0.7272727272727273,
+          "debug_reason_counts": {
+            "missing_fused_value": 16,
+            "mismatch": 6
+          }
+        }
+      },
+      {
+        "action": "recalibrate_fusion_size_estimator",
+        "target_attributes": [
+          "pipeline estimator"
+        ],
+        "evidence_summary": "Observed fusion size drift in blocking comparison (rows_pct_error=0.123).",
+        "expected_impact": "medium",
+        "confidence": 0.72,
+        "machine_hints": {
+          "suggested_logic": [
+            "singleton_aware_estimation",
+            "post_match_retention_factor",
+            "cluster_retention_calibration"
+          ]
+        },
+        "evidence": {
+          "comparison_mode": "blocking",
+          "comparison": {
+            "expected_rows": 54350,
+            "actual_rows": 61042,
+            "rows_abs_error": 6692,
+            "rows_pct_error": 0.1231278748850046,
+            "expected_rows_matched_only": 20601,
+            "expected_rows_singleton_aware": 54350,
+            "rows_pct_error_matched_only": 1.963060045628853,
+            "rows_pct_error_singleton_aware": 0.1231278748850046,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 54350,
+            "actual_unique_ids": 61042,
+            "unique_ids_abs_error": 6692,
+            "unique_ids_pct_error": 0.1231278748850046,
+            "reasoning": "Estimate is moderately off; candidate generation and matching quality likely explain the gap. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-19T13:07:39.991854+00:00"
+          }
+        }
+      },
+      {
+        "action": "standardize_list_encoding",
+        "target_attributes": [
+          "name"
+        ],
+        "evidence_summary": "Observed mixed list encodings or malformed list strings across artifacts.",
+        "expected_impact": "medium",
+        "confidence": 0.7,
+        "machine_hints": {
+          "target_columns": [
+            "name"
+          ],
+          "suggested_pydi_functions": [
+            "ListValueFuser",
+            "StringNormalizer"
+          ],
+          "policy_hint": "use_json_array_or_canonical_delimiter_consistently"
+        },
+        "evidence": {
+          "attributes": {
+            "name": {
+              "observed_list_formats": {
+                "dbpedia": {
+                  "json_list_string": 0,
+                  "delimited_scalar": 5,
+                  "plain_scalar": 1995,
+                  "malformed_list": 0
+                },
+                "metacritic": {
+                  "json_list_string": 0,
+                  "delimited_scalar": 3,
+                  "plain_scalar": 1997,
+                  "malformed_list": 0
+                },
+                "sales": {
+                  "json_list_string": 0,
+                  "delimited_scalar": 0,
+                  "plain_scalar": 1996,
+                  "malformed_list": 4
+                },
+                "fused": {
+                  "json_list_string": 0,
+                  "delimited_scalar": 2,
+                  "plain_scalar": 1998,
+                  "malformed_list": 0
+                }
+              },
+              "malformed_count": 4
+            }
+          }
+        }
+      }
+    ],
+    "source_attribute_agreement": {
+      "_id": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "_fusion_source_datasets": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "ESRB": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 17851,
+          "exact_match_count": 17851,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 17861,
+          "source_non_null": 17851,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 7557,
+          "exact_ratio": 0.991212,
+          "similarity_ratio": 0.991789,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "criticScore": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 20105,
+          "exact_match_count": 20105,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 20105,
+          "source_non_null": 20105,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 7454,
+          "exact_ratio": 0.977702,
+          "similarity_ratio": 0.977702,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "developer": {
+        "dbpedia": {
+          "support_count": 45047,
+          "exact_match_count": 44951,
+          "exact_ratio": 0.997869,
+          "similarity_ratio": 0.999572,
+          "fused_non_null": 45047,
+          "source_non_null": 45047,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 20096,
+          "exact_match_count": 20096,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 20096,
+          "source_non_null": 20096,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 7289,
+          "exact_ratio": 0.95606,
+          "similarity_ratio": 0.998641,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "globalSales": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 0,
+          "exact_ratio": 0.0,
+          "similarity_ratio": 0.496262,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "name": {
+        "dbpedia": {
+          "support_count": 46268,
+          "exact_match_count": 42281,
+          "exact_ratio": 0.913828,
+          "similarity_ratio": 0.953609,
+          "fused_non_null": 46268,
+          "source_non_null": 46268,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 20115,
+          "exact_match_count": 20115,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 20115,
+          "source_non_null": 20115,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 7046,
+          "exact_ratio": 0.924187,
+          "similarity_ratio": 0.980659,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "platform": {
+        "dbpedia": {
+          "support_count": 45858,
+          "exact_match_count": 32372,
+          "exact_ratio": 0.705918,
+          "similarity_ratio": 0.769703,
+          "fused_non_null": 45858,
+          "source_non_null": 45858,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 20115,
+          "exact_match_count": 15417,
+          "exact_ratio": 0.766443,
+          "similarity_ratio": 0.854027,
+          "fused_non_null": 20115,
+          "source_non_null": 20115,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 5339,
+          "exact_ratio": 0.700289,
+          "similarity_ratio": 0.816699,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "publisher": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7596,
+          "exact_match_count": 7596,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 7596,
+          "source_non_null": 7596,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "releaseYear": {
+        "dbpedia": {
+          "support_count": 44860,
+          "exact_match_count": 41303,
+          "exact_ratio": 0.920709,
+          "similarity_ratio": 0.920709,
+          "fused_non_null": 44932,
+          "source_non_null": 44860,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 20113,
+          "exact_match_count": 20113,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 20114,
+          "source_non_null": 20113,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 7624,
+          "exact_match_count": 6685,
+          "exact_ratio": 0.876836,
+          "similarity_ratio": 0.876836,
+          "fused_non_null": 7624,
+          "source_non_null": 7624,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "series": {
+        "dbpedia": {
+          "support_count": 24164,
+          "exact_match_count": 24164,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 24197,
+          "source_non_null": 24164,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "userScore": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 18718,
+          "exact_match_count": 18718,
+          "exact_ratio": 1.0,
+          "similarity_ratio": 1.0,
+          "fused_non_null": 18730,
+          "source_non_null": 18718,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 6600,
+          "exact_match_count": 1943,
+          "exact_ratio": 0.294394,
+          "similarity_ratio": 0.294394,
+          "fused_non_null": 6916,
+          "source_non_null": 6600,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "_fusion_confidence": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      },
+      "_fusion_metadata": {
+        "dbpedia": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "metacritic": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        },
+        "sales": {
+          "support_count": 0,
+          "exact_match_count": 0,
+          "exact_ratio": null,
+          "similarity_ratio": null,
+          "fused_non_null": 0,
+          "source_non_null": 0,
+          "case_only_matches": 0,
+          "alignment_mode": "lineage_or_embedded_ids"
+        }
+      }
+    },
+    "fusion_policy_recommendations": [
+      {
+        "action": "prefer_source_for_attribute",
+        "target_attributes": [
+          "userScore"
+        ],
+        "preferred_source": "metacritic",
+        "machine_hints": {
+          "strategy": "source_preference",
+          "suggested_pydi_functions": [
+            "ConflictResolution",
+            "AttributeFuser",
+            "SourceTrust"
+          ],
+          "target_columns": [
+            "userScore"
+          ]
+        },
+        "evidence_summary": "metacritic dominates agreement for userScore (1.000 exact vs next sales 0.294, support=18718)",
+        "expected_impact": "high",
+        "confidence": 0.95,
+        "evidence": {
+          "attribute": "userScore",
+          "top_source": "metacritic",
+          "top_exact_ratio": 1.0,
+          "next_source": "sales",
+          "next_exact_ratio": 0.294394,
+          "support_count": 18718
+        }
+      }
+    ],
+    "debug_event_analysis": {
+      "total_events": 12,
+      "reason_counts": {
+        "unknown": 1,
+        "mismatch": 10,
+        "missing_fused_value": 1
+      },
+      "case_only_mismatches": [],
+      "normalization_sensitive": {
+        "country_canonicalization": {
+          "count": 0,
+          "samples": []
+        },
+        "list_format_inconsistency": {
+          "count": 0,
+          "samples": []
+        },
+        "case_only": {
+          "count": 0,
+          "samples": []
+        }
+      }
+    },
+    "normalization_sensitive_checks": {
+      "country_canonicalization": {
+        "count": 0,
+        "samples": []
+      },
+      "list_format_inconsistencies": {
+        "name": {
+          "observed_list_formats": {
+            "dbpedia": {
+              "json_list_string": 0,
+              "delimited_scalar": 5,
+              "plain_scalar": 1995,
+              "malformed_list": 0
+            },
+            "metacritic": {
+              "json_list_string": 0,
+              "delimited_scalar": 3,
+              "plain_scalar": 1997,
+              "malformed_list": 0
+            },
+            "sales": {
+              "json_list_string": 0,
+              "delimited_scalar": 0,
+              "plain_scalar": 1996,
+              "malformed_list": 4
+            },
+            "fused": {
+              "json_list_string": 0,
+              "delimited_scalar": 2,
+              "plain_scalar": 1998,
+              "malformed_list": 0
+            }
+          },
+          "malformed_count": 4
+        },
+        "_fusion_metadata": {
+          "observed_list_formats": {
+            "fused": {
+              "json_list_string": 0,
+              "delimited_scalar": 2,
+              "plain_scalar": 1998,
+              "malformed_list": 0
+            }
+          },
+          "malformed_count": 0
+        }
+      },
+      "case_only_mismatches": {
+        "count": 0,
+        "samples": []
+      }
+    },
+    "correspondence_analysis": {
+      "correspondences_dbpedia_sales.csv": {
+        "path": "output/correspondences/correspondences_dbpedia_sales.csv",
+        "exists": true,
+        "empty": false,
+        "rows": 2061,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "id1_unique": 2061,
+        "id2_unique": 1577,
+        "duplicate_pair_rows": 0,
+        "score_min": 1.0,
+        "score_max": 1.0
+      },
+      "correspondences_discogs_lastfm.csv": {
+        "path": "output/correspondences/correspondences_discogs_lastfm.csv",
+        "exists": true,
+        "empty": false,
+        "rows": 2456,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "id1_unique": 2034,
+        "id2_unique": 1954,
+        "duplicate_pair_rows": 0,
+        "score_min": 1.0,
+        "score_max": 1.0
+      },
+      "correspondences_discogs_musicbrainz.csv": {
+        "path": "output/correspondences/correspondences_discogs_musicbrainz.csv",
+        "exists": true,
+        "empty": false,
+        "rows": 1677,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "id1_unique": 1677,
+        "id2_unique": 1556,
+        "duplicate_pair_rows": 0,
+        "score_min": 1.0,
+        "score_max": 1.0
+      },
+      "correspondences_metacritic_dbpedia.csv": {
+        "path": "output/correspondences/correspondences_metacritic_dbpedia.csv",
+        "exists": true,
+        "empty": false,
+        "rows": 33559,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "id1_unique": 8132,
+        "id2_unique": 10395,
+        "duplicate_pair_rows": 0,
+        "score_min": 1.0,
+        "score_max": 1.0
+      },
+      "correspondences_metacritic_sales.csv": {
+        "path": "output/correspondences/correspondences_metacritic_sales.csv",
+        "exists": true,
+        "empty": false,
+        "rows": 7345,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "id1_unique": 6889,
+        "id2_unique": 6742,
+        "duplicate_pair_rows": 0,
+        "score_min": 1.0,
+        "score_max": 1.0
+      },
+      "correspondences_musicbrainz_lastfm.csv": {
+        "path": "output/correspondences/correspondences_musicbrainz_lastfm.csv",
+        "exists": true,
+        "empty": false,
+        "rows": 1859,
+        "columns": [
+          "id1",
+          "id2",
+          "score",
+          "notes"
+        ],
+        "id1_unique": 1455,
+        "id2_unique": 1528,
+        "duplicate_pair_rows": 0,
+        "score_min": 1.0,
+        "score_max": 1.0
+      }
+    },
+    "warnings": [],
+    "paths": {
+      "fused_csv": "output/data_fusion/fusion_data.csv",
+      "evaluation_json": "output/pipeline_evaluation/pipeline_evaluation.json",
+      "debug_jsonl": "output/pipeline_evaluation/debug_fusion_eval.jsonl",
+      "fusion_size_estimate_json": "output/pipeline_evaluation/fusion_size_estimate.json",
+      "correspondences_dir": "output/correspondences",
+      "report_json": "output/pipeline_evaluation/integration_diagnostics.json",
+      "report_md": "output/pipeline_evaluation/integration_diagnostics.md"
+    }
+  },
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": {
+      "message": "Human-review outputs created.",
+      "note": "",
+      "fused_rows_processed": 61042,
+      "review_rows_written": 61042,
+      "lineage_rows_written": 74951,
+      "diff_rows_written": 152,
+      "review_attributes_count": 12,
+      "testset_loaded": true
+    },
+    "file_paths": {
+      "fused_review_table_csv": "output/human_review/fused_review_table.csv",
+      "source_lineage_long_csv": "output/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff_csv": "output/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_input_rows": 61042,
+      "source_datasets": 3,
+      "source_dataset_rows": {
+        "dbpedia": 46580,
+        "metacritic": 20494,
+        "sales": 7877
+      },
+      "testset_rows": 15,
+      "wide_review_rows": 61042,
+      "lineage_rows": 74951,
+      "diff_rows": 152
+    },
+    "warnings": [],
+    "created_at": "2026-03-19T13:12:46.944785+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.7899159663865546,
+    "macro_accuracy": 0.7857142857142858,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 94,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "platform_accuracy": 1.0,
+    "platform_count": 15,
+    "userScore_accuracy": 0.2857142857142857,
+    "userScore_count": 14,
+    "developer_accuracy": 0.8,
+    "developer_count": 15,
+    "name_accuracy": 0.8666666666666667,
+    "name_count": 15,
+    "releaseYear_accuracy": 0.8666666666666667,
+    "releaseYear_count": 15,
+    "criticScore_accuracy": 0.8,
+    "criticScore_count": 15,
+    "ESRB_accuracy": 0.8,
+    "ESRB_count": 15
+  },
+  "token_usage": {
+    "prompt_tokens": 214835,
+    "completion_tokens": 53306,
+    "total_tokens": 268141,
+    "total_cost": 0.36698000000000003
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 2,
+    "matcher_mode": "ml"
+  },
+  "pipeline_search_tool_responses": null,
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to evaluate a fusion output with PyDI DataFusionEvaluator and DataFusionStrategy? How do add_evaluation_function and evaluate work, including debug options?",
+      "response": "class\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\n\n-----\n\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\n\n-----\n\n(‘score’ or ‘similarity’). When a sequence is provided, all DataFrames\nare validated and concatenated before processing. This is compatible\nwith PyDI’s CorrespondenceSet format.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column for\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n\n-----\n\nschema_correspondences\n(\nOptional\n[\npd.DataFrame\n]\n) – Optional schema correspondences for attribute alignment.\nid_column\n(\nOptional\n[\nUnion\n[\nstr\n,\nDict\n[\nstr\n,\nstr\n]\n]\n]\n) – Identifier column name(s). If a string, the same column is used for\nall datasets. If a dict, it should map dataset name -> ID column\nfor that dataset. When provided, each dataset is normalized to have\na string\n_id\ncolumn derived from the specified column. If not\nprovided, the engine will use an existing\n_id\ncolumn if present,\notherwise fall back to\nid\n.\ninclude_singletons\n(\nbool\n,\ndefault True\n) – Whether to include singleton groups (records not referenced in any\ncorrespondence) in the fused output. Set to False to return only\nrecords that participate in at least one correspondence (group size > 1).\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject"
+    },
+    {
+      "query": "What evaluation functions are available in PyDI.fusion for fuzzy comparison, especially tokenized_match, year_only_match, numeric_tolerance_match, set_equality_match, and how should they be registered on a DataFusionStrategy?",
+      "response": ".\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\n\n-----\n\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nminimum\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the minimum numeric value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_complete\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the string with most non-whitespace characters.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nmost_recent\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most recent date value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\n\n-----\n\nSimilarityRegistry.CATEGORIES\nSimilarityRegistry.EDIT_BASED\nSimilarityRegistry.ENTITY_MATCHING_RECOMMENDED\nSimilarityRegistry.PHONETIC\nSimilarityRegistry.SCHEMA_MATCHING_RECOMMENDED\nSimilarityRegistry.SEQUENCE_BASED\nSimilarityRegistry.SIMPLE\nSimilarityRegistry.TOKENIZABLE_FUNCTIONS\nSimilarityRegistry.TOKENIZATION_STRATEGIES\nSimilarityRegistry.TOKEN_BASED\nSimilarityRegistry.get_function()\nSimilarityRegistry.get_function_info()\nSimilarityRegistry.get_functions_by_category()\nSimilarityRegistry.get_recommended_functions()\nSimilarityRegistry.is_tokenizable()\nSimilarityRegistry.list_available_functions()\nSimilarityRegistry.list_tokenization_strategies()\nSimilarityRegistry.validate_functions()\nget_similarity_function()\nlist_similarity_functions()\nModule contents\n\nPyDI: Python Data Integration Framework\n\nThis package provides tools for end‑to‑end data integration, including\nschema matching, blocking, entity matching, information extraction,\nnormalization and validation, and data fusion. It is inspired by the WInte.r Java framework but takes a\npandas‑first approach. All modules aim to expose simple, composable functions\nand classes with stable signatures and rich docstrings.\nSubpackages\n\n-----\n\nevaluation_function\n(\nEvaluationFunction\n) – Function to evaluate fusion results for this attribute. Typically\nhas signature\n(fused_value,\nexpected_value,\n**params)\n->\nbool\n.\n**kwargs\n(\nAny\n) – Optional parameters to bind to the evaluation function (e.g.,\nthreshold=0.7\n).\nReturn type\n:\nNone\nExamples\nRegister without parameters (exact signature):\n>>> strategy.add_evaluation_function(“title”, tokenized_match)\nRegister with parameters using keyword args (will be bound via partial):\n>>> strategy.add_evaluation_function(“director_name”, tokenized_match, threshold=0.7)\n>>> strategy.add_evaluation_function(“actors”, tokenized_match, threshold=0.5)\nclear\n(\n)\n[source]\n\nRemove all registered fusers and evaluation rules.\nReturn type\n:\nNone\nget_attribute_fuser\n(\nattribute\n)\n[source]\n\nGet the fuser registered for a specific attribute.\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute.\nReturns\n:\nThe registered fuser, or None if not found.\nReturn type\n:\nOptional[\nAttributeValueFuser\n]\nget_evaluation_function\n(\nattribute\n)\n[source]\n\nGet the evaluation rule registered for a specific attribute.\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute.\nReturns\n:"
+    }
+  ],
+  "integration_pipeline_code_length": 16582,
+  "evaluation_code_length": 12379,
+  "integration_diagnostics_code_length": 68846,
+  "human_review_code_length": 18297
+}

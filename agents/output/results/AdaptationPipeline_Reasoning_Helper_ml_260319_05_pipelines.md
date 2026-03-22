@@ -1,0 +1,5 @@
+# Pipeline Snapshots
+
+notebook_name=AdaptationPipeline_nblazek_setcount_guardline
+matcher_mode=ml
+
