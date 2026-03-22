@@ -94,7 +94,7 @@
                 Every agent variant operates on the same <code>AgentState</code> typed dictionary
                 that is threaded through the LangGraph graph. Key fields include the list of input dataset
                 paths, dataset profiles, the generated pipeline code, execution results and attempt
-                counters, evaluation code and metrics, and — for the more advanced agents — blocking
+                counters, evaluation code and metrics, and for the more advanced agents blocking
                 configurations, matching configurations, schema correspondences, and the matcher mode
                 (<code>rule_based</code> or <code>ml</code>). Because the state is shared, each node can
                 read the outputs of all prior nodes and every re-entry into the generation node carries
@@ -110,9 +110,8 @@
             <h3>Match Schemas</h3>
             <p>
                 The <em>Match Schemas</em> node aligns column names across the input datasets. It invokes
-                an LLM-based schema matching routine (<code>run_schema_matching</code>) that receives the
-                raw column lists from every source and produces a dictionary of correspondences — for
-                example mapping <code>ISBN_10</code> in Goodreads to <code>ISBN</code> in Amazon. These
+                an LLM-based schema matching routine that receives the
+                raw column lists from every source and produces a dictionary of correspondences. These
                 correspondences are persisted in the state and consumed by all downstream nodes so that
                 blocking, matching, and fusion operate on a unified attribute namespace. If correspondences
                 are already present in the state (e.g. from a previous invocation), the node is skipped.
@@ -130,12 +129,11 @@
             <h3>Generate Pipeline</h3>
             <p>
                 The <em>Generate Pipeline</em> node is the core LLM code-generation step. It assembles a
-                large system prompt that includes an example integration pipeline (using the PyDI
-                library), the list of dataset paths, first-row previews, dataset profiles, and — when
-                available — pre-computed blocking and matching configurations. It also conditionally
+                large system prompt that includes an example integration pipeline using the PyDI
+                library. It consumes the list of dataset paths, first-row previews, dataset profiles, etc. It also conditionally
                 includes schema correspondences and evaluation reasoning from prior iterations. The LLM
                 is asked to produce a complete Python script that performs blocking, entity matching, and
-                data fusion. The generated code is written to <code>output/code/pipeline.py</code>.
+                data fusion.
             </p>
             <p>
                 On the first invocation the prompt simply says <em>"Create the integration pipeline."</em>
@@ -158,17 +156,16 @@
                 pattern: a system prompt that includes an example evaluation script, the generated
                 pipeline code, the fused output path, and a preview of the gold-standard test set. The
                 generated evaluation script loads the fused output and the test set, computes per-column
-                and overall accuracy, and writes structured metrics to
-                <code>output/pipeline_evaluation/pipeline_evaluation.json</code>. The evaluation code is
+                and overall accuracy, and writes structured metrics to and output file. The evaluation code is
                 then executed as a subprocess with the same retry logic as the pipeline execution step.
             </p>
 
             <h3>Evaluation Decision</h3>
             <p>
                 The <em>Evaluation Decision</em> node reads the JSON metrics produced by the evaluation
-                script. It checks two termination criteria: either the overall accuracy exceeds a
+                script. It checks two termination criteria: either the overall fusion accuracy exceeds a
                 threshold (85%) or the maximum number of evaluation attempts (three) has been reached.
-                If neither condition is met, the workflow continues to the next stage — which, depending
+                If neither condition is met, the workflow continues to the next stage, which, depending
                 on the agent variant, is either termination or the reasoning node.
             </p>
         </section>
@@ -178,7 +175,7 @@
         <!-- ============================================================ -->
 
         <section id="agent-i">
-            <h2>Agent I — Basic Pipeline Creation (RB)</h2>
+            <h2>Agent I: Basic Pipeline Creation (RB)</h2>
             <p>
                 Agent&nbsp;I is the simplest variant and establishes the baseline. It supports only
                 rule-based matching and does <strong>not</strong> include any upstream analysis for
@@ -188,18 +185,18 @@
 
             <h3>Workflow</h3>
             <ol>
-                <li><strong>Profile Datasets</strong> — characterise each input dataset.</li>
-                <li><strong>Generate Pipeline</strong> — the LLM receives the example pipeline, dataset
+                <li><strong>Profile Datasets:</strong> characterise each input dataset.</li>
+                <li><strong>Generate Pipeline:</strong> the LLM receives the example pipeline, dataset
                     profiles, and first-row previews, and produces a complete integration script. No
                     blocking or matching configuration is provided; the LLM must infer suitable strategies
                     from the data alone.</li>
-                <li><strong>Execute Pipeline</strong> — run the generated script. On failure, loop back
+                <li><strong>Execute Pipeline:</strong> run the generated script. On failure, loop back
                     to <em>Generate Pipeline</em> with the error message (max.&nbsp;3 attempts).</li>
-                <li><strong>Generate Evaluation Code</strong> — create an evaluation script for the
+                <li><strong>Generate Evaluation Code:</strong> create an evaluation script for the
                     fused output.</li>
-                <li><strong>Execute Evaluation</strong> — run the evaluation. On failure, loop back to
+                <li><strong>Execute Evaluation:</strong> run the evaluation. On failure, loop back to
                     <em>Generate Evaluation Code</em> (max.&nbsp;3 attempts).</li>
-                <li><strong>Evaluation Decision</strong> — if overall accuracy ≥&nbsp;85% or
+                <li><strong>Evaluation Decision:</strong> if overall accuracy ≥&nbsp;85% or
                     attempts&nbsp;≥&nbsp;3, terminate.</li>
             </ol>
 
@@ -216,7 +213,7 @@
         <!-- ============================================================ -->
 
         <section id="agent-ii">
-            <h2>Agent II — Blocking &amp; Matching Tester (RB)</h2>
+            <h2>Agent II: Blocking &amp; Matching Tester (RB)</h2>
             <p>
                 Agent&nbsp;II extends Agent&nbsp;I by inserting two dedicated evaluation nodes before
                 pipeline generation: the <strong>Blocking Tester</strong> and the
@@ -228,10 +225,9 @@
             <h3>Blocking Tester</h3>
             <p>
                 The Blocking Tester receives the schema-aligned datasets and the entity-matching test
-                sets. For each dataset pair it evaluates multiple blocking strategies — Standard Blocker
+                sets. For each dataset pair it evaluates multiple blocking strategies: Standard Blocker
                 (exact equality), Token Blocker (shared tokens), Sorted Neighbourhood Blocker (sliding
-                window), and Embedding Blocker (semantic similarity via sentence transformers) — across
-                different column combinations and parameter settings. Each strategy is scored by its
+                window), and Embedding Blocker (semantic similarity via sentence transformers). Each strategy is scored by its
                 <em>Pairs Completeness</em> (PC), which measures the proportion of true matches retained
                 after blocking. The best strategy per pair is selected subject to a PC threshold
                 (default&nbsp;0.9) and a maximum candidate count. The resulting blocking configuration is
@@ -256,9 +252,9 @@
             <ol>
                 <li><strong>Match Schemas</strong></li>
                 <li><strong>Profile Datasets</strong></li>
-                <li><strong>Blocking Tester</strong> — determine optimal blocking strategy per pair.</li>
-                <li><strong>Matching Tester</strong> — determine optimal matching strategy per pair.</li>
-                <li><strong>Generate Pipeline</strong> — now receives blocking and matching
+                <li><strong>Blocking Tester:</strong> determine optimal blocking strategy per pair.</li>
+                <li><strong>Matching Tester:</strong> determine optimal matching strategy per pair.</li>
+                <li><strong>Generate Pipeline:</strong> now receives blocking and matching
                     configurations as additional context in the system prompt.</li>
                 <li><em>Execute → Evaluate → Decide</em> (same as Agent&nbsp;I).</li>
             </ol>
@@ -276,7 +272,7 @@
         <!-- ============================================================ -->
 
         <section id="agent-iii-iv">
-            <h2>Agents III &amp; IV — Reasoning (RB &amp; ML)</h2>
+            <h2>Agents III &amp; IV: Reasoning (RB &amp; ML)</h2>
             <p>
                 Agents&nbsp;III and&nbsp;IV introduce a <strong>Reasoning Node</strong> that closes the
                 feedback loop between evaluation and pipeline generation. After the Evaluation Decision
@@ -306,7 +302,7 @@
             <p>
                 Because the blocking and matching strategies have already been independently validated by
                 the tester nodes, the Reasoning Node is instructed to focus its suggestions on the
-                <strong>fusion</strong> stage — for example, choosing different attribute fusers,
+                <strong>fusion</strong> stage e.g., choosing different attribute fusers,
                 adjusting trust strategies, or fixing preprocessing inconsistencies that cause column
                 mismatches during evaluation.
             </p>
@@ -327,10 +323,10 @@
                     (same as Agent&nbsp;II).</li>
                 <li><strong>Generate Pipeline → Execute Pipeline</strong> (with retry loop).</li>
                 <li><strong>Generate Evaluation → Execute Evaluation</strong> (with retry loop).</li>
-                <li><strong>Evaluation Decision</strong> — if accuracy &lt;&nbsp;95% and
+                <li><strong>Evaluation Decision:</strong> if accuracy &lt;&nbsp;95% and
                     attempts&nbsp;&lt;&nbsp;3, continue to Reasoning Node; otherwise terminate.</li>
-                <li><strong>Reasoning Node</strong> — analyse errors, produce improvement suggestions.</li>
-                <li><strong>Loop back to Generate Pipeline</strong> — the suggestions are appended to the
+                <li><strong>Reasoning Node:</strong> analyse errors, produce improvement suggestions.</li>
+                <li><strong>Loop back to Generate Pipeline:</strong> the suggestions are appended to the
                     system prompt, enabling the LLM to make targeted corrections in the next iteration.</li>
             </ol>
 
@@ -349,7 +345,7 @@
         <!-- ============================================================ -->
 
         <section id="agent-v-vi">
-            <h2>Agents V &amp; VI — Cluster Analysis &amp; Documentation Search Tool</h2>
+            <h2>Agents V &amp; VI: Cluster Analysis &amp; Documentation Search Tool</h2>
             <p>
                 Agents&nbsp;V and&nbsp;VI represent the most complete version of the system. They
                 retain all capabilities of Agents&nbsp;III/IV and add two new components: a
@@ -366,7 +362,7 @@
                 <em>large-cluster ratio</em> (fraction above a threshold), and the
                 <em>one-to-many ratio</em>. A high one-to-many ratio or the presence of very large
                 clusters indicates over-matching, which the node diagnoses and addresses by recommending
-                a strategy — for example, <code>AdjustMatchingConfig</code> with a higher threshold.
+                a strategy e.g., <code>AdjustMatchingConfig</code> with a higher threshold.
             </p>
             <p>
                 The cluster analysis is fed into subsequent iterations of the pipeline generation so that
@@ -380,7 +376,7 @@
             <p>
                 The Search Documentation Tool gives the pipeline generation node access to the PyDI
                 library documentation at generation time. When enabled, the agent issues targeted queries
-                to retrieve documentation for specific classes and functions — for example, the parameters
+                to retrieve documentation for specific classes and functions e.g., the parameters
                 of <code>EmbeddingBlocker</code>, the available fuser functions in
                 <code>DataFusionEngine</code>, or the correct usage of <code>RuleBasedMatcher</code>
                 comparators. The retrieved documentation snippets are appended to the system prompt,
@@ -398,10 +394,10 @@
                 <li><strong>Generate Pipeline</strong> — now additionally augmented with documentation
                     search results when <code>INCLUDE_DOCS</code> is enabled.</li>
                 <li><strong>Execute Pipeline</strong>.</li>
-                <li><strong>Cluster Analysis</strong> — diagnose the entity cluster distribution.</li>
+                <li><strong>Cluster Analysis:</strong> diagnose the entity cluster distribution.</li>
                 <li><strong>Generate Evaluation → Execute Evaluation</strong>.</li>
                 <li><strong>Evaluation Decision → Reasoning Node</strong> (conditional loop).</li>
-                <li><strong>Save Results</strong> — persist final correspondences and fused output.</li>
+                <li><strong>Save Results:</strong> persist final correspondences and fused output.</li>
             </ol>
         </section>
 
