@@ -10,7 +10,7 @@
 | [ML Matcher ( Matcher + Blocker + Evaluation Reasoning Node)](/agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning.ipynb)|65.48% |77.60%       |84.87% |65.00% |
 | [RL Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |52.284% |75.469% |   78.65%   |55.000%  |
 | [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool)](agents/AdaptationPipeline_blocking_matching_extension_Final_Reasoning_ClusterDocTool.ipynb) |50.257% |74.718% |    78.991%   |59.285%  |
-| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool + Helpers)](agents/AdaptationPipeline_nblazek_setcount.ipynb) |52.800% |74.220% |    86.250%   |72.140%  |
+| [ML Based Matcher ( Matcher + Blocker + Evaluation Reasoning Node +  CN + DB Tool + Helpers)](agents/AdaptationPipeline_nblazek_setcount.ipynb) |58.400% |85.110% |    86.250%   |72.140%  |
 
 # Experiment Results - Old Evaluation Template (Fusion Accuracy)
 
