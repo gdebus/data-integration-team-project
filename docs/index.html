@@ -63,17 +63,386 @@
         <!-- Architecture -->
         <section id="architecture">
             <h1>Architecture</h1>
-            <p>Our pipeline follows a modular design, separating schema matching, entity matching, and data fusion.</p>
-            
-            <img src="images/architecture_v0.2.png" alt="System Architecture Diagram">
-            
-            <h2>Workflow Overview</h2>
+            <p>
+                Our data integration system is built as a modular, agent-based pipeline using
+                <strong>LangGraph</strong> state graphs. Each agent version extends the previous one with
+                additional capabilities, enabling us to evaluate the incremental value of each component.
+                All agents share a common core (schema matching, dataset profiling, LLM-driven pipeline
+                generation, code execution, and evaluation) but differ in the upstream analysis stages
+                and the feedback loops they support.
+            </p>
+
+            <p>
+                The diagram below shows the full architecture with all connections colour-coded by the agent
+                version that introduces them.
+            </p>
+
+            <img src="images/architecture_v0.4.png" alt="Full system architecture — all agent tiers overlaid">
+
+            <div class="admonition">
+                <span class="admonition-title">Legend</span>
+                <p>
+                    <span style="color:#c0392b;">Red</span> — Agent&nbsp;I (Basic Pipeline Creation, RB) <br>
+                    <span style="color:#d4a017;">Yellow</span> — Agent&nbsp;II (Blocking &amp; Matching Tester, RB)  <br> 
+                    <span style="color:#8e44ad;">Purple</span> — Agents&nbsp;III &amp; IV (Reasoning, RB &amp; ML) <br>
+                    <span style="color:#27ae60;">Green</span> — Agents&nbsp;V &amp; VI (Cluster Analysis &amp; Search Documentation Tool) <br>
+                </p>
+            </div>
+
+            <h2>Shared State</h2>
+            <p>
+                Every agent variant operates on the same <code>AgentState</code> typed dictionary
+                that is threaded through the LangGraph graph. Key fields include the list of input dataset
+                paths, dataset profiles, the generated pipeline code, execution results and attempt
+                counters, evaluation code and metrics, and — for the more advanced agents — blocking
+                configurations, matching configurations, schema correspondences, and the matcher mode
+                (<code>rule_based</code> or <code>ml</code>). Because the state is shared, each node can
+                read the outputs of all prior nodes and every re-entry into the generation node carries
+                the full history of errors and evaluation feedback.
+            </p>
+
+            <h2>Common Nodes</h2>
+            <p>
+                Several processing nodes appear across all or most agent variants. They form the backbone
+                of the pipeline and are described here once to avoid repetition.
+            </p>
+
+            <h3>Match Schemas</h3>
+            <p>
+                The <em>Match Schemas</em> node aligns column names across the input datasets. It invokes
+                an LLM-based schema matching routine (<code>run_schema_matching</code>) that receives the
+                raw column lists from every source and produces a dictionary of correspondences — for
+                example mapping <code>ISBN_10</code> in Goodreads to <code>ISBN</code> in Amazon. These
+                correspondences are persisted in the state and consumed by all downstream nodes so that
+                blocking, matching, and fusion operate on a unified attribute namespace. If correspondences
+                are already present in the state (e.g. from a previous invocation), the node is skipped.
+            </p>
+
+            <h3>Profile Datasets</h3>
+            <p>
+                The <em>Profile Datasets</em> node uses an LLM tool call to invoke the
+                <code>ProfileDatasetTool</code> on every input dataset. The tool returns a JSON profile
+                containing row counts, null percentages per column, and column data types. The profiles
+                are saved to disk and stored in the agent state so that the pipeline generation node can
+                reason about data characteristics such as sparsity and type mismatches.
+            </p>
+
+            <h3>Generate Pipeline</h3>
+            <p>
+                The <em>Generate Pipeline</em> node is the core LLM code-generation step. It assembles a
+                large system prompt that includes an example integration pipeline (using the PyDI
+                library), the list of dataset paths, first-row previews, dataset profiles, and — when
+                available — pre-computed blocking and matching configurations. It also conditionally
+                includes schema correspondences and evaluation reasoning from prior iterations. The LLM
+                is asked to produce a complete Python script that performs blocking, entity matching, and
+                data fusion. The generated code is written to <code>output/code/pipeline.py</code>.
+            </p>
+            <p>
+                On the first invocation the prompt simply says <em>"Create the integration pipeline."</em>
+                On subsequent invocations it includes the previously generated code together with any
+                execution errors or evaluation feedback, asking the LLM to fix or improve the script.
+            </p>
+
+            <h3>Execute Pipeline</h3>
+            <p>
+                The <em>Execute Pipeline</em> node runs the generated Python script as a subprocess. If
+                the process exits with a non-zero return code, the stderr output is captured and fed back
+                to the <em>Generate Pipeline</em> node. The agent retries up to a maximum number of
+                attempts (typically five) before terminating. A successful execution transitions the
+                workflow to the evaluation branch.
+            </p>
+
+            <h3>Generate Evaluation Code &amp; Execute Evaluation</h3>
+            <p>
+                After a successful pipeline run the agent generates evaluation code following a similar
+                pattern: a system prompt that includes an example evaluation script, the generated
+                pipeline code, the fused output path, and a preview of the gold-standard test set. The
+                generated evaluation script loads the fused output and the test set, computes per-column
+                and overall accuracy, and writes structured metrics to
+                <code>output/pipeline_evaluation/pipeline_evaluation.json</code>. The evaluation code is
+                then executed as a subprocess with the same retry logic as the pipeline execution step.
+            </p>
+
+            <h3>Evaluation Decision</h3>
+            <p>
+                The <em>Evaluation Decision</em> node reads the JSON metrics produced by the evaluation
+                script. It checks two termination criteria: either the overall accuracy exceeds a
+                threshold (85%) or the maximum number of evaluation attempts (three) has been reached.
+                If neither condition is met, the workflow continues to the next stage — which, depending
+                on the agent variant, is either termination or the reasoning node.
+            </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <!--  Agent I                                                      -->
+        <!-- ============================================================ -->
+
+        <section id="agent-i">
+            <h2>Agent I — Basic Pipeline Creation (RB)</h2>
+            <p>
+                Agent&nbsp;I is the simplest variant and establishes the baseline. It supports only
+                rule-based matching and does <strong>not</strong> include any upstream analysis for
+                blocking or matching strategy selection. Its workflow is a straight-line sequence with
+                two conditional retry loops.
+            </p>
+
+            <h3>Workflow</h3>
             <ol>
-                <li><strong>Data Loading:</strong> Ingesting datasets in various formats (Parquet, CSV).</li>
-                <li><strong>Schema Matching:</strong> Mapping attributes from different sources to a target schema.</li>
-                <li><strong>Entity Matching:</strong> Identifying records that represent the same real-world entity.</li>
-                <li><strong>Data Fusion:</strong> Merging matching records into a single, high-quality representation.</li>
+                <li><strong>Profile Datasets</strong> — characterise each input dataset.</li>
+                <li><strong>Generate Pipeline</strong> — the LLM receives the example pipeline, dataset
+                    profiles, and first-row previews, and produces a complete integration script. No
+                    blocking or matching configuration is provided; the LLM must infer suitable strategies
+                    from the data alone.</li>
+                <li><strong>Execute Pipeline</strong> — run the generated script. On failure, loop back
+                    to <em>Generate Pipeline</em> with the error message (max.&nbsp;3 attempts).</li>
+                <li><strong>Generate Evaluation Code</strong> — create an evaluation script for the
+                    fused output.</li>
+                <li><strong>Execute Evaluation</strong> — run the evaluation. On failure, loop back to
+                    <em>Generate Evaluation Code</em> (max.&nbsp;3 attempts).</li>
+                <li><strong>Evaluation Decision</strong> — if overall accuracy ≥&nbsp;85% or
+                    attempts&nbsp;≥&nbsp;3, terminate.</li>
             </ol>
+
+            <p>
+                Because Agent&nbsp;I gives the LLM no pre-computed strategy information, the quality of
+                the generated pipeline depends entirely on how well the model can infer reasonable
+                blocking keys and matching rules from the dataset profiles and the example code. This
+                makes Agent&nbsp;I a useful lower bound for comparison.
+            </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <!--  Agent II                                                     -->
+        <!-- ============================================================ -->
+
+        <section id="agent-ii">
+            <h2>Agent II — Blocking &amp; Matching Tester (RB)</h2>
+            <p>
+                Agent&nbsp;II extends Agent&nbsp;I by inserting two dedicated evaluation nodes before
+                pipeline generation: the <strong>Blocking Tester</strong> and the
+                <strong>Matching Tester</strong>. Both nodes run automated experiments to determine the
+                optimal strategy for each dataset pair and persist the results in the agent state. Like
+                Agent&nbsp;I, Agent&nbsp;II supports only rule-based matching.
+            </p>
+
+            <h3>Blocking Tester</h3>
+            <p>
+                The Blocking Tester receives the schema-aligned datasets and the entity-matching test
+                sets. For each dataset pair it evaluates multiple blocking strategies — Standard Blocker
+                (exact equality), Token Blocker (shared tokens), Sorted Neighbourhood Blocker (sliding
+                window), and Embedding Blocker (semantic similarity via sentence transformers) — across
+                different column combinations and parameter settings. Each strategy is scored by its
+                <em>Pairs Completeness</em> (PC), which measures the proportion of true matches retained
+                after blocking. The best strategy per pair is selected subject to a PC threshold
+                (default&nbsp;0.9) and a maximum candidate count. The resulting blocking configuration is
+                a JSON object specifying, for each pair, the blocker type, the blocking columns, and the
+                relevant parameters (e.g.&nbsp;<code>top_k</code> for the Embedding Blocker or
+                <code>window</code> for the Sorted Neighbourhood Blocker).
+            </p>
+
+            <h3>Matching Tester</h3>
+            <p>
+                The Matching Tester operates on the candidate pairs produced by the optimal blocking
+                strategy. It uses the LLM to propose comparator configurations (StringComparator,
+                NumericComparator, DateComparator) with associated weights and thresholds for a
+                rule-based matcher. Multiple configurations are evaluated against the test sets and
+                scored by F1. The best configuration per pair is retained in a matching configuration
+                JSON that includes comparator types, column mappings, weights, preprocessing steps, and
+                the decision threshold. The tester iterates up to a configurable number of attempts,
+                feeding evaluation results back to the LLM to refine the configuration.
+            </p>
+
+            <h3>Workflow Extension</h3>
+            <ol>
+                <li><strong>Match Schemas</strong></li>
+                <li><strong>Profile Datasets</strong></li>
+                <li><strong>Blocking Tester</strong> — determine optimal blocking strategy per pair.</li>
+                <li><strong>Matching Tester</strong> — determine optimal matching strategy per pair.</li>
+                <li><strong>Generate Pipeline</strong> — now receives blocking and matching
+                    configurations as additional context in the system prompt.</li>
+                <li><em>Execute → Evaluate → Decide</em> (same as Agent&nbsp;I).</li>
+            </ol>
+
+            <p>
+                By providing pre-computed, empirically validated blocking and matching configurations,
+                Agent&nbsp;II removes much of the guesswork from the pipeline generation step. The LLM
+                can focus on correctly translating the configuration into executable code rather than
+                also having to invent a strategy.
+            </p>
+        </section>
+
+        <!-- ============================================================ -->
+        <!--  Agent III & IV                                               -->
+        <!-- ============================================================ -->
+
+        <section id="agent-iii-iv">
+            <h2>Agents III &amp; IV — Reasoning (RB &amp; ML)</h2>
+            <p>
+                Agents&nbsp;III and&nbsp;IV introduce a <strong>Reasoning Node</strong> that closes the
+                feedback loop between evaluation and pipeline generation. After the Evaluation Decision
+                determines that accuracy is below the threshold, instead of simply re-running the
+                generation node with the raw metrics, the workflow first passes through the Reasoning
+                Node which performs a structured analysis of <em>why</em> the pipeline underperformed.
+            </p>
+            <p>
+                Agent&nbsp;III uses a <strong>rule-based matcher</strong>, while Agent&nbsp;IV uses a
+                <strong>machine-learning-based matcher</strong>. The ML variant changes the example
+                pipeline, the matching tester configuration, and the prompts to use feature extraction,
+                classifier training, and <code>MLBasedMatcher</code> instead of weighted comparators and
+                <code>RuleBasedMatcher</code>.
+            </p>
+
+            <h3>Reasoning Node</h3>
+            <p>
+                The Reasoning Node receives the aggregate evaluation metrics, a sample of detailed
+                per-record debugging events from the fusion evaluation (up to 50 JSONL records), the
+                current pipeline code, the evaluation code, and the blocking and matching configurations.
+                It is prompted to identify dominant error types (false positives, false negatives, missed
+                blocks, bad matches) and to determine whether the errors originate in blocking, matching,
+                schema alignment, preprocessing, or the fusion logic. The node produces concise,
+                structured improvement suggestions that are injected into the next pipeline generation
+                prompt as additional context.
+            </p>
+            <p>
+                Because the blocking and matching strategies have already been independently validated by
+                the tester nodes, the Reasoning Node is instructed to focus its suggestions on the
+                <strong>fusion</strong> stage — for example, choosing different attribute fusers,
+                adjusting trust strategies, or fixing preprocessing inconsistencies that cause column
+                mismatches during evaluation.
+            </p>
+
+            <h3>ML Matcher Mode (Agent IV)</h3>
+            <p>
+                When the matcher mode is set to <code>ml</code>, several components adapt automatically.
+                The Matching Tester proposes comparator features for a <code>FeatureExtractor</code>
+                rather than weights for a rule-based decision function. The generated pipeline trains a
+                binary classifier on the labelled test set using the extracted features and applies it via
+                <code>MLBasedMatcher</code>. The evaluation and reasoning nodes operate identically; only
+                the matching strategy and example code differ.
+            </p>
+
+            <h3>Workflow Extension</h3>
+            <ol>
+                <li><strong>Match Schemas → Profile → Blocking Tester → Matching Tester</strong>
+                    (same as Agent&nbsp;II).</li>
+                <li><strong>Generate Pipeline → Execute Pipeline</strong> (with retry loop).</li>
+                <li><strong>Generate Evaluation → Execute Evaluation</strong> (with retry loop).</li>
+                <li><strong>Evaluation Decision</strong> — if accuracy &lt;&nbsp;95% and
+                    attempts&nbsp;&lt;&nbsp;3, continue to Reasoning Node; otherwise terminate.</li>
+                <li><strong>Reasoning Node</strong> — analyse errors, produce improvement suggestions.</li>
+                <li><strong>Loop back to Generate Pipeline</strong> — the suggestions are appended to the
+                    system prompt, enabling the LLM to make targeted corrections in the next iteration.</li>
+            </ol>
+
+            <div class="admonition">
+                <span class="admonition-title">Note</span>
+                <p>
+                    The reasoning loop resets the pipeline and evaluation execution attempt counters on
+                    each iteration, giving the LLM fresh retry budgets for both code generation and
+                    evaluation.
+                </p>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!--  Agent V & VI                                                 -->
+        <!-- ============================================================ -->
+
+        <section id="agent-v-vi">
+            <h2>Agents V &amp; VI — Cluster Analysis &amp; Documentation Search Tool</h2>
+            <p>
+                Agents&nbsp;V and&nbsp;VI represent the most complete version of the system. They
+                retain all capabilities of Agents&nbsp;III/IV and add two new components: a
+                <strong>Cluster Analysis</strong> node and a <strong>Search Documentation Tool</strong>.
+                Agent&nbsp;V uses rule-based matching; Agent&nbsp;VI uses ML-based matching.
+            </p>
+
+            <h3>Cluster Analysis</h3>
+            <p>
+                After the pipeline produces entity correspondences, the Cluster Analysis node examines
+                the cluster distribution of the matched entities. It computes cluster sizes, identifies
+                the frequency of each cluster size, and derives diagnostic ratios: the
+                <em>small-cluster ratio</em> (fraction of clusters of size 2), the
+                <em>large-cluster ratio</em> (fraction above a threshold), and the
+                <em>one-to-many ratio</em>. A high one-to-many ratio or the presence of very large
+                clusters indicates over-matching, which the node diagnoses and addresses by recommending
+                a strategy — for example, <code>AdjustMatchingConfig</code> with a higher threshold.
+            </p>
+            <p>
+                The cluster analysis is fed into subsequent iterations of the pipeline generation so that
+                the LLM can tighten matching thresholds or adjust blocking parameters to reduce spurious
+                clusters. This proved especially valuable for the Books use case, where editions of the
+                same title (e.g. multiple printings of <em>The Fellowship of the Ring</em>) created
+                clusters of size 9–30.
+            </p>
+
+            <h3>Search Documentation Tool</h3>
+            <p>
+                The Search Documentation Tool gives the pipeline generation node access to the PyDI
+                library documentation at generation time. When enabled, the agent issues targeted queries
+                to retrieve documentation for specific classes and functions — for example, the parameters
+                of <code>EmbeddingBlocker</code>, the available fuser functions in
+                <code>DataFusionEngine</code>, or the correct usage of <code>RuleBasedMatcher</code>
+                comparators. The retrieved documentation snippets are appended to the system prompt,
+                reducing hallucinated API calls and improving first-attempt success rates.
+            </p>
+            <p>
+                Enabling the documentation tool increases token usage considerably (since documentation
+                text is injected into the prompt), so it is controlled by a global flag
+                (<code>INCLUDE_DOCS</code>) and used selectively.
+            </p>
+
+            <h3>Workflow Extension</h3>
+            <ol>
+                <li><strong>Match Schemas → Profile → Blocking Tester → Matching Tester</strong>.</li>
+                <li><strong>Generate Pipeline</strong> — now additionally augmented with documentation
+                    search results when <code>INCLUDE_DOCS</code> is enabled.</li>
+                <li><strong>Execute Pipeline</strong>.</li>
+                <li><strong>Cluster Analysis</strong> — diagnose the entity cluster distribution.</li>
+                <li><strong>Generate Evaluation → Execute Evaluation</strong>.</li>
+                <li><strong>Evaluation Decision → Reasoning Node</strong> (conditional loop).</li>
+                <li><strong>Save Results</strong> — persist final correspondences and fused output.</li>
+            </ol>
+        </section>
+
+        <!-- ============================================================ -->
+        <!--  Summary Table                                                -->
+        <!-- ============================================================ -->
+
+        <section id="agent-comparison">
+            <h2>Agent Comparison Summary</h2>
+            <p>
+                The table below summarises which nodes are active in each agent variant.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Node</th>
+                        <th>I (RB)</th>
+                        <th>II (RB)</th>
+                        <th>III (RB)</th>
+                        <th>IV (ML)</th>
+                        <th>V (RB)</th>
+                        <th>VI (ML)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Match Schemas</td>           <td></td> <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Profile Datasets</td>        <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Blocking Tester</td>         <td></td> <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Matching Tester</td>         <td></td> <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Search Documentation</td>    <td></td> <td></td> <td></td> <td></td> <td>✓</td><td>✓</td></tr>
+                    <tr><td>Generate Pipeline</td>       <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Execute Pipeline</td>        <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Cluster Analysis</td>        <td></td> <td></td> <td></td> <td></td> <td>✓</td><td>✓</td></tr>
+                    <tr><td>Generate Evaluation</td>     <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Execute Evaluation</td>      <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Evaluation Decision</td>     <td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Reasoning Node</td>          <td></td> <td></td> <td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                    <tr><td>Matcher Type</td>            <td>RB</td><td>RB</td><td>RB</td><td>ML</td><td>RB</td><td>ML</td></tr>
+                </tbody>
+            </table>
         </section>
 
         <!-- Components Wrapper (Logical grouping, no specific content needed but good for spacing) -->
