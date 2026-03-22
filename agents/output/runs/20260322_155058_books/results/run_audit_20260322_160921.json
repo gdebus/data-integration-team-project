@@ -1,0 +1,1022 @@
+{
+  "timestamp": "20260322_160921",
+  "generated_at": "2026-03-22T15:09:21.775282Z",
+  "run_id": "20260322_155058_books",
+  "run_output_root": "output/runs/20260322_155058_books/",
+  "validation_metrics_final": {
+    "overall_accuracy": 0.7125,
+    "macro_accuracy": 0.7124999999999999,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 80,
+    "total_correct": 57,
+    "publisher_accuracy": 0.6,
+    "publisher_count": 10,
+    "language_accuracy": 0.9,
+    "language_count": 10,
+    "publish_year_accuracy": 1.0,
+    "publish_year_count": 10,
+    "title_accuracy": 0.8,
+    "title_count": 10,
+    "author_accuracy": 0.8,
+    "author_count": 10,
+    "genres_accuracy": 0.1,
+    "genres_count": 10,
+    "page_count_accuracy": 0.5,
+    "page_count_count": 10,
+    "isbn_clean_accuracy": 1.0,
+    "isbn_clean_count": 10
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.825,
+    "macro_accuracy": 0.825,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 80,
+    "total_correct": 66,
+    "language_accuracy": 1.0,
+    "language_count": 10,
+    "title_accuracy": 0.9,
+    "title_count": 10,
+    "publish_year_accuracy": 1.0,
+    "publish_year_count": 10,
+    "isbn_clean_accuracy": 1.0,
+    "isbn_clean_count": 10,
+    "page_count_accuracy": 0.7,
+    "page_count_count": 10,
+    "genres_accuracy": 0.9,
+    "genres_count": 10,
+    "author_accuracy": 0.4,
+    "author_count": 10,
+    "publisher_accuracy": 0.7,
+    "publisher_count": 10
+  },
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-22T15:07:35.040393Z",
+    "expected_pairs": [
+      "amazon_small_goodreads_small",
+      "amazon_small_metabooks_small",
+      "goodreads_small_metabooks_small"
+    ],
+    "pair_checks": [
+      {
+        "pair": "amazon_small_goodreads_small",
+        "status": "ok",
+        "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_goodreads_small.csv",
+        "data_rows": 1902
+      },
+      {
+        "pair": "amazon_small_metabooks_small",
+        "status": "ok",
+        "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_metabooks_small.csv",
+        "data_rows": 2390
+      },
+      {
+        "pair": "goodreads_small_metabooks_small",
+        "status": "ok",
+        "path": "output/runs/20260322_155058_books/correspondences/correspondences_goodreads_small_metabooks_small.csv",
+        "data_rows": 1185
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "cycles": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-22T14:54:01.059689Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T14:54:00.139941Z",
+        "expected_pairs": [
+          "amazon_small_goodreads_small",
+          "amazon_small_metabooks_small",
+          "goodreads_small_metabooks_small"
+        ],
+        "pair_checks": [
+          {
+            "pair": "amazon_small_goodreads_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_goodreads_small.csv",
+            "data_rows": 1902
+          },
+          {
+            "pair": "amazon_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_metabooks_small.csv",
+            "data_rows": 2390
+          },
+          {
+            "pair": "goodreads_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_goodreads_small_metabooks_small.csv",
+            "data_rows": 1185
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 67.500% < 85.000%",
+        "low attribute accuracy: genres=0.000%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-22T14:58:28.302294Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.6125,
+        "macro_accuracy": 0.6125,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 49,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "isbn_clean_accuracy": 0.0,
+        "isbn_clean_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.6125,
+        "macro_accuracy": 0.6125,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 49,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "isbn_clean_accuracy": 0.0,
+        "isbn_clean_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_gain": -0.0625,
+        "macro_gain": -0.0625,
+        "overall_drop": 0.0625,
+        "macro_drop": 0.0625,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.6,
+        "total_drop_weight": 1.1,
+        "catastrophic_attribute_drops": {
+          "isbn_clean": 1.0
+        },
+        "severe_attribute_drops": {
+          "isbn_clean": 1.0
+        },
+        "moderate_attribute_drops": {
+          "isbn_clean": 1.0,
+          "page_count": 0.1
+        },
+        "top_attribute_drops": {
+          "isbn_clean": 1.0,
+          "page_count": 0.1
+        },
+        "top_attribute_gains": {
+          "publisher": 0.3,
+          "title": 0.2,
+          "genres": 0.1
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T14:58:27.618894Z",
+        "expected_pairs": [
+          "amazon_small_goodreads_small",
+          "amazon_small_metabooks_small",
+          "goodreads_small_metabooks_small"
+        ],
+        "pair_checks": [
+          {
+            "pair": "amazon_small_goodreads_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_goodreads_small.csv",
+            "data_rows": 1902
+          },
+          {
+            "pair": "amazon_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_metabooks_small.csv",
+            "data_rows": 2390
+          },
+          {
+            "pair": "goodreads_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_goodreads_small_metabooks_small.csv",
+            "data_rows": 1185
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 61.250% < 85.000%",
+        "low attribute accuracy: genres=10.000%, isbn_clean=0.000%",
+        "regression guard rejected latest candidate: overall_drop=0.0625, macro_drop=0.0625, top_attribute_drops={'isbn_clean': 1.0, 'page_count': 0.1}"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-22T15:04:05.886911Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.3,
+        "genres_count": 10,
+        "language_accuracy": 0.8,
+        "language_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "page_count_accuracy": 0.4,
+        "page_count_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.3,
+        "genres_count": 10,
+        "language_accuracy": 0.8,
+        "language_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "page_count_accuracy": 0.4,
+        "page_count_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_gain": 0.0,
+        "macro_gain": 0.0,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.3,
+        "total_drop_weight": 0.3,
+        "catastrophic_attribute_drops": {
+          "page_count": 0.2
+        },
+        "severe_attribute_drops": {
+          "page_count": 0.2
+        },
+        "moderate_attribute_drops": {
+          "language": 0.1,
+          "page_count": 0.2
+        },
+        "top_attribute_drops": {
+          "page_count": 0.2,
+          "language": 0.1
+        },
+        "top_attribute_gains": {
+          "genres": 0.3
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T15:04:05.157943Z",
+        "expected_pairs": [
+          "amazon_small_goodreads_small",
+          "amazon_small_metabooks_small",
+          "goodreads_small_metabooks_small"
+        ],
+        "pair_checks": [
+          {
+            "pair": "amazon_small_goodreads_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_goodreads_small.csv",
+            "data_rows": 1902
+          },
+          {
+            "pair": "amazon_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_metabooks_small.csv",
+            "data_rows": 2390
+          },
+          {
+            "pair": "goodreads_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_goodreads_small_metabooks_small.csv",
+            "data_rows": 1185
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 67.500% < 85.000%",
+        "low attribute accuracy: genres=30.000%, page_count=40.000%",
+        "regression guard rejected latest candidate: overall_drop=0.0, macro_drop=0.0, top_attribute_drops={'page_count': 0.2, 'language': 0.1}",
+        "high missing_fused_value mismatch ratio: 30.769%"
+      ]
+    },
+    {
+      "attempt": 4,
+      "recorded_at": "2026-03-22T15:07:35.733592Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.7125,
+        "macro_accuracy": 0.7124999999999999,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 57,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7125,
+        "macro_accuracy": 0.7124999999999999,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 57,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.7125,
+        "macro_accuracy": 0.7124999999999999,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 57,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7125,
+        "macro_accuracy": 0.7124999999999999,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 57,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.0375,
+        "macro_gain": 0.0375,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 0.4,
+        "total_drop_weight": 0.1,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {
+          "page_count": 0.1
+        },
+        "top_attribute_drops": {
+          "page_count": 0.1
+        },
+        "top_attribute_gains": {
+          "title": 0.2,
+          "genres": 0.1,
+          "publisher": 0.1
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T15:07:35.040393Z",
+        "expected_pairs": [
+          "amazon_small_goodreads_small",
+          "amazon_small_metabooks_small",
+          "goodreads_small_metabooks_small"
+        ],
+        "pair_checks": [
+          {
+            "pair": "amazon_small_goodreads_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_goodreads_small.csv",
+            "data_rows": 1902
+          },
+          {
+            "pair": "amazon_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_amazon_small_metabooks_small.csv",
+            "data_rows": 2390
+          },
+          {
+            "pair": "goodreads_small_metabooks_small",
+            "status": "ok",
+            "path": "output/runs/20260322_155058_books/correspondences/correspondences_goodreads_small_metabooks_small.csv",
+            "data_rows": 1185
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 71.250% < 85.000%",
+        "low attribute accuracy: genres=10.000%"
+      ]
+    }
+  ],
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T14:53:21.886510Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_155058_books/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_155058_books/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_155058_books/pipeline/cycle_01/exec_01/correspondences/correspondences_amazon_small_goodreads_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_01/exec_01/correspondences/correspondences_amazon_small_metabooks_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_01/exec_01/correspondences/correspondences_goodreads_small_metabooks_small.csv"
+        ],
+        "execution_log": "output/runs/20260322_155058_books/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T14:56:37.941869Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_155058_books/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_155058_books/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_155058_books/pipeline/cycle_02/exec_01/correspondences/correspondences_amazon_small_goodreads_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_02/exec_01/correspondences/correspondences_amazon_small_metabooks_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_02/exec_01/correspondences/correspondences_goodreads_small_metabooks_small.csv"
+        ],
+        "execution_log": "output/runs/20260322_155058_books/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T15:01:22.602954Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_155058_books/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_155058_books/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_155058_books/pipeline/cycle_03/exec_01/correspondences/correspondences_amazon_small_goodreads_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_03/exec_01/correspondences/correspondences_amazon_small_metabooks_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_03/exec_01/correspondences/correspondences_goodreads_small_metabooks_small.csv"
+        ],
+        "execution_log": "output/runs/20260322_155058_books/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T15:06:30.503141Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_155058_books/pipeline/cycle_04/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_155058_books/pipeline/cycle_04/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_155058_books/pipeline/cycle_04/exec_01/correspondences/correspondences_amazon_small_goodreads_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_04/exec_01/correspondences/correspondences_amazon_small_metabooks_small.csv",
+          "output/runs/20260322_155058_books/pipeline/cycle_04/exec_01/correspondences/correspondences_goodreads_small_metabooks_small.csv"
+        ],
+        "execution_log": "output/runs/20260322_155058_books/pipeline/cycle_04/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T14:54:00.131224Z",
+      "metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.0,
+        "genres_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "page_count_accuracy": 0.6,
+        "page_count_count": 10
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "error: [unknown] Unrecognized error. Examine the full error output and fix the root cause.",
+      "metrics_source": "none",
+      "captured_at": "2026-03-22T14:57:15.559653Z",
+      "metrics": {},
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 2,
+      "execution_result": "error: [unknown] Unrecognized error. Examine the full error output and fix the root cause.",
+      "metrics_source": "none",
+      "captured_at": "2026-03-22T14:57:50.290901Z",
+      "metrics": {},
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_02/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_02/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_02/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_02/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 3,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T14:58:27.612838Z",
+      "metrics": {
+        "overall_accuracy": 0.6125,
+        "macro_accuracy": 0.6125,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 49,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "isbn_clean_accuracy": 0.0,
+        "isbn_clean_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_03/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_03/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_03/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_02/exec_03/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "error: [unknown] Unrecognized error. Examine the full error output and fix the root cause.",
+      "metrics_source": "none",
+      "captured_at": "2026-03-22T15:02:07.053849Z",
+      "metrics": {},
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 2,
+      "execution_result": "error: [unknown] Unrecognized error. Examine the full error output and fix the root cause.",
+      "metrics_source": "none",
+      "captured_at": "2026-03-22T15:02:43.293914Z",
+      "metrics": {},
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_02/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_02/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_02/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_02/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 3,
+      "execution_result": "error: [unknown] Unrecognized error. Examine the full error output and fix the root cause.",
+      "metrics_source": "none",
+      "captured_at": "2026-03-22T15:03:25.819437Z",
+      "metrics": {},
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_03/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_03/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_03/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_03/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T15:04:05.150232Z",
+      "metrics": {
+        "overall_accuracy": 0.675,
+        "macro_accuracy": 0.675,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 54,
+        "genres_accuracy": 0.3,
+        "genres_count": 10,
+        "language_accuracy": 0.8,
+        "language_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "title_accuracy": 0.6,
+        "title_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "page_count_accuracy": 0.4,
+        "page_count_count": 10,
+        "publisher_accuracy": 0.5,
+        "publisher_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T15:07:35.033795Z",
+      "metrics": {
+        "overall_accuracy": 0.7125,
+        "macro_accuracy": 0.7124999999999999,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 57,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10,
+        "language_accuracy": 0.9,
+        "language_count": 10,
+        "publish_year_accuracy": 1.0,
+        "publish_year_count": 10,
+        "title_accuracy": 0.8,
+        "title_count": 10,
+        "author_accuracy": 0.8,
+        "author_count": 10,
+        "genres_accuracy": 0.1,
+        "genres_count": 10,
+        "page_count_accuracy": 0.5,
+        "page_count_count": 10,
+        "isbn_clean_accuracy": 1.0,
+        "isbn_clean_count": 10
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_155058_books/evaluation/validation/cycle_04/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_155058_books/evaluation/validation/cycle_04/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_155058_books/evaluation/validation/cycle_04/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_155058_books/evaluation/validation/cycle_04/exec_01/evaluation_execution.json"
+      }
+    }
+  ]
+}

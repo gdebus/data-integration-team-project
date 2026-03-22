@@ -1,5 +1,6 @@
 # --------------------------------
 # CRITICAL GENERAL INSTRUCTION FOR AGENTS: Do not adjust the names of the output files
+# CRITICAL: Always use OUTPUT_DIR for all output paths (correspondences, fusion, debug).
 # --------------------------------
 
 from PyDI.io import load_parquet, load_csv, load_xml
@@ -22,6 +23,11 @@ if DITTO_DIR not in sys.path:
 from ditto_light.dataset import DittoDataset
 from ditto_light.ditto import train
 from matcher import load_model, predict, tune_threshold
+
+# === 0. OUTPUT DIRECTORY ===
+# CRITICAL: Use OUTPUT_DIR for ALL output paths. It will be provided in the prompt.
+# Do NOT hardcode "output/" — always use os.path.join(OUTPUT_DIR, ...).
+OUTPUT_DIR = "output"  # Will be replaced by prompt with the actual run-scoped directory
 
 # --------------------------------
 # Prepare Data
@@ -107,7 +113,6 @@ blocker_1_2 = EmbeddingBlocker(
     index_backend="sklearn",
     top_k=20,
     batch_size=1000,
-    output_dir="output/blocking-evaluation",
     id_column='id'
 )
 
@@ -118,7 +123,6 @@ blocker_1_3 = TokenBlocker(
     ngram_size=2,
     ngram_type="word",
     id_column="id",
-    output_dir="output/blocking"
 )
 
 blocker_2_3 = SortedNeighbourhoodBlocker(
@@ -126,7 +130,6 @@ blocker_2_3 = SortedNeighbourhoodBlocker(
     key="name",
     window=20,
     id_column="id",
-    output_dir="output/blocking"
 )
 
 # --------------------------------
@@ -236,7 +239,9 @@ for left_df, right_df, left_name, right_name in pairs:
     candidate_pairs = blocker.materialize()  # DataFrame with id1, id2
 
     # Build Ditto JSONL for prediction
-    jsonl_path = f"output/ditto/candidates_{left_name}_{right_name}.jsonl"
+    DITTO_OUT = os.path.join(OUTPUT_DIR, "ditto")
+    os.makedirs(DITTO_OUT, exist_ok=True)
+    jsonl_path = os.path.join(DITTO_OUT, f"candidates_{left_name}_{right_name}.jsonl")
     _write_ditto_jsonl(
         candidate_pairs,
         left_df,
@@ -247,9 +252,9 @@ for left_df, right_df, left_name, right_name in pairs:
     )
 
     # Build Ditto training TSV from labeled pairs (id1, id2, label)
-    train_tsv = f"output/ditto/train_{left_name}_{right_name}.txt"
-    valid_tsv = f"output/ditto/valid_{left_name}_{right_name}.txt"
-    test_tsv = f"output/ditto/test_{left_name}_{right_name}.txt"
+    train_tsv = os.path.join(DITTO_OUT, f"train_{left_name}_{right_name}.txt")
+    valid_tsv = os.path.join(DITTO_OUT, f"valid_{left_name}_{right_name}.txt")
+    test_tsv = os.path.join(DITTO_OUT, f"test_{left_name}_{right_name}.txt")
     gold_pairs = pd.read_csv(f"input/testsets/<train_pairs_{left_name}_{right_name}>.csv")
     _write_ditto_train_tsv(gold_pairs, left_df, right_df, id_left="id", id_right="id", output_path=train_tsv)
     _write_ditto_train_tsv(gold_pairs, left_df, right_df, id_left="id", id_right="id", output_path=valid_tsv)
@@ -257,14 +262,14 @@ for left_df, right_df, left_name, right_name in pairs:
 
     # Train Ditto and predict
     run_tag = f"{left_name}_{right_name}"
-    train_ditto_model(train_tsv, valid_tsv, test_tsv, run_tag, logdir="output/ditto/checkpoints")
+    train_ditto_model(train_tsv, valid_tsv, test_tsv, run_tag, logdir=os.path.join(DITTO_OUT, "checkpoints"))
 
-    output_path = f"output/ditto/preds_{left_name}_{right_name}.jsonl"
+    output_path = os.path.join(DITTO_OUT, f"preds_{left_name}_{right_name}.jsonl")
     predict_ditto(
         task=run_tag,
         input_path=jsonl_path,
         output_path=output_path,
-        checkpoint_path="output/ditto/checkpoints",
+        checkpoint_path=os.path.join(DITTO_OUT, "checkpoints"),
     )
 
     # Convert Ditto output to DataFrame (id1, id2, score)
@@ -276,6 +281,7 @@ correspondences_df = pd.concat(all_correspondences, ignore_index=True)
 
 # --------------------------------
 # Data Fusion (same as other example pipelines)
+# DO NOT write custom fusers. Use only PyDI built-in resolvers listed above.
 # --------------------------------
 
 strategy = DataFusionStrategy('ditto_fusion_strategy')
@@ -290,11 +296,13 @@ strategy.add_attribute_fuser('latitude', longest_string)
 strategy.add_attribute_fuser('longitude', longest_string)
 strategy.add_attribute_fuser('categories', union)
 
-engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file="output/data_fusion/debug_fusion_ditto.jsonl")
+FUSION_DIR = os.path.join(OUTPUT_DIR, "data_fusion")
+os.makedirs(FUSION_DIR, exist_ok=True)
+engine = DataFusionEngine(strategy, debug=True, debug_format='json', debug_file=os.path.join(FUSION_DIR, "debug_fusion_ditto.jsonl"))
 ditto_fused = engine.run(
     datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
     correspondences=correspondences_df,
     id_column="id",
-    include_singletons=False,
+    include_singletons=True,
 )
-ditto_fused.to_csv("output/data_fusion/fusion_ditto_blocker.csv", index=False)
+ditto_fused.to_csv(os.path.join(FUSION_DIR, "fusion_ditto_blocker.csv"), index=False)

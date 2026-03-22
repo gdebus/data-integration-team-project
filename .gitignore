@@ -15,6 +15,7 @@ __pycache__
 pydi_reference_db
 GEMINI.md
 .gemini
+CLAUDE.md
 books_data_fusion_rb_stblocking_pipeline.ipynb
 books_data_fusion_rb_snblocking_pipeline.ipynb
 books_data_fusion_rb_emblocking_pipeline.ipynb

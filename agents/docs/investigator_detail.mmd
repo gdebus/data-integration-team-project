@@ -1,0 +1,79 @@
+graph TD
+    INV_START((investigator_node\nentry)) --> eval_decision
+
+    eval_decision["1. Evaluation Decision\nRegression guard\nBest-metrics tracking\nProblem classification"]
+    acceptance["2. Normalization Acceptance\nDid last normalization help?\nAccept / Reject+Rollback"]
+    learning["3. Learning State\nEMA gain tracking\nDrift detection"]
+    probes["4. Run 11 Probes\nPre-computed evidence"]
+    early_exit{"5. Early Exit?\nacc >= 85%\nOR attempts >= 4"}
+    cluster["6. Cluster Analysis\nRate 5 post-clustering\nalgorithms per pair"]
+    build_guidance["7. Build Fusion Guidance\nMismatch classifications\nPost-clustering hints"]
+    llm_loop["8. LLM Investigation Loop\nMulti-turn: write code + decide\nmax 4 turns"]
+    enrich["9. Enrich Attribute Strategies\nProbe confidence=0.7\nLLM confidence=0.9"]
+    safety["10. Safety Overrides\n3 hardcoded guards:\n- Invalid correspondences\n- Norm blocked\n- Invalid target"]
+    save_transcript["11. Save & Record\nTranscript JSON\nHistory entry\nLearning checkpoint"]
+
+    eval_decision --> acceptance
+    acceptance --> learning
+    learning --> probes
+    probes --> early_exit
+
+    early_exit -->|"yes: exit"| save_transcript
+    early_exit -->|"no: investigate"| cluster
+
+    cluster --> build_guidance
+    build_guidance --> llm_loop
+    llm_loop --> enrich
+    enrich --> safety
+    safety --> save_transcript
+
+    save_transcript --> INV_END((return\nrouting decision))
+
+    style eval_decision fill:#e3f2fd,stroke:#1565c0
+    style acceptance fill:#e3f2fd,stroke:#1565c0
+    style learning fill:#e3f2fd,stroke:#1565c0
+    style probes fill:#fff3e0,stroke:#e65100
+    style early_exit fill:#ffebee,stroke:#b71c1c
+    style cluster fill:#f3e5f5,stroke:#6a1b9a
+    style build_guidance fill:#f3e5f5,stroke:#6a1b9a
+    style llm_loop fill:#fce4ec,stroke:#c62828
+    style enrich fill:#e8f5e9,stroke:#2e7d32
+    style safety fill:#ffebee,stroke:#b71c1c
+    style save_transcript fill:#e0f2f1,stroke:#00695c
+
+    subgraph probes_list ["Probe Registry - 11 built-in probes"]
+        direction LR
+        p1["reason_distribution"]
+        p2["worst_attributes"]
+        p3["mismatch_sampler"]
+        p4["attribute_improvability"]
+        p5["source_attribution"]
+        p6["null_patterns"]
+        p7["correspondence_density"]
+        p8["blocking_recall"]
+        p9["fusion_size"]
+        p10["recent_mismatches"]
+        p11["directive_coverage"]
+    end
+
+    subgraph llm_detail ["LLM Investigation Turns"]
+        direction TB
+        t1["Turn 1: Analyze all evidence"] -->|"investigate"| code1["Execute diagnostic Python"]
+        t1 -->|"decide"| final_decision["Decision:\nnext_node + diagnosis\n+ recommendations"]
+        code1 --> t2["Turn 2: See code results"]
+        t2 -->|"investigate"| code2["Execute more code"]
+        t2 -->|"decide"| final_decision
+        code2 --> t3["Turn 3: See results"]
+        t3 -->|"investigate"| code3["Last code execution"]
+        t3 -->|"decide"| final_decision
+        code3 --> t4["Turn 4: Must decide"] --> final_decision
+    end
+
+    subgraph targets ["Valid Routing Targets"]
+        direction LR
+        target_norm["normalization_node\nFix data formats"]
+        target_block["run_blocking_tester\nRe-test blocking"]
+        target_match["run_matching_tester\nRe-test matching"]
+        target_pipe["pipeline_adaption\nFix fusion strategy"]
+        target_review["human_review_export\nAccept + export"]
+    end

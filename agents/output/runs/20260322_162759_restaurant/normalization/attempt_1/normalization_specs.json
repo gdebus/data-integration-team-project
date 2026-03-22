@@ -1,0 +1,90 @@
+{
+  "specs": {
+    "kaggle_small": {
+      "phone_raw": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "phone_format": "e164"
+      },
+      "phone_e164": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "phone_format": "e164"
+      },
+      "house_number": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "postal_code": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "country": {
+        "strip_whitespace": true,
+        "country_format": "alpha_2",
+        "on_failure": "keep"
+      },
+      "categories": {
+        "strip_whitespace": true
+      }
+    },
+    "uber_eats_small": {
+      "house_number": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "postal_code": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "country": {
+        "strip_whitespace": true,
+        "country_format": "alpha_2",
+        "on_failure": "keep"
+      },
+      "categories": {
+        "strip_whitespace": true
+      },
+      "rating_count": {
+        "output_type": "float",
+        "on_failure": "keep"
+      }
+    },
+    "yelp_small": {
+      "phone_raw": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "phone_e164": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "phone_format": "e164"
+      },
+      "house_number": {
+        "output_type": "keep",
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "postal_code": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "country": {
+        "strip_whitespace": true,
+        "country_format": "alpha_2",
+        "on_failure": "keep"
+      },
+      "categories": {
+        "strip_whitespace": true
+      },
+      "rating_count": {
+        "output_type": "float",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [
+    "categories"
+  ],
+  "reasoning": "Target uses US alpha-2 country codes, numeric postal_code, numeric house_number where possible, phone fields stored as digits without leading plus, and categories are list-like strings. Yelp and Kaggle phone_e164 values need e164 normalization then integer casting; Kaggle phone_raw also has plus-prefixed values. Uber Eats and Yelp rating_count should be float to match target. Yelp house_number includes hyphenated values in samples, so it is preserved as text aside from whitespace stripping."
+}

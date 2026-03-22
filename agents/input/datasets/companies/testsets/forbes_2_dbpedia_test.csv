@@ -1,3 +1,4 @@
+id_a,id_b,label
 "http://www.forbes.com/companies/apple/,http://dbpedia.org/resource/Apple_Inc.,true"
 "http://www.forbes.com/companies/lg-display/,http://dbpedia.org/resource/LG_Display,true"
 "http://www.forbes.com/companies/general-electric/,http://dbpedia.org/resource/Canadian_General_Electric,true"

@@ -1,0 +1,141 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main remaining errors are caused by fusion/post-clustering configuration, not blocking or matcher recall. Correspondence files are present and pairwise matching F1 is already high (~0.86-0.89), while cluster analysis shows severe one-to-many ambiguity and explicitly recommends MaximumBipartiteMatching. Current pipeline already added post-clustering, but attribute fusion is still misaligned with validation: releaseYear is plateaued at 0% despite source evidence showing metacritic is an exact 100% match to validation; publisher/developer/ESRB mismatches are largely source-choice and canonical-name selection issues. Some attributes are structurally limited: userScore remains noisy even in the best source (metacritic exact 29%), and criticScore has limited exact agreement. Protected attributes above 85% should remain unchanged.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "This must go to pipeline_adaption because the fixes needed are resolver/trust/post-clustering choices, which are allowed there. Blocking/matching are not the bottleneck: correspondences are non-empty and F1 is strong. Normalization is not the first fix because the highest-impact failure, releaseYear at 0%, is not a source-format problem\u2014the validation uses YYYY-MM-DD, and metacritic already matches that exactly 100%. The current fusion choice is simply selecting the wrong value. Likewise publisher and ESRB need source preference adjustments, and developer needs a resolver aligned to canonical-label behavior. Preserve the 11 attributes already above 85% by not changing them.",
+        "ceiling_assessment": "A realistic ceiling with current sources is about 83-84% overall, consistent with the provided ceiling estimate. releaseYear, developer, publisher, and ESRB are materially improvable through fusion changes. userScore and criticScore appear partly structurally limited because no source consistently matches validation. So substantial improvement is available, but not perfect accuracy.",
+        "recommendations": [
+          {
+            "attribute": "releaseYear",
+            "issue": "Current resolver/priority is wrong. Accuracy is 0% even though source-vs-validation shows metacritic exact=100%, sales exact=93%, dbpedia exact=80%, all non-null.",
+            "fix": "Change releaseYear fuser to prefer_higher_trust with trust_map={'metacritic':5,'sales':4,'dbpedia':1}. Do not use earliest.",
+            "resolver_reasoning": "Validation clearly expects a canonical source value, not the chronologically earliest one. Among all sources, metacritic matches perfectly. prefer_higher_trust is the best resolver because one source is dominant. voting could still fail when all three disagree; earliest is already catastrophic; median/maximum/minimum are inapplicable for date strings. This is the highest-confidence fusion fix.",
+            "class": "improvable",
+            "expected_impact": 0.087
+          },
+          {
+            "attribute": "developer",
+            "issue": "Current voting can select alternate or expanded names, while validation often expects a canonical short form (e.g., 'Traveller's Tales' over 'TT Games', 'London Studio' over 'SCEE London Studio'). Missing-fused cases should also reduce after post-clustering, but resolver choice still matters.",
+            "fix": "Change developer fuser from voting to prefer_higher_trust with trust_map={'metacritic':4,'sales':4,'dbpedia':1}.",
+            "resolver_reasoning": "Source comparison shows metacritic exact=80%, sales exact=80%, dbpedia exact=73%, with higher fuzzy for dbpedia due to longer/variant forms. That pattern argues against longest_string and against plain voting when alias variants split votes. prefer_higher_trust over the two best sources avoids dbpedia's noisier canonicalization while still allowing either strong source to win. favour_sources was considered, but there is no clear single winner between metacritic and sales; equal top trust is safer.",
+            "class": "improvable",
+            "expected_impact": 0.033
+          },
+          {
+            "attribute": "publisher",
+            "issue": "Publisher accuracy is dragged down by wrong source preference and canonical-name mismatches. Validation often prefers sales-style publisher labels, and sales is the only measured strong source (exact=80%).",
+            "fix": "Keep prefer_higher_trust for publisher but strengthen attribute-level trust to {'sales':5,'metacritic':2,'dbpedia':1}.",
+            "resolver_reasoning": "This attribute has a clear best source. prefer_higher_trust is superior to voting because disagreement is common and only one source aligns well with validation. longest/shortest_string are poor fits because publisher variants are semantic aliases, not completeness differences. This should improve wrong-source picks while preserving already good behavior.",
+            "class": "improvable",
+            "expected_impact": 0.029
+          },
+          {
+            "attribute": "ESRB",
+            "issue": "ESRB uses prefer_higher_trust, but the trust map should consistently favor metacritic, which aligns best with validation. Some remaining errors are representation variants like 'M' vs 'M17+', which normalization could later address if needed, but source choice is the first fusion fix.",
+            "fix": "Keep prefer_higher_trust for ESRB and set trust_map={'metacritic':5,'sales':3,'dbpedia':1}.",
+            "resolver_reasoning": "Metacritic is the strongest source for ESRB in the provided evidence. prefer_higher_trust fits better than voting because there are few sources and one is clearly superior. union/intersection are inappropriate for scalar ratings; longest/shortest_string are brittle for label variants. This is a low-risk source-selection improvement.",
+            "class": "improvable",
+            "expected_impact": 0.029
+          },
+          {
+            "attribute": "post_clustering",
+            "issue": "Correspondence graphs remain highly ambiguous (one-to-many ~63-66%, ambiguity ratio >73%), so coherent entity grouping depends on post-clustering quality.",
+            "fix": "Preserve and standardize MaximumBipartiteMatching as the post-clustering step before fusion; ensure the fusion run uses only refined correspondences, not raw concatenated correspondences.",
+            "resolver_reasoning": "The cluster analysis explicitly recommends MaximumBipartiteMatching as the top strategy. It is the best available intervention within pipeline_adaption for reducing malformed clusters and missing fused rows. StableMatching and HierarchicalClusterer were considered but are secondary recommendations. Since current code already applies MaximumBipartiteMatching, this is mainly a preserve/verify instruction to avoid regression.",
+            "class": "improvable",
+            "expected_impact": 0.05
+          },
+          {
+            "attribute": "userScore",
+            "issue": "Low accuracy is mostly structural. Best source metacritic only achieves exact=29%, while sales is worse.",
+            "fix": "Keep prefer_higher_trust for userScore with metacritic favored over sales, e.g. {'metacritic':5,'sales':2,'dbpedia':1}; do not spend the next iteration on alternative resolvers.",
+            "resolver_reasoning": "A single best source exists, but it is weak. prefer_higher_trust is still the least-bad choice. voting will underperform when values differ numerically; median is not obviously better without evidence that validation reflects an aggregate; longest/shortest_string are nonsensical for numeric scores. This attribute is near its structural ceiling, so it should not drive the next iteration.",
+            "class": "structurally_limited",
+            "expected_impact": 0.01
+          },
+          {
+            "attribute": "criticScore",
+            "issue": "CriticScore has limited exact source agreement; sales is best aligned, metacritic mostly only fuzzy-matches.",
+            "fix": "Keep prefer_higher_trust for criticScore with {'sales':5,'metacritic':2,'dbpedia':1}.",
+            "resolver_reasoning": "Among available sources, sales is the clearest winner. prefer_higher_trust is the safest resolver for a numeric scalar when one source is known to be closer to validation. median was considered but lacks evidence and may create synthetic values not present in validation. This is mitigation rather than a major gain because the attribute is structurally limited.",
+            "class": "structurally_limited",
+            "expected_impact": 0.02
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 36203,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main remaining errors are caused by fusion/post-clustering configuration, not blocking or matcher recall. Correspondence files are present and pairwise matching F1 is already high (~0.86-0.89), while cluster analysis shows severe one-to-many ambiguity and explicitly recommends MaximumBipartiteMatching. Current pipeline already added post-clustering, but attribute fusion is still misaligned with validation: releaseYear is plateaued at 0% despite source evidence showing metacritic is an exact 100% match to validation; publisher/developer/ESRB mismatches are largely source-choice and canonical-name selection issues. Some attributes are structurally limited: userScore remains noisy even in the best source (metacritic exact 29%), and criticScore has limited exact agreement. Protected attributes above 85% should remain unchanged.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "This must go to pipeline_adaption because the fixes needed are resolver/trust/post-clustering choices, which are allowed there. Blocking/matching are not the bottleneck: correspondences are non-empty and F1 is strong. Normalization is not the first fix because the highest-impact failure, releaseYear at 0%, is not a source-format problem\u2014the validation uses YYYY-MM-DD, and metacritic already matches that exactly 100%. The current fusion choice is simply selecting the wrong value. Likewise publisher and ESRB need source preference adjustments, and developer needs a resolver aligned to canonical-label behavior. Preserve the 11 attributes already above 85% by not changing them.",
+    "ceiling_assessment": "A realistic ceiling with current sources is about 83-84% overall, consistent with the provided ceiling estimate. releaseYear, developer, publisher, and ESRB are materially improvable through fusion changes. userScore and criticScore appear partly structurally limited because no source consistently matches validation. So substantial improvement is available, but not perfect accuracy.",
+    "recommendations": [
+      {
+        "attribute": "releaseYear",
+        "issue": "Current resolver/priority is wrong. Accuracy is 0% even though source-vs-validation shows metacritic exact=100%, sales exact=93%, dbpedia exact=80%, all non-null.",
+        "fix": "Change releaseYear fuser to prefer_higher_trust with trust_map={'metacritic':5,'sales':4,'dbpedia':1}. Do not use earliest.",
+        "resolver_reasoning": "Validation clearly expects a canonical source value, not the chronologically earliest one. Among all sources, metacritic matches perfectly. prefer_higher_trust is the best resolver because one source is dominant. voting could still fail when all three disagree; earliest is already catastrophic; median/maximum/minimum are inapplicable for date strings. This is the highest-confidence fusion fix.",
+        "class": "improvable",
+        "expected_impact": 0.087
+      },
+      {
+        "attribute": "developer",
+        "issue": "Current voting can select alternate or expanded names, while validation often expects a canonical short form (e.g., 'Traveller's Tales' over 'TT Games', 'London Studio' over 'SCEE London Studio'). Missing-fused cases should also reduce after post-clustering, but resolver choice still matters.",
+        "fix": "Change developer fuser from voting to prefer_higher_trust with trust_map={'metacritic':4,'sales':4,'dbpedia':1}.",
+        "resolver_reasoning": "Source comparison shows metacritic exact=80%, sales exact=80%, dbpedia exact=73%, with higher fuzzy for dbpedia due to longer/variant forms. That pattern argues against longest_string and against plain voting when alias variants split votes. prefer_higher_trust over the two best sources avoids dbpedia's noisier canonicalization while still allowing either strong source to win. favour_sources was considered, but there is no clear single winner between metacritic and sales; equal top trust is safer.",
+        "class": "improvable",
+        "expected_impact": 0.033
+      },
+      {
+        "attribute": "publisher",
+        "issue": "Publisher accuracy is dragged down by wrong source preference and canonical-name mismatches. Validation often prefers sales-style publisher labels, and sales is the only measured strong source (exact=80%).",
+        "fix": "Keep prefer_higher_trust for publisher but strengthen attribute-level trust to {'sales':5,'metacritic':2,'dbpedia':1}.",
+        "resolver_reasoning": "This attribute has a clear best source. prefer_higher_trust is superior to voting because disagreement is common and only one source aligns well with validation. longest/shortest_string are poor fits because publisher variants are semantic aliases, not completeness differences. This should improve wrong-source picks while preserving already good behavior.",
+        "class": "improvable",
+        "expected_impact": 0.029
+      },
+      {
+        "attribute": "ESRB",
+        "issue": "ESRB uses prefer_higher_trust, but the trust map should consistently favor metacritic, which aligns best with validation. Some remaining errors are representation variants like 'M' vs 'M17+', which normalization could later address if needed, but source choice is the first fusion fix.",
+        "fix": "Keep prefer_higher_trust for ESRB and set trust_map={'metacritic':5,'sales':3,'dbpedia':1}.",
+        "resolver_reasoning": "Metacritic is the strongest source for ESRB in the provided evidence. prefer_higher_trust fits better than voting because there are few sources and one is clearly superior. union/intersection are inappropriate for scalar ratings; longest/shortest_string are brittle for label variants. This is a low-risk source-selection improvement.",
+        "class": "improvable",
+        "expected_impact": 0.029
+      },
+      {
+        "attribute": "post_clustering",
+        "issue": "Correspondence graphs remain highly ambiguous (one-to-many ~63-66%, ambiguity ratio >73%), so coherent entity grouping depends on post-clustering quality.",
+        "fix": "Preserve and standardize MaximumBipartiteMatching as the post-clustering step before fusion; ensure the fusion run uses only refined correspondences, not raw concatenated correspondences.",
+        "resolver_reasoning": "The cluster analysis explicitly recommends MaximumBipartiteMatching as the top strategy. It is the best available intervention within pipeline_adaption for reducing malformed clusters and missing fused rows. StableMatching and HierarchicalClusterer were considered but are secondary recommendations. Since current code already applies MaximumBipartiteMatching, this is mainly a preserve/verify instruction to avoid regression.",
+        "class": "improvable",
+        "expected_impact": 0.05
+      },
+      {
+        "attribute": "userScore",
+        "issue": "Low accuracy is mostly structural. Best source metacritic only achieves exact=29%, while sales is worse.",
+        "fix": "Keep prefer_higher_trust for userScore with metacritic favored over sales, e.g. {'metacritic':5,'sales':2,'dbpedia':1}; do not spend the next iteration on alternative resolvers.",
+        "resolver_reasoning": "A single best source exists, but it is weak. prefer_higher_trust is still the least-bad choice. voting will underperform when values differ numerically; median is not obviously better without evidence that validation reflects an aggregate; longest/shortest_string are nonsensical for numeric scores. This attribute is near its structural ceiling, so it should not drive the next iteration.",
+        "class": "structurally_limited",
+        "expected_impact": 0.01
+      },
+      {
+        "attribute": "criticScore",
+        "issue": "CriticScore has limited exact source agreement; sales is best aligned, metacritic mostly only fuzzy-matches.",
+        "fix": "Keep prefer_higher_trust for criticScore with {'sales':5,'metacritic':2,'dbpedia':1}.",
+        "resolver_reasoning": "Among available sources, sales is the clearest winner. prefer_higher_trust is the safest resolver for a numeric scalar when one source is known to be closer to validation. median was considered but lacks evidence and may create synthetic values not present in validation. This is mitigation rather than a major gain because the attribute is structurally limited.",
+        "class": "structurally_limited",
+        "expected_impact": 0.02
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-22T17:29:08.027273Z"
+}

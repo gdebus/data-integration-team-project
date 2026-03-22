@@ -1,0 +1,2084 @@
+{
+  "timestamp": "20260322_104327",
+  "generated_at": "2026-03-22T09:43:27.411643Z",
+  "run_id": "20260322_102925_companies",
+  "run_output_root": "output/runs/20260322_102925_companies/",
+  "datasets": [
+    "forbes",
+    "dbpedia",
+    "fullcontact"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "validation_set.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "forbes_dbpedia": {
+      "pair_completeness": 1.0,
+      "num_candidates": 30000,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "industry"
+      ]
+    },
+    "forbes_fullcontact": {
+      "pair_completeness": 1.0,
+      "num_candidates": 39892,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "pair_completeness": 0.9933333333333333,
+      "num_candidates": 38143,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "city"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "forbes_dbpedia": {
+      "f1_score": 0.7555555555555555
+    },
+    "forbes_fullcontact": {
+      "f1_score": 0.7888446215139442
+    },
+    "fullcontact_dbpedia": {
+      "f1_score": 0.7303754266211604
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.46095238095238095,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25
+  },
+  "overall_accuracy": 0.48484848484848486,
+  "validation_metrics_final": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.460952380952381,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.696969696969697,
+    "macro_accuracy": 0.6666666666666666,
+    "num_evaluated_records": 18,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 99,
+    "total_correct": 69,
+    "keypeople_name_accuracy": 0.3333333333333333,
+    "keypeople_name_count": 9,
+    "country_accuracy": 0.9444444444444444,
+    "country_count": 18,
+    "assets_accuracy": 0.3888888888888889,
+    "assets_count": 18,
+    "name_accuracy": 0.8333333333333334,
+    "name_count": 18,
+    "founded_accuracy": 0.7777777777777778,
+    "founded_count": 18,
+    "city_accuracy": 0.7222222222222222,
+    "city_count": 18
+  },
+  "metrics_by_split": {
+    "validation_final": {
+      "overall_accuracy": 0.48484848484848486,
+      "macro_accuracy": 0.460952380952381,
+      "num_evaluated_records": 25,
+      "num_evaluated_attributes": 6,
+      "total_evaluations": 132,
+      "total_correct": 64,
+      "country_accuracy": 0.96,
+      "country_count": 25,
+      "founded_accuracy": 0.32,
+      "founded_count": 25,
+      "name_accuracy": 1.0,
+      "name_count": 25,
+      "assets_accuracy": 0.0,
+      "assets_count": 25,
+      "city_accuracy": 0.2,
+      "city_count": 25,
+      "keypeople_name_accuracy": 0.2857142857142857,
+      "keypeople_name_count": 7
+    },
+    "sealed_test_final": {
+      "overall_accuracy": 0.696969696969697,
+      "macro_accuracy": 0.6666666666666666,
+      "num_evaluated_records": 18,
+      "num_evaluated_attributes": 6,
+      "total_evaluations": 99,
+      "total_correct": 69,
+      "keypeople_name_accuracy": 0.3333333333333333,
+      "keypeople_name_count": 9,
+      "country_accuracy": 0.9444444444444444,
+      "country_count": 18,
+      "assets_accuracy": 0.3888888888888889,
+      "assets_count": 18,
+      "name_accuracy": 0.8333333333333334,
+      "name_count": 18,
+      "founded_accuracy": 0.7777777777777778,
+      "founded_count": 18,
+      "city_accuracy": 0.7222222222222222,
+      "city_count": 18
+    }
+  },
+  "blocking_config": {
+    "blocking_strategies": {
+      "forbes_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "country",
+          "industry"
+        ],
+        "params": {
+          "top_k": 15
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 30000,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "forbes_fullcontact": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "country"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 39892,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "fullcontact_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "country",
+          "city"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9933333333333333,
+        "num_candidates": 38143,
+        "is_acceptable": true,
+        "failure_tags": [
+          "ok"
+        ]
+      }
+    },
+    "id_columns": {
+      "forbes": "id",
+      "dbpedia": "id",
+      "fullcontact": "id"
+    },
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "dataset_names": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "pc_threshold": 0.9,
+    "max_candidates": 69375,
+    "candidate_tolerance": 0.15,
+    "llm_trace_path": "output/runs/20260322_102925_companies/blocking-evaluation/llm_blocking_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "blocking",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 12004,
+      "expected_unique_ids": 12004,
+      "expected_rows_range": [
+        8168,
+        12004
+      ],
+      "expected_unique_ids_range": [
+        8168,
+        12004
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 2000,
+          "forbes_fullcontact": 1931,
+          "dbpedia_fullcontact": 1918
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 1931.0,
+          "via_dbpedia": 380.32916914534997,
+          "via_fullcontact": 1918.0,
+          "median_used": 1918.0,
+          "final_triple_intersection": 1918,
+          "triple_intersection_range": [
+            0,
+            1918
+          ]
+        },
+        "expected_union_clusters": 2013,
+        "expected_union_range": [
+          2013,
+          5849
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 2000
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 1931
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9933333333333333,
+          "expected_cluster_count": 1918
+        }
+      ],
+      "created_at": "2026-03-22T09:30:15.558153+00:00",
+      "expected_rows_matched_only": 2013,
+      "expected_unique_ids_matched_only": 2013,
+      "expected_rows_matched_only_range": [
+        2013,
+        5849
+      ],
+      "expected_unique_ids_matched_only_range": [
+        2013,
+        5849
+      ],
+      "expected_rows_singleton_aware": 12004,
+      "expected_unique_ids_singleton_aware": 12004,
+      "expected_rows_singleton_aware_range": [
+        8168,
+        12004
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        8168,
+        12004
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "forbes": "id",
+      "dbpedia": "id",
+      "fullcontact": "id"
+    },
+    "matching_strategies": {
+      "forbes_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "industry",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.55,
+          0.2,
+          0.25
+        ],
+        "threshold": 0.68,
+        "f1": 0.7555555555555555,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": 0.7555555555555555,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "forbes_fullcontact": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip"
+          }
+        ],
+        "weights": [
+          0.8,
+          0.2
+        ],
+        "threshold": 0.82,
+        "f1": 0.7888446215139442,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "ok"
+        ]
+      },
+      "fullcontact_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "country",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip"
+          },
+          {
+            "type": "date",
+            "column": "founded",
+            "max_days_difference": 730
+          }
+        ],
+        "weights": [
+          0.45,
+          0.2,
+          0.15,
+          0.2
+        ],
+        "threshold": 0.72,
+        "f1": 0.7303754266211604,
+        "skipped_due_to_blocking_gate": false,
+        "proxy_f1": null,
+        "failure_tags": [
+          "low_matching_quality"
+        ]
+      }
+    },
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "dataset_names": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "min_blocking_pc_for_matching": 0.5,
+    "proxy_f1_margin": 0.015,
+    "proxy_max_candidates": 60000,
+    "llm_trace_path": "output/runs/20260322_102925_companies/matching-evaluation/llm_matching_trace.jsonl",
+    "fusion_size_estimate": {
+      "stage": "matching",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 11792,
+      "expected_unique_ids": 11792,
+      "expected_rows_range": [
+        9582,
+        12384
+      ],
+      "expected_unique_ids_range": [
+        9582,
+        12384
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 1511,
+          "forbes_fullcontact": 1523,
+          "dbpedia_fullcontact": 1401
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 1150.6265,
+          "via_dbpedia": 209.8860797144557,
+          "via_fullcontact": 1104.9834282755048,
+          "median_used": 1104.9834282755048,
+          "final_triple_intersection": 1105,
+          "triple_intersection_range": [
+            0,
+            1401
+          ]
+        },
+        "expected_union_clusters": 2225,
+        "expected_union_range": [
+          1633,
+          4435
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "f1": 0.7555555555555555,
+          "expected_cluster_count": 1511
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 1.0,
+          "f1": 0.7888446215139442,
+          "expected_cluster_count": 1523
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9933333333333333,
+          "f1": 0.7303754266211604,
+          "expected_cluster_count": 1401
+        }
+      ],
+      "created_at": "2026-03-22T09:32:17.262171+00:00",
+      "expected_rows_matched_only": 2225,
+      "expected_unique_ids_matched_only": 2225,
+      "expected_rows_matched_only_range": [
+        1633,
+        4435
+      ],
+      "expected_unique_ids_matched_only_range": [
+        1633,
+        4435
+      ],
+      "expected_rows_singleton_aware": 11792,
+      "expected_unique_ids_singleton_aware": 11792,
+      "expected_rows_singleton_aware_range": [
+        9582,
+        12384
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        9582,
+        12384
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "run_report_path": "output/runs/20260322_102925_companies/results/run_20260322_103217_report.md"
+  },
+  "fusion_size_comparison": {
+    "estimate_path": "output/runs/20260322_102925_companies/pipeline_evaluation/fusion_size_estimate.json",
+    "actual": {
+      "rows": 12870,
+      "unique_ids": 12870
+    },
+    "comparisons": {
+      "blocking": {
+        "expected_rows": 12004,
+        "actual_rows": 12870,
+        "rows_abs_error": 866,
+        "rows_pct_error": 0.07214261912695769,
+        "expected_rows_matched_only": 2013,
+        "expected_rows_singleton_aware": 12004,
+        "rows_pct_error_matched_only": 5.39344262295082,
+        "rows_pct_error_singleton_aware": 0.07214261912695769,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 12004,
+        "actual_unique_ids": 12870,
+        "unique_ids_abs_error": 866,
+        "unique_ids_pct_error": 0.07214261912695769,
+        "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+        "compared_at": "2026-03-22T09:40:20.230912+00:00"
+      },
+      "matching": {
+        "expected_rows": 11792,
+        "actual_rows": 12870,
+        "rows_abs_error": 1078,
+        "rows_pct_error": 0.0914179104477612,
+        "expected_rows_matched_only": 2225,
+        "expected_rows_singleton_aware": 11792,
+        "rows_pct_error_matched_only": 4.784269662921348,
+        "rows_pct_error_singleton_aware": 0.0914179104477612,
+        "better_variant": "singleton_aware",
+        "expected_unique_ids": 11792,
+        "actual_unique_ids": 12870,
+        "unique_ids_abs_error": 1078,
+        "unique_ids_pct_error": 0.0914179104477612,
+        "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+        "compared_at": "2026-03-22T09:40:20.231008+00:00"
+      }
+    }
+  },
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 37,
+      "missing_fused_value": 31
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.5441176470588235,
+      "missing_fused_value": 0.45588235294117646
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/companies/testsets/validation_set.xml",
+    "id_alignment": {
+      "gold_count": 25,
+      "direct_coverage": 14,
+      "direct_coverage_ratio": 0.56,
+      "mapped_coverage": 25,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "fusion_size_comparison": {
+      "estimate_path": "output/runs/20260322_102925_companies/pipeline_evaluation/fusion_size_estimate.json",
+      "actual": {
+        "rows": 12870,
+        "unique_ids": 12870
+      },
+      "comparisons": {
+        "blocking": {
+          "expected_rows": 12004,
+          "actual_rows": 12870,
+          "rows_abs_error": 866,
+          "rows_pct_error": 0.07214261912695769,
+          "expected_rows_matched_only": 2013,
+          "expected_rows_singleton_aware": 12004,
+          "rows_pct_error_matched_only": 5.39344262295082,
+          "rows_pct_error_singleton_aware": 0.07214261912695769,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 12004,
+          "actual_unique_ids": 12870,
+          "unique_ids_abs_error": 866,
+          "unique_ids_pct_error": 0.07214261912695769,
+          "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+          "compared_at": "2026-03-22T09:40:20.230912+00:00"
+        },
+        "matching": {
+          "expected_rows": 11792,
+          "actual_rows": 12870,
+          "rows_abs_error": 1078,
+          "rows_pct_error": 0.0914179104477612,
+          "expected_rows_matched_only": 2225,
+          "expected_rows_singleton_aware": 11792,
+          "rows_pct_error_matched_only": 4.784269662921348,
+          "rows_pct_error_singleton_aware": 0.0914179104477612,
+          "better_variant": "singleton_aware",
+          "expected_unique_ids": 11792,
+          "actual_unique_ids": 12870,
+          "unique_ids_abs_error": 1078,
+          "unique_ids_pct_error": 0.0914179104477612,
+          "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+          "compared_at": "2026-03-22T09:40:20.231008+00:00"
+        }
+      }
+    },
+    "overall_accuracy": 0.48484848484848486
+  },
+  "evaluation_regression_guard": {
+    "rejected": false,
+    "overall_gain": 0.0,
+    "macro_gain": -0.0,
+    "overall_drop": 0.0,
+    "macro_drop": 0.0,
+    "meaningful_gain": false,
+    "net_positive": false,
+    "total_gain_weight": 0.0,
+    "total_drop_weight": 0.0,
+    "catastrophic_attribute_drops": {},
+    "severe_attribute_drops": {},
+    "moderate_attribute_drops": {},
+    "top_attribute_drops": {},
+    "top_attribute_gains": {}
+  },
+  "latest_validation_metrics": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.46095238095238095,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25
+  },
+  "evaluation_metrics_raw": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.46095238095238095,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25
+  },
+  "evaluation_metrics_for_adaptation": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.46095238095238095,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25
+  },
+  "best_validation_metrics": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.460952380952381,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7
+  },
+  "evaluation_cycle_audit": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-22T09:34:14.756516Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:34:14.396365Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 43.182% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=12.000%, founded=28.000%, keypeople_name=28.571%, macro=41.429%",
+        "low direct ID coverage: 44.000%",
+        "high missing_fused_value mismatch ratio: 33.333%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-22T09:36:35.418255Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.05303,
+        "macro_gain": 0.046667,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 0.28,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {
+          "name": 0.16,
+          "city": 0.08,
+          "founded": 0.04
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:36:35.091480Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 48.485% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=20.000%, founded=32.000%, keypeople_name=28.571%, macro=46.095%",
+        "high missing_fused_value mismatch ratio: 42.647%"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-22T09:38:47.633096Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.44696969696969696,
+        "macro_accuracy": 0.4276190476190476,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 59,
+        "name_accuracy": 0.84,
+        "name_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.44696969696969696,
+        "macro_accuracy": 0.4276190476190476,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 59,
+        "name_accuracy": 0.84,
+        "name_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_gain": -0.037879,
+        "macro_gain": -0.033333,
+        "overall_drop": 0.037879,
+        "macro_drop": 0.033333,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.0,
+        "total_drop_weight": 0.2,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {
+          "name": 0.16
+        },
+        "moderate_attribute_drops": {
+          "name": 0.16
+        },
+        "top_attribute_drops": {
+          "name": 0.16,
+          "founded": 0.04
+        },
+        "top_attribute_gains": {}
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:38:47.326868Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 44.697% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=20.000%, founded=28.000%, keypeople_name=28.571%, macro=42.762%",
+        "regression guard rejected latest candidate: overall_drop=0.037879, macro_drop=0.033333, top_attribute_drops={'name': 0.16, 'founded': 0.04}",
+        "low direct ID coverage: 44.000%",
+        "high missing_fused_value mismatch ratio: 34.247%"
+      ]
+    },
+    {
+      "attempt": 4,
+      "recorded_at": "2026-03-22T09:41:00.733906Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.0,
+        "macro_gain": -0.0,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.0,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {}
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:41:00.394650Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 48.485% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=20.000%, founded=32.000%, keypeople_name=28.571%, macro=46.095%",
+        "high missing_fused_value mismatch ratio: 45.588%"
+      ]
+    }
+  ],
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-22T09:41:00.394650Z",
+    "expected_pairs": [
+      "dbpedia_forbes",
+      "dbpedia_fullcontact",
+      "forbes_fullcontact"
+    ],
+    "pair_checks": [
+      {
+        "pair": "dbpedia_forbes",
+        "status": "ok",
+        "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+        "data_rows": 1604
+      },
+      {
+        "pair": "dbpedia_fullcontact",
+        "status": "ok",
+        "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+        "data_rows": 430
+      },
+      {
+        "pair": "forbes_fullcontact",
+        "status": "ok",
+        "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+        "data_rows": 207
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "evaluation_analysis": "{\n  \"action\": \"decide\",\n  \"diagnosis\": \"The pipeline\\u2019s remaining fixable errors are primarily due to fusion/post-clustering configuration, with one major normalization issue deferred for assets. Blocking and matching are not the main bottlenecks: all correspondence files are populated, blocking recall probes found no issues, and matcher F1s are reasonable. The biggest improvable attributes are city, founded, and possibly keypeople_name. City is a source-selection problem where fullcontact aligns best with validation but fused output still contains blanks/wrong values. Founded is a fusion-rule problem: the current pipeline code uses prefer_higher_trust, but the source-vs-validation evidence recommends a consensus-style choice instead of always taking one source priority. Keypeople_name is partly sparse but also suffers from scalar/partial-list fusion that misses validation\\u2019s expected multi-name format. Assets is not solvable in pipeline_adaption because the errors are scale/unit mismatches (e.g. 162.8 vs 162800000000), which require pre-fusion normalization. Protected attributes should be preserved: country is already 96%, and the 11 attributes above 85% should not be changed.\",\n  \"next_node\": \"pipeline_adaption\",\n  \"reasoning\": \"Per routing rules, normalization_node is only for pre-fusion source-format transformations. While assets clearly needs that later, the highest-impact currently fixable errors are in fusion strategy and post-clustering. The provided evidence already compares sources to validation for city and founded, and the current code confirms founded is misconfigured relative to that evidence. Post-clustering recommendation is already MaximumBipartiteMatching and the code uses it, so the main pipeline_adaption task is attribute-level fusion changes while preserving well-performing attributes. We should not touch protected high-accuracy fields. Assets should be explicitly preserved for now because no resolver can recover the correct magnitude without normalization.\",\n  \"ceiling_assessment\": \"With current matching structure and frozen source formats, overall accuracy around the reported 73.7% ceiling is a realistic upper bound. City and founded offer the largest near-term gains in pipeline_adaption. Keypeople_name may improve modestly if treated as list-valued union, but gains are capped by 80.8% null sparsity. Assets will remain near 0 until a later normalization pass converts shorthand financial units to the validation format of full absolute numbers.\",\n  \"recommendations\": [\n    {\n      \"attribute\": \"city\",\n      \"issue\": \"Fused city values are often blank or wrong despite strong evidence that fullcontact is the best source for this attribute.\",\n      \"fix\": \"Keep an attribute-specific fusion rule: strategy.add_attribute_fuser('city', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}) and preserve MaximumBipartiteMatching post-clustering.\",\n      \"resolver_reasoning\": \"Source-vs-validation comparison shows fullcontact has 71% exact/fuzzy match and 100% non-null coverage, while dbpedia is mostly wrong and forbes is null. This is the clearest case for prefer_higher_trust because one source dominates on correctness. Voting would be harmed when dbpedia disagrees with fullcontact. most_complete cannot distinguish correct non-null from incorrect non-null. favour_sources would be similar but gives no advantage over trust-based selection already supported in the pipeline.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.11\n    },\n    {\n      \"attribute\": \"founded\",\n      \"issue\": \"The founded field is using source-priority fusion, but validation-oriented evidence indicates a consensus-style resolver would fit better than single-source preference.\",\n      \"fix\": \"Change founded to strategy.add_attribute_fuser('founded', voting). If PyDI datetime voting is unstable in this runtime, fallback to strategy.add_attribute_fuser('founded', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}).\",\n      \"resolver_reasoning\": \"The source-vs-validation probe explicitly recommends voting for founded. Exact match is suppressed by representation differences, but fuzzy agreement is highest across fullcontact/dbpedia, suggesting agreement on year/date content rather than one universally best source. Current prefer_higher_trust can lock in the wrong date when sources disagree. earliest is not justified by the evidence and could bias toward historically older but incorrect dates. The fallback trust order is only second-best if datetime voting support is unreliable.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.09\n    },\n    {\n      \"attribute\": \"keypeople_name\",\n      \"issue\": \"Current fusion returns partial lists or scalar values where validation sometimes expects multiple names; many misses are format/list-completeness issues.\",\n      \"fix\": \"If the loaded field is genuinely list-valued in PyDI, replace strategy.add_attribute_fuser('keypeople_name', most_complete) with strategy.add_attribute_fuser('keypeople_name', union). Otherwise preserve current rule for now.\",\n      \"resolver_reasoning\": \"Mismatch samples show classic subset behavior: one source contributes only one or two names while validation expects the combined set. union is the best resolver when sources are complementary and the target expects multiple items. voting or prefer_higher_trust would keep only one source\\u2019s partial list; intersection would underproduce even more. This remains lower priority because null coverage is poor, so gains are limited.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.03\n    },\n    {\n      \"attribute\": \"assets\",\n      \"issue\": \"Source values are in incompatible scales/units relative to validation, causing total failure regardless of resolver.\",\n      \"fix\": \"Do not change assets in pipeline_adaption; preserve current behavior and defer to normalization_node for source transformation into full absolute numbers matching validation format.\",\n      \"resolver_reasoning\": \"Both main sources have 0% exact/fuzzy match against validation for assets, and examples show unit-conversion errors like 184.4 vs 39900000000. No fusion resolver\\u2014voting, median, maximum, most_complete, or prefer_higher_trust\\u2014can infer the missing scale factor reliably without preprocessing. This is structurally limited under pipeline_adaption constraints.\",\n      \"class\": \"structurally_limited\",\n      \"expected_impact\": 0.0\n    }\n  ]\n}",
+  "evaluation_reasoning_brief": {
+    "root_cause": "The pipeline’s remaining fixable errors are primarily due to fusion/post-clustering configuration, with one major normalization issue deferred for assets. Blocking and matching are not the main bottlenecks: all correspondence files are populated, blocking recall probes found no issues, and matcher F1s are reasonable. The biggest improvable attributes are city, founded, and possibly keypeople_name. City is a source-selection problem where fullcontact aligns best with validation but fused output still contains blanks/wrong values. Founded is a fusion-rule problem: the current pipeline code uses prefer_higher_trust, but the source-vs-validation evidence recommends a consensus-style choice instead of always taking one source priority. Keypeople_name is partly sparse but also suffers from scalar/partial-list fusion that misses validation’s expected multi-name format. Assets is not solvable in pipeline_adaption because the errors are scale/unit mismatches (e.g. 162.8 vs 162800000000), which require pre-fusion normalization. Protected attributes should be preserved: country is already 96%, and the 11 attributes above 85% should not be changed.",
+    "next_step": "Per routing rules, normalization_node is only for pre-fusion source-format transformations. While assets clearly needs that later, the highest-impact currently fixable errors are in fusion strategy and post-clustering. The provided evidence already compares sources to validation for city and founded, and the current code confirms founded is misconfigured relative to that evidence. Post-clustering recommendation is already MaximumBipartiteMatching and the code uses it, so the main pipeline_adaption task is attribute-level fusion changes while preserving well-performing attributes. We should not touch protected high-accuracy fields. Assets should be explicitly preserved for now because no resolver can recover the correct magnitude without normalization.",
+    "takeaway": "The pipeline’s remaining fixable errors are primarily due to fusion/post-clustering configuration, with one major normalization issue deferred for assets. Blocking and matching are not the main bottlenecks: all correspondence files are populated, blocking recall probes found no issues, and matcher F1s are reasonable. The biggest improvable attributes are city, founded, and possibly keypeople_name. City is a source-selection problem where fullcontact aligns best with validation but fused output still contains blanks/wrong values. Founded is a fusion-rule problem: the current pipeline code uses prefer_higher_trust, but the source-vs-validation evidence recommends a consensus-style choice instead of always taking one source priority. Keypeople_name is partly sparse but also suffers from scalar/partial-list fusion that misses validation’s expected multi-name format. Assets is not solvable in pipeline_adaption because the errors are scale/unit mismatches (e.g. 162.8 vs 162800000000), which require pre-fusion normalization. Protected attributes should be preserved: country is already 96%, and the 11 attributes above 85% should not be changed.",
+    "recommendations": [
+      {
+        "attribute": "city",
+        "issue": "Fused city values are often blank or wrong despite strong evidence that fullcontact is the best source for this attribute.",
+        "fix": "Keep an attribute-specific fusion rule: strategy.add_attribute_fuser('city', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}) and preserve MaximumBipartiteMatching post-clustering.",
+        "resolver_reasoning": "Source-vs-validation comparison shows fullcontact has 71% exact/fuzzy match and 100% non-null coverage, while dbpedia is mostly wrong and forbes is null. This is the clearest case for prefer_higher_trust because one source dominates on correctness. Voting would be harmed when dbpedia disagrees with fullcontact. most_complete cannot distinguish correct non-null from incorrect non-null. favour_sources would be similar but gives no advantage over trust-based selection already supported in the pipeline.",
+        "class": "improvable",
+        "expected_impact": 0.11
+      },
+      {
+        "attribute": "founded",
+        "issue": "The founded field is using source-priority fusion, but validation-oriented evidence indicates a consensus-style resolver would fit better than single-source preference.",
+        "fix": "Change founded to strategy.add_attribute_fuser('founded', voting). If PyDI datetime voting is unstable in this runtime, fallback to strategy.add_attribute_fuser('founded', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}).",
+        "resolver_reasoning": "The source-vs-validation probe explicitly recommends voting for founded. Exact match is suppressed by representation differences, but fuzzy agreement is highest across fullcontact/dbpedia, suggesting agreement on year/date content rather than one universally best source. Current prefer_higher_trust can lock in the wrong date when sources disagree. earliest is not justified by the evidence and could bias toward historically older but incorrect dates. The fallback trust order is only second-best if datetime voting support is unreliable.",
+        "class": "improvable",
+        "expected_impact": 0.09
+      },
+      {
+        "attribute": "keypeople_name",
+        "issue": "Current fusion returns partial lists or scalar values where validation sometimes expects multiple names; many misses are format/list-completeness issues.",
+        "fix": "If the loaded field is genuinely list-valued in PyDI, replace strategy.add_attribute_fuser('keypeople_name', most_complete) with strategy.add_attribute_fuser('keypeople_name', union). Otherwise preserve current rule for now.",
+        "resolver_reasoning": "Mismatch samples show classic subset behavior: one source contributes only one or two names while validation expects the combined set. union is the best resolver when sources are complementary and the target expects multiple items. voting or prefer_higher_trust would keep only one source’s partial list; intersection would underproduce even more. This remains lower priority because null coverage is poor, so gains are limited.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "assets",
+        "issue": "Source values are in incompatible scales/units relative to validation, causing total failure regardless of resolver.",
+        "fix": "Do not change assets in pipeline_adaption; preserve current behavior and defer to normalization_node for source transformation into full absolute numbers matching validation format.",
+        "resolver_reasoning": "Both main sources have 0% exact/fuzzy match against validation for assets, and examples show unit-conversion errors like 184.4 vs 39900000000. No fusion resolver—voting, median, maximum, most_complete, or prefer_higher_trust—can infer the missing scale factor reliably without preprocessing. This is structurally limited under pipeline_adaption constraints.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ],
+    "next_node": "pipeline_adaption",
+    "ceiling_assessment": "With current matching structure and frozen source formats, overall accuracy around the reported 73.7% ceiling is a realistic upper bound. City and founded offer the largest near-term gains in pipeline_adaption. Keypeople_name may improve modestly if treated as list-valued union, but gains are capped by 80.8% null sparsity. Assets will remain near 0 until a later normalization pass converts shorthand financial units to the validation format of full absolute numbers."
+  },
+  "pipeline_generation_review": {
+    "verdict": "revise",
+    "summary": "The candidate still contains a concrete fusion misconfiguration for founded relative to supplied evidence, and current identity handling remains risky because direct coverage is low and the regression guard rejected the result. The correspondence-save sanity issue appears addressed and post-clustering is preserved.",
+    "problem_classes": [
+      "value-selection/fusion issues",
+      "identity/provenance issues",
+      "overcorrection risk"
+    ],
+    "keep": [
+      "Preserve MaximumBipartiteMatching post-clustering.",
+      "Keep the attribute-specific city fuser using prefer_higher_trust with the supplied trust map.",
+      "Keep correspondence files being saved per dataset pair before concatenation.",
+      "Do not change assets fusion here; defer its unit/scale problem to normalization."
+    ],
+    "risks": [
+      "Founded still uses prefer_higher_trust even though the evidence explicitly recommends voting first and cites the current founded rule as a root-cause issue.",
+      "Regression guard is rejected with net negative overall and macro accuracy, including a severe drop on name, so further unnecessary changes would be high risk.",
+      "Direct gold-ID coverage is only 0.44, so identity/provenance handling should not be made more opaque or custom without need."
+    ],
+    "revision_instructions": [
+      "Change the founded attribute fuser from prefer_higher_trust to voting, using the trust-based rule only as a fallback if runtime support for datetime voting is actually unstable.",
+      "Avoid additional fusion-rule changes beyond the evidence-backed adjustments; in particular, do not broaden custom logic or alter protected high-performing attributes.",
+      "If keypeople_name is truly list-valued in the loaded PyDI data, switch it to the built-in union fuser; otherwise leave it unchanged."
+    ],
+    "static_sanity_findings": [
+      {
+        "severity": "critical",
+        "code": "missing_correspondence_saves",
+        "message": "Pipeline does NOT save per-pair correspondence files. For each dataset pair, save a CSV to `output/runs/20260322_102925_companies/correspondences/correspondences_<left>_<right>.csv` so that cluster analysis and structural integrity checks can find them. Save BEFORE merging into all_correspondences."
+      }
+    ]
+  },
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:33:34.864613Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:35:50.701472Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/runs/20260322_102925_companies/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12870,
+          "unique_ids": 12870
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 12004,
+            "actual_rows": 12870,
+            "rows_abs_error": 866,
+            "rows_pct_error": 0.07214261912695769,
+            "expected_rows_matched_only": 2013,
+            "expected_rows_singleton_aware": 12004,
+            "rows_pct_error_matched_only": 5.39344262295082,
+            "rows_pct_error_singleton_aware": 0.07214261912695769,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 12004,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 866,
+            "unique_ids_pct_error": 0.07214261912695769,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-22T09:35:50.700653+00:00"
+          },
+          "matching": {
+            "expected_rows": 11792,
+            "actual_rows": 12870,
+            "rows_abs_error": 1078,
+            "rows_pct_error": 0.0914179104477612,
+            "expected_rows_matched_only": 2225,
+            "expected_rows_singleton_aware": 11792,
+            "rows_pct_error_matched_only": 4.784269662921348,
+            "rows_pct_error_singleton_aware": 0.0914179104477612,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11792,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 1078,
+            "unique_ids_pct_error": 0.0914179104477612,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-22T09:35:50.700713+00:00"
+          }
+        }
+      }
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:38:09.612425Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:40:20.232227Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/runs/20260322_102925_companies/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12870,
+          "unique_ids": 12870
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 12004,
+            "actual_rows": 12870,
+            "rows_abs_error": 866,
+            "rows_pct_error": 0.07214261912695769,
+            "expected_rows_matched_only": 2013,
+            "expected_rows_singleton_aware": 12004,
+            "rows_pct_error_matched_only": 5.39344262295082,
+            "rows_pct_error_singleton_aware": 0.07214261912695769,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 12004,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 866,
+            "unique_ids_pct_error": 0.07214261912695769,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-22T09:40:20.230912+00:00"
+          },
+          "matching": {
+            "expected_rows": 11792,
+            "actual_rows": 12870,
+            "rows_abs_error": 1078,
+            "rows_pct_error": 0.0914179104477612,
+            "expected_rows_matched_only": 2225,
+            "expected_rows_singleton_aware": 11792,
+            "rows_pct_error_matched_only": 4.784269662921348,
+            "rows_pct_error_singleton_aware": 0.0914179104477612,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11792,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 1078,
+            "unique_ids_pct_error": 0.0914179104477612,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-22T09:40:20.231008+00:00"
+          }
+        }
+      }
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:34:14.389579Z",
+      "metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:36:35.082861Z",
+      "metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:38:47.321354Z",
+      "metrics": {
+        "overall_accuracy": 0.44696969696969696,
+        "macro_accuracy": 0.4276190476190476,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 59,
+        "name_accuracy": 0.84,
+        "name_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:41:00.390734Z",
+      "metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/evaluation_execution.json"
+      }
+    }
+  ],
+  "normalization_execution_result": "success",
+  "normalization_attempts": 1,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 1,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/companies/testsets/validation_set.xml",
+    "llm_specs": {
+      "forbes": {
+        "country": {
+          "country_format": "name",
+          "on_failure": "keep",
+          "strip_whitespace": true
+        },
+        "assets": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "dbpedia": {
+        "founded": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S",
+          "on_failure": "keep"
+        },
+        "assets": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "Sales": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "fullcontact": {
+        "founded": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S",
+          "on_failure": "keep"
+        }
+      }
+    },
+    "llm_list_columns": [],
+    "llm_reasoning": "Target uses full country names (e.g. United States, Germany), ISO-like full timestamps for founded values (%Y-%m-%dT%H:%M:%S), and numeric-looking text for financial columns such as assets/revenue. Forbes country is alpha-3 and needs conversion to country names; Forbes assets is numeric and should be rendered as string to match target object style. DBpedia founded dates need timestamp formatting; assets and Sales are numeric and should be stringified to align with target financial text columns. Fullcontact already matches most target text style except founded, which needs the same timestamp format.",
+    "datasets": {
+      "forbes": {
+        "input_path": "output/runs/20260322_102925_companies/schema-matching/forbes.csv",
+        "output_path": "output/runs/20260322_102925_companies/normalization/attempt_1/forbes.csv",
+        "row_count": 2000,
+        "id_column": "id",
+        "spec_applied": {
+          "country": {
+            "country_format": "name",
+            "on_failure": "keep",
+            "strip_whitespace": true
+          },
+          "assets": {
+            "output_type": "string",
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": []
+      },
+      "dbpedia": {
+        "input_path": "output/runs/20260322_102925_companies/schema-matching/dbpedia.csv",
+        "output_path": "output/runs/20260322_102925_companies/normalization/attempt_1/dbpedia.csv",
+        "row_count": 10086,
+        "id_column": "id",
+        "spec_applied": {
+          "founded": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%dT%H:%M:%S",
+            "on_failure": "keep"
+          },
+          "assets": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "Sales": {
+            "output_type": "string",
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": []
+      },
+      "fullcontact": {
+        "input_path": "output/runs/20260322_102925_companies/schema-matching/fullcontact.csv",
+        "output_path": "output/runs/20260322_102925_companies/normalization/attempt_1/fullcontact.csv",
+        "row_count": 1931,
+        "id_column": "id",
+        "spec_applied": {
+          "founded": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%dT%H:%M:%S",
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": []
+      }
+    },
+    "warnings": [],
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "reverted_to_original": false,
+    "created_at": "2026-03-22T10:29:34.820570"
+  },
+  "normalization_directives": {
+    "specs": {
+      "forbes": {
+        "country": {
+          "country_format": "name",
+          "on_failure": "keep",
+          "strip_whitespace": true
+        },
+        "assets": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "dbpedia": {
+        "founded": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S",
+          "on_failure": "keep"
+        },
+        "assets": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "Sales": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "fullcontact": {
+        "founded": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S",
+          "on_failure": "keep"
+        }
+      }
+    },
+    "list_columns": []
+  },
+  "investigator_action_plan": [
+    {
+      "action": "Keep an attribute-specific fusion rule: strategy.add_attribute_fuser('city', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}) and preserve MaximumBipartiteMatching post-clustering.",
+      "target_attributes": [
+        "city"
+      ],
+      "priority_score": 0.11,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Change founded to strategy.add_attribute_fuser('founded', voting). If PyDI datetime voting is unstable in this runtime, fallback to strategy.add_attribute_fuser('founded', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}).",
+      "target_attributes": [
+        "founded"
+      ],
+      "priority_score": 0.09,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "If the loaded field is genuinely list-valued in PyDI, replace strategy.add_attribute_fuser('keypeople_name', most_complete) with strategy.add_attribute_fuser('keypeople_name', union). Otherwise preserve current rule for now.",
+      "target_attributes": [
+        "keypeople_name"
+      ],
+      "priority_score": 0.03,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Do not change assets in pipeline_adaption; preserve current behavior and defer to normalization_node for source transformation into full absolute numbers matching validation format.",
+      "target_attributes": [
+        "assets"
+      ],
+      "priority_score": 0.0,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "structurally_limited"
+    }
+  ],
+  "fusion_guidance": {
+    "mismatch_classifications": {
+      "assets": {
+        "value_mismatch": 5
+      },
+      "city": {
+        "value_mismatch": 2,
+        "missing_fused": 3
+      },
+      "founded": {
+        "value_mismatch": 2,
+        "missing_fused": 3
+      },
+      "keypeople_name": {
+        "format_mismatch": 2,
+        "missing_fused": 2,
+        "list_format_mismatch": 1
+      },
+      "name": {
+        "value_mismatch": 4
+      }
+    },
+    "post_clustering": {
+      "recommended_strategy": "MaximumBipartiteMatching",
+      "reason": "cluster analysis evidence"
+    },
+    "global_hints": [],
+    "attribute_strategies": {
+      "assets": {
+        "recommended_fuser": "voting",
+        "trust_map": {
+          "dbpedia": 2,
+          "forbes": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      },
+      "city": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "fullcontact": 3,
+          "dbpedia": 2,
+          "forbes": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "founded": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "fullcontact": 3,
+          "dbpedia": 2,
+          "forbes": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "keypeople_name": {
+        "recommended_fuser": "most_complete",
+        "trust_map": {},
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      }
+    }
+  },
+  "investigator_decision": "human_review_export",
+  "investigator_routing_decision": {},
+  "matching_refresh_gate": {},
+  "per_run_output_dir": "output/runs/20260322_102925_companies/",
+  "normalized_datasets": [
+    "output/runs/20260322_102925_companies/normalization/attempt_1/forbes.csv",
+    "output/runs/20260322_102925_companies/normalization/attempt_1/dbpedia.csv",
+    "output/runs/20260322_102925_companies/normalization/attempt_1/fullcontact.csv"
+  ],
+  "integration_diagnostics_execution_result": "",
+  "integration_diagnostics_report": {},
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": "Human-review outputs generated for fused entities, source lineage, and fusion-vs-testset diffs.",
+    "file_paths": {
+      "fused_review_table": "output/runs/20260322_102925_companies/human_review/fused_review_table.csv",
+      "source_lineage_long": "output/runs/20260322_102925_companies/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff": "output/runs/20260322_102925_companies/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/runs/20260322_102925_companies/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/runs/20260322_102925_companies/human_review/human_review_summary.md",
+      "fused_csv_used": "output/runs/20260322_102925_companies/data_fusion/fusion_data.csv",
+      "fusion_testset_used": "input/datasets/companies/testsets/test_set.xml"
+    },
+    "counts": {
+      "fused_rows_input": 12870,
+      "fused_rows_review_output": 12870,
+      "source_lineage_rows": 1931,
+      "diff_rows": 0,
+      "fused_rows_with_resolved_sources": 1929,
+      "testset_rows": 5,
+      "mapped_testset_rows": 0,
+      "source_datasets_loaded": 3
+    },
+    "warnings": [
+      "No fused rows were directly mapped to testset rows by detected ID column."
+    ],
+    "created_at": "2026-03-22T09:42:05.896101+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.696969696969697,
+    "macro_accuracy": 0.6666666666666666,
+    "num_evaluated_records": 18,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 99,
+    "total_correct": 69,
+    "keypeople_name_accuracy": 0.3333333333333333,
+    "keypeople_name_count": 9,
+    "country_accuracy": 0.9444444444444444,
+    "country_count": 18,
+    "assets_accuracy": 0.3888888888888889,
+    "assets_count": 18,
+    "name_accuracy": 0.8333333333333334,
+    "name_count": 18,
+    "founded_accuracy": 0.7777777777777778,
+    "founded_count": 18,
+    "city_accuracy": 0.7222222222222222,
+    "city_count": 18
+  },
+  "agent_run_summary": {
+    "agent_loop_overview": "The agent profiles the datasets, optionally reruns normalization, keeps the tested blocking setup, searches or refreshes matching when needed, generates a fusion pipeline, generates and runs an evaluation script, diagnoses the result, and then routes either back to matching, back to normalization, back to pipeline adaptation, or to final human review.",
+    "final_route": "finish automatic passes and export for human review",
+    "current_problem": "",
+    "next_step_advice": "Per routing rules, normalization_node is only for pre-fusion source-format transformations. While assets clearly needs that later, the highest-impact currently fixable errors are in fusion strategy and post-clustering. The provided evidence already compares sources to validation for city and founded, and the current code confirms founded is misconfigured relative to that evidence. Post-clustering recommendation is already MaximumBipartiteMatching and the code uses it, so the main pipeline_adaption task is attribute-level fusion changes while preserving well-performing attributes. We should not touch protected high-accuracy fields. Assets should be explicitly preserved for now because no resolver can recover the correct magnitude without normalization.",
+    "normalization_note": "",
+    "report_takeaway": "The pipeline’s remaining fixable errors are primarily due to fusion/post-clustering configuration, with one major normalization issue deferred for assets. Blocking and matching are not the main bottlenecks: all correspondence files are populated, blocking recall probes found no issues, and matcher F1s are reasonable. The biggest improvable attributes are city, founded, and possibly keypeople_name. City is a source-selection problem where fullcontact aligns best with validation but fused output still contains blanks/wrong values. Founded is a fusion-rule problem: the current pipeline code uses prefer_higher_trust, but the source-vs-validation evidence recommends a consensus-style choice instead of always taking one source priority. Keypeople_name is partly sparse but also suffers from scalar/partial-list fusion that misses validation’s expected multi-name format. Assets is not solvable in pipeline_adaption because the errors are scale/unit mismatches (e.g. 162.8 vs 162800000000), which require pre-fusion normalization. Protected attributes should be preserved: country is already 96%, and the 11 attributes above 85% should not be changed.",
+    "top_detected_problems": [
+      "overall_accuracy below target: 48.485% < 85.000%",
+      "low attribute accuracy: assets=0.000%, city=20.000%, founded=32.000%, keypeople_name=28.571%, macro=46.095%",
+      "high missing_fused_value mismatch ratio: 45.588%"
+    ],
+    "top_planned_actions": [
+      "Keep an attribute-specific fusion rule: strategy.add_attribute_fuser('city', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}) and preserve MaximumBipartiteMatching post-clustering.",
+      "Change founded to strategy.add_attribute_fuser('founded', voting). If PyDI datetime voting is unstable in this runtime, fallback to strategy.add_attribute_fuser('founded', prefer_higher_trust, trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1}).",
+      "If the loaded field is genuinely list-valued in PyDI, replace strategy.add_attribute_fuser('keypeople_name', most_complete) with strategy.add_attribute_fuser('keypeople_name', union). Otherwise preserve current rule for now."
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 317924,
+    "completion_tokens": 39479,
+    "total_tokens": 357403,
+    "total_cost": 1.3869950000000002
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 4,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": [],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to evaluate a fusion output with PyDI DataFusionEvaluator and register attribute-specific evaluation functions?",
+      "response": "DataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\n)\n[source]\n\nGet the evaluation rule registered for a specific attribute.\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute.\nReturns\n:\nThe registered evaluation function, or None if not found.\nReturn type\n:\nOptional[EvaluationFunction]\nget_registered_attributes\n(\n)\n[source]\n\nGet all attributes that have registered fusers.\nReturns\n:\nSet of attribute names with registered fusers.\nReturn type\n:\nSet[str]\nhas_fuser_for\n(\nattribute\n)\n[source]\n\nCheck if a fuser is registered for the given attribute.\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute to check.\nReturns\n:\nTrue if a fuser is registered for this attribute.\nReturn type\n:\nbool\nremove_attribute_fuser\n(\nattribute\n)\n[source]\n\nRemove the fuser for a specific attribute.\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute.\nReturns\n:\nTrue if a fuser was removed, False if none was registered.\nReturn type\n:\nbool\nModule contents\n\nData fusion tools for PyDI.\nThis module provides comprehensive data fusion capabilities including:\n- Record grouping from correspondences\n- Attribute-level conflict resolution\n- Strategy-based fusion management\n- Quality evaluation and reporting\n- Provenance tracking\nThe implementation is designed to be pandas-first, modular, and extensible.\nclass\nPyDI.fusion.\nAttributeCoverageAnalyzer\n(\ndatasets\n,\ndataset_names\n=\nNone\n)\n[source]\n\nBases:\nobject\nComprehensive analyzer for attribute coverage across datasets.\nThis class provides detailed analysis capabilities and can suggest\n\n-----\n\nSource code for PyDI.fusion.evaluation\n\"\"\"\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nDict\n,\nAny\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\n,\nIterable\nfrom\ncollections\nimport\nCounter\nfrom\ndatetime\nimport\ndatetime\n,\ndate\nimport\npandas\nas\npd\nimport\nnumpy\nas\nnp\nimport\nlogging\nimport\njson\nfrom\npathlib\nimport\nPath\nfrom\n.base\nimport\nFusionContext\n,\nget_callable_name\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n..utils.similarity_registry\nimport\nSimilarityRegistry\ndef\n_is_missing_value\n(\nvalue\n)\n->\nbool\n:\n\"\"\"Helper function to check if a value should be treated as missing.\nHandles scalars, numpy arrays, pandas NA, and Python sequences.\n\"\"\"\ntry\n:\n# Pandas/NumPy aware check\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Handle sequences (e.g., lists/arrays): consider missing if empty\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\nvalue\n,\nnp\n.\nndarray\n):\nreturn\nvalue\n.\nsize\n==\n0\nor\nnp\n.\nall\n(\npd\n.\nisna\n(\nvalue\n))\nexcept\nException\n:\npass\nreturn\nFalse\n[docs]\ndef\nexact_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Default evaluation function using exact equality.\"\"\"\nreturn\nfused_value\n==\nexpected_value\n[docs]\ndef\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n:\nfloat\n=\n1.0\n)\n->\nbool\n:\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute to fuse.\nfuser_or_resolver\n(\nUnion\n[\nAttributeValueFuser\n,\nConflictResolutionFunction\n]\n) – Either an AttributeValueFuser instance or a resolver function that\nresolves conflicts and returns (value, confidence, metadata).\nevaluation_function\n(\nOptional\n[\nEvaluationFunction\n]\n) – Optional evaluation rule for quality assessment.\n\n-----\n\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nModule contents\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nDataFusionEngine\nDataFusionEngine.run()\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\nDataFusionStrategy.get_evaluation_function()\nDataFusionStrategy.get_registered_attributes()\nDataFusionStrategy.has_fuser_for()\nDataFusionStrategy.remove_attribute_fuser()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\n\n-----\n\n,\naligned_expected\ndef\n_get_evaluable_attributes\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nexpected_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_id_column\n:\nstr\n,\n)\n->\nList\n[\nstr\n]:\n\"\"\"Get attributes that can be evaluated (present in both datasets).\"\"\"\nfused_attrs\n=\nset\n(\nfused_df\n.\ncolumns\n)\nexpected_attrs\n=\nset\n(\nexpected_df\n.\ncolumns\n)\n# Find common attributes, excluding metadata columns\ncommon_attrs\n=\nfused_attrs\n.\nintersection\n(\nexpected_attrs\n)\n# Filter out metadata and ID columns\nevaluable_attrs\n=\n[\nattr\nfor\nattr\nin\ncommon_attrs\nif\nnot\nattr\n.\nstartswith\n(\n\"_fusion_\"\n)\nand\nattr\nnot\nin\n{\nfused_id_column\n,\nexpected_id_column\n}\n]\nreturn\nevaluable_attrs\ndef\n_evaluate_attribute\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nexpected_df\n:\npd\n.\nDataFrame\n,\nattribute\n:\nstr\n,\nfused_id_column\n:\nstr\n,\nexpected_id_column\n:\nstr\n,\n)\n->\nDict\n[\nstr\n,\nAny\n]:\n\"\"\"Evaluate a single attribute.\"\"\"\n# Get evaluation function for this attribute\neval_function\n=\nself\n.\nstrategy\n.\nget_evaluation_function\n(\nattribute\n)\nif\neval_function\nis\nNone\n:\n# Use default exact equality\neval_function\n=\nexact_match\ncorrect_count\n=\n0\ntotal_count\n=\n0\n# Create fusion context (minimal for evaluation)\ncontext\n=\nFusionContext\n(\ngroup_id\n=\n\"eval\"\n,\nattribute\n=\nattribute\n)\n# Compare values row by row\nif\nlen\n(\nfused_df\n)\n!=\nlen\n(\nexpected_df\n):\nself\n.\n_logger\n.\nwarning\n(\n\"Aligned dataframes have different lengths (\n%d\nvs\n%d\n) for attribute '\n%s\n'\"\n,\nlen\n(\nfused_df\n),\nlen\n(\nexpected_df\n),\nattribute\n,\n)\nnum_rows\n=\nmin\n(\nlen\n(\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion.evaluation. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :"
+    },
+    {
+      "query": "PyDI evaluation functions tokenized_match year_only_match numeric_tolerance_match exact_match boolean_match set_equality_match usage",
+      "response": "(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nif\nisinstance\n(\nfused_value\n,\n(\nlist\n,\ntuple\n,\nset\n))\nand\nisinstance\n(\nexpected_value\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nset\n(\nfused_value\n)\n==\nset\n(\nexpected_value\n)\nreturn\nfused_value\n==\nexpected_value\nexcept\n(\nTypeError\n,\nValueError\n):\nreturn\nstr\n(\nfused_value\n)\n==\nstr\n(\nexpected_value\n)\n[docs]\ndef\nboolean_match\n(\nfused_value\n,\n\n-----\n\ndetect_attribute_conflicts()\nearliest()\nexact_match()\nfavour_sources()\nintersection()\nintersection_k_sources()\nlongest_string()\nmaximum()\nmedian()\nminimum()\nmost_complete()\nmost_recent()\nnumeric_tolerance_match()\nprefer_higher_trust()\nprint_conflict_preview()\nrandom_value()\nset_equality_match()\nshortest_string()\nsum_values()\ntokenized_match()\nunion()\nvoting()\nweighted_voting()\nyear_only_match()\nPyDI.informationextraction package\nSubmodules\nPyDI.informationextraction.autorules module\nRuleDiscovery\nRuleDiscovery.build_all_rules()\nRuleDiscovery.extract()\nRuleDiscovery.extract_and_select()\ndiscover_fields()\nPyDI.informationextraction.base module\nBaseExtractor\nBaseExtractor.extract()\nExtractorPipeline\nExtractorPipeline.run()\nPyDI.informationextraction.code module\nCodeExtractor\nCodeExtractor.extract()\nPyDI.informationextraction.evaluation module\nInformationExtractionEvaluator\nInformationExtractionEvaluator.evaluate()\nInformationExtractionEvaluator.get_evaluation_function()\nInformationExtractionEvaluator.set_evaluation_function()\nPyDI.informationextraction.llm module\nLLMExtractor\nLLMExtractor.extract()\nPyDI.informationextraction.regex module\nRegexExtractor\nRegexExtractor.extract()\nPyDI.informationextraction.rules module\nextract_domain()\nlowercase_text()\nnormalize_units_wrapper()\nnormalize_url()\nnormalize_whitespace()\nparse_coordinate()\nparse_date()\nparse_employee_count()\nparse_frequency_hz()\nparse_money()\nparse_number()\nparse_percent()\nparse_power_w()\nparse_quantity_scalar()\n\n-----\n\nprofile_column()\nprofile_dataframe()\nsave_normalization_config()\ntransform_column()\ntransform_dataframe()\nvalidate_completeness()\nvalidate_email()\nvalidate_emails()\nvalidate_phone()\nvalidate_ranges()\nvalidate_schema()\nvalidate_stdnum()\nvalidate_with_pydantic()\nPyDI.schemamatching package\nSubmodules\nPyDI.schemamatching.base module\nBaseSchemaMatcher\nBaseSchemaMatcher.match()\nget_schema_columns()\nPyDI.schemamatching.duplicate_based module\nDuplicateBasedSchemaMatcher\nDuplicateBasedSchemaMatcher.match()\nPyDI.schemamatching.evaluation module\nSchemaMappingEvaluator\nSchemaMappingEvaluator.evaluate()\nSchemaMappingEvaluator.sweep_thresholds()\nPyDI.schemamatching.instance_based module\nInstanceBasedSchemaMatcher\nInstanceBasedSchemaMatcher.match()\nPyDI.schemamatching.label_based module\nLabelBasedSchemaMatcher\nLabelBasedSchemaMatcher.match()\nPyDI.schemamatching.llm_based module\nLLMBasedSchemaMatcher\nLLMBasedSchemaMatcher.match()\nPyDI.schemamatching.translator module\nSchemaTranslator\nSchemaTranslator.translate()\nModule contents\nBaseSchemaMatcher\nBaseSchemaMatcher.match()\nDuplicateBasedSchemaMatcher\nDuplicateBasedSchemaMatcher.match()\nInstanceBasedSchemaMatcher\nInstanceBasedSchemaMatcher.match()\nLLMBasedSchemaMatcher\nLLMBasedSchemaMatcher.match()\nLabelBasedSchemaMatcher\nLabelBasedSchemaMatcher.match()\nSchemaMappingEvaluator\nSchemaMappingEvaluator.evaluate()\nSchemaMappingEvaluator.sweep_thresholds()\nSchemaTranslator\nSchemaTranslator.translate()\nget_schema_columns()\nPyDI.utils package\n\n-----\n\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n) – If provided, split string values by this separator\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nvoting\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most frequent value (majority vote).\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nweighted_voting\n(\nvalues\n,\nweights\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nSelect value using weighted voting.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nweights\n(\nList\n[\nfloat\n]\n,\noptional\n) – Weights for each value. If None, uses uniform weights.\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nEvaluation function comparing only the year part of dates.\nIf the inputs are strings, attempt to parse to dates; if they are\ndatetime\n/\ndate\n\n-----\n\nSource code for PyDI.fusion.evaluation\n\"\"\"\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nDict\n,\nAny\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\n,\nIterable\nfrom\ncollections\nimport\nCounter\nfrom\ndatetime\nimport\ndatetime\n,\ndate\nimport\npandas\nas\npd\nimport\nnumpy\nas\nnp\nimport\nlogging\nimport\njson\nfrom\npathlib\nimport\nPath\nfrom\n.base\nimport\nFusionContext\n,\nget_callable_name\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n..utils.similarity_registry\nimport\nSimilarityRegistry\ndef\n_is_missing_value\n(\nvalue\n)\n->\nbool\n:\n\"\"\"Helper function to check if a value should be treated as missing.\nHandles scalars, numpy arrays, pandas NA, and Python sequences.\n\"\"\"\ntry\n:\n# Pandas/NumPy aware check\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Handle sequences (e.g., lists/arrays): consider missing if empty\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\nvalue\n,\nnp\n.\nndarray\n):\nreturn\nvalue\n.\nsize\n==\n0\nor\nnp\n.\nall\n(\npd\n.\nisna\n(\nvalue\n))\nexcept\nException\n:\npass\nreturn\nFalse\n[docs]\ndef\nexact_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Default evaluation function using exact equality.\"\"\"\nreturn\nfused_value\n==\nexpected_value\n[docs]\ndef\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n:\nfloat\n=\n1.0\n)\n->\nbool\n:\n\n-----\n\nSimilarityRegistry.get_function_info()\nSimilarityRegistry.get_functions_by_category()\nSimilarityRegistry.get_recommended_functions()\nSimilarityRegistry.is_tokenizable()\nSimilarityRegistry.list_available_functions()\nSimilarityRegistry.list_tokenization_strategies()\nSimilarityRegistry.validate_functions()\nget_similarity_function()\nlist_similarity_functions()\nModule contents\nDataProfiler\nDataProfiler.analyze_coverage()\nDataProfiler.compare()\nDataProfiler.profile()\nDataProfiler.summary()\nSimilarityRegistry\nSimilarityRegistry.ALL_ALGORITHMS\nSimilarityRegistry.CATEGORIES\nSimilarityRegistry.EDIT_BASED\nSimilarityRegistry.ENTITY_MATCHING_RECOMMENDED\nSimilarityRegistry.PHONETIC\nSimilarityRegistry.SCHEMA_MATCHING_RECOMMENDED\nSimilarityRegistry.SEQUENCE_BASED\nSimilarityRegistry.SIMPLE\nSimilarityRegistry.TOKENIZABLE_FUNCTIONS\nSimilarityRegistry.TOKENIZATION_STRATEGIES\nSimilarityRegistry.TOKEN_BASED\nSimilarityRegistry.get_function()\nSimilarityRegistry.get_function_info()\nSimilarityRegistry.get_functions_by_category()\nSimilarityRegistry.get_recommended_functions()\nSimilarityRegistry.is_tokenizable()\nSimilarityRegistry.list_available_functions()\nSimilarityRegistry.list_tokenization_strategies()\nSimilarityRegistry.validate_functions()\nget_similarity_function()\nlist_similarity_functions()\nModule contents\n\nPyDI: Python Data Integration Framework\n\nThis package provides tools for end‑to‑end data integration, including\nschema matching, blocking, entity matching, information extraction,\n\n-----\n\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\nSource code for PyDI.informationextraction.evaluation\n\"\"\"Evaluation framework for information extraction in PyDI.\nThis module provides an evaluator to compare extracted (predicted)\nattributes against an expected/validation dataset with common IR-style metrics.\nIt supports per-attribute evaluation functions (e.g., exact match,\ntokenized string match, numeric tolerance) and produces both attribute-level\nand dataset-level (micro/macro) metrics, including precision, recall, F1, and\nnon-null accuracy.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nAny\n,\nCallable\n,\nDict\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\nfrom\npathlib\nimport\nPath\nimport\njson\nimport\nlogging\nimport\npandas\nas\npd\n# Reuse flexible evaluation functions from the fusion module\nfrom\nPyDI.fusion.evaluation\nimport\n(\nexact_match\n,\ntokenized_match\n,\nnumeric_tolerance_match\n,\nset_equality_match\n,\nboolean_match\n,\nyear_only_match\n,\n)\nlogger\n=\nlogging\n.\ngetLogger\n(\n__name__\n)\n# Type alias for evaluation functions (return True when values \"match\")\nEvaluationFunction\n=\nCallable\n[[\nAny\n,\nAny\n],\nbool\n]\ndef\n_is_missing_value\n(\nvalue\n:\nAny\n)\n->\nbool\n:\n\"\"\"Return True if the value should be treated as missing.\nHandles scalars, pandas NA, numpy arrays, and Python sequences\n(treats empty sequences as missing).\n\"\"\"\ntry\n:\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Empty sequences are considered missing\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n("
+    },
+    {
+      "query": "PyDI load_xml nested_handling aggregate example and DataFusionEvaluator evaluate parameters fused_id_column gold_id_column",
+      "response": "DataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\nPyDI.fusion.conflict_resolution.general module\nPyDI.fusion.conflict_resolution.list module\nPyDI.fusion.conflict_resolution.numeric module\nPyDI.fusion.conflict_resolution.string module\nPyDI.fusion.conflict_resolution.utils module\nModule contents\nSubmodules\nPyDI.fusion.analysis module\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nanalyze_attribute_coverage()\nanalyze_conflicts_preview()\ncompare_dataset_schemas()\ndetect_attribute_conflicts()\nprint_conflict_preview()\nPyDI.fusion.base module\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionResult\nFusionResult.confidence\nFusionResult.metadata\nFusionResult.rule_used\nFusionResult.sources\nFusionResult.value\nRecordGroup\nRecordGroup.add_record()\nRecordGroup.get_all_attributes()\nRecordGroup.group_id\nRecordGroup.records\nRecordGroup.source_datasets\nget_callable_name()\nPyDI.fusion.engine module\nDataFusionEngine\nDataFusionEngine.run()\napply_schema_correspondences()\nbuild_record_groups_from_correspondences()\nPyDI.fusion.evaluation module\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion.evaluation. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\n[API_SIGNATURE] print_evaluation_examples ( gold_df , fused_id_column , gold_id_column , max_examples = 3 ) [source] \nPrint examples of correct and incorrect fusion results. Parameters : gold_df ( pd.DataFrame ) – The expected/validation dataset. fused_id_column ( str ) – ID column name in the fused dataset. gold_id_column ( str ) – ID column name in the expected dataset. max_examples ( int , default 3 ) – Maximum number of examples to show for each category.\n\n-----\n\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute to fuse.\nfuser_or_resolver\n(\nUnion\n[\nAttributeValueFuser\n,\nConflictResolutionFunction\n]\n) – Either an AttributeValueFuser instance or a resolver function that\nresolves conflicts and returns (value, confidence, metadata).\nevaluation_function\n(\nOptional\n[\nEvaluationFunction\n]\n) – Optional evaluation rule for quality assessment.\n\n-----\n\n=\nTrue\n)\nwith\npath\n.\nopen\n(\n\"w\"\n,\nencoding\n=\n\"utf-8\"\n)\nas\nf\n:\nheader\n=\n{\n\"type\"\n:\n\"evaluation_debug_header\"\n,\n\"strategy\"\n:\nself\n.\nstrategy\n.\nname\n,\n\"format\"\n:\nself\n.\n_debug_format\n,\n}\nif\nself\n.\n_debug_format\n==\n\"json\"\n:\nf\n.\nwrite\n(\njson\n.\ndumps\n(\nheader\n,\nensure_ascii\n=\nFalse\n)\n+\n\"\n\\n\n\"\n)\nelse\n:\nf\n.\nwrite\n(\n\"=== Fusion Evaluation Debug Log ===\n\\n\n\"\nf\n\"Strategy:\n{\nself\n.\nstrategy\n.\nname\n}\n\\n\n\"\n\"Only mismatches and evaluation errors are recorded.\n\\n\\n\n\"\n)\nself\n.\n_debug_file\n=\npath\nself\n.\n_logger\n.\ninfo\n(\n\"Fusion evaluation debug logging enabled; refer to\n%s\nfor mismatch details.\"\n,\npath\n,\n)\nexcept\nException\nas\nexc\n:\nself\n.\n_logger\n.\nwarning\n(\n\"Could not initialize evaluation debug log '\n%s\n':\n%s\n\"\n,\npath\n,\nexc\n,\n)\nself\n.\n_debug_file\n=\nNone\nif\nfusion_debug_logs\nis\nnot\nNone\n:\nself\n.\nset_fusion_debug_logs\n(\nfusion_debug_logs\n)\n[docs]\ndef\nset_fusion_debug_logs\n(\nself\n,\nlogs\n:\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters"
+    }
+  ],
+  "integration_pipeline_code_length": 8845,
+  "evaluation_code_length": 11580,
+  "integration_diagnostics_code_length": 0,
+  "human_review_code_length": 25504,
+  "run_audit_path": "output/runs/20260322_102925_companies/results/run_audit_20260322_104327.json",
+  "run_report_path": "output/runs/20260322_102925_companies/results/run_report_20260322_104327.md"
+}

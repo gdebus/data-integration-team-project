@@ -1,0 +1,928 @@
+{
+  "timestamp": "20260322_104327",
+  "generated_at": "2026-03-22T09:43:27.411643Z",
+  "run_id": "20260322_102925_companies",
+  "run_output_root": "output/runs/20260322_102925_companies/",
+  "validation_metrics_final": {
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.460952380952381,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.696969696969697,
+    "macro_accuracy": 0.6666666666666666,
+    "num_evaluated_records": 18,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 99,
+    "total_correct": 69,
+    "keypeople_name_accuracy": 0.3333333333333333,
+    "keypeople_name_count": 9,
+    "country_accuracy": 0.9444444444444444,
+    "country_count": 18,
+    "assets_accuracy": 0.3888888888888889,
+    "assets_count": 18,
+    "name_accuracy": 0.8333333333333334,
+    "name_count": 18,
+    "founded_accuracy": 0.7777777777777778,
+    "founded_count": 18,
+    "city_accuracy": 0.7222222222222222,
+    "city_count": 18
+  },
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-22T09:41:00.394650Z",
+    "expected_pairs": [
+      "dbpedia_forbes",
+      "dbpedia_fullcontact",
+      "forbes_fullcontact"
+    ],
+    "pair_checks": [
+      {
+        "pair": "dbpedia_forbes",
+        "status": "ok",
+        "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+        "data_rows": 1604
+      },
+      {
+        "pair": "dbpedia_fullcontact",
+        "status": "ok",
+        "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+        "data_rows": 430
+      },
+      {
+        "pair": "forbes_fullcontact",
+        "status": "ok",
+        "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+        "data_rows": 207
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "cycles": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-22T09:34:14.756516Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:34:14.396365Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 43.182% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=12.000%, founded=28.000%, keypeople_name=28.571%, macro=41.429%",
+        "low direct ID coverage: 44.000%",
+        "high missing_fused_value mismatch ratio: 33.333%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-22T09:36:35.418255Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.05303,
+        "macro_gain": 0.046667,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 0.28,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {
+          "name": 0.16,
+          "city": 0.08,
+          "founded": 0.04
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:36:35.091480Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 48.485% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=20.000%, founded=32.000%, keypeople_name=28.571%, macro=46.095%",
+        "high missing_fused_value mismatch ratio: 42.647%"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-22T09:38:47.633096Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.44696969696969696,
+        "macro_accuracy": 0.4276190476190476,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 59,
+        "name_accuracy": 0.84,
+        "name_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.44696969696969696,
+        "macro_accuracy": 0.4276190476190476,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 59,
+        "name_accuracy": 0.84,
+        "name_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_gain": -0.037879,
+        "macro_gain": -0.033333,
+        "overall_drop": 0.037879,
+        "macro_drop": 0.033333,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.0,
+        "total_drop_weight": 0.2,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {
+          "name": 0.16
+        },
+        "moderate_attribute_drops": {
+          "name": 0.16
+        },
+        "top_attribute_drops": {
+          "name": 0.16,
+          "founded": 0.04
+        },
+        "top_attribute_gains": {}
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:38:47.326868Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 44.697% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=20.000%, founded=28.000%, keypeople_name=28.571%, macro=42.762%",
+        "regression guard rejected latest candidate: overall_drop=0.037879, macro_drop=0.033333, top_attribute_drops={'name': 0.16, 'founded': 0.04}",
+        "low direct ID coverage: 44.000%",
+        "high missing_fused_value mismatch ratio: 34.247%"
+      ]
+    },
+    {
+      "attempt": 4,
+      "recorded_at": "2026-03-22T09:41:00.733906Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.0,
+        "macro_gain": -0.0,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.0,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {}
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T09:41:00.394650Z",
+        "expected_pairs": [
+          "dbpedia_forbes",
+          "dbpedia_fullcontact",
+          "forbes_fullcontact"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_forbes",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_dbpedia.csv",
+            "data_rows": 1604
+          },
+          {
+            "pair": "dbpedia_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_fullcontact_dbpedia.csv",
+            "data_rows": 430
+          },
+          {
+            "pair": "forbes_fullcontact",
+            "status": "ok",
+            "path": "output/runs/20260322_102925_companies/correspondences/correspondences_forbes_fullcontact.csv",
+            "data_rows": 207
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 48.485% < 85.000%",
+        "low attribute accuracy: assets=0.000%, city=20.000%, founded=32.000%, keypeople_name=28.571%, macro=46.095%",
+        "high missing_fused_value mismatch ratio: 45.588%"
+      ]
+    }
+  ],
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:33:34.864613Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:35:50.701472Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/runs/20260322_102925_companies/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12870,
+          "unique_ids": 12870
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 12004,
+            "actual_rows": 12870,
+            "rows_abs_error": 866,
+            "rows_pct_error": 0.07214261912695769,
+            "expected_rows_matched_only": 2013,
+            "expected_rows_singleton_aware": 12004,
+            "rows_pct_error_matched_only": 5.39344262295082,
+            "rows_pct_error_singleton_aware": 0.07214261912695769,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 12004,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 866,
+            "unique_ids_pct_error": 0.07214261912695769,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-22T09:35:50.700653+00:00"
+          },
+          "matching": {
+            "expected_rows": 11792,
+            "actual_rows": 12870,
+            "rows_abs_error": 1078,
+            "rows_pct_error": 0.0914179104477612,
+            "expected_rows_matched_only": 2225,
+            "expected_rows_singleton_aware": 11792,
+            "rows_pct_error_matched_only": 4.784269662921348,
+            "rows_pct_error_singleton_aware": 0.0914179104477612,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11792,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 1078,
+            "unique_ids_pct_error": 0.0914179104477612,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-22T09:35:50.700713+00:00"
+          }
+        }
+      }
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:38:09.612425Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T09:40:20.232227Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/fusion_data.csv",
+        "fusion_size_estimate": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/fusion_size_estimate.json",
+        "correspondences": [
+          "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/correspondences/correspondences_forbes_dbpedia.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/correspondences/correspondences_forbes_fullcontact.csv",
+          "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/correspondences/correspondences_fullcontact_dbpedia.csv"
+        ],
+        "execution_log": "output/runs/20260322_102925_companies/pipeline/cycle_04/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {
+        "estimate_path": "output/runs/20260322_102925_companies/pipeline_evaluation/fusion_size_estimate.json",
+        "actual": {
+          "rows": 12870,
+          "unique_ids": 12870
+        },
+        "comparisons": {
+          "blocking": {
+            "expected_rows": 12004,
+            "actual_rows": 12870,
+            "rows_abs_error": 866,
+            "rows_pct_error": 0.07214261912695769,
+            "expected_rows_matched_only": 2013,
+            "expected_rows_singleton_aware": 12004,
+            "rows_pct_error_matched_only": 5.39344262295082,
+            "rows_pct_error_singleton_aware": 0.07214261912695769,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 12004,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 866,
+            "unique_ids_pct_error": 0.07214261912695769,
+            "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+            "compared_at": "2026-03-22T09:40:20.230912+00:00"
+          },
+          "matching": {
+            "expected_rows": 11792,
+            "actual_rows": 12870,
+            "rows_abs_error": 1078,
+            "rows_pct_error": 0.0914179104477612,
+            "expected_rows_matched_only": 2225,
+            "expected_rows_singleton_aware": 11792,
+            "rows_pct_error_matched_only": 4.784269662921348,
+            "rows_pct_error_singleton_aware": 0.0914179104477612,
+            "better_variant": "singleton_aware",
+            "expected_unique_ids": 11792,
+            "actual_unique_ids": 12870,
+            "unique_ids_abs_error": 1078,
+            "unique_ids_pct_error": 0.0914179104477612,
+            "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+            "compared_at": "2026-03-22T09:40:20.231008+00:00"
+          }
+        }
+      }
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:34:14.389579Z",
+      "metrics": {
+        "overall_accuracy": 0.4318181818181818,
+        "macro_accuracy": 0.4142857142857143,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 57,
+        "city_accuracy": 0.12,
+        "city_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "name_accuracy": 0.84,
+        "name_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:36:35.082861Z",
+      "metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.460952380952381,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:38:47.321354Z",
+      "metrics": {
+        "overall_accuracy": 0.44696969696969696,
+        "macro_accuracy": 0.4276190476190476,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 59,
+        "name_accuracy": 0.84,
+        "name_count": 25,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "founded_accuracy": 0.28,
+        "founded_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T09:41:00.390734Z",
+      "metrics": {
+        "overall_accuracy": 0.48484848484848486,
+        "macro_accuracy": 0.46095238095238095,
+        "num_evaluated_records": 25,
+        "num_evaluated_attributes": 6,
+        "total_evaluations": 132,
+        "total_correct": 64,
+        "keypeople_name_accuracy": 0.2857142857142857,
+        "keypeople_name_count": 7,
+        "city_accuracy": 0.2,
+        "city_count": 25,
+        "name_accuracy": 1.0,
+        "name_count": 25,
+        "assets_accuracy": 0.0,
+        "assets_count": 25,
+        "country_accuracy": 0.96,
+        "country_count": 25,
+        "founded_accuracy": 0.32,
+        "founded_count": 25
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_102925_companies/evaluation/validation/cycle_04/exec_01/evaluation_execution.json"
+      }
+    }
+  ]
+}

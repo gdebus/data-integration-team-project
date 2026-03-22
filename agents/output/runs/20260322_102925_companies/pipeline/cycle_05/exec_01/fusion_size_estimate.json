@@ -1,0 +1,255 @@
+{
+  "estimates": {
+    "blocking": {
+      "stage": "blocking",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 12004,
+      "expected_unique_ids": 12004,
+      "expected_rows_range": [
+        8168,
+        12004
+      ],
+      "expected_unique_ids_range": [
+        8168,
+        12004
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 2000,
+          "forbes_fullcontact": 1931,
+          "dbpedia_fullcontact": 1918
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 1931.0,
+          "via_dbpedia": 380.32916914534997,
+          "via_fullcontact": 1918.0,
+          "median_used": 1918.0,
+          "final_triple_intersection": 1918,
+          "triple_intersection_range": [
+            0,
+            1918
+          ]
+        },
+        "expected_union_clusters": 2013,
+        "expected_union_range": [
+          2013,
+          5849
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 2000
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 1.0,
+          "expected_cluster_count": 1931
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9933333333333333,
+          "expected_cluster_count": 1918
+        }
+      ],
+      "created_at": "2026-03-22T09:30:15.558153+00:00",
+      "expected_rows_matched_only": 2013,
+      "expected_unique_ids_matched_only": 2013,
+      "expected_rows_matched_only_range": [
+        2013,
+        5849
+      ],
+      "expected_unique_ids_matched_only_range": [
+        2013,
+        5849
+      ],
+      "expected_rows_singleton_aware": 12004,
+      "expected_unique_ids_singleton_aware": 12004,
+      "expected_rows_singleton_aware_range": [
+        8168,
+        12004
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        8168,
+        12004
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    },
+    "matching": {
+      "stage": "matching",
+      "dataset_signature": "dbpedia|forbes|fullcontact",
+      "datasets": [
+        "dbpedia",
+        "forbes",
+        "fullcontact"
+      ],
+      "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+      "expected_rows": 11792,
+      "expected_unique_ids": 11792,
+      "expected_rows_range": [
+        9582,
+        12384
+      ],
+      "expected_unique_ids_range": [
+        9582,
+        12384
+      ],
+      "three_way_intersection": {
+        "enabled": true,
+        "datasets": [
+          "forbes",
+          "dbpedia",
+          "fullcontact"
+        ],
+        "pair_cluster_estimates": {
+          "forbes_dbpedia": 1511,
+          "forbes_fullcontact": 1523,
+          "dbpedia_fullcontact": 1401
+        },
+        "triple_intersection_estimates": {
+          "via_forbes": 1150.6265,
+          "via_dbpedia": 209.8860797144557,
+          "via_fullcontact": 1104.9834282755048,
+          "median_used": 1104.9834282755048,
+          "final_triple_intersection": 1105,
+          "triple_intersection_range": [
+            0,
+            1401
+          ]
+        },
+        "expected_union_clusters": 2225,
+        "expected_union_range": [
+          1633,
+          4435
+        ],
+        "formula": "E_union = E12 + E13 + E23 - 2*E123"
+      },
+      "pair_estimates": [
+        {
+          "pair_key": "forbes_dbpedia",
+          "left_dataset": "forbes",
+          "right_dataset": "dbpedia",
+          "min_pair_size": 2000,
+          "pair_completeness": 1.0,
+          "f1": 0.7555555555555555,
+          "expected_cluster_count": 1511
+        },
+        {
+          "pair_key": "forbes_fullcontact",
+          "left_dataset": "forbes",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 1.0,
+          "f1": 0.7888446215139442,
+          "expected_cluster_count": 1523
+        },
+        {
+          "pair_key": "fullcontact_dbpedia",
+          "left_dataset": "dbpedia",
+          "right_dataset": "fullcontact",
+          "min_pair_size": 1931,
+          "pair_completeness": 0.9933333333333333,
+          "f1": 0.7303754266211604,
+          "expected_cluster_count": 1401
+        }
+      ],
+      "created_at": "2026-03-22T09:32:17.262171+00:00",
+      "expected_rows_matched_only": 2225,
+      "expected_unique_ids_matched_only": 2225,
+      "expected_rows_matched_only_range": [
+        1633,
+        4435
+      ],
+      "expected_unique_ids_matched_only_range": [
+        1633,
+        4435
+      ],
+      "expected_rows_singleton_aware": 11792,
+      "expected_unique_ids_singleton_aware": 11792,
+      "expected_rows_singleton_aware_range": [
+        9582,
+        12384
+      ],
+      "expected_unique_ids_singleton_aware_range": [
+        9582,
+        12384
+      ],
+      "singleton_assumption": {
+        "assumed_include_singletons": true,
+        "total_input_rows": 14017,
+        "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+        "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+      }
+    }
+  },
+  "comparisons": {
+    "blocking": {
+      "expected_rows": 12004,
+      "actual_rows": 12867,
+      "rows_abs_error": 863,
+      "rows_pct_error": 0.07189270243252249,
+      "expected_rows_matched_only": 2013,
+      "expected_rows_singleton_aware": 12004,
+      "rows_pct_error_matched_only": 5.391952309985097,
+      "rows_pct_error_singleton_aware": 0.07189270243252249,
+      "better_variant": "singleton_aware",
+      "expected_unique_ids": 12004,
+      "actual_unique_ids": 12867,
+      "unique_ids_abs_error": 863,
+      "unique_ids_pct_error": 0.07189270243252249,
+      "reasoning": "Estimate is close to actual fused size. Blocking estimate was conservative; downstream matching/fusion retained more entities than expected.",
+      "compared_at": "2026-03-22T09:42:42.999385+00:00"
+    },
+    "matching": {
+      "expected_rows": 11792,
+      "actual_rows": 12867,
+      "rows_abs_error": 1075,
+      "rows_pct_error": 0.09116350067842605,
+      "expected_rows_matched_only": 2225,
+      "expected_rows_singleton_aware": 11792,
+      "rows_pct_error_matched_only": 4.7829213483146065,
+      "rows_pct_error_singleton_aware": 0.09116350067842605,
+      "better_variant": "singleton_aware",
+      "expected_unique_ids": 11792,
+      "actual_unique_ids": 12867,
+      "unique_ids_abs_error": 1075,
+      "unique_ids_pct_error": 0.09116350067842605,
+      "reasoning": "Estimate is close to actual fused size. Matching estimate seems conservative; matcher/fusion retained more clusters than projected.",
+      "compared_at": "2026-03-22T09:42:42.999483+00:00"
+    }
+  },
+  "active_dataset_signature": "dbpedia|forbes|fullcontact",
+  "updated_at": "2026-03-22T09:42:42.999492+00:00",
+  "actual": {
+    "rows": 12867,
+    "unique_ids": 12867
+  }
+}

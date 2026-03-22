@@ -1,0 +1,6 @@
+{
+  "execution_result": "success",
+  "stdout": "Performing Blocking\nMatching Entities\nApplying Post-Clustering\nFusing Data\n",
+  "stderr": "WARNING:root:Overlapping partitions detected - using maximum weight matching\n",
+  "captured_at": "2026-03-22T15:01:22.602954Z"
+}

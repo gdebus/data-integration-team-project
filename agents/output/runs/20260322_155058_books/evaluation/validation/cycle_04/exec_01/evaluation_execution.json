@@ -1,0 +1,31 @@
+{
+  "execution_result": "success",
+  "metrics_source": "stdout",
+  "metrics": {
+    "overall_accuracy": 0.7125,
+    "macro_accuracy": 0.7124999999999999,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 80,
+    "total_correct": 57,
+    "publisher_accuracy": 0.6,
+    "publisher_count": 10,
+    "language_accuracy": 0.9,
+    "language_count": 10,
+    "publish_year_accuracy": 1.0,
+    "publish_year_count": 10,
+    "title_accuracy": 0.8,
+    "title_count": 10,
+    "author_accuracy": 0.8,
+    "author_count": 10,
+    "genres_accuracy": 0.1,
+    "genres_count": 10,
+    "page_count_accuracy": 0.5,
+    "page_count_count": 10,
+    "isbn_clean_accuracy": 1.0,
+    "isbn_clean_count": 10
+  },
+  "stdout": "[EVAL_FUNCTIONS] {\"author\":\"tokenized_match(threshold=0.85)\",\"genres\":\"set_equality_match\",\"isbn_clean\":\"exact_match\",\"language\":\"tokenized_match(threshold=0.9)\",\"page_count\":\"numeric_tolerance_match(tolerance=0.0)\",\"publish_year\":\"numeric_tolerance_match(tolerance=0.0)\",\"publisher\":\"tokenized_match(threshold=0.8)\",\"title\":\"tokenized_match(threshold=0.85)\"}\n[ID_ALIGNMENT] {\"direct__id_coverage\":{\"matched\":10,\"total_gold\":10},\"mapped_eval_id_coverage\":{\"matched\":10,\"total_gold\":10},\"country_format\":null,\"list_like_columns\":[\"genres\"],\"evaluated_columns\":[\"author\",\"genres\",\"isbn_clean\",\"language\",\"page_count\",\"publish_year\",\"publisher\",\"title\"]}\n[EVALUATION_METRICS] {\n  \"overall_accuracy\": 0.7125,\n  \"macro_accuracy\": 0.7124999999999999,\n  \"num_evaluated_records\": 10,\n  \"num_evaluated_attributes\": 8,\n  \"total_evaluations\": 80,\n  \"total_correct\": 57,\n  \"publisher_accuracy\": 0.6,\n  \"publisher_count\": 10,\n  \"language_accuracy\": 0.9,\n  \"language_count\": 10,\n  \"publish_year_accuracy\": 1.0,\n  \"publish_year_count\": 10,\n  \"title_accuracy\": 0.8,\n  \"title_count\": 10,\n  \"author_accuracy\": 0.8,\n  \"author_count\": 10,\n  \"genres_accuracy\": 0.1,\n  \"genres_count\": 10,\n  \"page_count_accuracy\": 0.5,\n  \"page_count_count\": 10,\n  \"isbn_clean_accuracy\": 1.0,\n  \"isbn_clean_count\": 10\n}\n",
+  "stderr": "",
+  "captured_at": "2026-03-22T15:07:35.033795Z"
+}

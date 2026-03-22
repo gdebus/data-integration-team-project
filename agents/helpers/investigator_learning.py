@@ -2,41 +2,28 @@ import json
 import os
 from typing import Any, Dict, Optional, Tuple
 
-LEARNING_CACHE_PATH = "output/profile/investigator_learning.json"
-LEARNING_EMA_ALPHA = 0.35
-LEARNING_GAIN_NORMALIZER = 0.05
-LEARNING_MIN_OBSERVATIONS = 2
-LEARNING_EFFECTIVE_GAIN_EPS = 0.005
-LEARNING_SUCCESS_RATE_WEIGHT = 0.02
-LEARNING_REGRET_MARGIN = 0.01
-LEARNING_DRIFT_DECAY = 0.82
+from helpers.utils import clamp, read_json, to_float
 
-
-def to_float(value: Any, default: float = 0.0) -> float:
+# Learning constants — kept as module-level defaults for backward compatibility.
+# These were previously in config.py but are no longer needed for cross-run memory.
+def _learning_cache_path() -> str:
     try:
-        if value is None:
-            return default
-        return float(value)
+        import config as _cfg
+        return os.path.join(_cfg.OUTPUT_DIR, "profile/investigator_learning.json")
     except Exception:
-        return default
-
-
-def clamp(value: float, low: float, high: float) -> float:
-    return max(low, min(high, value))
+        return "output/profile/investigator_learning.json"
+_LEARNING_EMA_ALPHA = 0.35
+_LEARNING_GAIN_NORMALIZER = 0.05
+_LEARNING_MIN_OBSERVATIONS = 2
+_LEARNING_EFFECTIVE_GAIN_EPS = 0.005
+_LEARNING_SUCCESS_RATE_WEIGHT = 0.02
+_LEARNING_REGRET_MARGIN = 0.01
+_LEARNING_DRIFT_DECAY = 0.82
 
 
 def dataset_signature_from_state(state: Dict[str, Any]) -> str:
     names = sorted([os.path.splitext(os.path.basename(p))[0] for p in state.get("datasets", []) or []])
     return "|".join(names)
-
-
-def read_json(path: str) -> Dict[str, Any]:
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data if isinstance(data, dict) else {}
-    except Exception:
-        return {}
 
 
 def write_json(path: str, data: Dict[str, Any]) -> None:
@@ -51,8 +38,8 @@ def append_jsonl(path: str, payload: Dict[str, Any]) -> None:
         with open(path, "a", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False)
             f.write("\n")
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[LEARNING] Failed to append to {path}: {e}")
 
 
 def default_learning_state() -> Dict[str, Any]:
@@ -74,7 +61,7 @@ def load_learning_state(state: Dict[str, Any]) -> Dict[str, Any]:
     if not signature:
         return default_learning_state()
 
-    root = read_json(LEARNING_CACHE_PATH)
+    root = read_json(_learning_cache_path())
     datasets = root.get("datasets", {}) if isinstance(root, dict) else {}
     learning = datasets.get(signature, {})
     if not isinstance(learning, dict):
@@ -96,7 +83,7 @@ def save_learning_state(state: Dict[str, Any], learning: Dict[str, Any]) -> None
     if not signature:
         return
 
-    root = read_json(LEARNING_CACHE_PATH)
+    root = read_json(_learning_cache_path())
     if not isinstance(root, dict):
         root = {}
     datasets = root.get("datasets")
@@ -104,7 +91,7 @@ def save_learning_state(state: Dict[str, Any], learning: Dict[str, Any]) -> None
         datasets = {}
     datasets[signature] = learning
     root["datasets"] = datasets
-    write_json(LEARNING_CACHE_PATH, root)
+    write_json(_learning_cache_path(), root)
 
 
 def _route_bucket(learning: Dict[str, Any], route_name: str) -> Dict[str, Any]:
@@ -125,7 +112,7 @@ def _route_effectiveness(bucket: Dict[str, Any]) -> float:
     wins = int(bucket.get("wins", 0))
     losses = int(bucket.get("losses", 0))
     success_rate = (wins + 1.0) / (wins + losses + 2.0)
-    return to_float(bucket.get("ema_gain"), 0.0) + (LEARNING_SUCCESS_RATE_WEIGHT * (success_rate - 0.5))
+    return to_float(bucket.get("ema_gain"), 0.0) + (_LEARNING_SUCCESS_RATE_WEIGHT * (success_rate - 0.5))
 
 
 def learning_routing_signals(learning: Dict[str, Any]) -> Dict[str, Any]:
@@ -135,7 +122,7 @@ def learning_routing_signals(learning: Dict[str, Any]) -> Dict[str, Any]:
     pipe_effect = _route_effectiveness(pipe)
 
     effect_delta = clamp(
-        (norm_effect - pipe_effect) / max(LEARNING_GAIN_NORMALIZER, 1e-6),
+        (norm_effect - pipe_effect) / max(_LEARNING_GAIN_NORMALIZER, 1e-6),
         -1.0,
         1.0,
     )
@@ -143,12 +130,12 @@ def learning_routing_signals(learning: Dict[str, Any]) -> Dict[str, Any]:
     confidence = clamp(total_observations / 8.0, 0.0, 1.0)
     learning_bias = effect_delta * confidence
     regret_active = (
-        norm["count"] >= LEARNING_MIN_OBSERVATIONS
-        and pipe["count"] >= LEARNING_MIN_OBSERVATIONS
-        and (norm_effect + LEARNING_REGRET_MARGIN) < pipe_effect
+        norm["count"] >= _LEARNING_MIN_OBSERVATIONS
+        and pipe["count"] >= _LEARNING_MIN_OBSERVATIONS
+        and (norm_effect + _LEARNING_REGRET_MARGIN) < pipe_effect
     )
     recent_stall = bool(learning.get("last_observation", {}).get("decision") == "normalization_node") and (
-        norm["last_gain"] <= LEARNING_EFFECTIVE_GAIN_EPS
+        norm["last_gain"] <= _LEARNING_EFFECTIVE_GAIN_EPS
     )
     return {
         "norm": norm,
@@ -176,17 +163,27 @@ def apply_learning_decay_for_drift(learning: Dict[str, Any], context_key: str) -
     if context_key == last_context:
         return learning
 
+    # Proportional decay: measure how different the context is, not just whether it changed.
+    # Split context keys into component sets and compute Jaccard similarity.
+    current_parts = set(context_key.split("|"))
+    last_parts = set(last_context.split("|"))
+    intersection = len(current_parts & last_parts)
+    union = len(current_parts | last_parts)
+    similarity = intersection / max(union, 1)
+    # Scale decay: identical=no decay, completely different=full decay
+    effective_decay = 1.0 - ((1.0 - _LEARNING_DRIFT_DECAY) * (1.0 - similarity))
+
     routing = learning.get("routing", {})
     if isinstance(routing, dict):
         for route_name in ("normalization_node", "pipeline_adaption"):
             bucket = routing.get(route_name, {})
             if not isinstance(bucket, dict):
                 continue
-            bucket["ema_gain"] = round(float(to_float(bucket.get("ema_gain"), 0.0) * LEARNING_DRIFT_DECAY), 6)
-            bucket["last_gain"] = round(float(to_float(bucket.get("last_gain"), 0.0) * LEARNING_DRIFT_DECAY), 6)
-            bucket["count"] = int(max(0, round(int(bucket.get("count", 0)) * LEARNING_DRIFT_DECAY)))
-            bucket["wins"] = int(max(0, round(int(bucket.get("wins", 0)) * LEARNING_DRIFT_DECAY)))
-            bucket["losses"] = int(max(0, round(int(bucket.get("losses", 0)) * LEARNING_DRIFT_DECAY)))
+            bucket["ema_gain"] = round(float(to_float(bucket.get("ema_gain"), 0.0) * effective_decay), 6)
+            bucket["last_gain"] = round(float(to_float(bucket.get("last_gain"), 0.0) * effective_decay), 6)
+            bucket["count"] = int(max(0, round(int(bucket.get("count", 0)) * effective_decay)))
+            bucket["wins"] = int(max(0, round(int(bucket.get("wins", 0)) * effective_decay)))
+            bucket["losses"] = int(max(0, round(int(bucket.get("losses", 0)) * effective_decay)))
             routing[route_name] = bucket
     learning["routing"] = routing
     learning["drift_events"] = int(learning.get("drift_events", 0)) + 1
@@ -226,12 +223,12 @@ def update_learning_from_observation(
     route = learning.get("routing", {}).get(pending_decision, {})
     count = int(route.get("count", 0)) + 1
     prev_ema = to_float(route.get("ema_gain"), 0.0)
-    ema_gain = gain if count == 1 else ((LEARNING_EMA_ALPHA * gain) + ((1.0 - LEARNING_EMA_ALPHA) * prev_ema))
+    ema_gain = gain if count == 1 else ((_LEARNING_EMA_ALPHA * gain) + ((1.0 - _LEARNING_EMA_ALPHA) * prev_ema))
     wins = int(route.get("wins", 0))
     losses = int(route.get("losses", 0))
-    if gain > LEARNING_EFFECTIVE_GAIN_EPS:
+    if gain > _LEARNING_EFFECTIVE_GAIN_EPS:
         wins += 1
-    elif gain < -LEARNING_EFFECTIVE_GAIN_EPS:
+    elif gain < -_LEARNING_EFFECTIVE_GAIN_EPS:
         losses += 1
     learning["routing"][pending_decision] = {
         "count": count,
@@ -242,7 +239,7 @@ def update_learning_from_observation(
     }
     if pending_decision == "normalization_node":
         streak = int(learning.get("normalization_stall_streak", 0))
-        learning["normalization_stall_streak"] = streak + 1 if gain <= LEARNING_EFFECTIVE_GAIN_EPS else 0
+        learning["normalization_stall_streak"] = streak + 1 if gain <= _LEARNING_EFFECTIVE_GAIN_EPS else 0
 
     observation = {
         "decision": pending_decision,

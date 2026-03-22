@@ -1,0 +1,93 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The remaining errors are now primarily caused by pre-fusion formatting/representation mismatches in list-valued track attributes, especially tracks_track_name, while scalar fusion is already aligned for protected attributes. Current pipeline code has already adopted the previously suggested fusion fixes (MaximumBipartiteMatching, shortest_string for name, prefer_higher_trust for label/artist/duration, voting for release-date), and scalar metrics improved accordingly: label rose to 62.5%, release-date to 78.3%, artist/name are protected at 95.7%, release-country at 100%. The biggest regression is tracks_track_name dropping from 48% to 0%, and mismatch samples show mostly case/list-format issues rather than wrong source choice. Because the evaluation compares serialized list values strictly, even visually identical lists are flagged as case_mismatch, indicating the source list strings are not normalized into the exact target representation before fusion/evaluation. Pipeline_adaption cannot fix this because it cannot add preprocessing; blocking/matching are not the bottleneck given strong F1 and no empty correspondence files.",
+        "next_node": "normalization_node",
+        "reasoning": "The next fix must happen in normalization, not fusion. Protected attributes already above 85% should be preserved: tracks_track_position (87%), artist (95.7%), name (95.7%), release-country (100%), plus the other 13 high-performing attributes. Changing fusion again risks regressing these while offering little benefit, because the current code already contains the recommended resolver/post-clustering updates. The dominant remaining improvable attribute, tracks_track_name, is explicitly classified as case_mismatch and list_format_mismatch, with examples where apparent equality still fails under evaluation. That is a representation problem: normalize list-valued track names to the exact validation format before fusion, including parsing, element-wise trimming/case handling, and stable serialization. release-date still has some missing_fused cases, but it is already improving under the current fusion strategy and is not the top bottleneck. tracks_track_duration and duration remain structurally limited, so they should not drive this iteration.",
+        "ceiling_assessment": "With current blocking/matching and the improved scalar fusion already in place, a realistic ceiling remains around the reported 89.7%. Normalizing track list representation should recover a substantial part of the lost headroom, especially the 0% tracks_track_name attribute, likely bringing overall accuracy into the low-to-mid 0.8s. Full ceiling is still constrained by structurally limited track-duration and duration disagreements across sources.",
+        "recommendations": [
+          {
+            "attribute": "tracks_track_name",
+            "issue": "Serialized list values are not normalized to the validation representation; mismatches are dominated by case/list-format issues, and examples suggest even near-identical lists fail strict comparison.",
+            "fix": "In normalization_node, apply element-wise normalization for tracks_track_name across all sources: parse serialized lists to actual lists, strip surrounding whitespace per element, normalize Unicode punctuation/quotes consistently, lowercase elements only if the validation comparison expects lowercase list items, remove empty items, and serialize back with a stable canonical list format matching validation/output conventions. Use PyDI normalization on the column plus the existing list normalization utilities so values remain lists rather than ad hoc strings.",
+            "resolver_reasoning": "This is not a resolver-selection problem. The pipeline already uses favour_sources for track lists, and changing to union/intersection/voting would not fix strict case/serialization mismatches. The evidence points to source values being semantically close but formatted incompatibly with the validation set. Pre-fusion canonicalization is therefore the correct intervention.",
+            "class": "improvable",
+            "expected_impact": 0.1
+          },
+          {
+            "attribute": "tracks_track_duration",
+            "issue": "Track-duration lists show different lengths, missing elements, and small numeric disagreements across sources; current ceiling is limited, but some errors may still be inflated by inconsistent list parsing/serialization.",
+            "fix": "In normalization_node, ensure tracks_track_duration is parsed as a true list column in every source, coerce each element to a canonical integer-string representation without decimals/whitespace, drop empty placeholders, and serialize consistently. Do not change fusion yet.",
+            "resolver_reasoning": "This attribute is structurally limited, so normalization can only yield modest gains by removing representation noise. Fusion-rule changes are less promising because the main disagreements are missing/extra tracks and conflicting values, not an obviously superior source.",
+            "class": "structurally_limited",
+            "expected_impact": 0.02
+          },
+          {
+            "attribute": "release-date",
+            "issue": "Residual errors are mostly missing fused values plus one coarse-vs-specific date mismatch; scalar formatting may still be inconsistent with the validation timestamp style on some rows.",
+            "fix": "In normalization_node, verify all non-null release-date values are emitted in the exact validation datetime format with month/day defaults handled consistently (e.g., YYYY -> YYYY-01-01T00:00:00.000, YYYY-MM -> YYYY-MM-01T00:00:00.000) before fusion.",
+            "resolver_reasoning": "Voting is already the right fusion choice from source-vs-validation evidence and should be preserved. Remaining misses are more likely due to null/format standardization than resolver logic. Normalization-first avoids regressing the improved 78.3% score.",
+            "class": "improvable",
+            "expected_impact": 0.02
+          },
+          {
+            "attribute": "label",
+            "issue": "Still below ceiling, but current fusion already correctly prefers discogs and the remaining misses are likely from unmatched missing source values rather than wrong resolver choice.",
+            "fix": "Preserve current label fusion; only ensure normalization does not alter label casing/content away from validation. No label-specific fusion change now.",
+            "resolver_reasoning": "Source-vs-validation evidence clearly supports prefer_higher_trust with discogs-first, and the current code already does this. Further resolver changes would risk regression for a now-improving attribute.",
+            "class": "improvable",
+            "expected_impact": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 42374,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The remaining errors are now primarily caused by pre-fusion formatting/representation mismatches in list-valued track attributes, especially tracks_track_name, while scalar fusion is already aligned for protected attributes. Current pipeline code has already adopted the previously suggested fusion fixes (MaximumBipartiteMatching, shortest_string for name, prefer_higher_trust for label/artist/duration, voting for release-date), and scalar metrics improved accordingly: label rose to 62.5%, release-date to 78.3%, artist/name are protected at 95.7%, release-country at 100%. The biggest regression is tracks_track_name dropping from 48% to 0%, and mismatch samples show mostly case/list-format issues rather than wrong source choice. Because the evaluation compares serialized list values strictly, even visually identical lists are flagged as case_mismatch, indicating the source list strings are not normalized into the exact target representation before fusion/evaluation. Pipeline_adaption cannot fix this because it cannot add preprocessing; blocking/matching are not the bottleneck given strong F1 and no empty correspondence files.",
+    "next_node": "normalization_node",
+    "reasoning": "The next fix must happen in normalization, not fusion. Protected attributes already above 85% should be preserved: tracks_track_position (87%), artist (95.7%), name (95.7%), release-country (100%), plus the other 13 high-performing attributes. Changing fusion again risks regressing these while offering little benefit, because the current code already contains the recommended resolver/post-clustering updates. The dominant remaining improvable attribute, tracks_track_name, is explicitly classified as case_mismatch and list_format_mismatch, with examples where apparent equality still fails under evaluation. That is a representation problem: normalize list-valued track names to the exact validation format before fusion, including parsing, element-wise trimming/case handling, and stable serialization. release-date still has some missing_fused cases, but it is already improving under the current fusion strategy and is not the top bottleneck. tracks_track_duration and duration remain structurally limited, so they should not drive this iteration.",
+    "ceiling_assessment": "With current blocking/matching and the improved scalar fusion already in place, a realistic ceiling remains around the reported 89.7%. Normalizing track list representation should recover a substantial part of the lost headroom, especially the 0% tracks_track_name attribute, likely bringing overall accuracy into the low-to-mid 0.8s. Full ceiling is still constrained by structurally limited track-duration and duration disagreements across sources.",
+    "recommendations": [
+      {
+        "attribute": "tracks_track_name",
+        "issue": "Serialized list values are not normalized to the validation representation; mismatches are dominated by case/list-format issues, and examples suggest even near-identical lists fail strict comparison.",
+        "fix": "In normalization_node, apply element-wise normalization for tracks_track_name across all sources: parse serialized lists to actual lists, strip surrounding whitespace per element, normalize Unicode punctuation/quotes consistently, lowercase elements only if the validation comparison expects lowercase list items, remove empty items, and serialize back with a stable canonical list format matching validation/output conventions. Use PyDI normalization on the column plus the existing list normalization utilities so values remain lists rather than ad hoc strings.",
+        "resolver_reasoning": "This is not a resolver-selection problem. The pipeline already uses favour_sources for track lists, and changing to union/intersection/voting would not fix strict case/serialization mismatches. The evidence points to source values being semantically close but formatted incompatibly with the validation set. Pre-fusion canonicalization is therefore the correct intervention.",
+        "class": "improvable",
+        "expected_impact": 0.1
+      },
+      {
+        "attribute": "tracks_track_duration",
+        "issue": "Track-duration lists show different lengths, missing elements, and small numeric disagreements across sources; current ceiling is limited, but some errors may still be inflated by inconsistent list parsing/serialization.",
+        "fix": "In normalization_node, ensure tracks_track_duration is parsed as a true list column in every source, coerce each element to a canonical integer-string representation without decimals/whitespace, drop empty placeholders, and serialize consistently. Do not change fusion yet.",
+        "resolver_reasoning": "This attribute is structurally limited, so normalization can only yield modest gains by removing representation noise. Fusion-rule changes are less promising because the main disagreements are missing/extra tracks and conflicting values, not an obviously superior source.",
+        "class": "structurally_limited",
+        "expected_impact": 0.02
+      },
+      {
+        "attribute": "release-date",
+        "issue": "Residual errors are mostly missing fused values plus one coarse-vs-specific date mismatch; scalar formatting may still be inconsistent with the validation timestamp style on some rows.",
+        "fix": "In normalization_node, verify all non-null release-date values are emitted in the exact validation datetime format with month/day defaults handled consistently (e.g., YYYY -> YYYY-01-01T00:00:00.000, YYYY-MM -> YYYY-MM-01T00:00:00.000) before fusion.",
+        "resolver_reasoning": "Voting is already the right fusion choice from source-vs-validation evidence and should be preserved. Remaining misses are more likely due to null/format standardization than resolver logic. Normalization-first avoids regressing the improved 78.3% score.",
+        "class": "improvable",
+        "expected_impact": 0.02
+      },
+      {
+        "attribute": "label",
+        "issue": "Still below ceiling, but current fusion already correctly prefers discogs and the remaining misses are likely from unmatched missing source values rather than wrong resolver choice.",
+        "fix": "Preserve current label fusion; only ensure normalization does not alter label casing/content away from validation. No label-specific fusion change now.",
+        "resolver_reasoning": "Source-vs-validation evidence clearly supports prefer_higher_trust with discogs-first, and the current code already does this. Further resolver changes would risk regression for a now-improving attribute.",
+        "class": "improvable",
+        "expected_impact": 0.0
+      }
+    ]
+  },
+  "final_decision": "normalization_node",
+  "timestamp": "2026-03-22T16:19:21.748917Z"
+}

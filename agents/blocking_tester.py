@@ -32,8 +32,6 @@ except ImportError:
     )
 
 
-NO_GAIN_EPSILON = 0.005
-NO_GAIN_PATIENCE = 2
 
 
 def load_dataset(path: str) -> pd.DataFrame:
@@ -574,23 +572,6 @@ class BlockingTester:
             tags.append("needs_review")
         return tags
 
-    @staticmethod
-    def _confidence_stop_for_pc(pc_history: List[float], best_pc: float, threshold: float) -> Dict[str, Any]:
-        if len(pc_history) < 3:
-            return {"stop": False, "reason": "insufficient_history", "confidence": 0.0}
-        last = pc_history[-3:]
-        span = max(last) - min(last)
-        if span <= 0.003 and best_pc < threshold:
-            confidence = min(0.98, 0.70 + 0.08 * (len(pc_history) - 2))
-            return {
-                "stop": True,
-                "reason": "low_variance_below_pc_threshold",
-                "confidence": round(confidence, 3),
-                "span_last": round(span, 6),
-                "best_pc": round(best_pc, 6),
-            }
-        return {"stop": False, "reason": "continue_search", "confidence": 0.0}
-    
     def _ask_llm_for_strategy(
         self,
         analysis: Dict[str, Any],
@@ -874,8 +855,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         
         if num_candidates > hard_limit and not allow_overflow:
             if self.verbose:
-                print(f"    ⛔ SKIPPING EVALUATION: {num_candidates:,} > {hard_limit:,} (hard limit)")
-                print(f"    💡 Try increasing min_token_len or ngram_size, or use a more selective column")
+                print(f"    SKIP: EVALUATION: {num_candidates:,} > {hard_limit:,} (hard limit)")
+                print(f"    Hint: Try increasing min_token_len or ngram_size, or use a more selective column")
             return {
                 'method': name,
                 'num_candidates': num_candidates,
@@ -1026,11 +1007,8 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             raise ValueError(f"No gold standard found for pair: {pair_key}")
         
         soft_limit = int(self.max_candidates * (1 + self.candidate_tolerance))
-        print(f"\n{'='*60}")
-        print(f"🤖 BLOCKING: {name_left} <-> {name_right}")
-        print(f"{'='*60}")
-        print(f"Gold pairs: {len(gold)}, PC threshold: {self.pc_threshold}")
-        print(f"Candidate limit: {self.max_candidates:,} (hard: {soft_limit:,} with tolerance)")
+        print(f"\n[BLOCKING] {name_left} <-> {name_right} | gold={len(gold)} pairs, PC threshold={self.pc_threshold}, "
+              f"candidate limit={self.max_candidates:,}")
         
         if id_column is None:
             gold, id_col_left, id_col_right = self._align_ids_with_gold(name_left, name_right, gold)
@@ -1066,9 +1044,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         
         previous_attempts = []
         best_result = None
-        no_gain_streak = 0
         best_pc = 0.0
-        pc_history: List[float] = []
         
         for attempt in range(self.max_attempts):
             print(f"\n--- Attempt {attempt + 1}/{self.max_attempts} ---")
@@ -1173,38 +1149,16 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
             result["failure_tags"] = failure_tags
             
             if result.get('is_acceptable', False):
-                print(f"✅ Found acceptable strategy!")
+                print(f"[BLOCKING] Found acceptable strategy")
                 best_result = result
                 break
             
-            pc_history.append(pc)
             if best_result is None or pc > best_result.get('pair_completeness', 0):
                 best_result = result
-            if pc > (best_pc + NO_GAIN_EPSILON):
                 best_pc = pc
-                no_gain_streak = 0
-            else:
-                no_gain_streak += 1
-                if no_gain_streak >= NO_GAIN_PATIENCE:
-                    print("⏹️ Early stop: repeated no-gain blocking attempts")
-                    break
-            confidence_stop = self._confidence_stop_for_pc(pc_history, best_pc, self.pc_threshold)
-            if confidence_stop.get("stop"):
-                print(
-                    "⏹️ Confidence stop: "
-                    f"{confidence_stop.get('reason')} "
-                    f"(confidence={confidence_stop.get('confidence')})"
-                )
-                self._trace_event(
-                    pair=f"{name_left}_{name_right}",
-                    decision="confidence_stop",
-                    attempt=attempt + 1,
-                    extra={"details": confidence_stop},
-                )
-                break
         
         if best_result is None:
-            print(f"⚠️ No successful strategy found after {self.max_attempts} attempts")
+            print(f"[BLOCKING] No successful strategy found after {self.max_attempts} attempts")
             best_result = {
                 'pair': f"{name_left}_{name_right}",
                 'strategy': 'failed',
@@ -1224,7 +1178,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                 analysis.get("column_details", {})
             )
             if fallback_cols:
-                print("⚠️ Forcing final semantic_similarity fallback with informative columns")
+                print("[BLOCKING] Forcing final semantic_similarity fallback with informative columns")
                 fallback_choice = {
                     "strategy": "semantic_similarity",
                     "columns": fallback_cols[:3],
@@ -1240,7 +1194,7 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
                     allow_overflow=True,
                 )
                 if fallback_result:
-                    if fallback_result.get('pair_completeness', 0) >= best_result.get('pair_completeness', 0):
+                    if fallback_result.get('pair_completeness', 0) > best_result.get('pair_completeness', 0):
                         best_result = fallback_result
 
         self.results_history.append(best_result)
@@ -1288,14 +1242,12 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         
         if not df.empty:
             df.to_csv(os.path.join(self.output_dir, "blocking_tester_results.csv"), index=False)
-            print(f"\n{'='*60}")
-            print(f"📊 RESULTS SUMMARY: {len(df)} pairs evaluated")
-            print(f"{'='*60}")
+            print(f"\n[BLOCKING] Results: {len(df)} pairs evaluated")
             for _, row in df.iterrows():
                 pc = row.get('pair_completeness', 0)
                 candidates = row.get('num_candidates', 0)
                 is_acceptable = row.get('is_acceptable', False)
-                status = "✅" if is_acceptable else "⚠️"
+                status = "OK" if is_acceptable else "WARN"
                 print(f"  {status} {row['pair']}: PC={pc:.4f}, candidates={candidates:,}, strategy={row['strategy']}")
 
         dataset_sizes = {name: len(df) for name, df in self.datasets_loaded.items()}
@@ -1322,6 +1274,6 @@ IMPORTANT: Try a DIFFERENT strategy or significantly different parameters.
         
         with open(os.path.join(self.output_dir, "blocking_config.json"), "w") as f:
             json.dump(discovered_config, f, indent=2)
-        print(f"\n💾 Config saved to: {self.output_dir}/blocking_config.json")
+        print(f"[BLOCKING] Config saved to: {self.output_dir}/blocking_config.json")
         
         return df, discovered_config

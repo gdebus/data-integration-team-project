@@ -5,34 +5,7 @@ from collections import Counter
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-
-def _read_json(path: str) -> Dict[str, Any]:
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data if isinstance(data, dict) else {}
-    except Exception:
-        return {}
-
-
-def _read_jsonl(path: str, limit: int = 5000) -> List[Dict[str, Any]]:
-    out: List[Dict[str, Any]] = []
-    if not os.path.exists(path):
-        return out
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            for i, line in enumerate(f):
-                if i >= limit:
-                    break
-                try:
-                    item = json.loads(line)
-                except Exception:
-                    continue
-                if isinstance(item, dict):
-                    out.append(item)
-    except Exception:
-        return []
-    return out
+from helpers.utils import read_json as _read_json, read_jsonl as _read_jsonl
 
 
 def _find_latest_file(pattern: str) -> str:

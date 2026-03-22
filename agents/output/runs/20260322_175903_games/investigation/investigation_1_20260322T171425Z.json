@@ -1,0 +1,125 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The pipeline is failing primarily at the fusion/post-clustering stage, not blocking or matching. Evidence: correspondence files are non-empty, matcher F1 is high (~0.86-0.89), blocking recall probe found no issues, yet 99% of evaluation errors are missing_fused_value with fused_id='nan'. This means matched entities exist, but the fused output is not producing evaluable records for the validation entities. The cluster analysis also shows severe one-to-many ambiguity (63-66%) and recommends MaximumBipartiteMatching, while the current pipeline does not apply any post-clustering before fusion. In addition, several fusion resolvers are misconfigured relative to source-vs-validation evidence: releaseYear uses earliest despite validation favoring sales most often; developer uses most_complete though all sources are non-null and metacritic/sales are much better than dbpedia; ESRB/publisher/criticScore trust handling is not aligned with the measured best source. The immediate blocker, however, is missing fused rows caused by ambiguous correspondences not being collapsed into clean clusters.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "Routing to pipeline_adaption is required because the biggest error pattern is not source-format mismatch but wrong fusion construction: missing fused records despite available correspondences. Blocking and matching are already strong and correspondences are present, so changing those next is lower leverage. Normalization is not the first fix because the sources already align reasonably with validation for key attributes (e.g., metacritic ESRB 73% exact, sales publisher 80% exact, metacritic developer 60% exact), and the dominant problem is that those values never make it into evaluable fused rows. pipeline_adaption can fix the allowed components: add MaximumBipartiteMatching post-clustering to resolve many-to-many correspondences into coherent entity groups, and update attribute fusers/trust to match validation-aware evidence. Protected attributes above 85% should be left unchanged.",
+        "ceiling_assessment": "Estimated achievable overall accuracy is around the reported structural ceiling of 89.3% after fixing cluster formation and resolver selection. Current 5.8% macro accuracy is far below that ceiling, so substantial gains are plausible. Some remaining gap may persist for structurally noisy fields like platform/userScore, but the present result is nowhere near the ceiling.",
+        "recommendations": [
+          {
+            "attribute": "post_clustering",
+            "issue": "No post-clustering is applied even though correspondence graphs are highly ambiguous (one-to-many ~63-66%, ambiguity ratio >73%), causing malformed clusters and missing evaluable fused records.",
+            "fix": "Add PyDI post-clustering with MaximumBipartiteMatching before DataFusionEngine.run / before building final entity clusters from correspondences.",
+            "resolver_reasoning": "This is the highest-impact fix because 99% of errors are missing_fused_value, not wrong chosen values. The cluster analysis explicitly recommends MaximumBipartiteMatching over alternatives. StableMatching or HierarchicalClusterer were considered, but MaximumBipartiteMatching is the top recommendation and best suited to reduce many-to-many ambiguity while preserving high-quality pairings. Since blocking/matching are frozen in pipeline_adaption, cluster cleanup is the correct allowed intervention.",
+            "class": "improvable",
+            "expected_impact": 0.55
+          },
+          {
+            "attribute": "developer",
+            "issue": "Current resolver most_complete is inappropriate because all sources are non-null; it does not exploit source quality and likely admits wrong/empty choices within bad clusters.",
+            "fix": "Change to voting for developer; if PyDI supports weighted trust in voting context, keep metacritic and sales favored over dbpedia indirectly via post-clustering/trust, otherwise plain voting.",
+            "resolver_reasoning": "Validation comparison shows metacritic exact 60%, sales exact 53%, dbpedia exact 20%, all non-null. That pattern fits voting because two stronger sources can agree against the weaker one. most_complete adds no value when completeness is equal. prefer_higher_trust was considered, but no single source dominates enough to beat consensus behavior; voting is explicitly recommended by the probe.",
+            "class": "improvable",
+            "expected_impact": 0.08
+          },
+          {
+            "attribute": "ESRB",
+            "issue": "Current prefer_higher_trust uses equal trust for metacritic and sales, but validation shows metacritic is the best source for ESRB.",
+            "fix": "Keep prefer_higher_trust for ESRB but set trust_map to favor metacritic over sales and dbpedia, e.g. {'metacritic':4,'sales':3,'dbpedia':1}; alternatively use favour_sources if available with metacritic first.",
+            "resolver_reasoning": "Validation comparison: metacritic exact 73% vs sales 60%, both non-null. Either voting or prefer_higher_trust could work, but since there are mainly two sources and one is clearly better, prefer_higher_trust with corrected trust is the best fit. Leaving equal trust is worse because tie behavior may not consistently select metacritic. Voting was considered but with only two sources disagreement is common and consensus is weaker.",
+            "class": "improvable",
+            "expected_impact": 0.06
+          },
+          {
+            "attribute": "publisher",
+            "issue": "Current prefer_higher_trust uses equal trust for metacritic and sales, but validation shows sales is clearly the best source for publisher.",
+            "fix": "Use prefer_higher_trust for publisher with attribute-level trust favoring sales strongly, e.g. {'sales':5,'metacritic':2,'dbpedia':1}.",
+            "resolver_reasoning": "Probe shows sales exact 80% for publisher and is the recommended source. prefer_higher_trust is the best resolver because there is a clear single-source winner. voting would underperform when other sources disagree or are sparse; most_complete is irrelevant because non-nullness is not the issue.",
+            "class": "improvable",
+            "expected_impact": 0.06
+          },
+          {
+            "attribute": "releaseYear",
+            "issue": "Current resolver earliest is mismatched to the validation target and produces 0% accuracy.",
+            "fix": "Replace earliest with prefer_higher_trust favoring sales for releaseYear; if numeric/date semantics require, use favour_sources(sales > metacritic > dbpedia).",
+            "resolver_reasoning": "Validation comparison shows sales exact 47%, metacritic 33%, dbpedia 20%, all non-null. earliest is inappropriate because validation uses canonical release-year/date strings, not necessarily the chronologically earliest across conflicting sources. The auto probe's 'longest_string' recommendation is likely a heuristic artifact for string-typed dates; semantically, trust-based source preference for sales is safer and better aligned with the measured per-source exact rates. Voting would fail under disagreements; earliest is already failing at 0%.",
+            "class": "improvable",
+            "expected_impact": 0.05
+          },
+          {
+            "attribute": "criticScore",
+            "issue": "Current prefer_higher_trust gives equal trust to sales and metacritic, while source evidence indicates sales, though weak, is still better aligned than metacritic for exact validation matches.",
+            "fix": "Keep prefer_higher_trust for criticScore but favor sales over metacritic, e.g. {'sales':4,'metacritic':2,'dbpedia':1}.",
+            "resolver_reasoning": "Validation comparison: sales exact 13%, metacritic exact 0% but fuzzy 27%. This attribute is noisy and likely structurally limited, but among available options trusting sales is still the least-bad strategy. longest_string was auto-suggested, but for numeric-like values that is semantically brittle and can pick formatting artifacts rather than correct scores. median is not ideal with only a few disagreeing sources and poor source quality. So trust-based source preference is the best available mitigation.",
+            "class": "structurally_limited",
+            "expected_impact": 0.02
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 24953,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The pipeline is failing primarily at the fusion/post-clustering stage, not blocking or matching. Evidence: correspondence files are non-empty, matcher F1 is high (~0.86-0.89), blocking recall probe found no issues, yet 99% of evaluation errors are missing_fused_value with fused_id='nan'. This means matched entities exist, but the fused output is not producing evaluable records for the validation entities. The cluster analysis also shows severe one-to-many ambiguity (63-66%) and recommends MaximumBipartiteMatching, while the current pipeline does not apply any post-clustering before fusion. In addition, several fusion resolvers are misconfigured relative to source-vs-validation evidence: releaseYear uses earliest despite validation favoring sales most often; developer uses most_complete though all sources are non-null and metacritic/sales are much better than dbpedia; ESRB/publisher/criticScore trust handling is not aligned with the measured best source. The immediate blocker, however, is missing fused rows caused by ambiguous correspondences not being collapsed into clean clusters.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "Routing to pipeline_adaption is required because the biggest error pattern is not source-format mismatch but wrong fusion construction: missing fused records despite available correspondences. Blocking and matching are already strong and correspondences are present, so changing those next is lower leverage. Normalization is not the first fix because the sources already align reasonably with validation for key attributes (e.g., metacritic ESRB 73% exact, sales publisher 80% exact, metacritic developer 60% exact), and the dominant problem is that those values never make it into evaluable fused rows. pipeline_adaption can fix the allowed components: add MaximumBipartiteMatching post-clustering to resolve many-to-many correspondences into coherent entity groups, and update attribute fusers/trust to match validation-aware evidence. Protected attributes above 85% should be left unchanged.",
+    "ceiling_assessment": "Estimated achievable overall accuracy is around the reported structural ceiling of 89.3% after fixing cluster formation and resolver selection. Current 5.8% macro accuracy is far below that ceiling, so substantial gains are plausible. Some remaining gap may persist for structurally noisy fields like platform/userScore, but the present result is nowhere near the ceiling.",
+    "recommendations": [
+      {
+        "attribute": "post_clustering",
+        "issue": "No post-clustering is applied even though correspondence graphs are highly ambiguous (one-to-many ~63-66%, ambiguity ratio >73%), causing malformed clusters and missing evaluable fused records.",
+        "fix": "Add PyDI post-clustering with MaximumBipartiteMatching before DataFusionEngine.run / before building final entity clusters from correspondences.",
+        "resolver_reasoning": "This is the highest-impact fix because 99% of errors are missing_fused_value, not wrong chosen values. The cluster analysis explicitly recommends MaximumBipartiteMatching over alternatives. StableMatching or HierarchicalClusterer were considered, but MaximumBipartiteMatching is the top recommendation and best suited to reduce many-to-many ambiguity while preserving high-quality pairings. Since blocking/matching are frozen in pipeline_adaption, cluster cleanup is the correct allowed intervention.",
+        "class": "improvable",
+        "expected_impact": 0.55
+      },
+      {
+        "attribute": "developer",
+        "issue": "Current resolver most_complete is inappropriate because all sources are non-null; it does not exploit source quality and likely admits wrong/empty choices within bad clusters.",
+        "fix": "Change to voting for developer; if PyDI supports weighted trust in voting context, keep metacritic and sales favored over dbpedia indirectly via post-clustering/trust, otherwise plain voting.",
+        "resolver_reasoning": "Validation comparison shows metacritic exact 60%, sales exact 53%, dbpedia exact 20%, all non-null. That pattern fits voting because two stronger sources can agree against the weaker one. most_complete adds no value when completeness is equal. prefer_higher_trust was considered, but no single source dominates enough to beat consensus behavior; voting is explicitly recommended by the probe.",
+        "class": "improvable",
+        "expected_impact": 0.08
+      },
+      {
+        "attribute": "ESRB",
+        "issue": "Current prefer_higher_trust uses equal trust for metacritic and sales, but validation shows metacritic is the best source for ESRB.",
+        "fix": "Keep prefer_higher_trust for ESRB but set trust_map to favor metacritic over sales and dbpedia, e.g. {'metacritic':4,'sales':3,'dbpedia':1}; alternatively use favour_sources if available with metacritic first.",
+        "resolver_reasoning": "Validation comparison: metacritic exact 73% vs sales 60%, both non-null. Either voting or prefer_higher_trust could work, but since there are mainly two sources and one is clearly better, prefer_higher_trust with corrected trust is the best fit. Leaving equal trust is worse because tie behavior may not consistently select metacritic. Voting was considered but with only two sources disagreement is common and consensus is weaker.",
+        "class": "improvable",
+        "expected_impact": 0.06
+      },
+      {
+        "attribute": "publisher",
+        "issue": "Current prefer_higher_trust uses equal trust for metacritic and sales, but validation shows sales is clearly the best source for publisher.",
+        "fix": "Use prefer_higher_trust for publisher with attribute-level trust favoring sales strongly, e.g. {'sales':5,'metacritic':2,'dbpedia':1}.",
+        "resolver_reasoning": "Probe shows sales exact 80% for publisher and is the recommended source. prefer_higher_trust is the best resolver because there is a clear single-source winner. voting would underperform when other sources disagree or are sparse; most_complete is irrelevant because non-nullness is not the issue.",
+        "class": "improvable",
+        "expected_impact": 0.06
+      },
+      {
+        "attribute": "releaseYear",
+        "issue": "Current resolver earliest is mismatched to the validation target and produces 0% accuracy.",
+        "fix": "Replace earliest with prefer_higher_trust favoring sales for releaseYear; if numeric/date semantics require, use favour_sources(sales > metacritic > dbpedia).",
+        "resolver_reasoning": "Validation comparison shows sales exact 47%, metacritic 33%, dbpedia 20%, all non-null. earliest is inappropriate because validation uses canonical release-year/date strings, not necessarily the chronologically earliest across conflicting sources. The auto probe's 'longest_string' recommendation is likely a heuristic artifact for string-typed dates; semantically, trust-based source preference for sales is safer and better aligned with the measured per-source exact rates. Voting would fail under disagreements; earliest is already failing at 0%.",
+        "class": "improvable",
+        "expected_impact": 0.05
+      },
+      {
+        "attribute": "criticScore",
+        "issue": "Current prefer_higher_trust gives equal trust to sales and metacritic, while source evidence indicates sales, though weak, is still better aligned than metacritic for exact validation matches.",
+        "fix": "Keep prefer_higher_trust for criticScore but favor sales over metacritic, e.g. {'sales':4,'metacritic':2,'dbpedia':1}.",
+        "resolver_reasoning": "Validation comparison: sales exact 13%, metacritic exact 0% but fuzzy 27%. This attribute is noisy and likely structurally limited, but among available options trusting sales is still the least-bad strategy. longest_string was auto-suggested, but for numeric-like values that is semantically brittle and can pick formatting artifacts rather than correct scores. median is not ideal with only a few disagreeing sources and poor source quality. So trust-based source preference is the best available mitigation.",
+        "class": "structurally_limited",
+        "expected_impact": 0.02
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-22T17:14:25.023354Z"
+}

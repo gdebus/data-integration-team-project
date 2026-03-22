@@ -1,0 +1,109 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main remaining errors are caused by fusion/post-fusion formatting choices, but the first fix must be normalization because the worst attribute with 0% accuracy (genres) is failing due to source/target format mismatch before fusion. The validation set expects genres as a plain comma-separated string/list of individual items, while the current pipeline normalizes sources into list cells and then fuses with union(separator='; '), producing nested/composite list elements like ['historical fiction, fiction, ...'] instead of atomic genres. In addition, title and author mismatches are systematic source-format issues: one source often includes series suffixes or role annotations (e.g. '(The Birmingham Family, 1)', '(Goodreads Author)', '(Illustrator)'), while validation expects cleaned canonical strings. Publisher/title source-vs-validation evidence also shows metabooks_small is the best source, but those fusion changes should wait until normalization fixes the target-alignment issues. Blocking and matching are not the bottleneck: correspondences exist, blocking recall probes show no issue, and pairwise matching F1 is already solid.",
+        "next_node": "normalization_node",
+        "reasoning": "Per routing rules, any fix that requires transforming source data before fusion must go to normalization_node. The highest-impact improvable errors are title and author format mismatches, and genres is entirely a pre-fusion representation mismatch. These cannot be safely fixed in pipeline_adaption because fusion is frozen to resolver/trust changes only there. Protected attributes to preserve: language (90%), isbn_clean (100%), publish_year (100%) and the other >85% attributes should not be altered. After normalization, a follow-up pipeline_adaption pass will likely still be needed to change trust/resolvers for title and publisher toward metabooks_small, but normalization is the correct first move because it addresses the target-format incompatibilities directly and removes avoidable mismatches without touching strong attributes.",
+        "ceiling_assessment": "With current entity matching/blocking structure, overall accuracy appears capped around 78.1%. A normalization pass should recover most of the improvable headroom (roughly +7% to +10% overall) by fixing title/author formatting and genres representation. Publisher and page_count remain partly structurally limited because sources genuinely disagree; even after normalization, perfect accuracy is unlikely without better source-specific fusion choices. A realistic near-term target after normalization plus later fusion adaptation is mid-to-high 70s overall.",
+        "recommendations": [
+          {
+            "attribute": "genres",
+            "issue": "Validation expects atomic genre items in a comma-separated representation, but current data enters fusion as list-like cells containing whole comma-joined strings from each source; union then preserves those composite strings as elements, causing systematic list_format_mismatch and 0% accuracy.",
+            "fix": "In normalization_node, normalize goodreads_small.genres and metabooks_small.genres into true atomic lists by splitting on commas, trimming whitespace, preserving original case, and removing empty items; ensure amazon_small missing values stay null/empty rather than stringified. Target output should align with validation's item granularity, not semicolon-joined composite strings.",
+            "resolver_reasoning": "This is not primarily a resolver-selection problem. Probe evidence shows fuzzy 100% for goodreads_small and metabooks_small against validation, meaning the content is present but formatted wrong. Validation samples show combined provenance from goodreads+metabooks, so the best downstream resolver remains union once inputs are atomized. Voting would drop complementary genres and perform worse; intersection would be too strict; prefer_higher_trust would ignore complementary coverage. First fix the pre-fusion structure so union can work correctly.",
+            "class": "improvable",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "title",
+            "issue": "Systematic source formatting noise: titles often include appended series/imprint text in parentheses, while validation usually wants the canonical title string. Current fusion uses longest_string, which actively favors the noisy variant.",
+            "fix": "In normalization_node, add source-specific title cleanup rules that strip trailing parenthetical series/imprint annotations when they are auxiliary metadata rather than core title content, especially for amazon_small and goodreads_small. Preserve meaningful parenthetical content when it is part of the canonical validation title. Keep case/title text otherwise unchanged to match validation.",
+            "resolver_reasoning": "Source-vs-validation comparison shows metabooks_small exact=88%, goodreads_small=67%, amazon_small=20%. That means the correct canonical form is usually already present in metabooks_small, and longest_string is the wrong bias because it prefers expanded noisy titles. After normalization, a later pipeline_adaption should switch title to prefer_higher_trust with metabooks_small > goodreads_small > amazon_small. Voting is weaker because titles rarely have exact agreement when one source appends series text; shortest_string could help some cases but would fail where the canonical validation title legitimately includes a subtitle/volume phrase. prefer_higher_trust after cleanup is the best fit.",
+            "class": "improvable",
+            "expected_impact": 0.044
+          },
+          {
+            "attribute": "author",
+            "issue": "Author values contain role suffixes and extra contributors, e.g. '(Goodreads Author)', '(Adaptation), Sharon Ross (Illustrator)', while validation expects the principal author only.",
+            "fix": "In normalization_node, add source-specific author cleanup: remove platform suffixes like '(Goodreads Author)', strip contributor-role annotations in parentheses, and when multiple contributors are present with role labels, keep the main author matching the leading canonical person name used by validation. Preserve mixed/title case as in validation.",
+            "resolver_reasoning": "Mismatch examples are clearly format-driven, not entity-linking errors. Current longest_string encourages extra contributor text, so cleaning source strings first is the safest first step. A later fusion pass may keep prefer_higher_trust or favour_sources if diagnostics confirm one source is consistently canonical, but normalization should come first because the source values themselves are in the wrong target format. Alternatives like shortest_string are risky because they could truncate legitimate multi-part names.",
+            "class": "improvable",
+            "expected_impact": 0.025
+          },
+          {
+            "attribute": "publisher",
+            "issue": "Half the errors are source-choice or publisher hierarchy differences (imprint vs parent publisher), with some additional formatting noise like HTML entities and division suffixes.",
+            "fix": "Do not change in normalization first beyond safe decoding/cleanup if supported (e.g. '&amp;' -> '&', trimming corporate suffix noise only when it matches validation conventions). Preserve for now and revisit in pipeline_adaption after normalization rerun.",
+            "resolver_reasoning": "Evidence strongly favors metabooks_small (88% exact vs goodreads 67% vs amazon 20%), so the best downstream resolver is prefer_higher_trust with trust order metabooks_small > goodreads_small > amazon_small. longest_string is poor because it selects expanded variants like 'Simon & Schuster (Trade Division)' and 'Vintage Books USA'. Voting may fail when sources disagree on imprint/parent labels. However, because the immediate required fixes are pre-fusion formatting issues and routing must prioritize normalization first, publisher trust-map changes should be deferred to the next iteration.",
+            "class": "structurally_limited",
+            "expected_impact": 0.025
+          },
+          {
+            "attribute": "page_count",
+            "issue": "Sources disagree materially on numeric values, and one source (amazon_small) is often null/poor. Errors are not primarily normalization-driven.",
+            "fix": "No normalization change recommended now; revisit in pipeline_adaption after normalization if needed, likely replacing maximum with prefer_higher_trust or favour_sources toward metabooks_small based on full validation comparison.",
+            "resolver_reasoning": "Current maximum is wrong when larger values are edition-specific or inflated, as shown by 251 vs expected 256 and 554 vs expected 512. Probe summary indicates metabooks_small is closest by fuzzy rate and supplies validation provenance in samples. Voting is weak for numerics with three-way disagreement; median with two non-null disagreeing sources may still miss exact validation; prefer_higher_trust toward metabooks_small is the most evidence-based next fusion candidate. But this is secondary to normalization because page_count is structurally limited and lower-impact.",
+            "class": "structurally_limited",
+            "expected_impact": 0.013
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 28868,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main remaining errors are caused by fusion/post-fusion formatting choices, but the first fix must be normalization because the worst attribute with 0% accuracy (genres) is failing due to source/target format mismatch before fusion. The validation set expects genres as a plain comma-separated string/list of individual items, while the current pipeline normalizes sources into list cells and then fuses with union(separator='; '), producing nested/composite list elements like ['historical fiction, fiction, ...'] instead of atomic genres. In addition, title and author mismatches are systematic source-format issues: one source often includes series suffixes or role annotations (e.g. '(The Birmingham Family, 1)', '(Goodreads Author)', '(Illustrator)'), while validation expects cleaned canonical strings. Publisher/title source-vs-validation evidence also shows metabooks_small is the best source, but those fusion changes should wait until normalization fixes the target-alignment issues. Blocking and matching are not the bottleneck: correspondences exist, blocking recall probes show no issue, and pairwise matching F1 is already solid.",
+    "next_node": "normalization_node",
+    "reasoning": "Per routing rules, any fix that requires transforming source data before fusion must go to normalization_node. The highest-impact improvable errors are title and author format mismatches, and genres is entirely a pre-fusion representation mismatch. These cannot be safely fixed in pipeline_adaption because fusion is frozen to resolver/trust changes only there. Protected attributes to preserve: language (90%), isbn_clean (100%), publish_year (100%) and the other >85% attributes should not be altered. After normalization, a follow-up pipeline_adaption pass will likely still be needed to change trust/resolvers for title and publisher toward metabooks_small, but normalization is the correct first move because it addresses the target-format incompatibilities directly and removes avoidable mismatches without touching strong attributes.",
+    "ceiling_assessment": "With current entity matching/blocking structure, overall accuracy appears capped around 78.1%. A normalization pass should recover most of the improvable headroom (roughly +7% to +10% overall) by fixing title/author formatting and genres representation. Publisher and page_count remain partly structurally limited because sources genuinely disagree; even after normalization, perfect accuracy is unlikely without better source-specific fusion choices. A realistic near-term target after normalization plus later fusion adaptation is mid-to-high 70s overall.",
+    "recommendations": [
+      {
+        "attribute": "genres",
+        "issue": "Validation expects atomic genre items in a comma-separated representation, but current data enters fusion as list-like cells containing whole comma-joined strings from each source; union then preserves those composite strings as elements, causing systematic list_format_mismatch and 0% accuracy.",
+        "fix": "In normalization_node, normalize goodreads_small.genres and metabooks_small.genres into true atomic lists by splitting on commas, trimming whitespace, preserving original case, and removing empty items; ensure amazon_small missing values stay null/empty rather than stringified. Target output should align with validation's item granularity, not semicolon-joined composite strings.",
+        "resolver_reasoning": "This is not primarily a resolver-selection problem. Probe evidence shows fuzzy 100% for goodreads_small and metabooks_small against validation, meaning the content is present but formatted wrong. Validation samples show combined provenance from goodreads+metabooks, so the best downstream resolver remains union once inputs are atomized. Voting would drop complementary genres and perform worse; intersection would be too strict; prefer_higher_trust would ignore complementary coverage. First fix the pre-fusion structure so union can work correctly.",
+        "class": "improvable",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "title",
+        "issue": "Systematic source formatting noise: titles often include appended series/imprint text in parentheses, while validation usually wants the canonical title string. Current fusion uses longest_string, which actively favors the noisy variant.",
+        "fix": "In normalization_node, add source-specific title cleanup rules that strip trailing parenthetical series/imprint annotations when they are auxiliary metadata rather than core title content, especially for amazon_small and goodreads_small. Preserve meaningful parenthetical content when it is part of the canonical validation title. Keep case/title text otherwise unchanged to match validation.",
+        "resolver_reasoning": "Source-vs-validation comparison shows metabooks_small exact=88%, goodreads_small=67%, amazon_small=20%. That means the correct canonical form is usually already present in metabooks_small, and longest_string is the wrong bias because it prefers expanded noisy titles. After normalization, a later pipeline_adaption should switch title to prefer_higher_trust with metabooks_small > goodreads_small > amazon_small. Voting is weaker because titles rarely have exact agreement when one source appends series text; shortest_string could help some cases but would fail where the canonical validation title legitimately includes a subtitle/volume phrase. prefer_higher_trust after cleanup is the best fit.",
+        "class": "improvable",
+        "expected_impact": 0.044
+      },
+      {
+        "attribute": "author",
+        "issue": "Author values contain role suffixes and extra contributors, e.g. '(Goodreads Author)', '(Adaptation), Sharon Ross (Illustrator)', while validation expects the principal author only.",
+        "fix": "In normalization_node, add source-specific author cleanup: remove platform suffixes like '(Goodreads Author)', strip contributor-role annotations in parentheses, and when multiple contributors are present with role labels, keep the main author matching the leading canonical person name used by validation. Preserve mixed/title case as in validation.",
+        "resolver_reasoning": "Mismatch examples are clearly format-driven, not entity-linking errors. Current longest_string encourages extra contributor text, so cleaning source strings first is the safest first step. A later fusion pass may keep prefer_higher_trust or favour_sources if diagnostics confirm one source is consistently canonical, but normalization should come first because the source values themselves are in the wrong target format. Alternatives like shortest_string are risky because they could truncate legitimate multi-part names.",
+        "class": "improvable",
+        "expected_impact": 0.025
+      },
+      {
+        "attribute": "publisher",
+        "issue": "Half the errors are source-choice or publisher hierarchy differences (imprint vs parent publisher), with some additional formatting noise like HTML entities and division suffixes.",
+        "fix": "Do not change in normalization first beyond safe decoding/cleanup if supported (e.g. '&amp;' -> '&', trimming corporate suffix noise only when it matches validation conventions). Preserve for now and revisit in pipeline_adaption after normalization rerun.",
+        "resolver_reasoning": "Evidence strongly favors metabooks_small (88% exact vs goodreads 67% vs amazon 20%), so the best downstream resolver is prefer_higher_trust with trust order metabooks_small > goodreads_small > amazon_small. longest_string is poor because it selects expanded variants like 'Simon & Schuster (Trade Division)' and 'Vintage Books USA'. Voting may fail when sources disagree on imprint/parent labels. However, because the immediate required fixes are pre-fusion formatting issues and routing must prioritize normalization first, publisher trust-map changes should be deferred to the next iteration.",
+        "class": "structurally_limited",
+        "expected_impact": 0.025
+      },
+      {
+        "attribute": "page_count",
+        "issue": "Sources disagree materially on numeric values, and one source (amazon_small) is often null/poor. Errors are not primarily normalization-driven.",
+        "fix": "No normalization change recommended now; revisit in pipeline_adaption after normalization if needed, likely replacing maximum with prefer_higher_trust or favour_sources toward metabooks_small based on full validation comparison.",
+        "resolver_reasoning": "Current maximum is wrong when larger values are edition-specific or inflated, as shown by 251 vs expected 256 and 554 vs expected 512. Probe summary indicates metabooks_small is closest by fuzzy rate and supplies validation provenance in samples. Voting is weak for numerics with three-way disagreement; median with two non-null disagreeing sources may still miss exact validation; prefer_higher_trust toward metabooks_small is the most evidence-based next fusion candidate. But this is secondary to normalization because page_count is structurally limited and lower-impact.",
+        "class": "structurally_limited",
+        "expected_impact": 0.013
+      }
+    ]
+  },
+  "final_decision": "normalization_node",
+  "timestamp": "2026-03-22T14:54:38.617678Z"
+}

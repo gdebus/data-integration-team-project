@@ -1,0 +1,172 @@
+{
+  "blocking_strategies": {
+    "forbes_dbpedia": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "industry"
+      ],
+      "params": {
+        "top_k": 15
+      },
+      "pair_completeness": 1.0,
+      "num_candidates": 30000,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "forbes_fullcontact": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 1.0,
+      "num_candidates": 39892,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "strategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "country",
+        "city"
+      ],
+      "params": {
+        "top_k": 20
+      },
+      "pair_completeness": 0.9933333333333333,
+      "num_candidates": 38143,
+      "is_acceptable": true,
+      "failure_tags": [
+        "ok"
+      ]
+    }
+  },
+  "id_columns": {
+    "forbes": "id",
+    "dbpedia": "id",
+    "fullcontact": "id"
+  },
+  "dataset_signature": "dbpedia|forbes|fullcontact",
+  "dataset_names": [
+    "dbpedia",
+    "forbes",
+    "fullcontact"
+  ],
+  "pc_threshold": 0.9,
+  "max_candidates": 69375,
+  "candidate_tolerance": 0.15,
+  "llm_trace_path": "output/runs/20260322_102925_companies/blocking-evaluation/llm_blocking_trace.jsonl",
+  "fusion_size_estimate": {
+    "stage": "blocking",
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "datasets": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+    "expected_rows": 12004,
+    "expected_unique_ids": 12004,
+    "expected_rows_range": [
+      8168,
+      12004
+    ],
+    "expected_unique_ids_range": [
+      8168,
+      12004
+    ],
+    "three_way_intersection": {
+      "enabled": true,
+      "datasets": [
+        "forbes",
+        "dbpedia",
+        "fullcontact"
+      ],
+      "pair_cluster_estimates": {
+        "forbes_dbpedia": 2000,
+        "forbes_fullcontact": 1931,
+        "dbpedia_fullcontact": 1918
+      },
+      "triple_intersection_estimates": {
+        "via_forbes": 1931.0,
+        "via_dbpedia": 380.32916914534997,
+        "via_fullcontact": 1918.0,
+        "median_used": 1918.0,
+        "final_triple_intersection": 1918,
+        "triple_intersection_range": [
+          0,
+          1918
+        ]
+      },
+      "expected_union_clusters": 2013,
+      "expected_union_range": [
+        2013,
+        5849
+      ],
+      "formula": "E_union = E12 + E13 + E23 - 2*E123"
+    },
+    "pair_estimates": [
+      {
+        "pair_key": "forbes_dbpedia",
+        "left_dataset": "forbes",
+        "right_dataset": "dbpedia",
+        "min_pair_size": 2000,
+        "pair_completeness": 1.0,
+        "expected_cluster_count": 2000
+      },
+      {
+        "pair_key": "forbes_fullcontact",
+        "left_dataset": "forbes",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 1.0,
+        "expected_cluster_count": 1931
+      },
+      {
+        "pair_key": "fullcontact_dbpedia",
+        "left_dataset": "dbpedia",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 0.9933333333333333,
+        "expected_cluster_count": 1918
+      }
+    ],
+    "created_at": "2026-03-22T09:30:15.558153+00:00",
+    "expected_rows_matched_only": 2013,
+    "expected_unique_ids_matched_only": 2013,
+    "expected_rows_matched_only_range": [
+      2013,
+      5849
+    ],
+    "expected_unique_ids_matched_only_range": [
+      2013,
+      5849
+    ],
+    "expected_rows_singleton_aware": 12004,
+    "expected_unique_ids_singleton_aware": 12004,
+    "expected_rows_singleton_aware_range": [
+      8168,
+      12004
+    ],
+    "expected_unique_ids_singleton_aware_range": [
+      8168,
+      12004
+    ],
+    "singleton_assumption": {
+      "assumed_include_singletons": true,
+      "total_input_rows": 14017,
+      "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+      "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+    }
+  }
+}

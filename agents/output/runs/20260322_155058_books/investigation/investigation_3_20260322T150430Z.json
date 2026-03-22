@@ -1,0 +1,109 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main remaining errors are now in fusion strategy, not normalization, blocking, or matching. Blocking/matching are healthy (all correspondence files non-empty, F1 ~0.80-0.85, no recall issues), and the prior normalization regression on isbn_clean is already fixed/protected at 100%. The current pipeline is selecting the wrong source or wrong resolver for several low-performing attributes: genres uses most_complete even though validation expects complementary genres combined from goodreads+metabooks; publisher uses most_complete even though source-vs-validation shows metabooks is exact 100% and should be trusted; title and page_count trust maps are reversed, currently favoring amazon although amazon is the weakest source in the probe data. There is also a likely source-loading mismatch in code: the pipeline loads normalization/attempt_1 while the current normalized files are in attempt_3, which may explain some regressions, but under the routing rules the next fixable stage is fusion logic because blocking/matching are frozen-good and the dominant configurable errors are resolver/trust choices.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "Route to pipeline_adaption because the highest-impact remaining fixes are attribute fusers and trust maps. Do not touch protected attributes already >85%, especially publish_year and isbn_clean at 100%. genres is the top improvable attribute and needs union-style fusion to match validation provenance patterns like goodreads+metabooks. publisher, title, and page_count all show wrong source preference under current trust ordering. Although the code appears to load attempt_1 normalized files instead of attempt_3, the actionable next stage within the allowed routing is still fusion adaptation: change resolvers/trust maps and preserve working attributes. Normalization should not be revisited first because current mismatch examples for the priority attributes are mostly wrong value choice, not simple formatting, and isbn_clean is no longer broken.",
+        "ceiling_assessment": "With current matching/blocking structure, overall accuracy around 0.80-0.85 appears realistic. The supplied ceiling estimate is 88.5%, but page_count/publisher/title are partly structurally limited by source disagreement, so a practical near-term target after fusion fixes is low 80s rather than perfect accuracy.",
+        "recommendations": [
+          {
+            "attribute": "genres",
+            "issue": "Current resolver most_complete picks a single source's longer genre string, but validation expects complementary genres combined across sources, typically goodreads_small + metabooks_small. This causes systematic under-recall and occasional missing values.",
+            "fix": "Change genres fuser from most_complete to union.",
+            "resolver_reasoning": "Validation samples explicitly show combined provenance (e.g. goodreads+metabooks), and mismatch examples show fused values are often strict subsets of expected values. Union best matches list-like complementary data. Voting would keep only shared/common values and lose recall; intersection would be even worse; prefer_higher_trust/favour_sources would choose one source and miss complementary genres. Because genres accuracy is only 30% and classified improvable with 100% ceiling, this is the clearest fusion fix.",
+            "class": "improvable",
+            "expected_impact": 0.09
+          },
+          {
+            "attribute": "publisher",
+            "issue": "Current resolver most_complete chooses verbose/imprint variants like 'Simon & Schuster (Trade Division)' or wrong imprints like 'Eos', while validation usually wants the canonical publisher name. Probe data shows metabooks_small matches validation exactly in 100% of examined cases.",
+            "fix": "Change publisher fuser from most_complete to prefer_higher_trust with trust_map {'metabooks_small': 3.0, 'goodreads_small': 2.0, 'amazon_small': 1.0}.",
+            "resolver_reasoning": "Source-vs-validation evidence is decisive: metabooks_small exact=100%, goodreads_small exact=67%, amazon_small exact=20%. prefer_higher_trust is therefore the best resolver. most_complete over-selects noisy longer publisher strings; longest_string would worsen that; voting can fail when amazon/goodreads agree on a non-canonical imprint. A strong trust preference for metabooks aligns with the validation provenance examples.",
+            "class": "improvable",
+            "expected_impact": 0.05
+          },
+          {
+            "attribute": "title",
+            "issue": "Current title fuser prefer_higher_trust is configured backwards, favoring amazon_small, but probe data shows goodreads_small is the strongest source and amazon_small the weakest. This yields expanded/marketing titles instead of validation's canonical titles.",
+            "fix": "Keep prefer_higher_trust for title but reverse trust_map to {'goodreads_small': 3.0, 'metabooks_small': 2.0, 'amazon_small': 1.0}.",
+            "resolver_reasoning": "Probe comparison: goodreads_small exact=67%, metabooks_small exact=50%, amazon_small exact=30%, with fuzzy 100% for goodreads/metabooks. Validation often prefers canonical shorter title forms from goodreads, not amazon's embellished variants. shortest_string is tempting for some cases but would be brittle and could truncate legitimate parenthetical titles that validation keeps. prefer_higher_trust with corrected ordering best matches observed source quality while preserving existing behavior style.",
+            "class": "improvable",
+            "expected_impact": 0.04
+          },
+          {
+            "attribute": "page_count",
+            "issue": "Current page_count fuser prefer_higher_trust is also reversed, favoring amazon_small even though amazon_small has 0% exact and 0% non-null in the probe sample. Validation often matches metabooks_small for page_count provenance.",
+            "fix": "Keep prefer_higher_trust for page_count but reverse trust_map to {'metabooks_small': 3.0, 'goodreads_small': 2.0, 'amazon_small': 1.0}.",
+            "resolver_reasoning": "The evidence shows amazon_small is the worst source here, so current trust is actively harmful. maximum/median are not appropriate because page counts differ by edition and arithmetic aggregation can create values no source contains. voting is weak with only 2-3 sources and frequent disagreements. prefer_higher_trust toward metabooks is the safest improvement, though this attribute remains structurally limited.",
+            "class": "structurally_limited",
+            "expected_impact": 0.02
+          },
+          {
+            "attribute": "language",
+            "issue": "Language has regressed to 80% due to missing fused values, but it is near-protected and should not be over-tuned aggressively.",
+            "fix": "Preserve current resolver for language for now; if revisited later, test most_complete or prefer_higher_trust with metabooks-first only if missingness persists after broader fusion fixes.",
+            "resolver_reasoning": "Language is already relatively strong and not among the top-impact attributes. Unnecessary changes risk regressing a mostly working field. The current priority is genres/publisher/title/page_count.",
+            "class": "improvable",
+            "expected_impact": 0.01
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 36757,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main remaining errors are now in fusion strategy, not normalization, blocking, or matching. Blocking/matching are healthy (all correspondence files non-empty, F1 ~0.80-0.85, no recall issues), and the prior normalization regression on isbn_clean is already fixed/protected at 100%. The current pipeline is selecting the wrong source or wrong resolver for several low-performing attributes: genres uses most_complete even though validation expects complementary genres combined from goodreads+metabooks; publisher uses most_complete even though source-vs-validation shows metabooks is exact 100% and should be trusted; title and page_count trust maps are reversed, currently favoring amazon although amazon is the weakest source in the probe data. There is also a likely source-loading mismatch in code: the pipeline loads normalization/attempt_1 while the current normalized files are in attempt_3, which may explain some regressions, but under the routing rules the next fixable stage is fusion logic because blocking/matching are frozen-good and the dominant configurable errors are resolver/trust choices.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "Route to pipeline_adaption because the highest-impact remaining fixes are attribute fusers and trust maps. Do not touch protected attributes already >85%, especially publish_year and isbn_clean at 100%. genres is the top improvable attribute and needs union-style fusion to match validation provenance patterns like goodreads+metabooks. publisher, title, and page_count all show wrong source preference under current trust ordering. Although the code appears to load attempt_1 normalized files instead of attempt_3, the actionable next stage within the allowed routing is still fusion adaptation: change resolvers/trust maps and preserve working attributes. Normalization should not be revisited first because current mismatch examples for the priority attributes are mostly wrong value choice, not simple formatting, and isbn_clean is no longer broken.",
+    "ceiling_assessment": "With current matching/blocking structure, overall accuracy around 0.80-0.85 appears realistic. The supplied ceiling estimate is 88.5%, but page_count/publisher/title are partly structurally limited by source disagreement, so a practical near-term target after fusion fixes is low 80s rather than perfect accuracy.",
+    "recommendations": [
+      {
+        "attribute": "genres",
+        "issue": "Current resolver most_complete picks a single source's longer genre string, but validation expects complementary genres combined across sources, typically goodreads_small + metabooks_small. This causes systematic under-recall and occasional missing values.",
+        "fix": "Change genres fuser from most_complete to union.",
+        "resolver_reasoning": "Validation samples explicitly show combined provenance (e.g. goodreads+metabooks), and mismatch examples show fused values are often strict subsets of expected values. Union best matches list-like complementary data. Voting would keep only shared/common values and lose recall; intersection would be even worse; prefer_higher_trust/favour_sources would choose one source and miss complementary genres. Because genres accuracy is only 30% and classified improvable with 100% ceiling, this is the clearest fusion fix.",
+        "class": "improvable",
+        "expected_impact": 0.09
+      },
+      {
+        "attribute": "publisher",
+        "issue": "Current resolver most_complete chooses verbose/imprint variants like 'Simon & Schuster (Trade Division)' or wrong imprints like 'Eos', while validation usually wants the canonical publisher name. Probe data shows metabooks_small matches validation exactly in 100% of examined cases.",
+        "fix": "Change publisher fuser from most_complete to prefer_higher_trust with trust_map {'metabooks_small': 3.0, 'goodreads_small': 2.0, 'amazon_small': 1.0}.",
+        "resolver_reasoning": "Source-vs-validation evidence is decisive: metabooks_small exact=100%, goodreads_small exact=67%, amazon_small exact=20%. prefer_higher_trust is therefore the best resolver. most_complete over-selects noisy longer publisher strings; longest_string would worsen that; voting can fail when amazon/goodreads agree on a non-canonical imprint. A strong trust preference for metabooks aligns with the validation provenance examples.",
+        "class": "improvable",
+        "expected_impact": 0.05
+      },
+      {
+        "attribute": "title",
+        "issue": "Current title fuser prefer_higher_trust is configured backwards, favoring amazon_small, but probe data shows goodreads_small is the strongest source and amazon_small the weakest. This yields expanded/marketing titles instead of validation's canonical titles.",
+        "fix": "Keep prefer_higher_trust for title but reverse trust_map to {'goodreads_small': 3.0, 'metabooks_small': 2.0, 'amazon_small': 1.0}.",
+        "resolver_reasoning": "Probe comparison: goodreads_small exact=67%, metabooks_small exact=50%, amazon_small exact=30%, with fuzzy 100% for goodreads/metabooks. Validation often prefers canonical shorter title forms from goodreads, not amazon's embellished variants. shortest_string is tempting for some cases but would be brittle and could truncate legitimate parenthetical titles that validation keeps. prefer_higher_trust with corrected ordering best matches observed source quality while preserving existing behavior style.",
+        "class": "improvable",
+        "expected_impact": 0.04
+      },
+      {
+        "attribute": "page_count",
+        "issue": "Current page_count fuser prefer_higher_trust is also reversed, favoring amazon_small even though amazon_small has 0% exact and 0% non-null in the probe sample. Validation often matches metabooks_small for page_count provenance.",
+        "fix": "Keep prefer_higher_trust for page_count but reverse trust_map to {'metabooks_small': 3.0, 'goodreads_small': 2.0, 'amazon_small': 1.0}.",
+        "resolver_reasoning": "The evidence shows amazon_small is the worst source here, so current trust is actively harmful. maximum/median are not appropriate because page counts differ by edition and arithmetic aggregation can create values no source contains. voting is weak with only 2-3 sources and frequent disagreements. prefer_higher_trust toward metabooks is the safest improvement, though this attribute remains structurally limited.",
+        "class": "structurally_limited",
+        "expected_impact": 0.02
+      },
+      {
+        "attribute": "language",
+        "issue": "Language has regressed to 80% due to missing fused values, but it is near-protected and should not be over-tuned aggressively.",
+        "fix": "Preserve current resolver for language for now; if revisited later, test most_complete or prefer_higher_trust with metabooks-first only if missingness persists after broader fusion fixes.",
+        "resolver_reasoning": "Language is already relatively strong and not among the top-impact attributes. Unnecessary changes risk regressing a mostly working field. The current priority is genres/publisher/title/page_count.",
+        "class": "improvable",
+        "expected_impact": 0.01
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-22T15:04:30.084020Z"
+}

@@ -1,0 +1,53 @@
+graph TD
+    subgraph guardrails ["Code Guardrails - 10 stages"]
+        direction TB
+        CODE_IN["LLM-generated\npipeline code"] --> g1
+        g1["1. include_singletons = True\nFull fused dataset invariant"] --> g2
+        g2["2. Threshold Freezing\nLock matching thresholds\nunless investigator re-routed"] --> g3
+        g3["3. list_strategy Validation\nString: best_match/set_jaccard/set_overlap\nNumeric: average/best_match/range_overlap\nDate: closest_dates/range_overlap/..."] --> g4
+        g4["4. Fusion Guidance Enforcement\nPatch resolvers from investigation\nConfidence >= 0.85: override LLM\nConfidence < 0.85: respect LLM"] --> g5
+        g5["5. Per-Attribute Trust Map\nConflicting orderings?\nInject trust_map_label, trust_map_duration\nper-attribute variables"] --> g6
+        g6["6. Import Safety Scan\nAuto-add missing fusion imports\nfavour_sources, prefer_higher_trust, etc."] --> g7
+        g7["7. EmbeddingBlocker Fix\n.block() -> .materialize()"] --> g8
+        g8["8. Output Path Rewriting\noutput/ -> run-scoped dir"] --> g9
+        g9["9. eval_id Column Injection\nParse _fusion_sources\nExtract validation-prefix IDs"] --> g10
+        g10["10. ML Post-Clustering Safety\nif ml mode + no clustering:\nInject MaximumBipartiteMatching\non each pairwise corr set"] --> CODE_OUT
+        CODE_OUT["Guardrail-safe\npipeline code"]
+    end
+
+    subgraph scaffold ["Scaffold System - Cycle 2+"]
+        direction TB
+        cycle1["Cycle 1\nFull pipeline generated"] -->|"success"| extract["Extract Scaffold\nRegex landmark detection"]
+        extract --> frozen
+        extract --> mutable
+
+        subgraph frozen ["FROZEN - locked across iterations"]
+            f1["Imports"]
+            f2["Dataset loading"]
+            f3["Blocking execution"]
+            f4["Matching execution"]
+            f5["Correspondence saving"]
+        end
+
+        subgraph mutable ["MUTABLE - regenerated each cycle"]
+            m1["Post-clustering strategy"]
+            m2["Fusion resolvers"]
+            m3["Trust maps"]
+            m4["add_attribute_fuser calls"]
+        end
+
+        cycle2["Cycle 2+\nLLM generates ONLY\nmutable section"] --> splice["Splice into\nfrozen scaffold"]
+        frozen --> splice
+        mutable --> splice
+        splice --> execute["Execute\npatched pipeline"]
+    end
+
+    style CODE_IN fill:#ffcdd2,stroke:#b71c1c
+    style CODE_OUT fill:#c8e6c9,stroke:#2e7d32
+    style g4 fill:#fff3e0,stroke:#e65100
+    style g5 fill:#fff3e0,stroke:#e65100
+    style g9 fill:#e3f2fd,stroke:#1565c0
+    style g10 fill:#e3f2fd,stroke:#1565c0
+    style cycle1 fill:#fce4ec,stroke:#c62828
+    style cycle2 fill:#fff3e0,stroke:#f57c00
+    style splice fill:#c8e6c9,stroke:#2e7d32

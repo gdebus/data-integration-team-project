@@ -1,0 +1,20 @@
+{
+    "overall_accuracy": 0.48484848484848486,
+    "macro_accuracy": 0.46095238095238095,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 64,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7,
+    "city_accuracy": 0.2,
+    "city_count": 25,
+    "name_accuracy": 1.0,
+    "name_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "founded_accuracy": 0.32,
+    "founded_count": 25
+}

@@ -1,0 +1,22 @@
+{
+  "summary": "Human review outputs created.",
+  "file_paths": {
+    "fused_review_table_csv": "output/runs/20260322_175903_games/human_review/fused_review_table.csv",
+    "source_lineage_long_csv": "output/runs/20260322_175903_games/human_review/source_lineage_long.csv",
+    "fusion_vs_testset_diff_csv": "output/runs/20260322_175903_games/human_review/fusion_vs_testset_diff.csv",
+    "human_review_summary_json": "output/runs/20260322_175903_games/human_review/human_review_summary.json",
+    "human_review_summary_md": "output/runs/20260322_175903_games/human_review/human_review_summary.md"
+  },
+  "counts": {
+    "fused_rows": 56947,
+    "review_rows": 56947,
+    "source_lineage_rows": 74951,
+    "diff_rows": 142,
+    "source_datasets_loaded": 3,
+    "source_datasets_requested": 3,
+    "testset_rows": 30,
+    "review_attributes_count": 13
+  },
+  "warnings": [],
+  "created_at": "2026-03-22T17:58:37Z"
+}

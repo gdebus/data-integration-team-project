@@ -1,0 +1,117 @@
+{
+  "status": "success",
+  "attempt": 3,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/books/testsets/validation_set.csv",
+  "llm_specs": {
+    "amazon_small": {},
+    "goodreads_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep",
+        "case": "title"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [],
+  "llm_reasoning": "Target style keeps title/author/language/publisher in original mixed case, stores publish_year and page_count as integers, and genres as a comma-separated string rather than a list object. IDs and isbn_clean were preserved per rules. To improve the low-accuracy fields, only minimal visible fixes were applied: cast numeric float years/pages to int, trim text whitespace, and title-case metabooks publisher because source shows inconsistent casing like 'Troll Communications Llc' and 'HarperCollins' while target publisher values are conventional title-style names.",
+  "datasets": {
+    "amazon_small": {
+      "input_path": "output/runs/20260322_155058_books/normalization/attempt_2/amazon_small.csv",
+      "output_path": "output/runs/20260322_155058_books/normalization/attempt_3/amazon_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {},
+      "list_columns_applied": []
+    },
+    "goodreads_small": {
+      "input_path": "output/runs/20260322_155058_books/normalization/attempt_2/goodreads_small.csv",
+      "output_path": "output/runs/20260322_155058_books/normalization/attempt_3/goodreads_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "author": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "page_count": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "publish_year": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "publisher": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "metabooks_small": {
+      "input_path": "output/runs/20260322_155058_books/normalization/attempt_2/metabooks_small.csv",
+      "output_path": "output/runs/20260322_155058_books/normalization/attempt_3/metabooks_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "genres": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "publisher": {
+          "strip_whitespace": true,
+          "on_failure": "keep",
+          "case": "title"
+        },
+        "page_count": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "publish_year": {
+          "output_type": "int",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-22T15:58:55.962237"
+}

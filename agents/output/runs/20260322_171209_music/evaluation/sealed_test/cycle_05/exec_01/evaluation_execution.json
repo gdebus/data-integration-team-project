@@ -1,0 +1,33 @@
+{
+  "execution_result": "success",
+  "metrics_source": "stdout",
+  "metrics": {
+    "overall_accuracy": 0.6623376623376623,
+    "macro_accuracy": 0.65527950310559,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 154,
+    "total_correct": 102,
+    "label_accuracy": 0.5,
+    "label_count": 16,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 23,
+    "release-country_accuracy": 0.0,
+    "release-country_count": 0,
+    "release-date_accuracy": 0.7391304347826086,
+    "release-date_count": 23,
+    "artist_accuracy": 0.8260869565217391,
+    "artist_count": 23,
+    "tracks_track_duration_accuracy": 0.0,
+    "tracks_track_duration_count": 0,
+    "duration_accuracy": 0.8695652173913043,
+    "duration_count": 23,
+    "tracks_track_position_accuracy": 0.782608695652174,
+    "tracks_track_position_count": 23,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23
+  },
+  "stdout": "[LIST NORMALIZATION] columns=['tracks_track_duration', 'tracks_track_name', 'tracks_track_position']\n[COUNTRY NORMALIZATION] format=official_name, columns=['release-country']\n[ID ALIGNMENT] direct _id coverage: 7/23\n[ID ALIGNMENT] mapped eval_id coverage: 22/23\n[EVALUATION FUNCTIONS] artist:tokenized_match(threshold=0.85) | duration:numeric_tolerance_match(tolerance=10.0) | label:tokenized_match(threshold=0.85) | name:tokenized_match(threshold=0.85) | release-country:numeric_tolerance_match(tolerance=0.01) | release-date:year_only_match | tracks_track_duration:set_equality_match | tracks_track_name:set_equality_match | tracks_track_position:set_equality_match\n  Normalized tracks_track_name separator: '/' -> ', '\n[EVALUATION METRICS]\n{\n  \"overall_accuracy\": 0.6623376623376623,\n  \"macro_accuracy\": 0.65527950310559,\n  \"num_evaluated_records\": 23,\n  \"num_evaluated_attributes\": 9,\n  \"total_evaluations\": 154,\n  \"total_correct\": 102,\n  \"label_accuracy\": 0.5,\n  \"label_count\": 16,\n  \"tracks_track_name_accuracy\": 0.0,\n  \"tracks_track_name_count\": 23,\n  \"release-country_accuracy\": 0.0,\n  \"release-country_count\": 0,\n  \"release-date_accuracy\": 0.7391304347826086,\n  \"release-date_count\": 23,\n  \"artist_accuracy\": 0.8260869565217391,\n  \"artist_count\": 23,\n  \"tracks_track_duration_accuracy\": 0.0,\n  \"tracks_track_duration_count\": 0,\n  \"duration_accuracy\": 0.8695652173913043,\n  \"duration_count\": 23,\n  \"tracks_track_position_accuracy\": 0.782608695652174,\n  \"tracks_track_position_count\": 23,\n  \"name_accuracy\": 0.8695652173913043,\n  \"name_count\": 23\n}\n",
+  "stderr": "Missing 1 expected/reference records in fused dataset: mbrainz_6891\n",
+  "captured_at": "2026-03-22T16:38:37.836540Z"
+}

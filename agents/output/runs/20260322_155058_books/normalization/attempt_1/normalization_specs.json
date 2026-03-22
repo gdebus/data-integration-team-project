@@ -1,0 +1,49 @@
+{
+  "specs": {
+    "amazon_small": {
+      "title": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "author": {
+        "strip_whitespace": true,
+        "case": "title",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "goodreads_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [],
+  "reasoning": "Target book metadata uses mixed/title case text, comma-separated genres as plain strings, and integer year/page fields already matching source dtypes. ID and isbn_clean are preserved. Amazon author shows visible casing issues (e.g. A.S. BYATT) so title-casing is applied there; titles may contain HTML entities but no supported transform exists, so only whitespace trimming is used. Goodreads/metabooks mostly already match target style; only safe whitespace normalization is added for text fields that align with target formatting."
+}

@@ -1,0 +1,31 @@
+{
+  "execution_result": "success",
+  "metrics_source": "stdout",
+  "metrics": {
+    "overall_accuracy": 0.7310924369747899,
+    "macro_accuracy": 0.7273809523809525,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 87,
+    "ESRB_accuracy": 0.6666666666666666,
+    "ESRB_count": 15,
+    "developer_accuracy": 0.6,
+    "developer_count": 15,
+    "name_accuracy": 0.9333333333333333,
+    "name_count": 15,
+    "releaseYear_accuracy": 1.0,
+    "releaseYear_count": 15,
+    "platform_accuracy": 0.8,
+    "platform_count": 15,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 15,
+    "criticScore_accuracy": 0.7333333333333333,
+    "criticScore_count": 15,
+    "userScore_accuracy": 0.2857142857142857,
+    "userScore_count": 14
+  },
+  "stdout": "{\n  \"stage\": \"validation\",\n  \"fused_rows_raw\": 57023,\n  \"fused_rows_eval_view\": 57962,\n  \"gold_rows\": 15,\n  \"shared_columns\": [\n    \"ESRB\",\n    \"criticScore\",\n    \"developer\",\n    \"name\",\n    \"platform\",\n    \"publisher\",\n    \"releaseYear\",\n    \"userScore\"\n  ],\n  \"list_columns\": [],\n  \"country_columns\": [],\n  \"numeric_columns\": [\n    \"criticScore\",\n    \"userScore\"\n  ],\n  \"id_alignment\": {\n    \"direct__id_coverage\": \"0/15\",\n    \"mapped_eval_id_coverage\": \"15/15\"\n  }\n}\n[EVAL_FUNCS] ESRB:exact_match | criticScore:numeric_tolerance_match(tolerance=0.5) | developer:tokenized_match(threshold=0.85) | name:tokenized_match(threshold=0.85) | platform:tokenized_match(threshold=0.75) | publisher:tokenized_match(threshold=0.85) | releaseYear:year_only_match | userScore:numeric_tolerance_match(tolerance=0.5)\n{\n  \"overall_accuracy\": 0.7310924369747899,\n  \"macro_accuracy\": 0.7273809523809525,\n  \"num_evaluated_records\": 15,\n  \"num_evaluated_attributes\": 8,\n  \"total_evaluations\": 119,\n  \"total_correct\": 87,\n  \"ESRB_accuracy\": 0.6666666666666666,\n  \"ESRB_count\": 15,\n  \"developer_accuracy\": 0.6,\n  \"developer_count\": 15,\n  \"name_accuracy\": 0.9333333333333333,\n  \"name_count\": 15,\n  \"releaseYear_accuracy\": 1.0,\n  \"releaseYear_count\": 15,\n  \"platform_accuracy\": 0.8,\n  \"platform_count\": 15,\n  \"publisher_accuracy\": 0.8,\n  \"publisher_count\": 15,\n  \"criticScore_accuracy\": 0.7333333333333333,\n  \"criticScore_count\": 15,\n  \"userScore_accuracy\": 0.2857142857142857,\n  \"userScore_count\": 14\n}\n",
+  "stderr": "/Users/nickblazek/Desktop/Agent_Pipeline/agents/output/runs/20260322_175903_games/code/evaluation.py:215: DtypeWarning: Columns (13) have mixed types. Specify dtype option on import or set low_memory=False.\n  fused = pd.read_csv(FUSION_PATH)\n",
+  "captured_at": "2026-03-22T17:43:11.053000Z"
+}

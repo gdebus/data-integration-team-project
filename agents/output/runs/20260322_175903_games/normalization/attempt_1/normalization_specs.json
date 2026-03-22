@@ -1,0 +1,60 @@
+{
+  "specs": {
+    "dbpedia": {
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metacritic": {
+      "developer": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "ESRB": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "sales": {
+      "developer": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "ESRB": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "globalSales": {
+        "output_type": "string",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [],
+  "reasoning": "Target keeps most text columns as-is with original casing and uses YYYY-MM-DD date strings already matched by sources. Main visible mismatch is numeric score/sales fields in metacritic and sales, which should be cast to strings to match target object-typed score columns. I only added minimal whitespace cleanup for text fields and did not normalize platform names or titles because target examples show mixed platform labels and no authoritative mapping table is visible from samples."
+}

@@ -1,0 +1,149 @@
+{
+  "status": "success",
+  "attempt": 1,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/games/testsets/test_set_fusion.xml",
+  "llm_specs": {
+    "dbpedia": {
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metacritic": {
+      "developer": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "ESRB": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "sales": {
+      "developer": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "ESRB": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "globalSales": {
+        "output_type": "string",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [],
+  "llm_reasoning": "Target keeps most text columns as-is with original casing and uses YYYY-MM-DD date strings already matched by sources. Main visible mismatch is numeric score/sales fields in metacritic and sales, which should be cast to strings to match target object-typed score columns. I only added minimal whitespace cleanup for text fields and did not normalize platform names or titles because target examples show mixed platform labels and no authoritative mapping table is visible from samples.",
+  "datasets": {
+    "dbpedia": {
+      "input_path": "output/runs/20260322_175903_games/schema-matching/dbpedia.csv",
+      "output_path": "output/runs/20260322_175903_games/normalization/attempt_1/dbpedia.csv",
+      "row_count": 46580,
+      "id_column": "id",
+      "spec_applied": {
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "metacritic": {
+      "input_path": "output/runs/20260322_175903_games/schema-matching/metacritic.csv",
+      "output_path": "output/runs/20260322_175903_games/normalization/attempt_1/metacritic.csv",
+      "row_count": 20494,
+      "id_column": "id",
+      "spec_applied": {
+        "developer": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "ESRB": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "sales": {
+      "input_path": "output/runs/20260322_175903_games/schema-matching/sales.csv",
+      "output_path": "output/runs/20260322_175903_games/normalization/attempt_1/sales.csv",
+      "row_count": 7877,
+      "id_column": "id",
+      "spec_applied": {
+        "developer": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "publisher": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "ESRB": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "globalSales": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-22T17:59:14.513145"
+}

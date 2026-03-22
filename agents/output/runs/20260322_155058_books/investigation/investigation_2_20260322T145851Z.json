@@ -1,0 +1,93 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The dominant current failure is a regression caused by normalization/format handling, not blocking or entity matching. isbn_clean fell from 100% to 0% because the fused output now preserves 10-digit ISBN strings with leading zeroes while the validation set expects the canonical integer-like string without leading zeroes (e.g. 0618250743 -> 618250743). This is a pre-fusion representation mismatch. The genres errors are also pre-fusion/representation-driven relative to the validation format: validation stores a plain comma-separated string, while the pipeline/list handling is producing Python-list-style serialized values, causing systematic mismatches even when the underlying genre content is mostly right. Blocking/matching are not the bottleneck: correspondences exist, recall probes show no issue, and matching F1 is solid. Some remaining page_count/title/publisher gaps are fusion-choice or structural disagreements, but the highest-impact fix must first undo the normalization-format regressions.",
+        "next_node": "normalization_node",
+        "reasoning": "Routing must go to normalization_node because the needed fixes transform source values before fusion to match the validation set\u2019s exact representation. The biggest impact attribute is isbn_clean (0% accuracy, previously 100%), and its errors are clearly systematic formatting differences, not wrong source choice. genres also shows target-format incompatibility: validation examples are comma-separated title-cased strings, while current outputs are serialized list objects. Protected attributes already above 85%\u2014especially language (90%) and publish_year (100%)\u2014should be preserved. Fusion changes for page_count/publisher/title can wait until after these normalization issues are fixed, because pipeline_adaption cannot safely repair leading-zero ISBN formatting or source string/list serialization mismatches.",
+        "ceiling_assessment": "With current matching/blocking, a realistic ceiling remains around 79% overall. Fixing normalization should recover most of the lost isbn_clean accuracy and improve genres representation materially, likely yielding the largest immediate gain. Some page_count, title, and publisher errors are structurally limited by source disagreement, so perfect accuracy is unlikely without later fusion tuning; near-term post-normalization performance should move into the 70s.",
+        "recommendations": [
+          {
+            "attribute": "isbn_clean",
+            "issue": "Current fused values retain leading-zero 10-digit ISBN strings, but validation expects the same identifier without leading zeroes. This caused a catastrophic regression from 100% to 0% despite sources being otherwise aligned.",
+            "fix": "In normalization_node, standardize isbn_clean in all source datasets to the validation format by treating it as a string identifier, stripping whitespace/non-digit separators, and removing leading zeroes for 10-digit ISBN values so outputs match examples like 0618250743 -> 618250743. Preserve non-null values as strings, not numeric floats.",
+            "resolver_reasoning": "This is not a resolver problem. Source-vs-validation shows high fuzzy agreement across all sources and mismatch samples are pure format issues. Any resolver would still emit the wrong representation if values are not normalized first. prefer_higher_trust is acceptable to keep after normalization because source choice is not the main error; voting/longest_string would not solve leading-zero mismatches.",
+            "class": "improvable",
+            "expected_impact": 0.125
+          },
+          {
+            "attribute": "genres",
+            "issue": "Validation expects a plain comma-separated genre string in title case, but current pipeline output serializes genres in Python-list style, producing systematic representation mismatches. The content is often close, but the format is wrong for evaluation.",
+            "fix": "In normalization_node, ensure source genres remain or are converted to a flat comma-separated string matching validation style rather than list objects/stringified Python lists. Do not over-normalize into list cells before fusion. If source values are comma-delimited, keep atomic items trimmed and preserve title-style capitalization consistent with validation output.",
+            "resolver_reasoning": "This is primarily a representation issue. Validation examples show complementary provenance from goodreads+metabooks, so the best eventual fusion logic is still content-combining behavior, not single-source preference. But because pipeline_adaption cannot add pre-fusion string/list transformations, normalization must first align genres to the target representation. Voting would lose complementary genres; intersection would under-recall; trust-only selection would miss validation\u2019s combined provenance pattern.",
+            "class": "improvable",
+            "expected_impact": 0.04
+          },
+          {
+            "attribute": "page_count",
+            "issue": "Remaining errors reflect source disagreement and poor trust ordering rather than normalization. Current trust map prefers amazon_small even though probes show it is the weakest/non-null-poor source.",
+            "fix": "Do not change now in normalization. After normalization rerun, revisit in pipeline_adaption and test prefer_higher_trust with metabooks_small > goodreads_small > amazon_small, or favour_sources in that order.",
+            "resolver_reasoning": "Probe evidence says amazon_small is 0% exact and often null, while validation provenance samples point to metabooks_small. Current trust ordering is backwards. However this is secondary to the normalization regressions and should be handled only after source-format alignment is repaired.",
+            "class": "structurally_limited",
+            "expected_impact": 0.013
+          },
+          {
+            "attribute": "title",
+            "issue": "Some titles include source-specific series/appended text not matching validation\u2019s canonical title style.",
+            "fix": "Preserve for now; revisit after normalization if still needed. If errors persist, likely pipeline_adaption should retain prefer_higher_trust toward metabooks_small rather than any length-based resolver.",
+            "resolver_reasoning": "Title is already at 80% and improving, so it is protected relative to the catastrophic isbn_clean regression. Evidence suggests source choice matters more than broad normalization here, and unnecessary normalization could regress valid parenthetical titles that the validation set genuinely keeps.",
+            "class": "structurally_limited",
+            "expected_impact": 0.01
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 39789,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The dominant current failure is a regression caused by normalization/format handling, not blocking or entity matching. isbn_clean fell from 100% to 0% because the fused output now preserves 10-digit ISBN strings with leading zeroes while the validation set expects the canonical integer-like string without leading zeroes (e.g. 0618250743 -> 618250743). This is a pre-fusion representation mismatch. The genres errors are also pre-fusion/representation-driven relative to the validation format: validation stores a plain comma-separated string, while the pipeline/list handling is producing Python-list-style serialized values, causing systematic mismatches even when the underlying genre content is mostly right. Blocking/matching are not the bottleneck: correspondences exist, recall probes show no issue, and matching F1 is solid. Some remaining page_count/title/publisher gaps are fusion-choice or structural disagreements, but the highest-impact fix must first undo the normalization-format regressions.",
+    "next_node": "normalization_node",
+    "reasoning": "Routing must go to normalization_node because the needed fixes transform source values before fusion to match the validation set\u2019s exact representation. The biggest impact attribute is isbn_clean (0% accuracy, previously 100%), and its errors are clearly systematic formatting differences, not wrong source choice. genres also shows target-format incompatibility: validation examples are comma-separated title-cased strings, while current outputs are serialized list objects. Protected attributes already above 85%\u2014especially language (90%) and publish_year (100%)\u2014should be preserved. Fusion changes for page_count/publisher/title can wait until after these normalization issues are fixed, because pipeline_adaption cannot safely repair leading-zero ISBN formatting or source string/list serialization mismatches.",
+    "ceiling_assessment": "With current matching/blocking, a realistic ceiling remains around 79% overall. Fixing normalization should recover most of the lost isbn_clean accuracy and improve genres representation materially, likely yielding the largest immediate gain. Some page_count, title, and publisher errors are structurally limited by source disagreement, so perfect accuracy is unlikely without later fusion tuning; near-term post-normalization performance should move into the 70s.",
+    "recommendations": [
+      {
+        "attribute": "isbn_clean",
+        "issue": "Current fused values retain leading-zero 10-digit ISBN strings, but validation expects the same identifier without leading zeroes. This caused a catastrophic regression from 100% to 0% despite sources being otherwise aligned.",
+        "fix": "In normalization_node, standardize isbn_clean in all source datasets to the validation format by treating it as a string identifier, stripping whitespace/non-digit separators, and removing leading zeroes for 10-digit ISBN values so outputs match examples like 0618250743 -> 618250743. Preserve non-null values as strings, not numeric floats.",
+        "resolver_reasoning": "This is not a resolver problem. Source-vs-validation shows high fuzzy agreement across all sources and mismatch samples are pure format issues. Any resolver would still emit the wrong representation if values are not normalized first. prefer_higher_trust is acceptable to keep after normalization because source choice is not the main error; voting/longest_string would not solve leading-zero mismatches.",
+        "class": "improvable",
+        "expected_impact": 0.125
+      },
+      {
+        "attribute": "genres",
+        "issue": "Validation expects a plain comma-separated genre string in title case, but current pipeline output serializes genres in Python-list style, producing systematic representation mismatches. The content is often close, but the format is wrong for evaluation.",
+        "fix": "In normalization_node, ensure source genres remain or are converted to a flat comma-separated string matching validation style rather than list objects/stringified Python lists. Do not over-normalize into list cells before fusion. If source values are comma-delimited, keep atomic items trimmed and preserve title-style capitalization consistent with validation output.",
+        "resolver_reasoning": "This is primarily a representation issue. Validation examples show complementary provenance from goodreads+metabooks, so the best eventual fusion logic is still content-combining behavior, not single-source preference. But because pipeline_adaption cannot add pre-fusion string/list transformations, normalization must first align genres to the target representation. Voting would lose complementary genres; intersection would under-recall; trust-only selection would miss validation\u2019s combined provenance pattern.",
+        "class": "improvable",
+        "expected_impact": 0.04
+      },
+      {
+        "attribute": "page_count",
+        "issue": "Remaining errors reflect source disagreement and poor trust ordering rather than normalization. Current trust map prefers amazon_small even though probes show it is the weakest/non-null-poor source.",
+        "fix": "Do not change now in normalization. After normalization rerun, revisit in pipeline_adaption and test prefer_higher_trust with metabooks_small > goodreads_small > amazon_small, or favour_sources in that order.",
+        "resolver_reasoning": "Probe evidence says amazon_small is 0% exact and often null, while validation provenance samples point to metabooks_small. Current trust ordering is backwards. However this is secondary to the normalization regressions and should be handled only after source-format alignment is repaired.",
+        "class": "structurally_limited",
+        "expected_impact": 0.013
+      },
+      {
+        "attribute": "title",
+        "issue": "Some titles include source-specific series/appended text not matching validation\u2019s canonical title style.",
+        "fix": "Preserve for now; revisit after normalization if still needed. If errors persist, likely pipeline_adaption should retain prefer_higher_trust toward metabooks_small rather than any length-based resolver.",
+        "resolver_reasoning": "Title is already at 80% and improving, so it is protected relative to the catastrophic isbn_clean regression. Evidence suggests source choice matters more than broad normalization here, and unnecessary normalization could regress valid parenthetical titles that the validation set genuinely keeps.",
+        "class": "structurally_limited",
+        "expected_impact": 0.01
+      }
+    ]
+  },
+  "final_decision": "normalization_node",
+  "timestamp": "2026-03-22T14:58:51.432508Z"
+}

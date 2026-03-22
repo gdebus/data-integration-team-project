@@ -1,0 +1,195 @@
+{
+  "status": "success",
+  "attempt": 1,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/music/testsets/test_set.xml",
+  "llm_specs": {
+    "discogs": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "release-country": {
+        "strip_whitespace": true,
+        "country_format": "name",
+        "on_failure": "keep"
+      },
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "lastfm": {
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "musicbrainz": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [
+    "tracks_track_name",
+    "tracks_track_duration",
+    "tracks_track_position"
+  ],
+  "llm_reasoning": "Target uses full country names, ISO-like datetimes with time component, and stores duration values as strings. Discogs needs country normalization from values like UK to full names and date normalization from YYYY or YYYY-MM-DD to target datetime style. MusicBrainz dates also need datetime formatting. Track columns in all sources often contain serialized Python-list strings or single scalars, while the target uses list-like values, so they are flagged as list_columns. ID columns are preserved and omitted.",
+  "datasets": {
+    "discogs": {
+      "input_path": "output/runs/20260322_171209_music/schema-matching/discogs.csv",
+      "output_path": "output/runs/20260322_171209_music/normalization/attempt_1/discogs.csv",
+      "row_count": 22627,
+      "id_column": "id",
+      "spec_applied": {
+        "release-date": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+          "on_failure": "keep"
+        },
+        "release-country": {
+          "strip_whitespace": true,
+          "country_format": "name",
+          "on_failure": "keep"
+        },
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_name": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_position": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": [
+        "tracks_track_name",
+        "tracks_track_duration",
+        "tracks_track_position"
+      ]
+    },
+    "lastfm": {
+      "input_path": "output/runs/20260322_171209_music/schema-matching/lastfm.csv",
+      "output_path": "output/runs/20260322_171209_music/normalization/attempt_1/lastfm.csv",
+      "row_count": 9865,
+      "id_column": "id",
+      "spec_applied": {
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_name": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_position": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": [
+        "tracks_track_name",
+        "tracks_track_duration",
+        "tracks_track_position"
+      ]
+    },
+    "musicbrainz": {
+      "input_path": "output/runs/20260322_171209_music/schema-matching/musicbrainz.csv",
+      "output_path": "output/runs/20260322_171209_music/normalization/attempt_1/musicbrainz.csv",
+      "row_count": 4763,
+      "id_column": "id",
+      "spec_applied": {
+        "release-date": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+          "on_failure": "keep"
+        },
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_name": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_position": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": [
+        "tracks_track_name",
+        "tracks_track_duration",
+        "tracks_track_position"
+      ]
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-22T17:12:58.590955"
+}

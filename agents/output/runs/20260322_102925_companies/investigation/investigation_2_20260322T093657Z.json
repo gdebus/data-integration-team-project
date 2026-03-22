@@ -1,0 +1,93 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main remaining fixable errors are in fusion strategy/post-clustering, not blocking or source normalization. Blocking and matching appear healthy enough: correspondence files are populated, fusion size is close to blocking/matching estimates, and blocking recall probes found no clear misses. The strongest evidence is attribute-level: city and founded have large improvable headroom and are failing because fusion is selecting or propagating the wrong source values. City is a source-selection problem: validation aligns with fullcontact while the pipeline often yields blanks or wrong values from other sources. Founded is also a fusion-selection problem: current prefer_higher_trust with dbpedia-first trust does not align with validation and examples show missing/wrong dates despite non-null source coverage. Assets is not fixable in pipeline_adaption because the errors are unit/scale mismatches (e.g. 39.9 vs 39900000000), which require pre-fusion normalization. Keypeople_name has some potential but is sparse and partly structurally limited due to source coverage and list-format expectations. Protected attributes should be preserved: country is already 96%, name is 100%, and the 12 attributes above 85% should not be touched.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "Routing must target the highest-impact fixable stage while preserving working attributes. The evidence already includes source-vs-validation comparisons for city and founded, and current pipeline code confirms fusion choices are the issue: city uses prefer_higher_trust with the right ordering already, but output is still often blank/wrong, indicating trust choice alone is insufficient and post-clustering/fusion behavior should be adapted rather than normalization. Founded currently uses prefer_higher_trust with dbpedia > forbes > fullcontact, which conflicts with the validation-oriented evidence and is a direct fusion misconfiguration. Assets requires numeric scale conversion before fusion, so per routing rules it cannot be solved in pipeline_adaption and should be deferred. Because pipeline_adaption can change attribute fusers, trust maps, and post-clustering, it is the correct next stage.",
+        "ceiling_assessment": "With current matched entities and frozen source formats, overall accuracy near the reported ~79% ceiling is plausible. City and founded are the largest improvable contributors. Assets remains near 0 until a later normalization pass converts shorthand billions to full absolute values. Keypeople_name may improve modestly but is capped by sparse source coverage and validation expecting fuller lists than many clusters contain.",
+        "recommendations": [
+          {
+            "attribute": "city",
+            "issue": "Current fusion still produces many missing or wrong city values even though source evidence shows one source is clearly best for this attribute.",
+            "fix": "Keep city as an attribute-specific fusion rule in pipeline_adaption, but use prefer_higher_trust with trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1} and preserve MaximumBipartiteMatching post-clustering.",
+            "resolver_reasoning": "Validation comparison shows fullcontact is the dominant city source (100% exact in the focused probe), dbpedia is mostly wrong, and forbes is often null. This is the textbook case for prefer_higher_trust because one source is clearly superior. Voting would lose when dbpedia disagrees with fullcontact, and most_complete would not distinguish correct from incorrect non-null values. favour_sources is similar but offers no advantage over the existing trust-based setup. Because this change is scoped to city only, it should not risk protected attributes.",
+            "class": "improvable",
+            "expected_impact": 0.12
+          },
+          {
+            "attribute": "founded",
+            "issue": "The current founded fusion rule prefers the wrong source ordering, leading to missing or incorrect dates against the validation set.",
+            "fix": "Change founded from prefer_higher_trust(trust_map={'dbpedia': 3, 'forbes': 2, 'fullcontact': 1}) to voting. If datetime voting is not supported reliably in your PyDI runtime, use prefer_higher_trust with trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1} as fallback.",
+            "resolver_reasoning": "The probe recommendation for founded explicitly points to a consensus-style resolver rather than current source-priority selection. Source-vs-validation shows non-null coverage is high for dbpedia/fullcontact, but exact matches are suppressed by representation differences; this favors a resolver that avoids always taking dbpedia's value. earliest is worse because it encodes the wrong semantics for company founded dates when source dates disagree, and current dbpedia-first trust is also misaligned with validation. Voting is best when multiple sources often agree on the same year/date after normalization, while a fullcontact-first trust fallback is preferable if PyDI's datetime voting behaves inconsistently.",
+            "class": "improvable",
+            "expected_impact": 0.1
+          },
+          {
+            "attribute": "keypeople_name",
+            "issue": "Current most_complete often returns partial lists or nulls, while validation sometimes expects multiple names.",
+            "fix": "Low-priority pipeline_adaption change only after city/founded: if PyDI treats this field as list-valued in fusion, replace most_complete with union; otherwise leave unchanged for now.",
+            "resolver_reasoning": "Mismatch samples show subset outputs where validation expects combined names, which is the main scenario where union can help. Voting or prefer_higher_trust would keep partial lists; intersection would underproduce names. However, this attribute is null-heavy and structurally limited, so gains are capped and format regression risk exists if the field is not truly list-valued in the loaded data.",
+            "class": "improvable",
+            "expected_impact": 0.03
+          },
+          {
+            "attribute": "assets",
+            "issue": "Values are in incompatible scales/units across sources and validation expects full absolute numbers.",
+            "fix": "Do not change this in pipeline_adaption; preserve current behavior and defer to a later normalization_node pass that converts source values like 39.9/162.8/2117.7 into full amounts matching validation format.",
+            "resolver_reasoning": "Both main sources have 0% exact against validation for assets, and mismatch examples are unit-conversion errors, not source-choice errors. No fusion resolver\u2014voting, median, maximum, most_complete, or prefer_higher_trust\u2014can recover the correct magnitude without preprocessing. Under pipeline_adaption constraints this attribute is structurally limited.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 34844,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main remaining fixable errors are in fusion strategy/post-clustering, not blocking or source normalization. Blocking and matching appear healthy enough: correspondence files are populated, fusion size is close to blocking/matching estimates, and blocking recall probes found no clear misses. The strongest evidence is attribute-level: city and founded have large improvable headroom and are failing because fusion is selecting or propagating the wrong source values. City is a source-selection problem: validation aligns with fullcontact while the pipeline often yields blanks or wrong values from other sources. Founded is also a fusion-selection problem: current prefer_higher_trust with dbpedia-first trust does not align with validation and examples show missing/wrong dates despite non-null source coverage. Assets is not fixable in pipeline_adaption because the errors are unit/scale mismatches (e.g. 39.9 vs 39900000000), which require pre-fusion normalization. Keypeople_name has some potential but is sparse and partly structurally limited due to source coverage and list-format expectations. Protected attributes should be preserved: country is already 96%, name is 100%, and the 12 attributes above 85% should not be touched.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "Routing must target the highest-impact fixable stage while preserving working attributes. The evidence already includes source-vs-validation comparisons for city and founded, and current pipeline code confirms fusion choices are the issue: city uses prefer_higher_trust with the right ordering already, but output is still often blank/wrong, indicating trust choice alone is insufficient and post-clustering/fusion behavior should be adapted rather than normalization. Founded currently uses prefer_higher_trust with dbpedia > forbes > fullcontact, which conflicts with the validation-oriented evidence and is a direct fusion misconfiguration. Assets requires numeric scale conversion before fusion, so per routing rules it cannot be solved in pipeline_adaption and should be deferred. Because pipeline_adaption can change attribute fusers, trust maps, and post-clustering, it is the correct next stage.",
+    "ceiling_assessment": "With current matched entities and frozen source formats, overall accuracy near the reported ~79% ceiling is plausible. City and founded are the largest improvable contributors. Assets remains near 0 until a later normalization pass converts shorthand billions to full absolute values. Keypeople_name may improve modestly but is capped by sparse source coverage and validation expecting fuller lists than many clusters contain.",
+    "recommendations": [
+      {
+        "attribute": "city",
+        "issue": "Current fusion still produces many missing or wrong city values even though source evidence shows one source is clearly best for this attribute.",
+        "fix": "Keep city as an attribute-specific fusion rule in pipeline_adaption, but use prefer_higher_trust with trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1} and preserve MaximumBipartiteMatching post-clustering.",
+        "resolver_reasoning": "Validation comparison shows fullcontact is the dominant city source (100% exact in the focused probe), dbpedia is mostly wrong, and forbes is often null. This is the textbook case for prefer_higher_trust because one source is clearly superior. Voting would lose when dbpedia disagrees with fullcontact, and most_complete would not distinguish correct from incorrect non-null values. favour_sources is similar but offers no advantage over the existing trust-based setup. Because this change is scoped to city only, it should not risk protected attributes.",
+        "class": "improvable",
+        "expected_impact": 0.12
+      },
+      {
+        "attribute": "founded",
+        "issue": "The current founded fusion rule prefers the wrong source ordering, leading to missing or incorrect dates against the validation set.",
+        "fix": "Change founded from prefer_higher_trust(trust_map={'dbpedia': 3, 'forbes': 2, 'fullcontact': 1}) to voting. If datetime voting is not supported reliably in your PyDI runtime, use prefer_higher_trust with trust_map={'fullcontact': 3, 'dbpedia': 2, 'forbes': 1} as fallback.",
+        "resolver_reasoning": "The probe recommendation for founded explicitly points to a consensus-style resolver rather than current source-priority selection. Source-vs-validation shows non-null coverage is high for dbpedia/fullcontact, but exact matches are suppressed by representation differences; this favors a resolver that avoids always taking dbpedia's value. earliest is worse because it encodes the wrong semantics for company founded dates when source dates disagree, and current dbpedia-first trust is also misaligned with validation. Voting is best when multiple sources often agree on the same year/date after normalization, while a fullcontact-first trust fallback is preferable if PyDI's datetime voting behaves inconsistently.",
+        "class": "improvable",
+        "expected_impact": 0.1
+      },
+      {
+        "attribute": "keypeople_name",
+        "issue": "Current most_complete often returns partial lists or nulls, while validation sometimes expects multiple names.",
+        "fix": "Low-priority pipeline_adaption change only after city/founded: if PyDI treats this field as list-valued in fusion, replace most_complete with union; otherwise leave unchanged for now.",
+        "resolver_reasoning": "Mismatch samples show subset outputs where validation expects combined names, which is the main scenario where union can help. Voting or prefer_higher_trust would keep partial lists; intersection would underproduce names. However, this attribute is null-heavy and structurally limited, so gains are capped and format regression risk exists if the field is not truly list-valued in the loaded data.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "assets",
+        "issue": "Values are in incompatible scales/units across sources and validation expects full absolute numbers.",
+        "fix": "Do not change this in pipeline_adaption; preserve current behavior and defer to a later normalization_node pass that converts source values like 39.9/162.8/2117.7 into full amounts matching validation format.",
+        "resolver_reasoning": "Both main sources have 0% exact against validation for assets, and mismatch examples are unit-conversion errors, not source-choice errors. No fusion resolver\u2014voting, median, maximum, most_complete, or prefer_higher_trust\u2014can recover the correct magnitude without preprocessing. Under pipeline_adaption constraints this attribute is structurally limited.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-22T09:36:57.291663Z"
+}

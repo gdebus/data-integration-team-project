@@ -1,0 +1,226 @@
+{
+  "id_columns": {
+    "forbes": "id",
+    "dbpedia": "id",
+    "fullcontact": "id"
+  },
+  "matching_strategies": {
+    "forbes_dbpedia": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "country",
+          "similarity_function": "jaccard",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "industry",
+          "similarity_function": "cosine",
+          "preprocess": "lower_strip"
+        }
+      ],
+      "weights": [
+        0.55,
+        0.2,
+        0.25
+      ],
+      "threshold": 0.68,
+      "f1": 0.7555555555555555,
+      "skipped_due_to_blocking_gate": false,
+      "proxy_f1": 0.7555555555555555,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "forbes_fullcontact": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaccard",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "country",
+          "similarity_function": "jaccard",
+          "preprocess": "lower_strip"
+        }
+      ],
+      "weights": [
+        0.8,
+        0.2
+      ],
+      "threshold": 0.82,
+      "f1": 0.7888446215139442,
+      "skipped_due_to_blocking_gate": false,
+      "proxy_f1": null,
+      "failure_tags": [
+        "ok"
+      ]
+    },
+    "fullcontact_dbpedia": {
+      "comparators": [
+        {
+          "type": "string",
+          "column": "name",
+          "similarity_function": "jaro_winkler",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "country",
+          "similarity_function": "jaccard",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "string",
+          "column": "city",
+          "similarity_function": "jaccard",
+          "preprocess": "lower_strip"
+        },
+        {
+          "type": "date",
+          "column": "founded",
+          "max_days_difference": 730
+        }
+      ],
+      "weights": [
+        0.45,
+        0.2,
+        0.15,
+        0.2
+      ],
+      "threshold": 0.72,
+      "f1": 0.7303754266211604,
+      "skipped_due_to_blocking_gate": false,
+      "proxy_f1": null,
+      "failure_tags": [
+        "low_matching_quality"
+      ]
+    }
+  },
+  "dataset_signature": "dbpedia|forbes|fullcontact",
+  "dataset_names": [
+    "dbpedia",
+    "forbes",
+    "fullcontact"
+  ],
+  "min_blocking_pc_for_matching": 0.5,
+  "proxy_f1_margin": 0.015,
+  "proxy_max_candidates": 60000,
+  "llm_trace_path": "output/runs/20260322_102925_companies/matching-evaluation/llm_matching_trace.jsonl",
+  "fusion_size_estimate": {
+    "stage": "matching",
+    "dataset_signature": "dbpedia|forbes|fullcontact",
+    "datasets": [
+      "dbpedia",
+      "forbes",
+      "fullcontact"
+    ],
+    "method": "3-way inclusion-exclusion over pair estimates: E=E12+E13+E23-2*E123, with E123 estimated from per-dataset overlap probabilities; singleton-aware projection applied for final fused output (include_singletons=True assumption)",
+    "expected_rows": 11792,
+    "expected_unique_ids": 11792,
+    "expected_rows_range": [
+      9582,
+      12384
+    ],
+    "expected_unique_ids_range": [
+      9582,
+      12384
+    ],
+    "three_way_intersection": {
+      "enabled": true,
+      "datasets": [
+        "forbes",
+        "dbpedia",
+        "fullcontact"
+      ],
+      "pair_cluster_estimates": {
+        "forbes_dbpedia": 1511,
+        "forbes_fullcontact": 1523,
+        "dbpedia_fullcontact": 1401
+      },
+      "triple_intersection_estimates": {
+        "via_forbes": 1150.6265,
+        "via_dbpedia": 209.8860797144557,
+        "via_fullcontact": 1104.9834282755048,
+        "median_used": 1104.9834282755048,
+        "final_triple_intersection": 1105,
+        "triple_intersection_range": [
+          0,
+          1401
+        ]
+      },
+      "expected_union_clusters": 2225,
+      "expected_union_range": [
+        1633,
+        4435
+      ],
+      "formula": "E_union = E12 + E13 + E23 - 2*E123"
+    },
+    "pair_estimates": [
+      {
+        "pair_key": "forbes_dbpedia",
+        "left_dataset": "forbes",
+        "right_dataset": "dbpedia",
+        "min_pair_size": 2000,
+        "pair_completeness": 1.0,
+        "f1": 0.7555555555555555,
+        "expected_cluster_count": 1511
+      },
+      {
+        "pair_key": "forbes_fullcontact",
+        "left_dataset": "forbes",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 1.0,
+        "f1": 0.7888446215139442,
+        "expected_cluster_count": 1523
+      },
+      {
+        "pair_key": "fullcontact_dbpedia",
+        "left_dataset": "dbpedia",
+        "right_dataset": "fullcontact",
+        "min_pair_size": 1931,
+        "pair_completeness": 0.9933333333333333,
+        "f1": 0.7303754266211604,
+        "expected_cluster_count": 1401
+      }
+    ],
+    "created_at": "2026-03-22T09:32:17.262171+00:00",
+    "expected_rows_matched_only": 2225,
+    "expected_unique_ids_matched_only": 2225,
+    "expected_rows_matched_only_range": [
+      1633,
+      4435
+    ],
+    "expected_unique_ids_matched_only_range": [
+      1633,
+      4435
+    ],
+    "expected_rows_singleton_aware": 11792,
+    "expected_unique_ids_singleton_aware": 11792,
+    "expected_rows_singleton_aware_range": [
+      9582,
+      12384
+    ],
+    "expected_unique_ids_singleton_aware_range": [
+      9582,
+      12384
+    ],
+    "singleton_assumption": {
+      "assumed_include_singletons": true,
+      "total_input_rows": 14017,
+      "formula": "E_final_rows = total_input_rows - E_matched_clusters",
+      "notes": "Conservative singleton-aware estimate: each expected matched cluster reduces the final row count by at least one."
+    }
+  }
+}

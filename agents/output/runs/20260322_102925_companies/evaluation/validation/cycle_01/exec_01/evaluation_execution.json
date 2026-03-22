@@ -1,0 +1,27 @@
+{
+  "execution_result": "success",
+  "metrics_source": "stdout",
+  "metrics": {
+    "overall_accuracy": 0.4318181818181818,
+    "macro_accuracy": 0.4142857142857143,
+    "num_evaluated_records": 25,
+    "num_evaluated_attributes": 6,
+    "total_evaluations": 132,
+    "total_correct": 57,
+    "city_accuracy": 0.12,
+    "city_count": 25,
+    "founded_accuracy": 0.28,
+    "founded_count": 25,
+    "assets_accuracy": 0.0,
+    "assets_count": 25,
+    "keypeople_name_accuracy": 0.2857142857142857,
+    "keypeople_name_count": 7,
+    "country_accuracy": 0.96,
+    "country_count": 25,
+    "name_accuracy": 0.84,
+    "name_count": 25
+  },
+  "stdout": "[EVALUATION_FUNCTIONS] assets:numeric_tolerance_match(tolerance=0.01) | city:tokenized_match(threshold=0.75) | country:tokenized_match(threshold=0.65) | founded:year_only_match | keypeople_name:tokenized_match(threshold=0.75) | name:tokenized_match(threshold=0.85)\n{\n  \"diagnostics\": {\n    \"stage\": \"validation\",\n    \"fusion_path\": \"output/runs/20260322_102925_companies/data_fusion/fusion_data.csv\",\n    \"evaluation_set_path\": \"input/datasets/companies/testsets/validation_set.xml\",\n    \"fused_rows\": 12334,\n    \"fused_eval_rows\": 25,\n    \"gold_rows\": 25,\n    \"direct_id_coverage\": {\n      \"matched\": 11,\n      \"total_gold\": 25\n    },\n    \"mapped_eval_id_coverage\": {\n      \"matched\": 25,\n      \"total_gold\": 25\n    },\n    \"country_normalization_format\": \"name\",\n    \"list_like_columns\": [\n      \"keypeople_name\"\n    ],\n    \"dropped_derived_columns\": [],\n    \"evaluated_columns\": [\n      \"assets\",\n      \"city\",\n      \"country\",\n      \"founded\",\n      \"keypeople_name\",\n      \"name\"\n    ]\n  }\n}\n{\n  \"metrics\": {\n    \"overall_accuracy\": 0.4318181818181818,\n    \"macro_accuracy\": 0.4142857142857143,\n    \"num_evaluated_records\": 25,\n    \"num_evaluated_attributes\": 6,\n    \"total_evaluations\": 132,\n    \"total_correct\": 57,\n    \"city_accuracy\": 0.12,\n    \"city_count\": 25,\n    \"founded_accuracy\": 0.28,\n    \"founded_count\": 25,\n    \"assets_accuracy\": 0.0,\n    \"assets_count\": 25,\n    \"keypeople_name_accuracy\": 0.2857142857142857,\n    \"keypeople_name_count\": 7,\n    \"country_accuracy\": 0.96,\n    \"country_count\": 25,\n    \"name_accuracy\": 0.84,\n    \"name_count\": 25\n  }\n}\n",
+  "stderr": "",
+  "captured_at": "2026-03-22T09:34:14.389579Z"
+}

@@ -1,16 +1,25 @@
-# --------------------------------
-# CRITICAL GENERAL INSTRUCTION FOR AGENTS: Do not adjust the names of the output files
-# --------------------------------
+# CRITICAL: Do not adjust output file names.
+# CRITICAL: Always use OUTPUT_DIR for all output paths (correspondences, fusion, debug).
 
 from PyDI.io import load_parquet, load_csv, load_xml
-
-from PyDI.entitymatching import StandardBlocker, EmbeddingBlocker, SortedNeighbourhoodBlocker, TokenBlocker
-from PyDI.entitymatching import StringComparator, NumericComparator
+from PyDI.entitymatching import (
+    StandardBlocker, EmbeddingBlocker, SortedNeighbourhoodBlocker, TokenBlocker,
+)
+from PyDI.entitymatching import StringComparator, NumericComparator, DateComparator
 from PyDI.entitymatching import RuleBasedMatcher
-
-from PyDI.fusion import DataFusionStrategy, DataFusionEngine, longest_string, union, prefer_higher_trust
-from PyDI.fusion import DataFusionEvaluator, tokenized_match
-
+from PyDI.fusion import (
+    DataFusionStrategy, DataFusionEngine,
+    # String: voting, longest_string, shortest_string, most_complete
+    # Numeric: median, average, maximum, minimum, sum_values
+    # Date: most_recent, earliest
+    # List: union, intersection, intersection_k_sources  (pass separator= for delimited strings)
+    # Trust: prefer_higher_trust, favour_sources
+    voting, longest_string, most_complete,
+    median, average,
+    most_recent, earliest,
+    union, intersection, intersection_k_sources,
+    prefer_higher_trust, favour_sources,
+)
 from PyDI.schemamatching import LLMBasedSchemaMatcher
 from langchain_openai import ChatOpenAI
 
@@ -24,352 +33,235 @@ import sys
 try:
     from list_normalization import detect_list_like_columns, normalize_list_like_columns
 except ModuleNotFoundError:
-    _candidates = [
-        Path.cwd(),
-        Path.cwd() / "agents",
-        Path(__file__).resolve().parent,
-        Path(__file__).resolve().parent.parent,
-        Path(__file__).resolve().parent.parent.parent,
-        Path(__file__).resolve().parent.parent.parent.parent,
-    ]
+    _candidates = [Path.cwd(), Path.cwd() / "agents",
+                   Path(__file__).resolve().parent, Path(__file__).resolve().parent.parent,
+                   Path(__file__).resolve().parent.parent.parent]
     for _path in _candidates:
         if (_path / "list_normalization.py").is_file():
-            _path_str = str(_path.resolve())
-            if _path_str not in sys.path:
-                sys.path.append(_path_str)
+            if str(_path.resolve()) not in sys.path:
+                sys.path.append(str(_path.resolve()))
     from list_normalization import detect_list_like_columns, normalize_list_like_columns
 
-# --------------------------------
-# Prepare Data
-# Important: Use the correct loader (load_parquet, load_csv, load_xml)
-# --------------------------------
+# === 0. OUTPUT DIRECTORY ===
+# CRITICAL: Use OUTPUT_DIR for ALL output paths. It will be provided in the prompt.
+# Do NOT hardcode "output/" — always use os.path.join(OUTPUT_DIR, ...).
+OUTPUT_DIR = "output"  # Will be replaced by prompt with the actual run-scoped directory
 
-# Define dataset paths
+# === 1. LOAD DATA ===
+# Use the correct loader: load_csv, load_parquet, load_xml
+# For XML with nested elements: load_xml("path.xml", nested_handling="aggregate")
+# CRITICAL: Load the EXACT dataset file paths provided in the prompt (section 2).
+
 DATA_DIR = "input/datasets/"
-
-# Define API Key
-
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
-# Load the first dataset
-good_dataset_name_1 = load_parquet(
-    DATA_DIR + "<path-and-file-name-of-dataset-1>.parquet",
-    name="dataset_name_1",
-)
-
-# Load Uber Eats dataset  
-good_dataset_name_2 = load_parquet(
-    DATA_DIR + "<path-and-file-name-of-dataset-2>.parquet",
-    name="dataset_name_2",
-)
-
-# Load Yelp dataset
-good_dataset_name_3 = load_parquet(
-    DATA_DIR + "<path-and-file-name-of-dataset-3>.parquet",
-    name="dataset_name_3",
-)
-
-
+good_dataset_name_1 = load_parquet(DATA_DIR + "<dataset-1>.parquet", name="dataset_name_1")
+good_dataset_name_2 = load_parquet(DATA_DIR + "<dataset-2>.parquet", name="dataset_name_2")
+good_dataset_name_3 = load_parquet(DATA_DIR + "<dataset-3>.parquet", name="dataset_name_3")
 
 datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
-# --------------------------------
-# Perform Schema Matching (LLM-based matching)
-# CRITICAL INSTRUCTION FOR AGENTS:
-# The here implemented schema matching will match the schema of dataset2 and dataset3 to the schema of dataset1. Therefore, the resulting columns for all
-# datasets will have the schema of dataset1.
-# --------------------------------
+# === 2. SCHEMA MATCHING ===
+# Aligns dataset2/dataset3 column names to match dataset1.
 
 print("Matching Schema")
+llm = ChatOpenAI(model="gpt-5.1")
+matcher = LLMBasedSchemaMatcher(chat_model=llm, num_rows=10, debug=True)
 
-llm = ChatOpenAI(
-    model="gpt-5.1",
-    temperature=0,
-    max_tokens=None,
-)
-
-matcher = LLMBasedSchemaMatcher(
-    chat_model=llm,
-    num_rows=10,
-    debug=True
-)
-
-# match schema of good_dataset_name_1 with good_dataset_name_2 and rename schema of good_dataset_name_2
 schema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_2)
-rename_map = (
-    schema_correspondences
-    .set_index("target_column")["source_column"]
-    .to_dict()
-)
-good_dataset_name_2 = good_dataset_name_2.rename(columns=rename_map)
+good_dataset_name_2 = good_dataset_name_2.rename(
+    columns=schema_correspondences.set_index("target_column")["source_column"].to_dict())
 
-# match schema of good_dataset_name_1 with good_dataset_name_3 and rename schema of good_dataset_name_3
 schema_correspondences = matcher.match(good_dataset_name_1, good_dataset_name_3)
-rename_map = (
-    schema_correspondences
-    .set_index("target_column")["source_column"]
-    .to_dict()
-)
-good_dataset_name_3 = good_dataset_name_3.rename(columns=rename_map)
+good_dataset_name_3 = good_dataset_name_3.rename(
+    columns=schema_correspondences.set_index("target_column")["source_column"].to_dict())
 
-# Normalize list-like attributes so list comparators/fusers work on true lists.
+# === 3. LIST NORMALIZATION ===
+# Converts delimited strings ("pop; rock; jazz") to Python lists so list_strategy
+# comparators and list fusers (union, intersection) work correctly.
+
 list_like_columns = detect_list_like_columns(
     [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
     exclude_columns={"id", "_id"},
 )
 if list_like_columns:
-    (
-        good_dataset_name_1,
-        good_dataset_name_2,
-        good_dataset_name_3,
-    ) = normalize_list_like_columns(
-        [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
-        list_like_columns,
-    )
+    (good_dataset_name_1, good_dataset_name_2, good_dataset_name_3,
+     ) = normalize_list_like_columns(
+        [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3], list_like_columns)
     print(f"Normalized list-like columns: {', '.join(list_like_columns)}")
 
 datasets = [good_dataset_name_1, good_dataset_name_2, good_dataset_name_3]
 
-# --------------------------------
-# CRITICAL INSTRUCTION FOR AGENTS:
-# YOU MUST!!! USE THE PRECOMPUTED BLOCKERS PROVIEDED TO YOU UNDER "5. **BLOCKING CONFIGURATION**"!
-# --------------------------------
+# === 4. BLOCKING ===
+# CRITICAL: Use the precomputed blocking config from "5. **BLOCKING CONFIGURATION**".
+#
+# Blocker types and their signatures:
+#   StandardBlocker(df_l, df_r, on=['col'], id_column='id')                  — exact equality
+#   TokenBlocker(df_l, df_r, column='name', id_column='id', min_token_len=3) — token overlap
+#   SortedNeighbourhoodBlocker(df_l, df_r, key='name', window=20, id_column='id')
+#   EmbeddingBlocker(df_l, df_r, text_cols=['name','city'], id_column='id', top_k=20)
+#     ⚠ EmbeddingBlocker: uses text_cols=[...] (list), NOT column='...'
+#     ⚠ EmbeddingBlocker: uses .materialize(), NOT .block()
 
 print("Performing Blocking")
 
-# Embedding blocker example:
-#embedding_blocker_dataset1_2_dataset2 = EmbeddingBlocker(
-#    good_dataset_name_1, good_dataset_name_2, # name of the datasets
-#    text_cols=['city'], # column which should be used to perform the blocking on
-#    model="sentence-transformers/all-MiniLM-L6-v2",
-#    index_backend="sklearn",
-#    top_k=20,          # Top 20 most similar
-#    batch_size=1000,
-#    output_dir="output/blocking-evaluation",
-#    id_column='id'
-#)
-
-# Sorted NeighbourhoodBlocker example
-#blocker = SortedNeighbourhoodBlocker(
-#    df_left, df_right,
-#    key="name",
-#    window=20,
-#    id_column="id",
-#    output_dir="output/blocking"
-#)
-
-# TokenBlocker example
-#blocker = TokenBlocker(
-#    df_left, df_right,
-#    column="name",
-#    min_token_len=3,
-#    ngram_size=2,
-#    ngram_type="word",
-#    id_column="id",
-#    output_dir="output/blocking"
-#)
-
-# Standard blocker example:
-blocker_k2u = StandardBlocker(
+blocker_1_2 = StandardBlocker(
     good_dataset_name_1, good_dataset_name_2,
-    on=['city'],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column='id'
+    on=["city"], id_column="id", batch_size=100000,
 )
-
-blocker_k2y = StandardBlocker(
+blocker_1_3 = StandardBlocker(
     good_dataset_name_1, good_dataset_name_3,
-    on=['city'],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column='id'
+    on=["city"], id_column="id", batch_size=100000,
 )
-
-blocker_u2y = StandardBlocker(
+blocker_2_3 = StandardBlocker(
     good_dataset_name_2, good_dataset_name_3,
-    on=['city'],
-    batch_size=1000,
-    output_dir="output/blocking-evaluation",
-    id_column='id'
+    on=["city"], id_column="id", batch_size=100000,
 )
 
-# --------------------------------
-# CRITICAL INSTRUCTION FOR AGENTS:
-# You MUST use the matching configuration supplied to you under "6. **MATCHING CONFIGURATION**" to set the correct comparators in the following.
-# --------------------------------
-comparators_k2u = [
-    # Name similarity
-    StringComparator(
-        column='name_norm',
-        similarity_function='jaccard', 
-        # no preprocessing needed
-    ),
-    
-    # street name similarity
-    StringComparator(
-        column='street',
-        similarity_function='jaccard', 
-        preprocess=str.lower,
-    ),
-
-    # house number similarity
-    NumericComparator(
-        column='house_number',
-        max_difference=2,
-    ),
-
-    # category similarity
-    StringComparator(
-        column='categories',
-        similarity_function='jaccard',
-        preprocess=str.lower,
-        list_strategy='concatenate' # Handle list attribute by concatenation
-    )
-]
-
-comparators_k2y = [
-    # Name similarity
-    StringComparator(
-        column='name_norm',
-        similarity_function='jaccard', 
-        # no preprocessing needed
-    ),
-    
-    # street name similarity
-    StringComparator(
-        column='street',
-        similarity_function='jaccard', 
-        preprocess=str.lower,
-    ),
-
-    # house number similarity
-    NumericComparator(
-        column='house_number',
-        max_difference=2,
-    ),
-
-    # category similarity
-    StringComparator(
-        column='categories',
-        similarity_function='jaccard',
-        preprocess=str.lower,
-        list_strategy='concatenate' # Handle list attribute by concatenation
-    )
-]
-
-comparators_u2y = [
-    # Name similarity
-    StringComparator(
-        column='name_norm',
-        similarity_function='jaccard', 
-        # no preprocessing needed
-    ),
-    
-    # street name similarity
-    StringComparator(
-        column='street',
-        similarity_function='jaccard', 
-        preprocess=str.lower,
-    ),
-
-    # house number similarity
-    NumericComparator(
-        column='house_number',
-        max_difference=2,
-    ),
-
-    # category similarity
-    StringComparator(
-        column='categories',
-        similarity_function='jaccard',
-        preprocess=str.lower,
-        list_strategy='concatenate' # Handle list attribute by concatenation
-    )
-]
+# === 5. ENTITY MATCHING ===
+# CRITICAL: Use the matching config from "6. **MATCHING CONFIGURATION**".
+# Define threshold variables as: threshold_<pair_key> = <value>
+#
+# Comparator signatures:
+#   StringComparator(column, similarity_function='jaro_winkler', preprocess=None, list_strategy=None)
+#     similarity_function: 'jaro_winkler', 'levenshtein', 'jaccard', 'cosine', etc.
+#     list_strategy: 'best_match', 'set_jaccard', 'set_overlap' (avoid 'concatenate')
+#   NumericComparator(column, method='absolute_difference', max_difference=None, list_strategy=None)
+#     list_strategy: 'average', 'best_match', 'range_overlap', 'set_jaccard'
+#   DateComparator(column, max_days_difference=None, list_strategy=None)
+#     list_strategy: 'closest_dates', 'range_overlap', 'average_dates', 'latest_dates', 'earliest_dates'
+#
+# ⚠ For list-valued columns: ALWAYS set list_strategy explicitly.
 
 print("Matching Entities")
 
-# Initialize Rule-Based Matcher
+threshold_dataset_name_1_dataset_name_2 = 0.7
+threshold_dataset_name_1_dataset_name_3 = 0.7
+threshold_dataset_name_2_dataset_name_3 = 0.7
+
+comparators_1_2 = [
+    StringComparator(column="name", similarity_function="jaro_winkler"),
+    StringComparator(column="city", similarity_function="jaro_winkler", preprocess=str.lower),
+    NumericComparator(column="house_number", method="absolute_difference", max_difference=2),
+    DateComparator(column="founded", max_days_difference=365),
+    # List column → MUST set list_strategy
+    StringComparator(column="categories", similarity_function="jaccard",
+                     preprocess=str.lower, list_strategy="set_jaccard"),
+]
+
+comparators_1_3 = [
+    StringComparator(column="name", similarity_function="jaro_winkler"),
+    StringComparator(column="city", similarity_function="jaro_winkler", preprocess=str.lower),
+    NumericComparator(column="house_number", max_difference=2),
+    StringComparator(column="categories", similarity_function="jaccard",
+                     preprocess=str.lower, list_strategy="set_jaccard"),
+]
+
+comparators_2_3 = [
+    StringComparator(column="name", similarity_function="jaro_winkler"),
+    StringComparator(column="city", similarity_function="jaro_winkler", preprocess=str.lower),
+    NumericComparator(column="house_number", max_difference=2),
+    StringComparator(column="categories", similarity_function="jaccard",
+                     preprocess=str.lower, list_strategy="set_jaccard"),
+]
+
 matcher = RuleBasedMatcher()
 
-rb_correspondences_k2u = matcher.match(
-    df_left=good_dataset_name_1,
-    df_right=good_dataset_name_2, 
-    candidates=blocker_k2u,
-    comparators=comparators_k2u,
-    weights=[0.5, 0.2, 0.2, 0.1], # weight the different comparators. Adjust accordingly so they make sense
-    threshold=0.7,
-    id_column='id'
+rb_correspondences_1_2 = matcher.match(
+    df_left=good_dataset_name_1, df_right=good_dataset_name_2,
+    candidates=blocker_1_2, comparators=comparators_1_2,
+    weights=[0.4, 0.2, 0.1, 0.15, 0.15],
+    threshold=threshold_dataset_name_1_dataset_name_2, id_column="id",
+)
+rb_correspondences_1_3 = matcher.match(
+    df_left=good_dataset_name_1, df_right=good_dataset_name_3,
+    candidates=blocker_1_3, comparators=comparators_1_3,
+    weights=[0.5, 0.2, 0.1, 0.2],
+    threshold=threshold_dataset_name_1_dataset_name_3, id_column="id",
+)
+rb_correspondences_2_3 = matcher.match(
+    df_left=good_dataset_name_2, df_right=good_dataset_name_3,
+    candidates=blocker_2_3, comparators=comparators_2_3,
+    weights=[0.5, 0.2, 0.1, 0.2],
+    threshold=threshold_dataset_name_2_dataset_name_3, id_column="id",
 )
 
-rb_correspondences_k2y = matcher.match(
-    df_left=good_dataset_name_1,
-    df_right=good_dataset_name_3, 
-    candidates=blocker_k2y,
-    comparators=comparators_k2y,
-    weights=[0.5, 0.2, 0.2, 0.1],  
-    threshold=0.7,
-    id_column='id'
-)
+# === 6. SAVE CORRESPONDENCES (MANDATORY) ===
+# Save per-pair CSVs BEFORE merging. Naming: correspondences_<left>_<right>.csv
 
-rb_correspondences_u2y = matcher.match(
-    df_left=good_dataset_name_2,
-    df_right=good_dataset_name_3, 
-    candidates=blocker_u2y,
-    comparators=comparators_u2y,
-    weights=[0.5, 0.2, 0.2, 0.1],  
-    threshold=0.7,
-    id_column='id'
-)
+CORR_DIR = os.path.join(OUTPUT_DIR, "correspondences")
+os.makedirs(CORR_DIR, exist_ok=True)
+rb_correspondences_1_2.to_csv(os.path.join(CORR_DIR, "correspondences_dataset_name_1_dataset_name_2.csv"), index=False)
+rb_correspondences_1_3.to_csv(os.path.join(CORR_DIR, "correspondences_dataset_name_1_dataset_name_3.csv"), index=False)
+rb_correspondences_2_3.to_csv(os.path.join(CORR_DIR, "correspondences_dataset_name_2_dataset_name_3.csv"), index=False)
+
+all_rb_correspondences = pd.concat(
+    [rb_correspondences_1_2, rb_correspondences_1_3, rb_correspondences_2_3], ignore_index=True)
+
+# === 7. DATA FUSION ===
+#
+# RESOLVER QUICK REFERENCE — prefer built-in resolvers over custom code:
+#   String:  voting (majority), longest_string, shortest_string, most_complete
+#   Numeric: median (robust default), average, maximum, minimum, sum_values
+#   Date:    earliest (founding/birth), most_recent (last updated)
+#   List:    union(separator="; "), intersection(separator="; "),
+#            intersection_k_sources(k=2, separator="; ")   — pass separator= always
+#   Trust:   prefer_higher_trust(trust_map={"src": score})
+#            favour_sources(source_preferences=["best", "ok", "worst"])
+#
+# CHOOSING A RESOLVER:
+#   names/titles        → voting or most_complete
+#   geographic (city)   → prefer_higher_trust if one source is better
+#   numeric (revenue)   → median
+#   dates (founded)     → earliest;  dates (updated) → most_recent
+#   list (categories)   → union(separator="; ") if clean, intersection_k_sources if noisy
+#   one source better   → prefer_higher_trust with trust_map
+#
+# DO NOT write custom fusers. Use only PyDI built-in resolvers listed above.
 
 print("Fusing Data")
 
-# --------------------------------
-# Data Fusion
-# There are following conflict resolution functions available:
-# For strings: longest_string, shortest_string, most_complete
-# For numerics: average, median, maximum, minimum, sum_values
-# For dates: most_recent, earliest
-# For lists/sets: union
-# --------------------------------
-# CRITICAL INSTRUCTION FOR AGENTS:
-# Prefer built-in PyDI fusers whenever possible.
-# If a custom fuser is unavoidable, it MUST accept runtime kwargs and return
-# (value, confidence, metadata):
-# def my_fuser(inputs, **kwargs): return value, 1.0, {}
-# Avoid lambda inputs, context: ... because PyDI passes extra kwargs (e.g., sources).
-# For trust-based fusion, register the built-in directly:
-# strategy.add_attribute_fuser("<attr>", prefer_higher_trust, trust_map=trust_map)
+trust_map = {"dataset_name_1": 3, "dataset_name_2": 2, "dataset_name_3": 1}
 
-# merge rule based correspondences
-all_rb_correspondences = pd.concat([rb_correspondences_k2u, rb_correspondences_k2y, rb_correspondences_u2y], ignore_index=True)
+strategy = DataFusionStrategy("fusion_strategy")
 
-# define data fusion strategy
-strategy = DataFusionStrategy('rule_based_fusion_strategy')
+# String attributes
+strategy.add_attribute_fuser("name", voting)
+strategy.add_attribute_fuser("street", most_complete)
+strategy.add_attribute_fuser("city", prefer_higher_trust, trust_map=trust_map)
+strategy.add_attribute_fuser("state", prefer_higher_trust, trust_map=trust_map)
+strategy.add_attribute_fuser("country", prefer_higher_trust, trust_map=trust_map)
 
-strategy.add_attribute_fuser('name', longest_string)
-strategy.add_attribute_fuser('street', longest_string)
-strategy.add_attribute_fuser('house_number', longest_string)
-strategy.add_attribute_fuser('city', longest_string)
-strategy.add_attribute_fuser('state', longest_string)
-strategy.add_attribute_fuser('postal_code', longest_string)
-strategy.add_attribute_fuser('country', longest_string)
-strategy.add_attribute_fuser('latitude', longest_string)
-strategy.add_attribute_fuser('longitude', longest_string)
-strategy.add_attribute_fuser('categories', union)
+# Numeric attributes
+strategy.add_attribute_fuser("revenue", median)
+strategy.add_attribute_fuser("latitude", average)
+strategy.add_attribute_fuser("longitude", average)
+strategy.add_attribute_fuser("house_number", voting)
 
-# run fusion
-engine = DataFusionEngine(strategy, debug=True, debug_format='json',debug_file= "output/data_fusion/debug_fusion_data.jsonl")
+# Date attributes
+strategy.add_attribute_fuser("founded", earliest)
 
-# fuse rule based matches
-rb_fused_standard_blocker = engine.run(
+# List attributes — always pass separator= for delimited strings
+strategy.add_attribute_fuser("categories", union, separator="; ")
+# For noisy lists: intersection_k_sources(k=2, separator="; ")
+
+# === 8. RUN FUSION ===
+# CRITICAL: Always include_singletons=True for full fused dataset.
+# CRITICAL: Use OUTPUT_DIR for all output paths.
+
+FUSION_DIR = os.path.join(OUTPUT_DIR, "data_fusion")
+os.makedirs(FUSION_DIR, exist_ok=True)
+engine = DataFusionEngine(
+    strategy, debug=True, debug_format="json",
+    debug_file=os.path.join(FUSION_DIR, "debug_fusion_data.jsonl"),
+)
+
+fused_result = engine.run(
     datasets=[good_dataset_name_1, good_dataset_name_2, good_dataset_name_3],
     correspondences=all_rb_correspondences,
     id_column="id",
-    include_singletons=False,
+    include_singletons=True,
 )
 
-# write output
-rb_fused_standard_blocker.to_csv("output/data_fusion/fusion_data.csv", index=False)
+fused_result.to_csv(os.path.join(FUSION_DIR, "fusion_data.csv"), index=False)

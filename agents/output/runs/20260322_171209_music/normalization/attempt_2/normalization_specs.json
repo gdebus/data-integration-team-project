@@ -1,0 +1,75 @@
+{
+  "specs": {
+    "discogs": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "release-country": {
+        "strip_whitespace": true,
+        "country_format": "name",
+        "on_failure": "keep"
+      },
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "lastfm": {
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "musicbrainz": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [
+    "tracks_track_name",
+    "tracks_track_duration",
+    "tracks_track_position"
+  ],
+  "reasoning": "Target uses full country names, ISO-like datetimes with time milliseconds, and string-valued durations. Track columns are list-like in all sources but stored as string representations, so they are marked as list columns to align with target arrays; only minimal per-column transforms are added. Country normalization is needed only for discogs because musicbrainz already matches the target naming style."
+}

@@ -1,0 +1,64 @@
+{
+  "specs": {
+    "discogs": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "release-country": {
+        "strip_whitespace": true,
+        "country_format": "name",
+        "on_failure": "keep"
+      },
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "label": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "lastfm": {
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "musicbrainz": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "release-country": {
+        "strip_whitespace": true,
+        "country_format": "name",
+        "on_failure": "keep"
+      },
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [
+    "tracks_track_name",
+    "tracks_track_position",
+    "tracks_track_duration"
+  ],
+  "reasoning": "Target uses full country names, datetime strings in ISO style with milliseconds, and duration fields as strings. Track-related columns are list-like in all sources, so they are flagged as list_columns. Kept transformations minimal, avoiding name/artist/title casing because target preserves mixed original casing. Included label only for discogs due to prior low label accuracy and visible whitespace-cleanup safety."
+}

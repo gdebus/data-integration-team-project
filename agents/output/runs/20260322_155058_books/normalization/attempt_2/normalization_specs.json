@@ -1,0 +1,39 @@
+{
+  "specs": {
+    "amazon_small": {},
+    "goodreads_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [],
+  "reasoning": "Target style preserves title/author/publisher capitalization and uses plain integer values for publish_year and page_count. Identifier columns like id and isbn_clean are preserved. Genres already appear as comma-separated strings matching target style, so no list normalization is added. Previous errors likely came from over-normalizing genres; this spec avoids transforming genres and only applies minimal publisher whitespace cleanup and numeric casting where source floats should match target ints."
+}

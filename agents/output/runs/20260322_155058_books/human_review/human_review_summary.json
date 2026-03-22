@@ -1,0 +1,21 @@
+{
+  "summary": "Human-review outputs created.",
+  "file_paths": {
+    "fused_review_table": "output/runs/20260322_155058_books/human_review/fused_review_table.csv",
+    "source_lineage_long": "output/runs/20260322_155058_books/human_review/source_lineage_long.csv",
+    "fusion_vs_testset_diff": "output/runs/20260322_155058_books/human_review/fusion_vs_testset_diff.csv",
+    "human_review_summary_json": "output/runs/20260322_155058_books/human_review/human_review_summary.json",
+    "human_review_summary_md": "output/runs/20260322_155058_books/human_review/human_review_summary.md"
+  },
+  "counts": {
+    "fused_rows": 25383,
+    "review_rows": 25383,
+    "lineage_rows": 30000,
+    "diff_rows": 200566,
+    "source_datasets": 3,
+    "review_attributes": 16,
+    "testset_rows": 10
+  },
+  "warnings": [],
+  "created_at": "2026-03-22T15:08:32.800192+00:00"
+}

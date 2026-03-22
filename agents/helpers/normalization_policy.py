@@ -7,7 +7,7 @@ import pandas as pd
 
 
 def infer_validation_text_case_map(validation_df: Optional[pd.DataFrame]) -> Dict[str, Dict[str, Any]]:
-    """Infer per-column lowercase preference from validation data."""
+    """Infers per-column lowercase preference from validation data."""
     case_map: Dict[str, Dict[str, Any]] = {}
     if validation_df is None or validation_df.empty:
         return case_map
@@ -44,7 +44,7 @@ def infer_country_output_format_from_validation(
     validation_df: Optional[pd.DataFrame],
     country_columns: Optional[List[str]] = None,
 ) -> str:
-    """Infer target country output format from validation-set representation."""
+    """Infers target country output format from validation-set representation."""
     if validation_df is None or validation_df.empty:
         return "name"
 
@@ -90,7 +90,7 @@ def collect_eval_debug_signals(
     debug_path: str = "output/pipeline_evaluation/debug_fusion_eval.jsonl",
     max_lines: int = 5000,
 ) -> Dict[str, Any]:
-    """Read evaluation debug events and derive normalization-sensitive signals."""
+    """Reads evaluation debug events and derives normalization-sensitive signals."""
     signals: Dict[str, Any] = {
         "total_mismatch_events": 0,
         "case_only_mismatch_by_column": {},

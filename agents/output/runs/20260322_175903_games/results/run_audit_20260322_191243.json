@@ -1,0 +1,950 @@
+{
+  "timestamp": "20260322_191243",
+  "generated_at": "2026-03-22T18:12:43.576249Z",
+  "run_id": "20260322_175903_games",
+  "run_output_root": "output/runs/20260322_175903_games/",
+  "validation_metrics_final": {
+    "overall_accuracy": 0.7310924369747899,
+    "macro_accuracy": 0.7273809523809525,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 87,
+    "ESRB_accuracy": 0.6666666666666666,
+    "ESRB_count": 15,
+    "developer_accuracy": 0.6,
+    "developer_count": 15,
+    "name_accuracy": 0.9333333333333333,
+    "name_count": 15,
+    "releaseYear_accuracy": 1.0,
+    "releaseYear_count": 15,
+    "platform_accuracy": 0.8,
+    "platform_count": 15,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 15,
+    "criticScore_accuracy": 0.7333333333333333,
+    "criticScore_count": 15,
+    "userScore_accuracy": 0.2857142857142857,
+    "userScore_count": 14
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.8151260504201681,
+    "macro_accuracy": 0.8107142857142857,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 97,
+    "publisher_accuracy": 0.8666666666666667,
+    "publisher_count": 15,
+    "releaseYear_accuracy": 0.9333333333333333,
+    "releaseYear_count": 15,
+    "developer_accuracy": 0.7333333333333333,
+    "developer_count": 15,
+    "userScore_accuracy": 0.2857142857142857,
+    "userScore_count": 14,
+    "name_accuracy": 1.0,
+    "name_count": 15,
+    "criticScore_accuracy": 0.9333333333333333,
+    "criticScore_count": 15,
+    "platform_accuracy": 0.9333333333333333,
+    "platform_count": 15,
+    "ESRB_accuracy": 0.8,
+    "ESRB_count": 15
+  },
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-22T17:57:34.850089Z",
+    "expected_pairs": [
+      "dbpedia_metacritic",
+      "dbpedia_sales",
+      "metacritic_sales"
+    ],
+    "pair_checks": [
+      {
+        "pair": "dbpedia_metacritic",
+        "status": "ok",
+        "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_metacritic.csv",
+        "data_rows": 31150
+      },
+      {
+        "pair": "dbpedia_sales",
+        "status": "ok",
+        "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_sales.csv",
+        "data_rows": 20603
+      },
+      {
+        "pair": "metacritic_sales",
+        "status": "ok",
+        "path": "output/runs/20260322_175903_games/correspondences/correspondences_metacritic_sales.csv",
+        "data_rows": 11064
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "cycles": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-22T17:13:45.488835Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.057692307692307696,
+        "macro_accuracy": 0.05782312925170068,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 6,
+        "ESRB_accuracy": 0.06666666666666667,
+        "ESRB_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "publisher_accuracy": 0.06666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.06666666666666667,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.07142857142857142,
+        "userScore_count": 14,
+        "name_accuracy": 0.06666666666666667,
+        "name_count": 15,
+        "platform_accuracy": 0.06666666666666667,
+        "platform_count": 15,
+        "developer_accuracy": 0.0,
+        "developer_count": 15
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.057692307692307696,
+        "macro_accuracy": 0.05782312925170068,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 6,
+        "ESRB_accuracy": 0.06666666666666667,
+        "ESRB_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "publisher_accuracy": 0.06666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.06666666666666667,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.07142857142857142,
+        "userScore_count": 14,
+        "name_accuracy": 0.06666666666666667,
+        "name_count": 15,
+        "platform_accuracy": 0.06666666666666667,
+        "platform_count": 15,
+        "developer_accuracy": 0.0,
+        "developer_count": 15
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.057692307692307696,
+        "macro_accuracy": 0.05782312925170068,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 6,
+        "ESRB_accuracy": 0.06666666666666667,
+        "ESRB_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "publisher_accuracy": 0.06666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.06666666666666667,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.07142857142857142,
+        "userScore_count": 14,
+        "name_accuracy": 0.06666666666666667,
+        "name_count": 15,
+        "platform_accuracy": 0.06666666666666667,
+        "platform_count": 15,
+        "developer_accuracy": 0.0,
+        "developer_count": 15
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.057692307692307696,
+        "macro_accuracy": 0.05782312925170068,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 6,
+        "ESRB_accuracy": 0.06666666666666667,
+        "ESRB_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "publisher_accuracy": 0.06666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.06666666666666667,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.07142857142857142,
+        "userScore_count": 14,
+        "name_accuracy": 0.06666666666666667,
+        "name_count": 15,
+        "platform_accuracy": 0.06666666666666667,
+        "platform_count": 15,
+        "developer_accuracy": 0.0,
+        "developer_count": 15
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T17:13:44.016069Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_metacritic.csv",
+            "data_rows": 31150
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 20603
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 11064
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 5.769% < 85.000%",
+        "low attribute accuracy: ESRB=6.667%, criticScore=6.667%, developer=0.000%, macro=5.782%, name=6.667%, platform=6.667%, publisher=6.667%, releaseYear=0.000%",
+        "low direct ID coverage: 0.000%",
+        "high missing_fused_value mismatch ratio: 98.980%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-22T17:28:34.291575Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.6730769230769231,
+        "macro_accuracy": 0.6687074829931972,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 70,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "publisher_accuracy": 0.7333333333333333,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.6730769230769231,
+        "macro_accuracy": 0.6687074829931972,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 70,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "publisher_accuracy": 0.7333333333333333,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.6730769230769231,
+        "macro_accuracy": 0.6687074829931972,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 70,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "publisher_accuracy": 0.7333333333333333,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.6730769230769231,
+        "macro_accuracy": 0.6687074829931972,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 70,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "publisher_accuracy": 0.7333333333333333,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.615385,
+        "macro_gain": 0.610884,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 4.276191,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {
+          "name": 0.733333,
+          "platform": 0.733333,
+          "ESRB": 0.666667,
+          "publisher": 0.666667,
+          "criticScore": 0.666667,
+          "developer": 0.666667,
+          "userScore": 0.142857
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T17:28:32.840120Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_metacritic.csv",
+            "data_rows": 31150
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 20603
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 11064
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 67.308% < 85.000%",
+        "low attribute accuracy: releaseYear=0.000%, userScore=21.429%",
+        "low direct ID coverage: 0.000%",
+        "high missing_fused_value mismatch ratio: 41.176%"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-22T17:43:12.546435Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.058016,
+        "macro_gain": 0.058673,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 0.271429,
+        "total_drop_weight": 0.133334,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {
+          "developer": 0.066667,
+          "ESRB": 0.066667
+        },
+        "top_attribute_gains": {
+          "name": 0.133333,
+          "userScore": 0.071429,
+          "publisher": 0.066667
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T17:43:11.062926Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_metacritic.csv",
+            "data_rows": 31150
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 20603
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 11064
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 73.109% < 85.000%",
+        "low attribute accuracy: userScore=28.571%",
+        "low direct ID coverage: 0.000%"
+      ]
+    },
+    {
+      "attempt": 4,
+      "recorded_at": "2026-03-22T17:57:36.371832Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.5865384615384616,
+        "macro_accuracy": 0.5829931972789115,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 61,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "name_accuracy": 0.6666666666666666,
+        "name_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 15,
+        "ESRB_accuracy": 0.6,
+        "ESRB_count": 15
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.5865384615384616,
+        "macro_accuracy": 0.5829931972789115,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 61,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "name_accuracy": 0.6666666666666666,
+        "name_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 15,
+        "ESRB_accuracy": 0.6,
+        "ESRB_count": 15
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_gain": -0.144554,
+        "macro_gain": -0.144388,
+        "overall_drop": 0.144554,
+        "macro_drop": 0.144388,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.0,
+        "total_drop_weight": 0.738096,
+        "catastrophic_attribute_drops": {
+          "name": 0.266667,
+          "publisher": 0.2
+        },
+        "severe_attribute_drops": {
+          "name": 0.266667,
+          "platform": 0.133333,
+          "publisher": 0.2
+        },
+        "moderate_attribute_drops": {
+          "name": 0.266667,
+          "platform": 0.133333,
+          "publisher": 0.2
+        },
+        "top_attribute_drops": {
+          "name": 0.266667,
+          "publisher": 0.2,
+          "platform": 0.133333,
+          "userScore": 0.071429,
+          "ESRB": 0.066667
+        },
+        "top_attribute_gains": {}
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T17:57:34.850089Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_metacritic.csv",
+            "data_rows": 31150
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 20603
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/runs/20260322_175903_games/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 11064
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 58.654% < 85.000%",
+        "low attribute accuracy: releaseYear=0.000%, userScore=21.429%",
+        "regression guard rejected latest candidate: overall_drop=0.144554, macro_drop=0.144388, top_attribute_drops={'name': 0.266667, 'publisher': 0.2, 'platform': 0.133333, 'userScore': 0.071429, 'ESRB': 0.066667}",
+        "low direct ID coverage: 0.000%",
+        "high missing_fused_value mismatch ratio: 65.116%"
+      ]
+    }
+  ],
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T17:12:59.968489Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_175903_games/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_175903_games/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_175903_games/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_01/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_01/exec_01/correspondences/correspondences_metacritic_sales.csv"
+        ],
+        "execution_log": "output/runs/20260322_175903_games/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T17:27:48.073610Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_175903_games/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_175903_games/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_175903_games/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_02/exec_01/correspondences/correspondences_metacritic_sales.csv"
+        ],
+        "execution_log": "output/runs/20260322_175903_games/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T17:42:27.249545Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_175903_games/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_175903_games/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_175903_games/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_03/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_03/exec_01/correspondences/correspondences_metacritic_sales.csv"
+        ],
+        "execution_log": "output/runs/20260322_175903_games/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T17:57:00.860468Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_175903_games/pipeline/cycle_04/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_175903_games/pipeline/cycle_04/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_175903_games/pipeline/cycle_04/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_04/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260322_175903_games/pipeline/cycle_04/exec_01/correspondences/correspondences_metacritic_sales.csv"
+        ],
+        "execution_log": "output/runs/20260322_175903_games/pipeline/cycle_04/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T17:13:43.991388Z",
+      "metrics": {
+        "overall_accuracy": 0.057692307692307696,
+        "macro_accuracy": 0.05782312925170068,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 6,
+        "ESRB_accuracy": 0.06666666666666667,
+        "ESRB_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "publisher_accuracy": 0.06666666666666667,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.06666666666666667,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.07142857142857142,
+        "userScore_count": 14,
+        "name_accuracy": 0.06666666666666667,
+        "name_count": 15,
+        "platform_accuracy": 0.06666666666666667,
+        "platform_count": 15,
+        "developer_accuracy": 0.0,
+        "developer_count": 15
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_175903_games/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_175903_games/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_175903_games/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_175903_games/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T17:28:32.830046Z",
+      "metrics": {
+        "overall_accuracy": 0.6730769230769231,
+        "macro_accuracy": 0.6687074829931972,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 70,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "name_accuracy": 0.8,
+        "name_count": 15,
+        "publisher_accuracy": 0.7333333333333333,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "developer_accuracy": 0.6666666666666666,
+        "developer_count": 15,
+        "ESRB_accuracy": 0.7333333333333333,
+        "ESRB_count": 15
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_175903_games/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_175903_games/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_175903_games/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_175903_games/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T17:43:11.053000Z",
+      "metrics": {
+        "overall_accuracy": 0.7310924369747899,
+        "macro_accuracy": 0.7273809523809525,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 119,
+        "total_correct": 87,
+        "ESRB_accuracy": 0.6666666666666666,
+        "ESRB_count": 15,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "name_accuracy": 0.9333333333333333,
+        "name_count": 15,
+        "releaseYear_accuracy": 1.0,
+        "releaseYear_count": 15,
+        "platform_accuracy": 0.8,
+        "platform_count": 15,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 15,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "userScore_accuracy": 0.2857142857142857,
+        "userScore_count": 14
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_175903_games/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_175903_games/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_175903_games/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_175903_games/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T17:57:34.835453Z",
+      "metrics": {
+        "overall_accuracy": 0.5865384615384616,
+        "macro_accuracy": 0.5829931972789115,
+        "num_evaluated_records": 15,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 104,
+        "total_correct": 61,
+        "developer_accuracy": 0.6,
+        "developer_count": 15,
+        "userScore_accuracy": 0.21428571428571427,
+        "userScore_count": 14,
+        "platform_accuracy": 0.6666666666666666,
+        "platform_count": 15,
+        "name_accuracy": 0.6666666666666666,
+        "name_count": 15,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "criticScore_accuracy": 0.7333333333333333,
+        "criticScore_count": 15,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 15,
+        "ESRB_accuracy": 0.6,
+        "ESRB_count": 15
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_175903_games/evaluation/validation/cycle_04/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_175903_games/evaluation/validation/cycle_04/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_175903_games/evaluation/validation/cycle_04/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_175903_games/evaluation/validation/cycle_04/exec_01/evaluation_execution.json"
+      }
+    }
+  ]
+}

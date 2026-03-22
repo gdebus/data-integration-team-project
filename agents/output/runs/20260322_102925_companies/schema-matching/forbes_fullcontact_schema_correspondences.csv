@@ -1,0 +1,4 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+forbes,name,fullcontact,name,0.95,llm_based_matching
+forbes,country,fullcontact,country,0.95,llm_based_matching
+forbes,id,fullcontact,id,0.95,llm_based_matching

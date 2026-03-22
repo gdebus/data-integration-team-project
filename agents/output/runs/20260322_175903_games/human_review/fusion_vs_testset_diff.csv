@@ -1,0 +1,143 @@
+fused_id,test_id,attribute,fused_value,test_value,is_match
+metacritic_5860,metacritic_5860,_id,dbpedia_1248,,False
+metacritic_5860,metacritic_5860,ESRB,T,T,True
+metacritic_5860,metacritic_5860,criticScore,78.0,78,False
+metacritic_5860,metacritic_5860,developer,Omega Force,Omega Force,True
+metacritic_5860,metacritic_5860,id,dbpedia_1248,metacritic_5860,False
+metacritic_5860,metacritic_5860,name,Dynasty Warriors 6,Dynasty Warriors 3,False
+metacritic_5860,metacritic_5860,platform,PS3,PS2,False
+metacritic_5860,metacritic_5860,releaseYear,2000-01-01,2001-01-01,False
+metacritic_5860,metacritic_5860,series,Dynasty Warriors,,False
+metacritic_5860,metacritic_5860,userScore,8.8,7.8,False
+metacritic_5860,metacritic_5860,globalSales,1.0,,False
+metacritic_5860,metacritic_5860,publisher,Tecmo Koei,Koei,False
+metacritic_5860,metacritic_5860,eval_id,metacritic_5860,,False
+metacritic_17161,metacritic_17161,_id,dbpedia_12891,,False
+metacritic_17161,metacritic_17161,ESRB,T,T,True
+metacritic_17161,metacritic_17161,criticScore,59.0,59,False
+metacritic_17161,metacritic_17161,developer,Airtight Games,Airtight Games,True
+metacritic_17161,metacritic_17161,id,dbpedia_12891,metacritic_17161,False
+metacritic_17161,metacritic_17161,name,Dark Void,Dark Void,True
+metacritic_17161,metacritic_17161,platform,PS3,PS3,True
+metacritic_17161,metacritic_17161,releaseYear,2010-01-01,2010-01-01,True
+metacritic_17161,metacritic_17161,series,Darksiders,,False
+metacritic_17161,metacritic_17161,userScore,5.9,5.0,False
+metacritic_17161,metacritic_17161,globalSales,0.0,,False
+metacritic_17161,metacritic_17161,publisher,Capcom,Capcom,True
+metacritic_17161,metacritic_17161,eval_id,metacritic_17161,,False
+metacritic_17606,metacritic_17606,_id,dbpedia_19683,,False
+metacritic_17606,metacritic_17606,ESRB,M,AO,False
+metacritic_17606,metacritic_17606,criticScore,58.0,58,False
+metacritic_17606,metacritic_17606,developer,Visceral Games,Visceral Games,True
+metacritic_17606,metacritic_17606,id,dbpedia_19683,metacritic_17606,False
+metacritic_17606,metacritic_17606,name,Army of Two: The Devil's Cartel,Army of Two: The Devil's Cartel,True
+metacritic_17606,metacritic_17606,platform,PS3,PS3,True
+metacritic_17606,metacritic_17606,releaseYear,2013-01-01,2013-01-01,True
+metacritic_17606,metacritic_17606,series,Army of Two (series),,False
+metacritic_17606,metacritic_17606,userScore,6.8,6.2,False
+metacritic_17606,metacritic_17606,globalSales,0.0,,False
+metacritic_17606,metacritic_17606,publisher,Electronic Arts,Electronic Arts,True
+metacritic_17606,metacritic_17606,eval_id,metacritic_17606,,False
+metacritic_19481,metacritic_19481,_id,dbpedia_22016,,False
+metacritic_19481,metacritic_19481,ESRB,M,M17+,False
+metacritic_19481,metacritic_19481,criticScore,47.0,47,False
+metacritic_19481,metacritic_19481,developer,Piranha Bytes,Wizarbox,False
+metacritic_19481,metacritic_19481,id,dbpedia_22016,metacritic_19481,False
+metacritic_19481,metacritic_19481,name,Risen 2: Dark Waters,Risen 2: Dark Waters,True
+metacritic_19481,metacritic_19481,platform,PS3,PS3,True
+metacritic_19481,metacritic_19481,releaseYear,2012-01-01,2012-01-01,True
+metacritic_19481,metacritic_19481,series,Risen (series),,False
+metacritic_19481,metacritic_19481,userScore,4.9,5.8,False
+metacritic_19481,metacritic_19481,globalSales,0.0,,False
+metacritic_19481,metacritic_19481,publisher,Deep Silver,Deep Silver,True
+metacritic_19481,metacritic_19481,eval_id,metacritic_19481,,False
+metacritic_12057,metacritic_12057,_id,dbpedia_23874,,False
+metacritic_12057,metacritic_12057,ESRB,T,T,True
+metacritic_12057,metacritic_12057,criticScore,70.0,70,False
+metacritic_12057,metacritic_12057,developer,SCEE London Studio,London Studio,False
+metacritic_12057,metacritic_12057,id,dbpedia_23874,metacritic_12057,False
+metacritic_12057,metacritic_12057,name,SingStar ABBA,SingStar ABBA,True
+metacritic_12057,metacritic_12057,platform,PS3,PS3,True
+metacritic_12057,metacritic_12057,releaseYear,2008-01-01,2008-01-01,True
+metacritic_12057,metacritic_12057,series,SingStar,,False
+metacritic_12057,metacritic_12057,userScore,5.5,,False
+metacritic_12057,metacritic_12057,globalSales,0.0,,False
+metacritic_12057,metacritic_12057,publisher,Sony Computer Entertainment,SCEA,False
+metacritic_12057,metacritic_12057,eval_id,metacritic_12057,,False
+metacritic_9221,metacritic_9221,_id,dbpedia_36090,,False
+metacritic_9221,metacritic_9221,ESRB,E10+,E10+,True
+metacritic_9221,metacritic_9221,criticScore,74.0,74,False
+metacritic_9221,metacritic_9221,developer,Ubisoft,Ubisoft,True
+metacritic_9221,metacritic_9221,id,dbpedia_36090,metacritic_9221,False
+metacritic_9221,metacritic_9221,name,Just Dance 2,Just Dance 2,True
+metacritic_9221,metacritic_9221,platform,Wii,Wii,True
+metacritic_9221,metacritic_9221,releaseYear,2010-01-01,2010-01-01,True
+metacritic_9221,metacritic_9221,series,Just Dance (video game series),,False
+metacritic_9221,metacritic_9221,userScore,7.2,7.2,True
+metacritic_9221,metacritic_9221,globalSales,9.0,,False
+metacritic_9221,metacritic_9221,publisher,Ubisoft,Ubisoft,True
+metacritic_9221,metacritic_9221,eval_id,metacritic_9221,,False
+metacritic_14340,metacritic_14340,_id,dbpedia_38151,,False
+metacritic_14340,metacritic_14340,ESRB,E,E,True
+metacritic_14340,metacritic_14340,criticScore,66.0,66,False
+metacritic_14340,metacritic_14340,developer,Full Fat,Full Fat,True
+metacritic_14340,metacritic_14340,id,dbpedia_38151,metacritic_14340,False
+metacritic_14340,metacritic_14340,name,The Sims 2: Castaway,The Sims 2: Castaway,True
+metacritic_14340,metacritic_14340,platform,DS,DS,True
+metacritic_14340,metacritic_14340,releaseYear,2007-01-01,2007-01-01,True
+metacritic_14340,metacritic_14340,series,The Sims,,False
+metacritic_14340,metacritic_14340,userScore,4.6,7.1,False
+metacritic_14340,metacritic_14340,globalSales,0.0,,False
+metacritic_14340,metacritic_14340,publisher,Electronic Arts,Electronic Arts,True
+metacritic_14340,metacritic_14340,eval_id,metacritic_14340,,False
+metacritic_5286,metacritic_5286,_id,dbpedia_45453,,False
+metacritic_5286,metacritic_5286,ESRB,E10+,E10+,True
+metacritic_5286,metacritic_5286,criticScore,79.0,79,False
+metacritic_5286,metacritic_5286,developer,Vicarious Visions,Vicarious Visions,True
+metacritic_5286,metacritic_5286,id,dbpedia_45453,metacritic_5286,False
+metacritic_5286,metacritic_5286,name,Skylanders: Swap Force,Skylanders: Swap Force,True
+metacritic_5286,metacritic_5286,platform,PS4,PS4,True
+metacritic_5286,metacritic_5286,releaseYear,2013-01-01,2013-01-01,True
+metacritic_5286,metacritic_5286,series,Skylanders,,False
+metacritic_5286,metacritic_5286,userScore,5.3,6.3,False
+metacritic_5286,metacritic_5286,globalSales,0.0,,False
+metacritic_5286,metacritic_5286,publisher,Activision,Activision,True
+metacritic_5286,metacritic_5286,eval_id,metacritic_5286,,False
+metacritic_8567,metacritic_8567,_id,dbpedia_54363,,False
+metacritic_8567,metacritic_8567,ESRB,E,E,True
+metacritic_8567,metacritic_8567,criticScore,75.0,75,False
+metacritic_8567,metacritic_8567,developer,Codemasters,Codemasters,True
+metacritic_8567,metacritic_8567,id,dbpedia_54363,metacritic_8567,False
+metacritic_8567,metacritic_8567,name,GRID Autosport,GRID Autosport,True
+metacritic_8567,metacritic_8567,platform,PS3,PS3,True
+metacritic_8567,metacritic_8567,releaseYear,2014-01-01,2014-01-01,True
+metacritic_8567,metacritic_8567,series,Grid (series),,False
+metacritic_8567,metacritic_8567,userScore,6.6,6.6,True
+metacritic_8567,metacritic_8567,globalSales,0.0,,False
+metacritic_8567,metacritic_8567,publisher,Codemasters,Codemasters,True
+metacritic_8567,metacritic_8567,eval_id,metacritic_8567,,False
+metacritic_19234,metacritic_19234,_id,dbpedia_57362,,False
+metacritic_19234,metacritic_19234,ESRB,E10+,E10+,True
+metacritic_19234,metacritic_19234,criticScore,49.0,49,False
+metacritic_19234,metacritic_19234,developer,Sanzaru Games,Sanzaru Games,True
+metacritic_19234,metacritic_19234,id,dbpedia_57362,metacritic_19234,False
+metacritic_19234,metacritic_19234,name,Ninja Reflex,Ninja Reflex,True
+metacritic_19234,metacritic_19234,platform,Wii,Wii,True
+metacritic_19234,metacritic_19234,releaseYear,2008-01-01,2008-01-01,True
+metacritic_19234,metacritic_19234,userScore,5.7,4.2,False
+metacritic_19234,metacritic_19234,globalSales,0.0,,False
+metacritic_19234,metacritic_19234,publisher,Electronic Arts,Electronic Arts,True
+metacritic_19234,metacritic_19234,eval_id,metacritic_19234,,False
+metacritic_14164,metacritic_14164,_id,dbpedia_64698,,False
+metacritic_14164,metacritic_14164,ESRB,E,E,True
+metacritic_14164,metacritic_14164,criticScore,66.0,66,False
+metacritic_14164,metacritic_14164,developer,Nintendo,Nintendo,True
+metacritic_14164,metacritic_14164,id,dbpedia_64698,metacritic_14164,False
+metacritic_14164,metacritic_14164,name,Animal Crossing: Happy Home Designer,Animal Crossing: Happy Home Designer,True
+metacritic_14164,metacritic_14164,platform,3DS,3DS,True
+metacritic_14164,metacritic_14164,releaseYear,2015-01-01,2015-01-01,True
+metacritic_14164,metacritic_14164,series,Animal Crossing,,False
+metacritic_14164,metacritic_14164,userScore,6.9,6.9,True
+metacritic_14164,metacritic_14164,globalSales,3.0,,False
+metacritic_14164,metacritic_14164,publisher,Nintendo,Nintendo,True
+metacritic_14164,metacritic_14164,eval_id,metacritic_14164,,False

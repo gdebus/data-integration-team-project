@@ -1,0 +1,2148 @@
+{
+  "timestamp": "20260322_163824",
+  "generated_at": "2026-03-22T15:38:24.043619Z",
+  "run_id": "20260322_162759_restaurant",
+  "run_output_root": "output/runs/20260322_162759_restaurant/",
+  "datasets": [
+    "kaggle_small",
+    "uber_eats_small",
+    "yelp_small"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "Restaurant_Fusion_Test_Set.csv",
+  "validation_fusion_testset": "Restaurant_Fusion_Validation_Set.csv",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "kaggle_small_uber_eats_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 199719,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name_norm",
+        "city",
+        "state"
+      ]
+    },
+    "kaggle_small_yelp_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 179,
+      "stategy": "exact_match_multi",
+      "columns": [
+        "phone_e164",
+        "postal_code"
+      ]
+    },
+    "uber_eats_small_yelp_small": {
+      "pair_completeness": 1.0,
+      "num_candidates": 199972,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name_norm",
+        "street",
+        "city"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "kaggle_small_uber_eats_small": {
+      "f1_score": 0.8947368421052632
+    },
+    "kaggle_small_yelp_small": {
+      "f1_score": 0.983050847457627
+    },
+    "uber_eats_small_yelp_small": {
+      "f1_score": 0.9302325581395349
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.8842105263157894,
+    "macro_accuracy": 0.89,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 380,
+    "total_correct": 336,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 20,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 16,
+    "address_line1_accuracy": 0.95,
+    "address_line1_count": 20,
+    "city_accuracy": 1.0,
+    "city_count": 20,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 20,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 20,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 5,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 20,
+    "map_url_accuracy": 0.7,
+    "map_url_count": 20,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "_id_accuracy": 0.3,
+    "_id_count": 20,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 20,
+    "website_accuracy": 1.0,
+    "website_count": 19,
+    "state_accuracy": 1.0,
+    "state_count": 20,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 20,
+    "street_accuracy": 0.75,
+    "street_count": 20,
+    "categories_accuracy": 1.0,
+    "categories_count": 20,
+    "source_accuracy": 0.7,
+    "source_count": 20,
+    "name_accuracy": 0.8,
+    "name_count": 20,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 20,
+    "rating_accuracy": 0.7,
+    "rating_count": 20
+  },
+  "overall_accuracy": 0.8842105263157894,
+  "validation_metrics_final": {
+    "overall_accuracy": 0.8842105263157894,
+    "macro_accuracy": 0.89,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 380,
+    "total_correct": 336,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 20,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 16,
+    "address_line1_accuracy": 0.95,
+    "address_line1_count": 20,
+    "city_accuracy": 1.0,
+    "city_count": 20,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 20,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 20,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 5,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 20,
+    "map_url_accuracy": 0.7,
+    "map_url_count": 20,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "_id_accuracy": 0.3,
+    "_id_count": 20,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 20,
+    "website_accuracy": 1.0,
+    "website_count": 19,
+    "state_accuracy": 1.0,
+    "state_count": 20,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 20,
+    "street_accuracy": 0.75,
+    "street_count": 20,
+    "categories_accuracy": 1.0,
+    "categories_count": 20,
+    "source_accuracy": 0.7,
+    "source_count": 20,
+    "name_accuracy": 0.8,
+    "name_count": 20,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 20,
+    "rating_accuracy": 0.7,
+    "rating_count": 20
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.8945981554677207,
+    "macro_accuracy": 0.9,
+    "num_evaluated_records": 40,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 759,
+    "total_correct": 679,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 40,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 40,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 40,
+    "state_accuracy": 1.0,
+    "state_count": 40,
+    "website_accuracy": 1.0,
+    "website_count": 38,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 40,
+    "rating_accuracy": 0.75,
+    "rating_count": 40,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "map_url_accuracy": 0.725,
+    "map_url_count": 40,
+    "categories_accuracy": 0.975,
+    "categories_count": 40,
+    "source_accuracy": 0.725,
+    "source_count": 40,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 34,
+    "_id_accuracy": 0.3,
+    "_id_count": 40,
+    "name_accuracy": 0.775,
+    "name_count": 40,
+    "address_line1_accuracy": 0.975,
+    "address_line1_count": 40,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 40,
+    "street_accuracy": 0.875,
+    "street_count": 40,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 40,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 40,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 7,
+    "city_accuracy": 1.0,
+    "city_count": 40
+  },
+  "metrics_by_split": {
+    "validation_final": {
+      "overall_accuracy": 0.8842105263157894,
+      "macro_accuracy": 0.89,
+      "num_evaluated_records": 20,
+      "num_evaluated_attributes": 21,
+      "total_evaluations": 380,
+      "total_correct": 336,
+      "longitude_accuracy": 1.0,
+      "longitude_count": 20,
+      "rating_count_accuracy": 1.0,
+      "rating_count_count": 16,
+      "address_line1_accuracy": 0.95,
+      "address_line1_count": 20,
+      "city_accuracy": 1.0,
+      "city_count": 20,
+      "phone_raw_accuracy": 1.0,
+      "phone_raw_count": 20,
+      "latitude_accuracy": 1.0,
+      "latitude_count": 20,
+      "address_line2_accuracy": 1.0,
+      "address_line2_count": 5,
+      "phone_e164_accuracy": 1.0,
+      "phone_e164_count": 20,
+      "map_url_accuracy": 0.7,
+      "map_url_count": 20,
+      "country_accuracy": 0.0,
+      "country_count": 0,
+      "_id_accuracy": 0.3,
+      "_id_count": 20,
+      "postal_code_accuracy": 1.0,
+      "postal_code_count": 20,
+      "website_accuracy": 1.0,
+      "website_count": 19,
+      "state_accuracy": 1.0,
+      "state_count": 20,
+      "name_norm_accuracy": 0.9,
+      "name_norm_count": 20,
+      "street_accuracy": 0.75,
+      "street_count": 20,
+      "categories_accuracy": 1.0,
+      "categories_count": 20,
+      "source_accuracy": 0.7,
+      "source_count": 20,
+      "name_accuracy": 0.8,
+      "name_count": 20,
+      "house_number_accuracy": 1.0,
+      "house_number_count": 20,
+      "rating_accuracy": 0.7,
+      "rating_count": 20
+    },
+    "sealed_test_final": {
+      "overall_accuracy": 0.8945981554677207,
+      "macro_accuracy": 0.9,
+      "num_evaluated_records": 40,
+      "num_evaluated_attributes": 21,
+      "total_evaluations": 759,
+      "total_correct": 679,
+      "phone_raw_accuracy": 1.0,
+      "phone_raw_count": 40,
+      "name_norm_accuracy": 0.9,
+      "name_norm_count": 40,
+      "house_number_accuracy": 1.0,
+      "house_number_count": 40,
+      "state_accuracy": 1.0,
+      "state_count": 40,
+      "website_accuracy": 1.0,
+      "website_count": 38,
+      "postal_code_accuracy": 1.0,
+      "postal_code_count": 40,
+      "rating_accuracy": 0.75,
+      "rating_count": 40,
+      "country_accuracy": 0.0,
+      "country_count": 0,
+      "map_url_accuracy": 0.725,
+      "map_url_count": 40,
+      "categories_accuracy": 0.975,
+      "categories_count": 40,
+      "source_accuracy": 0.725,
+      "source_count": 40,
+      "rating_count_accuracy": 1.0,
+      "rating_count_count": 34,
+      "_id_accuracy": 0.3,
+      "_id_count": 40,
+      "name_accuracy": 0.775,
+      "name_count": 40,
+      "address_line1_accuracy": 0.975,
+      "address_line1_count": 40,
+      "phone_e164_accuracy": 1.0,
+      "phone_e164_count": 40,
+      "street_accuracy": 0.875,
+      "street_count": 40,
+      "longitude_accuracy": 1.0,
+      "longitude_count": 40,
+      "latitude_accuracy": 1.0,
+      "latitude_count": 40,
+      "address_line2_accuracy": 1.0,
+      "address_line2_count": 7,
+      "city_accuracy": 1.0,
+      "city_count": 40
+    }
+  },
+  "blocking_config": {
+    "blocking_strategies": {
+      "kaggle_small_uber_eats_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name_norm",
+          "city",
+          "state"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 199719,
+        "is_acceptable": true
+      },
+      "kaggle_small_yelp_small": {
+        "strategy": "exact_match_multi",
+        "columns": [
+          "phone_e164",
+          "postal_code"
+        ],
+        "params": {},
+        "pair_completeness": 1.0,
+        "num_candidates": 179,
+        "is_acceptable": true
+      },
+      "uber_eats_small_yelp_small": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name_norm",
+          "street",
+          "city"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 199972,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "kaggle_small": "id",
+      "uber_eats_small": "id",
+      "yelp_small": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "kaggle_small": "id",
+      "uber_eats_small": "id",
+      "yelp_small": "id"
+    },
+    "matching_strategies": {
+      "kaggle_small_uber_eats_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "street",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "state",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.01
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.01
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.35,
+          0.12,
+          0.08,
+          0.05,
+          0.16,
+          0.16,
+          0.08
+        ],
+        "threshold": 0.75,
+        "f1": 0.8947368421052632
+      },
+      "kaggle_small_yelp_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "phone_e164",
+            "similarity_function": "jaro_winkler",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "postal_code",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.2,
+          0.25,
+          0.15,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ],
+        "threshold": 0.75,
+        "f1": 0.983050847457627
+      },
+      "uber_eats_small_yelp_small": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name_norm",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "street",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "city",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "latitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "numeric",
+            "column": "longitude",
+            "max_difference": 0.002
+          },
+          {
+            "type": "string",
+            "column": "categories",
+            "similarity_function": "jaccard",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          }
+        ],
+        "weights": [
+          0.28,
+          0.16,
+          0.12,
+          0.16,
+          0.16,
+          0.12
+        ],
+        "threshold": 0.72,
+        "f1": 0.9302325581395349
+      }
+    }
+  },
+  "fusion_size_comparison": {},
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 44
+    },
+    "debug_reason_ratios": {
+      "mismatch": 1.0
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/restaurant/testsets/Restaurant_Fusion_Validation_Set.csv",
+    "id_alignment": {
+      "gold_count": 20,
+      "direct_coverage": 6,
+      "direct_coverage_ratio": 0.3,
+      "mapped_coverage": 20,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "overall_accuracy": 0.8842105263157894
+  },
+  "evaluation_regression_guard": {
+    "rejected": false,
+    "overall_gain": 0.619211,
+    "macro_gain": 0.611867,
+    "overall_drop": 0.0,
+    "macro_drop": 0.0,
+    "meaningful_gain": true,
+    "net_positive": true,
+    "total_gain_weight": 12.259211,
+    "total_drop_weight": 0.0,
+    "catastrophic_attribute_drops": {},
+    "severe_attribute_drops": {},
+    "moderate_attribute_drops": {},
+    "top_attribute_drops": {},
+    "top_attribute_gains": {
+      "city": 0.7,
+      "state": 0.7,
+      "map_url": 0.7,
+      "categories": 0.7,
+      "house_number": 0.7,
+      "address_line1": 0.7,
+      "source": 0.7,
+      "phone_e164": 0.7
+    }
+  },
+  "latest_validation_metrics": {
+    "overall_accuracy": 0.8842105263157894,
+    "macro_accuracy": 0.89,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 380,
+    "total_correct": 336,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 20,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 16,
+    "address_line1_accuracy": 0.95,
+    "address_line1_count": 20,
+    "city_accuracy": 1.0,
+    "city_count": 20,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 20,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 20,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 5,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 20,
+    "map_url_accuracy": 0.7,
+    "map_url_count": 20,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "_id_accuracy": 0.3,
+    "_id_count": 20,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 20,
+    "website_accuracy": 1.0,
+    "website_count": 19,
+    "state_accuracy": 1.0,
+    "state_count": 20,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 20,
+    "street_accuracy": 0.75,
+    "street_count": 20,
+    "categories_accuracy": 1.0,
+    "categories_count": 20,
+    "source_accuracy": 0.7,
+    "source_count": 20,
+    "name_accuracy": 0.8,
+    "name_count": 20,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 20,
+    "rating_accuracy": 0.7,
+    "rating_count": 20
+  },
+  "evaluation_metrics_raw": {
+    "overall_accuracy": 0.8842105263157894,
+    "macro_accuracy": 0.89,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 380,
+    "total_correct": 336,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 20,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 16,
+    "address_line1_accuracy": 0.95,
+    "address_line1_count": 20,
+    "city_accuracy": 1.0,
+    "city_count": 20,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 20,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 20,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 5,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 20,
+    "map_url_accuracy": 0.7,
+    "map_url_count": 20,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "_id_accuracy": 0.3,
+    "_id_count": 20,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 20,
+    "website_accuracy": 1.0,
+    "website_count": 19,
+    "state_accuracy": 1.0,
+    "state_count": 20,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 20,
+    "street_accuracy": 0.75,
+    "street_count": 20,
+    "categories_accuracy": 1.0,
+    "categories_count": 20,
+    "source_accuracy": 0.7,
+    "source_count": 20,
+    "name_accuracy": 0.8,
+    "name_count": 20,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 20,
+    "rating_accuracy": 0.7,
+    "rating_count": 20
+  },
+  "evaluation_metrics_for_adaptation": {
+    "overall_accuracy": 0.8842105263157894,
+    "macro_accuracy": 0.89,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 380,
+    "total_correct": 336,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 20,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 16,
+    "address_line1_accuracy": 0.95,
+    "address_line1_count": 20,
+    "city_accuracy": 1.0,
+    "city_count": 20,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 20,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 20,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 5,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 20,
+    "map_url_accuracy": 0.7,
+    "map_url_count": 20,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "_id_accuracy": 0.3,
+    "_id_count": 20,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 20,
+    "website_accuracy": 1.0,
+    "website_count": 19,
+    "state_accuracy": 1.0,
+    "state_count": 20,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 20,
+    "street_accuracy": 0.75,
+    "street_count": 20,
+    "categories_accuracy": 1.0,
+    "categories_count": 20,
+    "source_accuracy": 0.7,
+    "source_count": 20,
+    "name_accuracy": 0.8,
+    "name_count": 20,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 20,
+    "rating_accuracy": 0.7,
+    "rating_count": 20
+  },
+  "best_validation_metrics": {
+    "overall_accuracy": 0.8842105263157894,
+    "macro_accuracy": 0.89,
+    "num_evaluated_records": 20,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 380,
+    "total_correct": 336,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 20,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 16,
+    "address_line1_accuracy": 0.95,
+    "address_line1_count": 20,
+    "city_accuracy": 1.0,
+    "city_count": 20,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 20,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 20,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 5,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 20,
+    "map_url_accuracy": 0.7,
+    "map_url_count": 20,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "_id_accuracy": 0.3,
+    "_id_count": 20,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 20,
+    "website_accuracy": 1.0,
+    "website_count": 19,
+    "state_accuracy": 1.0,
+    "state_count": 20,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 20,
+    "street_accuracy": 0.75,
+    "street_count": 20,
+    "categories_accuracy": 1.0,
+    "categories_count": 20,
+    "source_accuracy": 0.7,
+    "source_count": 20,
+    "name_accuracy": 0.8,
+    "name_count": 20,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 20,
+    "rating_accuracy": 0.7,
+    "rating_count": 20
+  },
+  "evaluation_cycle_audit": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-22T15:30:48.459915Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.265,
+        "macro_accuracy": 0.27813283208020045,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 400,
+        "total_correct": 106,
+        "city_accuracy": 0.3,
+        "city_count": 20,
+        "state_accuracy": 0.3,
+        "state_count": 20,
+        "address_line2_accuracy": 0.6,
+        "address_line2_count": 5,
+        "map_url_accuracy": 0.0,
+        "map_url_count": 20,
+        "name_accuracy": 0.25,
+        "name_count": 20,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "categories_accuracy": 0.3,
+        "categories_count": 20,
+        "rating_accuracy": 0.25,
+        "rating_count": 20,
+        "house_number_accuracy": 0.3,
+        "house_number_count": 20,
+        "address_line1_accuracy": 0.25,
+        "address_line1_count": 20,
+        "name_norm_accuracy": 0.25,
+        "name_norm_count": 20,
+        "source_accuracy": 0.0,
+        "source_count": 20,
+        "phone_e164_accuracy": 0.3,
+        "phone_e164_count": 20,
+        "postal_code_accuracy": 0.3,
+        "postal_code_count": 20,
+        "website_accuracy": 0.3157894736842105,
+        "website_count": 19,
+        "phone_raw_accuracy": 0.3,
+        "phone_raw_count": 20,
+        "street_accuracy": 0.25,
+        "street_count": 20,
+        "country_accuracy": 0.3,
+        "country_count": 20,
+        "longitude_accuracy": 0.3,
+        "longitude_count": 20,
+        "rating_count_accuracy": 0.375,
+        "rating_count_count": 16,
+        "latitude_accuracy": 0.3,
+        "latitude_count": 20
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.265,
+        "macro_accuracy": 0.27813283208020045,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 400,
+        "total_correct": 106,
+        "city_accuracy": 0.3,
+        "city_count": 20,
+        "state_accuracy": 0.3,
+        "state_count": 20,
+        "address_line2_accuracy": 0.6,
+        "address_line2_count": 5,
+        "map_url_accuracy": 0.0,
+        "map_url_count": 20,
+        "name_accuracy": 0.25,
+        "name_count": 20,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "categories_accuracy": 0.3,
+        "categories_count": 20,
+        "rating_accuracy": 0.25,
+        "rating_count": 20,
+        "house_number_accuracy": 0.3,
+        "house_number_count": 20,
+        "address_line1_accuracy": 0.25,
+        "address_line1_count": 20,
+        "name_norm_accuracy": 0.25,
+        "name_norm_count": 20,
+        "source_accuracy": 0.0,
+        "source_count": 20,
+        "phone_e164_accuracy": 0.3,
+        "phone_e164_count": 20,
+        "postal_code_accuracy": 0.3,
+        "postal_code_count": 20,
+        "website_accuracy": 0.3157894736842105,
+        "website_count": 19,
+        "phone_raw_accuracy": 0.3,
+        "phone_raw_count": 20,
+        "street_accuracy": 0.25,
+        "street_count": 20,
+        "country_accuracy": 0.3,
+        "country_count": 20,
+        "longitude_accuracy": 0.3,
+        "longitude_count": 20,
+        "rating_count_accuracy": 0.375,
+        "rating_count_count": 16,
+        "latitude_accuracy": 0.3,
+        "latitude_count": 20
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.265,
+        "macro_accuracy": 0.27813283208020045,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 400,
+        "total_correct": 106,
+        "city_accuracy": 0.3,
+        "city_count": 20,
+        "state_accuracy": 0.3,
+        "state_count": 20,
+        "address_line2_accuracy": 0.6,
+        "address_line2_count": 5,
+        "map_url_accuracy": 0.0,
+        "map_url_count": 20,
+        "name_accuracy": 0.25,
+        "name_count": 20,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "categories_accuracy": 0.3,
+        "categories_count": 20,
+        "rating_accuracy": 0.25,
+        "rating_count": 20,
+        "house_number_accuracy": 0.3,
+        "house_number_count": 20,
+        "address_line1_accuracy": 0.25,
+        "address_line1_count": 20,
+        "name_norm_accuracy": 0.25,
+        "name_norm_count": 20,
+        "source_accuracy": 0.0,
+        "source_count": 20,
+        "phone_e164_accuracy": 0.3,
+        "phone_e164_count": 20,
+        "postal_code_accuracy": 0.3,
+        "postal_code_count": 20,
+        "website_accuracy": 0.3157894736842105,
+        "website_count": 19,
+        "phone_raw_accuracy": 0.3,
+        "phone_raw_count": 20,
+        "street_accuracy": 0.25,
+        "street_count": 20,
+        "country_accuracy": 0.3,
+        "country_count": 20,
+        "longitude_accuracy": 0.3,
+        "longitude_count": 20,
+        "rating_count_accuracy": 0.375,
+        "rating_count_count": 16,
+        "latitude_accuracy": 0.3,
+        "latitude_count": 20
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.265,
+        "macro_accuracy": 0.27813283208020045,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 400,
+        "total_correct": 106,
+        "city_accuracy": 0.3,
+        "city_count": 20,
+        "state_accuracy": 0.3,
+        "state_count": 20,
+        "address_line2_accuracy": 0.6,
+        "address_line2_count": 5,
+        "map_url_accuracy": 0.0,
+        "map_url_count": 20,
+        "name_accuracy": 0.25,
+        "name_count": 20,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "categories_accuracy": 0.3,
+        "categories_count": 20,
+        "rating_accuracy": 0.25,
+        "rating_count": 20,
+        "house_number_accuracy": 0.3,
+        "house_number_count": 20,
+        "address_line1_accuracy": 0.25,
+        "address_line1_count": 20,
+        "name_norm_accuracy": 0.25,
+        "name_norm_count": 20,
+        "source_accuracy": 0.0,
+        "source_count": 20,
+        "phone_e164_accuracy": 0.3,
+        "phone_e164_count": 20,
+        "postal_code_accuracy": 0.3,
+        "postal_code_count": 20,
+        "website_accuracy": 0.3157894736842105,
+        "website_count": 19,
+        "phone_raw_accuracy": 0.3,
+        "phone_raw_count": 20,
+        "street_accuracy": 0.25,
+        "street_count": 20,
+        "country_accuracy": 0.3,
+        "country_count": 20,
+        "longitude_accuracy": 0.3,
+        "longitude_count": 20,
+        "rating_count_accuracy": 0.375,
+        "rating_count_count": 16,
+        "latitude_accuracy": 0.3,
+        "latitude_count": 20
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T15:30:47.723303Z",
+        "expected_pairs": [
+          "kaggle_small_uber_eats_small",
+          "kaggle_small_yelp_small",
+          "uber_eats_small_yelp_small"
+        ],
+        "pair_checks": [
+          {
+            "pair": "kaggle_small_uber_eats_small",
+            "status": "ok",
+            "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+            "data_rows": 58
+          },
+          {
+            "pair": "kaggle_small_yelp_small",
+            "status": "ok",
+            "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_kaggle_small_yelp_small.csv",
+            "data_rows": 151
+          },
+          {
+            "pair": "uber_eats_small_yelp_small",
+            "status": "ok",
+            "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_uber_eats_small_yelp_small.csv",
+            "data_rows": 60
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 26.500% < 85.000%",
+        "low attribute accuracy: _id=30.000%, address_line1=25.000%, categories=30.000%, city=30.000%, country=30.000%, house_number=30.000%, latitude=30.000%, longitude=30.000%",
+        "low direct ID coverage: 30.000%",
+        "high missing_fused_value mismatch ratio: 94.218%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-22T15:33:41.912919Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.8842105263157894,
+        "macro_accuracy": 0.89,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 380,
+        "total_correct": 336,
+        "longitude_accuracy": 1.0,
+        "longitude_count": 20,
+        "rating_count_accuracy": 1.0,
+        "rating_count_count": 16,
+        "address_line1_accuracy": 0.95,
+        "address_line1_count": 20,
+        "city_accuracy": 1.0,
+        "city_count": 20,
+        "phone_raw_accuracy": 1.0,
+        "phone_raw_count": 20,
+        "latitude_accuracy": 1.0,
+        "latitude_count": 20,
+        "address_line2_accuracy": 1.0,
+        "address_line2_count": 5,
+        "phone_e164_accuracy": 1.0,
+        "phone_e164_count": 20,
+        "map_url_accuracy": 0.7,
+        "map_url_count": 20,
+        "country_accuracy": 0.0,
+        "country_count": 0,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "postal_code_accuracy": 1.0,
+        "postal_code_count": 20,
+        "website_accuracy": 1.0,
+        "website_count": 19,
+        "state_accuracy": 1.0,
+        "state_count": 20,
+        "name_norm_accuracy": 0.9,
+        "name_norm_count": 20,
+        "street_accuracy": 0.75,
+        "street_count": 20,
+        "categories_accuracy": 1.0,
+        "categories_count": 20,
+        "source_accuracy": 0.7,
+        "source_count": 20,
+        "name_accuracy": 0.8,
+        "name_count": 20,
+        "house_number_accuracy": 1.0,
+        "house_number_count": 20,
+        "rating_accuracy": 0.7,
+        "rating_count": 20
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.8842105263157894,
+        "macro_accuracy": 0.89,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 380,
+        "total_correct": 336,
+        "longitude_accuracy": 1.0,
+        "longitude_count": 20,
+        "rating_count_accuracy": 1.0,
+        "rating_count_count": 16,
+        "address_line1_accuracy": 0.95,
+        "address_line1_count": 20,
+        "city_accuracy": 1.0,
+        "city_count": 20,
+        "phone_raw_accuracy": 1.0,
+        "phone_raw_count": 20,
+        "latitude_accuracy": 1.0,
+        "latitude_count": 20,
+        "address_line2_accuracy": 1.0,
+        "address_line2_count": 5,
+        "phone_e164_accuracy": 1.0,
+        "phone_e164_count": 20,
+        "map_url_accuracy": 0.7,
+        "map_url_count": 20,
+        "country_accuracy": 0.0,
+        "country_count": 0,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "postal_code_accuracy": 1.0,
+        "postal_code_count": 20,
+        "website_accuracy": 1.0,
+        "website_count": 19,
+        "state_accuracy": 1.0,
+        "state_count": 20,
+        "name_norm_accuracy": 0.9,
+        "name_norm_count": 20,
+        "street_accuracy": 0.75,
+        "street_count": 20,
+        "categories_accuracy": 1.0,
+        "categories_count": 20,
+        "source_accuracy": 0.7,
+        "source_count": 20,
+        "name_accuracy": 0.8,
+        "name_count": 20,
+        "house_number_accuracy": 1.0,
+        "house_number_count": 20,
+        "rating_accuracy": 0.7,
+        "rating_count": 20
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.8842105263157894,
+        "macro_accuracy": 0.89,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 380,
+        "total_correct": 336,
+        "longitude_accuracy": 1.0,
+        "longitude_count": 20,
+        "rating_count_accuracy": 1.0,
+        "rating_count_count": 16,
+        "address_line1_accuracy": 0.95,
+        "address_line1_count": 20,
+        "city_accuracy": 1.0,
+        "city_count": 20,
+        "phone_raw_accuracy": 1.0,
+        "phone_raw_count": 20,
+        "latitude_accuracy": 1.0,
+        "latitude_count": 20,
+        "address_line2_accuracy": 1.0,
+        "address_line2_count": 5,
+        "phone_e164_accuracy": 1.0,
+        "phone_e164_count": 20,
+        "map_url_accuracy": 0.7,
+        "map_url_count": 20,
+        "country_accuracy": 0.0,
+        "country_count": 0,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "postal_code_accuracy": 1.0,
+        "postal_code_count": 20,
+        "website_accuracy": 1.0,
+        "website_count": 19,
+        "state_accuracy": 1.0,
+        "state_count": 20,
+        "name_norm_accuracy": 0.9,
+        "name_norm_count": 20,
+        "street_accuracy": 0.75,
+        "street_count": 20,
+        "categories_accuracy": 1.0,
+        "categories_count": 20,
+        "source_accuracy": 0.7,
+        "source_count": 20,
+        "name_accuracy": 0.8,
+        "name_count": 20,
+        "house_number_accuracy": 1.0,
+        "house_number_count": 20,
+        "rating_accuracy": 0.7,
+        "rating_count": 20
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.8842105263157894,
+        "macro_accuracy": 0.89,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 380,
+        "total_correct": 336,
+        "longitude_accuracy": 1.0,
+        "longitude_count": 20,
+        "rating_count_accuracy": 1.0,
+        "rating_count_count": 16,
+        "address_line1_accuracy": 0.95,
+        "address_line1_count": 20,
+        "city_accuracy": 1.0,
+        "city_count": 20,
+        "phone_raw_accuracy": 1.0,
+        "phone_raw_count": 20,
+        "latitude_accuracy": 1.0,
+        "latitude_count": 20,
+        "address_line2_accuracy": 1.0,
+        "address_line2_count": 5,
+        "phone_e164_accuracy": 1.0,
+        "phone_e164_count": 20,
+        "map_url_accuracy": 0.7,
+        "map_url_count": 20,
+        "country_accuracy": 0.0,
+        "country_count": 0,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "postal_code_accuracy": 1.0,
+        "postal_code_count": 20,
+        "website_accuracy": 1.0,
+        "website_count": 19,
+        "state_accuracy": 1.0,
+        "state_count": 20,
+        "name_norm_accuracy": 0.9,
+        "name_norm_count": 20,
+        "street_accuracy": 0.75,
+        "street_count": 20,
+        "categories_accuracy": 1.0,
+        "categories_count": 20,
+        "source_accuracy": 0.7,
+        "source_count": 20,
+        "name_accuracy": 0.8,
+        "name_count": 20,
+        "house_number_accuracy": 1.0,
+        "house_number_count": 20,
+        "rating_accuracy": 0.7,
+        "rating_count": 20
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.619211,
+        "macro_gain": 0.611867,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 12.259211,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {
+          "city": 0.7,
+          "state": 0.7,
+          "map_url": 0.7,
+          "categories": 0.7,
+          "house_number": 0.7,
+          "address_line1": 0.7,
+          "source": 0.7,
+          "phone_e164": 0.7
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T15:33:41.162752Z",
+        "expected_pairs": [
+          "kaggle_small_uber_eats_small",
+          "kaggle_small_yelp_small",
+          "uber_eats_small_yelp_small"
+        ],
+        "pair_checks": [
+          {
+            "pair": "kaggle_small_uber_eats_small",
+            "status": "ok",
+            "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+            "data_rows": 58
+          },
+          {
+            "pair": "kaggle_small_yelp_small",
+            "status": "ok",
+            "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_kaggle_small_yelp_small.csv",
+            "data_rows": 151
+          },
+          {
+            "pair": "uber_eats_small_yelp_small",
+            "status": "ok",
+            "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_uber_eats_small_yelp_small.csv",
+            "data_rows": 60
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "low attribute accuracy: _id=30.000%, country=0.000%",
+        "low direct ID coverage: 30.000%"
+      ]
+    }
+  ],
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-22T15:33:41.162752Z",
+    "expected_pairs": [
+      "kaggle_small_uber_eats_small",
+      "kaggle_small_yelp_small",
+      "uber_eats_small_yelp_small"
+    ],
+    "pair_checks": [
+      {
+        "pair": "kaggle_small_uber_eats_small",
+        "status": "ok",
+        "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+        "data_rows": 58
+      },
+      {
+        "pair": "kaggle_small_yelp_small",
+        "status": "ok",
+        "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_kaggle_small_yelp_small.csv",
+        "data_rows": 151
+      },
+      {
+        "pair": "uber_eats_small_yelp_small",
+        "status": "ok",
+        "path": "output/runs/20260322_162759_restaurant/correspondences/correspondences_uber_eats_small_yelp_small.csv",
+        "data_rows": 60
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "evaluation_analysis": "{\n  \"action\": \"decide\",\n  \"diagnosis\": \"The dominant failure is not normalization or matching; it is fusion/output ID handling caused by keeping singleton records and extracting eval_id from arbitrary source prefixes. Matching quality is already high (F1 0.89-0.98, correspondence files non-empty, cluster analysis clean), yet 94.2% of errors are missing_fused_value and many mismatch samples have fused_id='nan'. This means the evaluator cannot align most validation rows to the correct fused entity. Additionally, several low-accuracy attributes use suboptimal fusion resolvers/trust: the current trust map prefers yelp_small over better sources for source/name/address_line1, and map_url/source/name/rating/address_line1 evidence shows different best resolvers. So the next fix is pipeline adaptation: correct post-clustering/output identity selection and update attribute fusers/trust, while preserving the 24 already-good attributes.\",\n  \"next_node\": \"pipeline_adaption\",\n  \"reasoning\": \"Routing to matching/blocking is not justified because correspondences exist for all pairs, blocking probes found no recall issues, and pairwise F1 is strong. Routing to normalization is also not primary because the main error class is missing fused output, not systematic format mismatch; the one visible name format issue is minor compared with the alignment problem. pipeline_adaption is the correct frozen-stage lever because it can change post-clustering and fusion strategy. The post-clustering recommendation is already MaximumBipartiteMatching, and current include_singletons/eval-id behavior is likely emitting many singleton fused rows whose chosen eval_id does not correspond to the validation IDs, producing blank fused matches. On top of that, resolver evidence from source-vs-validation comparison is strong: uber_eats_small is best for source/name/address_line1, yelp_small is best for rating and often for map_url, so current prefer_higher_trust(yelp>kaggle>uber) is actively wrong for several attributes. Protected attributes above 85% should be left untouched.\",\n  \"ceiling_assessment\": \"With current source data and frozen matching/import stages, overall accuracy can likely move substantially upward from 0.265 toward roughly 0.70-0.82 if post-clustering/ID alignment is corrected and the worst attribute fusers are fixed. The stated structural ceiling is 82.5%; the current gap is mostly operational rather than inherent because 94% missing_fused errors are recoverable. Remaining gap will come from structurally limited attributes like heterogeneous categories/list content and occasional source disagreements.\",\n  \"recommendations\": [\n    {\n      \"attribute\": \"post_clustering / fused entity identity\",\n      \"issue\": \"Most evaluation misses are caused by fused entities not aligning to validation IDs (fused_id nan or wrong source-prefixed ID), despite good correspondences. Current output keeps singletons and eval_id is derived by taking the first matching prefix from _fusion_sources, which can miss the validation anchor record for many rows.\",\n      \"fix\": \"Enable/keep post-clustering as MaximumBipartiteMatching and adapt fusion output identity logic so fused records consistently retain source-specific IDs needed by validation (prefer existing kaggle380k_id / uber_eats_id / yelp_id columns or deterministic source-ID retention per cluster rather than arbitrary first prefix from _fusion_sources). If configurable in the adaptation stage, disable harmful singleton-driven evaluation rows or ensure singleton records still expose the proper source-prefixed IDs.\",\n      \"resolver_reasoning\": \"Evidence points to alignment, not value synthesis: matching is high quality, correspondence files are present, cluster ambiguity is low, and 94.2% of mismatches are missing_fused. No attribute-level resolver can fix rows that never align to validation. MaximumBipartiteMatching is already recommended by cluster analysis and should reduce fragmented/duplicated clusters. Alternatives like changing blocking or thresholds are worse because they target pair generation, not the observed evaluator join failure.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.35\n    },\n    {\n      \"attribute\": \"source\",\n      \"issue\": \"Current prefer_higher_trust uses yelp_small > kaggle_small > uber_eats_small, but validation expects uber_eats_small's source label most often when sources disagree. This directly causes source='yelp' when expected='kaggle_380k' or 'uber_eats' in samples.\",\n      \"fix\": \"Change source fuser to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.\",\n      \"resolver_reasoning\": \"Source-vs-validation comparison shows exact match rates: uber_eats_small 100%, yelp_small 62%, kaggle_small 30%. This is a textbook prefer_higher_trust case with a clear best source. voting would fail whenever sources disagree and there is no majority; favour_sources would also work but prefer_higher_trust is simpler and equivalent given the clear ranking.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.04\n    },\n    {\n      \"attribute\": \"name\",\n      \"issue\": \"Current name resolver prefers yelp_small via trust, but validation names are most often the shortest/canonical version, with uber_eats_small exact at 100%. Current configuration causes truncation/expansion mismatches like missing venue suffixes or extra noise.\",\n      \"fix\": \"Change name fuser to shortest_string.\",\n      \"resolver_reasoning\": \"Measured exact rates: uber_eats_small 100%, kaggle_small 90%, yelp_small 81%, and the probe explicitly recommends shortest_string. Validation examples use concise canonical names ('Cornish Pasty Co', 'Longitude 118', 'For The Win'). shortest_string best approximates this across sources without hard-coding a trust map. longest_string would worsen cases like 'Pier 88 Boiling Seafood & Bar Avondale' only if another source adds extra context inconsistently; prefer_higher_trust is worse because yelp is not the best source for names.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.04\n    },\n    {\n      \"attribute\": \"address_line1\",\n      \"issue\": \"Current most_complete can pick a longer but non-target variant, while validation most often matches uber_eats_small exactly and yelp_small nearly as well.\",\n      \"fix\": \"Change address_line1 fuser to voting; if voting underperforms in implementation, fallback to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.\",\n      \"resolver_reasoning\": \"Evidence: uber_eats_small 100% exact, yelp_small 94%, kaggle_small 75%; probe recommendation is voting. Because top two sources often agree on the canonical street line, voting should recover the expected value without always forcing a single source. most_complete is worse when one source includes extra tokens not present in validation. prefer_higher_trust(uber-first) is a strong fallback but slightly less robust when uber is null and yelp agrees with kaggle.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.03\n    },\n    {\n      \"attribute\": \"rating\",\n      \"issue\": \"Current median can synthesize values not present in validation or drift from the better source. Validation is closer to source values, especially yelp_small.\",\n      \"fix\": \"Change rating fuser to voting; if PyDI voting on numeric values is unsuitable, use prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1} only if uber ratings are largely absent.\",\n      \"resolver_reasoning\": \"Source comparison: yelp_small 62% exact vs kaggle_small 50%, and probe recommends voting. Validation examples show discrete source ratings like 4.3, 4.2, 4.6, not necessarily an aggregate statistic. median is appropriate for noisy measurements, but here exact source values matter more. voting preserves commonly shared values; prefer_higher_trust(yelp-first) is second-best if numeric voting behaves poorly.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.03\n    },\n    {\n      \"attribute\": \"map_url\",\n      \"issue\": \"Current prefer_higher_trust always favors yelp_small, but validation alternates between yelp URLs and google maps URLs from kaggle_small. Samples show wrong yelp chosen when expected is google maps.\",\n      \"fix\": \"Change map_url fuser to voting; if ties are common, prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1}.\",\n      \"resolver_reasoning\": \"Comparison shows yelp_small 62% exact, kaggle_small 50% exact, and probe recommends voting(yelp > kaggle). This indicates no single source dominates enough to justify current fixed trust selection. voting is better when exact expected URL depends on agreement pattern; always preferring yelp causes the observed google-vs-yelp mismatches. longest/shortest/most_complete are not semantically meaningful for URLs.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.03\n    }\n  ]\n}",
+  "evaluation_reasoning_brief": {
+    "root_cause": "The dominant failure is not normalization or matching; it is fusion/output ID handling caused by keeping singleton records and extracting eval_id from arbitrary source prefixes. Matching quality is already high (F1 0.89-0.98, correspondence files non-empty, cluster analysis clean), yet 94.2% of errors are missing_fused_value and many mismatch samples have fused_id='nan'. This means the evaluator cannot align most validation rows to the correct fused entity. Additionally, several low-accuracy attributes use suboptimal fusion resolvers/trust: the current trust map prefers yelp_small over better sources for source/name/address_line1, and map_url/source/name/rating/address_line1 evidence shows different best resolvers. So the next fix is pipeline adaptation: correct post-clustering/output identity selection and update attribute fusers/trust, while preserving the 24 already-good attributes.",
+    "next_step": "Routing to matching/blocking is not justified because correspondences exist for all pairs, blocking probes found no recall issues, and pairwise F1 is strong. Routing to normalization is also not primary because the main error class is missing fused output, not systematic format mismatch; the one visible name format issue is minor compared with the alignment problem. pipeline_adaption is the correct frozen-stage lever because it can change post-clustering and fusion strategy. The post-clustering recommendation is already MaximumBipartiteMatching, and current include_singletons/eval-id behavior is likely emitting many singleton fused rows whose chosen eval_id does not correspond to the validation IDs, producing blank fused matches. On top of that, resolver evidence from source-vs-validation comparison is strong: uber_eats_small is best for source/name/address_line1, yelp_small is best for rating and often for map_url, so current prefer_higher_trust(yelp>kaggle>uber) is actively wrong for several attributes. Protected attributes above 85% should be left untouched.",
+    "takeaway": "The dominant failure is not normalization or matching; it is fusion/output ID handling caused by keeping singleton records and extracting eval_id from arbitrary source prefixes. Matching quality is already high (F1 0.89-0.98, correspondence files non-empty, cluster analysis clean), yet 94.2% of errors are missing_fused_value and many mismatch samples have fused_id='nan'. This means the evaluator cannot align most validation rows to the correct fused entity. Additionally, several low-accuracy attributes use suboptimal fusion resolvers/trust: the current trust map prefers yelp_small over better sources for source/name/address_line1, and map_url/source/name/rating/address_line1 evidence shows different best resolvers. So the next fix is pipeline adaptation: correct post-clustering/output identity selection and update attribute fusers/trust, while preserving the 24 already-good attributes.",
+    "recommendations": [
+      {
+        "attribute": "post_clustering / fused entity identity",
+        "issue": "Most evaluation misses are caused by fused entities not aligning to validation IDs (fused_id nan or wrong source-prefixed ID), despite good correspondences. Current output keeps singletons and eval_id is derived by taking the first matching prefix from _fusion_sources, which can miss the validation anchor record for many rows.",
+        "fix": "Enable/keep post-clustering as MaximumBipartiteMatching and adapt fusion output identity logic so fused records consistently retain source-specific IDs needed by validation (prefer existing kaggle380k_id / uber_eats_id / yelp_id columns or deterministic source-ID retention per cluster rather than arbitrary first prefix from _fusion_sources). If configurable in the adaptation stage, disable harmful singleton-driven evaluation rows or ensure singleton records still expose the proper source-prefixed IDs.",
+        "resolver_reasoning": "Evidence points to alignment, not value synthesis: matching is high quality, correspondence files are present, cluster ambiguity is low, and 94.2% of mismatches are missing_fused. No attribute-level resolver can fix rows that never align to validation. MaximumBipartiteMatching is already recommended by cluster analysis and should reduce fragmented/duplicated clusters. Alternatives like changing blocking or thresholds are worse because they target pair generation, not the observed evaluator join failure.",
+        "class": "improvable",
+        "expected_impact": 0.35
+      },
+      {
+        "attribute": "source",
+        "issue": "Current prefer_higher_trust uses yelp_small > kaggle_small > uber_eats_small, but validation expects uber_eats_small's source label most often when sources disagree. This directly causes source='yelp' when expected='kaggle_380k' or 'uber_eats' in samples.",
+        "fix": "Change source fuser to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+        "resolver_reasoning": "Source-vs-validation comparison shows exact match rates: uber_eats_small 100%, yelp_small 62%, kaggle_small 30%. This is a textbook prefer_higher_trust case with a clear best source. voting would fail whenever sources disagree and there is no majority; favour_sources would also work but prefer_higher_trust is simpler and equivalent given the clear ranking.",
+        "class": "improvable",
+        "expected_impact": 0.04
+      },
+      {
+        "attribute": "name",
+        "issue": "Current name resolver prefers yelp_small via trust, but validation names are most often the shortest/canonical version, with uber_eats_small exact at 100%. Current configuration causes truncation/expansion mismatches like missing venue suffixes or extra noise.",
+        "fix": "Change name fuser to shortest_string.",
+        "resolver_reasoning": "Measured exact rates: uber_eats_small 100%, kaggle_small 90%, yelp_small 81%, and the probe explicitly recommends shortest_string. Validation examples use concise canonical names ('Cornish Pasty Co', 'Longitude 118', 'For The Win'). shortest_string best approximates this across sources without hard-coding a trust map. longest_string would worsen cases like 'Pier 88 Boiling Seafood & Bar Avondale' only if another source adds extra context inconsistently; prefer_higher_trust is worse because yelp is not the best source for names.",
+        "class": "improvable",
+        "expected_impact": 0.04
+      },
+      {
+        "attribute": "address_line1",
+        "issue": "Current most_complete can pick a longer but non-target variant, while validation most often matches uber_eats_small exactly and yelp_small nearly as well.",
+        "fix": "Change address_line1 fuser to voting; if voting underperforms in implementation, fallback to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+        "resolver_reasoning": "Evidence: uber_eats_small 100% exact, yelp_small 94%, kaggle_small 75%; probe recommendation is voting. Because top two sources often agree on the canonical street line, voting should recover the expected value without always forcing a single source. most_complete is worse when one source includes extra tokens not present in validation. prefer_higher_trust(uber-first) is a strong fallback but slightly less robust when uber is null and yelp agrees with kaggle.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "rating",
+        "issue": "Current median can synthesize values not present in validation or drift from the better source. Validation is closer to source values, especially yelp_small.",
+        "fix": "Change rating fuser to voting; if PyDI voting on numeric values is unsuitable, use prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1} only if uber ratings are largely absent.",
+        "resolver_reasoning": "Source comparison: yelp_small 62% exact vs kaggle_small 50%, and probe recommends voting. Validation examples show discrete source ratings like 4.3, 4.2, 4.6, not necessarily an aggregate statistic. median is appropriate for noisy measurements, but here exact source values matter more. voting preserves commonly shared values; prefer_higher_trust(yelp-first) is second-best if numeric voting behaves poorly.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "map_url",
+        "issue": "Current prefer_higher_trust always favors yelp_small, but validation alternates between yelp URLs and google maps URLs from kaggle_small. Samples show wrong yelp chosen when expected is google maps.",
+        "fix": "Change map_url fuser to voting; if ties are common, prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1}.",
+        "resolver_reasoning": "Comparison shows yelp_small 62% exact, kaggle_small 50% exact, and probe recommends voting(yelp > kaggle). This indicates no single source dominates enough to justify current fixed trust selection. voting is better when exact expected URL depends on agreement pattern; always preferring yelp causes the observed google-vs-yelp mismatches. longest/shortest/most_complete are not semantically meaningful for URLs.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      }
+    ],
+    "next_node": "pipeline_adaption",
+    "ceiling_assessment": "With current source data and frozen matching/import stages, overall accuracy can likely move substantially upward from 0.265 toward roughly 0.70-0.82 if post-clustering/ID alignment is corrected and the worst attribute fusers are fixed. The stated structural ceiling is 82.5%; the current gap is mostly operational rather than inherent because 94% missing_fused errors are recoverable. Remaining gap will come from structurally limited attributes like heterogeneous categories/list content and occasional source disagreements."
+  },
+  "pipeline_generation_review": {
+    "verdict": "pass",
+    "summary": "no_static_findings"
+  },
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T15:30:04.789089Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_162759_restaurant/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_162759_restaurant/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_162759_restaurant/pipeline/cycle_01/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260322_162759_restaurant/pipeline/cycle_01/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260322_162759_restaurant/pipeline/cycle_01/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260322_162759_restaurant/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T15:32:53.788649Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_162759_restaurant/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_162759_restaurant/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_162759_restaurant/pipeline/cycle_02/exec_01/correspondences/correspondences_kaggle_small_uber_eats_small.csv",
+          "output/runs/20260322_162759_restaurant/pipeline/cycle_02/exec_01/correspondences/correspondences_kaggle_small_yelp_small.csv",
+          "output/runs/20260322_162759_restaurant/pipeline/cycle_02/exec_01/correspondences/correspondences_uber_eats_small_yelp_small.csv"
+        ],
+        "execution_log": "output/runs/20260322_162759_restaurant/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T15:30:47.715851Z",
+      "metrics": {
+        "overall_accuracy": 0.265,
+        "macro_accuracy": 0.27813283208020045,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 400,
+        "total_correct": 106,
+        "city_accuracy": 0.3,
+        "city_count": 20,
+        "state_accuracy": 0.3,
+        "state_count": 20,
+        "address_line2_accuracy": 0.6,
+        "address_line2_count": 5,
+        "map_url_accuracy": 0.0,
+        "map_url_count": 20,
+        "name_accuracy": 0.25,
+        "name_count": 20,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "categories_accuracy": 0.3,
+        "categories_count": 20,
+        "rating_accuracy": 0.25,
+        "rating_count": 20,
+        "house_number_accuracy": 0.3,
+        "house_number_count": 20,
+        "address_line1_accuracy": 0.25,
+        "address_line1_count": 20,
+        "name_norm_accuracy": 0.25,
+        "name_norm_count": 20,
+        "source_accuracy": 0.0,
+        "source_count": 20,
+        "phone_e164_accuracy": 0.3,
+        "phone_e164_count": 20,
+        "postal_code_accuracy": 0.3,
+        "postal_code_count": 20,
+        "website_accuracy": 0.3157894736842105,
+        "website_count": 19,
+        "phone_raw_accuracy": 0.3,
+        "phone_raw_count": 20,
+        "street_accuracy": 0.25,
+        "street_count": 20,
+        "country_accuracy": 0.3,
+        "country_count": 20,
+        "longitude_accuracy": 0.3,
+        "longitude_count": 20,
+        "rating_count_accuracy": 0.375,
+        "rating_count_count": 16,
+        "latitude_accuracy": 0.3,
+        "latitude_count": 20
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T15:33:41.158437Z",
+      "metrics": {
+        "overall_accuracy": 0.8842105263157894,
+        "macro_accuracy": 0.89,
+        "num_evaluated_records": 20,
+        "num_evaluated_attributes": 21,
+        "total_evaluations": 380,
+        "total_correct": 336,
+        "longitude_accuracy": 1.0,
+        "longitude_count": 20,
+        "rating_count_accuracy": 1.0,
+        "rating_count_count": 16,
+        "address_line1_accuracy": 0.95,
+        "address_line1_count": 20,
+        "city_accuracy": 1.0,
+        "city_count": 20,
+        "phone_raw_accuracy": 1.0,
+        "phone_raw_count": 20,
+        "latitude_accuracy": 1.0,
+        "latitude_count": 20,
+        "address_line2_accuracy": 1.0,
+        "address_line2_count": 5,
+        "phone_e164_accuracy": 1.0,
+        "phone_e164_count": 20,
+        "map_url_accuracy": 0.7,
+        "map_url_count": 20,
+        "country_accuracy": 0.0,
+        "country_count": 0,
+        "_id_accuracy": 0.3,
+        "_id_count": 20,
+        "postal_code_accuracy": 1.0,
+        "postal_code_count": 20,
+        "website_accuracy": 1.0,
+        "website_count": 19,
+        "state_accuracy": 1.0,
+        "state_count": 20,
+        "name_norm_accuracy": 0.9,
+        "name_norm_count": 20,
+        "street_accuracy": 0.75,
+        "street_count": 20,
+        "categories_accuracy": 1.0,
+        "categories_count": 20,
+        "source_accuracy": 0.7,
+        "source_count": 20,
+        "name_accuracy": 0.8,
+        "name_count": 20,
+        "house_number_accuracy": 1.0,
+        "house_number_count": 20,
+        "rating_accuracy": 0.7,
+        "rating_count": 20
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_162759_restaurant/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    }
+  ],
+  "normalization_execution_result": "success",
+  "normalization_attempts": 1,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 1,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/restaurant/testsets/Restaurant_Fusion_Validation_Set.csv",
+    "llm_specs": {
+      "kaggle_small": {
+        "phone_raw": {
+          "output_type": "int",
+          "on_failure": "keep",
+          "phone_format": "e164"
+        },
+        "phone_e164": {
+          "output_type": "int",
+          "on_failure": "keep",
+          "phone_format": "e164"
+        },
+        "house_number": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "postal_code": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "country": {
+          "strip_whitespace": true,
+          "country_format": "alpha_2",
+          "on_failure": "keep"
+        },
+        "categories": {
+          "strip_whitespace": true
+        }
+      },
+      "uber_eats_small": {
+        "house_number": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "postal_code": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "country": {
+          "strip_whitespace": true,
+          "country_format": "alpha_2",
+          "on_failure": "keep"
+        },
+        "categories": {
+          "strip_whitespace": true
+        },
+        "rating_count": {
+          "output_type": "float",
+          "on_failure": "keep"
+        }
+      },
+      "yelp_small": {
+        "phone_raw": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "phone_e164": {
+          "output_type": "int",
+          "on_failure": "keep",
+          "phone_format": "e164"
+        },
+        "house_number": {
+          "output_type": "keep",
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "postal_code": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "country": {
+          "strip_whitespace": true,
+          "country_format": "alpha_2",
+          "on_failure": "keep"
+        },
+        "categories": {
+          "strip_whitespace": true
+        },
+        "rating_count": {
+          "output_type": "float",
+          "on_failure": "keep"
+        }
+      }
+    },
+    "llm_list_columns": [
+      "categories"
+    ],
+    "llm_reasoning": "Target uses US alpha-2 country codes, numeric postal_code, numeric house_number where possible, phone fields stored as digits without leading plus, and categories are list-like strings. Yelp and Kaggle phone_e164 values need e164 normalization then integer casting; Kaggle phone_raw also has plus-prefixed values. Uber Eats and Yelp rating_count should be float to match target. Yelp house_number includes hyphenated values in samples, so it is preserved as text aside from whitespace stripping.",
+    "datasets": {
+      "kaggle_small": {
+        "input_path": "output/runs/20260322_162759_restaurant/schema-matching/kaggle_small.parquet",
+        "output_path": "output/runs/20260322_162759_restaurant/normalization/attempt_1/kaggle_small.csv",
+        "row_count": 10000,
+        "id_column": "id",
+        "spec_applied": {
+          "phone_raw": {
+            "output_type": "int",
+            "on_failure": "keep",
+            "phone_format": "e164"
+          },
+          "phone_e164": {
+            "output_type": "int",
+            "on_failure": "keep",
+            "phone_format": "e164"
+          },
+          "house_number": {
+            "output_type": "int",
+            "on_failure": "keep"
+          },
+          "postal_code": {
+            "output_type": "int",
+            "on_failure": "keep"
+          },
+          "country": {
+            "strip_whitespace": true,
+            "country_format": "alpha_2",
+            "on_failure": "keep"
+          },
+          "categories": {
+            "strip_whitespace": true
+          }
+        },
+        "list_columns_applied": [
+          "categories"
+        ]
+      },
+      "uber_eats_small": {
+        "input_path": "output/runs/20260322_162759_restaurant/schema-matching/uber_eats_small.parquet",
+        "output_path": "output/runs/20260322_162759_restaurant/normalization/attempt_1/uber_eats_small.csv",
+        "row_count": 10000,
+        "id_column": "id",
+        "spec_applied": {
+          "house_number": {
+            "output_type": "int",
+            "on_failure": "keep"
+          },
+          "postal_code": {
+            "output_type": "int",
+            "on_failure": "keep"
+          },
+          "country": {
+            "strip_whitespace": true,
+            "country_format": "alpha_2",
+            "on_failure": "keep"
+          },
+          "categories": {
+            "strip_whitespace": true
+          },
+          "rating_count": {
+            "output_type": "float",
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": [
+          "categories"
+        ]
+      },
+      "yelp_small": {
+        "input_path": "output/runs/20260322_162759_restaurant/schema-matching/yelp_small.parquet",
+        "output_path": "output/runs/20260322_162759_restaurant/normalization/attempt_1/yelp_small.csv",
+        "row_count": 10000,
+        "id_column": "id",
+        "spec_applied": {
+          "phone_raw": {
+            "output_type": "int",
+            "on_failure": "keep"
+          },
+          "phone_e164": {
+            "output_type": "int",
+            "on_failure": "keep",
+            "phone_format": "e164"
+          },
+          "house_number": {
+            "output_type": "keep",
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          },
+          "postal_code": {
+            "output_type": "int",
+            "on_failure": "keep"
+          },
+          "country": {
+            "strip_whitespace": true,
+            "country_format": "alpha_2",
+            "on_failure": "keep"
+          },
+          "categories": {
+            "strip_whitespace": true
+          },
+          "rating_count": {
+            "output_type": "float",
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": [
+          "categories"
+        ]
+      }
+    },
+    "warnings": [],
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "reverted_to_original": false,
+    "created_at": "2026-03-22T16:28:13.130954"
+  },
+  "normalization_directives": {
+    "specs": {
+      "kaggle_small": {
+        "phone_raw": {
+          "output_type": "int",
+          "on_failure": "keep",
+          "phone_format": "e164"
+        },
+        "phone_e164": {
+          "output_type": "int",
+          "on_failure": "keep",
+          "phone_format": "e164"
+        },
+        "house_number": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "postal_code": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "country": {
+          "strip_whitespace": true,
+          "country_format": "alpha_2",
+          "on_failure": "keep"
+        },
+        "categories": {
+          "strip_whitespace": true
+        }
+      },
+      "uber_eats_small": {
+        "house_number": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "postal_code": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "country": {
+          "strip_whitespace": true,
+          "country_format": "alpha_2",
+          "on_failure": "keep"
+        },
+        "categories": {
+          "strip_whitespace": true
+        },
+        "rating_count": {
+          "output_type": "float",
+          "on_failure": "keep"
+        }
+      },
+      "yelp_small": {
+        "phone_raw": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "phone_e164": {
+          "output_type": "int",
+          "on_failure": "keep",
+          "phone_format": "e164"
+        },
+        "house_number": {
+          "output_type": "keep",
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "postal_code": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "country": {
+          "strip_whitespace": true,
+          "country_format": "alpha_2",
+          "on_failure": "keep"
+        },
+        "categories": {
+          "strip_whitespace": true
+        },
+        "rating_count": {
+          "output_type": "float",
+          "on_failure": "keep"
+        }
+      }
+    },
+    "list_columns": [
+      "categories"
+    ]
+  },
+  "investigator_action_plan": [
+    {
+      "action": "Enable/keep post-clustering as MaximumBipartiteMatching and adapt fusion output identity logic so fused records consistently retain source-specific IDs needed by validation (prefer existing kaggle380k_id / uber_eats_id / yelp_id columns or deterministic source-ID retention per cluster rather than arbitrary first prefix from _fusion_sources). If configurable in the adaptation stage, disable harmful singleton-driven evaluation rows or ensure singleton records still expose the proper source-prefixed IDs.",
+      "target_attributes": [
+        "post_clustering / fused entity identity"
+      ],
+      "priority_score": 0.35,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Change source fuser to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+      "target_attributes": [
+        "source"
+      ],
+      "priority_score": 0.04,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Change name fuser to shortest_string.",
+      "target_attributes": [
+        "name"
+      ],
+      "priority_score": 0.04,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Change address_line1 fuser to voting; if voting underperforms in implementation, fallback to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+      "target_attributes": [
+        "address_line1"
+      ],
+      "priority_score": 0.03,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Change rating fuser to voting; if PyDI voting on numeric values is unsuitable, use prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1} only if uber ratings are largely absent.",
+      "target_attributes": [
+        "rating"
+      ],
+      "priority_score": 0.03,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Change map_url fuser to voting; if ties are common, prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1}.",
+      "target_attributes": [
+        "map_url"
+      ],
+      "priority_score": 0.03,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    }
+  ],
+  "fusion_guidance": {
+    "mismatch_classifications": {
+      "map_url": {
+        "missing_fused": 3,
+        "value_mismatch": 2
+      },
+      "source": {
+        "missing_fused": 3,
+        "value_mismatch": 2
+      },
+      "name": {
+        "missing_fused": 4,
+        "format_mismatch": 1
+      },
+      "rating": {
+        "missing_fused": 5
+      },
+      "address_line1": {
+        "missing_fused": 5
+      }
+    },
+    "post_clustering": {
+      "recommended_strategy": "MaximumBipartiteMatching",
+      "reason": "cluster analysis evidence"
+    },
+    "global_hints": [],
+    "attribute_strategies": {
+      "map_url": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "yelp_small": 3,
+          "kaggle_small": 2,
+          "uber_eats_small": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "source": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "uber_eats_small": 3,
+          "yelp_small": 2,
+          "kaggle_small": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "name": {
+        "recommended_fuser": "shortest_string",
+        "trust_map": {
+          "uber_eats_small": 3,
+          "kaggle_small": 2,
+          "yelp_small": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "rating": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "yelp_small": 3,
+          "kaggle_small": 2,
+          "uber_eats_small": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "address_line1": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "uber_eats_small": 3,
+          "yelp_small": 2,
+          "kaggle_small": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "post_clustering / fused entity identity": {
+        "recommended_fuser": "maximum",
+        "trust_map": {},
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      }
+    }
+  },
+  "investigator_decision": "human_review_export",
+  "investigator_routing_decision": {},
+  "matching_refresh_gate": {},
+  "per_run_output_dir": "output/runs/20260322_162759_restaurant/",
+  "normalized_datasets": [
+    "output/runs/20260322_162759_restaurant/normalization/attempt_1/kaggle_small.csv",
+    "output/runs/20260322_162759_restaurant/normalization/attempt_1/uber_eats_small.csv",
+    "output/runs/20260322_162759_restaurant/normalization/attempt_1/yelp_small.csv"
+  ],
+  "integration_diagnostics_execution_result": "",
+  "integration_diagnostics_report": {},
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": {
+      "status": "completed",
+      "message": "Human-review outputs generated."
+    },
+    "file_paths": {
+      "fused_review_table": "output/runs/20260322_162759_restaurant/human_review/fused_review_table.csv",
+      "source_lineage_long": "output/runs/20260322_162759_restaurant/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff": "output/runs/20260322_162759_restaurant/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/runs/20260322_162759_restaurant/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/runs/20260322_162759_restaurant/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 29741,
+      "fused_review_rows": 29741,
+      "source_lineage_rows": 30000,
+      "diff_rows": 549409,
+      "source_datasets": 3,
+      "review_attributes": 23,
+      "testset_rows": 40
+    },
+    "warnings": [],
+    "created_at": "2026-03-22T15:37:36.843616+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.8945981554677207,
+    "macro_accuracy": 0.9,
+    "num_evaluated_records": 40,
+    "num_evaluated_attributes": 21,
+    "total_evaluations": 759,
+    "total_correct": 679,
+    "phone_raw_accuracy": 1.0,
+    "phone_raw_count": 40,
+    "name_norm_accuracy": 0.9,
+    "name_norm_count": 40,
+    "house_number_accuracy": 1.0,
+    "house_number_count": 40,
+    "state_accuracy": 1.0,
+    "state_count": 40,
+    "website_accuracy": 1.0,
+    "website_count": 38,
+    "postal_code_accuracy": 1.0,
+    "postal_code_count": 40,
+    "rating_accuracy": 0.75,
+    "rating_count": 40,
+    "country_accuracy": 0.0,
+    "country_count": 0,
+    "map_url_accuracy": 0.725,
+    "map_url_count": 40,
+    "categories_accuracy": 0.975,
+    "categories_count": 40,
+    "source_accuracy": 0.725,
+    "source_count": 40,
+    "rating_count_accuracy": 1.0,
+    "rating_count_count": 34,
+    "_id_accuracy": 0.3,
+    "_id_count": 40,
+    "name_accuracy": 0.775,
+    "name_count": 40,
+    "address_line1_accuracy": 0.975,
+    "address_line1_count": 40,
+    "phone_e164_accuracy": 1.0,
+    "phone_e164_count": 40,
+    "street_accuracy": 0.875,
+    "street_count": 40,
+    "longitude_accuracy": 1.0,
+    "longitude_count": 40,
+    "latitude_accuracy": 1.0,
+    "latitude_count": 40,
+    "address_line2_accuracy": 1.0,
+    "address_line2_count": 7,
+    "city_accuracy": 1.0,
+    "city_count": 40
+  },
+  "agent_run_summary": {
+    "agent_loop_overview": "The agent profiles the datasets, optionally reruns normalization, keeps the tested blocking setup, searches or refreshes matching when needed, generates a fusion pipeline, generates and runs an evaluation script, diagnoses the result, and then routes either back to matching, back to normalization, back to pipeline adaptation, or to final human review.",
+    "final_route": "finish automatic passes and export for human review",
+    "current_problem": "",
+    "next_step_advice": "Routing to matching/blocking is not justified because correspondences exist for all pairs, blocking probes found no recall issues, and pairwise F1 is strong. Routing to normalization is also not primary because the main error class is missing fused output, not systematic format mismatch; the one visible name format issue is minor compared with the alignment problem. pipeline_adaption is the correct frozen-stage lever because it can change post-clustering and fusion strategy. The post-clustering recommendation is already MaximumBipartiteMatching, and current include_singletons/eval-id behavior is likely emitting many singleton fused rows whose chosen eval_id does not correspond to the validation IDs, producing blank fused matches. On top of that, resolver evidence from source-vs-validation comparison is strong: uber_eats_small is best for source/name/address_line1, yelp_small is best for rating and often for map_url, so current prefer_higher_trust(yelp>kaggle>uber) is actively wrong for several attributes. Protected attributes above 85% should be left untouched.",
+    "normalization_note": "",
+    "report_takeaway": "The dominant failure is not normalization or matching; it is fusion/output ID handling caused by keeping singleton records and extracting eval_id from arbitrary source prefixes. Matching quality is already high (F1 0.89-0.98, correspondence files non-empty, cluster analysis clean), yet 94.2% of errors are missing_fused_value and many mismatch samples have fused_id='nan'. This means the evaluator cannot align most validation rows to the correct fused entity. Additionally, several low-accuracy attributes use suboptimal fusion resolvers/trust: the current trust map prefers yelp_small over better sources for source/name/address_line1, and map_url/source/name/rating/address_line1 evidence shows different best resolvers. So the next fix is pipeline adaptation: correct post-clustering/output identity selection and update attribute fusers/trust, while preserving the 24 already-good attributes.",
+    "top_detected_problems": [
+      "low attribute accuracy: _id=30.000%, country=0.000%",
+      "low direct ID coverage: 30.000%"
+    ],
+    "top_planned_actions": [
+      "Enable/keep post-clustering as MaximumBipartiteMatching and adapt fusion output identity logic so fused records consistently retain source-specific IDs needed by validation (prefer existing kaggle380k_id / uber_eats_id / yelp_id columns or deterministic source-ID retention per cluster rather than arbitrary first prefix from _fusion_sources). If configurable in the adaptation stage, disable harmful singleton-driven evaluation rows or ensure singleton records still expose the proper source-prefixed IDs.",
+      "Change source fuser to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+      "Change name fuser to shortest_string."
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 224454,
+    "completion_tokens": 22241,
+    "total_tokens": 246695,
+    "total_cost": 0.8947499999999999
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 2,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": [],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to use PyDI DataFusionEvaluator evaluate method, fused_id_column, gold_id_column, and add_evaluation_function examples?",
+      "response": "DataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion.evaluation. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute to fuse.\nfuser_or_resolver\n(\nUnion\n[\nAttributeValueFuser\n,\nConflictResolutionFunction\n]\n) – Either an AttributeValueFuser instance or a resolver function that\nresolves conflicts and returns (value, confidence, metadata).\nevaluation_function\n(\nOptional\n[\nEvaluationFunction\n]\n) – Optional evaluation rule for quality assessment.\n\n-----\n\n[API_SIGNATURE] print_evaluation_examples ( gold_df , fused_id_column , gold_id_column , max_examples = 3 ) [source] \nPrint examples of correct and incorrect fusion results. Parameters : gold_df ( pd.DataFrame ) – The expected/validation dataset. fused_id_column ( str ) – ID column name in the fused dataset. gold_id_column ( str ) – ID column name in the expected dataset. max_examples ( int , default 3 ) – Maximum number of examples to show for each category.\n\n-----\n\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\n\n-----\n\n[API_SIGNATURE] evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source] \nEvaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float]"
+    },
+    {
+      "query": "PyDI evaluation functions tokenized_match exact_match year_only_match numeric_tolerance_match set_equality_match boolean_match documentation",
+      "response": "(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nif\nisinstance\n(\nfused_value\n,\n(\nlist\n,\ntuple\n,\nset\n))\nand\nisinstance\n(\nexpected_value\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nset\n(\nfused_value\n)\n==\nset\n(\nexpected_value\n)\nreturn\nfused_value\n==\nexpected_value\nexcept\n(\nTypeError\n,\nValueError\n):\nreturn\nstr\n(\nfused_value\n)\n==\nstr\n(\nexpected_value\n)\n[docs]\ndef\nboolean_match\n(\nfused_value\n,\n\n-----\n\ndetect_attribute_conflicts()\nearliest()\nexact_match()\nfavour_sources()\nintersection()\nintersection_k_sources()\nlongest_string()\nmaximum()\nmedian()\nminimum()\nmost_complete()\nmost_recent()\nnumeric_tolerance_match()\nprefer_higher_trust()\nprint_conflict_preview()\nrandom_value()\nset_equality_match()\nshortest_string()\nsum_values()\ntokenized_match()\nunion()\nvoting()\nweighted_voting()\nyear_only_match()\nPyDI.informationextraction package\nSubmodules\nPyDI.informationextraction.autorules module\nRuleDiscovery\nRuleDiscovery.build_all_rules()\nRuleDiscovery.extract()\nRuleDiscovery.extract_and_select()\ndiscover_fields()\nPyDI.informationextraction.base module\nBaseExtractor\nBaseExtractor.extract()\nExtractorPipeline\nExtractorPipeline.run()\nPyDI.informationextraction.code module\nCodeExtractor\nCodeExtractor.extract()\nPyDI.informationextraction.evaluation module\nInformationExtractionEvaluator\nInformationExtractionEvaluator.evaluate()\nInformationExtractionEvaluator.get_evaluation_function()\nInformationExtractionEvaluator.set_evaluation_function()\nPyDI.informationextraction.llm module\nLLMExtractor\nLLMExtractor.extract()\nPyDI.informationextraction.regex module\nRegexExtractor\nRegexExtractor.extract()\nPyDI.informationextraction.rules module\nextract_domain()\nlowercase_text()\nnormalize_units_wrapper()\nnormalize_url()\nnormalize_whitespace()\nparse_coordinate()\nparse_date()\nparse_employee_count()\nparse_frequency_hz()\nparse_money()\nparse_number()\nparse_percent()\nparse_power_w()\nparse_quantity_scalar()\n\n-----\n\nSimilarityRegistry.get_function_info()\nSimilarityRegistry.get_functions_by_category()\nSimilarityRegistry.get_recommended_functions()\nSimilarityRegistry.is_tokenizable()\nSimilarityRegistry.list_available_functions()\nSimilarityRegistry.list_tokenization_strategies()\nSimilarityRegistry.validate_functions()\nget_similarity_function()\nlist_similarity_functions()\nModule contents\nDataProfiler\nDataProfiler.analyze_coverage()\nDataProfiler.compare()\nDataProfiler.profile()\nDataProfiler.summary()\nSimilarityRegistry\nSimilarityRegistry.ALL_ALGORITHMS\nSimilarityRegistry.CATEGORIES\nSimilarityRegistry.EDIT_BASED\nSimilarityRegistry.ENTITY_MATCHING_RECOMMENDED\nSimilarityRegistry.PHONETIC\nSimilarityRegistry.SCHEMA_MATCHING_RECOMMENDED\nSimilarityRegistry.SEQUENCE_BASED\nSimilarityRegistry.SIMPLE\nSimilarityRegistry.TOKENIZABLE_FUNCTIONS\nSimilarityRegistry.TOKENIZATION_STRATEGIES\nSimilarityRegistry.TOKEN_BASED\nSimilarityRegistry.get_function()\nSimilarityRegistry.get_function_info()\nSimilarityRegistry.get_functions_by_category()\nSimilarityRegistry.get_recommended_functions()\nSimilarityRegistry.is_tokenizable()\nSimilarityRegistry.list_available_functions()\nSimilarityRegistry.list_tokenization_strategies()\nSimilarityRegistry.validate_functions()\nget_similarity_function()\nlist_similarity_functions()\nModule contents\n\nPyDI: Python Data Integration Framework\n\nThis package provides tools for end‑to‑end data integration, including\nschema matching, blocking, entity matching, information extraction,\n\n-----\n\nSource code for PyDI.fusion.evaluation\n\"\"\"\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nDict\n,\nAny\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\n,\nIterable\nfrom\ncollections\nimport\nCounter\nfrom\ndatetime\nimport\ndatetime\n,\ndate\nimport\npandas\nas\npd\nimport\nnumpy\nas\nnp\nimport\nlogging\nimport\njson\nfrom\npathlib\nimport\nPath\nfrom\n.base\nimport\nFusionContext\n,\nget_callable_name\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n..utils.similarity_registry\nimport\nSimilarityRegistry\ndef\n_is_missing_value\n(\nvalue\n)\n->\nbool\n:\n\"\"\"Helper function to check if a value should be treated as missing.\nHandles scalars, numpy arrays, pandas NA, and Python sequences.\n\"\"\"\ntry\n:\n# Pandas/NumPy aware check\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Handle sequences (e.g., lists/arrays): consider missing if empty\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\nvalue\n,\nnp\n.\nndarray\n):\nreturn\nvalue\n.\nsize\n==\n0\nor\nnp\n.\nall\n(\npd\n.\nisna\n(\nvalue\n))\nexcept\nException\n:\npass\nreturn\nFalse\n[docs]\ndef\nexact_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Default evaluation function using exact equality.\"\"\"\nreturn\nfused_value\n==\nexpected_value\n[docs]\ndef\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n:\nfloat\n=\n1.0\n)\n->\nbool\n:\n\n-----\n\nprofile_column()\nprofile_dataframe()\nsave_normalization_config()\ntransform_column()\ntransform_dataframe()\nvalidate_completeness()\nvalidate_email()\nvalidate_emails()\nvalidate_phone()\nvalidate_ranges()\nvalidate_schema()\nvalidate_stdnum()\nvalidate_with_pydantic()\nPyDI.schemamatching package\nSubmodules\nPyDI.schemamatching.base module\nBaseSchemaMatcher\nBaseSchemaMatcher.match()\nget_schema_columns()\nPyDI.schemamatching.duplicate_based module\nDuplicateBasedSchemaMatcher\nDuplicateBasedSchemaMatcher.match()\nPyDI.schemamatching.evaluation module\nSchemaMappingEvaluator\nSchemaMappingEvaluator.evaluate()\nSchemaMappingEvaluator.sweep_thresholds()\nPyDI.schemamatching.instance_based module\nInstanceBasedSchemaMatcher\nInstanceBasedSchemaMatcher.match()\nPyDI.schemamatching.label_based module\nLabelBasedSchemaMatcher\nLabelBasedSchemaMatcher.match()\nPyDI.schemamatching.llm_based module\nLLMBasedSchemaMatcher\nLLMBasedSchemaMatcher.match()\nPyDI.schemamatching.translator module\nSchemaTranslator\nSchemaTranslator.translate()\nModule contents\nBaseSchemaMatcher\nBaseSchemaMatcher.match()\nDuplicateBasedSchemaMatcher\nDuplicateBasedSchemaMatcher.match()\nInstanceBasedSchemaMatcher\nInstanceBasedSchemaMatcher.match()\nLLMBasedSchemaMatcher\nLLMBasedSchemaMatcher.match()\nLabelBasedSchemaMatcher\nLabelBasedSchemaMatcher.match()\nSchemaMappingEvaluator\nSchemaMappingEvaluator.evaluate()\nSchemaMappingEvaluator.sweep_thresholds()\nSchemaTranslator\nSchemaTranslator.translate()\nget_schema_columns()\nPyDI.utils package\n\n-----\n\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\nSource code for PyDI.informationextraction.evaluation\n\"\"\"Evaluation framework for information extraction in PyDI.\nThis module provides an evaluator to compare extracted (predicted)\nattributes against an expected/validation dataset with common IR-style metrics.\nIt supports per-attribute evaluation functions (e.g., exact match,\ntokenized string match, numeric tolerance) and produces both attribute-level\nand dataset-level (micro/macro) metrics, including precision, recall, F1, and\nnon-null accuracy.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nAny\n,\nCallable\n,\nDict\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\nfrom\npathlib\nimport\nPath\nimport\njson\nimport\nlogging\nimport\npandas\nas\npd\n# Reuse flexible evaluation functions from the fusion module\nfrom\nPyDI.fusion.evaluation\nimport\n(\nexact_match\n,\ntokenized_match\n,\nnumeric_tolerance_match\n,\nset_equality_match\n,\nboolean_match\n,\nyear_only_match\n,\n)\nlogger\n=\nlogging\n.\ngetLogger\n(\n__name__\n)\n# Type alias for evaluation functions (return True when values \"match\")\nEvaluationFunction\n=\nCallable\n[[\nAny\n,\nAny\n],\nbool\n]\ndef\n_is_missing_value\n(\nvalue\n:\nAny\n)\n->\nbool\n:\n\"\"\"Return True if the value should be treated as missing.\nHandles scalars, pandas NA, numpy arrays, and Python sequences\n(treats empty sequences as missing).\n\"\"\"\ntry\n:\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Empty sequences are considered missing\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\n\n-----\n\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n) – If provided, split string values by this separator\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nvoting\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most frequent value (majority vote).\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nweighted_voting\n(\nvalues\n,\nweights\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nSelect value using weighted voting.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nweights\n(\nList\n[\nfloat\n]\n,\noptional\n) – Weights for each value. If None, uses uniform weights.\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nEvaluation function comparing only the year part of dates.\nIf the inputs are strings, attempt to parse to dates; if they are\ndatetime\n/\ndate"
+    },
+    {
+      "query": "PyDI load_csv documentation and nested/list-like column handling for evaluation datasets",
+      "response": "flatten\n(\nbool\n,\noptional\n) – Deprecated. Use nested_handling instead.\nIf provided, maps to nested_handling: True=”explode”, False=”raw”.\n**kwargs\n– Additional arguments passed to pandas.read_xml.\nReturns\n:\nDataFrame with provenance metadata and optional identifier column.\nReturn type\n:\npd.DataFrame\nModule contents\n\nProvenance-aware I/O helpers for PyDI.\nThis package exposes convenience wrappers around pandas readers that attach\nprovenance metadata and add a unique id column.\nPyDI.io.\nload_csv\n(\nfilepath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\n**\nkwargs\n)\n[source]\n\nRead a CSV file with a provenance-aware wrapper.\nSee\nload_with_provenance\nfor parameter details.\nParameters\n:\nfilepath_or_buffer\n(\nstr\n|\nPathLike\n)\nname\n(\nstr\n|\nNone\n)\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n|\nNone\n)\nadd_index\n(\nbool\n)\nindex_column_name\n(\nstr\n|\nNone\n)\nid_prefix\n(\nstr\n|\nNone\n)\ninclude_provenance_columns\n(\nbool\n)\nkwargs\n(\nAny\n)\nReturn type\n:\npandas.DataFrame\nPyDI.io.\nload_excel\n(\nio\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\n**\nkwargs\n)\n[source]\n\nRead an Excel file with a provenance-aware wrapper.\nCan return a single DataFrame or a mapping of sheet names to DataFrames\nwhen\nsheet_name=None\n. See\nload_with_provenance\nfor details.\nParameters\n:\nio\n(\nstr\n|\nPathLike\n)\nname\n(\nstr\n|\nNone\n)\nprovenance\n\n-----\n\nPyDI.io package\n\nSubmodules\n\nPyDI.io.loaders module\n\nProvenance-aware pandas I/O wrappers.\nThis module provides thin wrappers around common pandas readers that:\nAdd a unique identifier column to each loaded DataFrame\nAttach detailed provenance metadata to\ndf.attrs[\"provenance\"]\nOptionally include minimal provenance columns (\n__source_path\n,\n__dataset_name\n)\nThe functions follow the design guidelines in\nCLAUDE.md\n: pandas-first,\nrich NumPy-style docstrings, and lightweight logging for observability.\nPyDI.io.loaders.\nload_csv\n(\nfilepath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\n**\nkwargs\n)\n[source]\n\nRead a CSV file with a provenance-aware wrapper.\nSee\nload_with_provenance\nfor parameter details.\nParameters\n:\nfilepath_or_buffer\n(\nstr\n|\nPathLike\n)\nname\n(\nstr\n|\nNone\n)\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n|\nNone\n)\nadd_index\n(\nbool\n)\nindex_column_name\n(\nstr\n|\nNone\n)\nid_prefix\n(\nstr\n|\nNone\n)\ninclude_provenance_columns\n(\nbool\n)\nkwargs\n(\nAny\n)\nReturn type\n:\npandas.DataFrame\nPyDI.io.loaders.\nload_excel\n(\nio\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\n**\nkwargs\n)\n[source]\n\nRead an Excel file with a provenance-aware wrapper.\nCan return a single DataFrame or a mapping of sheet names to DataFrames\nwhen\nsheet_name=None\n. See\nload_with_provenance\nfor details.\nParameters\n:\nio\n(\nstr\n|\n\n-----\n\nPyDI.io.\nload_pickle\n(\npath\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\n**\nkwargs\n)\n[source]\n\nRead a pickled DataFrame with a provenance-aware wrapper.\nSee\nload_with_provenance\nfor parameter details.\nParameters\n:\npath\n(\nstr\n|\nPathLike\n)\nname\n(\nstr\n|\nNone\n)\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n|\nNone\n)\nadd_index\n(\nbool\n)\nindex_column_name\n(\nstr\n|\nNone\n)\nid_prefix\n(\nstr\n|\nNone\n)\ninclude_provenance_columns\n(\nbool\n)\nkwargs\n(\nAny\n)\nReturn type\n:\npandas.DataFrame\nPyDI.io.\nload_table\n(\nfilepath_or_buffer\n,\n*\n,\nsep\n=\n'\\t'\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\n**\nkwargs\n)\n[source]\n\nRead a delimited text file with a provenance-aware wrapper.\nDefaults to tab-separated values. See\nload_with_provenance\nfor details.\nParameters\n:\nfilepath_or_buffer\n(\nstr\n|\nPathLike\n)\nsep\n(\nstr\n)\nname\n(\nstr\n|\nNone\n)\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n|\nNone\n)\nadd_index\n(\nbool\n)\nindex_column_name\n(\nstr\n|\nNone\n)\nid_prefix\n(\nstr\n|\nNone\n)\ninclude_provenance_columns\n(\nbool\n)\nkwargs\n(\nAny\n)\nReturn type\n:\npandas.DataFrame\nPyDI.io.\nload_with_provenance\n(\nreader_fn\n,\npath_or_buf\n=\nNone\n,\n*\n,\nname\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\nprovenance\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\nreader_name\n=\nNone\n,\nhandle_multi_output\n=\nTrue\n,\n**\nreader_kwargs\n)\n[source]\n\n\n-----\n\n[API_SIGNATURE] PyDI.io. load_csv ( filepath_or_buffer , * , name = None , provenance = None , add_index = False , index_column_name = None , id_prefix = None , include_provenance_columns = False , ** kwargs ) [source] \nRead a CSV file with a provenance-aware wrapper. See load_with_provenance for parameter details. Parameters : filepath_or_buffer ( str | PathLike ) name ( str | None ) provenance ( Mapping [ str , Any ] | None ) add_index ( bool ) index_column_name ( str | None ) id_prefix ( str | None ) include_provenance_columns ( bool ) kwargs ( Any ) Return type : pandas.DataFrame\n\n-----\n\nPyDI.normalization.integrations.email module\nPyDI.normalization.integrations.phone module\nPyDI.normalization.integrations.pint_units module\nPyDI.normalization.integrations.pydantic_validation module\nPyDI.normalization.integrations.stdnum module\nModule contents\nSubmodules\nPyDI.normalization.datasets module\nColumnNormalizationResult\nColumnNormalizationResult.confidence\nColumnNormalizationResult.detected_type\nColumnNormalizationResult.errors\nColumnNormalizationResult.normalization_success_rate\nColumnNormalizationResult.normalized_name\nColumnNormalizationResult.null_count\nColumnNormalizationResult.original_name\nColumnNormalizationResult.specific_unit\nColumnNormalizationResult.total_count\nColumnNormalizationResult.unit_category\nDatasetNormalizationResult\nDatasetNormalizationResult.column_results\nDatasetNormalizationResult.config_used\nDatasetNormalizationResult.get_column_result()\nDatasetNormalizationResult.get_summary()\nDatasetNormalizationResult.normalized_shape\nDatasetNormalizationResult.original_shape\nDatasetNormalizationResult.overall_success_rate\nDatasetNormalizationResult.processing_time_seconds\nDatasetNormalizer\nDatasetNormalizer.detect_schema_patterns()\nDatasetNormalizer.get_column_quality_report()\nDatasetNormalizer.last_result\nDatasetNormalizer.normalize_dataset()\nNormalizationConfig\nNormalizationConfig.add_metadata_columns\nNormalizationConfig.column_transformations\nNormalizationConfig.enable_quantity_scaling\nNormalizationConfig.enable_type_detection\n\n-----\n\n[API_SIGNATURE] PyDI.io.loaders. load_csv ( filepath_or_buffer , * , name = None , provenance = None , add_index = False , index_column_name = None , id_prefix = None , include_provenance_columns = False , ** kwargs ) [source] \nRead a CSV file with a provenance-aware wrapper. See load_with_provenance for parameter details. Parameters : filepath_or_buffer ( str | PathLike ) name ( str | None ) provenance ( Mapping [ str , Any ] | None ) add_index ( bool ) index_column_name ( str | None ) id_prefix ( str | None ) include_provenance_columns ( bool ) kwargs ( Any ) Return type : pandas.DataFrame\n\n-----\n\nPyDI.informationextraction.base\nPyDI.informationextraction.code\nPyDI.informationextraction.evaluation\nPyDI.informationextraction.llm\nPyDI.informationextraction.regex\nPyDI.informationextraction.rules\nPyDI.io.loaders\nPyDI.normalization.datasets\nPyDI.normalization.integrations.babel_numbers\nPyDI.normalization.integrations.country\nPyDI.normalization.integrations.email\nPyDI.normalization.integrations.phone\nPyDI.normalization.integrations.pint_units\nPyDI.normalization.integrations.pydantic_validation\nPyDI.normalization.integrations.stdnum\nPyDI.normalization.json_schema\nPyDI.normalization.profile\nPyDI.normalization.scale\nPyDI.normalization.spec\nPyDI.normalization.text\nPyDI.normalization.transform\nPyDI.normalization.transforms\nPyDI.normalization.types\nPyDI.normalization.units\nPyDI.normalization.validators\nPyDI.normalization.values\nPyDI.schemamatching.base\nPyDI.schemamatching.duplicate_based\nPyDI.schemamatching.evaluation\nPyDI.schemamatching.instance_based\nPyDI.schemamatching.label_based\nPyDI.schemamatching.llm_based\nPyDI.schemamatching.translator\nPyDI.utils.cluster_stats\nPyDI.utils.llm\nPyDI.utils.profiler\nPyDI.utils.similarity_registry\n\n-----\n\nPydanticValidationResult.validity_rate\nStdnumResult\nStdnumResult.compact\nStdnumResult.error\nStdnumResult.formatted\nStdnumResult.is_valid\nStdnumResult.stdnum_type\nStdnumResult.to_dict()\nStdnumResult.value\nconvert_units()\ndataframe_to_models()\ndetect_stdnum_type()\ndetect_unit_in_text()\nformat_phone()\nformat_stdnum()\nget_compatible_units()\nget_country_info()\nget_iban_country()\nget_model_fields()\nget_phone_info()\nget_registry()\nget_unit_dimensionality()\nget_vat_country()\ninfer_locale_babel()\nis_babel_available()\nis_compatible()\nis_pydantic_available()\nis_valid_email()\nis_valid_iban()\nis_valid_isbn()\nis_valid_unit()\nis_valid_vat()\nlist_countries()\nlist_currencies()\nlist_dimensionalities()\nlist_languages()\nlist_supported_formats()\nlist_units()\nlookup_country()\nlookup_currency()\nlookup_language()\nmodels_to_dataframe()\nnormalize_country()\nnormalize_currency()\nnormalize_email()\nnormalize_language()\nnormalize_stdnum()\nnormalize_to_base()\norder_locales_for_value()\nparse_decimal_babel()\nparse_phone()\nparse_quantity()\nvalidate_dataframe_pydantic()\nvalidate_dict_pydantic()\nvalidate_email()\nvalidate_phone()\nvalidate_stdnum()\nSubmodules\n\nPyDI.normalization.datasets module\n\nDataset-level normalization orchestration for PyDI.\nThis module provides comprehensive dataset normalization capabilities,\norchestrating value-, column-, and dataset-level transformations to\nmatch Winter’s DataSetNormalizer functionality.\nclass\nPyDI.normalization.datasets.\nColumnNormalizationResult\n(\noriginal_name\n,"
+    }
+  ],
+  "integration_pipeline_code_length": 14274,
+  "evaluation_code_length": 17537,
+  "integration_diagnostics_code_length": 0,
+  "human_review_code_length": 23530,
+  "run_audit_path": "output/runs/20260322_162759_restaurant/results/run_audit_20260322_163824.json",
+  "run_report_path": "output/runs/20260322_162759_restaurant/results/run_report_20260322_163824.md"
+}

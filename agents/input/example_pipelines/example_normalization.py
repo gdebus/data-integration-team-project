@@ -1,12 +1,18 @@
+"""Example normalization pipeline using PyDI NormalizationSpec.
+
+The LLM-driven normalization node generates specs like these automatically by
+examining source and target dataset samples.  This example shows the manual
+equivalent so generated pipelines have a clear reference.
+"""
+
 import os
-import re
 import sys
 from pathlib import Path
 
 import pandas as pd
 
 from PyDI.io import load_xml
-from PyDI.normalization import create_normalization_config, normalize_country, normalize_dataset
+from PyDI.normalization import NormalizationSpec, transform_dataframe
 
 try:
     from list_normalization import detect_list_like_columns, normalize_list_like_columns
@@ -39,7 +45,8 @@ def infer_id_column(df: pd.DataFrame) -> str | None:
     return None
 
 
-# Example inputs (replace in generated code)
+# --- Configuration (replace in generated code) ---
+
 datasets = [
     "input/datasets/games/dbpedia.xml",
     "input/datasets/games/metacritic.xml",
@@ -47,62 +54,47 @@ datasets = [
 ]
 validation_set = "input/datasets/games/testsets/validation_set_fusion.xml"
 
-validation_df = load_dataset(validation_set)
-validation_columns = set(validation_df.columns.tolist()) if validation_df is not None else set()
+# --- NormalizationSpec per source dataset ---
+# The LLM generates these by comparing source data samples with validation
+# set samples.  Each spec defines per-column transformations using PyDI's
+# ColumnSpec fields.
+#
+# Available ColumnSpec fields:
+#   output_type:            "string" | "float" | "int" | "bool" | "datetime" | "keep"
+#   on_failure:             "keep" | "null" | "raise"
+#   strip_whitespace:       bool
+#   case:                   "lower" | "upper" | "title" | "keep"
+#   country_format:         "alpha_2" | "alpha_3" | "numeric" | "name"
+#   currency_format:        "alpha_3" | "name" | "keep"
+#   phone_format:           "e164" | "international" | "national" | "keep"
+#   phone_default_region:   str (e.g. "US")
+#   normalize_email:        bool
+#   stdnum_format:          bool
+#   date_format:            str (e.g. "%Y-%m-%d")
+#   expand_scale_modifiers: bool    (e.g. "5 million" → 5000000)
+#   convert_percentage:     "to_decimal" | "to_percent" | "keep"
+#   target_unit:            str (e.g. "km", "USD")
 
+SPECS = {
+    "dbpedia": {
+        "name": {"strip_whitespace": True, "case": "lower", "on_failure": "keep"},
+        "country": {"country_format": "alpha_2", "strip_whitespace": True, "on_failure": "keep"},
+        "genre": {"strip_whitespace": True, "case": "lower", "on_failure": "keep"},
+    },
+    "metacritic": {
+        "name": {"strip_whitespace": True, "case": "lower", "on_failure": "keep"},
+        "genre": {"strip_whitespace": True, "case": "lower", "on_failure": "keep"},
+    },
+    "sales": {
+        "name": {"strip_whitespace": True, "case": "lower", "on_failure": "keep"},
+        "global_sales": {"output_type": "float", "expand_scale_modifiers": True, "on_failure": "keep"},
+    },
+}
 
-def infer_lowercase_columns(df: pd.DataFrame) -> set[str]:
-    out: set[str] = set()
-    if df is None or df.empty:
-        return out
-    for col in df.columns:
-        series = df[col]
-        if not (pd.api.types.is_object_dtype(series) or pd.api.types.is_string_dtype(series)):
-            continue
-        alpha_values = []
-        for value in series.dropna().astype(str).head(500).tolist():
-            text = value.strip()
-            if text and re.search(r"[A-Za-z]", text):
-                alpha_values.append(text)
-        if len(alpha_values) < 8:
-            continue
-        lower_ratio = sum(1 for v in alpha_values if v == v.lower()) / len(alpha_values)
-        if lower_ratio >= 0.85:
-            out.add(str(col).lower())
-    return out
+# Columns that contain list-like values (e.g. '["a", "b"]')
+LIST_COLUMNS = ["genre"]
 
-
-def infer_country_output_format(df: pd.DataFrame) -> str:
-    if df is None or df.empty:
-        return "name"
-    cols = [c for c in df.columns if "country" in str(c).lower()]
-    values = []
-    for col in cols:
-        values.extend([str(v).strip() for v in df[col].dropna().astype(str).head(500).tolist() if str(v).strip()])
-    if not values:
-        return "name"
-    alpha2 = sum(1 for v in values if re.fullmatch(r"[A-Z]{2}", v))
-    alpha3 = sum(1 for v in values if re.fullmatch(r"[A-Z]{3}", v))
-    numeric = sum(1 for v in values if re.fullmatch(r"\d{3}", v))
-    official = sum(1 for v in values if (" of " in v.lower() and len(v) > 18) or " and " in v.lower())
-    total = max(len(values), 1)
-    if alpha2 / total >= 0.70:
-        return "alpha_2"
-    if alpha3 / total >= 0.70:
-        return "alpha_3"
-    if numeric / total >= 0.70:
-        return "numeric"
-    if official / total >= 0.55:
-        return "official_name"
-    return "name"
-
-
-validation_lowercase_columns = infer_lowercase_columns(validation_df)
-country_output_format = infer_country_output_format(validation_df)
-validation_list_like_columns = set(
-    str(c).lower()
-    for c in detect_list_like_columns([validation_df], exclude_columns={"id", "_id"})
-) if validation_df is not None and not validation_df.empty else set()
+# --- Normalization ---
 
 os.makedirs("output/normalization", exist_ok=True)
 
@@ -112,60 +104,32 @@ for dataset_path in datasets:
     dataset_name = os.path.splitext(os.path.basename(dataset_path))[0]
     id_col = infer_id_column(df)
 
-    # Restrict explicit transforms to validation-relevant columns to avoid over-normalizing.
-    transforms = {}
-    for col in df.columns:
-        if id_col is not None and col == id_col:
-            continue
-        if validation_columns and col not in validation_columns:
-            continue
-        if pd.api.types.is_object_dtype(df[col]) or pd.api.types.is_string_dtype(df[col]):
-            ops = ["strip", "normalize_whitespace"]
-            if str(col).lower() in validation_lowercase_columns:
-                ops.append("lower")
-            transforms[col] = ops
+    # Look up spec for this dataset
+    spec_dict = SPECS.get(dataset_name, {})
 
-    config = create_normalization_config(
-        enable_unit_conversion=True,
-        enable_quantity_scaling=True,
-        normalize_text=False,
-        lowercase_text=False,
-        remove_extra_whitespace=True,
-        standardize_nulls=True,
-        add_metadata_columns=False,
-        column_transformations=transforms,
-        missing_transform_column_policy="warn",
-    )
+    # Remove ID column from spec (never normalize identifiers)
+    if id_col and id_col in spec_dict:
+        spec_dict = {k: v for k, v in spec_dict.items() if k != id_col}
 
-    normalized_df, result = normalize_dataset(df, config=config)
+    # Remove spec entries for columns not in the DataFrame
+    spec_dict = {k: v for k, v in spec_dict.items() if k in df.columns}
 
-    # Preserve identifier values exactly; normalization must never mutate IDs.
-    if id_col and id_col in df.columns and id_col in normalized_df.columns:
-        normalized_df[id_col] = df[id_col].copy()
+    # Save original ID values
+    id_backup = df[id_col].copy() if id_col and id_col in df.columns else None
 
-    # Country canonicalization for fields with likely country semantics.
-    def _normalize_country_safe(value):
-        if pd.isna(value):
-            return value
-        text = str(value).strip()
-        if not text:
-            return value
-        normalized = normalize_country(text, output_format=country_output_format)
-        return normalized if normalized else text
+    # Apply NormalizationSpec via PyDI
+    normalized_df = df.copy()
+    if spec_dict:
+        spec = NormalizationSpec.from_dict({"columns": spec_dict})
+        result = transform_dataframe(normalized_df, spec)
+        normalized_df = result.dataframe
 
-    country_columns = [c for c in normalized_df.columns if "country" in str(c).lower()]
-    for col in country_columns:
-        if validation_columns and col not in validation_columns:
-            continue
-        normalized_df[col] = normalized_df[col].apply(_normalize_country_safe)
+    # Restore ID column
+    if id_backup is not None and id_col in normalized_df.columns:
+        normalized_df[id_col] = id_backup
 
-    # Normalize list-like encoding inconsistencies (JSON-like strings, nested lists, etc.).
-    list_cols = set(detect_list_like_columns([normalized_df], exclude_columns={id_col.lower()} if id_col else set()))
-    if validation_list_like_columns:
-        for col in normalized_df.columns:
-            if str(col).lower() in validation_list_like_columns:
-                list_cols.add(str(col))
-    list_cols = sorted(list(list_cols))
+    # Apply list normalization
+    list_cols = [c for c in LIST_COLUMNS if c in normalized_df.columns]
     if list_cols:
         normalize_list_like_columns([normalized_df], list_cols)
 
@@ -178,10 +142,7 @@ for dataset_path in datasets:
     out_path = f"output/normalization/{dataset_name}.csv"
     normalized_df.to_csv(out_path, index=False)
     normalized_paths.append(out_path)
-
-    print(f"[NORMALIZATION] {dataset_name}: {result.get_summary()}")
-    if country_columns:
-        print(f"[NORMALIZATION] {dataset_name}: country columns -> {country_columns} (format={country_output_format})")
+    print(f"[NORMALIZATION] {dataset_name}: spec applied for {list(spec_dict.keys())}")
     if list_cols:
         print(f"[NORMALIZATION] {dataset_name}: list-like columns -> {list_cols}")
 

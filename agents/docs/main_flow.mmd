@@ -1,0 +1,57 @@
+graph TD
+    START((START)) --> match_schemas
+
+    match_schemas["match_schemas\nLLM schema alignment"]
+    profile_data["profile_data\nNulls, dtypes, row counts"]
+    normalization_node["normalization_node\nLLM-driven NormalizationSpec"]
+    run_blocking_tester["run_blocking_tester\nStandard/Token/Sorted/Embedding"]
+    run_matching_tester["run_matching_tester\nRuleBased / ML matcher"]
+    pipeline_adaption["pipeline_adaption\nLLM code gen + tool research\n(max 6 tool-call loops)"]
+    execute_pipeline["execute_pipeline\nSubprocess execution"]
+    evaluation_node["evaluation_node\nLLM eval code + execution"]
+    investigator_node["investigator_node\nMulti-turn investigation agent\n(11 probes + LLM diagnosis)"]
+    human_review_export["human_review_export\nSource lineage tables"]
+    sealed_final_test["sealed_final_test_evaluation\nHeld-out test set"]
+    save_results["save_results\nFinal output + report"]
+
+    match_schemas --> profile_data
+    profile_data --> normalization_node
+    normalization_node --> run_blocking_tester
+    run_blocking_tester --> run_matching_tester
+    run_matching_tester --> pipeline_adaption
+
+    pipeline_adaption -->|"tool calls pending\n< 6 loops"| pipeline_adaption
+    pipeline_adaption -->|"no more tools"| execute_pipeline
+
+    execute_pipeline -->|"success"| evaluation_node
+    execute_pipeline -->|"error\nretries < 3"| pipeline_adaption
+    execute_pipeline -->|"error\nexhausted"| END_FAIL((END))
+
+    evaluation_node -->|"success"| investigator_node
+    evaluation_node -->|"error\nretryable"| evaluation_node
+    evaluation_node -->|"error\nexhausted"| END_EVAL((END))
+
+    investigator_node -->|"normalization_node"| normalization_node
+    investigator_node -->|"run_blocking_tester"| run_blocking_tester
+    investigator_node -->|"run_matching_tester"| run_matching_tester
+    investigator_node -->|"pipeline_adaption"| pipeline_adaption
+    investigator_node -->|"human_review_export\nacc >= 85% OR attempts >= 4"| human_review_export
+
+    human_review_export -->|"val + test sets exist"| sealed_final_test
+    human_review_export -->|"no test set"| save_results
+
+    sealed_final_test --> save_results
+    save_results --> END_OK((END))
+
+    style match_schemas fill:#e1f5fe,stroke:#0288d1
+    style profile_data fill:#e1f5fe,stroke:#0288d1
+    style normalization_node fill:#fff3e0,stroke:#f57c00
+    style run_blocking_tester fill:#e8f5e9,stroke:#388e3c
+    style run_matching_tester fill:#e8f5e9,stroke:#388e3c
+    style pipeline_adaption fill:#fce4ec,stroke:#c62828
+    style execute_pipeline fill:#fce4ec,stroke:#c62828
+    style evaluation_node fill:#f3e5f5,stroke:#7b1fa2
+    style investigator_node fill:#fff9c4,stroke:#f9a825
+    style human_review_export fill:#e0f2f1,stroke:#00796b
+    style sealed_final_test fill:#e0f2f1,stroke:#00796b
+    style save_results fill:#e0f2f1,stroke:#00796b

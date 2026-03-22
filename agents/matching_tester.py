@@ -36,6 +36,10 @@ from sklearn.svm import SVC
 PROXY_F1_MARGIN_DEFAULT = 0.015
 PROXY_MAX_CANDIDATES_DEFAULT = 60_000
 PROXY_MIN_F1_ATTEMPT1 = 0.03
+PROXY_EXPLORATION_FLOOR = 0.15
+PROXY_FORCE_FULL_MAX_ATTEMPTS = 4
+PROXY_LARGE_CANDIDATE_FULL_EVAL_MIN = 150_000
+PROXY_LARGE_CANDIDATE_F1_FLOOR = 0.20
 NO_GAIN_EPSILON = 0.003
 NO_GAIN_PATIENCE = 4
 
@@ -81,9 +85,24 @@ MATCHING_STRATEGY_DESCRIPTIONS = """
 - Use RuleBasedMatcher only.
 - Comparator types:
   - string: StringComparator(column, similarity_function, preprocess?, list_strategy?)
-  - numeric: NumericComparator(column, max_difference, list_strategy?)
+    * similarity_function: jaccard (best for short text like names/titles), jaro_winkler (short strings with typos), levenshtein (edit distance), cosine (longer text/descriptions)
+    * preprocess: lower, strip, lower_strip, none
+  - numeric: NumericComparator(column, method?, max_difference?, list_strategy?)
+    * method: "absolute_difference" (default, for same-unit values) or "relative_difference" (for percentage-based comparison, e.g. durations/prices where 10% tolerance makes more sense than a fixed value)
+    * When using relative_difference, max_difference is the fraction (e.g. 0.10 for 10% tolerance)
+    * When using absolute_difference, max_difference is the absolute value (e.g. 5 for ±5 units)
   - date: DateComparator(column, max_days_difference)
+    * Use larger max_days_difference (e.g. 730) when dates may differ by release region/edition
 """
+
+IDENTIFIER_LIKE_NUMERIC_PATTERNS = (
+    "postal",
+    "zip",
+    "phone",
+    "_id",
+    "id_",
+    "record_id",
+)
 
 
 class MatchingTester:
@@ -466,6 +485,53 @@ class MatchingTester:
             return candidates
         return candidates.sample(n=max_rows, random_state=42).reset_index(drop=True)
 
+    def _proxy_required_f1(
+        self,
+        *,
+        best_f1_so_far: float,
+        full_candidate_size: int,
+        attempt: int,
+        has_best_result: bool,
+    ) -> float:
+        if not has_best_result:
+            required = PROXY_MIN_F1_ATTEMPT1
+        else:
+            required = best_f1_so_far + self.proxy_f1_margin
+
+        # Large candidate sets tend to make the proxy pessimistic. Relax the gate
+        # slightly in the early search so viable configs can still reach full eval.
+        if full_candidate_size >= PROXY_LARGE_CANDIDATE_FULL_EVAL_MIN and attempt <= PROXY_FORCE_FULL_MAX_ATTEMPTS:
+            required -= 0.05
+
+        return max(PROXY_MIN_F1_ATTEMPT1, float(required))
+
+    def _should_force_full_from_proxy(
+        self,
+        *,
+        proxy_f1: float,
+        best_f1_so_far: float,
+        attempt: int,
+        full_candidate_size: int,
+        pair_completeness: Optional[float],
+        has_best_result: bool,
+    ) -> Tuple[bool, Optional[str]]:
+        if (
+            has_best_result
+            and best_f1_so_far < PROXY_EXPLORATION_FLOOR
+            and attempt <= min(self.max_attempts, PROXY_FORCE_FULL_MAX_ATTEMPTS)
+        ):
+            return True, "low_best_f1"
+
+        if (
+            full_candidate_size >= PROXY_LARGE_CANDIDATE_FULL_EVAL_MIN
+            and attempt <= min(self.max_attempts, PROXY_FORCE_FULL_MAX_ATTEMPTS)
+            and proxy_f1 >= PROXY_LARGE_CANDIDATE_F1_FLOOR
+            and float(pair_completeness or 0.0) >= 0.9
+        ):
+            return True, "large_candidate_proxy_floor"
+
+        return False, None
+
     def _append_llm_trace(self, payload: Dict[str, Any]) -> None:
         trace_path = os.path.join(self.output_dir, "llm_matching_trace.jsonl")
         try:
@@ -797,23 +863,78 @@ class MatchingTester:
                 ordered = scalar_cols
 
         comparators = []
-        for col in ordered[:4]:
+        for col in ordered[:6]:
             ctype = column_types.get(col, "string")
-            if ctype == "numeric":
-                comparators.append({"type": "numeric", "column": col, "max_difference": 5})
+            if ctype == "numeric" and not self._should_force_string_for_numeric_column(col):
+                # Use relative_difference for measure-like columns (duration, price, rating, etc.)
+                col_lower = col.lower()
+                if any(kw in col_lower for kw in ("duration", "price", "cost", "revenue", "salary", "weight", "height", "length")):
+                    comparators.append({"type": "numeric", "column": col, "method": "relative_difference", "max_difference": 0.10})
+                else:
+                    comparators.append({"type": "numeric", "column": col, "max_difference": 5})
             elif ctype == "date":
                 comparators.append({"type": "date", "column": col, "max_days_difference": 365})
             else:
-                comp = {
-                    "type": "string",
-                    "column": col,
-                    "similarity_function": "cosine",
-                    "preprocess": "lower",
-                }
+                comp = self._default_string_comparator_for_column(col)
                 if ctype == "list":
                     comp["list_strategy"] = "best_match"
                 comparators.append(comp)
         return comparators
+
+    @staticmethod
+    def _should_force_string_for_numeric_column(column: str) -> bool:
+        col = str(column or "").strip().lower()
+        if not col:
+            return False
+        if col in {"latitude", "longitude", "lat", "lon", "lng", "rating", "rating_count"}:
+            return False
+        return any(token in col for token in IDENTIFIER_LIKE_NUMERIC_PATTERNS) or col == "id"
+
+    # Short-text column name patterns where jaccard outperforms cosine
+    _SHORT_TEXT_PATTERNS = (
+        "name", "title", "artist", "author", "label", "genre", "publisher",
+        "developer", "brand", "category", "country", "city", "platform",
+    )
+
+    @staticmethod
+    def _default_string_comparator_for_column(column: str) -> Dict[str, Any]:
+        col = str(column or "").strip().lower()
+        if any(token in col for token in IDENTIFIER_LIKE_NUMERIC_PATTERNS) or col == "id":
+            return {
+                "type": "string",
+                "column": column,
+                "similarity_function": "levenshtein",
+                "preprocess": "strip",
+            }
+        # Prefer jaccard for short-text entity attributes (names, titles, etc.)
+        if any(pat in col for pat in MatchingTester._SHORT_TEXT_PATTERNS):
+            return {
+                "type": "string",
+                "column": column,
+                "similarity_function": "jaccard",
+                "preprocess": "lower",
+            }
+        return {
+            "type": "string",
+            "column": column,
+            "similarity_function": "cosine",
+            "preprocess": "lower",
+        }
+
+    @staticmethod
+    def _sanitize_numeric_max_difference(column: str, max_diff: Any) -> float:
+        try:
+            value = float(max_diff)
+        except (TypeError, ValueError):
+            value = 1.0
+        if value > 0:
+            return value
+        col = str(column or "").strip().lower()
+        if col in {"latitude", "longitude", "lat", "lon", "lng"}:
+            return 0.01
+        if "rating" in col:
+            return 1.0
+        return 1.0
 
     @staticmethod
     def _sanitize_string_list_strategy(value: Any, similarity_function: str = "cosine") -> str:
@@ -878,14 +999,17 @@ class MatchingTester:
                 ctype = column_types.get(column, "string")
 
             entry = {"type": ctype, "column": column}
+            if ctype == "numeric" and self._should_force_string_for_numeric_column(column):
+                ctype = "string"
+                entry = self._default_string_comparator_for_column(column)
             if ctype == "string":
-                sim = comp.get("similarity_function", "cosine")
+                sim = comp.get("similarity_function", entry.get("similarity_function", "cosine"))
                 if sim not in allowed_similarity:
-                    sim = "cosine"
+                    sim = entry.get("similarity_function", "cosine")
                 entry["similarity_function"] = sim
-                preprocess = comp.get("preprocess", "none")
+                preprocess = comp.get("preprocess", entry.get("preprocess", "none"))
                 if preprocess not in allowed_preprocess:
-                    preprocess = "none"
+                    preprocess = entry.get("preprocess", "none")
                 if preprocess != "none":
                     entry["preprocess"] = preprocess
                 list_strategy = comp.get("list_strategy")
@@ -894,11 +1018,12 @@ class MatchingTester:
                 elif column_types.get(column) == "list":
                     entry["list_strategy"] = self._sanitize_string_list_strategy(None, sim)
             elif ctype == "numeric":
-                max_diff = comp.get("max_difference", 5)
-                try:
-                    max_diff = float(max_diff)
-                except (TypeError, ValueError):
-                    max_diff = 5
+                method = comp.get("method", "absolute_difference")
+                if method not in {"absolute_difference", "relative_difference"}:
+                    method = "absolute_difference"
+                entry["method"] = method
+                default_diff = 0.10 if method == "relative_difference" else 5
+                max_diff = self._sanitize_numeric_max_difference(column, comp.get("max_difference", default_diff))
                 entry["max_difference"] = max_diff
                 num_list_strategy = comp.get("list_strategy")
                 if num_list_strategy in allowed_numeric_list_strategy:
@@ -979,7 +1104,7 @@ class MatchingTester:
 {{
   "comparators": [
     {{"type": "string", "column": "col1", "similarity_function": "cosine", "preprocess": "lower", "list_strategy": "best_match"}},
-    {{"type": "numeric", "column": "col2", "max_difference": 5, "list_strategy": "average"}},
+    {{"type": "numeric", "column": "col2", "method": "relative_difference", "max_difference": 0.10, "list_strategy": "average"}},
     {{"type": "date", "column": "col3", "max_days_difference": 365}}
   ],
   "weights": [0.5, 0.3, 0.2],
@@ -994,13 +1119,19 @@ Guidance:
 - Prefer informative columns (names, addresses, titles, categories, dates, numeric measures); avoid high-null/noisy columns unless necessary.
 - Choose comparator type by inferred data type (string/numeric/date). For list-like fields, set list_strategy.
 - Choose similarity_function based on content:
-  - jaro_winkler or levenshtein for short strings/typos
-  - jaccard or cosine for token sets/longer text/list-ish strings
-  - cosine is the default fallback for strings if unsure
+  - jaccard for entity names, titles, artists, labels, short categorical text (best for token overlap)
+  - jaro_winkler for short strings where typos matter (person names, codes)
+  - levenshtein for exact edit distance (identifiers, short codes)
+  - cosine for longer text, descriptions, or when unsure
+- For NumericComparator, choose method based on the data:
+  - absolute_difference: when values are on the same scale (e.g. years, ratings 1-10)
+  - relative_difference: when percentage tolerance makes sense (e.g. durations, prices, counts — set max_difference to 0.10 for 10% tolerance)
 - Use preprocess to normalize text: lower, strip, lower_strip, none.
 - list_strategy options for string comparators: set_jaccard, best_match, set_overlap.
 - Never use `concatenate` for list-like string comparison.
 - list_strategy options for numeric comparators: average, best_match, range_overlap, set_jaccard.
+- Do NOT use numeric comparators for identifier-like fields such as postal codes, zip codes, phone numbers, or ID columns; treat those as strings.
+- Never emit a numeric comparator with max_difference <= 0.
 - If blocking columns are provided, include at least one comparator using them unless they are clearly low quality.
 - Weights should be non-negative, sum to 1, and match the number of comparators.
 - Set threshold to balance precision/recall based on data quality (higher for strong identifiers, lower for noisy text).
@@ -1089,8 +1220,11 @@ Guidance:
             if ctype == "numeric":
                 kwargs = {
                     "column": column,
-                    "max_difference": comp.get("max_difference", 5),
+                    "max_difference": self._sanitize_numeric_max_difference(column, comp.get("max_difference", 5)),
                 }
+                method = comp.get("method")
+                if method in {"absolute_difference", "relative_difference"}:
+                    kwargs["method"] = method
                 if comp.get("list_strategy"):
                     kwargs["list_strategy"] = comp["list_strategy"]
                 comparators.append(NumericComparator(**kwargs))
@@ -1587,11 +1721,11 @@ Guidance:
         else:
             raise ValueError(f"No matching gold standard found for pair: {pair_key}")
 
-        print(f"\n{'='*50}\nMATCHING: {name_left} <-> {name_right}\n{'='*50}")
+        print(f"\n[MATCHING] {name_left} <-> {name_right}")
         skip_pair, gate_info = self._should_skip_pair_for_blocking_quality(name_left, name_right)
         if skip_pair:
             print(
-                "⛔ Skipping matching due to blocking quality gate: "
+                f"[MATCHING] Skipping — blocking quality gate: "
                 f"PC={gate_info.get('pair_completeness', 0.0):.4f} < {gate_info.get('threshold')}"
             )
             failure_tags = self._failure_tags_for_matching_event(
@@ -1657,7 +1791,7 @@ Guidance:
             candidates_full = blocker.materialize()
         except Exception as e:
             err = f"{type(e).__name__}: {e}"
-            print(f"⛔ Failed to materialize blocker candidates: {err}")
+            print(f"[MATCHING] Failed to materialize blocker candidates: {err}")
             failed = {
                 "pair": f"{name_left}_{name_right}",
                 "f1": 0.0,
@@ -1749,6 +1883,10 @@ Guidance:
                 proxy_error = None
                 proxy_f1 = None
                 run_proxy = (len(candidates_full) > self.proxy_max_candidates) or (best_result is not None)
+                best_f1_so_far = float(best_result.get("f1", 0.0) or 0.0) if best_result is not None else 0.0
+                pair_completeness = None
+                if isinstance(blocking_cfg, dict):
+                    pair_completeness = blocking_cfg.get("pair_completeness")
                 if run_proxy:
                     if matcher_mode == "ml":
                         proxy_metrics, proxy_error = self._try_execute_ml_matcher(
@@ -1768,16 +1906,51 @@ Guidance:
                         error = proxy_error
                     else:
                         proxy_f1 = float((proxy_metrics or {}).get("f1", 0.0) or 0.0)
-                        required = (
-                            float(best_result.get("f1", 0.0) or 0.0) + self.proxy_f1_margin
-                            if best_result is not None
-                            else PROXY_MIN_F1_ATTEMPT1
+                        required = self._proxy_required_f1(
+                            best_f1_so_far=best_f1_so_far,
+                            full_candidate_size=len(candidates_full),
+                            attempt=attempt,
+                            has_best_result=(best_result is not None),
                         )
+                        force_full_exploration, force_reason = self._should_force_full_from_proxy(
+                            proxy_f1=proxy_f1,
+                            best_f1_so_far=best_f1_so_far,
+                            attempt=attempt,
+                            full_candidate_size=len(candidates_full),
+                            pair_completeness=pair_completeness,
+                            has_best_result=(best_result is not None),
+                        )
+                        should_skip_full = proxy_f1 < required and not force_full_exploration
                         print(
                             f"    Proxy stage: F1={proxy_f1:.4f}, required>={required:.4f} "
-                            f"-> {'run full' if proxy_f1 >= required else 'skip full'}"
+                            f"-> {'skip full' if should_skip_full else 'run full'}"
                         )
-                        if proxy_f1 < required:
+                        if force_full_exploration and proxy_f1 < required:
+                            if force_reason == "low_best_f1":
+                                print(
+                                    "    Proxy gate override: current best F1 is still too low; "
+                                    "running full evaluation to avoid premature pruning."
+                                )
+                            else:
+                                print(
+                                    "    Proxy gate override: large high-PC candidate set can make proxy scores "
+                                    "too pessimistic; running full evaluation."
+                                )
+                            self._trace_event(
+                                pair=f"{name_left}_{name_right}",
+                                attempt=attempt,
+                                decision=f"force_full_by_{force_reason}",
+                                extra={
+                                    "mode": matcher_mode,
+                                    "proxy_f1": proxy_f1,
+                                    "required_f1": required,
+                                    "best_f1_so_far": best_f1_so_far,
+                                    "pair_completeness": pair_completeness,
+                                    "full_candidate_size": len(candidates_full),
+                                    "exploration_floor": PROXY_EXPLORATION_FLOOR,
+                                },
+                            )
+                        if should_skip_full:
                             attempt_result = {
                                 "pair": f"{name_left}_{name_right}",
                                 "comparators": active_choice["comparators"],
@@ -1997,7 +2170,7 @@ Guidance:
         return fallback
 
     def run_all(self, id_column: str = None) -> Tuple[pd.DataFrame, Dict[str, Any]]:
-        print(f"\n{'='*50}\nMATCHING EVALUATION\n{'='*50}")
+        print(f"\n[MATCHING] Starting evaluation")
 
         all_results = []
         dataset_names = sorted(str(name) for name in self.datasets_loaded.keys())
@@ -2031,7 +2204,7 @@ Guidance:
 
         if not df.empty:
             df.to_csv(os.path.join(self.output_dir, "matching_tester_results.csv"), index=False)
-            print(f"\n📊 Results: {len(df)} pairs evaluated")
+            print(f"\n[MATCHING] Results: {len(df)} pairs evaluated")
             for _, row in df.iterrows():
                 if bool(row.get("skipped_due_to_blocking_gate", False)):
                     status = "SKIP"

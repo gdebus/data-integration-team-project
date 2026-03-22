@@ -1,0 +1,125 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The current errors are primarily due to fusion configuration, not blocking/matching recall. Correspondence files are present, matching F1 is already strong (~0.86-0.89), and post-clustering with MaximumBipartiteMatching is already in place. The remaining low-performing attributes are mostly source-choice problems or structurally limited by source disagreement. Protected attributes above 85% should be left unchanged. One caution: the current pipeline code contains inconsistent trust maps (e.g. publisher trust only {'sales':1}, userScore trust weakens metacritic despite diagnostics), so fusion settings are still internally misaligned with the evidence.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "This should go to pipeline_adaption because the next fix is to align attribute resolvers and trust maps with the observed source-vs-validation behavior while preserving already good attributes. Normalization is not the first priority: most remaining errors are not simple formatting differences, and the worst attribute userScore is structurally limited even in the best source. Blocking/matching are also not the bottleneck given non-empty correspondences and high pairwise F1. The main actionable gap is that some fusion settings in code do not consistently reflect the measured best source per attribute.",
+        "ceiling_assessment": "Given the provided improvability analysis, the realistic ceiling with current sources is about 77-78% overall. Current overall accuracy is 73.1%, so only modest gains remain. userScore, criticScore, platform, developer, and ESRB are largely structurally limited; publisher is the clearest remaining improvable attribute. Expect small but real gains from fixing trust-map alignment, not a dramatic jump.",
+        "recommendations": [
+          {
+            "attribute": "publisher",
+            "issue": "This is the main remaining improvable attribute. Current code uses prefer_higher_trust but the active trust map is malformed/too weak (trust_map_publisher = {'sales':1}), which does not reliably enforce the best source even though sales aligns best with validation.",
+            "fix": "Use prefer_higher_trust with trust_map={'sales':5,'metacritic':2,'dbpedia':1} for publisher.",
+            "resolver_reasoning": "Validation prefers a canonical publisher label, and diagnostics identify publisher as the only clearly improvable attribute with ceiling 94%. A dominant source is indicated, so prefer_higher_trust is a better fit than voting, which can fail when aliases split support. longest_string/shortest_string are poor because publisher variants are semantic aliases, not completeness variants.",
+            "class": "improvable",
+            "expected_impact": 0.018
+          },
+          {
+            "attribute": "ESRB",
+            "issue": "Some ESRB errors are wrong-source picks; metacritic is the strongest source. Remaining mismatches like 'M' vs 'M17+' are partly structural/representation issues, so gains are capped.",
+            "fix": "Keep prefer_higher_trust and set trust_map={'metacritic':5,'sales':3,'dbpedia':1}.",
+            "resolver_reasoning": "Source comparison shows metacritic is best for ESRB. prefer_higher_trust is appropriate for a scalar categorical field with one strongest source. voting is weaker when sources disagree and there are only two meaningful inputs. String-length-based resolvers are unsuitable.",
+            "class": "structurally_limited",
+            "expected_impact": 0.01
+          },
+          {
+            "attribute": "developer",
+            "issue": "Developer names include alias/canonical-name disagreements, and some current errors are wrong-source selections. However the attribute is mostly structurally limited because sources often contain different legitimate variants.",
+            "fix": "Keep prefer_higher_trust with trust_map={'metacritic':4,'sales':4,'dbpedia':1}. Preserve equal priority for metacritic and sales; do not switch to longest_string.",
+            "resolver_reasoning": "Metacritic and sales are both materially better than dbpedia, while dbpedia tends to contribute expanded/variant names. prefer_higher_trust with equal top trust is safer than voting because aliases can split votes, and safer than favour_sources because there is no clear single winner between metacritic and sales. longest_string would likely worsen cases like 'SCEE London Studio' vs 'London Studio'.",
+            "class": "structurally_limited",
+            "expected_impact": 0.008
+          },
+          {
+            "attribute": "criticScore",
+            "issue": "This attribute is near ceiling. Sales is the only source with meaningful exact agreement; metacritic is mostly only fuzzy-close, so resolver changes offer limited benefit.",
+            "fix": "Keep prefer_higher_trust with trust_map={'sales':5,'metacritic':2,'dbpedia':1}.",
+            "resolver_reasoning": "For numeric scalar values where one source is clearly closest to validation, prefer_higher_trust is better supported than median or voting. median could invent values not present in validation and was not supported by the diagnostics. Since the measured ceiling equals current performance, this is mainly a preserve/consistency action.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "userScore",
+            "issue": "Very low accuracy is structural: even the best source, metacritic, matches validation only 29%. The current code also underweights metacritic relative to the diagnostics.",
+            "fix": "Keep prefer_higher_trust but correct the trust map to {'metacritic':5,'sales':2,'dbpedia':1}. Do not spend the next iteration on alternative resolvers for this attribute.",
+            "resolver_reasoning": "A single least-bad source exists, but it is weak. prefer_higher_trust is still the best-supported resolver. voting and median are not justified by the evidence, and the attribute has effectively reached its structural ceiling. The only sensible action is to ensure metacritic is actually favored.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "post_clustering",
+            "issue": "Entity correspondence graphs remain ambiguous, but cluster analysis already recommends the strategy currently in use.",
+            "fix": "Preserve MaximumBipartiteMatching and ensure fusion continues to use the refined correspondences only.",
+            "resolver_reasoning": "This is the recommended post-clustering strategy from the diagnostics and should be preserved to avoid regression. Alternatives like StableMatching are secondary and not justified as the next change while fusion trust maps remain misaligned.",
+            "class": "improvable",
+            "expected_impact": 0.005
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 35888,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The current errors are primarily due to fusion configuration, not blocking/matching recall. Correspondence files are present, matching F1 is already strong (~0.86-0.89), and post-clustering with MaximumBipartiteMatching is already in place. The remaining low-performing attributes are mostly source-choice problems or structurally limited by source disagreement. Protected attributes above 85% should be left unchanged. One caution: the current pipeline code contains inconsistent trust maps (e.g. publisher trust only {'sales':1}, userScore trust weakens metacritic despite diagnostics), so fusion settings are still internally misaligned with the evidence.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "This should go to pipeline_adaption because the next fix is to align attribute resolvers and trust maps with the observed source-vs-validation behavior while preserving already good attributes. Normalization is not the first priority: most remaining errors are not simple formatting differences, and the worst attribute userScore is structurally limited even in the best source. Blocking/matching are also not the bottleneck given non-empty correspondences and high pairwise F1. The main actionable gap is that some fusion settings in code do not consistently reflect the measured best source per attribute.",
+    "ceiling_assessment": "Given the provided improvability analysis, the realistic ceiling with current sources is about 77-78% overall. Current overall accuracy is 73.1%, so only modest gains remain. userScore, criticScore, platform, developer, and ESRB are largely structurally limited; publisher is the clearest remaining improvable attribute. Expect small but real gains from fixing trust-map alignment, not a dramatic jump.",
+    "recommendations": [
+      {
+        "attribute": "publisher",
+        "issue": "This is the main remaining improvable attribute. Current code uses prefer_higher_trust but the active trust map is malformed/too weak (trust_map_publisher = {'sales':1}), which does not reliably enforce the best source even though sales aligns best with validation.",
+        "fix": "Use prefer_higher_trust with trust_map={'sales':5,'metacritic':2,'dbpedia':1} for publisher.",
+        "resolver_reasoning": "Validation prefers a canonical publisher label, and diagnostics identify publisher as the only clearly improvable attribute with ceiling 94%. A dominant source is indicated, so prefer_higher_trust is a better fit than voting, which can fail when aliases split support. longest_string/shortest_string are poor because publisher variants are semantic aliases, not completeness variants.",
+        "class": "improvable",
+        "expected_impact": 0.018
+      },
+      {
+        "attribute": "ESRB",
+        "issue": "Some ESRB errors are wrong-source picks; metacritic is the strongest source. Remaining mismatches like 'M' vs 'M17+' are partly structural/representation issues, so gains are capped.",
+        "fix": "Keep prefer_higher_trust and set trust_map={'metacritic':5,'sales':3,'dbpedia':1}.",
+        "resolver_reasoning": "Source comparison shows metacritic is best for ESRB. prefer_higher_trust is appropriate for a scalar categorical field with one strongest source. voting is weaker when sources disagree and there are only two meaningful inputs. String-length-based resolvers are unsuitable.",
+        "class": "structurally_limited",
+        "expected_impact": 0.01
+      },
+      {
+        "attribute": "developer",
+        "issue": "Developer names include alias/canonical-name disagreements, and some current errors are wrong-source selections. However the attribute is mostly structurally limited because sources often contain different legitimate variants.",
+        "fix": "Keep prefer_higher_trust with trust_map={'metacritic':4,'sales':4,'dbpedia':1}. Preserve equal priority for metacritic and sales; do not switch to longest_string.",
+        "resolver_reasoning": "Metacritic and sales are both materially better than dbpedia, while dbpedia tends to contribute expanded/variant names. prefer_higher_trust with equal top trust is safer than voting because aliases can split votes, and safer than favour_sources because there is no clear single winner between metacritic and sales. longest_string would likely worsen cases like 'SCEE London Studio' vs 'London Studio'.",
+        "class": "structurally_limited",
+        "expected_impact": 0.008
+      },
+      {
+        "attribute": "criticScore",
+        "issue": "This attribute is near ceiling. Sales is the only source with meaningful exact agreement; metacritic is mostly only fuzzy-close, so resolver changes offer limited benefit.",
+        "fix": "Keep prefer_higher_trust with trust_map={'sales':5,'metacritic':2,'dbpedia':1}.",
+        "resolver_reasoning": "For numeric scalar values where one source is clearly closest to validation, prefer_higher_trust is better supported than median or voting. median could invent values not present in validation and was not supported by the diagnostics. Since the measured ceiling equals current performance, this is mainly a preserve/consistency action.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "userScore",
+        "issue": "Very low accuracy is structural: even the best source, metacritic, matches validation only 29%. The current code also underweights metacritic relative to the diagnostics.",
+        "fix": "Keep prefer_higher_trust but correct the trust map to {'metacritic':5,'sales':2,'dbpedia':1}. Do not spend the next iteration on alternative resolvers for this attribute.",
+        "resolver_reasoning": "A single least-bad source exists, but it is weak. prefer_higher_trust is still the best-supported resolver. voting and median are not justified by the evidence, and the attribute has effectively reached its structural ceiling. The only sensible action is to ensure metacritic is actually favored.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "post_clustering",
+        "issue": "Entity correspondence graphs remain ambiguous, but cluster analysis already recommends the strategy currently in use.",
+        "fix": "Preserve MaximumBipartiteMatching and ensure fusion continues to use the refined correspondences only.",
+        "resolver_reasoning": "This is the recommended post-clustering strategy from the diagnostics and should be preserved to avoid regression. Alternatives like StableMatching are secondary and not justified as the next change while fusion trust maps remain misaligned.",
+        "class": "improvable",
+        "expected_impact": 0.005
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-22T17:43:41.408338Z"
+}

@@ -3,34 +3,13 @@ from math import sqrt
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
+from helpers.metrics import attribute_accuracy_map as _attribute_accuracy_map
+from helpers.utils import to_float as _safe_float
+
 DEFAULT_MIN_DELTA = 0.003
 DEFAULT_CONFIDENCE_Z = 1.28
 DEFAULT_MIN_KEY_ATTR_DELTA = 0.004
 DEFAULT_HELDOUT_MAX_DROP = 0.006
-
-
-def _safe_float(value: Any, default: float = 0.0) -> float:
-    try:
-        return float(value)
-    except Exception:
-        return default
-
-
-def _attribute_accuracy_map(metrics: Dict[str, Any]) -> Dict[str, float]:
-    out: Dict[str, float] = {}
-    if not isinstance(metrics, dict):
-        return out
-    for key, value in metrics.items():
-        if not (isinstance(key, str) and key.endswith("_accuracy")):
-            continue
-        if key in {"overall_accuracy", "macro_accuracy"}:
-            continue
-        attr = key[: -len("_accuracy")]
-        count = int(_safe_float(metrics.get(f"{attr}_count"), 0.0))
-        if count <= 0:
-            continue
-        out[attr] = _safe_float(value, 0.0)
-    return out
 
 
 def _mean_for_attributes(values: Dict[str, float], attrs: List[str]) -> float:

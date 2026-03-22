@@ -1,0 +1,1936 @@
+{
+  "timestamp": "20260322_173837",
+  "generated_at": "2026-03-22T16:38:37.840632Z",
+  "run_id": "20260322_171209_music",
+  "run_output_root": "output/runs/20260322_171209_music/",
+  "datasets": [
+    "discogs",
+    "lastfm",
+    "musicbrainz"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set.xml",
+  "validation_fusion_testset": "test_set.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "discogs_lastfm": {
+      "pair_completeness": 0.9642857142857143,
+      "num_candidates": 225831,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist"
+      ]
+    },
+    "discogs_musicbrainz": {
+      "pair_completeness": 0.9,
+      "num_candidates": 115280,
+      "stategy": "sorted_neighbourhood",
+      "columns": [
+        "name"
+      ]
+    },
+    "musicbrainz_lastfm": {
+      "pair_completeness": 0.9240506329113924,
+      "num_candidates": 47615,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "artist",
+        "duration"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "discogs_lastfm": {
+      "f1_score": 0.896551724137931
+    },
+    "discogs_musicbrainz": {
+      "f1_score": 0.8732394366197184
+    },
+    "musicbrainz_lastfm": {
+      "f1_score": 0.8652482269503546
+    }
+  },
+  "evaluation_metrics": {
+    "artist_accuracy": 0.9130434782608695,
+    "artist_count": 23,
+    "duration_accuracy": 0.8695652173913043,
+    "duration_count": 23,
+    "label_accuracy": 0.5625,
+    "label_count": 16,
+    "macro_accuracy": 0.7702294685990337,
+    "name_accuracy": 0.9130434782608695,
+    "name_count": 23,
+    "num_evaluated_attributes": 9,
+    "num_evaluated_records": 23,
+    "overall_accuracy": 0.7817258883248731,
+    "release-country_accuracy": 0.8695652173913043,
+    "release-country_count": 23,
+    "release-date_accuracy": 0.7391304347826086,
+    "release-date_count": 23,
+    "total_correct": 154,
+    "total_evaluations": 197,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "tracks_track_name_accuracy": 0.6956521739130435,
+    "tracks_track_name_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23
+  },
+  "overall_accuracy": 0.7817258883248731,
+  "validation_metrics_final": {
+    "artist_accuracy": 0.9130434782608695,
+    "artist_count": 23,
+    "duration_accuracy": 0.8695652173913043,
+    "duration_count": 23,
+    "label_accuracy": 0.5625,
+    "label_count": 16,
+    "macro_accuracy": 0.7702294685990337,
+    "name_accuracy": 0.9130434782608695,
+    "name_count": 23,
+    "num_evaluated_attributes": 9,
+    "num_evaluated_records": 23,
+    "overall_accuracy": 0.7817258883248731,
+    "release-country_accuracy": 0.8695652173913043,
+    "release-country_count": 23,
+    "release-date_accuracy": 0.7391304347826086,
+    "release-date_count": 23,
+    "total_correct": 154,
+    "total_evaluations": 197,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "tracks_track_name_accuracy": 0.6956521739130435,
+    "tracks_track_name_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.6623376623376623,
+    "macro_accuracy": 0.65527950310559,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 154,
+    "total_correct": 102,
+    "label_accuracy": 0.5,
+    "label_count": 16,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 23,
+    "release-country_accuracy": 0.0,
+    "release-country_count": 0,
+    "release-date_accuracy": 0.7391304347826086,
+    "release-date_count": 23,
+    "artist_accuracy": 0.8260869565217391,
+    "artist_count": 23,
+    "tracks_track_duration_accuracy": 0.0,
+    "tracks_track_duration_count": 0,
+    "duration_accuracy": 0.8695652173913043,
+    "duration_count": 23,
+    "tracks_track_position_accuracy": 0.782608695652174,
+    "tracks_track_position_count": 23,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23
+  },
+  "metrics_by_split": {
+    "validation_final": {
+      "artist_accuracy": 0.9130434782608695,
+      "artist_count": 23,
+      "duration_accuracy": 0.8695652173913043,
+      "duration_count": 23,
+      "label_accuracy": 0.5625,
+      "label_count": 16,
+      "macro_accuracy": 0.7702294685990337,
+      "name_accuracy": 0.9130434782608695,
+      "name_count": 23,
+      "num_evaluated_attributes": 9,
+      "num_evaluated_records": 23,
+      "overall_accuracy": 0.7817258883248731,
+      "release-country_accuracy": 0.8695652173913043,
+      "release-country_count": 23,
+      "release-date_accuracy": 0.7391304347826086,
+      "release-date_count": 23,
+      "total_correct": 154,
+      "total_evaluations": 197,
+      "tracks_track_duration_accuracy": 0.5,
+      "tracks_track_duration_count": 20,
+      "tracks_track_name_accuracy": 0.6956521739130435,
+      "tracks_track_name_count": 23,
+      "tracks_track_position_accuracy": 0.8695652173913043,
+      "tracks_track_position_count": 23
+    },
+    "sealed_test_final": {
+      "overall_accuracy": 0.6623376623376623,
+      "macro_accuracy": 0.65527950310559,
+      "num_evaluated_records": 23,
+      "num_evaluated_attributes": 9,
+      "total_evaluations": 154,
+      "total_correct": 102,
+      "label_accuracy": 0.5,
+      "label_count": 16,
+      "tracks_track_name_accuracy": 0.0,
+      "tracks_track_name_count": 23,
+      "release-country_accuracy": 0.0,
+      "release-country_count": 0,
+      "release-date_accuracy": 0.7391304347826086,
+      "release-date_count": 23,
+      "artist_accuracy": 0.8260869565217391,
+      "artist_count": 23,
+      "tracks_track_duration_accuracy": 0.0,
+      "tracks_track_duration_count": 0,
+      "duration_accuracy": 0.8695652173913043,
+      "duration_count": 23,
+      "tracks_track_position_accuracy": 0.782608695652174,
+      "tracks_track_position_count": 23,
+      "name_accuracy": 0.8695652173913043,
+      "name_count": 23
+    }
+  },
+  "blocking_config": {
+    "blocking_strategies": {
+      "discogs_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist"
+        ],
+        "params": {
+          "top_k": 10
+        },
+        "pair_completeness": 0.9642857142857143,
+        "num_candidates": 225831,
+        "is_acceptable": true
+      },
+      "discogs_musicbrainz": {
+        "strategy": "sorted_neighbourhood",
+        "columns": [
+          "name"
+        ],
+        "params": {
+          "window": 15
+        },
+        "pair_completeness": 0.9,
+        "num_candidates": 115280,
+        "is_acceptable": true
+      },
+      "musicbrainz_lastfm": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "artist",
+          "duration"
+        ],
+        "params": {
+          "top_k": 10
+        },
+        "pair_completeness": 0.9240506329113924,
+        "num_candidates": 47615,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "discogs": "id",
+      "lastfm": "id",
+      "musicbrainz": "id"
+    },
+    "matching_strategies": {
+      "discogs_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "tracks_track_name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "set_jaccard"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 10.0
+          }
+        ],
+        "weights": [
+          0.3,
+          0.35,
+          0.25,
+          0.1
+        ],
+        "threshold": 0.6,
+        "f1": 0.896551724137931
+      },
+      "discogs_musicbrainz": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "release-date",
+            "max_days_difference": 365
+          },
+          {
+            "type": "string",
+            "column": "release-country",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "duration",
+            "max_difference": 60.0
+          }
+        ],
+        "weights": [
+          0.35,
+          0.25,
+          0.2,
+          0.1,
+          0.1
+        ],
+        "threshold": 0.7,
+        "f1": 0.8732394366197184
+      },
+      "musicbrainz_lastfm": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "artist",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "duration",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          }
+        ],
+        "weights": [
+          0.35,
+          0.45,
+          0.2
+        ],
+        "threshold": 0.75,
+        "f1": 0.8652482269503546
+      }
+    }
+  },
+  "fusion_size_comparison": {},
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 34,
+      "missing_fused_value": 10
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.7727272727272727,
+      "missing_fused_value": 0.22727272727272727
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/music/testsets/test_set.xml",
+    "id_alignment": {
+      "gold_count": 23,
+      "direct_coverage": 7,
+      "direct_coverage_ratio": 0.30434782608695654,
+      "mapped_coverage": 23,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "overall_accuracy": 0.7766497461928934
+  },
+  "evaluation_regression_guard": {
+    "rejected": true,
+    "overall_gain": -0.005076,
+    "macro_gain": -0.002717,
+    "overall_drop": 0.005076,
+    "macro_drop": 0.002717,
+    "meaningful_gain": false,
+    "net_positive": false,
+    "total_gain_weight": 0.192935,
+    "total_drop_weight": 0.217391,
+    "catastrophic_attribute_drops": {},
+    "severe_attribute_drops": {
+      "tracks_track_name": 0.173913
+    },
+    "moderate_attribute_drops": {
+      "tracks_track_name": 0.173913
+    },
+    "top_attribute_drops": {
+      "tracks_track_name": 0.173913,
+      "name": 0.043478
+    },
+    "top_attribute_gains": {
+      "duration": 0.086957,
+      "label": 0.0625,
+      "release-date": 0.043478
+    }
+  },
+  "latest_validation_metrics": {
+    "overall_accuracy": 0.7766497461928934,
+    "macro_accuracy": 0.7675120772946858,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 153,
+    "artist_accuracy": 0.9130434782608695,
+    "artist_count": 23,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23,
+    "label_accuracy": 0.625,
+    "label_count": 16,
+    "duration_accuracy": 0.9565217391304348,
+    "duration_count": 23,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "release-country_accuracy": 0.8695652173913043,
+    "release-country_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23,
+    "release-date_accuracy": 0.782608695652174,
+    "release-date_count": 23,
+    "tracks_track_name_accuracy": 0.5217391304347826,
+    "tracks_track_name_count": 23
+  },
+  "evaluation_metrics_raw": {
+    "overall_accuracy": 0.7766497461928934,
+    "macro_accuracy": 0.7675120772946858,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 153,
+    "artist_accuracy": 0.9130434782608695,
+    "artist_count": 23,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23,
+    "label_accuracy": 0.625,
+    "label_count": 16,
+    "duration_accuracy": 0.9565217391304348,
+    "duration_count": 23,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "release-country_accuracy": 0.8695652173913043,
+    "release-country_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23,
+    "release-date_accuracy": 0.782608695652174,
+    "release-date_count": 23,
+    "tracks_track_name_accuracy": 0.5217391304347826,
+    "tracks_track_name_count": 23
+  },
+  "evaluation_metrics_for_adaptation": {
+    "overall_accuracy": 0.7766497461928934,
+    "macro_accuracy": 0.7675120772946858,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 197,
+    "total_correct": 153,
+    "artist_accuracy": 0.9130434782608695,
+    "artist_count": 23,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23,
+    "label_accuracy": 0.625,
+    "label_count": 16,
+    "duration_accuracy": 0.9565217391304348,
+    "duration_count": 23,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "release-country_accuracy": 0.8695652173913043,
+    "release-country_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23,
+    "release-date_accuracy": 0.782608695652174,
+    "release-date_count": 23,
+    "tracks_track_name_accuracy": 0.5217391304347826,
+    "tracks_track_name_count": 23
+  },
+  "best_validation_metrics": {
+    "artist_accuracy": 0.9130434782608695,
+    "artist_count": 23,
+    "duration_accuracy": 0.8695652173913043,
+    "duration_count": 23,
+    "label_accuracy": 0.5625,
+    "label_count": 16,
+    "macro_accuracy": 0.7702294685990337,
+    "name_accuracy": 0.9130434782608695,
+    "name_count": 23,
+    "num_evaluated_attributes": 9,
+    "num_evaluated_records": 23,
+    "overall_accuracy": 0.7817258883248731,
+    "release-country_accuracy": 0.8695652173913043,
+    "release-country_count": 23,
+    "release-date_accuracy": 0.7391304347826086,
+    "release-date_count": 23,
+    "total_correct": 154,
+    "total_evaluations": 197,
+    "tracks_track_duration_accuracy": 0.5,
+    "tracks_track_duration_count": 20,
+    "tracks_track_name_accuracy": 0.6956521739130435,
+    "tracks_track_name_count": 23,
+    "tracks_track_position_accuracy": 0.8695652173913043,
+    "tracks_track_position_count": 23
+  },
+  "evaluation_cycle_audit": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-22T16:15:46.174805Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.6395939086294417,
+        "macro_accuracy": 0.6271739130434782,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 126,
+        "tracks_track_duration_accuracy": 0.4,
+        "tracks_track_duration_count": 20,
+        "tracks_track_position_accuracy": 0.6956521739130435,
+        "tracks_track_position_count": 23,
+        "duration_accuracy": 0.7391304347826086,
+        "duration_count": 23,
+        "tracks_track_name_accuracy": 0.4782608695652174,
+        "tracks_track_name_count": 23,
+        "release-date_accuracy": 0.6086956521739131,
+        "release-date_count": 23,
+        "label_accuracy": 0.375,
+        "label_count": 16,
+        "artist_accuracy": 0.7391304347826086,
+        "artist_count": 23,
+        "name_accuracy": 0.782608695652174,
+        "name_count": 23,
+        "release-country_accuracy": 0.8260869565217391,
+        "release-country_count": 23
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.6395939086294417,
+        "macro_accuracy": 0.6271739130434782,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 126,
+        "tracks_track_duration_accuracy": 0.4,
+        "tracks_track_duration_count": 20,
+        "tracks_track_position_accuracy": 0.6956521739130435,
+        "tracks_track_position_count": 23,
+        "duration_accuracy": 0.7391304347826086,
+        "duration_count": 23,
+        "tracks_track_name_accuracy": 0.4782608695652174,
+        "tracks_track_name_count": 23,
+        "release-date_accuracy": 0.6086956521739131,
+        "release-date_count": 23,
+        "label_accuracy": 0.375,
+        "label_count": 16,
+        "artist_accuracy": 0.7391304347826086,
+        "artist_count": 23,
+        "name_accuracy": 0.782608695652174,
+        "name_count": 23,
+        "release-country_accuracy": 0.8260869565217391,
+        "release-country_count": 23
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.6395939086294417,
+        "macro_accuracy": 0.6271739130434782,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 126,
+        "tracks_track_duration_accuracy": 0.4,
+        "tracks_track_duration_count": 20,
+        "tracks_track_position_accuracy": 0.6956521739130435,
+        "tracks_track_position_count": 23,
+        "duration_accuracy": 0.7391304347826086,
+        "duration_count": 23,
+        "tracks_track_name_accuracy": 0.4782608695652174,
+        "tracks_track_name_count": 23,
+        "release-date_accuracy": 0.6086956521739131,
+        "release-date_count": 23,
+        "label_accuracy": 0.375,
+        "label_count": 16,
+        "artist_accuracy": 0.7391304347826086,
+        "artist_count": 23,
+        "name_accuracy": 0.782608695652174,
+        "name_count": 23,
+        "release-country_accuracy": 0.8260869565217391,
+        "release-country_count": 23
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.6395939086294417,
+        "macro_accuracy": 0.6271739130434782,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 126,
+        "tracks_track_duration_accuracy": 0.4,
+        "tracks_track_duration_count": 20,
+        "tracks_track_position_accuracy": 0.6956521739130435,
+        "tracks_track_position_count": 23,
+        "duration_accuracy": 0.7391304347826086,
+        "duration_count": 23,
+        "tracks_track_name_accuracy": 0.4782608695652174,
+        "tracks_track_name_count": 23,
+        "release-date_accuracy": 0.6086956521739131,
+        "release-date_count": 23,
+        "label_accuracy": 0.375,
+        "label_count": 16,
+        "artist_accuracy": 0.7391304347826086,
+        "artist_count": 23,
+        "name_accuracy": 0.782608695652174,
+        "name_count": 23,
+        "release-country_accuracy": 0.8260869565217391,
+        "release-country_count": 23
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T16:15:45.295574Z",
+        "expected_pairs": [
+          "discogs_lastfm",
+          "discogs_musicbrainz",
+          "lastfm_musicbrainz"
+        ],
+        "pair_checks": [
+          {
+            "pair": "discogs_lastfm",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_lastfm.csv",
+            "data_rows": 4356
+          },
+          {
+            "pair": "discogs_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_musicbrainz.csv",
+            "data_rows": 2102
+          },
+          {
+            "pair": "lastfm_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_lastfm_musicbrainz.csv",
+            "data_rows": 3238
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 63.959% < 85.000%",
+        "low attribute accuracy: label=37.500%, tracks_track_duration=40.000%, tracks_track_name=47.826%",
+        "low direct ID coverage: 30.435%",
+        "high missing_fused_value mismatch ratio: 63.380%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-22T16:18:56.841538Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.7309644670050761,
+        "macro_accuracy": 0.7240338164251208,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 144,
+        "release-country_accuracy": 1.0,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "artist_accuracy": 0.9565217391304348,
+        "artist_count": 23,
+        "name_accuracy": 0.9565217391304348,
+        "name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.0,
+        "tracks_track_name_count": 23,
+        "duration_accuracy": 0.8260869565217391,
+        "duration_count": 23
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.7309644670050761,
+        "macro_accuracy": 0.7240338164251208,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 144,
+        "release-country_accuracy": 1.0,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "artist_accuracy": 0.9565217391304348,
+        "artist_count": 23,
+        "name_accuracy": 0.9565217391304348,
+        "name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.0,
+        "tracks_track_name_count": 23,
+        "duration_accuracy": 0.8260869565217391,
+        "duration_count": 23
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.7309644670050761,
+        "macro_accuracy": 0.7240338164251208,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 144,
+        "release-country_accuracy": 1.0,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "artist_accuracy": 0.9565217391304348,
+        "artist_count": 23,
+        "name_accuracy": 0.9565217391304348,
+        "name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.0,
+        "tracks_track_name_count": 23,
+        "duration_accuracy": 0.8260869565217391,
+        "duration_count": 23
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.7309644670050761,
+        "macro_accuracy": 0.7240338164251208,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 144,
+        "release-country_accuracy": 1.0,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "artist_accuracy": 0.9565217391304348,
+        "artist_count": 23,
+        "name_accuracy": 0.9565217391304348,
+        "name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.0,
+        "tracks_track_name_count": 23,
+        "duration_accuracy": 0.8260869565217391,
+        "duration_count": 23
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.091371,
+        "macro_gain": 0.09686,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 1.35,
+        "total_drop_weight": 0.478261,
+        "catastrophic_attribute_drops": {
+          "tracks_track_name": 0.478261
+        },
+        "severe_attribute_drops": {
+          "tracks_track_name": 0.478261
+        },
+        "moderate_attribute_drops": {
+          "tracks_track_name": 0.478261
+        },
+        "top_attribute_drops": {
+          "tracks_track_name": 0.478261
+        },
+        "top_attribute_gains": {
+          "label": 0.25,
+          "artist": 0.217391,
+          "tracks_track_position": 0.173913,
+          "release-date": 0.173913,
+          "name": 0.173913,
+          "release-country": 0.173913,
+          "tracks_track_duration": 0.1,
+          "duration": 0.086957
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T16:18:55.926344Z",
+        "expected_pairs": [
+          "discogs_lastfm",
+          "discogs_musicbrainz",
+          "lastfm_musicbrainz"
+        ],
+        "pair_checks": [
+          {
+            "pair": "discogs_lastfm",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_lastfm.csv",
+            "data_rows": 4356
+          },
+          {
+            "pair": "discogs_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_musicbrainz.csv",
+            "data_rows": 2102
+          },
+          {
+            "pair": "lastfm_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_lastfm_musicbrainz.csv",
+            "data_rows": 3238
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 73.096% < 85.000%",
+        "low attribute accuracy: tracks_track_name=0.000%",
+        "low direct ID coverage: 30.435%"
+      ]
+    },
+    {
+      "attempt": 3,
+      "recorded_at": "2026-03-22T16:32:02.126021Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "accepted_metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "analysis_metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "best_validation_metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.050761,
+        "macro_gain": 0.046196,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 0.73913,
+        "total_drop_weight": 0.323369,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {
+          "release-country": 0.130435
+        },
+        "moderate_attribute_drops": {
+          "release-country": 0.130435
+        },
+        "top_attribute_drops": {
+          "release-country": 0.130435,
+          "label": 0.0625,
+          "release-date": 0.043478,
+          "artist": 0.043478,
+          "name": 0.043478
+        },
+        "top_attribute_gains": {
+          "tracks_track_name": 0.695652,
+          "duration": 0.043478
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T16:32:01.049447Z",
+        "expected_pairs": [
+          "discogs_lastfm",
+          "discogs_musicbrainz",
+          "lastfm_musicbrainz"
+        ],
+        "pair_checks": [
+          {
+            "pair": "discogs_lastfm",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_lastfm.csv",
+            "data_rows": 4356
+          },
+          {
+            "pair": "discogs_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_musicbrainz.csv",
+            "data_rows": 2102
+          },
+          {
+            "pair": "lastfm_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_lastfm_musicbrainz.csv",
+            "data_rows": 3238
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 78.173% < 85.000%",
+        "low direct ID coverage: 30.435%",
+        "high missing_fused_value mismatch ratio: 25.581%"
+      ]
+    },
+    {
+      "attempt": 4,
+      "recorded_at": "2026-03-22T16:35:18.315403Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.7766497461928934,
+        "macro_accuracy": 0.7675120772946858,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 153,
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "name_accuracy": 0.8695652173913043,
+        "name_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "duration_accuracy": 0.9565217391304348,
+        "duration_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "tracks_track_name_accuracy": 0.5217391304347826,
+        "tracks_track_name_count": 23
+      },
+      "accepted_metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.7766497461928934,
+        "macro_accuracy": 0.7675120772946858,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 153,
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "name_accuracy": 0.8695652173913043,
+        "name_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "duration_accuracy": 0.9565217391304348,
+        "duration_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "tracks_track_name_accuracy": 0.5217391304347826,
+        "tracks_track_name_count": 23
+      },
+      "best_validation_metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "regression_guard": {
+        "rejected": true,
+        "overall_gain": -0.005076,
+        "macro_gain": -0.002717,
+        "overall_drop": 0.005076,
+        "macro_drop": 0.002717,
+        "meaningful_gain": false,
+        "net_positive": false,
+        "total_gain_weight": 0.192935,
+        "total_drop_weight": 0.217391,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {
+          "tracks_track_name": 0.173913
+        },
+        "moderate_attribute_drops": {
+          "tracks_track_name": 0.173913
+        },
+        "top_attribute_drops": {
+          "tracks_track_name": 0.173913,
+          "name": 0.043478
+        },
+        "top_attribute_gains": {
+          "duration": 0.086957,
+          "label": 0.0625,
+          "release-date": 0.043478
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-22T16:35:17.338372Z",
+        "expected_pairs": [
+          "discogs_lastfm",
+          "discogs_musicbrainz",
+          "lastfm_musicbrainz"
+        ],
+        "pair_checks": [
+          {
+            "pair": "discogs_lastfm",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_lastfm.csv",
+            "data_rows": 4356
+          },
+          {
+            "pair": "discogs_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_musicbrainz.csv",
+            "data_rows": 2102
+          },
+          {
+            "pair": "lastfm_musicbrainz",
+            "status": "ok",
+            "path": "output/runs/20260322_171209_music/correspondences/correspondences_lastfm_musicbrainz.csv",
+            "data_rows": 3238
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 77.665% < 85.000%",
+        "regression guard rejected latest candidate: overall_drop=0.005076, macro_drop=0.002717, top_attribute_drops={'tracks_track_name': 0.173913, 'name': 0.043478}",
+        "low direct ID coverage: 30.435%"
+      ]
+    }
+  ],
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-22T16:35:17.338372Z",
+    "expected_pairs": [
+      "discogs_lastfm",
+      "discogs_musicbrainz",
+      "lastfm_musicbrainz"
+    ],
+    "pair_checks": [
+      {
+        "pair": "discogs_lastfm",
+        "status": "ok",
+        "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_lastfm.csv",
+        "data_rows": 4356
+      },
+      {
+        "pair": "discogs_musicbrainz",
+        "status": "ok",
+        "path": "output/runs/20260322_171209_music/correspondences/correspondences_discogs_musicbrainz.csv",
+        "data_rows": 2102
+      },
+      {
+        "pair": "lastfm_musicbrainz",
+        "status": "ok",
+        "path": "output/runs/20260322_171209_music/correspondences/correspondences_lastfm_musicbrainz.csv",
+        "data_rows": 3238
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "evaluation_analysis": "{\n  \"action\": \"decide\",\n  \"diagnosis\": \"The main remaining fixable errors are pre-fusion normalization/representation issues, not blocking or matching. Blocking/matching are healthy (all correspondence files non-empty, F1\\u22480.87\\u20130.90, no blocking-recall issues). The clearest improvable attributes are label and release-date, but their error pattern is still dominated by missing fused values caused by source-format/null handling rather than wrong entity pairs. The list-valued track attributes remain largely structurally limited because fused outputs often contain different tracklists than validation, not just different formatting. Current fusion already uses the resolver family previously indicated, and 18 attributes are >85%, so those should be preserved. The next fix should therefore target normalization so source values align exactly with the validation representation before fusion, especially release-date datetime completion/formatting and preservation of label values from discogs, while avoiding regressions on protected attributes.\",\n  \"next_node\": \"normalization_node\",\n  \"reasoning\": \"Protected attributes already performing well and should not be changed in fusion: duration, release-country, tracks_track_position, artist, name, plus the other high-performing attributes above 85%. Matching is not the bottleneck. For label, source-vs-validation evidence is decisive: discogs is 100% exact and non-null, so the remaining misses indicate the discogs label is not consistently surviving in a usable normalized form into fusion/evaluation. For release-date, all sources have 0% exact but high fuzzy agreement, which means validation expects a canonical timestamp representation with default month/day completion; this is a normalization problem first. The worst list attributes show structural disagreement in content/length, so fusion changes there would not recover much and risk harming stable attributes. Because pipeline_adaption cannot add preprocessing and the needed fixes are source transformations before fusion, normalization_node is the correct route.\",\n  \"ceiling_assessment\": \"A realistic ceiling remains around the reported 84.5% with the current structure. Most remaining headroom is in label and release-date. Track-name and track-duration are structurally limited by source disagreement, so even perfect normalization will not fully close the gap. A careful normalization pass should recover several points overall without disturbing protected attributes.\",\n  \"recommendations\": [\n    {\n      \"attribute\": \"label\",\n      \"issue\": \"Validation comparison shows discogs matches perfectly (100% exact, 100% non-null), yet fused output is often blank. This indicates label values need to be preserved/standardized pre-fusion rather than changing the resolver.\",\n      \"fix\": \"In normalization_node, apply conservative string normalization to discogs.label only: strip surrounding whitespace, normalize Unicode punctuation/spacing, convert empty strings/placeholders to null, but preserve original casing/content. Ensure no transformation drops non-empty labels. Keep fusion as prefer_higher_trust with discogs highest.\",\n      \"resolver_reasoning\": \"prefer_higher_trust(discogs > lastfm > musicbrainz) is already the best resolver because source-vs-validation evidence shows discogs is perfect while the others are effectively unusable for label. Alternatives perform worse: voting can fail when only discogs has a value, longest/shortest_string are irrelevant for label semantics, and favour_sources duplicates the same preference less explicitly than trust-based selection. The issue is not resolver choice but making sure normalized discogs values remain available and non-empty at fusion time.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.049\n    },\n    {\n      \"attribute\": \"release-date\",\n      \"issue\": \"All sources are fuzzy-close but 0% exact, showing the validation expects canonical timestamps with imputed month/day/time components. Current misses are mostly blank fused values plus format granularity mismatch.\",\n      \"fix\": \"In normalization_node, standardize release-date in discogs and musicbrainz to the exact validation format YYYY-MM-DDT00:00:00.000, with explicit completion rules: YYYY -> YYYY-01-01T00:00:00.000 and YYYY-MM -> YYYY-MM-01T00:00:00.000 where source granularity is partial. Preserve nulls only when truly missing. Keep current fusion resolver for release-date.\",\n      \"resolver_reasoning\": \"The comparison evidence supports keeping a consensus-style resolver for release-date because no single source is exact, while discogs/lastfm/musicbrainz are all similarly fuzzy-close. prefer_higher_trust would overcommit to one imperfect source; earliest could systematically bias dates; longest/shortest are inapplicable. The primary problem is representational mismatch to validation, so normalization before fusion is the highest-value fix.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.026\n    },\n    {\n      \"attribute\": \"tracks_track_name\",\n      \"issue\": \"Errors are dominated by list mismatches with differing content/length; examples show many releases have fundamentally different tracklists across sources, not merely casing or delimiter issues.\",\n      \"fix\": \"Only apply safe list normalization in normalization_node: parse list-like strings consistently, trim elements, normalize quotes/dashes/whitespace, remove empty items, and serialize stably. Do not change fusion yet.\",\n      \"resolver_reasoning\": \"No resolver is likely to materially outperform current source-preference logic because the ceiling is already equal to observed accuracy, indicating structural limitation. union/intersection/voting would change semantics and may regress rows already correct. Minimal normalization may remove superficial noise, but this attribute should not drive fusion changes.\",\n      \"class\": \"structurally_limited\",\n      \"expected_impact\": 0.0\n    },\n    {\n      \"attribute\": \"tracks_track_duration\",\n      \"issue\": \"Track-duration lists disagree in both values and list lengths; several mismatches reflect extra/missing tracks rather than formatting alone.\",\n      \"fix\": \"In normalization_node, coerce list elements to canonical integer-string tokens, remove blanks, and ensure stable serialization only. Avoid fusion-rule changes.\",\n      \"resolver_reasoning\": \"This attribute is at its current structural ceiling. maximum/minimum/median are inappropriate because the field is a list aligned to track ordering, not a scalar numeric measurement. union/intersection would distort positional semantics. Safe normalization can reduce representation noise, but major gains are not achievable under the current source data.\",\n      \"class\": \"structurally_limited\",\n      \"expected_impact\": 0.0\n    }\n  ]\n}",
+  "evaluation_reasoning_brief": {
+    "root_cause": "The main remaining fixable errors are pre-fusion normalization/representation issues, not blocking or matching. Blocking/matching are healthy (all correspondence files non-empty, F1≈0.87–0.90, no blocking-recall issues). The clearest improvable attributes are label and release-date, but their error pattern is still dominated by missing fused values caused by source-format/null handling rather than wrong entity pairs. The list-valued track attributes remain largely structurally limited because fused outputs often contain different tracklists than validation, not just different formatting. Current fusion already uses the resolver family previously indicated, and 18 attributes are >85%, so those should be preserved. The next fix should therefore target normalization so source values align exactly with the validation representation before fusion, especially release-date datetime completion/formatting and preservation of label values from discogs, while avoiding regressions on protected attributes.",
+    "next_step": "Protected attributes already performing well and should not be changed in fusion: duration, release-country, tracks_track_position, artist, name, plus the other high-performing attributes above 85%. Matching is not the bottleneck. For label, source-vs-validation evidence is decisive: discogs is 100% exact and non-null, so the remaining misses indicate the discogs label is not consistently surviving in a usable normalized form into fusion/evaluation. For release-date, all sources have 0% exact but high fuzzy agreement, which means validation expects a canonical timestamp representation with default month/day completion; this is a normalization problem first. The worst list attributes show structural disagreement in content/length, so fusion changes there would not recover much and risk harming stable attributes. Because pipeline_adaption cannot add preprocessing and the needed fixes are source transformations before fusion, normalization_node is the correct route.",
+    "takeaway": "The main remaining fixable errors are pre-fusion normalization/representation issues, not blocking or matching. Blocking/matching are healthy (all correspondence files non-empty, F1≈0.87–0.90, no blocking-recall issues). The clearest improvable attributes are label and release-date, but their error pattern is still dominated by missing fused values caused by source-format/null handling rather than wrong entity pairs. The list-valued track attributes remain largely structurally limited because fused outputs often contain different tracklists than validation, not just different formatting. Current fusion already uses the resolver family previously indicated, and 18 attributes are >85%, so those should be preserved. The next fix should therefore target normalization so source values align exactly with the validation representation before fusion, especially release-date datetime completion/formatting and preservation of label values from discogs, while avoiding regressions on protected attributes.",
+    "recommendations": [
+      {
+        "attribute": "label",
+        "issue": "Validation comparison shows discogs matches perfectly (100% exact, 100% non-null), yet fused output is often blank. This indicates label values need to be preserved/standardized pre-fusion rather than changing the resolver.",
+        "fix": "In normalization_node, apply conservative string normalization to discogs.label only: strip surrounding whitespace, normalize Unicode punctuation/spacing, convert empty strings/placeholders to null, but preserve original casing/content. Ensure no transformation drops non-empty labels. Keep fusion as prefer_higher_trust with discogs highest.",
+        "resolver_reasoning": "prefer_higher_trust(discogs > lastfm > musicbrainz) is already the best resolver because source-vs-validation evidence shows discogs is perfect while the others are effectively unusable for label. Alternatives perform worse: voting can fail when only discogs has a value, longest/shortest_string are irrelevant for label semantics, and favour_sources duplicates the same preference less explicitly than trust-based selection. The issue is not resolver choice but making sure normalized discogs values remain available and non-empty at fusion time.",
+        "class": "improvable",
+        "expected_impact": 0.049
+      },
+      {
+        "attribute": "release-date",
+        "issue": "All sources are fuzzy-close but 0% exact, showing the validation expects canonical timestamps with imputed month/day/time components. Current misses are mostly blank fused values plus format granularity mismatch.",
+        "fix": "In normalization_node, standardize release-date in discogs and musicbrainz to the exact validation format YYYY-MM-DDT00:00:00.000, with explicit completion rules: YYYY -> YYYY-01-01T00:00:00.000 and YYYY-MM -> YYYY-MM-01T00:00:00.000 where source granularity is partial. Preserve nulls only when truly missing. Keep current fusion resolver for release-date.",
+        "resolver_reasoning": "The comparison evidence supports keeping a consensus-style resolver for release-date because no single source is exact, while discogs/lastfm/musicbrainz are all similarly fuzzy-close. prefer_higher_trust would overcommit to one imperfect source; earliest could systematically bias dates; longest/shortest are inapplicable. The primary problem is representational mismatch to validation, so normalization before fusion is the highest-value fix.",
+        "class": "improvable",
+        "expected_impact": 0.026
+      },
+      {
+        "attribute": "tracks_track_name",
+        "issue": "Errors are dominated by list mismatches with differing content/length; examples show many releases have fundamentally different tracklists across sources, not merely casing or delimiter issues.",
+        "fix": "Only apply safe list normalization in normalization_node: parse list-like strings consistently, trim elements, normalize quotes/dashes/whitespace, remove empty items, and serialize stably. Do not change fusion yet.",
+        "resolver_reasoning": "No resolver is likely to materially outperform current source-preference logic because the ceiling is already equal to observed accuracy, indicating structural limitation. union/intersection/voting would change semantics and may regress rows already correct. Minimal normalization may remove superficial noise, but this attribute should not drive fusion changes.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "tracks_track_duration",
+        "issue": "Track-duration lists disagree in both values and list lengths; several mismatches reflect extra/missing tracks rather than formatting alone.",
+        "fix": "In normalization_node, coerce list elements to canonical integer-string tokens, remove blanks, and ensure stable serialization only. Avoid fusion-rule changes.",
+        "resolver_reasoning": "This attribute is at its current structural ceiling. maximum/minimum/median are inappropriate because the field is a list aligned to track ordering, not a scalar numeric measurement. union/intersection would distort positional semantics. Safe normalization can reduce representation noise, but major gains are not achievable under the current source data.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ],
+    "next_node": "normalization_node",
+    "ceiling_assessment": "A realistic ceiling remains around the reported 84.5% with the current structure. Most remaining headroom is in label and release-date. Track-name and track-duration are structurally limited by source disagreement, so even perfect normalization will not fully close the gap. A careful normalization pass should recover several points overall without disturbing protected attributes."
+  },
+  "pipeline_generation_review": {
+    "verdict": "pass",
+    "summary": "no_static_findings"
+  },
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T16:14:54.899999Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_171209_music/pipeline/cycle_01/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_171209_music/pipeline/cycle_01/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_171209_music/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_01/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_01/exec_01/correspondences/correspondences_lastfm_musicbrainz.csv"
+        ],
+        "execution_log": "output/runs/20260322_171209_music/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T16:18:09.747811Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_171209_music/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_171209_music/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_171209_music/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_02/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_02/exec_01/correspondences/correspondences_lastfm_musicbrainz.csv"
+        ],
+        "execution_log": "output/runs/20260322_171209_music/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T16:21:11.760905Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_171209_music/pipeline/cycle_03/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_171209_music/pipeline/cycle_03/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_171209_music/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_03/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_03/exec_01/correspondences/correspondences_lastfm_musicbrainz.csv"
+        ],
+        "execution_log": "output/runs/20260322_171209_music/pipeline/cycle_03/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-22T16:34:15.240466Z",
+      "files": {
+        "pipeline_code": "output/runs/20260322_171209_music/pipeline/cycle_04/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260322_171209_music/pipeline/cycle_04/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260322_171209_music/pipeline/cycle_04/exec_01/correspondences/correspondences_discogs_lastfm.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_04/exec_01/correspondences/correspondences_discogs_musicbrainz.csv",
+          "output/runs/20260322_171209_music/pipeline/cycle_04/exec_01/correspondences/correspondences_lastfm_musicbrainz.csv"
+        ],
+        "execution_log": "output/runs/20260322_171209_music/pipeline/cycle_04/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T16:15:45.286010Z",
+      "metrics": {
+        "overall_accuracy": 0.6395939086294417,
+        "macro_accuracy": 0.6271739130434782,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 126,
+        "tracks_track_duration_accuracy": 0.4,
+        "tracks_track_duration_count": 20,
+        "tracks_track_position_accuracy": 0.6956521739130435,
+        "tracks_track_position_count": 23,
+        "duration_accuracy": 0.7391304347826086,
+        "duration_count": 23,
+        "tracks_track_name_accuracy": 0.4782608695652174,
+        "tracks_track_name_count": 23,
+        "release-date_accuracy": 0.6086956521739131,
+        "release-date_count": 23,
+        "label_accuracy": 0.375,
+        "label_count": 16,
+        "artist_accuracy": 0.7391304347826086,
+        "artist_count": 23,
+        "name_accuracy": 0.782608695652174,
+        "name_count": 23,
+        "release-country_accuracy": 0.8260869565217391,
+        "release-country_count": 23
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_171209_music/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_171209_music/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_171209_music/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_171209_music/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T16:18:55.918705Z",
+      "metrics": {
+        "overall_accuracy": 0.7309644670050761,
+        "macro_accuracy": 0.7240338164251208,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 144,
+        "release-country_accuracy": 1.0,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "artist_accuracy": 0.9565217391304348,
+        "artist_count": 23,
+        "name_accuracy": 0.9565217391304348,
+        "name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.0,
+        "tracks_track_name_count": 23,
+        "duration_accuracy": 0.8260869565217391,
+        "duration_count": 23
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_171209_music/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_171209_music/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_171209_music/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_171209_music/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 3,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T16:32:01.036801Z",
+      "metrics": {
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "duration_accuracy": 0.8695652173913043,
+        "duration_count": 23,
+        "label_accuracy": 0.5625,
+        "label_count": 16,
+        "macro_accuracy": 0.7702294685990337,
+        "name_accuracy": 0.9130434782608695,
+        "name_count": 23,
+        "num_evaluated_attributes": 9,
+        "num_evaluated_records": 23,
+        "overall_accuracy": 0.7817258883248731,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "release-date_accuracy": 0.7391304347826086,
+        "release-date_count": 23,
+        "total_correct": 154,
+        "total_evaluations": 197,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "tracks_track_name_accuracy": 0.6956521739130435,
+        "tracks_track_name_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_171209_music/evaluation/validation/cycle_03/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_171209_music/evaluation/validation/cycle_03/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_171209_music/evaluation/validation/cycle_03/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_171209_music/evaluation/validation/cycle_03/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 4,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-22T16:35:17.327766Z",
+      "metrics": {
+        "overall_accuracy": 0.7766497461928934,
+        "macro_accuracy": 0.7675120772946858,
+        "num_evaluated_records": 23,
+        "num_evaluated_attributes": 9,
+        "total_evaluations": 197,
+        "total_correct": 153,
+        "artist_accuracy": 0.9130434782608695,
+        "artist_count": 23,
+        "name_accuracy": 0.8695652173913043,
+        "name_count": 23,
+        "label_accuracy": 0.625,
+        "label_count": 16,
+        "duration_accuracy": 0.9565217391304348,
+        "duration_count": 23,
+        "tracks_track_duration_accuracy": 0.5,
+        "tracks_track_duration_count": 20,
+        "release-country_accuracy": 0.8695652173913043,
+        "release-country_count": 23,
+        "tracks_track_position_accuracy": 0.8695652173913043,
+        "tracks_track_position_count": 23,
+        "release-date_accuracy": 0.782608695652174,
+        "release-date_count": 23,
+        "tracks_track_name_accuracy": 0.5217391304347826,
+        "tracks_track_name_count": 23
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260322_171209_music/evaluation/validation/cycle_04/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260322_171209_music/evaluation/validation/cycle_04/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260322_171209_music/evaluation/validation/cycle_04/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260322_171209_music/evaluation/validation/cycle_04/exec_01/evaluation_execution.json"
+      }
+    }
+  ],
+  "normalization_execution_result": "success",
+  "normalization_attempts": 3,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 3,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/music/testsets/test_set.xml",
+    "llm_specs": {
+      "discogs": {
+        "release-date": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+          "on_failure": "keep"
+        },
+        "release-country": {
+          "strip_whitespace": true,
+          "country_format": "name",
+          "on_failure": "keep"
+        },
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "label": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "lastfm": {
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "musicbrainz": {
+        "release-date": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+          "on_failure": "keep"
+        },
+        "release-country": {
+          "strip_whitespace": true,
+          "country_format": "name",
+          "on_failure": "keep"
+        },
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      }
+    },
+    "llm_list_columns": [
+      "tracks_track_name",
+      "tracks_track_position",
+      "tracks_track_duration"
+    ],
+    "llm_reasoning": "Target uses full country names, datetime strings in ISO style with milliseconds, and duration fields as strings. Track-related columns are list-like in all sources, so they are flagged as list_columns. Kept transformations minimal, avoiding name/artist/title casing because target preserves mixed original casing. Included label only for discogs due to prior low label accuracy and visible whitespace-cleanup safety.",
+    "datasets": {
+      "discogs": {
+        "input_path": "output/runs/20260322_171209_music/normalization/attempt_2/discogs.csv",
+        "output_path": "output/runs/20260322_171209_music/normalization/attempt_3/discogs.csv",
+        "row_count": 22627,
+        "id_column": "id",
+        "spec_applied": {
+          "release-date": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+            "on_failure": "keep"
+          },
+          "release-country": {
+            "strip_whitespace": true,
+            "country_format": "name",
+            "on_failure": "keep"
+          },
+          "duration": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "label": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          },
+          "tracks_track_duration": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": [
+          "tracks_track_name",
+          "tracks_track_position",
+          "tracks_track_duration"
+        ]
+      },
+      "lastfm": {
+        "input_path": "output/runs/20260322_171209_music/normalization/attempt_2/lastfm.csv",
+        "output_path": "output/runs/20260322_171209_music/normalization/attempt_3/lastfm.csv",
+        "row_count": 9865,
+        "id_column": "id",
+        "spec_applied": {
+          "duration": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "tracks_track_duration": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": [
+          "tracks_track_name",
+          "tracks_track_position",
+          "tracks_track_duration"
+        ]
+      },
+      "musicbrainz": {
+        "input_path": "output/runs/20260322_171209_music/normalization/attempt_2/musicbrainz.csv",
+        "output_path": "output/runs/20260322_171209_music/normalization/attempt_3/musicbrainz.csv",
+        "row_count": 4763,
+        "id_column": "id",
+        "spec_applied": {
+          "release-date": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+            "on_failure": "keep"
+          },
+          "release-country": {
+            "strip_whitespace": true,
+            "country_format": "name",
+            "on_failure": "keep"
+          },
+          "duration": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "tracks_track_duration": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": [
+          "tracks_track_name",
+          "tracks_track_position",
+          "tracks_track_duration"
+        ]
+      }
+    },
+    "warnings": [],
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "reverted_to_original": false,
+    "created_at": "2026-03-22T17:32:42.803062"
+  },
+  "normalization_directives": {
+    "specs": {
+      "discogs": {
+        "release-date": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+          "on_failure": "keep"
+        },
+        "release-country": {
+          "strip_whitespace": true,
+          "country_format": "name",
+          "on_failure": "keep"
+        },
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "label": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "lastfm": {
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "musicbrainz": {
+        "release-date": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+          "on_failure": "keep"
+        },
+        "release-country": {
+          "strip_whitespace": true,
+          "country_format": "name",
+          "on_failure": "keep"
+        },
+        "duration": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "tracks_track_duration": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      }
+    },
+    "list_columns": [
+      "tracks_track_name",
+      "tracks_track_position",
+      "tracks_track_duration"
+    ]
+  },
+  "investigator_action_plan": [
+    {
+      "action": "In normalization_node, apply conservative string normalization to discogs.label only: strip surrounding whitespace, normalize Unicode punctuation/spacing, convert empty strings/placeholders to null, but preserve original casing/content. Ensure no transformation drops non-empty labels. Keep fusion as prefer_higher_trust with discogs highest.",
+      "target_attributes": [
+        "label"
+      ],
+      "priority_score": 0.049,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "In normalization_node, standardize release-date in discogs and musicbrainz to the exact validation format YYYY-MM-DDT00:00:00.000, with explicit completion rules: YYYY -> YYYY-01-01T00:00:00.000 and YYYY-MM -> YYYY-MM-01T00:00:00.000 where source granularity is partial. Preserve nulls only when truly missing. Keep current fusion resolver for release-date.",
+      "target_attributes": [
+        "release-date"
+      ],
+      "priority_score": 0.026,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Only apply safe list normalization in normalization_node: parse list-like strings consistently, trim elements, normalize quotes/dashes/whitespace, remove empty items, and serialize stably. Do not change fusion yet.",
+      "target_attributes": [
+        "tracks_track_name"
+      ],
+      "priority_score": 0.0,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "structurally_limited"
+    },
+    {
+      "action": "In normalization_node, coerce list elements to canonical integer-string tokens, remove blanks, and ensure stable serialization only. Avoid fusion-rule changes.",
+      "target_attributes": [
+        "tracks_track_duration"
+      ],
+      "priority_score": 0.0,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "structurally_limited"
+    }
+  ],
+  "fusion_guidance": {
+    "mismatch_classifications": {
+      "tracks_track_duration": {
+        "list_format_mismatch": 5
+      },
+      "tracks_track_name": {
+        "list_format_mismatch": 5
+      },
+      "label": {
+        "missing_fused": 5
+      },
+      "release-date": {
+        "value_mismatch": 1,
+        "missing_fused": 4
+      },
+      "tracks_track_position": {
+        "list_format_mismatch": 3
+      }
+    },
+    "post_clustering": {
+      "recommended_strategy": "MaximumBipartiteMatching",
+      "reason": "cluster analysis evidence"
+    },
+    "global_hints": [
+      "List format mismatches significant (13/23)"
+    ],
+    "attribute_strategies": {
+      "label": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {
+          "discogs": 3,
+          "lastfm": 2,
+          "musicbrainz": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "release-date": {
+        "recommended_fuser": "voting",
+        "trust_map": {
+          "discogs": 3,
+          "lastfm": 2,
+          "musicbrainz": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      }
+    }
+  },
+  "investigator_decision": "human_review_export",
+  "investigator_routing_decision": {},
+  "matching_refresh_gate": {},
+  "per_run_output_dir": "output/runs/20260322_171209_music/",
+  "normalized_datasets": [
+    "output/runs/20260322_171209_music/normalization/attempt_3/discogs.csv",
+    "output/runs/20260322_171209_music/normalization/attempt_3/lastfm.csv",
+    "output/runs/20260322_171209_music/normalization/attempt_3/musicbrainz.csv"
+  ],
+  "integration_diagnostics_execution_result": "",
+  "integration_diagnostics_report": {},
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": "Human-review outputs generated for fused entities, source lineage, and fusion-vs-testset diffs.",
+    "file_paths": {
+      "fused_review_table": "output/runs/20260322_171209_music/human_review/fused_review_table.csv",
+      "source_lineage_long": "output/runs/20260322_171209_music/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff": "output/runs/20260322_171209_music/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/runs/20260322_171209_music/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/runs/20222_171209_music/human_review/human_review_summary.md",
+      "fused_input_csv": "output/runs/20260322_171209_music/data_fusion/fusion_data.csv",
+      "fusion_testset": "input/datasets/music/testsets/test_set.xml"
+    },
+    "counts": {
+      "fused_rows_input": 30810,
+      "fused_rows_processed": 30810,
+      "review_table_rows": 30810,
+      "source_lineage_rows": 37255,
+      "diff_rows": 206,
+      "source_links_total": 37255,
+      "source_links_resolved": 37255,
+      "source_datasets_loaded": 3,
+      "review_attributes_count": 13
+    },
+    "warnings": [],
+    "created_at": "2026-03-22T16:36:22Z"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.6623376623376623,
+    "macro_accuracy": 0.65527950310559,
+    "num_evaluated_records": 23,
+    "num_evaluated_attributes": 9,
+    "total_evaluations": 154,
+    "total_correct": 102,
+    "label_accuracy": 0.5,
+    "label_count": 16,
+    "tracks_track_name_accuracy": 0.0,
+    "tracks_track_name_count": 23,
+    "release-country_accuracy": 0.0,
+    "release-country_count": 0,
+    "release-date_accuracy": 0.7391304347826086,
+    "release-date_count": 23,
+    "artist_accuracy": 0.8260869565217391,
+    "artist_count": 23,
+    "tracks_track_duration_accuracy": 0.0,
+    "tracks_track_duration_count": 0,
+    "duration_accuracy": 0.8695652173913043,
+    "duration_count": 23,
+    "tracks_track_position_accuracy": 0.782608695652174,
+    "tracks_track_position_count": 23,
+    "name_accuracy": 0.8695652173913043,
+    "name_count": 23
+  },
+  "agent_run_summary": {
+    "agent_loop_overview": "The agent profiles the datasets, optionally reruns normalization, keeps the tested blocking setup, searches or refreshes matching when needed, generates a fusion pipeline, generates and runs an evaluation script, diagnoses the result, and then routes either back to matching, back to normalization, back to pipeline adaptation, or to final human review.",
+    "final_route": "finish automatic passes and export for human review",
+    "current_problem": "",
+    "next_step_advice": "Protected attributes already performing well and should not be changed in fusion: duration, release-country, tracks_track_position, artist, name, plus the other high-performing attributes above 85%. Matching is not the bottleneck. For label, source-vs-validation evidence is decisive: discogs is 100% exact and non-null, so the remaining misses indicate the discogs label is not consistently surviving in a usable normalized form into fusion/evaluation. For release-date, all sources have 0% exact but high fuzzy agreement, which means validation expects a canonical timestamp representation with default month/day completion; this is a normalization problem first. The worst list attributes show structural disagreement in content/length, so fusion changes there would not recover much and risk harming stable attributes. Because pipeline_adaption cannot add preprocessing and the needed fixes are source transformations before fusion, normalization_node is the correct route.",
+    "normalization_note": "",
+    "report_takeaway": "The main remaining fixable errors are pre-fusion normalization/representation issues, not blocking or matching. Blocking/matching are healthy (all correspondence files non-empty, F1≈0.87–0.90, no blocking-recall issues). The clearest improvable attributes are label and release-date, but their error pattern is still dominated by missing fused values caused by source-format/null handling rather than wrong entity pairs. The list-valued track attributes remain largely structurally limited because fused outputs often contain different tracklists than validation, not just different formatting. Current fusion already uses the resolver family previously indicated, and 18 attributes are >85%, so those should be preserved. The next fix should therefore target normalization so source values align exactly with the validation representation before fusion, especially release-date datetime completion/formatting and preservation of label values from discogs, while avoiding regressions on protected attributes.",
+    "top_detected_problems": [
+      "overall_accuracy below target: 77.665% < 85.000%",
+      "regression guard rejected latest candidate: overall_drop=0.005076, macro_drop=0.002717, top_attribute_drops={'tracks_track_name': 0.173913, 'name': 0.043478}",
+      "low direct ID coverage: 30.435%"
+    ],
+    "top_planned_actions": [
+      "In normalization_node, apply conservative string normalization to discogs.label only: strip surrounding whitespace, normalize Unicode punctuation/spacing, convert empty strings/placeholders to null, but preserve original casing/content. Ensure no transformation drops non-empty labels. Keep fusion as prefer_higher_trust with discogs highest.",
+      "In normalization_node, standardize release-date in discogs and musicbrainz to the exact validation format YYYY-MM-DDT00:00:00.000, with explicit completion rules: YYYY -> YYYY-01-01T00:00:00.000 and YYYY-MM -> YYYY-MM-01T00:00:00.000 where source granularity is partial. Preserve nulls only when truly missing. Keep current fusion resolver for release-date.",
+      "Only apply safe list normalization in normalization_node: parse list-like strings consistently, trim elements, normalize quotes/dashes/whitespace, remove empty items, and serialize stably. Do not change fusion yet."
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 335836,
+    "completion_tokens": 31451,
+    "total_tokens": 367287,
+    "total_cost": 1.3113550000000003
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 4,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": [],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to evaluate fused output with PyDI DataFusionEvaluator, add evaluation functions with DataFusionStrategy, and which fused_id_column to use when eval_id exists?",
+      "response": "DataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute to fuse.\nfuser_or_resolver\n(\nUnion\n[\nAttributeValueFuser\n,\nConflictResolutionFunction\n]\n) – Either an AttributeValueFuser instance or a resolver function that\nresolves conflicts and returns (value, confidence, metadata).\nevaluation_function\n(\nOptional\n[\nEvaluationFunction\n]\n) – Optional evaluation rule for quality assessment.\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion.evaluation. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\n\n-----\n\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\n\n-----\n\n=\nTrue\n)\nwith\npath\n.\nopen\n(\n\"w\"\n,\nencoding\n=\n\"utf-8\"\n)\nas\nf\n:\nheader\n=\n{\n\"type\"\n:\n\"evaluation_debug_header\"\n,\n\"strategy\"\n:\nself\n.\nstrategy\n.\nname\n,\n\"format\"\n:\nself\n.\n_debug_format\n,\n}\nif\nself\n.\n_debug_format\n==\n\"json\"\n:\nf\n.\nwrite\n(\njson\n.\ndumps\n(\nheader\n,\nensure_ascii\n=\nFalse\n)\n+\n\"\n\\n\n\"\n)\nelse\n:\nf\n.\nwrite\n(\n\"=== Fusion Evaluation Debug Log ===\n\\n\n\"\nf\n\"Strategy:\n{\nself\n.\nstrategy\n.\nname\n}\n\\n\n\"\n\"Only mismatches and evaluation errors are recorded.\n\\n\\n\n\"\n)\nself\n.\n_debug_file\n=\npath\nself\n.\n_logger\n.\ninfo\n(\n\"Fusion evaluation debug logging enabled; refer to\n%s\nfor mismatch details.\"\n,\npath\n,\n)\nexcept\nException\nas\nexc\n:\nself\n.\n_logger\n.\nwarning\n(\n\"Could not initialize evaluation debug log '\n%s\n':\n%s\n\"\n,\npath\n,\nexc\n,\n)\nself\n.\n_debug_file\n=\nNone\nif\nfusion_debug_logs\nis\nnot\nNone\n:\nself\n.\nset_fusion_debug_logs\n(\nfusion_debug_logs\n)\n[docs]\ndef\nset_fusion_debug_logs\n(\nself\n,\nlogs\n:\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters\n\n-----\n\n,\ngold_id_column\n,\nmax_examples\n=\n3\n)\n[source]\n\nPrint examples of correct and incorrect fusion results.\nParameters\n:\ngold_df\n(\npd.DataFrame\n) – The expected/validation dataset.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\ngold_id_column\n(\nstr\n) – ID column name in the expected dataset.\nmax_examples\n(\nint\n,\ndefault 3\n) – Maximum number of examples to show for each category.\nprint_summary\n(\n)\n[source]\n\nPrint a summary of the fusion report.\nsuggest_fusion_rules\n(\n)\n[source]\n\nGet fusion rule suggestions based on coverage analysis.\nReturn type\n:\nDict\n[str, str] | None\nto_dict\n(\n)\n[source]\n\nConvert report to dictionary format.\nReturn type\n:\nDict\n[str,\nAny\n]\nto_html\n(\npath\n)\n[source]\n\nExport report as HTML file.\nParameters\n:\npath\n(\nstr\n) – File path to save HTML report.\nto_json\n(\npath\n=\nNone\n)\n[source]\n\nExport report as JSON.\nParameters\n:\npath\n(\nstr\n,\noptional\n) – File path to save JSON. If None, returns JSON string.\nReturns\n:\nJSON representation of the report.\nReturn type\n:\nstr\nPyDI.fusion.strategy module\n\nData fusion strategy management for PyDI.\nThis module defines the DataFusionStrategy class for registering and managing\nattribute-level fusers and evaluation rules.\nclass\nPyDI.fusion.strategy.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser"
+    },
+    {
+      "query": "PyDI evaluation functions tokenized_match year_only_match numeric_tolerance_match set_equality_match exact_match boolean_match usage and thresholds for data fusion evaluation",
+      "response": "(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nif\nisinstance\n(\nfused_value\n,\n(\nlist\n,\ntuple\n,\nset\n))\nand\nisinstance\n(\nexpected_value\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nset\n(\nfused_value\n)\n==\nset\n(\nexpected_value\n)\nreturn\nfused_value\n==\nexpected_value\nexcept\n(\nTypeError\n,\nValueError\n):\nreturn\nstr\n(\nfused_value\n)\n==\nstr\n(\nexpected_value\n)\n[docs]\ndef\nboolean_match\n(\nfused_value\n,\n\n-----\n\nSource code for PyDI.fusion.evaluation\n\"\"\"\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nDict\n,\nAny\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\n,\nIterable\nfrom\ncollections\nimport\nCounter\nfrom\ndatetime\nimport\ndatetime\n,\ndate\nimport\npandas\nas\npd\nimport\nnumpy\nas\nnp\nimport\nlogging\nimport\njson\nfrom\npathlib\nimport\nPath\nfrom\n.base\nimport\nFusionContext\n,\nget_callable_name\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n..utils.similarity_registry\nimport\nSimilarityRegistry\ndef\n_is_missing_value\n(\nvalue\n)\n->\nbool\n:\n\"\"\"Helper function to check if a value should be treated as missing.\nHandles scalars, numpy arrays, pandas NA, and Python sequences.\n\"\"\"\ntry\n:\n# Pandas/NumPy aware check\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Handle sequences (e.g., lists/arrays): consider missing if empty\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\nvalue\n,\nnp\n.\nndarray\n):\nreturn\nvalue\n.\nsize\n==\n0\nor\nnp\n.\nall\n(\npd\n.\nisna\n(\nvalue\n))\nexcept\nException\n:\npass\nreturn\nFalse\n[docs]\ndef\nexact_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Default evaluation function using exact equality.\"\"\"\nreturn\nfused_value\n==\nexpected_value\n[docs]\ndef\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n:\nfloat\n=\n1.0\n)\n->\nbool\n:\n\n-----\n\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n) – If provided, split string values by this separator\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nvoting\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most frequent value (majority vote).\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nweighted_voting\n(\nvalues\n,\nweights\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nSelect value using weighted voting.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nweights\n(\nList\n[\nfloat\n]\n,\noptional\n) – Weights for each value. If None, uses uniform weights.\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nEvaluation function comparing only the year part of dates.\nIf the inputs are strings, attempt to parse to dates; if they are\ndatetime\n/\ndate\n\n-----\n\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\n)\n==\n0\n:\nreturn\nTrue\n# Both empty\nif\nlen\n(\nfused_tokens\n)\n==\n0\nor\nlen\n(\nexpected_tokens\n)\n==\n0\n:\nreturn\nFalse\n# One empty, one not\nsimilarity\n=\njaccard_sim\n(\nfused_tokens\n,\nexpected_tokens\n)\nreturn\nsimilarity\n>=\nthreshold\n[docs]\ndef\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function comparing only the year part of dates.\nIf the inputs are strings, attempt to parse to dates; if they are\n``datetime``/``date``/timestamp-like, compare their ``year`` values.\nOn unhandled types or failed parsing, log an error and return False.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\nlogger\n=\nlogging\n.\ngetLogger\n(\n__name__\n)\ndef\n_to_date\n(\nvalue\n:\nAny\n)\n->\nOptional\n[\ndate\n]:\n# Native datetime/date\nif\nisinstance\n(\nvalue\n,\ndatetime\n):\nreturn\nvalue\n.\ndate\n()\nif\nisinstance\n(\nvalue\n,\ndate\n):\nreturn\nvalue\n# pandas / numpy timestamp-like\ntry\n:\nif\nisinstance\n(\nvalue\n,\npd\n.\nTimestamp\n):\nreturn\nvalue\n.\ndate\n()\nexcept\nException\n:\npass\n# Strings and other coercible types via pandas\ntry\n:\nparsed\n=\npd\n.\nto_datetime\n(\nvalue\n,\nerrors\n=\n\"coerce\"\n)\nif\npd\n.\nisna\n(\nparsed\n):\nreturn\nNone\nreturn\nparsed\n.\ndate\n()\nexcept\nException\n:\nreturn\nNone\nd1\n=\n_to_date\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\n\n-----\n\n[API_SIGNATURE] PyDI.fusion. numeric_tolerance_match ( fused_value , expected_value , tolerance = 0.01 ) [source] \nEvaluation function for numeric values with tolerance. Parameters : tolerance ( float ) Return type : bool\n\n-----\n\nSource code for PyDI.informationextraction.evaluation\n\"\"\"Evaluation framework for information extraction in PyDI.\nThis module provides an evaluator to compare extracted (predicted)\nattributes against an expected/validation dataset with common IR-style metrics.\nIt supports per-attribute evaluation functions (e.g., exact match,\ntokenized string match, numeric tolerance) and produces both attribute-level\nand dataset-level (micro/macro) metrics, including precision, recall, F1, and\nnon-null accuracy.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nAny\n,\nCallable\n,\nDict\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\nfrom\npathlib\nimport\nPath\nimport\njson\nimport\nlogging\nimport\npandas\nas\npd\n# Reuse flexible evaluation functions from the fusion module\nfrom\nPyDI.fusion.evaluation\nimport\n(\nexact_match\n,\ntokenized_match\n,\nnumeric_tolerance_match\n,\nset_equality_match\n,\nboolean_match\n,\nyear_only_match\n,\n)\nlogger\n=\nlogging\n.\ngetLogger\n(\n__name__\n)\n# Type alias for evaluation functions (return True when values \"match\")\nEvaluationFunction\n=\nCallable\n[[\nAny\n,\nAny\n],\nbool\n]\ndef\n_is_missing_value\n(\nvalue\n:\nAny\n)\n->\nbool\n:\n\"\"\"Return True if the value should be treated as missing.\nHandles scalars, pandas NA, numpy arrays, and Python sequences\n(treats empty sequences as missing).\n\"\"\"\ntry\n:\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Empty sequences are considered missing\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\n\n-----\n\n[API_SIGNATURE] PyDI.fusion.evaluation. numeric_tolerance_match ( fused_value , expected_value , tolerance = 0.01 ) [source] \nEvaluation function for numeric values with tolerance. Parameters : tolerance ( float ) Return type : bool"
+    },
+    {
+      "query": "PyDI load_xml usage for test set nested_handling aggregate and DataFusionEvaluator debug_file example",
+      "response": "DataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\nparse\n(\nfile_path\n)\nroot\n=\ntree\n.\ngetroot\n()\nexcept\nET\n.\nParseError\nas\ne\n:\nraise\nValueError\n(\nf\n\"Invalid XML file\n{\nfile_path\n}\n:\n{\ne\n}\n\"\n)\nif\nrecord_tag\nis\nNone\n:\nrecord_tag\n=\n_detect_xml_record_tag\n(\nroot\n)\nrecords\n=\nroot\n.\nfindall\n(\nf\n\".//\n{\nrecord_tag\n}\n\"\n)\nif\nnot\nrecords\n:\nreturn\npd\n.\nDataFrame\n()\nall_rows\n:\nList\n[\nDict\n[\nstr\n,\nAny\n]]\n=\n[]\nfor\nrec\nin\nrecords\n:\nrows\n=\n_flatten_xml_element\n(\nrec\n,\nnested_handling\n=\nnested_handling\n,\nseparator\n=\nseparator\n)\nall_rows\n.\nextend\n(\nrows\n)\nif\nnot\nall_rows\n:\nreturn\npd\n.\nDataFrame\n()\ndf\n=\npd\n.\nDataFrame\n(\nall_rows\n)\ndf\n.\ncolumns\n=\n[\n_clean_column_name\n(\ncol\n)\nfor\ncol\nin\ndf\n.\ncolumns\n]\n# Only explode delimited values in explode mode\nif\nnested_handling\n==\n\"explode\"\n:\n# Look for any columns that might contain delimited values and explode them\nfor\ncol\nin\ndf\n.\ncolumns\n:\nif\ndf\n[\ncol\n]\n.\ndtype\n==\nobject\n:\n# Only check string/object columns\nif\ndf\n[\ncol\n]\n.\napply\n(\nlambda\nv\n:\nisinstance\n(\nv\n,\nstr\n)\nand\nre\n.\nsearch\n(\nr\n\"\\s*(?:and|,|;)\\s*\"\n,\nv\n))\n.\nany\n():\ndf\n=\n_explode_delimited_column\n(\ndf\n,\ncol\n)\nreturn\ndf\ndef\n_detect_xml_record_tag\n(\nroot\n:\nET\n.\nElement\n)\n->\nstr\n:\ntag_counts\n:\nDict\n[\nstr\n,\nint\n]\n=\n{}\nfor\nchild\nin\nroot\n:\ntag_counts\n[\nchild\n.\ntag\n]\n=\ntag_counts\n.\nget\n(\nchild\n.\ntag\n,\n0\n)\n+\n1\nif\nnot\ntag_counts\n:\n# fallback to root tag if empty\nreturn\nroot\n.\ntag\nreturn\nmax\n(\ntag_counts\n.\nitems\n(),\nkey\n=\nlambda\nkv\n:\nkv\n[\n1\n])[\n0\n]\ndef\n_flatten_xml_element\n(\nelement\n:\nET\n.\nElement\n,\nprefix\n:\nstr\n=\n\"\"\n,\nnested_handling\n:\nstr\n=\n\"aggregate\"\n,\n\n-----\n\n[API_SIGNATURE] PyDI.io. load_xml ( path_or_buffer , * , name = None , provenance = None , add_index = False , index_column_name = None , id_prefix = None , include_provenance_columns = False , nested_handling = 'aggregate' , separator = ', ' , record_tag = None , flatten = None , ** kwargs ) [source] \nRead an XML file with a provenance-aware wrapper. Parameters : path_or_buffer ( str or os.PathLike ) – Path to XML file to read. name ( str , optional ) – Dataset name for provenance tracking. provenance ( Mapping [ str , Any ] , optional ) – Additional provenance metadata. add_index ( bool , default False ) – Whether to add a unique identifier column. index_column_name ( str , optional ) – Name for the unique identifier column. id_prefix ( str , optional ) – Prefix for unique identifiers. include_provenance_columns ( bool , default False ) – Whether to include provenance information as DataFrame columns. nested_handling ( str , default \"explode\" ) – How to handle nested/repeated XML elements:\n- “explode”: Create multiple rows for repeated elements (default)\n- “aggregate”: Collect nested values as lists in single row\n- “raw”: Use pandas.read_xml directly without custom processing separator ( str , default \" , \" ) – Separator string (unused in current implementation, kept for backward compatibility). record_tag ( str , optional ) – XML tag to use as record boundary. Auto-detected if not provided. flatten ( bool , optional ) – Deprecated. Use nested_handling instead.\nIf provided, map\n\n-----\n\nPyDI.fusion.conflict_resolution.general module\nPyDI.fusion.conflict_resolution.list module\nPyDI.fusion.conflict_resolution.numeric module\nPyDI.fusion.conflict_resolution.string module\nPyDI.fusion.conflict_resolution.utils module\nModule contents\nSubmodules\nPyDI.fusion.analysis module\nAttributeCoverageAnalyzer\nAttributeCoverageAnalyzer.export_analysis()\nAttributeCoverageAnalyzer.print_summary()\nanalyze_attribute_coverage()\nanalyze_conflicts_preview()\ncompare_dataset_schemas()\ndetect_attribute_conflicts()\nprint_conflict_preview()\nPyDI.fusion.base module\nAttributeValueFuser\nAttributeValueFuser.fuse()\nAttributeValueFuser.get_value()\nAttributeValueFuser.has_value()\nFusionContext\nFusionContext.attribute\nFusionContext.debug\nFusionContext.debug_emit\nFusionContext.group_id\nFusionContext.metadata\nFusionContext.source_datasets\nFusionContext.timestamp\nFusionResult\nFusionResult.confidence\nFusionResult.metadata\nFusionResult.rule_used\nFusionResult.sources\nFusionResult.value\nRecordGroup\nRecordGroup.add_record()\nRecordGroup.get_all_attributes()\nRecordGroup.group_id\nRecordGroup.records\nRecordGroup.source_datasets\nget_callable_name()\nPyDI.fusion.engine module\nDataFusionEngine\nDataFusionEngine.run()\napply_schema_correspondences()\nbuild_record_groups_from_correspondences()\nPyDI.fusion.evaluation module\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\n\n-----\n\n[API_SIGNATURE] PyDI.io.loaders. load_xml ( path_or_buffer , * , name = None , provenance = None , add_index = False , index_column_name = None , id_prefix = None , include_provenance_columns = False , nested_handling = 'aggregate' , separator = ', ' , record_tag = None , flatten = None , ** kwargs ) [source] \nRead an XML file with a provenance-aware wrapper. Parameters : path_or_buffer ( str or os.PathLike ) – Path to XML file to read. name ( str , optional ) – Dataset name for provenance tracking. provenance ( Mapping [ str , Any ] , optional ) – Additional provenance metadata. add_index ( bool , default False ) – Whether to add a unique identifier column. index_column_name ( str , optional ) – Name for the unique identifier column. id_prefix ( str , optional ) – Prefix for unique identifiers. include_provenance_columns ( bool , default False ) – Whether to include provenance information as DataFrame columns. nested_handling ( str , default \"explode\" ) – How to handle nested/repeated XML elements:\n- “explode”: Create multiple rows for repeated elements (default)\n- “aggregate”: Collect nested values as lists in single row\n- “raw”: Use pandas.read_xml directly without custom processing separator ( str , default \" , \" ) – Separator string (unused in current implementation, kept for backward compatibility). record_tag ( str , optional ) – XML tag to use as record boundary. Auto-detected if not provided. flatten ( bool , optional ) – Deprecated. Use nested_handling instead.\nIf provided, map\n\n-----\n\n[\nDataFrame\n]\n|\ndict\n[\nstr\n,\nDataFrame\n]\n]\n) – The pandas reader function (e.g.,\npandas.read_csv\n).\npath_or_buf\n(\nstr\nor\nos.PathLike\n,\noptional\n) – Path or buffer to read from.\nname\n(\nstr\n,\noptional\n) – Explicit dataset name. Defaults to the filename stem if available.\nadd_index\n(\nbool\n,\ndefault False\n) – If True, insert a unique id column as the first column.\nindex_column_name\n(\nstr\n,\noptional\n) – Explicit name for the id column.\nid_prefix\n(\nstr\n,\noptional\n) – Prefix for id values (defaults to\nname\nor filename stem).\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n,\noptional\n) – User-provided provenance metadata to merge into\ndf.attrs\n.\ninclude_provenance_columns\n(\nbool\n,\ndefault True\n) – If True, add\n__source_path\nand\n__dataset_name\ncolumns.\nreader_name\n(\nstr\n,\noptional\n) – Name to store in provenance for the reader. Defaults to\nreader_fn.__name__\n.\nhandle_multi_output\n(\nbool\n,\ndefault True\n) – If True, handle list/dict outputs (e.g.,\nread_excel(sheet_name=None)\n).\n**reader_kwargs\n(\nAny\n) – Additional keyword arguments forwarded to the underlying reader.\nReturns\n:\nThe loaded frame(s) with provenance metadata and optional id column.\nReturn type\n:\nDataFrame | list[DataFrame] | dict[str, DataFrame]\nPyDI.io.loaders.\nload_xml\n(\npath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\nnested_handling\n=\n'aggregate'\n,\nseparator\n=\n',\n'\n,\nrecord_tag\n=\nNone\n,\nflatten\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\n-----\n\n).\n**reader_kwargs\n(\nAny\n) – Additional keyword arguments forwarded to the underlying reader.\nReturns\n:\nThe loaded frame(s) with provenance metadata and optional id column.\nReturn type\n:\nDataFrame | list[DataFrame] | dict[str, DataFrame]\nPyDI.io.\nload_xml\n(\npath_or_buffer\n,\n*\n,\nname\n=\nNone\n,\nprovenance\n=\nNone\n,\nadd_index\n=\nFalse\n,\nindex_column_name\n=\nNone\n,\nid_prefix\n=\nNone\n,\ninclude_provenance_columns\n=\nFalse\n,\nnested_handling\n=\n'aggregate'\n,\nseparator\n=\n',\n'\n,\nrecord_tag\n=\nNone\n,\nflatten\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nRead an XML file with a provenance-aware wrapper.\nParameters\n:\npath_or_buffer\n(\nstr\nor\nos.PathLike\n) – Path to XML file to read.\nname\n(\nstr\n,\noptional\n) – Dataset name for provenance tracking.\nprovenance\n(\nMapping\n[\nstr\n,\nAny\n]\n,\noptional\n) – Additional provenance metadata.\nadd_index\n(\nbool\n,\ndefault False\n) – Whether to add a unique identifier column.\nindex_column_name\n(\nstr\n,\noptional\n) – Name for the unique identifier column.\nid_prefix\n(\nstr\n,\noptional\n) – Prefix for unique identifiers.\ninclude_provenance_columns\n(\nbool\n,\ndefault False\n) – Whether to include provenance information as DataFrame columns.\nnested_handling\n(\nstr\n,\ndefault \"explode\"\n) – How to handle nested/repeated XML elements:\n- “explode”: Create multiple rows for repeated elements (default)\n- “aggregate”: Collect nested values as lists in single row\n- “raw”: Use pandas.read_xml directly without custom processing\nseparator\n(\nstr\n,\ndefault \"\n,\n\"\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :"
+    }
+  ],
+  "integration_pipeline_code_length": 12212,
+  "evaluation_code_length": 18101,
+  "integration_diagnostics_code_length": 0,
+  "human_review_code_length": 23625,
+  "run_audit_path": "output/runs/20260322_171209_music/results/run_audit_20260322_173837.json",
+  "run_report_path": "output/runs/20260322_171209_music/results/run_report_20260322_173837.md"
+}

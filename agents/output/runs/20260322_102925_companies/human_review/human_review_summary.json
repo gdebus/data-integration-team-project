@@ -1,0 +1,26 @@
+{
+  "summary": "Human-review outputs generated for fused entities, source lineage, and fusion-vs-testset diffs.",
+  "file_paths": {
+    "fused_review_table": "output/runs/20260322_102925_companies/human_review/fused_review_table.csv",
+    "source_lineage_long": "output/runs/20260322_102925_companies/human_review/source_lineage_long.csv",
+    "fusion_vs_testset_diff": "output/runs/20260322_102925_companies/human_review/fusion_vs_testset_diff.csv",
+    "human_review_summary_json": "output/runs/20260322_102925_companies/human_review/human_review_summary.json",
+    "human_review_summary_md": "output/runs/20260322_102925_companies/human_review/human_review_summary.md",
+    "fused_csv_used": "output/runs/20260322_102925_companies/data_fusion/fusion_data.csv",
+    "fusion_testset_used": "input/datasets/companies/testsets/test_set.xml"
+  },
+  "counts": {
+    "fused_rows_input": 12870,
+    "fused_rows_review_output": 12870,
+    "source_lineage_rows": 1931,
+    "diff_rows": 0,
+    "fused_rows_with_resolved_sources": 1929,
+    "testset_rows": 5,
+    "mapped_testset_rows": 0,
+    "source_datasets_loaded": 3
+  },
+  "warnings": [
+    "No fused rows were directly mapped to testset rows by detected ID column."
+  ],
+  "created_at": "2026-03-22T09:42:05.896101+00:00"
+}

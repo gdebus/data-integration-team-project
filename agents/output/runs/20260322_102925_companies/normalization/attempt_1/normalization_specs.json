@@ -1,0 +1,39 @@
+{
+  "specs": {
+    "forbes": {
+      "country": {
+        "country_format": "name",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "assets": {
+        "output_type": "string",
+        "on_failure": "keep"
+      }
+    },
+    "dbpedia": {
+      "founded": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S",
+        "on_failure": "keep"
+      },
+      "assets": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "Sales": {
+        "output_type": "string",
+        "on_failure": "keep"
+      }
+    },
+    "fullcontact": {
+      "founded": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [],
+  "reasoning": "Target uses full country names (e.g. United States, Germany), ISO-like full timestamps for founded values (%Y-%m-%dT%H:%M:%S), and numeric-looking text for financial columns such as assets/revenue. Forbes country is alpha-3 and needs conversion to country names; Forbes assets is numeric and should be rendered as string to match target object style. DBpedia founded dates need timestamp formatting; assets and Sales are numeric and should be stringified to align with target financial text columns. Fullcontact already matches most target text style except founded, which needs the same timestamp format."
+}

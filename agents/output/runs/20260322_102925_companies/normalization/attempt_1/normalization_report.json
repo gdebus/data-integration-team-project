@@ -1,0 +1,107 @@
+{
+  "status": "success",
+  "attempt": 1,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/companies/testsets/validation_set.xml",
+  "llm_specs": {
+    "forbes": {
+      "country": {
+        "country_format": "name",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "assets": {
+        "output_type": "string",
+        "on_failure": "keep"
+      }
+    },
+    "dbpedia": {
+      "founded": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S",
+        "on_failure": "keep"
+      },
+      "assets": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "Sales": {
+        "output_type": "string",
+        "on_failure": "keep"
+      }
+    },
+    "fullcontact": {
+      "founded": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [],
+  "llm_reasoning": "Target uses full country names (e.g. United States, Germany), ISO-like full timestamps for founded values (%Y-%m-%dT%H:%M:%S), and numeric-looking text for financial columns such as assets/revenue. Forbes country is alpha-3 and needs conversion to country names; Forbes assets is numeric and should be rendered as string to match target object style. DBpedia founded dates need timestamp formatting; assets and Sales are numeric and should be stringified to align with target financial text columns. Fullcontact already matches most target text style except founded, which needs the same timestamp format.",
+  "datasets": {
+    "forbes": {
+      "input_path": "output/runs/20260322_102925_companies/schema-matching/forbes.csv",
+      "output_path": "output/runs/20260322_102925_companies/normalization/attempt_1/forbes.csv",
+      "row_count": 2000,
+      "id_column": "id",
+      "spec_applied": {
+        "country": {
+          "country_format": "name",
+          "on_failure": "keep",
+          "strip_whitespace": true
+        },
+        "assets": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "dbpedia": {
+      "input_path": "output/runs/20260322_102925_companies/schema-matching/dbpedia.csv",
+      "output_path": "output/runs/20260322_102925_companies/normalization/attempt_1/dbpedia.csv",
+      "row_count": 10086,
+      "id_column": "id",
+      "spec_applied": {
+        "founded": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S",
+          "on_failure": "keep"
+        },
+        "assets": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "Sales": {
+          "output_type": "string",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "fullcontact": {
+      "input_path": "output/runs/20260322_102925_companies/schema-matching/fullcontact.csv",
+      "output_path": "output/runs/20260322_102925_companies/normalization/attempt_1/fullcontact.csv",
+      "row_count": 1931,
+      "id_column": "id",
+      "spec_applied": {
+        "founded": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%dT%H:%M:%S",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-22T10:29:34.820570"
+}

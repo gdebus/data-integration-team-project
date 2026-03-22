@@ -1,0 +1,125 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The dominant failure is not normalization or matching; it is fusion/output ID handling caused by keeping singleton records and extracting eval_id from arbitrary source prefixes. Matching quality is already high (F1 0.89-0.98, correspondence files non-empty, cluster analysis clean), yet 94.2% of errors are missing_fused_value and many mismatch samples have fused_id='nan'. This means the evaluator cannot align most validation rows to the correct fused entity. Additionally, several low-accuracy attributes use suboptimal fusion resolvers/trust: the current trust map prefers yelp_small over better sources for source/name/address_line1, and map_url/source/name/rating/address_line1 evidence shows different best resolvers. So the next fix is pipeline adaptation: correct post-clustering/output identity selection and update attribute fusers/trust, while preserving the 24 already-good attributes.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "Routing to matching/blocking is not justified because correspondences exist for all pairs, blocking probes found no recall issues, and pairwise F1 is strong. Routing to normalization is also not primary because the main error class is missing fused output, not systematic format mismatch; the one visible name format issue is minor compared with the alignment problem. pipeline_adaption is the correct frozen-stage lever because it can change post-clustering and fusion strategy. The post-clustering recommendation is already MaximumBipartiteMatching, and current include_singletons/eval-id behavior is likely emitting many singleton fused rows whose chosen eval_id does not correspond to the validation IDs, producing blank fused matches. On top of that, resolver evidence from source-vs-validation comparison is strong: uber_eats_small is best for source/name/address_line1, yelp_small is best for rating and often for map_url, so current prefer_higher_trust(yelp>kaggle>uber) is actively wrong for several attributes. Protected attributes above 85% should be left untouched.",
+        "ceiling_assessment": "With current source data and frozen matching/import stages, overall accuracy can likely move substantially upward from 0.265 toward roughly 0.70-0.82 if post-clustering/ID alignment is corrected and the worst attribute fusers are fixed. The stated structural ceiling is 82.5%; the current gap is mostly operational rather than inherent because 94% missing_fused errors are recoverable. Remaining gap will come from structurally limited attributes like heterogeneous categories/list content and occasional source disagreements.",
+        "recommendations": [
+          {
+            "attribute": "post_clustering / fused entity identity",
+            "issue": "Most evaluation misses are caused by fused entities not aligning to validation IDs (fused_id nan or wrong source-prefixed ID), despite good correspondences. Current output keeps singletons and eval_id is derived by taking the first matching prefix from _fusion_sources, which can miss the validation anchor record for many rows.",
+            "fix": "Enable/keep post-clustering as MaximumBipartiteMatching and adapt fusion output identity logic so fused records consistently retain source-specific IDs needed by validation (prefer existing kaggle380k_id / uber_eats_id / yelp_id columns or deterministic source-ID retention per cluster rather than arbitrary first prefix from _fusion_sources). If configurable in the adaptation stage, disable harmful singleton-driven evaluation rows or ensure singleton records still expose the proper source-prefixed IDs.",
+            "resolver_reasoning": "Evidence points to alignment, not value synthesis: matching is high quality, correspondence files are present, cluster ambiguity is low, and 94.2% of mismatches are missing_fused. No attribute-level resolver can fix rows that never align to validation. MaximumBipartiteMatching is already recommended by cluster analysis and should reduce fragmented/duplicated clusters. Alternatives like changing blocking or thresholds are worse because they target pair generation, not the observed evaluator join failure.",
+            "class": "improvable",
+            "expected_impact": 0.35
+          },
+          {
+            "attribute": "source",
+            "issue": "Current prefer_higher_trust uses yelp_small > kaggle_small > uber_eats_small, but validation expects uber_eats_small's source label most often when sources disagree. This directly causes source='yelp' when expected='kaggle_380k' or 'uber_eats' in samples.",
+            "fix": "Change source fuser to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+            "resolver_reasoning": "Source-vs-validation comparison shows exact match rates: uber_eats_small 100%, yelp_small 62%, kaggle_small 30%. This is a textbook prefer_higher_trust case with a clear best source. voting would fail whenever sources disagree and there is no majority; favour_sources would also work but prefer_higher_trust is simpler and equivalent given the clear ranking.",
+            "class": "improvable",
+            "expected_impact": 0.04
+          },
+          {
+            "attribute": "name",
+            "issue": "Current name resolver prefers yelp_small via trust, but validation names are most often the shortest/canonical version, with uber_eats_small exact at 100%. Current configuration causes truncation/expansion mismatches like missing venue suffixes or extra noise.",
+            "fix": "Change name fuser to shortest_string.",
+            "resolver_reasoning": "Measured exact rates: uber_eats_small 100%, kaggle_small 90%, yelp_small 81%, and the probe explicitly recommends shortest_string. Validation examples use concise canonical names ('Cornish Pasty Co', 'Longitude 118', 'For The Win'). shortest_string best approximates this across sources without hard-coding a trust map. longest_string would worsen cases like 'Pier 88 Boiling Seafood & Bar Avondale' only if another source adds extra context inconsistently; prefer_higher_trust is worse because yelp is not the best source for names.",
+            "class": "improvable",
+            "expected_impact": 0.04
+          },
+          {
+            "attribute": "address_line1",
+            "issue": "Current most_complete can pick a longer but non-target variant, while validation most often matches uber_eats_small exactly and yelp_small nearly as well.",
+            "fix": "Change address_line1 fuser to voting; if voting underperforms in implementation, fallback to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+            "resolver_reasoning": "Evidence: uber_eats_small 100% exact, yelp_small 94%, kaggle_small 75%; probe recommendation is voting. Because top two sources often agree on the canonical street line, voting should recover the expected value without always forcing a single source. most_complete is worse when one source includes extra tokens not present in validation. prefer_higher_trust(uber-first) is a strong fallback but slightly less robust when uber is null and yelp agrees with kaggle.",
+            "class": "improvable",
+            "expected_impact": 0.03
+          },
+          {
+            "attribute": "rating",
+            "issue": "Current median can synthesize values not present in validation or drift from the better source. Validation is closer to source values, especially yelp_small.",
+            "fix": "Change rating fuser to voting; if PyDI voting on numeric values is unsuitable, use prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1} only if uber ratings are largely absent.",
+            "resolver_reasoning": "Source comparison: yelp_small 62% exact vs kaggle_small 50%, and probe recommends voting. Validation examples show discrete source ratings like 4.3, 4.2, 4.6, not necessarily an aggregate statistic. median is appropriate for noisy measurements, but here exact source values matter more. voting preserves commonly shared values; prefer_higher_trust(yelp-first) is second-best if numeric voting behaves poorly.",
+            "class": "improvable",
+            "expected_impact": 0.03
+          },
+          {
+            "attribute": "map_url",
+            "issue": "Current prefer_higher_trust always favors yelp_small, but validation alternates between yelp URLs and google maps URLs from kaggle_small. Samples show wrong yelp chosen when expected is google maps.",
+            "fix": "Change map_url fuser to voting; if ties are common, prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1}.",
+            "resolver_reasoning": "Comparison shows yelp_small 62% exact, kaggle_small 50% exact, and probe recommends voting(yelp > kaggle). This indicates no single source dominates enough to justify current fixed trust selection. voting is better when exact expected URL depends on agreement pattern; always preferring yelp causes the observed google-vs-yelp mismatches. longest/shortest/most_complete are not semantically meaningful for URLs.",
+            "class": "improvable",
+            "expected_impact": 0.03
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 34441,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The dominant failure is not normalization or matching; it is fusion/output ID handling caused by keeping singleton records and extracting eval_id from arbitrary source prefixes. Matching quality is already high (F1 0.89-0.98, correspondence files non-empty, cluster analysis clean), yet 94.2% of errors are missing_fused_value and many mismatch samples have fused_id='nan'. This means the evaluator cannot align most validation rows to the correct fused entity. Additionally, several low-accuracy attributes use suboptimal fusion resolvers/trust: the current trust map prefers yelp_small over better sources for source/name/address_line1, and map_url/source/name/rating/address_line1 evidence shows different best resolvers. So the next fix is pipeline adaptation: correct post-clustering/output identity selection and update attribute fusers/trust, while preserving the 24 already-good attributes.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "Routing to matching/blocking is not justified because correspondences exist for all pairs, blocking probes found no recall issues, and pairwise F1 is strong. Routing to normalization is also not primary because the main error class is missing fused output, not systematic format mismatch; the one visible name format issue is minor compared with the alignment problem. pipeline_adaption is the correct frozen-stage lever because it can change post-clustering and fusion strategy. The post-clustering recommendation is already MaximumBipartiteMatching, and current include_singletons/eval-id behavior is likely emitting many singleton fused rows whose chosen eval_id does not correspond to the validation IDs, producing blank fused matches. On top of that, resolver evidence from source-vs-validation comparison is strong: uber_eats_small is best for source/name/address_line1, yelp_small is best for rating and often for map_url, so current prefer_higher_trust(yelp>kaggle>uber) is actively wrong for several attributes. Protected attributes above 85% should be left untouched.",
+    "ceiling_assessment": "With current source data and frozen matching/import stages, overall accuracy can likely move substantially upward from 0.265 toward roughly 0.70-0.82 if post-clustering/ID alignment is corrected and the worst attribute fusers are fixed. The stated structural ceiling is 82.5%; the current gap is mostly operational rather than inherent because 94% missing_fused errors are recoverable. Remaining gap will come from structurally limited attributes like heterogeneous categories/list content and occasional source disagreements.",
+    "recommendations": [
+      {
+        "attribute": "post_clustering / fused entity identity",
+        "issue": "Most evaluation misses are caused by fused entities not aligning to validation IDs (fused_id nan or wrong source-prefixed ID), despite good correspondences. Current output keeps singletons and eval_id is derived by taking the first matching prefix from _fusion_sources, which can miss the validation anchor record for many rows.",
+        "fix": "Enable/keep post-clustering as MaximumBipartiteMatching and adapt fusion output identity logic so fused records consistently retain source-specific IDs needed by validation (prefer existing kaggle380k_id / uber_eats_id / yelp_id columns or deterministic source-ID retention per cluster rather than arbitrary first prefix from _fusion_sources). If configurable in the adaptation stage, disable harmful singleton-driven evaluation rows or ensure singleton records still expose the proper source-prefixed IDs.",
+        "resolver_reasoning": "Evidence points to alignment, not value synthesis: matching is high quality, correspondence files are present, cluster ambiguity is low, and 94.2% of mismatches are missing_fused. No attribute-level resolver can fix rows that never align to validation. MaximumBipartiteMatching is already recommended by cluster analysis and should reduce fragmented/duplicated clusters. Alternatives like changing blocking or thresholds are worse because they target pair generation, not the observed evaluator join failure.",
+        "class": "improvable",
+        "expected_impact": 0.35
+      },
+      {
+        "attribute": "source",
+        "issue": "Current prefer_higher_trust uses yelp_small > kaggle_small > uber_eats_small, but validation expects uber_eats_small's source label most often when sources disagree. This directly causes source='yelp' when expected='kaggle_380k' or 'uber_eats' in samples.",
+        "fix": "Change source fuser to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+        "resolver_reasoning": "Source-vs-validation comparison shows exact match rates: uber_eats_small 100%, yelp_small 62%, kaggle_small 30%. This is a textbook prefer_higher_trust case with a clear best source. voting would fail whenever sources disagree and there is no majority; favour_sources would also work but prefer_higher_trust is simpler and equivalent given the clear ranking.",
+        "class": "improvable",
+        "expected_impact": 0.04
+      },
+      {
+        "attribute": "name",
+        "issue": "Current name resolver prefers yelp_small via trust, but validation names are most often the shortest/canonical version, with uber_eats_small exact at 100%. Current configuration causes truncation/expansion mismatches like missing venue suffixes or extra noise.",
+        "fix": "Change name fuser to shortest_string.",
+        "resolver_reasoning": "Measured exact rates: uber_eats_small 100%, kaggle_small 90%, yelp_small 81%, and the probe explicitly recommends shortest_string. Validation examples use concise canonical names ('Cornish Pasty Co', 'Longitude 118', 'For The Win'). shortest_string best approximates this across sources without hard-coding a trust map. longest_string would worsen cases like 'Pier 88 Boiling Seafood & Bar Avondale' only if another source adds extra context inconsistently; prefer_higher_trust is worse because yelp is not the best source for names.",
+        "class": "improvable",
+        "expected_impact": 0.04
+      },
+      {
+        "attribute": "address_line1",
+        "issue": "Current most_complete can pick a longer but non-target variant, while validation most often matches uber_eats_small exactly and yelp_small nearly as well.",
+        "fix": "Change address_line1 fuser to voting; if voting underperforms in implementation, fallback to prefer_higher_trust with trust_map={'uber_eats_small':3,'yelp_small':2,'kaggle_small':1}.",
+        "resolver_reasoning": "Evidence: uber_eats_small 100% exact, yelp_small 94%, kaggle_small 75%; probe recommendation is voting. Because top two sources often agree on the canonical street line, voting should recover the expected value without always forcing a single source. most_complete is worse when one source includes extra tokens not present in validation. prefer_higher_trust(uber-first) is a strong fallback but slightly less robust when uber is null and yelp agrees with kaggle.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "rating",
+        "issue": "Current median can synthesize values not present in validation or drift from the better source. Validation is closer to source values, especially yelp_small.",
+        "fix": "Change rating fuser to voting; if PyDI voting on numeric values is unsuitable, use prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1} only if uber ratings are largely absent.",
+        "resolver_reasoning": "Source comparison: yelp_small 62% exact vs kaggle_small 50%, and probe recommends voting. Validation examples show discrete source ratings like 4.3, 4.2, 4.6, not necessarily an aggregate statistic. median is appropriate for noisy measurements, but here exact source values matter more. voting preserves commonly shared values; prefer_higher_trust(yelp-first) is second-best if numeric voting behaves poorly.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "map_url",
+        "issue": "Current prefer_higher_trust always favors yelp_small, but validation alternates between yelp URLs and google maps URLs from kaggle_small. Samples show wrong yelp chosen when expected is google maps.",
+        "fix": "Change map_url fuser to voting; if ties are common, prefer_higher_trust with trust_map={'yelp_small':3,'kaggle_small':2,'uber_eats_small':1}.",
+        "resolver_reasoning": "Comparison shows yelp_small 62% exact, kaggle_small 50% exact, and probe recommends voting(yelp > kaggle). This indicates no single source dominates enough to justify current fixed trust selection. voting is better when exact expected URL depends on agreement pattern; always preferring yelp causes the observed google-vs-yelp mismatches. longest/shortest/most_complete are not semantically meaningful for URLs.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-22T15:31:19.490942Z"
+}

@@ -1,0 +1,7 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+forbes,name,dbpedia,name,0.95,llm_based_matching
+forbes,industry,dbpedia,industry,0.95,llm_based_matching
+forbes,country,dbpedia,country,0.95,llm_based_matching
+forbes,Sales,dbpedia,revenue,0.95,llm_based_matching
+forbes,assets,dbpedia,assets,0.95,llm_based_matching
+forbes,id,dbpedia,id,0.95,llm_based_matching

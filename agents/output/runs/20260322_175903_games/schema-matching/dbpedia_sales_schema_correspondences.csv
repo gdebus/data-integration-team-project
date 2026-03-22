@@ -1,0 +1,6 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+dbpedia,id,sales,id,0.95,llm_based_matching
+dbpedia,name,sales,name,0.95,llm_based_matching
+dbpedia,releaseYear,sales,releaseYear,0.95,llm_based_matching
+dbpedia,developer,sales,developer,0.95,llm_based_matching
+dbpedia,platform,sales,platform,0.95,llm_based_matching

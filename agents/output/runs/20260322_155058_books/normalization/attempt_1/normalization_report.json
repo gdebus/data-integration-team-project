@@ -1,0 +1,127 @@
+{
+  "status": "success",
+  "attempt": 1,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/books/testsets/validation_set.csv",
+  "llm_specs": {
+    "amazon_small": {
+      "title": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "author": {
+        "strip_whitespace": true,
+        "case": "title",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "goodreads_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [],
+  "llm_reasoning": "Target book metadata uses mixed/title case text, comma-separated genres as plain strings, and integer year/page fields already matching source dtypes. ID and isbn_clean are preserved. Amazon author shows visible casing issues (e.g. A.S. BYATT) so title-casing is applied there; titles may contain HTML entities but no supported transform exists, so only whitespace trimming is used. Goodreads/metabooks mostly already match target style; only safe whitespace normalization is added for text fields that align with target formatting.",
+  "datasets": {
+    "amazon_small": {
+      "input_path": "output/runs/20260322_155058_books/schema-matching/amazon_small.parquet",
+      "output_path": "output/runs/20260322_155058_books/normalization/attempt_1/amazon_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "title": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "author": {
+          "strip_whitespace": true,
+          "case": "title",
+          "on_failure": "keep"
+        },
+        "publisher": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "goodreads_small": {
+      "input_path": "output/runs/20260322_155058_books/schema-matching/goodreads_small.parquet",
+      "output_path": "output/runs/20260322_155058_books/normalization/attempt_1/goodreads_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "author": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "genres": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "publisher": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "metabooks_small": {
+      "input_path": "output/runs/20260322_155058_books/schema-matching/metabooks_small.parquet",
+      "output_path": "output/runs/20260322_155058_books/normalization/attempt_1/metabooks_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "author": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "genres": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "publisher": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-22T15:51:09.319287"
+}
