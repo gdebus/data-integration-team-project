@@ -1,0 +1,586 @@
+{
+  "use_case": "Books",
+  "LLM_model": "gpt-5.4",
+  "node_activity": [
+    {
+      "node_index": 1,
+      "current_node": "match_schemas",
+      "next_node": "profile_data",
+      "output_summary": [
+        "aligned schemas for datasets: amazon_small, goodreads_small, metabooks_small; generated 2 schema correspondence groups."
+      ],
+      "prompt_tokens": 3931,
+      "completion_tokens": 86,
+      "total_tokens": 4017,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 2.474,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 2,
+      "current_node": "profile_data",
+      "next_node": "normalization_node",
+      "output_summary": [
+        "profiled datasets: amazon_small, goodreads_small, metabooks_small."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 31,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0025475,
+      "duration_seconds": 1.81,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 3,
+      "current_node": "normalization_node",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "updated keys: datasets, evaluation_execution_attempts, evaluation_execution_result, normalization_attempts, normalization_directives, normalization_execution_result, normalization_report, normalization_rework_reasons, +4 more."
+      ],
+      "prompt_tokens": 8847,
+      "completion_tokens": 324,
+      "total_tokens": 9171,
+      "estimated_cost_usd": 0.0269775,
+      "duration_seconds": 4.721,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 4,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for goodreads_small_amazon_small, metabooks_small_amazon_small, metabooks_small_goodreads_small, blocking on title, author, publish_year.",
+        "Performance-wise, pair completeness ranges from 0.99 to 1.00 and candidate counts range from 149824 to 199823.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 5,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `rule_based` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.66, f1=0.8029330889092575, threshold=0.72, f1=0.852589641434263, threshold=0.68); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 6,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run was an initial draft of the pipeline.",
+        "Added a data fusion strategy with 13 attribute fusers including voting for title, longest_string for author and publisher, prefer_higher_trust for isbn_clean, publish_year, and language, median for rating and price, maximum for numratings and page_count, union for genres, and most_complete for bookformat and edition.",
+        "Implemented embedding-based blocking for three dataset pairs with specific text columns and top_k values.",
+        "Set rule-based matching with defined comparators and thresholds for three dataset pairs: amazon_goodreads, amazon_metabooks, and goodreads_metabooks.",
+        "Enabled singleton retention in the fusion engine and included lineage fields _id and _fusion_sources.",
+        "The fusion strategy predominantly uses prefer_higher_trust for three key attributes, supplemented by longest_string, maximum, median, union, most_complete, and voting fusers to balance trust and completeness.",
+        "Matching behavior uses rule-based matching with weighted string and numeric comparators and embedding-based blocking to improve candidate selection.",
+        "Normalized list-like columns across datasets to handle list-valued cells properly."
+      ],
+      "prompt_tokens": 11308,
+      "completion_tokens": 2348,
+      "total_tokens": 13656,
+      "estimated_cost_usd": 0.06349,
+      "duration_seconds": 23.171,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 7,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_node",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 111.408,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 8,
+      "current_node": "evaluation_node",
+      "next_node": "investigator_node",
+      "output_summary": [
+        "updated keys: eval_messages, evaluation_code, evaluation_execution_attempts, evaluation_execution_result, evaluation_snapshots."
+      ],
+      "prompt_tokens": 26212,
+      "completion_tokens": 2578,
+      "total_tokens": 28790,
+      "estimated_cost_usd": 0.1042,
+      "duration_seconds": 30.955,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 9,
+      "current_node": "investigator_node",
+      "next_node": "normalization_node",
+      "output_summary": [
+        "updated keys: auto_diagnostics, best_evaluation_code, best_pipeline_code, best_validation_metrics, cluster_analysis_result, correspondence_integrity, evaluation_analysis, evaluation_attempts, +15 more; current overall accuracy context is 76.25%."
+      ],
+      "prompt_tokens": 10041,
+      "completion_tokens": 1369,
+      "total_tokens": 11410,
+      "estimated_cost_usd": 0.0456375,
+      "duration_seconds": 26.269,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 10,
+      "current_node": "normalization_node",
+      "next_node": "run_blocking_tester",
+      "output_summary": [
+        "updated keys: datasets, evaluation_execution_attempts, evaluation_execution_result, normalization_attempts, normalization_directives, normalization_execution_result, normalization_report, normalization_rework_reasons, +4 more; current overall accuracy context is 76.25%."
+      ],
+      "prompt_tokens": 8947,
+      "completion_tokens": 215,
+      "total_tokens": 9162,
+      "estimated_cost_usd": 0.0255925,
+      "duration_seconds": 4.441,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 11,
+      "current_node": "run_blocking_tester",
+      "next_node": "run_matching_tester",
+      "output_summary": [
+        "Reused the blocking configuration from state.",
+        "Blocking uses `semantic_similarity` for goodreads_small_amazon_small, metabooks_small_amazon_small, metabooks_small_goodreads_small, blocking on title, author, publish_year.",
+        "Performance-wise, pair completeness ranges from 0.99 to 1.00 and candidate counts range from 149824 to 199823.",
+        "The config also records dataset id columns."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 12,
+      "current_node": "run_matching_tester",
+      "next_node": "pipeline_adaption",
+      "output_summary": [
+        "matcher mode `rule_based` with config source reused from state; evaluated pairs: id_columns, matching_strategies; selected scores: matching_strategies (threshold=0.66, f1=0.8029330889092575, threshold=0.72, f1=0.852589641434263, threshold=0.68); produced 2 pair strategy entries."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.0,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 13,
+      "current_node": "pipeline_adaption",
+      "next_node": "execute_pipeline",
+      "output_summary": [
+        "This run is a refinement of the existing pipeline based on evaluation feedback.",
+        "The fusion strategy for the 'publisher' attribute was changed from 'longest_string' to 'prefer_higher_trust'.",
+        "The pipeline now enables singleton retention during fusion.",
+        "Lineage fields '_id' and '_fusion_sources' are included in the fusion output.",
+        "The fusion behavior shifted to prefer higher trust sources for the 'publisher' attribute instead of selecting the longest string.",
+        "Overall, the fusion strategy predominantly uses 'prefer_higher_trust' for four attributes, with other attributes using 'maximum', 'median', 'most_complete', 'voting', and 'longest_string' as appropriate.",
+        "Embedding-based blocking and rule-based matching with string comparison remain supported.",
+        "The pipeline continues to use a combination of voting, longest_string, prefer_higher_trust, union, maximum, median, and most_complete fusers across 13 attributes.",
+        "The trust map was updated to assign highest trust to 'metabooks_small', followed by 'goodreads_small', then 'amazon_small'.",
+        "Evaluation showed that the pipeline is near its structural ceiling with blocking and matching performing well.",
+        "Most low scores are due to fusion and formatting issues, especially with 'genres' and 'publisher'."
+      ],
+      "prompt_tokens": 24269,
+      "completion_tokens": 418,
+      "total_tokens": 24687,
+      "estimated_cost_usd": 0.0669425,
+      "duration_seconds": 4.85,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 14,
+      "current_node": "execute_pipeline",
+      "next_node": "evaluation_node",
+      "output_summary": [
+        "pipeline execution succeeded on attempt 1; fusion_data.csv was produced."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 114.841,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 15,
+      "current_node": "evaluation_node",
+      "next_node": "investigator_node",
+      "output_summary": [
+        "updated keys: eval_messages, evaluation_code, evaluation_execution_attempts, evaluation_execution_result, evaluation_snapshots; current overall accuracy context is 76.25%."
+      ],
+      "prompt_tokens": 30389,
+      "completion_tokens": 3640,
+      "total_tokens": 34029,
+      "estimated_cost_usd": 0.1305725,
+      "duration_seconds": 37.578,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 16,
+      "current_node": "investigator_node",
+      "next_node": "human_review_export",
+      "output_summary": [
+        "updated keys: auto_diagnostics, best_evaluation_code, best_pipeline_code, best_validation_metrics, correspondence_integrity, evaluation_attempts, evaluation_cycle_audit, evaluation_execution_attempts, +10 more; current overall accuracy context is 91.25%."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.721,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 17,
+      "current_node": "human_review_export",
+      "next_node": "sealed_final_test_evaluation",
+      "output_summary": [
+        "updated keys: human_review_code, human_review_execution_result, human_review_report; current overall accuracy context is 91.25%."
+      ],
+      "prompt_tokens": 1252,
+      "completion_tokens": 5445,
+      "total_tokens": 6697,
+      "estimated_cost_usd": 0.084805,
+      "duration_seconds": 261.109,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 18,
+      "current_node": "sealed_final_test_evaluation",
+      "next_node": "save_results",
+      "output_summary": [
+        "updated keys: final_test_evaluation_execution_result, final_test_evaluation_metrics; current overall accuracy context is 91.25%."
+      ],
+      "prompt_tokens": 31024,
+      "completion_tokens": 3179,
+      "total_tokens": 34203,
+      "estimated_cost_usd": 0.125245,
+      "duration_seconds": 38.755,
+      "status": "ok",
+      "error": null
+    },
+    {
+      "node_index": 19,
+      "current_node": "save_results",
+      "next_node": "END",
+      "output_summary": [
+        "updated keys: run_audit_path, run_id, run_output_root, run_report_path, sealed_test_metrics_final, validation_metrics_final; current overall accuracy context is 91.25%."
+      ],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "duration_seconds": 0.003,
+      "status": "ok",
+      "error": null
+    }
+  ],
+  "run_configs": {
+    "blocking_config": {
+      "blocking_strategies": {
+        "goodreads_small_amazon_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "title",
+            "author",
+            "publish_year"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 0.9977578475336323,
+          "num_candidates": 199823,
+          "is_acceptable": true
+        },
+        "metabooks_small_amazon_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "title",
+            "author",
+            "publisher"
+          ],
+          "params": {
+            "top_k": 15
+          },
+          "pair_completeness": 0.9939577039274925,
+          "num_candidates": 149824,
+          "is_acceptable": true
+        },
+        "metabooks_small_goodreads_small": {
+          "strategy": "semantic_similarity",
+          "columns": [
+            "title",
+            "author",
+            "publisher"
+          ],
+          "params": {
+            "top_k": 20
+          },
+          "pair_completeness": 0.9947826086956522,
+          "num_candidates": 199106,
+          "is_acceptable": true
+        }
+      },
+      "id_columns": {
+        "amazon_small": "id",
+        "goodreads_small": "id",
+        "metabooks_small": "id"
+      }
+    },
+    "matching_config": {
+      "id_columns": {
+        "amazon_small": "id",
+        "goodreads_small": "id",
+        "metabooks_small": "id"
+      },
+      "matching_strategies": {
+        "goodreads_small_amazon_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "title",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "author",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "numeric",
+              "column": "publish_year",
+              "max_difference": 1.0
+            },
+            {
+              "type": "string",
+              "column": "publisher",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip"
+            }
+          ],
+          "weights": [
+            0.42,
+            0.33,
+            0.15,
+            0.1
+          ],
+          "threshold": 0.66,
+          "f1": 0.8029330889092575
+        },
+        "metabooks_small_amazon_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "title",
+              "similarity_function": "cosine",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "author",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "string",
+              "column": "publisher",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip",
+              "list_strategy": "concatenate"
+            },
+            {
+              "type": "numeric",
+              "column": "publish_year",
+              "max_difference": 1.0
+            }
+          ],
+          "weights": [
+            0.5,
+            0.25,
+            0.15,
+            0.1
+          ],
+          "threshold": 0.72,
+          "f1": 0.852589641434263
+        },
+        "metabooks_small_goodreads_small": {
+          "comparators": [
+            {
+              "type": "string",
+              "column": "title",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "author",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "publisher",
+              "similarity_function": "jaro_winkler",
+              "preprocess": "lower_strip"
+            },
+            {
+              "type": "string",
+              "column": "genres",
+              "similarity_function": "jaccard",
+              "preprocess": "lower_strip",
+              "list_strategy": "set_jaccard"
+            },
+            {
+              "type": "numeric",
+              "column": "publish_year",
+              "max_difference": 1.0
+            }
+          ],
+          "weights": [
+            0.42,
+            0.23,
+            0.12,
+            0.15,
+            0.08
+          ],
+          "threshold": 0.68,
+          "f1": 0.8362676056338028
+        }
+      }
+    }
+  },
+    "evaluation_runs": [
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "longest_string",
+        "developer": "longest_string",
+        "platform": "longest_string",
+        "series": "longest_string",
+        "publisher": "longest_string",
+        "criticScore": "maximum",
+        "userScore": "maximum",
+        "ESRB": "longest_string",
+        "globalSales": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "76.25%"
+    },
+    {
+      "attribute_fusers": {
+        "name": "longest_string",
+        "releaseYear": "longest_string",
+        "developer": "longest_string",
+        "platform": "longest_string",
+        "series": "longest_string",
+        "publisher": "longest_string",
+        "criticScore": "maximum",
+        "userScore": "maximum",
+        "ESRB": "longest_string",
+        "globalSales": "maximum"
+      },
+      "evaluation_functions": {},
+      "accuracy_score": "91.25%"
+    }
+  ],
+  "transition_stats": {
+    "transition_counts": {
+      "match_schemas": {
+        "profile_data": 1
+      },
+      "profile_data": {
+        "normalization_node": 1
+      },
+      "normalization_node": {
+        "run_blocking_tester": 2
+      },
+      "run_blocking_tester": {
+        "run_matching_tester": 2
+      },
+      "run_matching_tester": {
+        "pipeline_adaption": 2
+      },
+      "pipeline_adaption": {
+        "execute_pipeline": 2
+      },
+      "execute_pipeline": {
+        "evaluation_node": 2
+      },
+      "evaluation_node": {
+        "investigator_node": 2
+      },
+      "investigator_node": {
+        "normalization_node": 1,
+        "human_review_export": 1
+      },
+      "human_review_export": {
+        "sealed_final_test_evaluation": 1
+      },
+      "sealed_final_test_evaluation": {
+        "save_results": 1
+      },
+      "save_results": {
+        "END": 1
+      }
+    },
+    "total_nodes_logged": 19
+  },
+  "time_complexity": {
+    "total_duration_seconds": 679.0,
+    "sum_of_logged_node_durations_seconds": 663.106,
+    "per_node_cumulative_durations_seconds": {
+      "match_schemas": 2.474,
+      "profile_data": 1.81,
+      "normalization_node": 9.162,
+      "run_blocking_tester": 0.0,
+      "run_matching_tester": 0.0,
+      "pipeline_adaption": 28.021,
+      "execute_pipeline": 226.249,
+      "evaluation_node": 68.533,
+      "investigator_node": 26.99,
+      "human_review_export": 261.109,
+      "sealed_final_test_evaluation": 38.755,
+      "save_results": 0.003
+    }
+  }
+}
