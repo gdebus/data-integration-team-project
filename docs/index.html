@@ -796,28 +796,12 @@
                         <td>72.50% → 86.25%</td>
                         <td>86.25%</td>
                         <td>
-                            This is one of the strongest Games ML results. The generated pipeline combines a
+                            This is the strongest Games result. The generated pipeline combines a
                             hybrid blocking strategy, with <code>StandardBlocker</code> on the easier
                             <code>dbpedia-sales</code> pair and semantic blocking on the harder pairs,
                             plus list normalization and per-pair model selection. In this domain that
                             mix appears to remove unnecessary candidate noise without losing too much
                             recall.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agent VII</td>
-                        <td>Rule-based</td>
-                        <td>56.25% → 88.57%</td>
-                        <td>88.57%</td>
-                        <td>
-                            This is the strongest Games result in the current report. The initial
-                            helper-style RB pipeline already combines semantic blocking, list
-                            normalization, singleton retention, and attribute-specific fusion rules
-                            such as <code>voting</code>, <code>prefer_higher_trust</code>,
-                            <code>median</code>, and <code>most_complete</code>. The key refinement
-                            then adds <code>MaximumBipartiteMatching</code> post-clustering and
-                            rebalances the fusion policy toward cleaner voting and trust-aware
-                            selection, which lifts the run sharply from 56.25% to 88.57%.
                         </td>
                     </tr>
                     <tr>
@@ -852,11 +836,11 @@
             <p>
                 Overall, Games rewards strong candidate generation and disciplined calibration much more
                 than heavy domain-specific repair. Once the notebooks move beyond exact-name blocking,
-                both matcher modes become competitive. The strongest result now comes from the
-                helper-style rule-based Agent VII run, which pairs semantic candidate generation with
-                targeted post-clustering and fusion-policy correction. At the same time, the strong but
-                unstable baseline snapshot shows that this domain can occasionally be solved even with
-                simple rules when the naming conventions happen to line up.
+                both matcher modes become competitive, but the best results come from the ML pipelines
+                that combine semantic blocking with per-pair feature extraction and model selection. At
+                the same time, the strong but unstable baseline snapshot shows that this domain can
+                occasionally be solved even with simple rules when the naming conventions happen to line
+                up.
             </p>
 
             <h3 id="music-analysis">Music</h3>
@@ -928,8 +912,7 @@
                         <td>65.48% → 33.50% → 36.55%</td>
                         <td>65.48%</td>
                         <td>
-                            The first ML reasoning snapshot reaches the best Music peak among the
-                            non-helper ML runs, which
+                            The first ML reasoning snapshot reaches the best Music peak overall, which
                             shows the potential of feature-based matching on this domain. However, the
                             later snapshots regress sharply, so this notebook is much less stable than
                             the RB reasoning variant. The recorded runs suggest that Music benefits from
@@ -948,21 +931,6 @@
                             blocking mix of semantic, exact, and token-based strategies. It does not
                             beat the best reasoning peak, but it is noticeably more controlled than the
                             unstable reasoning-ML run.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agent VII</td>
-                        <td>Rule-based</td>
-                        <td>58.38% → 78.17% → 78.57%</td>
-                        <td>78.57%</td>
-                        <td>
-                            This is the best Music result in the current report. The helper-style RB
-                            run starts with mixed blocking and a diverse fusion policy using
-                            <code>favour_sources</code>, <code>prefer_higher_trust</code>, and
-                            attribute-specific text and completeness heuristics. The later refinements
-                            add <code>MaximumBipartiteMatching</code> post-clustering and then tune
-                            artist, duration, release-country, and label fusion, producing a stable
-                            climb from 58.38% to 78.57%.
                         </td>
                     </tr>
                     <tr>
@@ -996,10 +964,9 @@
             <p>
                 In contrast to Games, Music does not reward simple exact agreement. The strongest
                 pattern is the move from single-field blocking to mixed blocking plus richer comparison
-                logic. With the Agent VII rule-based run included, the strongest result now comes from
-                the helper-style RB pipeline that combines mixed blocking, post-clustering, and
-                carefully tuned trust-aware fusion. The ML runs still show useful peak potential, but
-                they remain materially more volatile across snapshots than the best RB helper result.
+                logic. Rule-based reasoning is currently the safest option for this domain because it
+                combines the best stable score with the cleanest upward trajectory, while the ML runs
+                show higher peak potential but also much stronger variance across snapshots.
             </p>
 
             <h3 id="books-analysis">Books</h3>
@@ -1045,6 +1012,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>62.14% → 65.71% → 59.29%</td>
+                        <td>65.71%</td>
+                        <td>
+                            This run improves once and then drops: 62.14 to 65.71 to 59.29. The middle snapshot enables singletons and moves many fields to voting-style fusion, which helps initially. The final snapshot then flips many policies again (for example back to <code>longest_string</code> on major text fields, plus new numeric/list-specific selectors), creating another large behavior shift.<br><br>Evaluation mapping and comparators are also revised across iterations, including a change and reversal for <code>publish_year</code> comparison style. The pattern is clear: when updates are focused, score can rise; when many high-impact rules are rewritten together, stability drops and gains are lost.
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Agent IV</td>
                         <td>ML</td>
                         <td>57.14% → 56.43% → 65.00%</td>
@@ -1054,12 +1030,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Agent III</td>
+                        <td>Agent V</td>
                         <td>Rule-based</td>
-                        <td>62.14% → 65.71% → 59.29%</td>
-                        <td>65.71%</td>
+                        <td>55.00% → 55.00% → 55.00%</td>
+                        <td>55.00%</td>
                         <td>
-                            This run improves once and then drops: 62.14 to 65.71 to 59.29. The middle snapshot enables singletons and moves many fields to voting-style fusion, which helps initially. The final snapshot then flips many policies again (for example back to <code>longest_string</code> on major text fields, plus new numeric/list-specific selectors), creating another large behavior shift.<br><br>Evaluation mapping and comparators are also revised across iterations, including a change and reversal for <code>publish_year</code> comparison style. The pattern is clear: when updates are focused, score can rise; when many high-impact rules are rewritten together, stability drops and gains are lost.
+                            This architecture is flat at 55.00 across five snapshots. Fusion behavior is effectively fixed, while the main pipeline edits are weight retunes in matching. That means the architecture keeps adjusting pair scoring without changing the downstream fusion logic in a meaningful way.<br><br>The evaluation half is refined across nodes (alignment and comparator registration become cleaner), but no measurable accuracy movement appears. This run shows stability in one sense (no further collapse), but it also shows limited corrective power: iterations do not convert into improvement.
                         </td>
                     </tr>
                     <tr>
@@ -1072,30 +1048,21 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Agent V</td>
-                        <td>Rule-based</td>
-                        <td>55.00% → 55.00% → 55.00% → 55.00% → 55.00%</td>
-                        <td>55.00%</td>
-                        <td>
-                            This architecture is flat at 55.00 across five snapshots. Fusion behavior is effectively fixed, while the main pipeline edits are weight retunes in matching. That means the architecture keeps adjusting pair scoring without changing the downstream fusion logic in a meaningful way.<br><br>The evaluation half is refined across nodes (alignment and comparator registration become cleaner), but no measurable accuracy movement appears. This run shows stability in one sense (no further collapse), but it also shows limited corrective power: iterations do not convert into improvement.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agent VII</td>
-                        <td>ML</td>
-                        <td>67.86% → 67.86% → 72.14%</td>
-                        <td>72.14%</td>
-                        <td>
-                            This helper-based architecture improves from 67.86 to 72.14. Its key strength is workflow control: normalization, blocking/matching tests, pipeline adaptation, evaluation, and investigator routing are explicit and connected. The middle phase introduces safer custom fusion wrappers and trust-aware field handling, then a later revision refines <code>genres</code> handling and thresholds.<br><br>The evaluation and investigator stages provide concrete weak-field diagnostics and coverage signals between iterations, so updates are guided rather than random. Even with one execution failure during the run, repair succeeds and the final score increases, which indicates robust iterative correction.
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Agent VII</td>
                         <td>Rule-based</td>
                         <td>76.25% → 91.25%</td>
                         <td>91.25%</td>
                         <td>
                             This architecture delivers the best Books result: 76.25 to 91.25. The second snapshot adds post-clustering (<code>MaximumBipartiteMatching</code>), updates source trust priority, and changes <code>publisher</code> fusion to trust-aware selection. These changes are targeted and structurally meaningful.<br><br>The evaluation/investigator side then confirms a large jump and keeps that value through human-review and final-test stages. In this case, both fusion-side and evaluation-side updates align, and the gain is large and sustained.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent_VIII</td>
+                        <td>ML</td>
+                        <td>67.86% → 67.86% → 72.14%</td>
+                        <td>72.14%</td>
+                        <td>
+                            This helper-based architecture improves from 67.86 to 72.14. Its key strength is workflow control: normalization, blocking/matching tests, pipeline adaptation, evaluation, and investigator routing are explicit and connected. The middle phase introduces safer custom fusion wrappers and trust-aware field handling, then a later revision refines <code>genres</code> handling and thresholds.<br><br>The evaluation and investigator stages provide concrete weak-field diagnostics and coverage signals between iterations, so updates are guided rather than random. Even with one execution failure during the run, repair succeeds and the final score increases, which indicates robust iterative correction.
                         </td>
                     </tr>
                 </tbody>
@@ -1110,8 +1077,8 @@
             </p>
             <p>
                 A strong start is not a reliable signal by itself. A better signal is whether the architecture can keep
-                or improve accuracy across iterations without large reversals. In this Books set, the strongest
-                evidence of robust iteration appears in the helper architectures, especially the rule-based helper run.
+                or improve accuracy across iterations without large reversals. In this Books set, Agent_VIII shows
+                controlled iterative improvement, while Agent VII remains the strongest result overall.
             </p>
 
             <h3 id="restaurants-analysis">Restaurants</h3>
@@ -1156,15 +1123,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Agent IV</td>
-                        <td>ML</td>
-                        <td>50.19% → 77.60% → 45.18%</td>
-                        <td>77.60%</td>
-                        <td>
-                            This architecture shows the clearest rise-then-fall pattern: 50.19 -> 77.60 -> 45.18. The jump at snapshot 2 makes sense technically: it enables singleton retention and moves from generic longest-string fusion to consensus-style fusion (<code>most_frequent_non_null</code>, <code>shortest_non_null_string</code>, <code>median_numeric</code>, <code>union_resolver</code>). Evaluation also starts cleaning phone and scalar formats more carefully. Those combined changes improve both coverage and value selection.<br><br>Then snapshot 3 becomes too aggressive. Many fields switch to source-priority logic (<code>source_priority_text</code>, yelp-first rating selection, source-biased URL/category behavior). That overweights source preference and underweights cross-source agreement. Evaluation summaries then report severe failures in categories, provenance-linked fields, and value selection, and the score collapses. So reasoning helped when it was calibrated (snapshot 2), but hurt when it kept forcing broad rewrites after a major gain.
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Agent III</td>
                         <td>Rule-based</td>
                         <td>66.15% → 51.61% → 46.36%</td>
@@ -1174,12 +1132,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Agent VI</td>
+                        <td>Agent IV</td>
                         <td>ML</td>
-                        <td>74.72% → 72.59% → 57.07%</td>
-                        <td>74.72%</td>
+                        <td>50.19% → 77.60% → 45.18%</td>
+                        <td>77.60%</td>
                         <td>
-                            <code>with_new_Cluster_Machine_Learning_260317_02</code> keeps the fusion-generation half almost fixed across snapshots (same code hash, same blockers, same matcher, same fusers), but it actively changes the evaluation-generation half. In later evaluation versions, fused rows are linked to gold rows more carefully by rebuilding <code>eval_id</code> from <code>_fusion_sources</code> with stricter prefix rules, phone fields are compared with a phone-specific matcher that removes punctuation and <code>.0</code> artifacts, and <code>categories</code> is compared as an unordered normalized set (so <code>["pizza","italian"]</code> and <code>["italian","pizza"]</code> are treated as equal).<br><br>So this run is still iterative pipeline work, but mostly on the evaluation half rather than the fusion half. The main gain is better error visibility and cleaner scoring logic; it does not show strong evidence that fused-data quality itself improved in the same way.
+                            This architecture shows the clearest rise-then-fall pattern: 50.19 -> 77.60 -> 45.18. The jump at snapshot 2 makes sense technically: it enables singleton retention and moves from generic longest-string fusion to consensus-style fusion (<code>most_frequent_non_null</code>, <code>shortest_non_null_string</code>, <code>median_numeric</code>, <code>union_resolver</code>). Evaluation also starts cleaning phone and scalar formats more carefully. Those combined changes improve both coverage and value selection.<br><br>Then snapshot 3 becomes too aggressive. Many fields switch to source-priority logic (<code>source_priority_text</code>, yelp-first rating selection, source-biased URL/category behavior). That overweights source preference and underweights cross-source agreement. Evaluation summaries then report severe failures in categories, provenance-linked fields, and value selection, and the score collapses. So reasoning helped when it was calibrated (snapshot 2), but hurt when it kept forcing broad rewrites after a major gain.
                         </td>
                     </tr>
                     <tr>
@@ -1192,12 +1150,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Agent VII</td>
+                        <td>Agent VI</td>
                         <td>ML</td>
-                        <td>78.22% → 85.11%</td>
-                        <td>85.11%</td>
+                        <td>74.72% → 72.59% → 57.07%</td>
+                        <td>74.72%</td>
                         <td>
-                            This helper-based Machine_Learning architecture improves steadily (78.22 -> 85.11) without late collapse. Its main strength is workflow control: normalization, blocking/matching tests, pipeline adaptation, evaluation, and investigator routing are explicit and connected. The first investigator step identifies concrete weak points (<code>_id</code>, <code>source</code>, <code>map_url</code>, <code>postal_code</code>) and reports over-large fused output, which signals under-merging and false-positive links.<br><br>The next pipeline revision is focused, not broad: it moves many identity/location fields to trust-aware fusion and adds targeted normalization for postal code, phone, name/category text, and correspondence columns. This is a diagnosis-to-fix pattern with clear scope, and the score rises accordingly, making this a clear positive ablation result.
+                            <code>with_new_Cluster_Machine_Learning_260317_02</code> keeps the fusion-generation half almost fixed across snapshots (same code hash, same blockers, same matcher, same fusers), but it actively changes the evaluation-generation half. In later evaluation versions, fused rows are linked to gold rows more carefully by rebuilding <code>eval_id</code> from <code>_fusion_sources</code> with stricter prefix rules, phone fields are compared with a phone-specific matcher that removes punctuation and <code>.0</code> artifacts, and <code>categories</code> is compared as an unordered normalized set (so <code>["pizza","italian"]</code> and <code>["italian","pizza"]</code> are treated as equal).<br><br>So this run is still iterative pipeline work, but mostly on the evaluation half rather than the fusion half. The main gain is better error visibility and cleaner scoring logic; it does not show strong evidence that fused-data quality itself improved in the same way.
                         </td>
                     </tr>
                     <tr>
@@ -1207,6 +1165,15 @@
                         <td>86.00%</td>
                         <td>
                             This architecture has the biggest improvement in the set (25.75 -> 86.00). The first critical step is failure recovery: the run hits empty correspondences for <code>kaggle_small_yelp_small</code>, then repairs this with fail-soft blocking fallback and scalar normalization (<code>stringify_scalar</code>, safe null handling, list flattening for blocking text). That prevents a blocking failure from poisoning the whole pipeline.<br><br>After recovery, snapshot 2 adds post-clustering (<code>MaximumBipartiteMatching</code>) and changes several fields to voting (<code>source</code>, <code>map_url</code>, <code>street</code>, <code>address_line1</code>, <code>rating</code>) while keeping trust-aware logic where useful. This combination improves both cluster structure and field-level value choice. The jump to 86.00 is consistent with those targeted structural fixes, and it is the strongest positive ablation result in the Restaurants set.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent_VIII</td>
+                        <td>ML</td>
+                        <td>78.22% → 85.11%</td>
+                        <td>85.11%</td>
+                        <td>
+                            This helper-based Machine_Learning architecture improves steadily from 78.22 to 85.11. The first snapshot already uses an orchestrated workflow with explicit normalization, blocking/matching testing, pipeline adaptation, evaluation, and investigator feedback. The next snapshot adds stronger trust-aware fusion on many identity and location fields and improves input cleanup with postal-code cleanup, phone-digit cleanup, name cleanup, category cleanup, and correspondence-column standardization.<br><br>The evaluation and investigator nodes provide concrete weak-field feedback (<code>_id</code>, <code>source</code>, <code>map_url</code>, <code>postal_code</code>) and cluster-size warnings, so the next update is focused instead of broad. That guided loop produces a real gain and stays stable enough to route to review, showing controlled iteration across both pipeline generation and evaluation generation.
                         </td>
                     </tr>
                 </tbody>
@@ -1235,22 +1202,19 @@
                 The weaker runs show a clear pattern: they either changed too many fusion rules at once, or mostly
                 tuned matcher weights without fixing downstream value selection. That gave unstable behavior: strong
                 starts followed by drops (<code>75.47% → 51.69%</code> in cluster rule-based,
-                <code>50.19% → 77.60% → 45.18%</code> in reasoning Machine Learning). In other words, better candidate
+                <code>50.19% → 77.60% → 45.18%</code> in Agent IV). In other words, better candidate
                 scoring alone was not enough if phone/postal/address/category reconciliation stayed weak or became
                 over-biased.
             </p>
             <p>
-                The stronger runs succeeded because they solved the specific failure points of this dataset.
-                <em>Reasoning Helper Machine Learning</em> improved by using investigator feedback on weak fields
-                (<code>_id</code>, <code>source</code>, <code>map_url</code>, <code>postal_code</code>) and then
-                applying targeted standardization plus trust-aware fusion (<code>78.22% → 85.11%</code>).
-                <em>Reasoning Helper Rule Based</em> went further by first repairing blocking failure (fail-soft
-                fallback plus scalar cleanup), then improving cluster structure
-                (<code>MaximumBipartiteMatching</code>) and fusion
+                The strongest runs succeeded because they solved the specific failure points of this dataset with
+                controlled updates. <em>Agent_VIII</em> improved from <code>78.22%</code> to <code>85.11%</code> by
+                combining stronger cleanup with trust-aware field fusion under investigator guidance. <em>Agent VII</em>
+                then delivered the top score (<code>86.00%</code>) by repairing blocking failure first, then adding
+                cluster cleanup (<code>MaximumBipartiteMatching</code>) and targeted voting on key contested fields
                 (<code>source</code>, <code>map_url</code>, <code>street</code>, <code>address_line1</code>,
-                <code>rating</code>), reaching <code>86.00%</code>. In this use case, the architectures that mattered
-                most were the ones that combined robust blocking recovery, field standardization, cluster cleanup, and
-                controlled iterative edits from investigator-guided diagnostics.
+                <code>rating</code>). In this use case, these two helper-driven architectures were the ones that
+                brought the critical pieces together most effectively.
             </p>
 
         </section>
@@ -1277,8 +1241,7 @@
                 matcher testing raises this to <strong>83.5k</strong>, reasoning pushes the
                 rule-based and ML variants to roughly <strong>132.1k</strong> and
                 <strong>149.7k</strong>, and the cluster-based ML variant reaches
-                <strong>218.2k</strong>. The helper-style Agent VII rule-based runs sit slightly above
-                that at roughly <strong>230.3k</strong>, while the heaviest notebooks are
+                <strong>218.2k</strong>. The heaviest notebooks are
                 <code>AdaptationPipeline_Reasoning_Helper_ml</code> at
                 <strong>399.6k</strong> average tokens and
                 <code>AdaptationPipeline_with_new_Cluster</code> rule-based at
@@ -1358,19 +1321,6 @@
                             Cluster-aware ML runs add another reporting and refinement layer. Token
                             usage is driven not only by pipeline rewrites, but also by repeated
                             evaluation interpretation and result packaging.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agent VII</td>
-                        <td>Rule-based</td>
-                        <td>230,291</td>
-                        <td><code>evaluation_node</code>, <code>pipeline_adaption</code>, <code>sealed_final_test_evaluation</code>, <code>normalization_node</code></td>
-                        <td>
-                            The helper-style RB runs are noticeably heavier than Agent VI because they
-                            add normalization, investigator-guided repair, and sealed final-test
-                            evaluation on top of the normal pipeline loop. Their token cost is still
-                            well below the ML helper variant because the matching logic stays
-                            rule-based.
                         </td>
                     </tr>
                     <tr>
@@ -1534,19 +1484,6 @@
                             adds fewer heavy analysis nodes. Its runtime still scales mostly with the
                             cost of executing the learned matcher and clustering logic on the candidate
                             sets.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Agent VII</td>
-                        <td>Rule-based</td>
-                        <td>752.5 s</td>
-                        <td><code>execute_pipeline</code> (374.6 s average)</td>
-                        <td>
-                            The helper-style RB family is relatively efficient in wall-clock terms. It
-                            adds normalization, investigator-guided iteration, human-review export, and
-                            sealed final-test evaluation, but still stays close to the baseline because
-                            the matching logic remains rule-based and the pipeline executions are much
-                            shorter than in the heavier reasoning and cluster families.
                         </td>
                     </tr>
                     <tr>
