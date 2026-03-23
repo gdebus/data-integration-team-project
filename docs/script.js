@@ -21,7 +21,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Smooth scrolling for anchor links
+    // ─── Collapsible navigation ───
+    // For every <li> that has a child <ul>, wrap the <a> + chevron in a toggle
+    // and make the <ul> collapsible.
+    const navItems = sidebar.querySelectorAll('nav li');
+
+    navItems.forEach(li => {
+        const childUl = li.querySelector(':scope > ul');
+        if (!childUl) return;                 // leaf node — skip
+
+        const link = li.querySelector(':scope > a');
+        if (!link) return;
+
+        // Create wrapper div for the link row
+        const wrapper = document.createElement('div');
+        wrapper.className = 'nav-toggle';
+
+        // Move the link inside the wrapper
+        li.insertBefore(wrapper, link);
+        wrapper.appendChild(link);
+
+        // Create chevron button
+        const chevron = document.createElement('span');
+        chevron.className = 'chevron';
+        chevron.innerHTML = '▼';
+        chevron.setAttribute('aria-label', 'Toggle submenu');
+        wrapper.appendChild(chevron);
+
+        // Mark the child list as collapsible
+        childUl.classList.add('collapsible');
+
+        // Start collapsed for level-2+ (children of top-level items)
+        // Keep top-level sections expanded by default
+        const isTopLevel = li.parentElement === sidebar.querySelector('nav > ul');
+        if (!isTopLevel) {
+            childUl.classList.add('collapsed');
+            wrapper.classList.add('collapsed');
+        }
+
+        // Toggle on chevron click
+        chevron.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            childUl.classList.toggle('collapsed');
+            wrapper.classList.toggle('collapsed');
+        });
+
+        // Also toggle when clicking the link text (but still navigate)
+        link.addEventListener('click', (e) => {
+            // If collapsed, expand it
+            if (childUl.classList.contains('collapsed')) {
+                childUl.classList.remove('collapsed');
+                wrapper.classList.remove('collapsed');
+            }
+        });
+    });
+
+    // ─── Smooth scrolling for anchor links ───
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -29,10 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                // Update URL hash without jumping
                 history.pushState(null, null, targetId);
 
-                // Scroll with offset
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
@@ -47,15 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Highlight active section in sidebar
+    // ─── Highlight active section + auto-expand its parent in nav ───
     const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('#sidebar nav a');
+    const navLinks = sidebar.querySelectorAll('nav a');
 
-    window.addEventListener('scroll', () => {
+    function updateActiveSection() {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
             if (pageYOffset >= (sectionTop - 150)) {
                 current = section.getAttribute('id');
             }
@@ -63,9 +116,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').includes(current)) {
+            if (link.getAttribute('href') === '#' + current) {
                 link.classList.add('active');
+
+                // Auto-expand parent collapsibles so the active link is visible
+                let parent = link.closest('.collapsible');
+                while (parent) {
+                    parent.classList.remove('collapsed');
+                    // Also update the toggle wrapper
+                    const toggle = parent.previousElementSibling;
+                    if (toggle && toggle.classList.contains('nav-toggle')) {
+                        toggle.classList.remove('collapsed');
+                    }
+                    parent = parent.parentElement.closest('.collapsible');
+                }
             }
         });
-    });
+    }
+
+    window.addEventListener('scroll', updateActiveSection);
+    // Run once on load to set initial state
+    updateActiveSection();
 });

@@ -4,8 +4,9 @@
     --text-color: #333;
     --bg-color: #fcfcfc;
     --sidebar-bg: #f8f9fa;
-    --sidebar-width: 280px;
+    --sidebar-width: 300px;
     --border-color: #e1e4e8;
+    --nav-muted: #6b7685;
 }
 
 * {
@@ -23,12 +24,12 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar */
+/* ===== Sidebar ===== */
 #sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
-    padding: 2rem;
+    padding: 1.75rem 1.5rem;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
@@ -38,43 +39,158 @@ body {
 }
 
 #sidebar h1 {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
+    font-size: 1.15rem;
+    margin-bottom: 1.5rem;
     color: var(--primary-color);
     font-weight: 700;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
+/* --- Navigation tree --- */
 #sidebar nav ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-#sidebar nav li {
-    margin-bottom: 0.5rem;
+#sidebar nav > ul > li {
+    margin-bottom: 0.15rem;
 }
 
+/* All links — base reset */
 #sidebar nav a {
     text-decoration: none;
-    color: var(--text-color);
-    font-size: 0.95rem;
     display: block;
-    padding: 0.5rem 0;
-    transition: color 0.2s;
+    transition: color 0.15s;
+    line-height: 1.4;
 }
 
 #sidebar nav a:hover,
 #sidebar nav a.active {
     color: var(--accent-color);
+}
+
+/* Level 1 — top sections (Introduction, Methodology, Evaluation, Conclusion)
+   Handles both:  > li > a  and  > li > .nav-toggle > a                      */
+#sidebar nav > ul > li > a,
+#sidebar nav > ul > li > .nav-toggle > a {
+    font-size: 0.92rem;
     font-weight: 600;
+    color: var(--primary-color);
+    padding: 0.45rem 0;
 }
 
-#sidebar nav ul ul {
-    margin-left: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.9em;
+/* Level 2 list container */
+#sidebar nav > ul > li > ul {
+    padding-left: 0.85rem;
+    border-left: 1px solid var(--border-color);
+    margin-left: 0.4rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0.35rem;
 }
 
-/* Main Content */
+/* Level 2 links */
+#sidebar nav > ul > li > ul > li > a,
+#sidebar nav > ul > li > ul > li > .nav-toggle > a {
+    font-size: 0.87rem;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.25rem 0;
+}
+
+/* Level 3 list container */
+#sidebar nav > ul > li > ul > li > ul {
+    padding-left: 0.75rem;
+    border-left: 1px solid #eaecef;
+    margin-left: 0.35rem;
+    margin-top: 0.05rem;
+    margin-bottom: 0.2rem;
+}
+
+/* Level 3 links */
+#sidebar nav > ul > li > ul > li > ul > li > a,
+#sidebar nav > ul > li > ul > li > ul > li > .nav-toggle > a {
+    font-size: 0.82rem;
+    color: var(--nav-muted);
+    font-weight: 400;
+    padding: 0.2rem 0;
+}
+
+/* Level 4 list container */
+#sidebar nav > ul > li > ul > li > ul > li > ul {
+    padding-left: 0.65rem;
+    border-left: 1px solid #eef0f2;
+    margin-left: 0.3rem;
+    margin-top: 0.05rem;
+    margin-bottom: 0.15rem;
+}
+
+/* Level 4 links */
+#sidebar nav > ul > li > ul > li > ul > li > ul > li > a,
+#sidebar nav > ul > li > ul > li > ul > li > ul > li > .nav-toggle > a {
+    font-size: 0.78rem;
+    color: var(--nav-muted);
+    font-weight: 400;
+    padding: 0.18rem 0;
+}
+
+/* --- Collapsible toggle --- */
+.nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.nav-toggle .chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-left: 0.35rem;
+    transition: transform 0.2s ease;
+    color: var(--nav-muted);
+    font-size: 0.65rem;
+    border-radius: 3px;
+}
+
+.nav-toggle .chevron:hover {
+    background-color: rgba(0,0,0,0.06);
+}
+
+.nav-toggle.collapsed .chevron {
+    transform: rotate(-90deg);
+}
+
+/* Collapsible child list */
+#sidebar nav .collapsible {
+    overflow: hidden;
+    max-height: 2000px;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+    opacity: 1;
+}
+
+#sidebar nav .collapsible.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Footer in sidebar */
+#sidebar .sidebar-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.78rem;
+    color: #999;
+    line-height: 1.5;
+}
+
+/* ===== Main Content ===== */
 #main-content {
     margin-left: var(--sidebar-width);
     padding: 3rem 4rem;
@@ -84,7 +200,7 @@ body {
 
 section {
     margin-bottom: 4rem;
-    padding-top: 1rem; /* Offset for anchor linking */
+    padding-top: 1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -281,7 +397,7 @@ blockquote {
     font-style: italic;
 }
 
-/* Admonitions mimic */
+/* Admonitions */
 .admonition {
     border-left: 4px solid var(--accent-color);
     background-color: #f8f9fa;
@@ -318,7 +434,7 @@ blockquote {
 
     #sidebar {
         transform: translateX(-100%);
-        width: 250px;
+        width: 280px;
         transition: transform 0.3s ease;
         box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
