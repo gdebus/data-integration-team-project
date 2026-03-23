@@ -21,9 +21,7 @@
       "node_index": 2,
       "current_node": "profile_data",
       "next_node": "normalization_node",
-      "output_summary": [
-        "profiled datasets: discogs, lastfm, musicbrainz."
-      ],
+      "output_summary": ["profiled datasets: discogs, lastfm, musicbrainz."],
       "prompt_tokens": 0,
       "completion_tokens": 0,
       "total_tokens": 0,
@@ -408,10 +406,7 @@
       "blocking_strategies": {
         "discogs_lastfm": {
           "strategy": "semantic_similarity",
-          "columns": [
-            "name",
-            "artist"
-          ],
+          "columns": ["name", "artist"],
           "params": {
             "top_k": 10
           },
@@ -421,9 +416,7 @@
         },
         "discogs_musicbrainz": {
           "strategy": "sorted_neighbourhood",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "params": {
             "window": 15
           },
@@ -433,11 +426,7 @@
         },
         "musicbrainz_lastfm": {
           "strategy": "semantic_similarity",
-          "columns": [
-            "name",
-            "artist",
-            "duration"
-          ],
+          "columns": ["name", "artist", "duration"],
           "params": {
             "top_k": 10
           },
@@ -488,12 +477,7 @@
               "max_difference": 10.0
             }
           ],
-          "weights": [
-            0.3,
-            0.35,
-            0.25,
-            0.1
-          ],
+          "weights": [0.3, 0.35, 0.25, 0.1],
           "threshold": 0.6,
           "f1": 0.896551724137931
         },
@@ -531,13 +515,7 @@
               "max_difference": 60.0
             }
           ],
-          "weights": [
-            0.35,
-            0.25,
-            0.2,
-            0.1,
-            0.1
-          ],
+          "weights": [0.35, 0.25, 0.2, 0.1, 0.1],
           "threshold": 0.7,
           "f1": 0.8732394366197184
         },
@@ -565,18 +543,14 @@
               "list_strategy": "concatenate"
             }
           ],
-          "weights": [
-            0.35,
-            0.45,
-            0.2
-          ],
+          "weights": [0.35, 0.45, 0.2],
           "threshold": 0.75,
           "f1": 0.8652482269503546
         }
       }
     }
   },
-    "evaluation_runs": [
+  "evaluation_runs": [
     {
       "attribute_fusers": {
         "name": "longest_string",
