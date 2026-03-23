@@ -7,7 +7,7 @@ agents/output/*
 !agents/output/results/
 .vscode
 out_parquet/*
-
+.vscode
 .DS_Store
 __pycache__
 .venv

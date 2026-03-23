@@ -15,17 +15,77 @@
         <h1>Team Project</h1>
         <nav>
             <ul>
-                <li><a href="#home" class="active">Introduction</a></li>
-                <li><a href="#architecture">Architecture</a></li>
                 <li>
-                    <a href="#components">Components</a>
+                    <a href="#home" class="active">Introduction</a>
                     <ul>
-                        <li><a href="#schema-matching">Schema Matching</a></li>
-                        <li><a href="#entity-matching">Entity Matching</a></li>
-                        <li><a href="#data-fusion">Data Fusion</a></li>
+                        <li><a href="#project-overview">Project Overview</a></li>
+                        <li><a href="#core-goals">Core Goals</a></li>
                     </ul>
                 </li>
-                <li><a href="#notebooks">Notebooks</a></li>
+                <li>
+                    <a href="#architecture">Architecture</a>
+                    <ul>
+                        <li><a href="#shared-state">Shared State</a></li>
+                        <li><a href="#common-nodes">Common Nodes</a></li>
+                        <li><a href="#match-schemas">Match Schemas</a></li>
+                        <li><a href="#profile-datasets">Profile Datasets</a></li>
+                        <li><a href="#generate-pipeline">Generate Pipeline</a></li>
+                        <li><a href="#execute-pipeline-node">Execute Pipeline</a></li>
+                        <li><a href="#generate-evaluation-execute-evaluation">Generate Evaluation Code &amp; Execute Evaluation</a></li>
+                        <li><a href="#evaluation-decision-node">Evaluation Decision</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#agent-i">Agent I</a>
+                    <ul>
+                        <li><a href="#agent-i-workflow">Workflow</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#agent-ii">Agent II</a>
+                    <ul>
+                        <li><a href="#agent-ii-blocking-tester">Blocking Tester</a></li>
+                        <li><a href="#agent-ii-matching-tester">Matching Tester</a></li>
+                        <li><a href="#agent-ii-workflow-extension">Workflow Extension</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#agent-iii-iv">Agents III &amp; IV</a>
+                    <ul>
+                        <li><a href="#reasoning-node">Reasoning Node</a></li>
+                        <li><a href="#ml-matcher-mode">ML Matcher Mode</a></li>
+                        <li><a href="#agent-iii-iv-workflow-extension">Workflow Extension</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#agent-v-vi">Agents V &amp; VI</a>
+                    <ul>
+                        <li><a href="#cluster-analysis-node">Cluster Analysis</a></li>
+                        <li><a href="#search-documentation-tool">Search Documentation Tool</a></li>
+                        <li><a href="#agent-v-vi-workflow-extension">Workflow Extension</a></li>
+                    </ul>
+                </li>
+                <li><a href="#agent-comparison">Agent Comparison Summary</a></li>
+                <li>
+                    <a href="#evaluation">Evaluation</a>
+                    <ul>
+                        <li><a href="#use-case-analysis">Use-case Analysis</a></li>
+                        <li><a href="#games-analysis">Games</a></li>
+                        <li><a href="#music-analysis">Music</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#token-usage">Token Usage</a>
+                    <ul>
+                        <li><a href="#token-usage-anomalies">Anomalies</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#time-complexity">Time Complexity</a>
+                    <ul>
+                        <li><a href="#time-complexity-anomalies">Anomalies</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <div style="margin-top: 2rem; font-size: 0.8rem; color: #777;">
@@ -49,10 +109,10 @@
                 <p>This project is currently under active development. Some features may still be experimental.</p>
             </div>
 
-            <h2>Project Overview</h2>
+            <h2 id="project-overview">Project Overview</h2>
             <p>Data integration is the process of combining data from multiple sources into a unified view. Our project explores how modern Large Language Models (LLMs) can be integrated into traditional pipelines to handle complex tasks like schema matching, entity resolution, and data fusion.</p>
 
-            <h3>Core Goals</h3>
+            <h3 id="core-goals">Core Goals</h3>
             <ul>
                 <li><strong>Automation:</strong> Reduce manual intervention in mapping and merging data.</li>
                 <li><strong>Accuracy:</strong> Leverage LLM reasoning to improve matching precision.</li>
@@ -89,7 +149,7 @@
                 </p>
             </div>
 
-            <h2>Shared State</h2>
+            <h2 id="shared-state">Shared State</h2>
             <p>
                 Every agent variant operates on the same <code>AgentState</code> typed dictionary
                 that is threaded through the LangGraph graph. Key fields include the list of input dataset
@@ -101,13 +161,13 @@
                 the full history of errors and evaluation feedback.
             </p>
 
-            <h2>Common Nodes</h2>
+            <h2 id="common-nodes">Common Nodes</h2>
             <p>
                 Several processing nodes appear across all or most agent variants. They form the backbone
                 of the pipeline and are described here once to avoid repetition.
             </p>
 
-            <h3>Match Schemas</h3>
+            <h3 id="match-schemas">Match Schemas</h3>
             <p>
                 The <em>Match Schemas</em> node aligns column names across the input datasets. It invokes
                 an LLM-based schema matching routine that receives the
@@ -117,7 +177,7 @@
                 are already present in the state (e.g. from a previous invocation), the node is skipped.
             </p>
 
-            <h3>Profile Datasets</h3>
+            <h3 id="profile-datasets">Profile Datasets</h3>
             <p>
                 The <em>Profile Datasets</em> node uses an LLM tool call to invoke the
                 <code>ProfileDatasetTool</code> on every input dataset. The tool returns a JSON profile
@@ -126,7 +186,7 @@
                 reason about data characteristics such as sparsity and type mismatches.
             </p>
 
-            <h3>Generate Pipeline</h3>
+            <h3 id="generate-pipeline">Generate Pipeline</h3>
             <p>
                 The <em>Generate Pipeline</em> node is the core LLM code-generation step. It assembles a
                 large system prompt that includes an example integration pipeline using the PyDI
@@ -141,7 +201,7 @@
                 execution errors or evaluation feedback, asking the LLM to fix or improve the script.
             </p>
 
-            <h3>Execute Pipeline</h3>
+            <h3 id="execute-pipeline-node">Execute Pipeline</h3>
             <p>
                 The <em>Execute Pipeline</em> node runs the generated Python script as a subprocess. If
                 the process exits with a non-zero return code, the stderr output is captured and fed back
@@ -150,7 +210,7 @@
                 workflow to the evaluation branch.
             </p>
 
-            <h3>Generate Evaluation Code &amp; Execute Evaluation</h3>
+            <h3 id="generate-evaluation-execute-evaluation">Generate Evaluation Code &amp; Execute Evaluation</h3>
             <p>
                 After a successful pipeline run the agent generates evaluation code following a similar
                 pattern: a system prompt that includes an example evaluation script, the generated
@@ -160,7 +220,7 @@
                 then executed as a subprocess with the same retry logic as the pipeline execution step.
             </p>
 
-            <h3>Evaluation Decision</h3>
+            <h3 id="evaluation-decision-node">Evaluation Decision</h3>
             <p>
                 The <em>Evaluation Decision</em> node reads the JSON metrics produced by the evaluation
                 script. It checks two termination criteria: either the overall fusion accuracy exceeds a
@@ -183,7 +243,7 @@
                 two conditional retry loops.
             </p>
 
-            <h3>Workflow</h3>
+            <h3 id="agent-i-workflow">Workflow</h3>
             <ol>
                 <li><strong>Profile Datasets:</strong> characterise each input dataset.</li>
                 <li><strong>Generate Pipeline:</strong> the LLM receives the example pipeline, dataset
@@ -222,7 +282,7 @@
                 Agent&nbsp;I, Agent&nbsp;II supports only rule-based matching.
             </p>
 
-            <h3>Blocking Tester</h3>
+            <h3 id="agent-ii-blocking-tester">Blocking Tester</h3>
             <p>
                 The Blocking Tester receives the schema-aligned datasets and the entity-matching test
                 sets. For each dataset pair it evaluates multiple blocking strategies: Standard Blocker
@@ -236,7 +296,7 @@
                 <code>window</code> for the Sorted Neighbourhood Blocker).
             </p>
 
-            <h3>Matching Tester</h3>
+            <h3 id="agent-ii-matching-tester">Matching Tester</h3>
             <p>
                 The Matching Tester operates on the candidate pairs produced by the optimal blocking
                 strategy. It uses the LLM to propose comparator configurations (StringComparator,
@@ -248,7 +308,7 @@
                 feeding evaluation results back to the LLM to refine the configuration.
             </p>
 
-            <h3>Workflow Extension</h3>
+            <h3 id="agent-ii-workflow-extension">Workflow Extension</h3>
             <ol>
                 <li><strong>Match Schemas</strong></li>
                 <li><strong>Profile Datasets</strong></li>
@@ -288,7 +348,7 @@
                 <code>RuleBasedMatcher</code>.
             </p>
 
-            <h3>Reasoning Node</h3>
+            <h3 id="reasoning-node">Reasoning Node</h3>
             <p>
                 The Reasoning Node receives the aggregate evaluation metrics, a sample of detailed
                 per-record debugging events from the fusion evaluation (up to 50 JSONL records), the
@@ -307,7 +367,7 @@
                 mismatches during evaluation.
             </p>
 
-            <h3>ML Matcher Mode (Agent IV)</h3>
+            <h3 id="ml-matcher-mode">ML Matcher Mode (Agent IV)</h3>
             <p>
                 When the matcher mode is set to <code>ml</code>, several components adapt automatically.
                 The Matching Tester proposes comparator features for a <code>FeatureExtractor</code>
@@ -317,7 +377,7 @@
                 the matching strategy and example code differ.
             </p>
 
-            <h3>Workflow Extension</h3>
+            <h3 id="agent-iii-iv-workflow-extension">Workflow Extension</h3>
             <ol>
                 <li><strong>Match Schemas → Profile → Blocking Tester → Matching Tester</strong>
                     (same as Agent&nbsp;II).</li>
@@ -344,7 +404,7 @@
                 Agent&nbsp;V uses rule-based matching; Agent&nbsp;VI uses ML-based matching.
             </p>
 
-            <h3>Cluster Analysis</h3>
+            <h3 id="cluster-analysis-node">Cluster Analysis</h3>
             <p>
                 After the pipeline produces entity correspondences, the Cluster Analysis node examines
                 the cluster distribution of the matched entities. It computes cluster sizes, identifies
@@ -363,7 +423,7 @@
                 clusters of size 9–30.
             </p>
 
-            <h3>Search Documentation Tool</h3>
+            <h3 id="search-documentation-tool">Search Documentation Tool</h3>
             <p>
                 The Search Documentation Tool gives the pipeline generation node access to the PyDI
                 library documentation at generation time. When enabled, the agent issues targeted queries
@@ -379,7 +439,7 @@
                 (<code>INCLUDE_DOCS</code>) and used selectively.
             </p>
 
-            <h3>Workflow Extension</h3>
+            <h3 id="agent-v-vi-workflow-extension">Workflow Extension</h3>
             <ol>
                 <li><strong>Match Schemas → Profile → Blocking Tester → Matching Tester</strong>.</li>
                 <li><strong>Generate Pipeline:</strong> now additionally augmented with documentation
@@ -429,6 +489,608 @@
                     <tr><td>Matcher Type</td>            <td>RB</td><td>RB</td><td>RB</td><td>ML</td><td>RB</td><td>ML</td></tr>
                 </tbody>
             </table>
+        </section>
+
+        <section id="evaluation">
+            <h2>Evaluation</h2>
+            <p>
+                This section compares the generated pipeline snapshots stored in the
+                <code>agents/output/results/AdaptationPipeline_*_pipelines.md</code> reports. For each
+                use case, we compare the observed snapshot accuracy trajectory together with the
+                blocking and matching strategy that the generated notebook actually used.
+            </p>
+
+            <h3 id="use-case-analysis">Use-case Analysis</h3>
+
+            <h4 id="games-analysis">Games</h4>
+            <p>
+                The <em>Games</em> use case is the most forgiving domain for the agent family. The three
+                sources share several strong identity signals such as <code>name</code>,
+                <code>platform</code>, <code>developer</code>, and <code>releaseYear</code>, and the
+                strongest pipelines exploit this structure consistently. The main pattern across the
+                snapshots is that exact-name blocking can occasionally work very well, but the more
+                reliable runs move to semantic blocking and then improve further through either
+                reasoning-guided rule calibration or pair-specific ML matching.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Notebook / Pipeline</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>AdaptationPipeline</code></td>
+                        <td>Rule-based</td>
+                        <td>61.34% → 84.87% → 59.66%</td>
+                        <td>84.87%</td>
+                        <td>
+                            The baseline uses only <code>StandardBlocker</code> on
+                            <code>name_norm</code> and a small hand-written rule set over
+                            <code>name</code>, <code>developer</code>, <code>platform</code>, and
+                            <code>releaseYear</code>. This can produce a very strong single run when
+                            titles align closely, but the final drop shows that the approach is brittle
+                            once exact-name agreement breaks down.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher</code></td>
+                        <td>Rule-based</td>
+                        <td>29.41% → 35.29% → 73.95%</td>
+                        <td>73.95%</td>
+                        <td>
+                            This notebook upgrades all three pairs to
+                            <code>EmbeddingBlocker</code> and uses richer comparator sets, including
+                            <code>criticScore</code> and <code>userScore</code> for the
+                            <code>metacritic-sales</code> pair. It recovers far more true matches than
+                            the naive baseline, but still leaves headroom because the weights and
+                            thresholds are not yet as stable as in the later reasoning runs.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>Rule-based</td>
+                        <td>29.41% → 83.19% → 84.87%</td>
+                        <td>84.87%</td>
+                        <td>
+                            The reasoning-enhanced RB variant keeps the semantic blocking setup but
+                            calibrates the pair-specific weights more effectively, especially on
+                            <code>metacritic-sales</code>, where numeric review signals matter. The
+                            jump between the first and later snapshots suggests that reasoning feedback
+                            is valuable for correcting badly calibrated rule configurations.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>ML</td>
+                        <td>78.99% → 82.35% → 84.87%</td>
+                        <td>84.87%</td>
+                        <td>
+                            The ML version is one of the most consistent Games pipelines. It keeps
+                            semantic blocking for all pairs, extracts features from
+                            <code>name</code>, <code>platform</code>, <code>developer</code>,
+                            <code>releaseYear</code>, <code>criticScore</code>,
+                            <code>userScore</code>, and <code>ESRB</code>, and then searches across
+                            several classifiers. The steady improvement across snapshots indicates that
+                            Games has enough structured signal for supervised matching to converge.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_Reasoning_Helper_ml</code> / <code>AdaptationPipeline_nblazek_setcount_guardline</code></td>
+                        <td>ML</td>
+                        <td>72.50% → 86.25%</td>
+                        <td>86.25%</td>
+                        <td>
+                            This is the strongest Games result. The generated pipeline combines a
+                            hybrid blocking strategy, with <code>StandardBlocker</code> on the easier
+                            <code>dbpedia-sales</code> pair and semantic blocking on the harder pairs,
+                            plus list normalization and per-pair model selection. In this domain that
+                            mix appears to remove unnecessary candidate noise without losing too much
+                            recall.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>Rule-based</td>
+                        <td>72.58% → 78.45% → 78.65%</td>
+                        <td>78.65%</td>
+                        <td>
+                            The cluster-guided RB variant stays with semantic blocking and uses updated
+                            comparator weights. It is clearly better than the early blocker-only RB
+                            run, but it still underperforms the best reasoning variants, which suggests
+                            that the extra cluster feedback is not as helpful here as direct
+                            reasoning-based threshold correction.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>ML</td>
+                        <td>78.99% → 74.79% → 74.79%</td>
+                        <td>78.99%</td>
+                        <td>
+                            The ML cluster variant starts from a strong first snapshot but then moves
+                            backwards. Since it already uses semantic blocking and a broad feature set,
+                            the regression suggests that cluster-derived updates added variance rather
+                            than useful new signal in a domain that was already well structured.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                Overall, Games rewards strong candidate generation and disciplined calibration much more
+                than heavy domain-specific repair. Once the notebooks move beyond exact-name blocking,
+                both matcher modes become competitive, but the best results come from the ML pipelines
+                that combine semantic blocking with per-pair feature extraction and model selection. At
+                the same time, the strong but unstable baseline snapshot shows that this domain can
+                occasionally be solved even with simple rules when the naming conventions happen to line
+                up.
+            </p>
+
+            <h4 id="music-analysis">Music</h4>
+            <p>
+                The <em>Music</em> use case is materially harder. The sources differ not only in naming
+                conventions, but also in how they represent artists, track lists, duration, release
+                dates, and release-country information. As a result, exact blocking on a single field
+                is too brittle, and even the better pipelines need a mix of semantic blocking, release
+                metadata, and list-aware comparison logic to reach acceptable accuracy.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Notebook / Pipeline</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>AdaptationPipeline</code></td>
+                        <td>Rule-based</td>
+                        <td>36.04% → 26.90% → 26.90%</td>
+                        <td>36.04%</td>
+                        <td>
+                            The baseline uses <code>StandardBlocker</code> on
+                            <code>artist_norm</code> together with simple Jaccard-style rules over
+                            normalized artist, title, duration, and track names. That is not robust
+                            enough for artist aliases, collaborations, and differing track-list
+                            structure, so the baseline collapses quickly in this domain.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher</code></td>
+                        <td>Rule-based</td>
+                        <td>50.76% → 34.52% → 51.27%</td>
+                        <td>51.27%</td>
+                        <td>
+                            Moving to mixed blocking already helps a lot: the pipeline uses
+                            <code>EmbeddingBlocker</code> for <code>discogs-lastfm</code> and
+                            <code>musicbrainz-lastfm</code>, plus
+                            <code>SortedNeighbourhoodBlocker</code> for
+                            <code>discogs-musicbrainz</code>. The comparator sets also incorporate
+                            <code>tracks_track_name</code>, <code>duration</code>,
+                            <code>release-date</code>, and <code>release-country</code>, which makes
+                            the pipeline much more domain-aware than the baseline.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>Rule-based</td>
+                        <td>55.84% → 59.39% → 62.94%</td>
+                        <td>62.94%</td>
+                        <td>
+                            This is the best stable Music configuration. It keeps the same mixed
+                            blocking strategy as the blocker/matcher notebook, but the reasoning loop
+                            improves the thresholds and weight balance across title, artist, track-list,
+                            duration, and release metadata. Unlike the baseline, it improves
+                            monotonically across all recorded snapshots.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>ML</td>
+                        <td>65.48% → 33.50% → 36.55%</td>
+                        <td>65.48%</td>
+                        <td>
+                            The first ML reasoning snapshot reaches the best Music peak overall, which
+                            shows the potential of feature-based matching on this domain. However, the
+                            later snapshots regress sharply, so this notebook is much less stable than
+                            the RB reasoning variant. The recorded runs suggest that Music benefits from
+                            richer features, but that feature-based training is sensitive to
+                            configuration drift.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_Reasoning_Helper_ml</code></td>
+                        <td>ML</td>
+                        <td>57.60% → 59.60% → 58.40%</td>
+                        <td>59.60%</td>
+                        <td>
+                            The helper-style ML notebook adds more defensive preprocessing, including
+                            correspondence standardization, list-like column normalization, and a wider
+                            blocking mix of semantic, exact, and token-based strategies. It does not
+                            beat the best reasoning peak, but it is noticeably more controlled than the
+                            unstable reasoning-ML run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>Rule-based</td>
+                        <td>52.28% → 52.28% → 52.28%</td>
+                        <td>52.28%</td>
+                        <td>
+                            The RB cluster variant preserves the same high-level blocker mix as the
+                            reasoning notebook, but the cluster-driven adjustments do not improve the
+                            outcome. The flat trajectory indicates that the later feedback did not
+                            materially change the quality of the generated music matcher.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>ML</td>
+                        <td>44.67% → 48.22% → 50.25%</td>
+                        <td>50.25%</td>
+                        <td>
+                            The ML cluster variant improves gradually, but it still stays below both
+                            reasoning-led alternatives. In practice, the extra cluster feedback seems to
+                            help less than better domain-specific weighting of artist, title, track-list,
+                            duration, and release metadata.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                In contrast to Games, Music does not reward simple exact agreement. The strongest
+                pattern is the move from single-field blocking to mixed blocking plus richer comparison
+                logic. Rule-based reasoning is currently the safest option for this domain because it
+                combines the best stable score with the cleanest upward trajectory, while the ML runs
+                show higher peak potential but also much stronger variance across snapshots.
+            </p>
+
+            <p>
+                At this stage, the evaluation write-up is intentionally limited to <em>Games</em> and
+                <em>Music</em>. The same style of analysis can be extended to the remaining use cases
+                once the report sections for <em>Books</em> and <em>Restaurant</em> are added.
+            </p>
+        </section>
+
+        <section id="token-usage">
+            <h2>Token Usage</h2>
+            <p>
+                The token analysis below is based on the <code>node_activity.json</code> logs for all
+                28 recorded <code>AdaptationPipeline_*</code> runs across the Games, Music, Books, and
+                Restaurant use cases.
+            </p>
+
+            <p>
+                At a family level, token usage grows almost monotonically with additional reflective
+                nodes. The cheapest family is the baseline <code>AdaptationPipeline</code> rule-based
+                notebook at roughly <strong>52.6k</strong> tokens per run on average. Adding blocker and
+                matcher testing raises this to <strong>83.5k</strong>, reasoning pushes the
+                rule-based and ML variants to roughly <strong>132.1k</strong> and
+                <strong>149.7k</strong>, and the cluster-based ML variant reaches
+                <strong>218.2k</strong>. The heaviest notebooks are
+                <code>AdaptationPipeline_Reasoning_Helper_ml</code> at
+                <strong>399.6k</strong> average tokens and
+                <code>AdaptationPipeline_with_new_Cluster</code> rule-based at
+                <strong>763.9k</strong>, driven by repeated reasoning and report-generation loops.
+            </p>
+
+            <p>
+                Looking by use case, Books, Games, and Music are very close in average tracked token
+                usage, all around <strong>273k-275k</strong> per run, while Restaurants is lower at
+                roughly <strong>205.1k</strong>. This means the most important predictor of token usage
+                is not the domain alone, but how many higher-level reasoning, investigation, and
+                summarization nodes a notebook family introduces.
+            </p>
+
+            <div class="table-scroll">
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Notebook Family</th>
+                        <th>Matcher</th>
+                        <th>Average Total Tokens / Run</th>
+                        <th>Main Token Sinks</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>AdaptationPipeline</code></td>
+                        <td>Rule-based</td>
+                        <td>52,626</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code></td>
+                        <td>
+                            The baseline is comparatively cheap because it has no blocker tester,
+                            matching tester, reasoning loop, or cluster-analysis stage. Most token use
+                            is concentrated in writing the pipeline and the evaluation script.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher</code></td>
+                        <td>Rule-based</td>
+                        <td>83,493</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code></td>
+                        <td>
+                            Token usage increases only moderately because the blocker and matcher tester
+                            nodes often reuse state and therefore contribute little or no additional LLM
+                            cost in the saved logs.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>Rule-based</td>
+                        <td>132,146</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code>, <code>evaluation_reasoning</code></td>
+                        <td>
+                            The RB reasoning family pays a clear premium for the extra post-evaluation
+                            analysis loop, but still remains substantially cheaper than the helper and
+                            cluster-heavy families.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>ML</td>
+                        <td>149,664</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code>, <code>evaluation_reasoning</code></td>
+                        <td>
+                            The ML reasoning variant is only slightly more expensive than the RB
+                            version in token terms, because the extra complexity mainly appears in the
+                            generated code and local training workload rather than in much longer prompts.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>ML</td>
+                        <td>218,186</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code>, <code>evaluation_reasoning</code>, <code>save_results</code></td>
+                        <td>
+                            Cluster-aware ML runs add another reporting and refinement layer. Token
+                            usage is driven not only by pipeline rewrites, but also by repeated
+                            evaluation interpretation and result packaging.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_Reasoning_Helper_ml</code></td>
+                        <td>ML</td>
+                        <td>399,648</td>
+                        <td><code>investigator_node</code>, <code>pipeline_adaption</code>, <code>evaluation_node</code></td>
+                        <td>
+                            This family is expensive because it adds several language-heavy
+                            explanation layers on top of the pipeline loop. The
+                            <code>investigator_node</code> alone contributes around 132.7k tokens per
+                            run on average.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>Rule-based</td>
+                        <td>763,939</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_reasoning</code>, <code>cluster_analysis</code>, <code>save_results</code></td>
+                        <td>
+                            This is the strongest token outlier. The family repeatedly re-enters
+                            pipeline rewriting, cluster analysis, reasoning, and final reporting, so the
+                            token budget balloons even though the matcher itself is rule-based.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <h3 id="token-usage-anomalies">Anomalies</h3>
+            <p>
+                Several token patterns stand out and need interpretation rather than a literal reading.
+            </p>
+            <ul>
+                <li>
+                    <strong>Extreme token spike in cluster-based rule runs:</strong>
+                    <code>AdaptationPipeline_with_new_Cluster_rule_based_260318_01_node_activity.json</code>
+                    reaches <strong>1,145,538</strong> total tokens. The log shows five separate
+                    <code>pipeline_adaption</code> passes, two large
+                    <code>evaluation_reasoning</code> passes, three token-heavy
+                    <code>cluster_analysis</code> stages, and a final <code>save_results</code> step of
+                    <strong>131,549</strong> tokens. This is not a single oversized prompt; it is an
+                    accumulated effect from many refinement and reporting loops.
+                </li>
+                <li>
+                    <strong>Zero-token tester nodes are not actually “free”:</strong> many runs record
+                    <code>run_blocking_tester</code>, <code>run_matching_tester</code>,
+                    <code>cluster_analysis</code>, <code>normalization_node</code>, or
+                    <code>save_results</code> with zero prompt/completion tokens. In the logs this
+                    usually corresponds to state reuse, artifact reuse, or purely local processing. The
+                    node still performs work, but not new LLM work.
+                </li>
+                <li>
+                    <strong>The baseline understates total effort if read as “cheap overall”:</strong>
+                    the baseline family is cheap in tracked tokens because it delegates most of the hard
+                    work to the generated pipeline execution itself. Token cost and total system cost are
+                    therefore not interchangeable in this project.
+                </li>
+            </ul>
+        </section>
+
+        <section id="time-complexity">
+            <h2>Time Complexity</h2>
+            <p>
+                The runtime logs show a different story from the token logs. Across all 28 runs, the
+                average duration contribution of <code>execute_pipeline</code> is roughly
+                <strong>1,373.7 seconds</strong> whenever that node appears, which is far above the
+                average durations of <code>pipeline_adaption</code> at <strong>158.8 seconds</strong>,
+                <code>evaluation_reasoning</code> at <strong>76.9 seconds</strong>, or
+                <code>evaluation_adaption</code> at <strong>56.3 seconds</strong>. In practice, the
+                end-to-end time complexity is therefore dominated first by how often the system reruns
+                the generated integration pipeline, and only second by how many reasoning prompts it
+                issues.
+            </p>
+
+            <p>
+                The notebook families share the same basic scaling structure. With three sources, the
+                pipeline must process three pairwise matching tasks, so candidate generation and matching
+                already grow with the number of dataset pairs. Within each pair, semantic blocking,
+                feature extraction, classifier search, clustering, and fusion each add another layer of
+                work. The ML notebooks intensify this by running pair-specific feature extraction and
+                <code>GridSearchCV</code> over multiple classifiers, while the cluster and reasoning
+                variants multiply the cost further through iterative refinement. Empirically, the logs
+                behave like <em>iterations × pairwise execution cost</em> rather than simply
+                <em>prompt size</em>.
+            </p>
+
+            <p>
+                By use case, <strong>Games</strong> is the clear runtime outlier at roughly
+                <strong>3,540.0 seconds</strong> average per run, compared with
+                <strong>1,920.8 seconds</strong> for Books, <strong>1,267.4 seconds</strong> for Music,
+                and <strong>1,159.4 seconds</strong> for Restaurants. This matches the Games logs, where
+                semantic blocking configurations report candidate counts in the
+                <strong>409,504 to 929,573</strong> range, so even strong blocking still leaves large
+                local workloads for matching, clustering, and fusion.
+            </p>
+
+            <div class="table-scroll">
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Notebook Family</th>
+                        <th>Matcher</th>
+                        <th>Average Runtime / Run</th>
+                        <th>Dominant Runtime Sink</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>AdaptationPipeline</code></td>
+                        <td>Rule-based</td>
+                        <td>679.1 s</td>
+                        <td><code>execute_pipeline</code> (522.1 s average)</td>
+                        <td>
+                            The baseline is the fastest family overall. Most of its runtime is simply
+                            the cost of running the generated pipeline once or twice, with relatively
+                            little additional orchestration overhead.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher</code></td>
+                        <td>Rule-based</td>
+                        <td>2,409.2 s</td>
+                        <td><code>execute_pipeline</code> (2,028.1 s average)</td>
+                        <td>
+                            Runtime increases sharply once the pipeline must execute richer blocking and
+                            rule-based matching logic over all source pairs. The extra LLM cost is small
+                            compared with the local candidate-generation and fusion workload.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>Rule-based</td>
+                        <td>1,985.8 s</td>
+                        <td><code>execute_pipeline</code> (1,639.7 s average)</td>
+                        <td>
+                            The RB reasoning family stays expensive mainly because each refinement still
+                            reruns the full pipeline. The reasoning node adds cost, but pipeline
+                            execution remains the main bottleneck.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_blocking_matching_extension_Final_Reasoning</code></td>
+                        <td>ML</td>
+                        <td>2,244.1 s</td>
+                        <td><code>execute_pipeline</code> (1,784.1 s average)</td>
+                        <td>
+                            ML adds runtime through feature extraction, classifier training, and model
+                            search, but the decisive cost is still repeated local execution of the full
+                            generated pipeline.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>ML</td>
+                        <td>1,448.5 s</td>
+                        <td><code>execute_pipeline</code> (1,113.0 s average)</td>
+                        <td>
+                            The ML cluster family is cheaper than the reasoning-helper family because it
+                            adds fewer heavy analysis nodes. Its runtime still scales mostly with the
+                            cost of executing the learned matcher and clustering logic on the candidate
+                            sets.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_Reasoning_Helper_ml</code></td>
+                        <td>ML</td>
+                        <td>2,858.7 s</td>
+                        <td><code>execute_pipeline</code>, <code>normalization_node</code>, <code>investigator_node</code></td>
+                        <td>
+                            This family spreads runtime across more stages than any other ML notebook.
+                            In addition to the normal pipeline loop, it pays a heavy overhead for local
+                            normalization and long investigator passes that inspect and explain failures.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AdaptationPipeline_with_new_Cluster</code></td>
+                        <td>Rule-based</td>
+                        <td>2,178.0 s</td>
+                        <td><code>execute_pipeline</code> (1,762.7 s average)</td>
+                        <td>
+                            Even though the matcher is rule-based, the repeated cluster-analysis and
+                            refinement cycle keeps total runtime high. This family demonstrates that
+                            orchestration loops can dominate runtime even without ML training.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <h3 id="time-complexity-anomalies">Anomalies</h3>
+            <p>
+                The runtime traces contain several non-obvious outliers that are worth interpreting.
+            </p>
+            <ul>
+                <li>
+                    <strong>Very long runtime with relatively low token usage:</strong>
+                    <code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher_rule_based_260315_04_node_activity.json</code>
+                    takes about <strong>5,633.5 seconds</strong> but only records <strong>60,128</strong>
+                    tokens. The reason is that the run executes the generated pipeline four times, with
+                    each <code>execute_pipeline</code> call taking roughly <strong>1,350-1,393
+                    seconds</strong>. This is a local execution bottleneck, not an LLM bottleneck.
+                </li>
+                <li>
+                    <strong>Games is the slowest domain without being the most token-heavy:</strong> the
+                    Games average runtime is far above the other use cases even though Games token usage
+                    is similar to Books and Music. The most plausible explanation, supported directly by
+                    the blocking summaries, is that the candidate sets remain much larger, so execution,
+                    clustering, and fusion dominate the wall clock.
+                </li>
+                <li>
+                    <strong>Reasoning-helper ML pays large fixed overheads outside the core matcher:</strong>
+                    in <code>AdaptationPipeline_Reasoning_Helper_ml_260321_01_node_activity.json</code>,
+                    <code>normalization_node</code> alone consumes about <strong>217.8</strong>,
+                    <strong>184.0</strong>, and <strong>181.0</strong> seconds across its three
+                    appearances, while <code>investigator_node</code> consumes up to
+                    <strong>365.9 seconds</strong>. The family is therefore slow partly because it adds
+                    expensive diagnostic infrastructure around the matching pipeline.
+                </li>
+                <li>
+                    <strong>Zero-duration or near-zero tester nodes should be read carefully:</strong>
+                    some <code>run_blocking_tester</code>, <code>run_matching_tester</code>, and
+                    <code>cluster_analysis</code> entries show almost no time because the run reused
+                    precomputed state or produced a no-op pass. They are not evidence that these stages
+                    are universally constant-time; they are evidence that the specific logged execution
+                    path reused prior artifacts.
+                </li>
+            </ul>
         </section>
 
         <!-- Components Wrapper (Logical grouping, no specific content needed but good for spacing) -->
