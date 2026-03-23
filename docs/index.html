@@ -796,12 +796,28 @@
                         <td>72.50% → 86.25%</td>
                         <td>86.25%</td>
                         <td>
-                            This is the strongest Games result. The generated pipeline combines a
+                            This is one of the strongest Games ML results. The generated pipeline combines a
                             hybrid blocking strategy, with <code>StandardBlocker</code> on the easier
                             <code>dbpedia-sales</code> pair and semantic blocking on the harder pairs,
                             plus list normalization and per-pair model selection. In this domain that
                             mix appears to remove unnecessary candidate noise without losing too much
                             recall.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>Rule-based</td>
+                        <td>56.25% → 88.57%</td>
+                        <td>88.57%</td>
+                        <td>
+                            This is the strongest Games result in the current report. The initial
+                            helper-style RB pipeline already combines semantic blocking, list
+                            normalization, singleton retention, and attribute-specific fusion rules
+                            such as <code>voting</code>, <code>prefer_higher_trust</code>,
+                            <code>median</code>, and <code>most_complete</code>. The key refinement
+                            then adds <code>MaximumBipartiteMatching</code> post-clustering and
+                            rebalances the fusion policy toward cleaner voting and trust-aware
+                            selection, which lifts the run sharply from 56.25% to 88.57%.
                         </td>
                     </tr>
                     <tr>
@@ -836,11 +852,11 @@
             <p>
                 Overall, Games rewards strong candidate generation and disciplined calibration much more
                 than heavy domain-specific repair. Once the notebooks move beyond exact-name blocking,
-                both matcher modes become competitive, but the best results come from the ML pipelines
-                that combine semantic blocking with per-pair feature extraction and model selection. At
-                the same time, the strong but unstable baseline snapshot shows that this domain can
-                occasionally be solved even with simple rules when the naming conventions happen to line
-                up.
+                both matcher modes become competitive. The strongest result now comes from the
+                helper-style rule-based Agent VII run, which pairs semantic candidate generation with
+                targeted post-clustering and fusion-policy correction. At the same time, the strong but
+                unstable baseline snapshot shows that this domain can occasionally be solved even with
+                simple rules when the naming conventions happen to line up.
             </p>
 
             <h3 id="music-analysis">Music</h3>
@@ -912,7 +928,8 @@
                         <td>65.48% → 33.50% → 36.55%</td>
                         <td>65.48%</td>
                         <td>
-                            The first ML reasoning snapshot reaches the best Music peak overall, which
+                            The first ML reasoning snapshot reaches the best Music peak among the
+                            non-helper ML runs, which
                             shows the potential of feature-based matching on this domain. However, the
                             later snapshots regress sharply, so this notebook is much less stable than
                             the RB reasoning variant. The recorded runs suggest that Music benefits from
@@ -931,6 +948,21 @@
                             blocking mix of semantic, exact, and token-based strategies. It does not
                             beat the best reasoning peak, but it is noticeably more controlled than the
                             unstable reasoning-ML run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>Rule-based</td>
+                        <td>58.38% → 78.17% → 78.57%</td>
+                        <td>78.57%</td>
+                        <td>
+                            This is the best Music result in the current report. The helper-style RB
+                            run starts with mixed blocking and a diverse fusion policy using
+                            <code>favour_sources</code>, <code>prefer_higher_trust</code>, and
+                            attribute-specific text and completeness heuristics. The later refinements
+                            add <code>MaximumBipartiteMatching</code> post-clustering and then tune
+                            artist, duration, release-country, and label fusion, producing a stable
+                            climb from 58.38% to 78.57%.
                         </td>
                     </tr>
                     <tr>
@@ -964,9 +996,10 @@
             <p>
                 In contrast to Games, Music does not reward simple exact agreement. The strongest
                 pattern is the move from single-field blocking to mixed blocking plus richer comparison
-                logic. Rule-based reasoning is currently the safest option for this domain because it
-                combines the best stable score with the cleanest upward trajectory, while the ML runs
-                show higher peak potential but also much stronger variance across snapshots.
+                logic. With the Agent VII rule-based run included, the strongest result now comes from
+                the helper-style RB pipeline that combines mixed blocking, post-clustering, and
+                carefully tuned trust-aware fusion. The ML runs still show useful peak potential, but
+                they remain materially more volatile across snapshots than the best RB helper result.
             </p>
 
             <h3 id="books-analysis">Books</h3>
@@ -1244,7 +1277,8 @@
                 matcher testing raises this to <strong>83.5k</strong>, reasoning pushes the
                 rule-based and ML variants to roughly <strong>132.1k</strong> and
                 <strong>149.7k</strong>, and the cluster-based ML variant reaches
-                <strong>218.2k</strong>. The heaviest notebooks are
+                <strong>218.2k</strong>. The helper-style Agent VII rule-based runs sit slightly above
+                that at roughly <strong>230.3k</strong>, while the heaviest notebooks are
                 <code>AdaptationPipeline_Reasoning_Helper_ml</code> at
                 <strong>399.6k</strong> average tokens and
                 <code>AdaptationPipeline_with_new_Cluster</code> rule-based at
@@ -1324,6 +1358,19 @@
                             Cluster-aware ML runs add another reporting and refinement layer. Token
                             usage is driven not only by pipeline rewrites, but also by repeated
                             evaluation interpretation and result packaging.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>Rule-based</td>
+                        <td>230,291</td>
+                        <td><code>evaluation_node</code>, <code>pipeline_adaption</code>, <code>sealed_final_test_evaluation</code>, <code>normalization_node</code></td>
+                        <td>
+                            The helper-style RB runs are noticeably heavier than Agent VI because they
+                            add normalization, investigator-guided repair, and sealed final-test
+                            evaluation on top of the normal pipeline loop. Their token cost is still
+                            well below the ML helper variant because the matching logic stays
+                            rule-based.
                         </td>
                     </tr>
                     <tr>
@@ -1487,6 +1534,19 @@
                             adds fewer heavy analysis nodes. Its runtime still scales mostly with the
                             cost of executing the learned matcher and clustering logic on the candidate
                             sets.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>Rule-based</td>
+                        <td>752.5 s</td>
+                        <td><code>execute_pipeline</code> (374.6 s average)</td>
+                        <td>
+                            The helper-style RB family is relatively efficient in wall-clock terms. It
+                            adds normalization, investigator-guided iteration, human-review export, and
+                            sealed final-test evaluation, but still stays close to the baseline because
+                            the matching logic remains rule-based and the pipeline executions are much
+                            shorter than in the heavier reasoning and cluster families.
                         </td>
                     </tr>
                     <tr>
