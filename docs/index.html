@@ -969,17 +969,256 @@
                 show higher peak potential but also much stronger variance across snapshots.
             </p>
 
+            <h3 id="books-analysis">Books</h3>
             <p>
-                At this stage, the evaluation write-up is intentionally limited to <em>Games</em> and
-                <em>Music</em>. The same style of analysis can be extended to the remaining use cases
-                once the report sections for <em>Books</em> and <em>Restaurant</em> are added.
+                The Books use case is difficult because the three sources
+                (<code>amazon_small</code>, <code>goodreads_small</code>, <code>metabooks_small</code>)
+                disagree on core identity fields in different ways. Author strings may include source-specific
+                suffixes, publishers appear under variant names, genres are often list-like text with inconsistent
+                formatting, and numeric fields such as <code>publish_year</code> and <code>page_count</code> can
+                conflict across sources. Because of that, strong performance usually needs semantic blocking, careful
+                text/number normalization, list-aware comparison for <code>genres</code>, and reliable
+                provenance-based ID mapping in evaluation.
             </p>
 
-            <h3 id="books-analysis">Books</h3>
-            <p><em>Documentation coming soon.</em></p>
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Adaptation Pipeline Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>59.29% → 53.57% → 53.57%</td>
+                        <td>59.29%</td>
+                        <td>
+                            This baseline declines from 59.29 to 53.57 and then stays there. The first major revision tightens thresholds (0.75 to 0.82), changes weights, and expands fusion from 4 core fields to 7 fields with custom <code>choose_*</code> functions. The next revision tightens thresholds again (to 0.86), switches blocker style, and changes <code>genres</code> fusion from simple union to a custom selector. These are meaningful edits, but they are broad and stacked.<br><br>The evaluation half also keeps evolving (more explicit eval-id mapping and typed evaluators), but those refinements do not recover the drop. In practice, this run mostly keeps retuning existing behavior without finding a stable correction path, so it ends as a net regression.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Final Blocker Matcher Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>69.29% → 66.43% → 60.00%</td>
+                        <td>69.29%</td>
+                        <td>
+                            This architecture starts higher than the baseline (69.29) but declines to 60.00. Blocking and matching settings are stable, and the main pipeline differences are small (most visibly, <code>language</code> fusion changes to voting and then back). That means the architecture does not make a strong targeted fusion correction while quality is falling.<br><br>The evaluation half becomes more detailed in the middle iteration (for example optional numeric/text field coverage), then simplifies again later. Since the score still drops each round, those evaluation improvements were not enough to offset weak fusion-side decisions. This architecture shows useful infrastructure, but not stable end-to-end learning in this run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Final Reasoning Machine Learning</td>
+                        <td>ML</td>
+                        <td>57.14% → 56.43% → 65.00%</td>
+                        <td>65.00%</td>
+                        <td>
+                            This architecture shows delayed but strong improvement: 57.14 to 56.43 to 65.00. The first step introduces structural changes (<code>include_singletons=True</code> and custom <code>fuse_*</code> functions), which causes a small short-term dip. The final step keeps the same high-level fusion structure but refines implementation behavior, and the score rises sharply.<br><br>The evaluation half also improves in a compatible way by strengthening eval-id alignment and broadening gold-prefix handling. Here, both halves of the generated pipeline move in the same direction, and the final jump indicates a real gain rather than a scoring artifact.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Final Reasoning Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>62.14% → 65.71% → 59.29%</td>
+                        <td>65.71%</td>
+                        <td>
+                            This run improves once and then drops: 62.14 to 65.71 to 59.29. The middle snapshot enables singletons and moves many fields to voting-style fusion, which helps initially. The final snapshot then flips many policies again (for example back to <code>longest_string</code> on major text fields, plus new numeric/list-specific selectors), creating another large behavior shift.<br><br>Evaluation mapping and comparators are also revised across iterations, including a change and reversal for <code>publish_year</code> comparison style. The pattern is clear: when updates are focused, score can rise; when many high-impact rules are rewritten together, stability drops and gains are lost.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>With New Cluster Machine Learning</td>
+                        <td>ML</td>
+                        <td>59.29% → 55.71% → 53.57%</td>
+                        <td>59.29%</td>
+                        <td>
+                            This architecture declines steadily (59.29 to 55.71 to 53.57). The fusion side stays largely the same at feature level (same blocker family, matcher family, singleton setting, and fuser count), so there is no strong new fusion mechanism introduced to reverse the trend.<br><br>The evaluation half continues to adapt (alignment, reporting, and field grouping are refined), and later summaries explicitly point to fusion-stage weaknesses such as missing fused values and weak attribute selection. So this run still reflects full-pipeline iteration, but mostly on evaluation clarity, not on a stronger fusion policy that could recover accuracy.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>With New Cluster Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>55.00% → 55.00% → 55.00% → 55.00% → 55.00%</td>
+                        <td>55.00%</td>
+                        <td>
+                            This architecture is flat at 55.00 across five snapshots. Fusion behavior is effectively fixed, while the main pipeline edits are weight retunes in matching. That means the architecture keeps adjusting pair scoring without changing the downstream fusion logic in a meaningful way.<br><br>The evaluation half is refined across nodes (alignment and comparator registration become cleaner), but no measurable accuracy movement appears. This run shows stability in one sense (no further collapse), but it also shows limited corrective power: iterations do not convert into improvement.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Reasoning Helper Machine Learning</td>
+                        <td>ML</td>
+                        <td>67.86% → 67.86% → 72.14%</td>
+                        <td>72.14%</td>
+                        <td>
+                            This helper-based architecture improves from 67.86 to 72.14. Its key strength is workflow control: normalization, blocking/matching tests, pipeline adaptation, evaluation, and investigator routing are explicit and connected. The middle phase introduces safer custom fusion wrappers and trust-aware field handling, then a later revision refines <code>genres</code> handling and thresholds.<br><br>The evaluation and investigator stages provide concrete weak-field diagnostics and coverage signals between iterations, so updates are guided rather than random. Even with one execution failure during the run, repair succeeds and the final score increases, which indicates robust iterative correction.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Reasoning Helper Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>76.25% → 91.25%</td>
+                        <td>91.25%</td>
+                        <td>
+                            This architecture delivers the best Books result: 76.25 to 91.25. The second snapshot adds post-clustering (<code>MaximumBipartiteMatching</code>), updates source trust priority, and changes <code>publisher</code> fusion to trust-aware selection. These changes are targeted and structurally meaningful.<br><br>The evaluation/investigator side then confirms a large jump and keeps that value through human-review and final-test stages. In this case, both fusion-side and evaluation-side updates align, and the gain is large and sustained.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                Across Books, the difference is not just whether an architecture has advanced components, but whether
+                it changes them in a controlled way across both halves of the generated pipeline. Runs that repeatedly
+                rewrite many fusion rules tend to lose stability, even when they include reasoning nodes. Runs that use
+                guided diagnostics and targeted updates are more likely to improve.
+            </p>
+            <p>
+                A strong start is not a reliable signal by itself. A better signal is whether the architecture can keep
+                or improve accuracy across iterations without large reversals. In this Books set, the strongest
+                evidence of robust iteration appears in the helper architectures, especially the rule-based helper run.
+            </p>
 
             <h3 id="restaurants-analysis">Restaurants</h3>
-            <p><em>Documentation coming soon.</em></p>
+            <p>
+                The Restaurants use case is materially hard. The three sources
+                (<code>kaggle_small</code>, <code>uber_eats_small</code>, <code>yelp_small</code>) differ not only in
+                naming style, but also in how they represent phone numbers, postal codes, address structure, map URLs,
+                source IDs, and category lists. Because of that, exact blocking on one field is often brittle, and
+                strong performance usually needs a combination of semantic blocking, targeted exact constraints (for
+                example phone/postal where reliable), and list-aware comparison and fusion logic for fields like
+                <code>categories</code>.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Adaptation Pipeline Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>69.46% → 56.45% → 54.69%</td>
+                        <td>69.46%</td>
+                        <td>
+                            This baseline starts with a strong score (69.46), but it drops in the next two snapshots (69.46 -> 56.45 -> 54.69). The first update changed many things at once: blocker type (TokenBlocker to StandardBlocker), stricter thresholds (0.70 to 0.75), and many fusion-rule changes (for example voting or shortest-string choices for <code>source</code>, <code>city</code>, <code>state</code>, phone, and postal fields). Because too many core parts changed together, the model lost earlier gains.<br><br>In the next step, thresholds were relaxed back to 0.70, but fusion rules were changed again. At the same time, evaluation logic also changed (ID mapping fallbacks were added and then removed across refinements). So the system kept editing itself without a stable correction plan. It reacted, but not in a controlled way. In practice this run mostly retuned existing components rather than adding one stable improvement mechanism, and it ended as a net regression.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Final Blocker Matcher Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>45.89% → 40.52% → 42.55%</td>
+                        <td>45.89%</td>
+                        <td>
+                            This architecture adds dedicated blocking and matching stages, which should help candidate quality. But in this run the score still went down overall (45.89 -> 40.52 -> 42.55). In snapshot 2, fusion became more complex (fuser count 18 -> 23), including more ID/provenance fields and numeric aggregation. That expansion increased risk without enough safeguards, so performance dropped.<br><br>Snapshot 3 is better targeted: it adds practical, field-specific fusers like <code>fuse_phone</code>, <code>fuse_postal_code</code>, <code>fuse_house_number</code>, and <code>fuse_categories</code>. That gives a small recovery (40.52 -> 42.55), showing these targeted fusers are useful. Still, recovery is partial and does not beat the first snapshot, so the net ablation effect remains negative in this run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Final Reasoning Machine Learning</td>
+                        <td>ML</td>
+                        <td>50.19% → 77.60% → 45.18%</td>
+                        <td>77.60%</td>
+                        <td>
+                            This architecture shows the clearest rise-then-fall pattern: 50.19 -> 77.60 -> 45.18. The jump at snapshot 2 makes sense technically: it enables singleton retention and moves from generic longest-string fusion to consensus-style fusion (<code>most_frequent_non_null</code>, <code>shortest_non_null_string</code>, <code>median_numeric</code>, <code>union_resolver</code>). Evaluation also starts cleaning phone and scalar formats more carefully. Those combined changes improve both coverage and value selection.<br><br>Then snapshot 3 becomes too aggressive. Many fields switch to source-priority logic (<code>source_priority_text</code>, yelp-first rating selection, source-biased URL/category behavior). That overweights source preference and underweights cross-source agreement. Evaluation summaries then report severe failures in categories, provenance-linked fields, and value selection, and the score collapses. So reasoning helped when it was calibrated (snapshot 2), but hurt when it kept forcing broad rewrites after a major gain.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Final Reasoning Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>66.15% → 51.61% → 46.36%</td>
+                        <td>66.15%</td>
+                        <td>
+                            This version starts high but declines every round (66.15 -> 51.61 -> 46.36). Snapshot 2 introduces many advanced standardization and trust-voting helpers, plus deterministic cluster-ID logic, and enables singletons. These are meaningful techniques, but they are deployed across many columns at once, so interactions become hard to control.<br><br>Snapshot 3 rewrites many of those decisions again (<code>choose_first_non_null</code>, <code>choose_longest_non_null</code>, <code>trusted_text</code>, separate phone standardization functions). Evaluation keeps adapting ID mapping and diagnostics, but the architecture still does wide policy flips instead of focused fixes. It keeps changing, but not learning in a stable way, and the net result is strongly negative.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>With New Cluster Machine Learning</td>
+                        <td>ML</td>
+                        <td>74.72% → 72.59% → 57.07%</td>
+                        <td>74.72%</td>
+                        <td>
+                            <code>with_new_Cluster_Machine_Learning_260317_02</code> keeps the fusion-generation half almost fixed across snapshots (same code hash, same blockers, same matcher, same fusers), but it actively changes the evaluation-generation half. In later evaluation versions, fused rows are linked to gold rows more carefully by rebuilding <code>eval_id</code> from <code>_fusion_sources</code> with stricter prefix rules, phone fields are compared with a phone-specific matcher that removes punctuation and <code>.0</code> artifacts, and <code>categories</code> is compared as an unordered normalized set (so <code>["pizza","italian"]</code> and <code>["italian","pizza"]</code> are treated as equal).<br><br>So this run is still iterative pipeline work, but mostly on the evaluation half rather than the fusion half. The main gain is better error visibility and cleaner scoring logic; it does not show strong evidence that fused-data quality itself improved in the same way.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>With New Cluster Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>75.47% → 51.69% → 51.69%</td>
+                        <td>75.47%</td>
+                        <td>
+                            This architecture starts strong, then drops and stays flat (75.47 -> 51.69 -> 51.69). Fusion policy mostly stays the same across snapshots. The main pipeline edits are matcher-weight retunes for the <code>uber_eats_small <-> yelp_small</code> pair. So the system tries to improve pair scoring, but does not significantly improve downstream fusion behavior.<br><br>Evaluation logic continues to evolve (ID alignment refinements, prefix handling, explicit categories set comparison), but those evaluation-side improvements cannot recover the large early drop caused by weak fusion behavior. This is a good example of why a strong first score is not enough: robustness means both halves of the generated pipeline must improve together.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Reasoning Helper Machine Learning</td>
+                        <td>ML</td>
+                        <td>78.22% → 85.11%</td>
+                        <td>85.11%</td>
+                        <td>
+                            This helper-based Machine_Learning architecture improves steadily (78.22 -> 85.11) without late collapse. Its main strength is workflow control: normalization, blocking/matching tests, pipeline adaptation, evaluation, and investigator routing are explicit and connected. The first investigator step identifies concrete weak points (<code>_id</code>, <code>source</code>, <code>map_url</code>, <code>postal_code</code>) and reports over-large fused output, which signals under-merging and false-positive links.<br><br>The next pipeline revision is focused, not broad: it moves many identity/location fields to trust-aware fusion and adds targeted normalization for postal code, phone, name/category text, and correspondence columns. This is a diagnosis-to-fix pattern with clear scope, and the score rises accordingly, making this a clear positive ablation result.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Reasoning Helper Rule Based</td>
+                        <td>Rule-based</td>
+                        <td>25.75% → 86.00%</td>
+                        <td>86.00%</td>
+                        <td>
+                            This architecture has the biggest improvement in the set (25.75 -> 86.00). The first critical step is failure recovery: the run hits empty correspondences for <code>kaggle_small_yelp_small</code>, then repairs this with fail-soft blocking fallback and scalar normalization (<code>stringify_scalar</code>, safe null handling, list flattening for blocking text). That prevents a blocking failure from poisoning the whole pipeline.<br><br>After recovery, snapshot 2 adds post-clustering (<code>MaximumBipartiteMatching</code>) and changes several fields to voting (<code>source</code>, <code>map_url</code>, <code>street</code>, <code>address_line1</code>, <code>rating</code>) while keeping trust-aware logic where useful. This combination improves both cluster structure and field-level value choice. The jump to 86.00 is consistent with those targeted structural fixes, and it is the strongest positive ablation result in the Restaurants set.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                Across Restaurants, the difference is not just adding more advanced nodes, but whether updates stay
+                controlled across both pipeline generation and evaluation generation. Runs that repeatedly rewrite many
+                fusion decisions usually lose stability even when they add more reasoning or diagnostics.
+            </p>
+            <p>
+                A strong first score is not enough by itself. The stronger signal is whether the architecture can keep
+                improving, or at least avoid large reversals, across later iterations.
+            </p>
+            <p>
+                In Restaurants, the core problem is not just matching records in general; it is handling messy business
+                identity fields across <code>kaggle_small</code>, <code>uber_eats_small</code>, and
+                <code>yelp_small</code>. The hardest fields are phone, postal code, split address parts,
+                <code>map_url</code>, <code>source</code>, and list-like <code>categories</code>. This is why strict
+                blocking can break (as seen in the empty <code>kaggle_small_yelp_small</code> correspondences case),
+                and why pipelines that look good on one iteration can collapse when those fields are handled with
+                brittle rules.
+            </p>
+            <p>
+                The weaker runs show a clear pattern: they either changed too many fusion rules at once, or mostly
+                tuned matcher weights without fixing downstream value selection. That gave unstable behavior: strong
+                starts followed by drops (<code>75.47% → 51.69%</code> in cluster rule-based,
+                <code>50.19% → 77.60% → 45.18%</code> in reasoning Machine Learning). In other words, better candidate
+                scoring alone was not enough if phone/postal/address/category reconciliation stayed weak or became
+                over-biased.
+            </p>
+            <p>
+                The stronger runs succeeded because they solved the specific failure points of this dataset.
+                <em>Reasoning Helper Machine Learning</em> improved by using investigator feedback on weak fields
+                (<code>_id</code>, <code>source</code>, <code>map_url</code>, <code>postal_code</code>) and then
+                applying targeted standardization plus trust-aware fusion (<code>78.22% → 85.11%</code>).
+                <em>Reasoning Helper Rule Based</em> went further by first repairing blocking failure (fail-soft
+                fallback plus scalar cleanup), then improving cluster structure
+                (<code>MaximumBipartiteMatching</code>) and fusion
+                (<code>source</code>, <code>map_url</code>, <code>street</code>, <code>address_line1</code>,
+                <code>rating</code>), reaching <code>86.00%</code>. In this use case, the architectures that mattered
+                most were the ones that combined robust blocking recovery, field standardization, cluster cleanup, and
+                controlled iterative edits from investigator-guided diagnostics.
+            </p>
 
         </section>
         
