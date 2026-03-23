@@ -927,7 +927,7 @@
             <ul>
                 <li>
                     <strong>Extreme token spike in cluster-based rule runs:</strong>
-                    <code>AdaptationPipeline_with_new_Cluster_rule_based_260318_01_node_activity.json</code>
+                    <code>AdaptationPipeline_with_new_Cluster_rule_based</code>
                     reaches <strong>1,145,538</strong> total tokens. The log shows five separate
                     <code>pipeline_adaption</code> passes, two large
                     <code>evaluation_reasoning</code> passes, three token-heavy
@@ -1089,7 +1089,7 @@
             <ul>
                 <li>
                     <strong>Very long runtime with relatively low token usage:</strong>
-                    <code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher_rule_based_260315_04_node_activity.json</code>
+                    <code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher_rule_based</code>
                     takes about <strong>5,633.5 seconds</strong> but only records <strong>60,128</strong>
                     tokens. The reason is that the run executes the generated pipeline four times, with
                     each <code>execute_pipeline</code> call taking roughly <strong>1,350-1,393
@@ -1104,7 +1104,7 @@
                 </li>
                 <li>
                     <strong>Reasoning-helper ML pays large fixed overheads outside the core matcher:</strong>
-                    in <code>AdaptationPipeline_Reasoning_Helper_ml_260321_01_node_activity.json</code>,
+                    in <code>AdaptationPipeline_Reasoning_Helper_ml</code>,
                     <code>normalization_node</code> alone consumes about <strong>217.8</strong>,
                     <strong>184.0</strong>, and <strong>181.0</strong> seconds across its three
                     appearances, while <code>investigator_node</code> consumes up to
