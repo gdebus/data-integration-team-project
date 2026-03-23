@@ -1,0 +1,31 @@
+{
+  "execution_result": "success",
+  "metrics_source": "stdout",
+  "metrics": {
+    "overall_accuracy": 0.7625,
+    "macro_accuracy": 0.7625000000000001,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 80,
+    "total_correct": 61,
+    "genres_accuracy": 0.1,
+    "genres_count": 10,
+    "publisher_accuracy": 0.6,
+    "publisher_count": 10,
+    "title_accuracy": 0.8,
+    "title_count": 10,
+    "author_accuracy": 0.9,
+    "author_count": 10,
+    "language_accuracy": 1.0,
+    "language_count": 10,
+    "publish_year_accuracy": 1.0,
+    "publish_year_count": 10,
+    "isbn_clean_accuracy": 1.0,
+    "isbn_clean_count": 10,
+    "page_count_accuracy": 0.7,
+    "page_count_count": 10
+  },
+  "stdout": "[EVAL_FUNCTIONS] author:tokenized_match(threshold=0.85) | genres:set_equality_match | isbn_clean:exact_match | language:tokenized_match(threshold=0.8) | page_count:numeric_tolerance_match(tolerance=0.0) | publish_year:numeric_tolerance_match(tolerance=0.0) | publisher:tokenized_match(threshold=0.8) | title:tokenized_match(threshold=0.85)\n{\n  \"evaluation_stage\": \"validation\",\n  \"fusion_path\": \"output/runs/20260323_035936_books/data_fusion/fusion_data.csv\",\n  \"evaluation_set_path\": \"input/datasets/books/testsets/validation_set.csv\",\n  \"fused_rows\": 24655,\n  \"gold_rows\": 10,\n  \"shared_evaluated_columns\": [\n    \"author\",\n    \"genres\",\n    \"isbn_clean\",\n    \"language\",\n    \"page_count\",\n    \"publish_year\",\n    \"publisher\",\n    \"title\"\n  ],\n  \"list_like_columns\": [\n    \"genres\"\n  ],\n  \"nested_columns_dropped\": [],\n  \"evaluation_functions\": {\n    \"author\": \"tokenized_match(threshold=0.85)\",\n    \"genres\": \"set_equality_match\",\n    \"isbn_clean\": \"exact_match\",\n    \"language\": \"tokenized_match(threshold=0.8)\",\n    \"page_count\": \"numeric_tolerance_match(tolerance=0.0)\",\n    \"publish_year\": \"numeric_tolerance_match(tolerance=0.0)\",\n    \"publisher\": \"tokenized_match(threshold=0.8)\",\n    \"title\": \"tokenized_match(threshold=0.85)\"\n  },\n  \"metrics\": {\n    \"overall_accuracy\": 0.7625,\n    \"macro_accuracy\": 0.7625000000000001,\n    \"num_evaluated_records\": 10,\n    \"num_evaluated_attributes\": 8,\n    \"total_evaluations\": 80,\n    \"total_correct\": 61,\n    \"genres_accuracy\": 0.1,\n    \"genres_count\": 10,\n    \"publisher_accuracy\": 0.6,\n    \"publisher_count\": 10,\n    \"title_accuracy\": 0.8,\n    \"title_count\": 10,\n    \"author_accuracy\": 0.9,\n    \"author_count\": 10,\n    \"language_accuracy\": 1.0,\n    \"language_count\": 10,\n    \"publish_year_accuracy\": 1.0,\n    \"publish_year_count\": 10,\n    \"isbn_clean_accuracy\": 1.0,\n    \"isbn_clean_count\": 10,\n    \"page_count_accuracy\": 0.7,\n    \"page_count_count\": 10\n  }\n}\n",
+  "stderr": "",
+  "captured_at": "2026-03-23T03:02:38.644558Z"
+}

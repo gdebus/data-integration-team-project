@@ -1,0 +1,73 @@
+{
+  "specs": {
+    "amazon_small": {
+      "title": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "author": {
+        "strip_whitespace": true,
+        "case": "title",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "goodreads_small": {
+      "title": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "title": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "genres": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "publisher": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [],
+  "reasoning": "Target style preserves title/author/publisher capitalization in normal title case, keeps language and genres as plain comma-separated strings, and uses integer values for publish_year and page_count. Identifier columns like id and isbn_clean are excluded. Amazon author values visibly mismatch due to all-caps initials (e.g. A.S. BYATT), so author is title-cased there; other text columns mainly need safe whitespace cleanup."
+}

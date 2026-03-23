@@ -1,0 +1,7 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+amazon_small,id,metabooks_small,id,0.95,llm_based_matching
+amazon_small,title,metabooks_small,title,0.95,llm_based_matching
+amazon_small,author,metabooks_small,author,0.95,llm_based_matching
+amazon_small,publish_year,metabooks_small,publish_year,0.95,llm_based_matching
+amazon_small,publisher,metabooks_small,publisher,0.95,llm_based_matching
+amazon_small,isbn_clean,metabooks_small,isbn_clean,0.95,llm_based_matching

@@ -836,21 +836,31 @@ def _safe_scalar_isna(x):
             # Serialize prefixes for the injected code
             prefixes_repr = repr(sorted(_all_val_prefixes)) if _all_val_prefixes else repr([val_prefix])
             eval_id_block = (
-                f'\n{indent}# --- Eval ID: extract source ID matching validation prefix(es) for reliable evaluation ---\n'
+                f'\n{indent}# --- Eval ID: extract ALL source IDs matching validation prefix(es) ---\n'
+                f'{indent}# When a fused cluster contains multiple records from the same source\n'
+                f'{indent}# (e.g. multiple metacritic_ IDs), we explode the row so each source\n'
+                f'{indent}# ID gets its own copy. This ensures evaluation can find any gold ID.\n'
                 f'{indent}import ast as _ast\n'
                 f'{indent}_EVAL_PREFIXES = {prefixes_repr}\n'
-                f'{indent}def _extract_eval_id(row):\n'
-                f'{indent}    try:\n'
-                f'{indent}        sources = _ast.literal_eval(str(row.get("_fusion_sources", "[]")))\n'
-                f'{indent}        if isinstance(sources, (list, tuple)):\n'
-                f'{indent}            for sid in sources:\n'
-                f'{indent}                s = str(sid)\n'
-                f'{indent}                if any(s.startswith(p) for p in _EVAL_PREFIXES):\n'
-                f'{indent}                    return s\n'
-                f'{indent}    except Exception:\n'
-                f'{indent}        pass\n'
-                f'{indent}    return str(row.get("_id", row.get("id", "")))\n'
-                f'{indent}{var_name}["eval_id"] = {var_name}.apply(_extract_eval_id, axis=1)\n'
+                f'{indent}def _explode_eval_ids(df):\n'
+                f'{indent}    rows = []\n'
+                f'{indent}    for _, row in df.iterrows():\n'
+                f'{indent}        try:\n'
+                f'{indent}            sources = _ast.literal_eval(str(row.get("_fusion_sources", "[]")))\n'
+                f'{indent}        except Exception:\n'
+                f'{indent}            sources = []\n'
+                f'{indent}        matched = [str(s) for s in sources if any(str(s).startswith(p) for p in _EVAL_PREFIXES)] if isinstance(sources, (list, tuple)) else []\n'
+                f'{indent}        if matched:\n'
+                f'{indent}            for eid in matched:\n'
+                f'{indent}                r = row.copy()\n'
+                f'{indent}                r["eval_id"] = eid\n'
+                f'{indent}                rows.append(r)\n'
+                f'{indent}        else:\n'
+                f'{indent}            r = row.copy()\n'
+                f'{indent}            r["eval_id"] = str(row.get("_id", row.get("id", "")))\n'
+                f'{indent}            rows.append(r)\n'
+                f'{indent}    return df.__class__(rows)\n'
+                f'{indent}{var_name} = _explode_eval_ids({var_name})\n'
             )
             updated_code = (
                 updated_code[:to_csv_match.start()]
@@ -1074,7 +1084,7 @@ def _strip_unevaluable_subcols(fused_df, gold_df):
 # [GUARDRAIL] Coerce numeric-like columns to consistent types
 def _coerce_numeric_cols(*dfs):
     """Cast numeric-like columns to Int64 in all DataFrames to prevent float vs int mismatches."""
-    _NUMERIC_HINTS = {"year", "count", "score", "rating", "page", "sales", "price",
+    _NUMERIC_HINTS = {"count", "score", "rating", "page", "sales", "price",
                       "rank", "assets", "profits", "revenue", "duration", "founded"}
     for df in dfs:
         for col in df.columns:

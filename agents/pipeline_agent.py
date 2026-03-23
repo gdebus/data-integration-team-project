@@ -505,6 +505,15 @@ class SimpleModelAgent:
         # Redirect all output paths to this run's directory
         configure_run_output(run_dir)
 
+        # Update workflow logger output dir so node_activity.json and
+        # pipelines.md are written into the run-scoped directory.
+        if hasattr(self, "workflow_logger") and self.workflow_logger is not None:
+            wl = self.workflow_logger
+            if hasattr(wl, "relocate_output"):
+                wl.relocate_output(run_dir)
+            else:
+                wl.output_dir = run_dir
+
         self.run_output_root = run_dir
 
         # Create standard subdirectories
@@ -569,7 +578,11 @@ class SimpleModelAgent:
     # -- Token tracking (delegates to helpers.token_tracking.TokenTracker) ------
 
     def _invoke_model_with_usage(self, model, message, tag):
-        return self._token_tracker.invoke_model_with_usage(model, message, tag, base_model=self.base_model)
+        result = self._token_tracker.invoke_model_with_usage(model, message, tag, base_model=self.base_model)
+        # Sync cost to agent.token_usage so required_logging can read it
+        if hasattr(self, "token_usage") and isinstance(self.token_usage, dict):
+            self.token_usage.update(self._token_tracker.usage)
+        return result
 
     def _invoke_with_usage(self, message, tag):
         return self._invoke_model_with_usage(self.model, message, tag)

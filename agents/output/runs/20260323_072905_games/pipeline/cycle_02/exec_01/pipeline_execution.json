@@ -1,0 +1,6 @@
+{
+  "execution_result": "success",
+  "stdout": "Performing Blocking\nMatching Entities\nApplying Post-Clustering\nFusing Data\n",
+  "stderr": "2026-03-23 07:38:19.006 Python[51671:102857146] Error creating directory \n Das Volume ‚ÄûMacintosh HD‚Äú ist voll. Die Datei ‚Äûmpsgraph-51671-2026-03-23_07_38_18-2601428284‚Äú kann nicht gesichert werden, da das Volume ‚ÄûMacintosh HD‚Äú voll ist.\n2026-03-23 07:38:19.032 Python[51671:102857146] Error creating directory \n Das Volume ‚ÄûMacintosh HD‚Äú ist voll. Die Datei ‚Äûmpsgraph-51671-2026-03-23_07_38_19-895174034‚Äú kann nicht gesichert werden, da das Volume ‚ÄûMacintosh HD‚Äú voll ist.\n2026-03-23 07:38:19.056 Python[51671:102857146] Error creating directory \n Das Volume ‚ÄûMacintosh HD‚Äú ist voll. Die Datei ‚Äûmpsgraph-51671-2026-03-23_07_38_19-1299519836‚Äú kann nicht gesichert werden, da das Volume ‚ÄûMacintosh HD‚Äú voll ist.\n2026-03-23 07:38:19.130 Python[51671:102857146] Error creating directory \n Das Volume ‚ÄûMacintosh HD‚Äú ist voll. Die Datei ‚Äûmpsgraph-51671-2026-03-23_07_38_19-4280809096‚Äú kann nicht gesichert werden, da das Volume ‚ÄûMacintosh HD‚Äú voll ist.\n",
+  "captured_at": "2026-03-23T06:43:35.997819Z"
+}

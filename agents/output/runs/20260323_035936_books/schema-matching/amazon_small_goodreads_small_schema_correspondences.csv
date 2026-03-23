@@ -1,0 +1,7 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+amazon_small,id,goodreads_small,id,0.95,llm_based_matching
+amazon_small,title,goodreads_small,title,0.95,llm_based_matching
+amazon_small,author,goodreads_small,author,0.95,llm_based_matching
+amazon_small,publish_year,goodreads_small,publish_year,0.95,llm_based_matching
+amazon_small,publisher,goodreads_small,publisher,0.95,llm_based_matching
+amazon_small,isbn_clean,goodreads_small,isbn_clean,0.95,llm_based_matching

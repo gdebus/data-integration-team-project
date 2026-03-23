@@ -1,0 +1,25 @@
+# Human Review Summary
+
+- Created at: 2026-03-23T03:20:40.796510+00:00
+- Summary: Human-review outputs created for fused entities, source lineage, and fusion-vs-testset diffs.
+
+## Counts
+- fused_rows: 29741
+- review_rows: 29741
+- lineage_rows: 30000
+- diff_rows: 55
+- source_datasets: 3
+- review_attributes: 23
+- testset_rows: 40
+
+## Files
+- fused_review_table: output/runs/20260323_041229_restaurant/human_review/fused_review_table.csv
+- source_lineage_long: output/runs/20260323_041229_restaurant/human_review/source_lineage_long.csv
+- fusion_vs_testset_diff: output/runs/20260323_041229_restaurant/human_review/fusion_vs_testset_diff.csv
+- human_review_summary_json: output/runs/20260323_041229_restaurant/human_review/human_review_summary.json
+- human_review_summary_md: output/runs/20260323_041229_restaurant/human_review/human_review_summary.md
+- fused_csv_input: output/runs/20260323_041229_restaurant/data_fusion/fusion_data.csv
+- fusion_testset_input: input/datasets/restaurant/testsets/Restaurant_Fusion_Test_Set.csv
+
+## Warnings
+- None

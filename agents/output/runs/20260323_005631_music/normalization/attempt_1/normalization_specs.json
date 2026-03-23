@@ -1,0 +1,75 @@
+{
+  "specs": {
+    "discogs": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "release-country": {
+        "strip_whitespace": true,
+        "country_format": "name",
+        "on_failure": "keep"
+      },
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "lastfm": {
+      "duration": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "musicbrainz": {
+      "release-date": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%dT%H:%M:%S.%f",
+        "on_failure": "keep"
+      },
+      "tracks_track_name": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_duration": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "tracks_track_position": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [
+    "tracks_track_name",
+    "tracks_track_duration",
+    "tracks_track_position"
+  ],
+  "reasoning": "Target style uses full country names, datetime strings formatted like 2003-01-01T00:00:00.000, and duration stored as strings. Discogs has UK abbreviations and date-only/year dates, so normalize country and dates there. MusicBrainz dates are date-only, so convert to target datetime format. Track columns in all sources often contain serialized Python-style lists while target uses actual list values, so mark them as list columns. IDs are preserved and no case transforms are applied because target casing is mixed/preserved."
+}

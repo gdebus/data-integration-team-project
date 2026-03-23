@@ -1,0 +1,1444 @@
+{
+  "timestamp": "20260323_074600",
+  "generated_at": "2026-03-23T06:46:00.561387Z",
+  "run_id": "20260323_072905_games",
+  "run_output_root": "output/runs/20260323_072905_games/",
+  "datasets": [
+    "dbpedia",
+    "metacritic",
+    "sales"
+  ],
+  "matcher_mode": "rule_based",
+  "fusion_testset": "test_set_fusion.xml",
+  "validation_fusion_testset": "validation_set_fusion.xml",
+  "sealed_evaluation_active": true,
+  "blocking_metrics": {
+    "dbpedia_sales": {
+      "pair_completeness": 0.912621359223301,
+      "num_candidates": 929573,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    },
+    "metacritic_dbpedia": {
+      "pair_completeness": 0.9625668449197861,
+      "num_candidates": 409850,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "developer",
+        "platform"
+      ]
+    },
+    "metacritic_sales": {
+      "pair_completeness": 1.0,
+      "num_candidates": 409504,
+      "stategy": "semantic_similarity",
+      "columns": [
+        "name",
+        "platform",
+        "releaseYear"
+      ]
+    }
+  },
+  "matching_metrics": {
+    "dbpedia_sales": {
+      "f1_score": 0.864367816091954
+    },
+    "metacritic_dbpedia": {
+      "f1_score": 0.8866995073891625
+    },
+    "metacritic_sales": {
+      "f1_score": 0.8844884488448845
+    }
+  },
+  "evaluation_metrics": {
+    "overall_accuracy": 0.8857142857142857,
+    "macro_accuracy": 0.8857142857142858,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 70,
+    "total_correct": 62,
+    "criticScore_accuracy": 1.0,
+    "criticScore_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 10,
+    "userScore_accuracy": 0.9,
+    "userScore_count": 10,
+    "releaseYear_accuracy": 0.0,
+    "releaseYear_count": 0,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "name_accuracy": 0.8,
+    "name_count": 10,
+    "platform_accuracy": 0.9,
+    "platform_count": 10
+  },
+  "overall_accuracy": 0.8857142857142857,
+  "validation_metrics_final": {
+    "overall_accuracy": 0.8857142857142857,
+    "macro_accuracy": 0.8857142857142858,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 70,
+    "total_correct": 62,
+    "criticScore_accuracy": 1.0,
+    "criticScore_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 10,
+    "userScore_accuracy": 0.9,
+    "userScore_count": 10,
+    "releaseYear_accuracy": 0.0,
+    "releaseYear_count": 0,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "name_accuracy": 0.8,
+    "name_count": 10,
+    "platform_accuracy": 0.9,
+    "platform_count": 10
+  },
+  "sealed_test_metrics_final": {
+    "overall_accuracy": 0.8235294117647058,
+    "macro_accuracy": 0.8220238095238095,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 98,
+    "developer_accuracy": 0.7333333333333333,
+    "developer_count": 15,
+    "criticScore_accuracy": 0.8666666666666667,
+    "criticScore_count": 15,
+    "name_accuracy": 0.8,
+    "name_count": 15,
+    "platform_accuracy": 0.9333333333333333,
+    "platform_count": 15,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 15,
+    "userScore_accuracy": 0.6428571428571429,
+    "userScore_count": 14,
+    "ESRB_accuracy": 0.8,
+    "ESRB_count": 15,
+    "releaseYear_accuracy": 1.0,
+    "releaseYear_count": 15
+  },
+  "metrics_by_split": {
+    "validation_final": {
+      "overall_accuracy": 0.8857142857142857,
+      "macro_accuracy": 0.8857142857142858,
+      "num_evaluated_records": 10,
+      "num_evaluated_attributes": 8,
+      "total_evaluations": 70,
+      "total_correct": 62,
+      "criticScore_accuracy": 1.0,
+      "criticScore_count": 10,
+      "ESRB_accuracy": 0.9,
+      "ESRB_count": 10,
+      "publisher_accuracy": 0.8,
+      "publisher_count": 10,
+      "userScore_accuracy": 0.9,
+      "userScore_count": 10,
+      "releaseYear_accuracy": 0.0,
+      "releaseYear_count": 0,
+      "developer_accuracy": 0.9,
+      "developer_count": 10,
+      "name_accuracy": 0.8,
+      "name_count": 10,
+      "platform_accuracy": 0.9,
+      "platform_count": 10
+    },
+    "sealed_test_final": {
+      "overall_accuracy": 0.8235294117647058,
+      "macro_accuracy": 0.8220238095238095,
+      "num_evaluated_records": 15,
+      "num_evaluated_attributes": 8,
+      "total_evaluations": 119,
+      "total_correct": 98,
+      "developer_accuracy": 0.7333333333333333,
+      "developer_count": 15,
+      "criticScore_accuracy": 0.8666666666666667,
+      "criticScore_count": 15,
+      "name_accuracy": 0.8,
+      "name_count": 15,
+      "platform_accuracy": 0.9333333333333333,
+      "platform_count": 15,
+      "publisher_accuracy": 0.8,
+      "publisher_count": 15,
+      "userScore_accuracy": 0.6428571428571429,
+      "userScore_count": 14,
+      "ESRB_accuracy": 0.8,
+      "ESRB_count": 15,
+      "releaseYear_accuracy": 1.0,
+      "releaseYear_count": 15
+    }
+  },
+  "blocking_config": {
+    "blocking_strategies": {
+      "dbpedia_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.912621359223301,
+        "num_candidates": 929573,
+        "is_acceptable": true
+      },
+      "metacritic_dbpedia": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "developer",
+          "platform"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 0.9625668449197861,
+        "num_candidates": 409850,
+        "is_acceptable": true
+      },
+      "metacritic_sales": {
+        "strategy": "semantic_similarity",
+        "columns": [
+          "name",
+          "platform",
+          "releaseYear"
+        ],
+        "params": {
+          "top_k": 20
+        },
+        "pair_completeness": 1.0,
+        "num_candidates": 409504,
+        "is_acceptable": true
+      }
+    },
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    }
+  },
+  "matching_config": {
+    "id_columns": {
+      "dbpedia": "id",
+      "metacritic": "id",
+      "sales": "id"
+    },
+    "matching_strategies": {
+      "dbpedia_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "cosine",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          }
+        ],
+        "weights": [
+          0.45,
+          0.2,
+          0.15,
+          0.2
+        ],
+        "threshold": 0.75,
+        "f1": 0.864367816091954
+      },
+      "metacritic_dbpedia": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 366
+          }
+        ],
+        "weights": [
+          0.45,
+          0.2,
+          0.2,
+          0.15
+        ],
+        "threshold": 0.8,
+        "f1": 0.8866995073891625
+      },
+      "metacritic_sales": {
+        "comparators": [
+          {
+            "type": "string",
+            "column": "name",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "platform",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "string",
+            "column": "developer",
+            "similarity_function": "jaro_winkler",
+            "preprocess": "lower_strip",
+            "list_strategy": "concatenate"
+          },
+          {
+            "type": "numeric",
+            "column": "criticScore",
+            "max_difference": 5.0
+          },
+          {
+            "type": "numeric",
+            "column": "userScore",
+            "max_difference": 1.0
+          },
+          {
+            "type": "date",
+            "column": "releaseYear",
+            "max_days_difference": 365
+          }
+        ],
+        "weights": [
+          0.35,
+          0.2,
+          0.15,
+          0.12,
+          0.08,
+          0.1
+        ],
+        "threshold": 0.78,
+        "f1": 0.8844884488448845
+      }
+    }
+  },
+  "fusion_size_comparison": {},
+  "auto_diagnostics": {
+    "debug_reason_counts": {
+      "mismatch": 6,
+      "missing_fused_value": 2
+    },
+    "debug_reason_ratios": {
+      "mismatch": 0.75,
+      "missing_fused_value": 0.25
+    },
+    "evaluation_stage": "validation",
+    "evaluation_testset_path": "input/datasets/games/testsets/validation_set_fusion.xml",
+    "id_alignment": {
+      "gold_count": 10,
+      "direct_coverage": 3,
+      "direct_coverage_ratio": 0.3,
+      "mapped_coverage": 10,
+      "mapped_coverage_ratio": 1.0,
+      "missing_gold_ids": []
+    },
+    "overall_accuracy": 0.8857142857142857
+  },
+  "evaluation_regression_guard": {
+    "rejected": false,
+    "overall_gain": 0.323214,
+    "macro_gain": 0.323214,
+    "overall_drop": 0.0,
+    "macro_drop": 0.0,
+    "meaningful_gain": true,
+    "net_positive": true,
+    "total_gain_weight": 1.9,
+    "total_drop_weight": 0.0,
+    "catastrophic_attribute_drops": {},
+    "severe_attribute_drops": {},
+    "moderate_attribute_drops": {},
+    "top_attribute_drops": {},
+    "top_attribute_gains": {
+      "name": 0.5,
+      "developer": 0.4,
+      "platform": 0.4,
+      "criticScore": 0.3,
+      "publisher": 0.2,
+      "ESRB": 0.1
+    }
+  },
+  "latest_validation_metrics": {
+    "overall_accuracy": 0.8857142857142857,
+    "macro_accuracy": 0.8857142857142858,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 70,
+    "total_correct": 62,
+    "criticScore_accuracy": 1.0,
+    "criticScore_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 10,
+    "userScore_accuracy": 0.9,
+    "userScore_count": 10,
+    "releaseYear_accuracy": 0.0,
+    "releaseYear_count": 0,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "name_accuracy": 0.8,
+    "name_count": 10,
+    "platform_accuracy": 0.9,
+    "platform_count": 10
+  },
+  "evaluation_metrics_raw": {
+    "overall_accuracy": 0.8857142857142857,
+    "macro_accuracy": 0.8857142857142858,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 70,
+    "total_correct": 62,
+    "criticScore_accuracy": 1.0,
+    "criticScore_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 10,
+    "userScore_accuracy": 0.9,
+    "userScore_count": 10,
+    "releaseYear_accuracy": 0.0,
+    "releaseYear_count": 0,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "name_accuracy": 0.8,
+    "name_count": 10,
+    "platform_accuracy": 0.9,
+    "platform_count": 10
+  },
+  "evaluation_metrics_for_adaptation": {
+    "overall_accuracy": 0.8857142857142857,
+    "macro_accuracy": 0.8857142857142858,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 70,
+    "total_correct": 62,
+    "criticScore_accuracy": 1.0,
+    "criticScore_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 10,
+    "userScore_accuracy": 0.9,
+    "userScore_count": 10,
+    "releaseYear_accuracy": 0.0,
+    "releaseYear_count": 0,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "name_accuracy": 0.8,
+    "name_count": 10,
+    "platform_accuracy": 0.9,
+    "platform_count": 10
+  },
+  "best_validation_metrics": {
+    "overall_accuracy": 0.8857142857142857,
+    "macro_accuracy": 0.8857142857142858,
+    "num_evaluated_records": 10,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 70,
+    "total_correct": 62,
+    "criticScore_accuracy": 1.0,
+    "criticScore_count": 10,
+    "ESRB_accuracy": 0.9,
+    "ESRB_count": 10,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 10,
+    "userScore_accuracy": 0.9,
+    "userScore_count": 10,
+    "releaseYear_accuracy": 0.0,
+    "releaseYear_count": 0,
+    "developer_accuracy": 0.9,
+    "developer_count": 10,
+    "name_accuracy": 0.8,
+    "name_count": 10,
+    "platform_accuracy": 0.9,
+    "platform_count": 10
+  },
+  "evaluation_cycle_audit": [
+    {
+      "attempt": 1,
+      "recorded_at": "2026-03-23T06:36:56.392262Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.5625,
+        "macro_accuracy": 0.5625,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 45,
+        "developer_accuracy": 0.5,
+        "developer_count": 10,
+        "releaseYear_accuracy": 0.2,
+        "releaseYear_count": 10,
+        "name_accuracy": 0.3,
+        "name_count": 10,
+        "platform_accuracy": 0.5,
+        "platform_count": 10,
+        "ESRB_accuracy": 0.8,
+        "ESRB_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "criticScore_accuracy": 0.7,
+        "criticScore_count": 10,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.5625,
+        "macro_accuracy": 0.5625,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 45,
+        "developer_accuracy": 0.5,
+        "developer_count": 10,
+        "releaseYear_accuracy": 0.2,
+        "releaseYear_count": 10,
+        "name_accuracy": 0.3,
+        "name_count": 10,
+        "platform_accuracy": 0.5,
+        "platform_count": 10,
+        "ESRB_accuracy": 0.8,
+        "ESRB_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "criticScore_accuracy": 0.7,
+        "criticScore_count": 10,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.5625,
+        "macro_accuracy": 0.5625,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 45,
+        "developer_accuracy": 0.5,
+        "developer_count": 10,
+        "releaseYear_accuracy": 0.2,
+        "releaseYear_count": 10,
+        "name_accuracy": 0.3,
+        "name_count": 10,
+        "platform_accuracy": 0.5,
+        "platform_count": 10,
+        "ESRB_accuracy": 0.8,
+        "ESRB_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "criticScore_accuracy": 0.7,
+        "criticScore_count": 10,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.5625,
+        "macro_accuracy": 0.5625,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 45,
+        "developer_accuracy": 0.5,
+        "developer_count": 10,
+        "releaseYear_accuracy": 0.2,
+        "releaseYear_count": 10,
+        "name_accuracy": 0.3,
+        "name_count": 10,
+        "platform_accuracy": 0.5,
+        "platform_count": 10,
+        "ESRB_accuracy": 0.8,
+        "ESRB_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "criticScore_accuracy": 0.7,
+        "criticScore_count": 10,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10
+      },
+      "regression_guard": {
+        "rejected": false,
+        "reason": "no_baseline"
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-23T06:36:46.239804Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/runs/20260323_072905_games/correspondences/correspondences_dbpedia_metacritic.csv",
+            "data_rows": 31150
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/runs/20260323_072905_games/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 20730
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/runs/20260323_072905_games/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 11072
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "overall_accuracy below target: 56.250% < 85.000%",
+        "low attribute accuracy: name=30.000%, releaseYear=20.000%",
+        "low direct ID coverage: 10.000%"
+      ]
+    },
+    {
+      "attempt": 2,
+      "recorded_at": "2026-03-23T06:44:14.687399Z",
+      "evaluation_stage": "validation",
+      "metrics_source": "pipeline_evaluation_file",
+      "raw_metrics": {
+        "overall_accuracy": 0.8857142857142857,
+        "macro_accuracy": 0.8857142857142858,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 70,
+        "total_correct": 62,
+        "criticScore_accuracy": 1.0,
+        "criticScore_count": 10,
+        "ESRB_accuracy": 0.9,
+        "ESRB_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "developer_accuracy": 0.9,
+        "developer_count": 10,
+        "name_accuracy": 0.8,
+        "name_count": 10,
+        "platform_accuracy": 0.9,
+        "platform_count": 10
+      },
+      "accepted_metrics": {
+        "overall_accuracy": 0.8857142857142857,
+        "macro_accuracy": 0.8857142857142858,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 70,
+        "total_correct": 62,
+        "criticScore_accuracy": 1.0,
+        "criticScore_count": 10,
+        "ESRB_accuracy": 0.9,
+        "ESRB_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "developer_accuracy": 0.9,
+        "developer_count": 10,
+        "name_accuracy": 0.8,
+        "name_count": 10,
+        "platform_accuracy": 0.9,
+        "platform_count": 10
+      },
+      "analysis_metrics": {
+        "overall_accuracy": 0.8857142857142857,
+        "macro_accuracy": 0.8857142857142858,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 70,
+        "total_correct": 62,
+        "criticScore_accuracy": 1.0,
+        "criticScore_count": 10,
+        "ESRB_accuracy": 0.9,
+        "ESRB_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "developer_accuracy": 0.9,
+        "developer_count": 10,
+        "name_accuracy": 0.8,
+        "name_count": 10,
+        "platform_accuracy": 0.9,
+        "platform_count": 10
+      },
+      "best_validation_metrics": {
+        "overall_accuracy": 0.8857142857142857,
+        "macro_accuracy": 0.8857142857142858,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 70,
+        "total_correct": 62,
+        "criticScore_accuracy": 1.0,
+        "criticScore_count": 10,
+        "ESRB_accuracy": 0.9,
+        "ESRB_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "developer_accuracy": 0.9,
+        "developer_count": 10,
+        "name_accuracy": 0.8,
+        "name_count": 10,
+        "platform_accuracy": 0.9,
+        "platform_count": 10
+      },
+      "regression_guard": {
+        "rejected": false,
+        "overall_gain": 0.323214,
+        "macro_gain": 0.323214,
+        "overall_drop": 0.0,
+        "macro_drop": 0.0,
+        "meaningful_gain": true,
+        "net_positive": true,
+        "total_gain_weight": 1.9,
+        "total_drop_weight": 0.0,
+        "catastrophic_attribute_drops": {},
+        "severe_attribute_drops": {},
+        "moderate_attribute_drops": {},
+        "top_attribute_drops": {},
+        "top_attribute_gains": {
+          "name": 0.5,
+          "developer": 0.4,
+          "platform": 0.4,
+          "criticScore": 0.3,
+          "publisher": 0.2,
+          "ESRB": 0.1
+        }
+      },
+      "correspondence_integrity": {
+        "evaluated_at": "2026-03-23T06:44:13.180368Z",
+        "expected_pairs": [
+          "dbpedia_metacritic",
+          "dbpedia_sales",
+          "metacritic_sales"
+        ],
+        "pair_checks": [
+          {
+            "pair": "dbpedia_metacritic",
+            "status": "ok",
+            "path": "output/runs/20260323_072905_games/correspondences/correspondences_dbpedia_metacritic.csv",
+            "data_rows": 31150
+          },
+          {
+            "pair": "dbpedia_sales",
+            "status": "ok",
+            "path": "output/runs/20260323_072905_games/correspondences/correspondences_dbpedia_sales.csv",
+            "data_rows": 20730
+          },
+          {
+            "pair": "metacritic_sales",
+            "status": "ok",
+            "path": "output/runs/20260323_072905_games/correspondences/correspondences_metacritic_sales.csv",
+            "data_rows": 11072
+          }
+        ],
+        "invalid_pairs": [],
+        "structurally_valid": true
+      },
+      "structural_valid": true,
+      "problems": [
+        "low attribute accuracy: releaseYear=0.000%",
+        "low direct ID coverage: 30.000%"
+      ]
+    }
+  ],
+  "correspondence_integrity": {
+    "evaluated_at": "2026-03-23T06:44:13.180368Z",
+    "expected_pairs": [
+      "dbpedia_metacritic",
+      "dbpedia_sales",
+      "metacritic_sales"
+    ],
+    "pair_checks": [
+      {
+        "pair": "dbpedia_metacritic",
+        "status": "ok",
+        "path": "output/runs/20260323_072905_games/correspondences/correspondences_dbpedia_metacritic.csv",
+        "data_rows": 31150
+      },
+      {
+        "pair": "dbpedia_sales",
+        "status": "ok",
+        "path": "output/runs/20260323_072905_games/correspondences/correspondences_dbpedia_sales.csv",
+        "data_rows": 20730
+      },
+      {
+        "pair": "metacritic_sales",
+        "status": "ok",
+        "path": "output/runs/20260323_072905_games/correspondences/correspondences_metacritic_sales.csv",
+        "data_rows": 11072
+      }
+    ],
+    "invalid_pairs": [],
+    "structurally_valid": true
+  },
+  "evaluation_analysis": "{\n  \"action\": \"decide\",\n  \"diagnosis\": \"The main error source is entity matching/post-clustering, not fusion or normalization. The mismatch examples show entire records fused onto the wrong metacritic IDs (e.g. FIFA Soccer 13 fused as Madden NFL 07; Plants vs Zombies: Garden Warfare 2 fused as Lego Star Wars), which simultaneously corrupts name, releaseYear, developer, platform, and publisher. This pattern is consistent with over-linked correspondences and ambiguous many-to-many clusters, confirmed by cluster analysis: huge max cluster sizes (~1000), one-to-many ratios above 63%, ambiguity ratio above 73%, and explicit recommendation for MaximumBipartiteMatching. Fusion resolver tweaks cannot recover when the cluster contains the wrong entities, and normalization is not the dominant issue because values are mostly semantically wrong, not merely differently formatted. There is a small secondary fusion opportunity on criticScore and ESRB, but routing there first would not address the dominant failure mode limiting macro accuracy.\",\n  \"next_node\": \"run_matching_tester\",\n  \"reasoning\": \"Matching F1 around 0.88 looks decent pairwise, but the correspondence graph is too dense/ambiguous for fusion: large erroneous clusters are causing cross-game contamination. The worst protected attributes already above 85% should be preserved, and changing fusion resolvers broadly would risk regression without fixing the core problem. releaseYear/name are at structural ceiling under current clusters; their probe-reported source exact-match rates near zero are a downstream symptom of wrong record alignment. The current pipeline already uses the recommended post-clustering note in guidance, but because the failure signature is pervasive wrong-entity fusion, the next step should be to retune matching thresholds/comparators with cluster quality as the target, then re-evaluate fusion afterward. Normalization should not be first because the validation format already broadly matches source formatting, and the errors are mostly wrong values rather than format mismatches.\",\n  \"ceiling_assessment\": \"With current matching structure, overall accuracy is near the observed ceiling (~63.1%). If matching ambiguity is reduced and one-to-many links are pruned, a meaningful jump beyond that ceiling is plausible; current 56.2% is not a fusion ceiling but a correspondence-quality ceiling.\",\n  \"recommendations\": [\n    {\n      \"attribute\": \"matching_graph\",\n      \"issue\": \"Pairwise matcher admits too many plausible near-duplicates, producing massive ambiguous clusters and one-to-many contamination across editions/franchises/platform variants.\",\n      \"fix\": \"In run_matching_tester, tighten thresholds and increase discriminative weight on releaseYear/platform while reducing tolerance for franchise-title similarity; then regenerate correspondences and apply MaximumBipartiteMatching or StableMatching to enforce near-1:1 links before fusion.\",\n      \"resolver_reasoning\": \"Mismatch samples are classic false-positive matches between related but distinct games in the same franchise/series. Alternatives like changing fusion to voting/prefer_higher_trust cannot recover once wrong entities are clustered together. Post-clustering with bipartite/stable matching is explicitly supported by cluster diagnostics and directly targets the many-to-many ambiguity.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.12\n    },\n    {\n      \"attribute\": \"criticScore\",\n      \"issue\": \"This attribute is one of the few genuinely improvable fusion-stage gaps, but should be addressed only after cluster quality is fixed.\",\n      \"fix\": \"After matching is corrected, in a later pipeline_adaption step compare median vs prefer_higher_trust using source-vs-validation evidence and likely keep median only if sources are symmetrically noisy.\",\n      \"resolver_reasoning\": \"Probe says criticScore ceiling can rise from 70% to 91%, but current wrong clusters confound any fusion analysis. Alternatives are premature until correspondence quality is fixed.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.026\n    },\n    {\n      \"attribute\": \"ESRB\",\n      \"issue\": \"Secondary fusion-stage gap; not the dominant source of current macro loss.\",\n      \"fix\": \"After matching correction, evaluate prefer_higher_trust versus voting/favour_sources on matched records against validation; preserve current resolver unless evidence shows a clear source winner.\",\n      \"resolver_reasoning\": \"Probe marks ESRB improvable with modest headroom, but making trust changes now would be guesswork and risks harming already-good attributes. Matching errors must be removed first.\",\n      \"class\": \"improvable\",\n      \"expected_impact\": 0.018\n    },\n    {\n      \"attribute\": \"name/developer/platform/releaseYear/publisher\",\n      \"issue\": \"Current poor accuracy is largely downstream of wrong entity alignment, not primarily resolvers or formatting.\",\n      \"fix\": \"Do not change these resolvers in pipeline_adaption yet; preserve high-performing attributes and revisit only after re-running matching with stricter constraints.\",\n      \"resolver_reasoning\": \"Resolver experiments on contaminated clusters would select policies based on wrong inputs. Alternatives like shortest_string, longest_string, or trust changes are unlikely to beat fixing correspondence purity first.\",\n      \"class\": \"structurally_limited\",\n      \"expected_impact\": 0.0\n    }\n  ]\n}",
+  "evaluation_reasoning_brief": {
+    "root_cause": "The main error source is entity matching/post-clustering, not fusion or normalization. The mismatch examples show entire records fused onto the wrong metacritic IDs (e.g. FIFA Soccer 13 fused as Madden NFL 07; Plants vs Zombies: Garden Warfare 2 fused as Lego Star Wars), which simultaneously corrupts name, releaseYear, developer, platform, and publisher. This pattern is consistent with over-linked correspondences and ambiguous many-to-many clusters, confirmed by cluster analysis: huge max cluster sizes (~1000), one-to-many ratios above 63%, ambiguity ratio above 73%, and explicit recommendation for MaximumBipartiteMatching. Fusion resolver tweaks cannot recover when the cluster contains the wrong entities, and normalization is not the dominant issue because values are mostly semantically wrong, not merely differently formatted. There is a small secondary fusion opportunity on criticScore and ESRB, but routing there first would not address the dominant failure mode limiting macro accuracy.",
+    "next_step": "Matching F1 around 0.88 looks decent pairwise, but the correspondence graph is too dense/ambiguous for fusion: large erroneous clusters are causing cross-game contamination. The worst protected attributes already above 85% should be preserved, and changing fusion resolvers broadly would risk regression without fixing the core problem. releaseYear/name are at structural ceiling under current clusters; their probe-reported source exact-match rates near zero are a downstream symptom of wrong record alignment. The current pipeline already uses the recommended post-clustering note in guidance, but because the failure signature is pervasive wrong-entity fusion, the next step should be to retune matching thresholds/comparators with cluster quality as the target, then re-evaluate fusion afterward. Normalization should not be first because the validation format already broadly matches source formatting, and the errors are mostly wrong values rather than format mismatches.",
+    "takeaway": "The main error source is entity matching/post-clustering, not fusion or normalization. The mismatch examples show entire records fused onto the wrong metacritic IDs (e.g. FIFA Soccer 13 fused as Madden NFL 07; Plants vs Zombies: Garden Warfare 2 fused as Lego Star Wars), which simultaneously corrupts name, releaseYear, developer, platform, and publisher. This pattern is consistent with over-linked correspondences and ambiguous many-to-many clusters, confirmed by cluster analysis: huge max cluster sizes (~1000), one-to-many ratios above 63%, ambiguity ratio above 73%, and explicit recommendation for MaximumBipartiteMatching. Fusion resolver tweaks cannot recover when the cluster contains the wrong entities, and normalization is not the dominant issue because values are mostly semantically wrong, not merely differently formatted. There is a small secondary fusion opportunity on criticScore and ESRB, but routing there first would not address the dominant failure mode limiting macro accuracy.",
+    "recommendations": [
+      {
+        "attribute": "matching_graph",
+        "issue": "Pairwise matcher admits too many plausible near-duplicates, producing massive ambiguous clusters and one-to-many contamination across editions/franchises/platform variants.",
+        "fix": "In run_matching_tester, tighten thresholds and increase discriminative weight on releaseYear/platform while reducing tolerance for franchise-title similarity; then regenerate correspondences and apply MaximumBipartiteMatching or StableMatching to enforce near-1:1 links before fusion.",
+        "resolver_reasoning": "Mismatch samples are classic false-positive matches between related but distinct games in the same franchise/series. Alternatives like changing fusion to voting/prefer_higher_trust cannot recover once wrong entities are clustered together. Post-clustering with bipartite/stable matching is explicitly supported by cluster diagnostics and directly targets the many-to-many ambiguity.",
+        "class": "improvable",
+        "expected_impact": 0.12
+      },
+      {
+        "attribute": "criticScore",
+        "issue": "This attribute is one of the few genuinely improvable fusion-stage gaps, but should be addressed only after cluster quality is fixed.",
+        "fix": "After matching is corrected, in a later pipeline_adaption step compare median vs prefer_higher_trust using source-vs-validation evidence and likely keep median only if sources are symmetrically noisy.",
+        "resolver_reasoning": "Probe says criticScore ceiling can rise from 70% to 91%, but current wrong clusters confound any fusion analysis. Alternatives are premature until correspondence quality is fixed.",
+        "class": "improvable",
+        "expected_impact": 0.026
+      },
+      {
+        "attribute": "ESRB",
+        "issue": "Secondary fusion-stage gap; not the dominant source of current macro loss.",
+        "fix": "After matching correction, evaluate prefer_higher_trust versus voting/favour_sources on matched records against validation; preserve current resolver unless evidence shows a clear source winner.",
+        "resolver_reasoning": "Probe marks ESRB improvable with modest headroom, but making trust changes now would be guesswork and risks harming already-good attributes. Matching errors must be removed first.",
+        "class": "improvable",
+        "expected_impact": 0.018
+      },
+      {
+        "attribute": "name/developer/platform/releaseYear/publisher",
+        "issue": "Current poor accuracy is largely downstream of wrong entity alignment, not primarily resolvers or formatting.",
+        "fix": "Do not change these resolvers in pipeline_adaption yet; preserve high-performing attributes and revisit only after re-running matching with stricter constraints.",
+        "resolver_reasoning": "Resolver experiments on contaminated clusters would select policies based on wrong inputs. Alternatives like shortest_string, longest_string, or trust changes are unlikely to beat fixing correspondence purity first.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ],
+    "next_node": "run_matching_tester",
+    "ceiling_assessment": "With current matching structure, overall accuracy is near the observed ceiling (~63.1%). If matching ambiguity is reduced and one-to-many links are pruned, a meaningful jump beyond that ceiling is plausible; current 56.2% is not a fusion ceiling but a correspondence-quality ceiling."
+  },
+  "pipeline_generation_review": {
+    "verdict": "pass",
+    "summary": "no_static_findings"
+  },
+  "pipeline_snapshots": [
+    {
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-23T06:35:51.545654Z",
+      "files": {
+        "pipeline_code": "output/runs/20260323_072905_games/pipeline/cycle_01/exec_01/pipeline.py",
+        "execution_log": "output/runs/20260323_072905_games/pipeline/cycle_01/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    },
+    {
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "captured_at": "2026-03-23T06:43:35.997819Z",
+      "files": {
+        "pipeline_code": "output/runs/20260323_072905_games/pipeline/cycle_02/exec_01/pipeline.py",
+        "fusion_data": "output/runs/20260323_072905_games/pipeline/cycle_02/exec_01/fusion_data.csv",
+        "correspondences": [
+          "output/runs/20260323_072905_games/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_metacritic.csv",
+          "output/runs/20260323_072905_games/pipeline/cycle_02/exec_01/correspondences/correspondences_dbpedia_sales.csv",
+          "output/runs/20260323_072905_games/pipeline/cycle_02/exec_01/correspondences/correspondences_metacritic_sales.csv"
+        ],
+        "execution_log": "output/runs/20260323_072905_games/pipeline/cycle_02/exec_01/pipeline_execution.json"
+      },
+      "fusion_size_comparison": {}
+    }
+  ],
+  "evaluation_snapshots": [
+    {
+      "stage": "validation",
+      "cycle_index": 1,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-23T06:36:46.161398Z",
+      "metrics": {
+        "overall_accuracy": 0.5625,
+        "macro_accuracy": 0.5625,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 80,
+        "total_correct": 45,
+        "developer_accuracy": 0.5,
+        "developer_count": 10,
+        "releaseYear_accuracy": 0.2,
+        "releaseYear_count": 10,
+        "name_accuracy": 0.3,
+        "name_count": 10,
+        "platform_accuracy": 0.5,
+        "platform_count": 10,
+        "ESRB_accuracy": 0.8,
+        "ESRB_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "criticScore_accuracy": 0.7,
+        "criticScore_count": 10,
+        "publisher_accuracy": 0.6,
+        "publisher_count": 10
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260323_072905_games/evaluation/validation/cycle_01/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260323_072905_games/evaluation/validation/cycle_01/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260323_072905_games/evaluation/validation/cycle_01/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260323_072905_games/evaluation/validation/cycle_01/exec_01/evaluation_execution.json"
+      }
+    },
+    {
+      "stage": "validation",
+      "cycle_index": 2,
+      "exec_attempt": 1,
+      "execution_result": "success",
+      "metrics_source": "stdout",
+      "captured_at": "2026-03-23T06:44:13.161747Z",
+      "metrics": {
+        "overall_accuracy": 0.8857142857142857,
+        "macro_accuracy": 0.8857142857142858,
+        "num_evaluated_records": 10,
+        "num_evaluated_attributes": 8,
+        "total_evaluations": 70,
+        "total_correct": 62,
+        "criticScore_accuracy": 1.0,
+        "criticScore_count": 10,
+        "ESRB_accuracy": 0.9,
+        "ESRB_count": 10,
+        "publisher_accuracy": 0.8,
+        "publisher_count": 10,
+        "userScore_accuracy": 0.9,
+        "userScore_count": 10,
+        "releaseYear_accuracy": 0.0,
+        "releaseYear_count": 0,
+        "developer_accuracy": 0.9,
+        "developer_count": 10,
+        "name_accuracy": 0.8,
+        "name_count": 10,
+        "platform_accuracy": 0.9,
+        "platform_count": 10
+      },
+      "files": {
+        "evaluation_code": "output/runs/20260323_072905_games/evaluation/validation/cycle_02/exec_01/evaluation.py",
+        "pipeline_evaluation": "output/runs/20260323_072905_games/evaluation/validation/cycle_02/exec_01/pipeline_evaluation.json",
+        "debug_fusion_eval": "output/runs/20260323_072905_games/evaluation/validation/cycle_02/exec_01/debug_fusion_eval.jsonl",
+        "execution_log": "output/runs/20260323_072905_games/evaluation/validation/cycle_02/exec_01/evaluation_execution.json"
+      }
+    }
+  ],
+  "normalization_execution_result": "success",
+  "normalization_attempts": 1,
+  "normalization_report": {
+    "status": "success",
+    "attempt": 1,
+    "max_attempts": 3,
+    "validation_set": "input/datasets/games/testsets/validation_set_fusion.xml",
+    "llm_specs": {
+      "dbpedia": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "metacritic": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "developer": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "sales": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      }
+    },
+    "llm_list_columns": [
+      "genres_genre"
+    ],
+    "llm_reasoning": "Target stores releaseYear as YYYY-MM-DD strings and criticScore/userScore as strings. Source metacritic and sales have numeric score types, so cast them to string. Dates in all sources are already date-like but should be formatted to match target style. Platform/developer mostly match target style; only safe whitespace cleanup is included. No ID columns were touched, and no aggressive case changes were applied because target preserves mixed case. genres_genre is list-like in the target schema.",
+    "datasets": {
+      "dbpedia": {
+        "input_path": "output/runs/20260323_072905_games/schema-matching/dbpedia.csv",
+        "output_path": "output/runs/20260323_072905_games/normalization/attempt_1/dbpedia.csv",
+        "row_count": 46580,
+        "id_column": "id",
+        "spec_applied": {
+          "releaseYear": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%d",
+            "on_failure": "keep"
+          },
+          "platform": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": []
+      },
+      "metacritic": {
+        "input_path": "output/runs/20260323_072905_games/schema-matching/metacritic.csv",
+        "output_path": "output/runs/20260323_072905_games/normalization/attempt_1/metacritic.csv",
+        "row_count": 20494,
+        "id_column": "id",
+        "spec_applied": {
+          "releaseYear": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%d",
+            "on_failure": "keep"
+          },
+          "criticScore": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "userScore": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "developer": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": []
+      },
+      "sales": {
+        "input_path": "output/runs/20260323_072905_games/schema-matching/sales.csv",
+        "output_path": "output/runs/20260323_072905_games/normalization/attempt_1/sales.csv",
+        "row_count": 7877,
+        "id_column": "id",
+        "spec_applied": {
+          "releaseYear": {
+            "output_type": "datetime",
+            "date_format": "%Y-%m-%d",
+            "on_failure": "keep"
+          },
+          "criticScore": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "userScore": {
+            "output_type": "string",
+            "on_failure": "keep"
+          },
+          "platform": {
+            "strip_whitespace": true,
+            "on_failure": "keep"
+          }
+        },
+        "list_columns_applied": []
+      }
+    },
+    "warnings": [],
+    "acceptance_gate": {
+      "requested": false,
+      "request": {},
+      "pending": {}
+    },
+    "reverted_to_original": false,
+    "created_at": "2026-03-23T07:29:21.335438"
+  },
+  "normalization_directives": {
+    "specs": {
+      "dbpedia": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "metacritic": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "developer": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "sales": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      }
+    },
+    "list_columns": [
+      "genres_genre"
+    ]
+  },
+  "investigator_action_plan": [
+    {
+      "action": "In run_matching_tester, tighten thresholds and increase discriminative weight on releaseYear/platform while reducing tolerance for franchise-title similarity; then regenerate correspondences and apply MaximumBipartiteMatching or StableMatching to enforce near-1:1 links before fusion.",
+      "target_attributes": [
+        "matching_graph"
+      ],
+      "priority_score": 0.12,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "After matching is corrected, in a later pipeline_adaption step compare median vs prefer_higher_trust using source-vs-validation evidence and likely keep median only if sources are symmetrically noisy.",
+      "target_attributes": [
+        "criticScore"
+      ],
+      "priority_score": 0.026,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "After matching correction, evaluate prefer_higher_trust versus voting/favour_sources on matched records against validation; preserve current resolver unless evidence shows a clear source winner.",
+      "target_attributes": [
+        "ESRB"
+      ],
+      "priority_score": 0.018,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "improvable"
+    },
+    {
+      "action": "Do not change these resolvers in pipeline_adaption yet; preserve high-performing attributes and revisit only after re-running matching with stricter constraints.",
+      "target_attributes": [
+        "name/developer/platform/releaseYear/publisher"
+      ],
+      "priority_score": 0.0,
+      "confidence": 0.8,
+      "source": "investigation",
+      "attribute_class": "structurally_limited"
+    }
+  ],
+  "fusion_guidance": {
+    "mismatch_classifications": {
+      "releaseYear": {
+        "value_mismatch": 5
+      },
+      "name": {
+        "value_mismatch": 5
+      },
+      "developer": {
+        "format_mismatch": 1,
+        "value_mismatch": 4
+      },
+      "platform": {
+        "value_mismatch": 4,
+        "country_format": 1
+      },
+      "publisher": {
+        "value_mismatch": 4
+      }
+    },
+    "post_clustering": {
+      "recommended_strategy": "MaximumBipartiteMatching",
+      "reason": "cluster analysis evidence"
+    },
+    "global_hints": [],
+    "attribute_strategies": {
+      "releaseYear": {
+        "recommended_fuser": "voting",
+        "trust_map": {
+          "dbpedia": 3,
+          "metacritic": 2,
+          "sales": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      },
+      "name": {
+        "recommended_fuser": "shortest_string",
+        "trust_map": {
+          "metacritic": 3,
+          "sales": 2,
+          "dbpedia": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      },
+      "developer": {
+        "recommended_fuser": "voting",
+        "trust_map": {
+          "sales": 3,
+          "metacritic": 2,
+          "dbpedia": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      },
+      "platform": {
+        "recommended_fuser": "voting",
+        "trust_map": {
+          "metacritic": 3,
+          "sales": 2,
+          "dbpedia": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      },
+      "publisher": {
+        "recommended_fuser": "longest_string",
+        "trust_map": {
+          "sales": 3,
+          "dbpedia": 2,
+          "metacritic": 1
+        },
+        "field_shape": "scalar",
+        "confidence": 0.7,
+        "source": "source_attribution_probe"
+      },
+      "matching_graph": {
+        "recommended_fuser": "maximum",
+        "trust_map": {},
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "criticScore": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {},
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      },
+      "ESRB": {
+        "recommended_fuser": "prefer_higher_trust",
+        "trust_map": {},
+        "field_shape": "scalar",
+        "confidence": 0.9,
+        "source": "investigation"
+      }
+    }
+  },
+  "investigator_decision": "human_review_export",
+  "investigator_routing_decision": {},
+  "matching_refresh_gate": {},
+  "per_run_output_dir": "output/runs/20260323_072905_games/",
+  "normalized_datasets": [
+    "output/runs/20260323_072905_games/normalization/attempt_1/dbpedia.csv",
+    "output/runs/20260323_072905_games/normalization/attempt_1/metacritic.csv",
+    "output/runs/20260323_072905_games/normalization/attempt_1/sales.csv"
+  ],
+  "integration_diagnostics_execution_result": "",
+  "integration_diagnostics_report": {},
+  "human_review_execution_result": "success",
+  "human_review_report": {
+    "summary": "Human-review outputs created. Testset mapped for 7688 fused rows.",
+    "file_paths": {
+      "fused_review_table": "output/runs/20260323_072905_games/human_review/fused_review_table.csv",
+      "source_lineage_long": "output/runs/20260323_072905_games/human_review/source_lineage_long.csv",
+      "fusion_vs_testset_diff": "output/runs/20260323_072905_games/human_review/fusion_vs_testset_diff.csv",
+      "human_review_summary_json": "output/runs/20260323_072905_games/human_review/human_review_summary.json",
+      "human_review_summary_md": "output/runs/20260323_072905_games/human_review/human_review_summary.md"
+    },
+    "counts": {
+      "fused_rows": 57946,
+      "review_rows": 57946,
+      "lineage_rows": 82742,
+      "diff_rows": 106178,
+      "source_datasets": 3,
+      "source_indexed_records": 74951,
+      "testset_rows": 15,
+      "testset_mapped_rows": 7688
+    },
+    "warnings": [],
+    "created_at": "2026-03-23T06:45:19.006915+00:00"
+  },
+  "final_test_evaluation_execution_result": "success",
+  "final_test_evaluation_metrics": {
+    "overall_accuracy": 0.8235294117647058,
+    "macro_accuracy": 0.8220238095238095,
+    "num_evaluated_records": 15,
+    "num_evaluated_attributes": 8,
+    "total_evaluations": 119,
+    "total_correct": 98,
+    "developer_accuracy": 0.7333333333333333,
+    "developer_count": 15,
+    "criticScore_accuracy": 0.8666666666666667,
+    "criticScore_count": 15,
+    "name_accuracy": 0.8,
+    "name_count": 15,
+    "platform_accuracy": 0.9333333333333333,
+    "platform_count": 15,
+    "publisher_accuracy": 0.8,
+    "publisher_count": 15,
+    "userScore_accuracy": 0.6428571428571429,
+    "userScore_count": 14,
+    "ESRB_accuracy": 0.8,
+    "ESRB_count": 15,
+    "releaseYear_accuracy": 1.0,
+    "releaseYear_count": 15
+  },
+  "agent_run_summary": {
+    "agent_loop_overview": "The agent profiles the datasets, optionally reruns normalization, keeps the tested blocking setup, searches or refreshes matching when needed, generates a fusion pipeline, generates and runs an evaluation script, diagnoses the result, and then routes either back to matching, back to normalization, back to pipeline adaptation, or to final human review.",
+    "final_route": "finish automatic passes and export for human review",
+    "current_problem": "",
+    "next_step_advice": "Matching F1 around 0.88 looks decent pairwise, but the correspondence graph is too dense/ambiguous for fusion: large erroneous clusters are causing cross-game contamination. The worst protected attributes already above 85% should be preserved, and changing fusion resolvers broadly would risk regression without fixing the core problem. releaseYear/name are at structural ceiling under current clusters; their probe-reported source exact-match rates near zero are a downstream symptom of wrong record alignment. The current pipeline already uses the recommended post-clustering note in guidance, but because the failure signature is pervasive wrong-entity fusion, the next step should be to retune matching thresholds/comparators with cluster quality as the target, then re-evaluate fusion afterward. Normalization should not be first because the validation format already broadly matches source formatting, and the errors are mostly wrong values rather than format mismatches.",
+    "normalization_note": "",
+    "report_takeaway": "The main error source is entity matching/post-clustering, not fusion or normalization. The mismatch examples show entire records fused onto the wrong metacritic IDs (e.g. FIFA Soccer 13 fused as Madden NFL 07; Plants vs Zombies: Garden Warfare 2 fused as Lego Star Wars), which simultaneously corrupts name, releaseYear, developer, platform, and publisher. This pattern is consistent with over-linked correspondences and ambiguous many-to-many clusters, confirmed by cluster analysis: huge max cluster sizes (~1000), one-to-many ratios above 63%, ambiguity ratio above 73%, and explicit recommendation for MaximumBipartiteMatching. Fusion resolver tweaks cannot recover when the cluster contains the wrong entities, and normalization is not the dominant issue because values are mostly semantically wrong, not merely differently formatted. There is a small secondary fusion opportunity on criticScore and ESRB, but routing there first would not address the dominant failure mode limiting macro accuracy.",
+    "top_detected_problems": [
+      "low attribute accuracy: releaseYear=0.000%",
+      "low direct ID coverage: 30.000%"
+    ],
+    "top_planned_actions": [
+      "In run_matching_tester, tighten thresholds and increase discriminative weight on releaseYear/platform while reducing tolerance for franchise-title similarity; then regenerate correspondences and apply MaximumBipartiteMatching or StableMatching to enforce near-1:1 links before fusion.",
+      "After matching is corrected, in a later pipeline_adaption step compare median vs prefer_higher_trust using source-vs-validation evidence and likely keep median only if sources are symmetrically noisy.",
+      "After matching correction, evaluate prefer_higher_trust versus voting/favour_sources on matched records against validation; preserve current resolver unless evidence shows a clear source winner."
+    ]
+  },
+  "token_usage": {
+    "prompt_tokens": 138274,
+    "completion_tokens": 18354,
+    "total_tokens": 156628,
+    "total_cost": 0.6209950000000001
+  },
+  "pipeline_info": {
+    "evaluation_attempts": 2,
+    "matcher_mode": "rule_based"
+  },
+  "pipeline_search_tool_responses": [],
+  "evaluation_search_tool_responses": [
+    {
+      "query": "How to evaluate a fusion output with PyDI DataFusionEvaluator and available evaluation functions like tokenized_match, year_only_match, numeric_tolerance_match, set_equality_match, exact_match, boolean_match?",
+      "response": "DataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\nSource code for PyDI.fusion.evaluation\n\"\"\"\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\n\"\"\"\nfrom\n__future__\nimport\nannotations\nfrom\ntyping\nimport\nDict\n,\nAny\n,\nList\n,\nOptional\n,\nTuple\n,\nUnion\n,\nIterable\nfrom\ncollections\nimport\nCounter\nfrom\ndatetime\nimport\ndatetime\n,\ndate\nimport\npandas\nas\npd\nimport\nnumpy\nas\nnp\nimport\nlogging\nimport\njson\nfrom\npathlib\nimport\nPath\nfrom\n.base\nimport\nFusionContext\n,\nget_callable_name\nfrom\n.strategy\nimport\nDataFusionStrategy\nfrom\n..utils.similarity_registry\nimport\nSimilarityRegistry\ndef\n_is_missing_value\n(\nvalue\n)\n->\nbool\n:\n\"\"\"Helper function to check if a value should be treated as missing.\nHandles scalars, numpy arrays, pandas NA, and Python sequences.\n\"\"\"\ntry\n:\n# Pandas/NumPy aware check\nif\npd\n.\nisna\n(\nvalue\n):\nreturn\nTrue\nexcept\nException\n:\npass\n# Handle sequences (e.g., lists/arrays): consider missing if empty\nif\nisinstance\n(\nvalue\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nlen\n(\nvalue\n)\n==\n0\ntry\n:\nimport\nnumpy\nas\nnp\nif\nisinstance\n(\nvalue\n,\nnp\n.\nndarray\n):\nreturn\nvalue\n.\nsize\n==\n0\nor\nnp\n.\nall\n(\npd\n.\nisna\n(\nvalue\n))\nexcept\nException\n:\npass\nreturn\nFalse\n[docs]\ndef\nexact_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Default evaluation function using exact equality.\"\"\"\nreturn\nfused_value\n==\nexpected_value\n[docs]\ndef\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n:\nfloat\n=\n1.0\n)\n->\nbool\n:\n\n-----\n\n(\nfused_value\n)\nd2\n=\n_to_date\n(\nexpected_value\n)\nif\nd1\nis\nNone\nor\nd2\nis\nNone\n:\nlogger\n.\nerror\n(\n\"year_only_match: could not convert values to date (fused=\n%r\n, expected=\n%r\n)\"\n,\nfused_value\n,\nexpected_value\n,\n)\nreturn\nFalse\nreturn\nd1\n.\nyear\n==\nd2\n.\nyear\n[docs]\ndef\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n:\nfloat\n=\n0.01\n)\n->\nbool\n:\n\"\"\"Evaluation function for numeric values with tolerance.\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nreturn\nabs\n(\nfloat\n(\nfused_value\n)\n-\nfloat\n(\nexpected_value\n))\n<=\ntolerance\nexcept\n(\nValueError\n,\nTypeError\n):\nreturn\nstr\n(\nfused_value\n)\n.\nstrip\n()\n==\nstr\n(\nexpected_value\n)\n.\nstrip\n()\n[docs]\ndef\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n->\nbool\n:\n\"\"\"Evaluation function for set equality (order-independent).\nUseful for lists where order doesn't matter.\n\"\"\"\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\ntry\n:\nif\nisinstance\n(\nfused_value\n,\n(\nlist\n,\ntuple\n,\nset\n))\nand\nisinstance\n(\nexpected_value\n,\n(\nlist\n,\ntuple\n,\nset\n)):\nreturn\nset\n(\nfused_value\n)\n==\nset\n(\nexpected_value\n)\nreturn\nfused_value\n==\nexpected_value\nexcept\n(\nTypeError\n,\nValueError\n):\nreturn\nstr\n(\nfused_value\n)\n==\nstr\n(\nexpected_value\n)\n[docs]\ndef\nboolean_match\n(\nfused_value\n,\n\n-----\n\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\nseparator\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nCreate union of all list values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nseparator\n(\nstr\n,\noptional\n) – If provided, split string values by this separator\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nvoting\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the most frequent value (majority vote).\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nweighted_voting\n(\nvalues\n,\nweights\n=\nNone\n,\n**\nkwargs\n)\n[source]\n\nSelect value using weighted voting.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\nweights\n(\nList\n[\nfloat\n]\n,\noptional\n) – Weights for each value. If None, uses uniform weights.\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nyear_only_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nEvaluation function comparing only the year part of dates.\nIf the inputs are strings, attempt to parse to dates; if they are\ndatetime\n/\ndate\n\n-----\n\nReturn type\n:\nFusionResult\nPyDI.fusion.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\nPyDI.fusion.\nprefer_higher_trust\n(\nvalues\n,\n*\n,\nsources\n=\nNone\n,\nsource_datasets\n=\nNone\n,\ntrust_map\n=\nNone\n,\ndefault_trust\n=\n1.0\n,\ntrust_key\n=\n'trust'\n,\ntie_breaker\n=\n'first'\n,\n**\nkwargs\n)\n[source]\n\nPrefer the value coming from the dataset with the highest trust level.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – Candidate values for the attribute.\nsources\n(\nList\n[\nstr\n]\n) – Record IDs corresponding 1:1 to\nvalues\n(provided by the engine).\nsource_datasets\n(\nDict\n[\nstr\n,\nstr\n]\n) – Map from record ID to dataset name (provided by the engine).\ntrust_map\n(\nDict\n[\nstr\n,\nfloat\n]\n,\noptional\n) – Map from dataset name to trust score/level. Higher means more trusted.\ndefault_trust\n(\nfloat\n,\ndefault 1.0\n) – Trust to assume for datasets not in\ntrust_map\n.\ntrust_key\n(\nstr\n,\ndefault \"trust\"\n) – Key name to use for the trust value in the emitted metadata.\ntie_breaker\n(\nstr\n,\ndefault \"first\"\n) – How to break ties when multiple datasets share the highest trust.\nOptions: “first” (preserve input order).\nReturns\n:\nTuple (value, confidence, metadata).\nReturn type\n:\nFusionResult\nPyDI.fusion.\nprint_conflict_preview\n(\ndatasets\n,\ncorrespondences\n,\nsample_size\n=\n5\n,\nconflict_attrs\n=\nNone\n,\nid_columns\n=\n'_id'\n)\n[source]\n\n\n-----\n\n\nCalculate coverage metrics comparing input to output.\nParameters\n:\ndatasets\n(\nList\n[\npd.DataFrame\n]\n) – Original input datasets.\nfused_df\n(\npd.DataFrame\n) – The fused result dataset.\nReturns\n:\nDictionary of coverage metrics.\nReturn type\n:\nDict[str, float]\nPyDI.fusion.evaluation.\nexact_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nDefault evaluation function using exact equality.\nReturn type\n:\nbool\nPyDI.fusion.evaluation.\nnumeric_tolerance_match\n(\nfused_value\n,\nexpected_value\n,\ntolerance\n=\n0.01\n)\n[source]\n\nEvaluation function for numeric values with tolerance.\nParameters\n:\ntolerance\n(\nfloat\n)\nReturn type\n:\nbool\nPyDI.fusion.evaluation.\nset_equality_match\n(\nfused_value\n,\nexpected_value\n)\n[source]\n\nEvaluation function for set equality (order-independent).\nUseful for lists where order doesn’t matter.\nReturn type\n:\nbool\nPyDI.fusion.evaluation.\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n=\n1.0\n)\n[source]\n\nEvaluation function using tokenized comparison with similarity threshold.\nFor lists: Uses Jaccard similarity between lists (order doesn’t matter).\nFor strings: Tokenizes and uses Jaccard similarity between token sets.\nUseful for actor lists and titles where order and partial matches matter.\nParameters\n:\nfused_value\n(\nAny\n) – The fused value to compare.\nexpected_value\n(\nAny\n) – The expected value to compare against.\nthreshold\n(\nfloat\n,\ndefault 1.0\n) – Minimum similarity threshold (0.0 to 1.0).\n1.0 requires exact match, lower values allow partial matches.\n\n-----\n\n)\n[source]\n\nEvaluation function for set equality (order-independent).\nUseful for lists where order doesn’t matter.\nReturn type\n:\nbool\nPyDI.fusion.\nshortest_string\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nSelect the shortest string value.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\nsum_values\n(\nvalues\n,\n**\nkwargs\n)\n[source]\n\nCalculate the sum of numeric values.\nParameters\n:\nvalues\n(\nList\n[\nAny\n]\n) – List of values to resolve conflicts from\n**kwargs\n– Additional context (ignored)\nReturns\n:\nTuple of (resolved_value, confidence, metadata)\nReturn type\n:\nFusionResult\nPyDI.fusion.\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n=\n1.0\n)\n[source]\n\nEvaluation function using tokenized comparison with similarity threshold.\nFor lists: Uses Jaccard similarity between lists (order doesn’t matter).\nFor strings: Tokenizes and uses Jaccard similarity between token sets.\nUseful for actor lists and titles where order and partial matches matter.\nParameters\n:\nfused_value\n(\nAny\n) – The fused value to compare.\nexpected_value\n(\nAny\n) – The expected value to compare against.\nthreshold\n(\nfloat\n,\ndefault 1.0\n) – Minimum similarity threshold (0.0 to 1.0).\n1.0 requires exact match, lower values allow partial matches.\nReturns\n:\nTrue if similarity >= threshold, False otherwise.\nReturn type\n:\nbool\nPyDI.fusion.\nunion\n(\nvalues\n,\n\n-----\n\n->\nbool\n:\n\"\"\"Default evaluation function using exact equality.\"\"\"\nreturn\nfused_value\n==\nexpected_value\n[docs]\ndef\ntokenized_match\n(\nfused_value\n,\nexpected_value\n,\nthreshold\n:\nfloat\n=\n1.0\n)\n->\nbool\n:\n\"\"\"Evaluation function using tokenized comparison with similarity threshold.\nFor lists: Uses Jaccard similarity between lists (order doesn't matter).\nFor strings: Tokenizes and uses Jaccard similarity between token sets.\nUseful for actor lists and titles where order and partial matches matter.\nParameters\n----------\nfused_value : Any\nThe fused value to compare.\nexpected_value : Any\nThe expected value to compare against.\nthreshold : float, default 1.0\nMinimum similarity threshold (0.0 to 1.0).\n1.0 requires exact match, lower values allow partial matches.\nReturns\n-------\nbool\nTrue if similarity >= threshold, False otherwise.\n\"\"\"\n# Check for missing values using the same logic as DataFusionEvaluator\nif\n_is_missing_value\n(\nfused_value\n)\nand\n_is_missing_value\n(\nexpected_value\n):\nreturn\nTrue\nif\n_is_missing_value\n(\nfused_value\n)\nor\n_is_missing_value\n(\nexpected_value\n):\nreturn\nFalse\n# Get Jaccard similarity function from registry\njaccard_sim\n=\nSimilarityRegistry\n.\nget_function\n(\n'jaccard'\n)\n# Handle lists of strings - use Jaccard similarity\nif\nisinstance\n(\nfused_value\n,\nlist\n)\nand\nisinstance\n(\nexpected_value\n,\nlist\n):\n# Use Jaccard similarity between sets (order doesn't matter)\nsimilarity\n=\njaccard_sim\n(\nset\n(\nfused_value\n),\nset\n(\nexpected_value\n))\nreturn\nsimilarity\n>=\nthreshold"
+    },
+    {
+      "query": "How does PyDI DataFusionEvaluator handle fused_id_column and gold_id_column, and can evaluation functions be registered per column with DataFusionStrategy?",
+      "response": "gold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\nlogs\n)\n[source]\n\nLoad fusion debug log files to recover conflict inputs for evaluation.\nParameters\n:\nlogs\n(\nPath\n|\nstr\n|\nIterable\n[\nPath\n|\nstr\n]\n|\nNone\n)\nReturn type\n:\nNone\nclass\nPyDI.fusion.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\ninstances and optional evaluation rules for quality assessment.\nParameters\n:\nname\n(\nstr\n)\nadd_attribute_fuser\n(\nattribute\n,\nfuser_or_resolver\n,\nevaluation_function\n=\nNone\n,\n**\nfuser_kwargs\n)\n[source]\n\nRegister how to fuse an attribute (unified API).\nAccepts either a pre-built AttributeValueFuser (advanced usage) or a\nresolver function (simple usage). When a resolver function is provided,\nit is wrapped into an AttributeValueFuser with any extra keyword args\nsupplied via\nfuser_kwargs\n(e.g., accessor=…, required=True).\nParameters\n:\nattribute\n(\nstr\n) – Name of the attribute to fuse.\nfuser_or_resolver\n(\nUnion\n[\nAttributeValueFuser\n,\nConflictResolutionFunction\n]\n) – Either an AttributeValueFuser instance or a resolver function that\nresolves conflicts and returns (value, confidence, metadata).\nevaluation_function\n(\nOptional\n[\nEvaluationFunction\n]\n) – Optional evaluation rule for quality assessment.\n\n-----\n\nthat dataset.\npre_normalized\n(\nbool\n,\ndefault False\n) – When True, assume\ndatasets\nalready contain string\n_id\ncolumns and\ncorrespondences\nalready use string identifiers. Use this when inputs\nwere normalized upstream to avoid redundant copies.\nReturns\n:\nList of record groups representing connected components.\nReturn type\n:\nList[\nRecordGroup\n]\nPyDI.fusion.evaluation module\n\nEvaluation framework for data fusion in PyDI.\nThis module provides tools for evaluating the quality of fusion results\nagainst validation/test datasets.\nclass\nPyDI.fusion.evaluation.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\n[API_SIGNATURE] class PyDI.fusion.evaluation. DataFusionEvaluator ( strategy , * , debug = False , debug_file = None , debug_format = 'json' , fusion_debug_logs = None ) [source] \nBases: object Evaluator for data fusion results against validation/test datasets. Parameters : strategy ( DataFusionStrategy ) – The fusion strategy containing evaluation rules. debug ( bool ) debug_file ( Optional [ Union [ str , Path ] ] ) debug_format ( str ) fusion_debug_logs ( Optional [ Union [ Path , str , Iterable [ Union [ Path , str ] ] ] ] ) evaluate ( fused_df , fused_id_column , expected_df = None , expected_id_column = None , gold_df = None , gold_id_column = None ) [source]  Evaluate fused results against an expected/validation dataset. Parameters : fused_df ( pd.DataFrame ) – The fused dataset to evaluate. fused_id_column ( str ) – ID column name in the fused dataset. expected_df ( pd.DataFrame , optional ) – The expected/validation/test dataset. expected_id_column ( str , optional ) – ID column name in the expected dataset. gold_df ( pd.DataFrame , optional ) – Deprecated alias for expected_df. gold_id_column ( str , optional ) – Deprecated alias for expected_id_column. Returns : Dictionary of evaluation metrics. Return type : Dict[str, float] set_fusion_debug_logs ( logs ) [source]  Load fusion debug log files to recover conflict inputs for evaluation. Parameters :\n\n-----\n\nReturns\n:\nThe fused dataset. When\nreturn_provenance\nis True and the engine\nruns in debug mode, returns a tuple of (dataset, provenance map).\nReturn type\n:\nUnion[pd.DataFrame, Tuple[pd.DataFrame, Dict[str, Dict[str, List[Dict[str, Any]]]]]]\nclass\nPyDI.fusion.\nDataFusionEvaluator\n(\nstrategy\n,\n*\n,\ndebug\n=\nFalse\n,\ndebug_file\n=\nNone\n,\ndebug_format\n=\n'json'\n,\nfusion_debug_logs\n=\nNone\n)\n[source]\n\nBases:\nobject\nEvaluator for data fusion results against validation/test datasets.\nParameters\n:\nstrategy\n(\nDataFusionStrategy\n) – The fusion strategy containing evaluation rules.\ndebug\n(\nbool\n)\ndebug_file\n(\nOptional\n[\nUnion\n[\nstr\n,\nPath\n]\n]\n)\ndebug_format\n(\nstr\n)\nfusion_debug_logs\n(\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]\n]\n]\n]\n)\nevaluate\n(\nfused_df\n,\nfused_id_column\n,\nexpected_df\n=\nNone\n,\nexpected_id_column\n=\nNone\n,\ngold_df\n=\nNone\n,\ngold_id_column\n=\nNone\n)\n[source]\n\nEvaluate fused results against an expected/validation dataset.\nParameters\n:\nfused_df\n(\npd.DataFrame\n) – The fused dataset to evaluate.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\nexpected_df\n(\npd.DataFrame\n,\noptional\n) – The expected/validation/test dataset.\nexpected_id_column\n(\nstr\n,\noptional\n) – ID column name in the expected dataset.\ngold_df\n(\npd.DataFrame\n,\noptional\n) – Deprecated alias for expected_df.\ngold_id_column\n(\nstr\n,\noptional\n) – Deprecated alias for expected_id_column.\nReturns\n:\nDictionary of evaluation metrics.\nReturn type\n:\nDict[str, float]\nset_fusion_debug_logs\n(\n\n-----\n\nDataFusionEvaluator\nDataFusionEvaluator.evaluate()\nDataFusionEvaluator.set_fusion_debug_logs()\nboolean_match()\ncalculate_consistency_metrics()\ncalculate_coverage_metrics()\nexact_match()\nnumeric_tolerance_match()\nset_equality_match()\ntokenized_match()\nyear_only_match()\nPyDI.fusion.provenance module\nProvenanceInfo\nProvenanceInfo.confidence\nProvenanceInfo.from_dict()\nProvenanceInfo.metadata\nProvenanceInfo.operation\nProvenanceInfo.sources\nProvenanceInfo.timestamp\nProvenanceInfo.to_dict()\nProvenanceTracker\nProvenanceTracker.export_provenance()\nProvenanceTracker.get_lineage()\nProvenanceTracker.get_provenance()\nProvenanceTracker.get_source_statistics()\nProvenanceTracker.get_trust_score()\nProvenanceTracker.import_provenance()\nProvenanceTracker.register_dataset_source()\nProvenanceTracker.track_fusion_result()\nProvenanceTracker.track_input_data()\nadd_provenance_columns()\nextract_source_trust_scores()\nPyDI.fusion.reporting module\nFusionReport\nFusionReport.export_detailed_results()\nFusionReport.get_coverage_dataframe()\nFusionReport.get_evaluation_examples()\nFusionReport.print_coverage_analysis()\nFusionReport.print_evaluation_examples()\nFusionReport.print_summary()\nFusionReport.suggest_fusion_rules()\nFusionReport.to_dict()\nFusionReport.to_html()\nFusionReport.to_json()\nPyDI.fusion.strategy module\nDataFusionStrategy\nDataFusionStrategy.add_attribute_fuser()\nDataFusionStrategy.add_evaluation_function()\nDataFusionStrategy.clear()\nDataFusionStrategy.get_attribute_fuser()\n\n-----\n\n,\ngold_id_column\n,\nmax_examples\n=\n3\n)\n[source]\n\nPrint examples of correct and incorrect fusion results.\nParameters\n:\ngold_df\n(\npd.DataFrame\n) – The expected/validation dataset.\nfused_id_column\n(\nstr\n) – ID column name in the fused dataset.\ngold_id_column\n(\nstr\n) – ID column name in the expected dataset.\nmax_examples\n(\nint\n,\ndefault 3\n) – Maximum number of examples to show for each category.\nprint_summary\n(\n)\n[source]\n\nPrint a summary of the fusion report.\nsuggest_fusion_rules\n(\n)\n[source]\n\nGet fusion rule suggestions based on coverage analysis.\nReturn type\n:\nDict\n[str, str] | None\nto_dict\n(\n)\n[source]\n\nConvert report to dictionary format.\nReturn type\n:\nDict\n[str,\nAny\n]\nto_html\n(\npath\n)\n[source]\n\nExport report as HTML file.\nParameters\n:\npath\n(\nstr\n) – File path to save HTML report.\nto_json\n(\npath\n=\nNone\n)\n[source]\n\nExport report as JSON.\nParameters\n:\npath\n(\nstr\n,\noptional\n) – File path to save JSON. If None, returns JSON string.\nReturns\n:\nJSON representation of the report.\nReturn type\n:\nstr\nPyDI.fusion.strategy module\n\nData fusion strategy management for PyDI.\nThis module defines the DataFusionStrategy class for registering and managing\nattribute-level fusers and evaluation rules.\nclass\nPyDI.fusion.strategy.\nDataFusionStrategy\n(\nname\n=\n'default'\n)\n[source]\n\nBases:\nobject\nStrategy for data fusion that manages attribute fusers and evaluation rules.\nA strategy defines how to fuse each attribute by registering AttributeValueFuser\n\n-----\n\n=\nTrue\n)\nwith\npath\n.\nopen\n(\n\"w\"\n,\nencoding\n=\n\"utf-8\"\n)\nas\nf\n:\nheader\n=\n{\n\"type\"\n:\n\"evaluation_debug_header\"\n,\n\"strategy\"\n:\nself\n.\nstrategy\n.\nname\n,\n\"format\"\n:\nself\n.\n_debug_format\n,\n}\nif\nself\n.\n_debug_format\n==\n\"json\"\n:\nf\n.\nwrite\n(\njson\n.\ndumps\n(\nheader\n,\nensure_ascii\n=\nFalse\n)\n+\n\"\n\\n\n\"\n)\nelse\n:\nf\n.\nwrite\n(\n\"=== Fusion Evaluation Debug Log ===\n\\n\n\"\nf\n\"Strategy:\n{\nself\n.\nstrategy\n.\nname\n}\n\\n\n\"\n\"Only mismatches and evaluation errors are recorded.\n\\n\\n\n\"\n)\nself\n.\n_debug_file\n=\npath\nself\n.\n_logger\n.\ninfo\n(\n\"Fusion evaluation debug logging enabled; refer to\n%s\nfor mismatch details.\"\n,\npath\n,\n)\nexcept\nException\nas\nexc\n:\nself\n.\n_logger\n.\nwarning\n(\n\"Could not initialize evaluation debug log '\n%s\n':\n%s\n\"\n,\npath\n,\nexc\n,\n)\nself\n.\n_debug_file\n=\nNone\nif\nfusion_debug_logs\nis\nnot\nNone\n:\nself\n.\nset_fusion_debug_logs\n(\nfusion_debug_logs\n)\n[docs]\ndef\nset_fusion_debug_logs\n(\nself\n,\nlogs\n:\nOptional\n[\nUnion\n[\nPath\n,\nstr\n,\nIterable\n[\nUnion\n[\nPath\n,\nstr\n]]]],\n)\n->\nNone\n:\n\"\"\"Load fusion debug log files to recover conflict inputs for evaluation.\"\"\"\nself\n.\n_fusion_debug_map\n=\nself\n.\n_load_fusion_debug_inputs\n(\nlogs\n)\nif\nlogs\nelse\n{}\n[docs]\ndef\nevaluate\n(\nself\n,\nfused_df\n:\npd\n.\nDataFrame\n,\nfused_id_column\n:\nstr\n,\nexpected_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\nexpected_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\ngold_df\n:\nOptional\n[\npd\n.\nDataFrame\n]\n=\nNone\n,\ngold_id_column\n:\nOptional\n[\nstr\n]\n=\nNone\n,\n)\n->\nDict\n[\nstr\n,\nfloat\n]:\n\"\"\"Evaluate fused results against an expected/validation dataset.\nParameters"
+    }
+  ],
+  "integration_pipeline_code_length": 12324,
+  "evaluation_code_length": 16144,
+  "integration_diagnostics_code_length": 0,
+  "human_review_code_length": 20757,
+  "run_audit_path": "output/runs/20260323_072905_games/results/run_audit_20260323_074600.json",
+  "run_report_path": "output/runs/20260323_072905_games/results/run_report_20260323_074600.md"
+}

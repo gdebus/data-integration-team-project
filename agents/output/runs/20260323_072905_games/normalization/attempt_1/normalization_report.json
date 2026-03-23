@@ -1,0 +1,141 @@
+{
+  "status": "success",
+  "attempt": 1,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/games/testsets/validation_set_fusion.xml",
+  "llm_specs": {
+    "dbpedia": {
+      "releaseYear": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%d",
+        "on_failure": "keep"
+      },
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metacritic": {
+      "releaseYear": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%d",
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "developer": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "sales": {
+      "releaseYear": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%d",
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [
+    "genres_genre"
+  ],
+  "llm_reasoning": "Target stores releaseYear as YYYY-MM-DD strings and criticScore/userScore as strings. Source metacritic and sales have numeric score types, so cast them to string. Dates in all sources are already date-like but should be formatted to match target style. Platform/developer mostly match target style; only safe whitespace cleanup is included. No ID columns were touched, and no aggressive case changes were applied because target preserves mixed case. genres_genre is list-like in the target schema.",
+  "datasets": {
+    "dbpedia": {
+      "input_path": "output/runs/20260323_072905_games/schema-matching/dbpedia.csv",
+      "output_path": "output/runs/20260323_072905_games/normalization/attempt_1/dbpedia.csv",
+      "row_count": 46580,
+      "id_column": "id",
+      "spec_applied": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "metacritic": {
+      "input_path": "output/runs/20260323_072905_games/schema-matching/metacritic.csv",
+      "output_path": "output/runs/20260323_072905_games/normalization/attempt_1/metacritic.csv",
+      "row_count": 20494,
+      "id_column": "id",
+      "spec_applied": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "developer": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "sales": {
+      "input_path": "output/runs/20260323_072905_games/schema-matching/sales.csv",
+      "output_path": "output/runs/20260323_072905_games/normalization/attempt_1/sales.csv",
+      "row_count": 7877,
+      "id_column": "id",
+      "spec_applied": {
+        "releaseYear": {
+          "output_type": "datetime",
+          "date_format": "%Y-%m-%d",
+          "on_failure": "keep"
+        },
+        "criticScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "userScore": {
+          "output_type": "string",
+          "on_failure": "keep"
+        },
+        "platform": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-23T07:29:21.335438"
+}

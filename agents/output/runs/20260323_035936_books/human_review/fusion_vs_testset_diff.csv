@@ -1,0 +1,37 @@
+fused_id,testset_id,matched_on_fused_column,matched_on_test_column,attribute,fused_value,test_value,is_equal
+amazon_1846,amazon_1846,_id,id,author,"Isaac Bashevis Singer, Herb Johnson (Designed by)",Isaac Bashevis Singer,False
+amazon_1846,amazon_1846,_id,id,genres,"['Anthologies', 'Classics', 'Fiction', 'Jewish', 'Judaica', 'Judaism', 'Literature', 'Nobel Prize', 'Poland', 'Polish Literature', 'Short Stories']","Short Stories, Fiction, Jewish, Classics, Literature, Poland, Nobel Prize, Polish Literature, Judaica, Judaism, Literature, Fiction, Short Stories, Anthologies",False
+amazon_1846,amazon_1846,_id,id,page_count,624.0,624,False
+amazon_1846,amazon_1846,_id,id,publish_year,1983.0,1983,False
+amazon_2767,amazon_2767,_id,id,author,Jill McCorkle,Nora Roberts,False
+amazon_2767,amazon_2767,_id,id,genres,"['Chick Lit', 'Contemporary', 'Contemporary Romance', 'Fiction', 'Literature', 'Mystery', 'Paranormal', 'Romance', 'Romantic Suspense', 'Suspense', 'Thriller', 'United States', ""Women's Fiction""]","Romance, Romantic Suspense, Mystery, Fiction, Contemporary Romance, Contemporary, Suspense, Paranormal, Chick Lit, Thriller, Literature, Fiction, Women's Fiction",False
+amazon_2767,amazon_2767,_id,id,page_count,470.0,470,False
+amazon_2767,amazon_2767,_id,id,publish_year,2001.0,2001,False
+amazon_3798,amazon_3798,_id,id,genres,"['Magick', 'New Age', 'Nonfiction', 'Occult', 'Paganism', 'Reference', 'Religion', 'Spirituality', 'Wicca', 'Witchcraft']","Wicca, Nonfiction, Spirituality, Religion, Witchcraft, Paganism, Occult, Reference, Magick, New Age, Religion, Spirituality, New Age",False
+amazon_3798,amazon_3798,_id,id,page_count,240.0,240,False
+amazon_3798,amazon_3798,_id,id,publish_year,1989.0,1988,False
+amazon_53731,amazon_53731,_id,id,genres,"['20th Century', 'American', 'Classics', 'Fantasy', 'Fiction', 'Folk Tales', 'Literary Fiction', 'Literature', 'Mythology', 'Novels', 'Short Stories']","Fiction, Fantasy, Literature, Short Stories, American, Novels, Mythology, Literary Fiction, 20th Century, Classics, Literature, Fiction, Mythology, Folk Tales",False
+amazon_53731,amazon_53731,_id,id,page_count,320.0,320,False
+amazon_53731,amazon_53731,_id,id,publish_year,2001.0,2001,False
+amazon_85084,amazon_85084,_id,id,genres,"['Fantasy', 'Fantasy Romance', 'Fiction', 'Genre Fiction', 'High Fantasy', 'Historical', 'Literature', 'Magic', 'Romance', 'Science Fiction Fantasy', 'Young Adult', 'Young Adult Fantasy']","Fantasy, Young Adult, Romance, Fiction, High Fantasy, Magic, Young Adult Fantasy, Fantasy Romance, Science Fiction Fantasy, Historical, Literature, Fiction, Genre Fiction",False
+amazon_85084,amazon_85084,_id,id,page_count,352.0,352,False
+amazon_85084,amazon_85084,_id,id,publish_year,2002.0,2002,False
+amazon_85084,amazon_85084,_id,id,publisher,Ace,Ace Books,False
+amazon_91302,amazon_91302,_id,id,genres,"['Action', 'Adventure', 'Fiction', 'Historical Fiction', 'Literature', 'Military Fiction', 'Novels', 'War']","Fiction, Military Fiction, Historical Fiction, War, Action, Novels, Literature, Fiction, Action, Adventure",False
+amazon_91302,amazon_91302,_id,id,page_count,432.0,432,False
+amazon_91302,amazon_91302,_id,id,publish_year,1988.0,1988,False
+amazon_91302,amazon_91302,_id,id,title,Charlie Mike,Charlie Mike: A Novel,False
+amazon_98557,amazon_98557,_id,id,author,"Frances Hodgson Burnett, Nancy Bond (Foreword)",Frances Hodgson Burnett,False
+amazon_98557,amazon_98557,_id,id,genres,"['Childrens', 'Classics', 'Fiction', 'Genre Fiction', 'Historical', 'Historical Fiction', 'Juvenile', 'Literature', 'Middle Grade', 'Novels', 'Young Adult']","Classics, Fiction, Childrens, Young Adult, Historical Fiction, Middle Grade, Historical, Literature, Juvenile, Novels, Literature, Fiction, Genre Fiction",False
+amazon_98557,amazon_98557,_id,id,page_count,242.0,242,False
+amazon_98557,amazon_98557,_id,id,publish_year,2002.0,2002,False
+amazon_106712,amazon_106712,_id,id,genres,"[""Children's Books"", 'Childrens', 'Facts of Life', 'Fiction', 'Growing Up', 'Historical', 'Historical Fiction', 'Holocaust', 'Jewish', 'Middle Grade', 'War', 'World War II', 'Young Adult']","Historical Fiction, Young Adult, Holocaust, Fiction, World War II, Childrens, Historical, Middle Grade, War, Jewish, Children's Books, Growing Up, Facts of Life",False
+amazon_106712,amazon_106712,_id,id,page_count,208.0,208,False
+amazon_106712,amazon_106712,_id,id,publish_year,1990.0,1990,False
+amazon_135479,amazon_135479,_id,id,genres,"['Action', 'Adult Fiction', 'Audiobook', 'Crime', 'Detective', 'Fiction', 'Mystery', 'Mystery Thriller', 'Suspense', 'Thriller']","Mystery, Fiction, Mystery Thriller, Thriller, Crime, Detective, Suspense, Audiobook, Action, Adult Fiction, Mystery, Thriller, Suspense, Mystery",False
+amazon_135479,amazon_135479,_id,id,page_count,288.0,274,False
+amazon_135479,amazon_135479,_id,id,publish_year,2000.0,2000,False
+amazon_269125,amazon_269125,_id,id,author,Madhur Jaffrey (Editor),Madhur Jaffrey,False
+amazon_269125,amazon_269125,_id,id,genres,"['20th Century', 'Cookbooks', 'Cooking', 'Food', 'Food Writing', 'Foodie', 'India', 'International', 'Nonfiction', 'Own', 'Reference', 'Regional', 'Wine']","Cookbooks, Cooking, Food, Reference, Nonfiction, India, Foodie, Food Writing, Own, 20th Century, Cookbooks, Food, Wine, Regional, International",False
+amazon_269125,amazon_269125,_id,id,page_count,240.0,240,False
+amazon_269125,amazon_269125,_id,id,publish_year,2003.0,2003,False

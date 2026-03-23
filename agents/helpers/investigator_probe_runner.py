@@ -780,7 +780,7 @@ def _probe_source_attribution(state: Dict[str, Any]) -> Dict[str, Any]:
             if has_metadata:
                 try:
                     meta_raw = fused_row.get("_fusion_metadata", "")
-                    if isinstance(meta_raw, str) and meta_raw.strip():
+                    if isinstance(meta_raw, str) and meta_raw.strip() and len(meta_raw) < 50000:
                         # Metadata is Python repr (single-quoted dicts, may contain
                         # numpy calls like np.float64(...)).  Extract per-attribute
                         # inputs via targeted regex when full parsing fails.

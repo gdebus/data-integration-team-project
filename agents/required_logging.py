@@ -722,6 +722,23 @@ class WorkflowLogger:
         self._write_activity_payload()
         self._active = False
 
+    def relocate_output(self, new_output_dir: str):
+        """Re-scope activity log and pipeline archive paths to a new output directory.
+
+        Called when configure_run_output() redirects output to a run-scoped
+        directory after start_run() has already set paths using the old dir.
+        """
+        self.output_dir = new_output_dir
+        if self._activity_log_path:
+            basename = os.path.basename(self._activity_log_path)
+            results_dir = os.path.join(new_output_dir, "results")
+            os.makedirs(results_dir, exist_ok=True)
+            self._activity_log_path = os.path.join(results_dir, basename)
+        if self._pipeline_archive_path:
+            basename = os.path.basename(self._pipeline_archive_path)
+            results_dir = os.path.join(new_output_dir, "results")
+            self._pipeline_archive_path = os.path.join(results_dir, basename)
+
     def mark_next_for_previous(self, next_node: str):
         if self._last_record_index is None:
             return

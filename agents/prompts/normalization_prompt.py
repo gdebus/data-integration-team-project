@@ -51,12 +51,21 @@ is a ColumnSpec dict.  The available ColumnSpec fields (all optional) are:
    "keep" / null).  Unnecessary transformations risk breaking values that
    already match.
 
+   CRITICAL: On re-normalization attempts (attempt 2+), the spec is applied to the
+   ORIGINAL source data, not the previously normalized version. Therefore, your new
+   spec MUST include ALL transformations from previous specs that were working
+   correctly, PLUS the new fixes. Do NOT produce a minimal spec that only addresses
+   the new issue — that will lose all previous normalization gains. If the previous
+   spec normalized country names and dates correctly, your new spec must ALSO include
+   those same country and date transformations.
+
 3. **Preserve ID and identifier columns.**  Never include columns whose name
-   contains "id" (case-insensitive) in the spec.  Also preserve columns that
-   serve as natural keys or identifiers — ISBN, ISSN, EAN, UPC, ASIN, barcode,
+   contains "id" or "isbn" (case-insensitive) in the spec.  Also preserve columns
+   that serve as natural keys or identifiers — ISBN, ISSN, EAN, UPC, ASIN, barcode,
    postal/zip codes, phone numbers used as keys — even if they look numeric.
    These often have significant leading zeros (e.g. ISBN "0312252951") that
-   would be lost if cast to int.  Leave them as strings.
+   would be lost if cast to int.  Leave them EXACTLY as they are — do not
+   include them in any NormalizationSpec under any circumstances.
 
 4. **Be precise about case.**  If the target uses lowercase for a column, set
    `case: "lower"`.  If the target preserves original case, set `case: "keep"`

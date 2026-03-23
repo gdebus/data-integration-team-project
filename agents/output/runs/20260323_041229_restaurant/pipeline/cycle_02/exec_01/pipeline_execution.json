@@ -1,0 +1,6 @@
+{
+  "execution_result": "success",
+  "stdout": "Normalized list-like columns: categories\nPerforming Blocking\nMatching Entities\nApplying Post-Clustering\nFusing Data\n",
+  "stderr": "",
+  "captured_at": "2026-03-23T03:19:03.703390Z"
+}

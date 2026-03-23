@@ -1,0 +1,36 @@
+{
+  "specs": {
+    "amazon_small": {},
+    "goodreads_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "genres": {
+        "strip_whitespace": true,
+        "case": "title",
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [],
+  "reasoning": "Target style preserves title/author/publisher casing, uses language names like English, comma-separated genres in title case, and integer values for publish_year and page_count. Goodreads mostly already matches target; only numeric float-to-int cleanup is needed. Metabooks genres visibly differ from target because values like Children's Books and lowercase conjunctions should align toward title-cased comma-separated target genre strings, so genres are title-cased and trimmed. Identifier columns including id and isbn_clean are preserved and omitted."
+}

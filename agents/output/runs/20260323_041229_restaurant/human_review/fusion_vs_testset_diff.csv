@@ -1,0 +1,56 @@
+fused_id,test_id,attribute,fused_value,test_value,is_diff
+kaggle380k-003569,kaggle380k-003569,categories,"['Cajun restaurant', 'Family restaurant', 'Seafood restaurant', 'seafood']","[""['Seafood restaurant', 'Cajun restaurant', 'Family restaurant']"", ""['seafood']""]",True
+kaggle380k-003569,kaggle380k-003569,phone_e164,16237424512,+16237424512,True
+kaggle380k-003569,kaggle380k-003569,phone_raw,16237424512.0,+16237424512,True
+kaggle380k-003604,kaggle380k-003604,categories,"['Latin American restaurant', 'Salvadoran restaurant', 'Soup restaurant', 'Takeout restaurant']","[""['Salvadoran restaurant', 'Latin American restaurant', 'Takeout restaurant', 'Soup restaurant']"", ""['nan']""]",True
+kaggle380k-003604,kaggle380k-003604,latitude,33.4923129459002,33.4923124,True
+kaggle380k-003604,kaggle380k-003604,longitude,-112.28748493710688,-112.2874846,True
+kaggle380k-003604,kaggle380k-003604,phone_e164,16232494481,+16232494481,True
+kaggle380k-003604,kaggle380k-003604,phone_raw,16232494481.0,+16232494481,True
+kaggle380k-004352,kaggle380k-004352,categories,"['Hamburger restaurant', 'burgers']","[""['Hamburger restaurant']"", ""['burgers']""]",True
+kaggle380k-004352,kaggle380k-004352,latitude,34.132031049999995,34.1320421,True
+kaggle380k-004352,kaggle380k-004352,longitude,-118.2543679,-118.2542858,True
+kaggle380k-004352,kaggle380k-004352,phone_e164,17472156876,+17472156876,True
+kaggle380k-004352,kaggle380k-004352,phone_raw,17472156876.0,+17472156876,True
+kaggle380k-004383,kaggle380k-004383,categories,"['Mexican restaurant', 'breakfast', 'mexican']","[""['Mexican restaurant']"", ""['breakfast', 'mexican']""]",True
+kaggle380k-004383,kaggle380k-004383,latitude,34.157121820275464,34.157112,True
+kaggle380k-004383,kaggle380k-004383,phone_e164,18182468175,+18182468175,True
+kaggle380k-004383,kaggle380k-004383,phone_raw,18182468175.0,+18182468175,True
+kaggle380k-004991,kaggle380k-004991,categories,"['American restaurant', 'Restaurant', 'Sushi restaurant', 'japanese']","[""['American restaurant', 'Restaurant', 'Sushi restaurant']"", ""['japanese']""]",True
+kaggle380k-004991,kaggle380k-004991,latitude,33.51006705,33.5101041,True
+kaggle380k-004991,kaggle380k-004991,longitude,-112.0242398,-112.0243096,True
+kaggle380k-004991,kaggle380k-004991,phone_e164,16029579700,+16029579700,True
+kaggle380k-004991,kaggle380k-004991,phone_raw,16029579700.0,+16029579700,True
+kaggle380k-005026,kaggle380k-005026,categories,"['Italian restaurant', 'Pizza restaurant', 'italian', 'pizza']","[""['Italian restaurant', 'Pizza restaurant']"", ""['italian', 'pizza']""]",True
+kaggle380k-005026,kaggle380k-005026,latitude,33.50952555,33.509605,True
+kaggle380k-005026,kaggle380k-005026,longitude,-112.0404233,-112.040452,True
+kaggle380k-005026,kaggle380k-005026,phone_e164,16022482480,+16022482480,True
+kaggle380k-005026,kaggle380k-005026,phone_raw,16022482480.0,+16022482480,True
+kaggle380k-005063,kaggle380k-005063,categories,"['Latin American restaurant', 'Restaurant', 'latin']","[""['Latin American restaurant', 'Restaurant']"", ""['latin']""]",True
+kaggle380k-005063,kaggle380k-005063,latitude,33.4886224,33.4886508,True
+kaggle380k-005063,kaggle380k-005063,longitude,-111.96034119999999,-111.9603234,True
+kaggle380k-005063,kaggle380k-005063,phone_e164,16026752000,+16026752000,True
+kaggle380k-005063,kaggle380k-005063,phone_raw,16026752000.0,+16026752000,True
+kaggle380k-005228,kaggle380k-005228,categories,"['Brunch restaurant', 'Italian restaurant', 'Wine bar']","[""['Wine bar', 'Brunch restaurant', 'Italian restaurant']"", ""['nan']""]",True
+kaggle380k-005228,kaggle380k-005228,latitude,33.50690636981571,33.506904,True
+kaggle380k-005228,kaggle380k-005228,longitude,-111.92568441226788,-111.925684,True
+kaggle380k-005228,kaggle380k-005228,phone_e164,16024284444,+16024284444,True
+kaggle380k-005228,kaggle380k-005228,phone_raw,16024284444.0,+16024284444,True
+kaggle380k-005267,kaggle380k-005267,categories,"['Bar & grill', 'Brunch restaurant', 'Cocktail bar', 'Hawaiian restaurant', 'Polynesian restaurant', 'Restaurant', 'Tiki bar']","[""['Restaurant', 'Bar & grill', 'Brunch restaurant', 'Cocktail bar', 'Hawaiian restaurant', 'Polynesian restaurant', 'Tiki bar']"", ""['nan']""]",True
+kaggle380k-005267,kaggle380k-005267,latitude,33.4938869,33.4939208,True
+kaggle380k-005267,kaggle380k-005267,longitude,-111.92565225,-111.9256798,True
+kaggle380k-005267,kaggle380k-005267,phone_e164,14809704852,+14809704852,True
+kaggle380k-005267,kaggle380k-005267,phone_raw,14809704852.0,+14809704852,True
+kaggle380k-008940,kaggle380k-008940,categories,"['Breakfast restaurant', 'Chinese restaurant', 'Dim sum restaurant']","[""['Chinese restaurant', 'Breakfast restaurant', 'Dim sum restaurant']"", ""['nan']""]",True
+kaggle380k-008940,kaggle380k-008940,latitude,34.124377426955625,34.124375,True
+kaggle380k-008940,kaggle380k-008940,longitude,-118.0592336,-118.0592373,True
+kaggle380k-008940,kaggle380k-008940,phone_e164,16266951020,+16266951020,True
+kaggle380k-008940,kaggle380k-008940,phone_raw,16266951020.0,+16266951020,True
+kaggle380k-008964,kaggle380k-008964,categories,['Taiwanese restaurant'],"[""['Taiwanese restaurant']"", ""['nan']""]",True
+kaggle380k-008964,kaggle380k-008964,latitude,34.134873892903386,34.1350325,True
+kaggle380k-008964,kaggle380k-008964,longitude,-118.0517216969329,-118.0518497,True
+kaggle380k-008964,kaggle380k-008964,phone_e164,16264468588,+16264468588,True
+kaggle380k-008964,kaggle380k-008964,phone_raw,16264468588.0,+16264468588,True
+kaggle380k-001820,kaggle380k-001820,categories,"['Hamburger restaurant', 'Fast food restaurant']","[""['Burgers', 'American', 'Sandwiches']"", ""['Hamburger restaurant', 'Fast food restaurant']""]",True
+kaggle380k-001820,kaggle380k-001820,phone_e164,12565054720,+12565054720,True
+kaggle380k-001820,kaggle380k-001820,phone_raw,12565054720.0,+12565054720,True

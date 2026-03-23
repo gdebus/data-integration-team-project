@@ -1,0 +1,101 @@
+{
+  "status": "success",
+  "attempt": 2,
+  "max_attempts": 3,
+  "validation_set": "input/datasets/books/testsets/validation_set.csv",
+  "llm_specs": {
+    "amazon_small": {},
+    "goodreads_small": {
+      "author": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    },
+    "metabooks_small": {
+      "genres": {
+        "strip_whitespace": true,
+        "case": "title",
+        "on_failure": "keep"
+      },
+      "page_count": {
+        "output_type": "int",
+        "on_failure": "keep"
+      },
+      "publish_year": {
+        "output_type": "int",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "llm_list_columns": [],
+  "llm_reasoning": "Target style preserves title/author/publisher casing, uses language names like English, comma-separated genres in title case, and integer values for publish_year and page_count. Goodreads mostly already matches target; only numeric float-to-int cleanup is needed. Metabooks genres visibly differ from target because values like Children's Books and lowercase conjunctions should align toward title-cased comma-separated target genre strings, so genres are title-cased and trimmed. Identifier columns including id and isbn_clean are preserved and omitted.",
+  "datasets": {
+    "amazon_small": {
+      "input_path": "output/runs/20260323_035936_books/normalization/attempt_1/amazon_small.csv",
+      "output_path": "output/runs/20260323_035936_books/normalization/attempt_2/amazon_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {},
+      "list_columns_applied": []
+    },
+    "goodreads_small": {
+      "input_path": "output/runs/20260323_035936_books/normalization/attempt_1/goodreads_small.csv",
+      "output_path": "output/runs/20260323_035936_books/normalization/attempt_2/goodreads_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "author": {
+          "strip_whitespace": true,
+          "on_failure": "keep"
+        },
+        "page_count": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "publish_year": {
+          "output_type": "int",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    },
+    "metabooks_small": {
+      "input_path": "output/runs/20260323_035936_books/normalization/attempt_1/metabooks_small.csv",
+      "output_path": "output/runs/20260323_035936_books/normalization/attempt_2/metabooks_small.csv",
+      "row_count": 10000,
+      "id_column": "id",
+      "spec_applied": {
+        "genres": {
+          "strip_whitespace": true,
+          "case": "title",
+          "on_failure": "keep"
+        },
+        "page_count": {
+          "output_type": "int",
+          "on_failure": "keep"
+        },
+        "publish_year": {
+          "output_type": "int",
+          "on_failure": "keep"
+        }
+      },
+      "list_columns_applied": []
+    }
+  },
+  "warnings": [],
+  "acceptance_gate": {
+    "requested": false,
+    "request": {},
+    "pending": {}
+  },
+  "reverted_to_original": false,
+  "created_at": "2026-03-23T04:03:09.358575"
+}

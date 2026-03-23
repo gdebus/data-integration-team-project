@@ -1,0 +1,6 @@
+{
+  "execution_result": "error: [data_error] ValueError: Guard data access — check that columns exist before indexing, files exist before reading, and data types match expectations. Detail: Empty correspondences for kaggle_small_yelp_small",
+  "stdout": "Normalized list-like columns: categories\nPerforming Blocking\nMatching Entities\n",
+  "stderr": "Traceback (most recent call last):\n  File \"/Users/nickblazek/Desktop/Agent_Pipeline/agents/output/runs/20260323_041229_restaurant/code/pipeline.py\", line 217, in <module>\n    raise ValueError(\"Empty correspondences for kaggle_small_yelp_small\")\nValueError: Empty correspondences for kaggle_small_yelp_small\n",
+  "captured_at": "2026-03-23T03:14:31.856785Z"
+}

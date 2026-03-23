@@ -1,0 +1,23 @@
+# Human Review Summary
+
+- Created at: 2026-03-23T03:10:16.397175+00:00
+- Summary: Matched fused/testset using _id -> id with overlap 10.
+
+## Counts
+- fused_rows: 25449
+- review_rows: 25449
+- lineage_rows: 30000
+- diff_rows: 36
+- source_datasets_loaded: 3
+- source_datasets_requested: 3
+- review_attributes: 16
+
+## Files
+- fused_review_table_csv: output/runs/20260323_035936_books/human_review/fused_review_table.csv
+- source_lineage_long_csv: output/runs/20260323_035936_books/human_review/source_lineage_long.csv
+- fusion_vs_testset_diff_csv: output/runs/20260323_035936_books/human_review/fusion_vs_testset_diff.csv
+- human_review_summary_json: output/runs/20260323_035936_books/human_review/human_review_summary.json
+- human_review_summary_md: output/runs/20260323_035936_books/human_review/human_review_summary.md
+
+## Warnings
+- None

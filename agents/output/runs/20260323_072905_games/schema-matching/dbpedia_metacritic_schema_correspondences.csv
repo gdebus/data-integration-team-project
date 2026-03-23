@@ -1,0 +1,6 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+dbpedia,id,metacritic,id,0.95,llm_based_matching
+dbpedia,name,metacritic,name,0.95,llm_based_matching
+dbpedia,releaseYear,metacritic,releaseYear,0.95,llm_based_matching
+dbpedia,developer,metacritic,developer,0.95,llm_based_matching
+dbpedia,platform,metacritic,platform,0.95,llm_based_matching

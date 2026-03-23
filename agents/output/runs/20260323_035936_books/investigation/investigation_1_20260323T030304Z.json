@@ -1,0 +1,93 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The pipeline is near its structural ceiling. Blocking/matching are healthy, and most low scores come from fusion/format issues in already-matched entities. The only clearly fixable next step is normalization of list/string formatting to match the validation set, especially genres. Current fusion also uses suboptimal resolvers for publisher/title, but because pipeline_adaption cannot add preprocessing and genres failures are caused by pre-fusion format handling, normalization must be fixed first. The current inline/list handling is producing malformed nested genre strings with separator mismatches against the validation format (validation expects one plain comma-separated string, while fusion emits list-like/nested-string artifacts). Publisher also shows a format variant issue (HTML entity and imprint suffixes), which is likewise normalization-oriented before any trust-based fusion tuning.",
+        "next_node": "normalization_node",
+        "reasoning": "Protected attributes should be preserved: author=90%, language=100%, publish_year=100%, isbn_clean=100%, plus 16 attributes >85%, so no broad fusion changes should be made now. Evidence points away from blocking/matching: all 3 correspondence files are non-empty, blocking recall probes found 0 issues, and pairwise matcher F1 is decent (0.80-0.85). The biggest miss, genres=10%, is explicitly list_format_mismatch and the sample outputs show broken serialization/chunking rather than wrong entity linking. Validation expects genres as a single comma-separated string with title case; fused output contains Python-list-looking strings and split chunks, so this requires source normalization/list-column treatment before fusion, not a resolver-only change. Publisher has some true source disagreement, but also normalization problems such as 'Simon &amp; Schuster (Trade Division)' vs 'Simon & Schuster' and 'Vintage Books USA' vs 'Vintage'. Since normalization must happen first per routing rules, fix formatting/canonicalization now; only after re-evaluation should resolver/trust changes be considered. Overall headroom is small (~1.2-1.3%), so this is a ceiling-near pipeline.",
+        "ceiling_assessment": "Estimated achievable overall accuracy with current matching structure is about 77.5%. Current 76.25% is already close. Normalization can likely recover roughly 1 point, mostly by correcting genres serialization and a few publisher formatting cases; larger gains are unlikely because publisher/title/page_count remaining errors are mostly structurally limited source disagreements.",
+        "recommendations": [
+          {
+            "attribute": "genres",
+            "issue": "Validation expects a single plain comma-separated title-cased string, but current preprocessing/fusion treats genres as list-like and outputs malformed nested/chunked values (e.g. Python-list representations and semicolon/list artifacts). Probe evidence: exact match is very low but fuzzy is 90-100%, indicating mostly formatting/serialization mismatch, not semantic mismatch.",
+            "fix": "In normalization_node, normalize genres to the validation format before fusion: parse any list-like representations safely into atomic genre items, flatten nested lists/quoted chunks, strip brackets/quotes, split on source delimiters, trim whitespace, preserve duplicates/order when present, and reserialize as one comma+space separated string matching validation title case. Do not rely on downstream union with separator='; '. Use PyDI NormalizationSpec/transform_dataframe for string cleanup and dataset-specific custom parsing where needed so each source stores genres as the same plain string format prior to matching/fusion.",
+            "resolver_reasoning": "Source-vs-validation comparison shows goodreads has 10% exact but 90% fuzzy and metabooks 0% exact but 100% fuzzy. That means the content is mostly present but formatting differs. The probe's best resolver under current structure is longest_string, but resolver choice is secondary until format is fixed because malformed list serialization prevents exact matches regardless. Voting/intersection would lose complementary items; union is conceptually right for combined provenance but currently fails because inputs are not normalized into atomic comparable items. Normalize first, then union or longest_string can be revisited if needed.",
+            "class": "improvable",
+            "expected_impact": 0.008
+          },
+          {
+            "attribute": "publisher",
+            "issue": "Mixed problem: some values are canonicalization/format mismatches ('Simon &amp; Schuster (Trade Division)' vs 'Simon & Schuster', 'Vintage Books USA' vs 'Vintage'), while others are source disagreement. Current fusion uses longest_string, which is poorly aligned to validation and tends to choose verbose imprint variants.",
+            "fix": "In normalization_node, canonicalize publisher strings to validation style before fusion: HTML-unescape entities, strip business-unit/imprint suffixes in parentheses where validation omits them, collapse whitespace, and standardize common imprint aliases where the validation uses the shorter canonical house name. Preserve title case. After normalization and re-evaluation, consider switching resolver later to prefer_higher_trust with trust favoring metabooks_small if publisher remains underperforming.",
+            "resolver_reasoning": "Validation sample and probe show metabooks_small matches publisher best (89% exact vs goodreads 60%, amazon 20%), so prefer_higher_trust(metabooks>goodreads>amazon) is the best future fusion choice. Longest_string is specifically wrong because validation usually prefers canonical shorter names over extended imprint strings. However, because some misses are pure formatting/canonicalization, normalization must come first. Voting is weaker when sources disagree; favour_sources/prefer_higher_trust are better once strings are standardized.",
+            "class": "improvable",
+            "expected_impact": 0.005
+          },
+          {
+            "attribute": "title",
+            "issue": "Current resolver is voting, but validation examples often prefer the more complete metabooks title variant rather than majority/shorter variants. However title is already at its measured ceiling (80%) and not the best next-stage target.",
+            "fix": "No change in this normalization pass; preserve current title formatting because title accuracy is already relatively high and mismatches appear to be source disagreement, not a systematic format issue.",
+            "resolver_reasoning": "Changing title now risks harming a protected-ish attribute near ceiling. If later revisited in pipeline_adaption, source comparison suggests prefer_higher_trust toward metabooks or longest_string may outperform voting for some records, but current evidence says no measurable headroom remains under frozen structure.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "page_count",
+            "issue": "Values differ across sources/editions; current maximum already matches the recommended resolver and measured ceiling.",
+            "fix": "Preserve current page_count fusion and normalization.",
+            "resolver_reasoning": "Probe recommends maximum and both sources have 0% exact despite decent fuzzy proximity, indicating edition-level disagreement rather than formatting. Median/minimum would not align better with validation from available evidence, so no fix is warranted.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 29063,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The pipeline is near its structural ceiling. Blocking/matching are healthy, and most low scores come from fusion/format issues in already-matched entities. The only clearly fixable next step is normalization of list/string formatting to match the validation set, especially genres. Current fusion also uses suboptimal resolvers for publisher/title, but because pipeline_adaption cannot add preprocessing and genres failures are caused by pre-fusion format handling, normalization must be fixed first. The current inline/list handling is producing malformed nested genre strings with separator mismatches against the validation format (validation expects one plain comma-separated string, while fusion emits list-like/nested-string artifacts). Publisher also shows a format variant issue (HTML entity and imprint suffixes), which is likewise normalization-oriented before any trust-based fusion tuning.",
+    "next_node": "normalization_node",
+    "reasoning": "Protected attributes should be preserved: author=90%, language=100%, publish_year=100%, isbn_clean=100%, plus 16 attributes >85%, so no broad fusion changes should be made now. Evidence points away from blocking/matching: all 3 correspondence files are non-empty, blocking recall probes found 0 issues, and pairwise matcher F1 is decent (0.80-0.85). The biggest miss, genres=10%, is explicitly list_format_mismatch and the sample outputs show broken serialization/chunking rather than wrong entity linking. Validation expects genres as a single comma-separated string with title case; fused output contains Python-list-looking strings and split chunks, so this requires source normalization/list-column treatment before fusion, not a resolver-only change. Publisher has some true source disagreement, but also normalization problems such as 'Simon &amp; Schuster (Trade Division)' vs 'Simon & Schuster' and 'Vintage Books USA' vs 'Vintage'. Since normalization must happen first per routing rules, fix formatting/canonicalization now; only after re-evaluation should resolver/trust changes be considered. Overall headroom is small (~1.2-1.3%), so this is a ceiling-near pipeline.",
+    "ceiling_assessment": "Estimated achievable overall accuracy with current matching structure is about 77.5%. Current 76.25% is already close. Normalization can likely recover roughly 1 point, mostly by correcting genres serialization and a few publisher formatting cases; larger gains are unlikely because publisher/title/page_count remaining errors are mostly structurally limited source disagreements.",
+    "recommendations": [
+      {
+        "attribute": "genres",
+        "issue": "Validation expects a single plain comma-separated title-cased string, but current preprocessing/fusion treats genres as list-like and outputs malformed nested/chunked values (e.g. Python-list representations and semicolon/list artifacts). Probe evidence: exact match is very low but fuzzy is 90-100%, indicating mostly formatting/serialization mismatch, not semantic mismatch.",
+        "fix": "In normalization_node, normalize genres to the validation format before fusion: parse any list-like representations safely into atomic genre items, flatten nested lists/quoted chunks, strip brackets/quotes, split on source delimiters, trim whitespace, preserve duplicates/order when present, and reserialize as one comma+space separated string matching validation title case. Do not rely on downstream union with separator='; '. Use PyDI NormalizationSpec/transform_dataframe for string cleanup and dataset-specific custom parsing where needed so each source stores genres as the same plain string format prior to matching/fusion.",
+        "resolver_reasoning": "Source-vs-validation comparison shows goodreads has 10% exact but 90% fuzzy and metabooks 0% exact but 100% fuzzy. That means the content is mostly present but formatting differs. The probe's best resolver under current structure is longest_string, but resolver choice is secondary until format is fixed because malformed list serialization prevents exact matches regardless. Voting/intersection would lose complementary items; union is conceptually right for combined provenance but currently fails because inputs are not normalized into atomic comparable items. Normalize first, then union or longest_string can be revisited if needed.",
+        "class": "improvable",
+        "expected_impact": 0.008
+      },
+      {
+        "attribute": "publisher",
+        "issue": "Mixed problem: some values are canonicalization/format mismatches ('Simon &amp; Schuster (Trade Division)' vs 'Simon & Schuster', 'Vintage Books USA' vs 'Vintage'), while others are source disagreement. Current fusion uses longest_string, which is poorly aligned to validation and tends to choose verbose imprint variants.",
+        "fix": "In normalization_node, canonicalize publisher strings to validation style before fusion: HTML-unescape entities, strip business-unit/imprint suffixes in parentheses where validation omits them, collapse whitespace, and standardize common imprint aliases where the validation uses the shorter canonical house name. Preserve title case. After normalization and re-evaluation, consider switching resolver later to prefer_higher_trust with trust favoring metabooks_small if publisher remains underperforming.",
+        "resolver_reasoning": "Validation sample and probe show metabooks_small matches publisher best (89% exact vs goodreads 60%, amazon 20%), so prefer_higher_trust(metabooks>goodreads>amazon) is the best future fusion choice. Longest_string is specifically wrong because validation usually prefers canonical shorter names over extended imprint strings. However, because some misses are pure formatting/canonicalization, normalization must come first. Voting is weaker when sources disagree; favour_sources/prefer_higher_trust are better once strings are standardized.",
+        "class": "improvable",
+        "expected_impact": 0.005
+      },
+      {
+        "attribute": "title",
+        "issue": "Current resolver is voting, but validation examples often prefer the more complete metabooks title variant rather than majority/shorter variants. However title is already at its measured ceiling (80%) and not the best next-stage target.",
+        "fix": "No change in this normalization pass; preserve current title formatting because title accuracy is already relatively high and mismatches appear to be source disagreement, not a systematic format issue.",
+        "resolver_reasoning": "Changing title now risks harming a protected-ish attribute near ceiling. If later revisited in pipeline_adaption, source comparison suggests prefer_higher_trust toward metabooks or longest_string may outperform voting for some records, but current evidence says no measurable headroom remains under frozen structure.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "page_count",
+        "issue": "Values differ across sources/editions; current maximum already matches the recommended resolver and measured ceiling.",
+        "fix": "Preserve current page_count fusion and normalization.",
+        "resolver_reasoning": "Probe recommends maximum and both sources have 0% exact despite decent fuzzy proximity, indicating edition-level disagreement rather than formatting. Median/minimum would not align better with validation from available evidence, so no fix is warranted.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ]
+  },
+  "final_decision": "normalization_node",
+  "timestamp": "2026-03-23T03:03:04.915558Z"
+}

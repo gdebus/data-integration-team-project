@@ -1,0 +1,22 @@
+{
+  "summary": "Human-review outputs created. Testset mapped for 7688 fused rows.",
+  "file_paths": {
+    "fused_review_table": "output/runs/20260323_072905_games/human_review/fused_review_table.csv",
+    "source_lineage_long": "output/runs/20260323_072905_games/human_review/source_lineage_long.csv",
+    "fusion_vs_testset_diff": "output/runs/20260323_072905_games/human_review/fusion_vs_testset_diff.csv",
+    "human_review_summary_json": "output/runs/20260323_072905_games/human_review/human_review_summary.json",
+    "human_review_summary_md": "output/runs/20260323_072905_games/human_review/human_review_summary.md"
+  },
+  "counts": {
+    "fused_rows": 57946,
+    "review_rows": 57946,
+    "lineage_rows": 82742,
+    "diff_rows": 106178,
+    "source_datasets": 3,
+    "source_indexed_records": 74951,
+    "testset_rows": 15,
+    "testset_mapped_rows": 7688
+  },
+  "warnings": [],
+  "created_at": "2026-03-23T06:45:19.006915+00:00"
+}

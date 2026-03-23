@@ -1,0 +1,93 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main error source is entity matching/post-clustering, not fusion or normalization. The mismatch examples show entire records fused onto the wrong metacritic IDs (e.g. FIFA Soccer 13 fused as Madden NFL 07; Plants vs Zombies: Garden Warfare 2 fused as Lego Star Wars), which simultaneously corrupts name, releaseYear, developer, platform, and publisher. This pattern is consistent with over-linked correspondences and ambiguous many-to-many clusters, confirmed by cluster analysis: huge max cluster sizes (~1000), one-to-many ratios above 63%, ambiguity ratio above 73%, and explicit recommendation for MaximumBipartiteMatching. Fusion resolver tweaks cannot recover when the cluster contains the wrong entities, and normalization is not the dominant issue because values are mostly semantically wrong, not merely differently formatted. There is a small secondary fusion opportunity on criticScore and ESRB, but routing there first would not address the dominant failure mode limiting macro accuracy.",
+        "next_node": "run_matching_tester",
+        "reasoning": "Matching F1 around 0.88 looks decent pairwise, but the correspondence graph is too dense/ambiguous for fusion: large erroneous clusters are causing cross-game contamination. The worst protected attributes already above 85% should be preserved, and changing fusion resolvers broadly would risk regression without fixing the core problem. releaseYear/name are at structural ceiling under current clusters; their probe-reported source exact-match rates near zero are a downstream symptom of wrong record alignment. The current pipeline already uses the recommended post-clustering note in guidance, but because the failure signature is pervasive wrong-entity fusion, the next step should be to retune matching thresholds/comparators with cluster quality as the target, then re-evaluate fusion afterward. Normalization should not be first because the validation format already broadly matches source formatting, and the errors are mostly wrong values rather than format mismatches.",
+        "ceiling_assessment": "With current matching structure, overall accuracy is near the observed ceiling (~63.1%). If matching ambiguity is reduced and one-to-many links are pruned, a meaningful jump beyond that ceiling is plausible; current 56.2% is not a fusion ceiling but a correspondence-quality ceiling.",
+        "recommendations": [
+          {
+            "attribute": "matching_graph",
+            "issue": "Pairwise matcher admits too many plausible near-duplicates, producing massive ambiguous clusters and one-to-many contamination across editions/franchises/platform variants.",
+            "fix": "In run_matching_tester, tighten thresholds and increase discriminative weight on releaseYear/platform while reducing tolerance for franchise-title similarity; then regenerate correspondences and apply MaximumBipartiteMatching or StableMatching to enforce near-1:1 links before fusion.",
+            "resolver_reasoning": "Mismatch samples are classic false-positive matches between related but distinct games in the same franchise/series. Alternatives like changing fusion to voting/prefer_higher_trust cannot recover once wrong entities are clustered together. Post-clustering with bipartite/stable matching is explicitly supported by cluster diagnostics and directly targets the many-to-many ambiguity.",
+            "class": "improvable",
+            "expected_impact": 0.12
+          },
+          {
+            "attribute": "criticScore",
+            "issue": "This attribute is one of the few genuinely improvable fusion-stage gaps, but should be addressed only after cluster quality is fixed.",
+            "fix": "After matching is corrected, in a later pipeline_adaption step compare median vs prefer_higher_trust using source-vs-validation evidence and likely keep median only if sources are symmetrically noisy.",
+            "resolver_reasoning": "Probe says criticScore ceiling can rise from 70% to 91%, but current wrong clusters confound any fusion analysis. Alternatives are premature until correspondence quality is fixed.",
+            "class": "improvable",
+            "expected_impact": 0.026
+          },
+          {
+            "attribute": "ESRB",
+            "issue": "Secondary fusion-stage gap; not the dominant source of current macro loss.",
+            "fix": "After matching correction, evaluate prefer_higher_trust versus voting/favour_sources on matched records against validation; preserve current resolver unless evidence shows a clear source winner.",
+            "resolver_reasoning": "Probe marks ESRB improvable with modest headroom, but making trust changes now would be guesswork and risks harming already-good attributes. Matching errors must be removed first.",
+            "class": "improvable",
+            "expected_impact": 0.018
+          },
+          {
+            "attribute": "name/developer/platform/releaseYear/publisher",
+            "issue": "Current poor accuracy is largely downstream of wrong entity alignment, not primarily resolvers or formatting.",
+            "fix": "Do not change these resolvers in pipeline_adaption yet; preserve high-performing attributes and revisit only after re-running matching with stricter constraints.",
+            "resolver_reasoning": "Resolver experiments on contaminated clusters would select policies based on wrong inputs. Alternatives like shortest_string, longest_string, or trust changes are unlikely to beat fixing correspondence purity first.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 27197,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main error source is entity matching/post-clustering, not fusion or normalization. The mismatch examples show entire records fused onto the wrong metacritic IDs (e.g. FIFA Soccer 13 fused as Madden NFL 07; Plants vs Zombies: Garden Warfare 2 fused as Lego Star Wars), which simultaneously corrupts name, releaseYear, developer, platform, and publisher. This pattern is consistent with over-linked correspondences and ambiguous many-to-many clusters, confirmed by cluster analysis: huge max cluster sizes (~1000), one-to-many ratios above 63%, ambiguity ratio above 73%, and explicit recommendation for MaximumBipartiteMatching. Fusion resolver tweaks cannot recover when the cluster contains the wrong entities, and normalization is not the dominant issue because values are mostly semantically wrong, not merely differently formatted. There is a small secondary fusion opportunity on criticScore and ESRB, but routing there first would not address the dominant failure mode limiting macro accuracy.",
+    "next_node": "run_matching_tester",
+    "reasoning": "Matching F1 around 0.88 looks decent pairwise, but the correspondence graph is too dense/ambiguous for fusion: large erroneous clusters are causing cross-game contamination. The worst protected attributes already above 85% should be preserved, and changing fusion resolvers broadly would risk regression without fixing the core problem. releaseYear/name are at structural ceiling under current clusters; their probe-reported source exact-match rates near zero are a downstream symptom of wrong record alignment. The current pipeline already uses the recommended post-clustering note in guidance, but because the failure signature is pervasive wrong-entity fusion, the next step should be to retune matching thresholds/comparators with cluster quality as the target, then re-evaluate fusion afterward. Normalization should not be first because the validation format already broadly matches source formatting, and the errors are mostly wrong values rather than format mismatches.",
+    "ceiling_assessment": "With current matching structure, overall accuracy is near the observed ceiling (~63.1%). If matching ambiguity is reduced and one-to-many links are pruned, a meaningful jump beyond that ceiling is plausible; current 56.2% is not a fusion ceiling but a correspondence-quality ceiling.",
+    "recommendations": [
+      {
+        "attribute": "matching_graph",
+        "issue": "Pairwise matcher admits too many plausible near-duplicates, producing massive ambiguous clusters and one-to-many contamination across editions/franchises/platform variants.",
+        "fix": "In run_matching_tester, tighten thresholds and increase discriminative weight on releaseYear/platform while reducing tolerance for franchise-title similarity; then regenerate correspondences and apply MaximumBipartiteMatching or StableMatching to enforce near-1:1 links before fusion.",
+        "resolver_reasoning": "Mismatch samples are classic false-positive matches between related but distinct games in the same franchise/series. Alternatives like changing fusion to voting/prefer_higher_trust cannot recover once wrong entities are clustered together. Post-clustering with bipartite/stable matching is explicitly supported by cluster diagnostics and directly targets the many-to-many ambiguity.",
+        "class": "improvable",
+        "expected_impact": 0.12
+      },
+      {
+        "attribute": "criticScore",
+        "issue": "This attribute is one of the few genuinely improvable fusion-stage gaps, but should be addressed only after cluster quality is fixed.",
+        "fix": "After matching is corrected, in a later pipeline_adaption step compare median vs prefer_higher_trust using source-vs-validation evidence and likely keep median only if sources are symmetrically noisy.",
+        "resolver_reasoning": "Probe says criticScore ceiling can rise from 70% to 91%, but current wrong clusters confound any fusion analysis. Alternatives are premature until correspondence quality is fixed.",
+        "class": "improvable",
+        "expected_impact": 0.026
+      },
+      {
+        "attribute": "ESRB",
+        "issue": "Secondary fusion-stage gap; not the dominant source of current macro loss.",
+        "fix": "After matching correction, evaluate prefer_higher_trust versus voting/favour_sources on matched records against validation; preserve current resolver unless evidence shows a clear source winner.",
+        "resolver_reasoning": "Probe marks ESRB improvable with modest headroom, but making trust changes now would be guesswork and risks harming already-good attributes. Matching errors must be removed first.",
+        "class": "improvable",
+        "expected_impact": 0.018
+      },
+      {
+        "attribute": "name/developer/platform/releaseYear/publisher",
+        "issue": "Current poor accuracy is largely downstream of wrong entity alignment, not primarily resolvers or formatting.",
+        "fix": "Do not change these resolvers in pipeline_adaption yet; preserve high-performing attributes and revisit only after re-running matching with stricter constraints.",
+        "resolver_reasoning": "Resolver experiments on contaminated clusters would select policies based on wrong inputs. Alternatives like shortest_string, longest_string, or trust changes are unlikely to beat fixing correspondence purity first.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ]
+  },
+  "final_decision": "run_matching_tester",
+  "timestamp": "2026-03-23T06:37:50.721473Z"
+}

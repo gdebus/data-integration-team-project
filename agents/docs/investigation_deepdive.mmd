@@ -1,0 +1,61 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '13px', 'fontFamily': 'arial'}, 'flowchart': {'curve': 'basis', 'padding': 15, 'nodeSpacing': 25, 'rankSpacing': 35}}}%%
+flowchart TD
+    classDef header fill:#1a237e,color:#fff,stroke:#0d47a1,stroke-width:2px,font-weight:bold
+    classDef evidence fill:#e3f2fd,color:#0d47a1,stroke:#1565c0,stroke-width:1px
+    classDef probe fill:#fff3e0,color:#e65100,stroke:#ef6c00,stroke-width:1px
+    classDef reasoning fill:#fce4ec,color:#b71c1c,stroke:#c62828,stroke-width:1px
+    classDef output fill:#e8f5e9,color:#1b5e20,stroke:#2e7d32,stroke-width:2px
+    classDef guardrail fill:#f3e5f5,color:#4a148c,stroke:#6a1b9a,stroke-width:1px
+    classDef metric fill:#fffde7,color:#f57f17,stroke:#f9a825,stroke-width:1px
+
+    TITLE(["<b>Investigation 1 Deep Dive</b><br/>Music Run - After Attempt 1 (64.0% accuracy)<br/>Evidence: 30,507 tokens | Single-turn decision"]):::header
+
+    subgraph METRICS ["Input: Evaluation Metrics"]
+        direction TB
+        M1["<b>Overall: 64.0%</b> (target: 85%)<br/>Macro: 62.7%<br/>23 records evaluated, 197 comparisons<br/>126 correct / 197 total"]:::metric
+        M2["<b>Per-Attribute Accuracy</b><br/>release-country: 82.6%<br/>name: 78.3% | artist: 73.9%<br/>duration: 73.9% | tracks_position: 69.6%<br/>release-date: 60.9%<br/>tracks_name: 47.8% | tracks_duration: 40.0%<br/>label: 37.5%"]:::metric
+        M3["<b>Auto Diagnostics</b><br/>missing_fused_value: 63.4% of mismatches<br/>Direct ID coverage: 30.4%<br/>Structural ceiling: 88.1%"]:::metric
+    end
+
+    subgraph PROBES ["Probe Results (11 Probes)"]
+        direction TB
+        P_SRC["<b>source_attribution</b> (highest signal)<br/><i>Per-source match rates for worst attrs:</i><br/>label: discogs 64% exact / 100% non-null<br/>musicbrainz 0% non-null<br/>name: lastfm 77% exact / 100% fuzzy<br/>musicbrainz 70% / 96%, discogs 64% / 91%<br/>artist: musicbrainz 83% exact / 87% fuzzy<br/>duration: discogs 46% exact, musicbrainz 0%"]:::probe
+        P_MM["<b>mismatch_sampler</b><br/>Classified mismatches with examples:<br/>label: most_complete picks empty string<br/>name: favour_sources picks verbose variant<br/>release-date: wrong source format selected<br/>Top reasons: missing_fused_value, value_mismatch"]:::probe
+        P_WA["<b>worst_attributes</b><br/>label (37.5%), tracks_duration (40.0%),<br/>tracks_name (47.8%), release-date (60.9%)"]:::probe
+        P_CL["<b>cluster_analysis</b><br/>discogs-lastfm: 87.6% top-2 gap < 0.1<br/>(high ambiguity in cluster assignment)<br/>Recommended: MaximumBipartiteMatching"]:::probe
+        P_OTH["<b>Other probes</b><br/>blocking_recall: no issues<br/>correspondence_density: all pairs non-empty<br/>fusion_size: 30,807 rows (expected ~31K)<br/>null_patterns: no critical nulls<br/>attribute_improvability: ceiling 88.1%"]:::probe
+    end
+
+    subgraph DIAGNOSIS ["LLM Reasoning (Single Turn)"]
+        direction TB
+        D1["<b>Root Cause Analysis</b><br/>Fusion is choosing the wrong source/resolver.<br/>Matching is strong (F1 0.87-0.90).<br/>Blocking is healthy (no recall issues).<br/>Normalization already targets validation formats."]:::reasoning
+        D2["<b>Key Insights</b><br/>1. label uses most_complete but musicbrainz is<br/>100% null -- discogs is the only useful source<br/>2. name uses favour_sources(musicbrainz) but<br/>validation prefers shorter canonical names<br/>3. artist uses longest_string but musicbrainz<br/>has 83% exact match rate (dominant)<br/>4. release-date uses prefer_higher_trust(musicbrainz)<br/>but no source has exact match -- voting better<br/>5. Many-to-many clusters cause missing fused values"]:::reasoning
+        D3["<b>Ceiling Assessment</b><br/>Accuracy should rise from 0.64 to 0.80-0.86.<br/>tracks_track_name and tracks_track_duration<br/>are structurally limited (ceiling 64-69%)"]:::reasoning
+    end
+
+    subgraph DECISION ["Output Decision"]
+        direction TB
+        ROUTE["<b>Route: pipeline_adaption</b><br/>Needed fixes are resolver choice,<br/>trust ordering, and post-clustering only"]:::output
+        RECS["<b>8 Concrete Recommendations</b><br/><br/>1. label: prefer_higher_trust<br/>   trust_map = discogs:3, musicbrainz:2, lastfm:1<br/>   Expected: +6pp<br/><br/>2. release-date: voting<br/>   All sources 0% exact but ~60% fuzzy<br/>   Expected: +4pp<br/><br/>3. tracks_position: MaximumBipartiteMatching<br/>   Reduce cluster ambiguity<br/>   Expected: +3pp<br/><br/>4. artist: prefer_higher_trust(musicbrainz first)<br/>   Expected: +2pp<br/><br/>5. name: shortest_string<br/>   Canonical concise names<br/>   Expected: +2pp<br/><br/>6. duration: prefer_higher_trust(discogs first)<br/>   Expected: +2pp<br/><br/>7-8. tracks_name, tracks_duration: preserve<br/>   Structurally limited, revisit later"]:::output
+    end
+
+    subgraph DOWNSTREAM ["Downstream: How Recommendations Flow"]
+        direction TB
+        FG["<b>Fusion Guidance</b><br/>attribute_strategies populated from:<br/>1. source_attribution probe (conf=0.7)<br/>2. Investigation recs (conf=0.9, overrides)"]:::guardrail
+        GR["<b>Code Guardrails</b><br/>apply_pipeline_guardrails() patches code:<br/>- Injects per-attribute trust_map variables<br/>- Replaces wrong resolvers with recommended ones<br/>- High confidence (>=0.85) overrides LLM choices<br/>- Auto-imports missing resolver symbols"]:::guardrail
+        SCAFFOLD["<b>Pipeline Scaffold</b><br/>Frozen: imports, loading, blocking, matching<br/>Mutable: post-clustering + fusion strategy<br/>LLM only regenerates mutable sections"]:::guardrail
+    end
+
+    TITLE --> METRICS
+    METRICS --> PROBES
+    PROBES --> DIAGNOSIS
+    DIAGNOSIS --> DECISION
+    DECISION --> DOWNSTREAM
+
+    M1 -.->|"64.0% << 85% target"| D1
+    P_SRC -.->|"discogs best for label<br/>musicbrainz best for artist"| D2
+    P_CL -.->|"87.6% ambiguous clusters"| D2
+    P_MM -.->|"most_complete picks empty"| D2
+    RECS -.->|"resolver + trust_map"| FG
+    FG -.->|"attribute_strategies"| GR
+    GR -.->|"patched code"| SCAFFOLD

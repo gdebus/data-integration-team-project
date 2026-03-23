@@ -1,0 +1,74 @@
+{
+  "specs": {
+    "kaggle_small": {
+      "phone_raw": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "phone_e164": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true,
+        "phone_format": "e164"
+      },
+      "house_number": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "postal_code": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      }
+    },
+    "uber_eats_small": {
+      "house_number": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "postal_code": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "rating_count": {
+        "output_type": "float",
+        "on_failure": "keep"
+      }
+    },
+    "yelp_small": {
+      "phone_raw": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "phone_e164": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true,
+        "phone_format": "e164"
+      },
+      "house_number": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "postal_code": {
+        "output_type": "int",
+        "on_failure": "keep",
+        "strip_whitespace": true
+      },
+      "rating_count": {
+        "output_type": "float",
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [
+    "categories"
+  ],
+  "reasoning": "Target style keeps source/name/address text casing as-is, uses country/state already matching source samples, and stores categories as list-like strings. Main visible mismatches are numeric-looking fields represented as strings in sources: phone fields in kaggle/yelp become integer digits in target, house_number and postal_code are integers, and rating_count is float where present."
+}

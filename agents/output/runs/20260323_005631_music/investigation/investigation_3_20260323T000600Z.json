@@ -1,0 +1,157 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main recoverable error is fusion misconfiguration, with one clear regression: release-country fell from 100% to 0% despite source analysis showing musicbrainz is 100% exact and non-null. That pattern indicates the current fusion stage is not preserving the correct source value/format for this attribute. Label and release-date also show fusion-side failures via missing fused values or suboptimal source choice despite matched entities existing. Blocking and matching are not the bottleneck: all correspondence files are populated, blocking recall probes found no issues, and pairwise matching F1 is already strong (~0.87-0.90). Normalization is also not the next fix for the highest-yield issues: release-country was already normalized to full names and validation-aware diagnostics identify the correct source; label is a source-preference problem; release-date missingness is a fusion choice problem. Track-list fields remain mostly structurally limited under exact-list evaluation and should not drive the next iteration.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "Pipeline adaption is the correct next stage because the evidence points to wrong resolver behavior and/or trust/source preference configuration after matching, not missing candidate pairs or source formatting gaps. Protected attributes already above 85%\u2014including name, artist, and tracks_track_position\u2014should be preserved. The highest-impact change is to fix release-country resolver behavior to reliably choose musicbrainz, then preserve/strengthen discogs-first trust for label, and keep/enforce MaximumBipartiteMatching due to high ambiguity in correspondence clusters. Release-date can also benefit from a better fusion resolver, but release-country is now the most urgent because it regressed catastrophically from 100% to 0%.",
+        "ceiling_assessment": "With frozen imports/matching and current sources, the realistic ceiling remains around 83.6%-84.7% overall. Current 78.6% leaves roughly 5-6 points of practical gain. Most of that recoverable headroom is in release-country, label, and some release-date improvement. Track-list attributes appear near structural ceiling under exact evaluation and should not be expected to improve much without changing evaluation-aligned preprocessing outside pipeline_adaption.",
+        "recommendations": [
+          {
+            "attribute": "release-country",
+            "issue": "Current accuracy is 0% after previously reaching 100%, even though source-vs-validation shows musicbrainz exact=100%, fuzzy=100%, non_null=100% while discogs is much worse. This is a fusion regression, not a matching failure.",
+            "fix": "Set/restore strategy.add_attribute_fuser('release-country', prefer_higher_trust, trust_map={'musicbrainz': 3, 'discogs': 2, 'lastfm': 1}) and verify no downstream fallback or overwritten global trust map causes discogs to win.",
+            "resolver_reasoning": "Evidence is decisive: validation-aligned comparison shows musicbrainz is the only consistently correct source for release-country. prefer_higher_trust is the best resolver because one source clearly dominates on exact match. voting is worse because discogs disagreement would dilute the correct answer; most_complete is irrelevant since all main sources are non-null; favour_sources could work, but trust-based selection is more explicit and robust if multiple sources are present. Because this attribute was previously perfect, the current 0% strongly suggests a source-priority regression that this fix directly addresses.",
+            "class": "improvable",
+            "expected_impact": 0.078
+          },
+          {
+            "attribute": "label",
+            "issue": "Many fused labels are blank despite discogs matching validation exactly in 100% of checked cases and being fully non-null; lastfm and musicbrainz contribute no correct values here.",
+            "fix": "Keep/change to strategy.add_attribute_fuser('label', prefer_higher_trust, trust_map={'discogs': 3, 'musicbrainz': 2, 'lastfm': 1}) and verify label is not being dropped by any fallback behavior in fusion.",
+            "resolver_reasoning": "Discogs exact=100%, fuzzy=100%, non_null=100%; other sources exact=0% and effectively useless. prefer_higher_trust is best because one source dominates. voting would underperform when the only correct source is opposed by null/incorrect alternatives; most_complete ignores source quality; favour_sources is acceptable but less principled than trust for this evidence pattern. This change targets a weak attribute without touching protected high-performing ones.",
+            "class": "improvable",
+            "expected_impact": 0.042
+          },
+          {
+            "attribute": "release-date",
+            "issue": "Fused release dates are often missing, and current resolver does not consistently select the most validation-aligned available date.",
+            "fix": "Retain MaximumBipartiteMatching and try strategy.add_attribute_fuser('release-date', favour_sources, source_preferences=['discogs','lastfm','musicbrainz']); if PyDI datetime voting is reliable in this setup, voting is also justified by the probe.",
+            "resolver_reasoning": "All sources have 0 exact but high fuzzy alignment, with discogs best (90% fuzzy, 100% non-null). That means the problem is not source absence but selecting a useful available value. favour_sources with discogs first is the safest deterministic choice under current pipeline constraints. earliest/minimum lack evidence and may pick incomplete dates; most_complete adds little because non-null coverage is already high. Voting is theoretically supported by the probe, but favour_sources is lower-risk if datetime voting behavior is uncertain.",
+            "class": "improvable",
+            "expected_impact": 0.022
+          },
+          {
+            "attribute": "post_clustering",
+            "issue": "Correspondence clusters are highly ambiguous, with notable one-to-many structure and very high top-2 ambiguity; poor cluster resolution can propagate wrong merges and missing fused values.",
+            "fix": "Preserve/ensure MaximumBipartiteMatching as the post-clustering step before fusion for the frozen correspondence files.",
+            "resolver_reasoning": "Cluster diagnostics explicitly recommend MaximumBipartiteMatching. It is the evidence-backed option for resolving ambiguity without reopening blocking or matching. Alternatives like StableMatching or GreedyOneToOne may be reasonable backups, but MaximumBipartiteMatching is the best-supported first choice and is already compatible with the current pipeline.",
+            "class": "improvable",
+            "expected_impact": 0.02
+          },
+          {
+            "attribute": "name",
+            "issue": "Already performing at ceiling (~95.7%).",
+            "fix": "Preserve current resolver; do not modify.",
+            "resolver_reasoning": "Protected attribute above 80%; no evidence of fusion-side harm worth risking regression.",
+            "class": "improvable",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "artist",
+            "issue": "Already performing at ceiling (~95.7%).",
+            "fix": "Preserve current resolver; do not modify.",
+            "resolver_reasoning": "Protected attribute above 80%; changing longest_string or source preference risks regression without meaningful upside.",
+            "class": "improvable",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "tracks_track_name",
+            "issue": "Low accuracy is driven by exact list mismatches, alternate spellings, numbering, and subset/superset differences; probe marks it structurally limited at current ceiling.",
+            "fix": "Do not prioritize changes in pipeline_adaption; preserve current behavior for now.",
+            "resolver_reasoning": "Union/intersection or source-order changes are unlikely to beat the observed ceiling under exact-list evaluation. Any real fix would require pre-fusion canonicalization/list normalization, which is out of scope for pipeline_adaption and low-yield relative to scalar fusion fixes.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "tracks_track_duration",
+            "issue": "0% accuracy is severe, but probe classifies this as structurally limited list incompatibility rather than an easily recoverable scalar resolver problem.",
+            "fix": "Do not spend the next iteration here in pipeline_adaption beyond preserving a simple source preference; revisit only after scalar fusion regressions are fixed.",
+            "resolver_reasoning": "Union would add extra durations, intersection would drop valid tracks, and source-order tweaks are unlikely to overcome exact-list penalties. This is lower-yield than fixing release-country/label/release-date.",
+            "class": "structurally_limited",
+            "expected_impact": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 41015,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main recoverable error is fusion misconfiguration, with one clear regression: release-country fell from 100% to 0% despite source analysis showing musicbrainz is 100% exact and non-null. That pattern indicates the current fusion stage is not preserving the correct source value/format for this attribute. Label and release-date also show fusion-side failures via missing fused values or suboptimal source choice despite matched entities existing. Blocking and matching are not the bottleneck: all correspondence files are populated, blocking recall probes found no issues, and pairwise matching F1 is already strong (~0.87-0.90). Normalization is also not the next fix for the highest-yield issues: release-country was already normalized to full names and validation-aware diagnostics identify the correct source; label is a source-preference problem; release-date missingness is a fusion choice problem. Track-list fields remain mostly structurally limited under exact-list evaluation and should not drive the next iteration.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "Pipeline adaption is the correct next stage because the evidence points to wrong resolver behavior and/or trust/source preference configuration after matching, not missing candidate pairs or source formatting gaps. Protected attributes already above 85%\u2014including name, artist, and tracks_track_position\u2014should be preserved. The highest-impact change is to fix release-country resolver behavior to reliably choose musicbrainz, then preserve/strengthen discogs-first trust for label, and keep/enforce MaximumBipartiteMatching due to high ambiguity in correspondence clusters. Release-date can also benefit from a better fusion resolver, but release-country is now the most urgent because it regressed catastrophically from 100% to 0%.",
+    "ceiling_assessment": "With frozen imports/matching and current sources, the realistic ceiling remains around 83.6%-84.7% overall. Current 78.6% leaves roughly 5-6 points of practical gain. Most of that recoverable headroom is in release-country, label, and some release-date improvement. Track-list attributes appear near structural ceiling under exact evaluation and should not be expected to improve much without changing evaluation-aligned preprocessing outside pipeline_adaption.",
+    "recommendations": [
+      {
+        "attribute": "release-country",
+        "issue": "Current accuracy is 0% after previously reaching 100%, even though source-vs-validation shows musicbrainz exact=100%, fuzzy=100%, non_null=100% while discogs is much worse. This is a fusion regression, not a matching failure.",
+        "fix": "Set/restore strategy.add_attribute_fuser('release-country', prefer_higher_trust, trust_map={'musicbrainz': 3, 'discogs': 2, 'lastfm': 1}) and verify no downstream fallback or overwritten global trust map causes discogs to win.",
+        "resolver_reasoning": "Evidence is decisive: validation-aligned comparison shows musicbrainz is the only consistently correct source for release-country. prefer_higher_trust is the best resolver because one source clearly dominates on exact match. voting is worse because discogs disagreement would dilute the correct answer; most_complete is irrelevant since all main sources are non-null; favour_sources could work, but trust-based selection is more explicit and robust if multiple sources are present. Because this attribute was previously perfect, the current 0% strongly suggests a source-priority regression that this fix directly addresses.",
+        "class": "improvable",
+        "expected_impact": 0.078
+      },
+      {
+        "attribute": "label",
+        "issue": "Many fused labels are blank despite discogs matching validation exactly in 100% of checked cases and being fully non-null; lastfm and musicbrainz contribute no correct values here.",
+        "fix": "Keep/change to strategy.add_attribute_fuser('label', prefer_higher_trust, trust_map={'discogs': 3, 'musicbrainz': 2, 'lastfm': 1}) and verify label is not being dropped by any fallback behavior in fusion.",
+        "resolver_reasoning": "Discogs exact=100%, fuzzy=100%, non_null=100%; other sources exact=0% and effectively useless. prefer_higher_trust is best because one source dominates. voting would underperform when the only correct source is opposed by null/incorrect alternatives; most_complete ignores source quality; favour_sources is acceptable but less principled than trust for this evidence pattern. This change targets a weak attribute without touching protected high-performing ones.",
+        "class": "improvable",
+        "expected_impact": 0.042
+      },
+      {
+        "attribute": "release-date",
+        "issue": "Fused release dates are often missing, and current resolver does not consistently select the most validation-aligned available date.",
+        "fix": "Retain MaximumBipartiteMatching and try strategy.add_attribute_fuser('release-date', favour_sources, source_preferences=['discogs','lastfm','musicbrainz']); if PyDI datetime voting is reliable in this setup, voting is also justified by the probe.",
+        "resolver_reasoning": "All sources have 0 exact but high fuzzy alignment, with discogs best (90% fuzzy, 100% non-null). That means the problem is not source absence but selecting a useful available value. favour_sources with discogs first is the safest deterministic choice under current pipeline constraints. earliest/minimum lack evidence and may pick incomplete dates; most_complete adds little because non-null coverage is already high. Voting is theoretically supported by the probe, but favour_sources is lower-risk if datetime voting behavior is uncertain.",
+        "class": "improvable",
+        "expected_impact": 0.022
+      },
+      {
+        "attribute": "post_clustering",
+        "issue": "Correspondence clusters are highly ambiguous, with notable one-to-many structure and very high top-2 ambiguity; poor cluster resolution can propagate wrong merges and missing fused values.",
+        "fix": "Preserve/ensure MaximumBipartiteMatching as the post-clustering step before fusion for the frozen correspondence files.",
+        "resolver_reasoning": "Cluster diagnostics explicitly recommend MaximumBipartiteMatching. It is the evidence-backed option for resolving ambiguity without reopening blocking or matching. Alternatives like StableMatching or GreedyOneToOne may be reasonable backups, but MaximumBipartiteMatching is the best-supported first choice and is already compatible with the current pipeline.",
+        "class": "improvable",
+        "expected_impact": 0.02
+      },
+      {
+        "attribute": "name",
+        "issue": "Already performing at ceiling (~95.7%).",
+        "fix": "Preserve current resolver; do not modify.",
+        "resolver_reasoning": "Protected attribute above 80%; no evidence of fusion-side harm worth risking regression.",
+        "class": "improvable",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "artist",
+        "issue": "Already performing at ceiling (~95.7%).",
+        "fix": "Preserve current resolver; do not modify.",
+        "resolver_reasoning": "Protected attribute above 80%; changing longest_string or source preference risks regression without meaningful upside.",
+        "class": "improvable",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "tracks_track_name",
+        "issue": "Low accuracy is driven by exact list mismatches, alternate spellings, numbering, and subset/superset differences; probe marks it structurally limited at current ceiling.",
+        "fix": "Do not prioritize changes in pipeline_adaption; preserve current behavior for now.",
+        "resolver_reasoning": "Union/intersection or source-order changes are unlikely to beat the observed ceiling under exact-list evaluation. Any real fix would require pre-fusion canonicalization/list normalization, which is out of scope for pipeline_adaption and low-yield relative to scalar fusion fixes.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "tracks_track_duration",
+        "issue": "0% accuracy is severe, but probe classifies this as structurally limited list incompatibility rather than an easily recoverable scalar resolver problem.",
+        "fix": "Do not spend the next iteration here in pipeline_adaption beyond preserving a simple source preference; revisit only after scalar fusion regressions are fixed.",
+        "resolver_reasoning": "Union would add extra durations, intersection would drop valid tracks, and source-order tweaks are unlikely to overcome exact-list penalties. This is lower-yield than fixing release-country/label/release-date.",
+        "class": "structurally_limited",
+        "expected_impact": 0.0
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-23T00:06:00.750925Z"
+}

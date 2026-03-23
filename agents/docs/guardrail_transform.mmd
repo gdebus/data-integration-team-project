@@ -1,0 +1,73 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '13px', 'fontFamily': 'arial'}, 'flowchart': {'curve': 'basis', 'padding': 15, 'nodeSpacing': 25, 'rankSpacing': 35}}}%%
+flowchart TD
+    classDef header fill:#1a237e,color:#fff,stroke:#0d47a1,stroke-width:2px,font-weight:bold
+    classDef before fill:#ffebee,color:#b71c1c,stroke:#c62828,stroke-width:2px
+    classDef after fill:#e8f5e9,color:#1b5e20,stroke:#2e7d32,stroke-width:2px
+    classDef guardrail fill:#f3e5f5,color:#4a148c,stroke:#6a1b9a,stroke-width:2px
+    classDef evidence fill:#e3f2fd,color:#0d47a1,stroke:#1565c0,stroke-width:1px
+    classDef arrow fill:#fff3e0,color:#e65100,stroke:#ef6c00,stroke-width:1px
+
+    TITLE(["<b>Guardrail Code Transformation</b><br/>How apply_pipeline_guardrails fixes LLM-generated code<br/>Real example from Music Run Investigation 1"]):::header
+
+    subgraph EVIDENCE ["Investigation Evidence Driving the Fix"]
+        direction TB
+        E1["<b>source_attribution probe results</b><br/>label: discogs=64% exact, musicbrainz=0% non-null<br/>artist: musicbrainz=83% exact, discogs=37%<br/>name: lastfm=77% exact, discogs=64%<br/>duration: discogs=46% exact, musicbrainz=0%"]:::evidence
+        E2["<b>Investigation recommendations (conf=0.9)</b><br/>label: prefer_higher_trust, discogs first<br/>artist: prefer_higher_trust, musicbrainz first<br/>name: shortest_string<br/>duration: prefer_higher_trust, discogs first<br/>release-date: voting"]:::evidence
+        E3["<b>Conflicting trust orderings detected</b><br/>label needs: discogs > musicbrainz > lastfm<br/>artist needs: musicbrainz > discogs > lastfm<br/>duration needs: discogs > musicbrainz > lastfm<br/>A single global trust_map cannot serve all attributes"]:::evidence
+    end
+
+    subgraph BEFORE_CODE ["LLM-Generated Code (BEFORE guardrails)"]
+        direction TB
+        B1["trust_map = {'musicbrainz': 3,<br/>             'discogs': 2,<br/>             'lastfm': 1}"]:::before
+        B2["strategy.add_attribute_fuser(<br/>    'label', most_complete)"]:::before
+        B3["strategy.add_attribute_fuser(<br/>    'artist', longest_string)"]:::before
+        B4["strategy.add_attribute_fuser(<br/>    'name', favour_sources,<br/>    source_preferences=<br/>    ['musicbrainz','discogs','lastfm'])"]:::before
+        B5["strategy.add_attribute_fuser(<br/>    'duration', maximum)"]:::before
+        B6["strategy.add_attribute_fuser(<br/>    'release-date', prefer_higher_trust,<br/>    trust_map=trust_map)"]:::before
+        B7["strategy.add_attribute_fuser(<br/>    'genre', most_complete)"]:::before
+    end
+
+    subgraph GUARDRAILS ["apply_pipeline_guardrails() -- 6 Transformation Steps"]
+        direction TB
+        G1["<b>Step 1: Fusion Guidance Enforcement</b><br/>Reads attribute_strategies from investigation<br/>Compares LLM resolver vs recommended resolver<br/>High confidence (>=0.85) overrides LLM choice"]:::guardrail
+        G2["<b>Step 2: Per-Attribute Trust Map Injection</b><br/>Detects conflicting trust orderings<br/>Generates trust_map_label, trust_map_artist,<br/>trust_map_duration as separate variables<br/>Each with correct source ordering"]:::guardrail
+        G3["<b>Step 3: Resolver Symbol Import Safety</b><br/>Scans all add_attribute_fuser calls<br/>Finds unimported symbols:<br/>  prefer_higher_trust, shortest_string, voting<br/>Auto-adds: from PyDI.fusion import ..."]:::guardrail
+        G4["<b>Step 4: list_strategy Validation</b><br/>Checks each comparator type for valid strategies<br/>StringComparator: best_match, set_jaccard, set_overlap<br/>Upgrades 'concatenate' to 'best_match'"]:::guardrail
+        G5["<b>Step 5: Eval ID Injection</b><br/>Detects validation IDs use mbrainz_ prefix<br/>Injects eval_id column extraction into pipeline<br/>Maps cluster IDs back to validation-aligned source IDs"]:::guardrail
+        G6["<b>Step 6: Output Path Rewriting</b><br/>Replaces hardcoded 'output/' paths<br/>with run-scoped directory:<br/>output/runs/20260322_171209_music/"]:::guardrail
+    end
+
+    subgraph AFTER_CODE ["Guardrail-Patched Code - AFTER"]
+        direction TB
+        A0["from PyDI.fusion import<br/>    prefer_higher_trust,<br/>    shortest_string, voting,<br/>    most_complete, union"]:::after
+        A1["trust_map_label = {'discogs': 3,<br/>                   'musicbrainz': 1,<br/>                   'lastfm': 0}"]:::after
+        A2["trust_map_artist = {'musicbrainz': 3,<br/>                    'discogs': 2,<br/>                    'lastfm': 1}"]:::after
+        A3["trust_map_duration = {'discogs': 3,<br/>                      'musicbrainz': 2,<br/>                      'lastfm': 1}"]:::after
+        A4["strategy.add_attribute_fuser(<br/>    'label', prefer_higher_trust,<br/>    trust_map=trust_map_label)"]:::after
+        A5["strategy.add_attribute_fuser(<br/>    'artist', prefer_higher_trust,<br/>    trust_map=trust_map_artist)"]:::after
+        A6["strategy.add_attribute_fuser(<br/>    'name', shortest_string)"]:::after
+        A7["strategy.add_attribute_fuser(<br/>    'duration', prefer_higher_trust,<br/>    trust_map=trust_map_duration)"]:::after
+        A8["strategy.add_attribute_fuser(<br/>    'release-date', voting)"]:::after
+        A9["strategy.add_attribute_fuser(<br/>    'genre', most_complete)"]:::after
+    end
+
+    subgraph IMPACT ["Measured Impact"]
+        direction LR
+        I1(["<b>Before guardrails: 64.0% accuracy</b><br/>label=37.5% | artist=73.9% | name=78.3%<br/>duration=73.9% | release-date=60.9%"]):::before
+        I2(["<b>After guardrails: 73.1% accuracy (+9.1pp)</b><br/>label=62.5% | artist=95.7% | name=95.7%<br/>duration=82.6% | release-date=78.3%"]):::after
+    end
+
+    TITLE --> EVIDENCE
+    EVIDENCE --> BEFORE_CODE
+    BEFORE_CODE --> GUARDRAILS
+    GUARDRAILS --> AFTER_CODE
+    AFTER_CODE --> IMPACT
+
+    E2 -.->|"drives"| G1
+    E3 -.->|"triggers"| G2
+
+    B2 -.->|"most_complete wrong<br/>discogs is only useful source"| A4
+    B3 -.->|"longest_string wrong<br/>musicbrainz has 83% match"| A5
+    B4 -.->|"favour_sources wrong<br/>validation prefers short names"| A6
+    B5 -.->|"maximum wrong<br/>discogs has 46% exact"| A7
+    B6 -.->|"global trust_map wrong<br/>musicbrainz 0% exact for dates"| A8

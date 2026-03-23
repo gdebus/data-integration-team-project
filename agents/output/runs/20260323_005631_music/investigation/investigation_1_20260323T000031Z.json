@@ -1,0 +1,157 @@
+{
+  "turns": [
+    {
+      "turn": 1,
+      "action": "decide",
+      "decision": {
+        "action": "decide",
+        "diagnosis": "The main errors come from fusion/post-clustering configuration, not blocking or matching. Matching F1 is already strong (~0.87\u20130.90), correspondence files are non-empty, and blocking recall probes found no issues. The dominant failure pattern is missing_fused_value despite matched entities existing, plus wrong source choice in fusion. Current fusion rules contradict the source-vs-validation evidence: label uses most_complete even though only discogs has usable labels; release-date uses prefer_higher_trust with a trust map that incorrectly favors musicbrainz although exact match is 0% for all and discogs has the best fuzzy alignment; track-level fields use favour_sources toward musicbrainz/discogs even though the probe shows track names align best with lastfm. In addition, cluster analysis recommends MaximumBipartiteMatching, suggesting current clustering is allowing bad/ambiguous merges or missed one-to-one resolution that propagate into empty/wrong fused attributes. There is also a normalization issue for track-name casing/list representation, but per routing rules normalization should only be addressed first if the required fix is pre-fusion format transformation. Here, the largest recoverable gains shown by evidence are from choosing the correct resolver/source and post-clustering under frozen correspondences.",
+        "next_node": "pipeline_adaption",
+        "reasoning": "The protected attributes (>85%) should be preserved, so changes should target only weak attributes. Blocking/matching are not the next bottleneck: strong pairwise F1, non-empty correspondence files, and no blocking-recall alarms indicate entity pairs are largely available. The pipeline code shows several fusion misconfigurations directly causing low accuracy: (1) label currently uses most_complete, but source comparison says discogs exact=64%, musicbrainz non_null=0%, so prefer_higher_trust with discogs highest is the correct resolver; (2) release-date currently prefers musicbrainz, yet source comparison recommends voting with discogs > lastfm > musicbrainz, and many fused dates are blank despite source non-null rates of 83\u2013100%; (3) name/artist/duration trust settings are partially inconsistent with diagnostics; (4) tracks_track_name currently favors musicbrainz, but probe evidence says lastfm exact=77% / fuzzy=100% and shortest_string is recommended; (5) cluster analysis explicitly recommends MaximumBipartiteMatching. These are all fusion/post-clustering fixes within pipeline_adaption. I am preserving already strong attributes and not recommending normalization changes here because pipeline_adaption cannot add preprocessing; the more impactful immediate fix is to correct fusion logic and clustering. After that, if track-name case/list formatting still remains low, normalization can be addressed in a later round.",
+        "ceiling_assessment": "With current source data and frozen matching/imports, overall accuracy appears improvable from 58.4% toward roughly 80\u201388%. The provided structural ceiling is 91.6%, but tracks_track_duration is structurally limited (ceiling ~64%), and some missing fused values may persist from unmatched singleton/cluster composition issues. Fusion and post-clustering changes alone should recover a substantial share of the 34.2% headroom without risking the 13 protected attributes above 85%.",
+        "recommendations": [
+          {
+            "attribute": "label",
+            "issue": "Current resolver most_complete often returns empty or wrong values even though validation comparison shows only discogs carries useful label values (discogs exact 64%, non_null 100%; musicbrainz exact 0%, non_null 0%).",
+            "fix": "Use strategy.add_attribute_fuser('label', prefer_higher_trust, trust_map={'discogs': 3, 'musicbrainz': 2, 'lastfm': 1})",
+            "resolver_reasoning": "prefer_higher_trust is best because one source is clearly dominant. voting would fail when other sources are null or disagree; most_complete ignores source quality and is already underperforming; favour_sources would also work but is less principled than explicit trust and harder to keep consistent across attributes. The validation comparison directly supports discogs-first trust for label.",
+            "class": "improvable",
+            "expected_impact": 0.08
+          },
+          {
+            "attribute": "release-date",
+            "issue": "Current resolver prefer_higher_trust with musicbrainz highest is misaligned with validation; all sources have 0% exact but discogs has best fuzzy alignment and 100% non-null. Many fused dates are blank.",
+            "fix": "Use strategy.add_attribute_fuser('release-date', favour_sources, source_preferences=['discogs','musicbrainz','lastfm']) or voting if PyDI voting is available/reliable for datetimes; keep date normalization unchanged.",
+            "resolver_reasoning": "The evidence recommends voting(discogs > lastfm > musicbrainz), meaning consensus/near-consensus matters more than blindly trusting musicbrainz. Since exact match is 0% but fuzzy is 54\u201364%, the issue is source choice/availability rather than raw formatting. If PyDI voting over datetime values is supported, that is the best fit. If not, favour_sources with discogs first is the safest approximation because discogs is non-null 100% and has the highest fuzzy rate. prefer_higher_trust with musicbrainz-first is clearly worse; earliest is unsupported by evidence; most_complete adds no value because null rates are already low.",
+            "class": "improvable",
+            "expected_impact": 0.05
+          },
+          {
+            "attribute": "tracks_track_name",
+            "issue": "Current resolver favour_sources(['musicbrainz','discogs','lastfm']) chooses the wrong source for track names. Probe evidence says lastfm matches validation best (exact 77%, fuzzy 100%).",
+            "fix": "Use strategy.add_attribute_fuser('tracks_track_name', favour_sources, source_preferences=['lastfm','musicbrainz','discogs'])",
+            "resolver_reasoning": "For this list-like attribute, the available evidence points to source ordering rather than union/intersection. lastfm is the strongest source against validation, so favour_sources with lastfm first is the closest supported resolver under frozen infrastructure. shortest_string is the recommended conceptual rule from the source-vs-validation comparison, but for list-valued track names that may not apply directly in PyDI fusion the way it does for scalar album name. union would likely worsen exact-list evaluation by adding extras; intersection would drop legitimate tracks; current musicbrainz-first ordering is contradicted by the probe.",
+            "class": "improvable",
+            "expected_impact": 0.09
+          },
+          {
+            "attribute": "name",
+            "issue": "Current shortest_string resolver is already aligned with source-vs-validation evidence (lastfm best, shortest_string recommended), but source trust/order is not explicit.",
+            "fix": "Preserve shortest_string for 'name'; do not change this protected-near-protected attribute unless implementing a global trust cleanup elsewhere.",
+            "resolver_reasoning": "The diagnostics already recommend shortest_string and current accuracy is 78.3%, close to its observed ceiling. Changing to voting or prefer_higher_trust risks regression because validation often prefers concise canonical titles. This attribute should be preserved.",
+            "class": "improvable",
+            "expected_impact": 0.0
+          },
+          {
+            "attribute": "artist",
+            "issue": "Current resolver longest_string is inconsistent with evidence showing musicbrainz exact 83% and recommendation prefer_higher_trust(musicbrainz > discogs > lastfm).",
+            "fix": "Use strategy.add_attribute_fuser('artist', prefer_higher_trust, trust_map={'musicbrainz': 3, 'discogs': 2, 'lastfm': 1})",
+            "resolver_reasoning": "A single source is clearly best. longest_string can over-select embellished artist strings like collaborations or aliases, whereas validation aligns most closely with musicbrainz. voting may be harmed by disagreement across stylings; favour_sources would work but explicit trust is clearer and consistent with the probe.",
+            "class": "improvable",
+            "expected_impact": 0.03
+          },
+          {
+            "attribute": "duration",
+            "issue": "Current resolver maximum conflicts with evidence recommending prefer_higher_trust with discogs best exact rate (46%) and musicbrainz best fuzzy but 0 exact. Maximum may systematically overestimate when sources disagree.",
+            "fix": "Use strategy.add_attribute_fuser('duration', prefer_higher_trust, trust_map={'discogs': 3, 'musicbrainz': 2, 'lastfm': 1})",
+            "resolver_reasoning": "For scalar numeric duration, maximum is only correct if validation reflects a complete aggregate; the probe does not support that. Source comparison explicitly recommends prefer_higher_trust with discogs first. median was considered but no evidence indicates symmetric numeric noise; maximum is already likely causing overshoots; favour_sources is a weaker version of trust-based choice.",
+            "class": "improvable",
+            "expected_impact": 0.03
+          },
+          {
+            "attribute": "post_clustering",
+            "issue": "Ambiguous many-to-many correspondences are likely contributing to empty/wrong fused records; cluster analysis explicitly recommends MaximumBipartiteMatching.",
+            "fix": "Enable post-clustering with MaximumBipartiteMatching before fusion over the frozen correspondence sets.",
+            "resolver_reasoning": "This directly addresses ambiguous clusters without changing blocking or matching. Given one-to-many ratio 20.4% and ambiguity ratio 87.6% in discogs_lastfm, enforcing a one-to-one resolution should improve which records are fused together and reduce missing_fused values. StableMatching or GreedyOneToOne were alternatives, but MaximumBipartiteMatching is the stated top recommendation from the cluster analysis.",
+            "class": "improvable",
+            "expected_impact": 0.06
+          },
+          {
+            "attribute": "tracks_track_duration",
+            "issue": "Low accuracy is mostly structural: sources contain different or extra track durations, and exact list comparison penalizes otherwise plausible unions/preferences.",
+            "fix": "If adjusting, keep a simple source-preference rule rather than union; prefer discogs first based on exact rate evidence: strategy.add_attribute_fuser('tracks_track_duration', favour_sources, source_preferences=['discogs','musicbrainz','lastfm']).",
+            "resolver_reasoning": "The attribute is explicitly marked structurally_limited with ceiling ~64%. union would likely add extras and hurt exact-list evaluation further; intersection would drop true values; prefer_higher_trust is not always available/meaningful for list durations. Since discogs has the best exact rate for duration-related evidence, discogs-first source preference is the least harmful mitigation. Do not spend primary effort here before fixing label, release-date, track-name, and clustering.",
+            "class": "structurally_limited",
+            "expected_impact": 0.01
+          }
+        ]
+      }
+    }
+  ],
+  "evidence_length": 30361,
+  "decision": {
+    "action": "decide",
+    "diagnosis": "The main errors come from fusion/post-clustering configuration, not blocking or matching. Matching F1 is already strong (~0.87\u20130.90), correspondence files are non-empty, and blocking recall probes found no issues. The dominant failure pattern is missing_fused_value despite matched entities existing, plus wrong source choice in fusion. Current fusion rules contradict the source-vs-validation evidence: label uses most_complete even though only discogs has usable labels; release-date uses prefer_higher_trust with a trust map that incorrectly favors musicbrainz although exact match is 0% for all and discogs has the best fuzzy alignment; track-level fields use favour_sources toward musicbrainz/discogs even though the probe shows track names align best with lastfm. In addition, cluster analysis recommends MaximumBipartiteMatching, suggesting current clustering is allowing bad/ambiguous merges or missed one-to-one resolution that propagate into empty/wrong fused attributes. There is also a normalization issue for track-name casing/list representation, but per routing rules normalization should only be addressed first if the required fix is pre-fusion format transformation. Here, the largest recoverable gains shown by evidence are from choosing the correct resolver/source and post-clustering under frozen correspondences.",
+    "next_node": "pipeline_adaption",
+    "reasoning": "The protected attributes (>85%) should be preserved, so changes should target only weak attributes. Blocking/matching are not the next bottleneck: strong pairwise F1, non-empty correspondence files, and no blocking-recall alarms indicate entity pairs are largely available. The pipeline code shows several fusion misconfigurations directly causing low accuracy: (1) label currently uses most_complete, but source comparison says discogs exact=64%, musicbrainz non_null=0%, so prefer_higher_trust with discogs highest is the correct resolver; (2) release-date currently prefers musicbrainz, yet source comparison recommends voting with discogs > lastfm > musicbrainz, and many fused dates are blank despite source non-null rates of 83\u2013100%; (3) name/artist/duration trust settings are partially inconsistent with diagnostics; (4) tracks_track_name currently favors musicbrainz, but probe evidence says lastfm exact=77% / fuzzy=100% and shortest_string is recommended; (5) cluster analysis explicitly recommends MaximumBipartiteMatching. These are all fusion/post-clustering fixes within pipeline_adaption. I am preserving already strong attributes and not recommending normalization changes here because pipeline_adaption cannot add preprocessing; the more impactful immediate fix is to correct fusion logic and clustering. After that, if track-name case/list formatting still remains low, normalization can be addressed in a later round.",
+    "ceiling_assessment": "With current source data and frozen matching/imports, overall accuracy appears improvable from 58.4% toward roughly 80\u201388%. The provided structural ceiling is 91.6%, but tracks_track_duration is structurally limited (ceiling ~64%), and some missing fused values may persist from unmatched singleton/cluster composition issues. Fusion and post-clustering changes alone should recover a substantial share of the 34.2% headroom without risking the 13 protected attributes above 85%.",
+    "recommendations": [
+      {
+        "attribute": "label",
+        "issue": "Current resolver most_complete often returns empty or wrong values even though validation comparison shows only discogs carries useful label values (discogs exact 64%, non_null 100%; musicbrainz exact 0%, non_null 0%).",
+        "fix": "Use strategy.add_attribute_fuser('label', prefer_higher_trust, trust_map={'discogs': 3, 'musicbrainz': 2, 'lastfm': 1})",
+        "resolver_reasoning": "prefer_higher_trust is best because one source is clearly dominant. voting would fail when other sources are null or disagree; most_complete ignores source quality and is already underperforming; favour_sources would also work but is less principled than explicit trust and harder to keep consistent across attributes. The validation comparison directly supports discogs-first trust for label.",
+        "class": "improvable",
+        "expected_impact": 0.08
+      },
+      {
+        "attribute": "release-date",
+        "issue": "Current resolver prefer_higher_trust with musicbrainz highest is misaligned with validation; all sources have 0% exact but discogs has best fuzzy alignment and 100% non-null. Many fused dates are blank.",
+        "fix": "Use strategy.add_attribute_fuser('release-date', favour_sources, source_preferences=['discogs','musicbrainz','lastfm']) or voting if PyDI voting is available/reliable for datetimes; keep date normalization unchanged.",
+        "resolver_reasoning": "The evidence recommends voting(discogs > lastfm > musicbrainz), meaning consensus/near-consensus matters more than blindly trusting musicbrainz. Since exact match is 0% but fuzzy is 54\u201364%, the issue is source choice/availability rather than raw formatting. If PyDI voting over datetime values is supported, that is the best fit. If not, favour_sources with discogs first is the safest approximation because discogs is non-null 100% and has the highest fuzzy rate. prefer_higher_trust with musicbrainz-first is clearly worse; earliest is unsupported by evidence; most_complete adds no value because null rates are already low.",
+        "class": "improvable",
+        "expected_impact": 0.05
+      },
+      {
+        "attribute": "tracks_track_name",
+        "issue": "Current resolver favour_sources(['musicbrainz','discogs','lastfm']) chooses the wrong source for track names. Probe evidence says lastfm matches validation best (exact 77%, fuzzy 100%).",
+        "fix": "Use strategy.add_attribute_fuser('tracks_track_name', favour_sources, source_preferences=['lastfm','musicbrainz','discogs'])",
+        "resolver_reasoning": "For this list-like attribute, the available evidence points to source ordering rather than union/intersection. lastfm is the strongest source against validation, so favour_sources with lastfm first is the closest supported resolver under frozen infrastructure. shortest_string is the recommended conceptual rule from the source-vs-validation comparison, but for list-valued track names that may not apply directly in PyDI fusion the way it does for scalar album name. union would likely worsen exact-list evaluation by adding extras; intersection would drop legitimate tracks; current musicbrainz-first ordering is contradicted by the probe.",
+        "class": "improvable",
+        "expected_impact": 0.09
+      },
+      {
+        "attribute": "name",
+        "issue": "Current shortest_string resolver is already aligned with source-vs-validation evidence (lastfm best, shortest_string recommended), but source trust/order is not explicit.",
+        "fix": "Preserve shortest_string for 'name'; do not change this protected-near-protected attribute unless implementing a global trust cleanup elsewhere.",
+        "resolver_reasoning": "The diagnostics already recommend shortest_string and current accuracy is 78.3%, close to its observed ceiling. Changing to voting or prefer_higher_trust risks regression because validation often prefers concise canonical titles. This attribute should be preserved.",
+        "class": "improvable",
+        "expected_impact": 0.0
+      },
+      {
+        "attribute": "artist",
+        "issue": "Current resolver longest_string is inconsistent with evidence showing musicbrainz exact 83% and recommendation prefer_higher_trust(musicbrainz > discogs > lastfm).",
+        "fix": "Use strategy.add_attribute_fuser('artist', prefer_higher_trust, trust_map={'musicbrainz': 3, 'discogs': 2, 'lastfm': 1})",
+        "resolver_reasoning": "A single source is clearly best. longest_string can over-select embellished artist strings like collaborations or aliases, whereas validation aligns most closely with musicbrainz. voting may be harmed by disagreement across stylings; favour_sources would work but explicit trust is clearer and consistent with the probe.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "duration",
+        "issue": "Current resolver maximum conflicts with evidence recommending prefer_higher_trust with discogs best exact rate (46%) and musicbrainz best fuzzy but 0 exact. Maximum may systematically overestimate when sources disagree.",
+        "fix": "Use strategy.add_attribute_fuser('duration', prefer_higher_trust, trust_map={'discogs': 3, 'musicbrainz': 2, 'lastfm': 1})",
+        "resolver_reasoning": "For scalar numeric duration, maximum is only correct if validation reflects a complete aggregate; the probe does not support that. Source comparison explicitly recommends prefer_higher_trust with discogs first. median was considered but no evidence indicates symmetric numeric noise; maximum is already likely causing overshoots; favour_sources is a weaker version of trust-based choice.",
+        "class": "improvable",
+        "expected_impact": 0.03
+      },
+      {
+        "attribute": "post_clustering",
+        "issue": "Ambiguous many-to-many correspondences are likely contributing to empty/wrong fused records; cluster analysis explicitly recommends MaximumBipartiteMatching.",
+        "fix": "Enable post-clustering with MaximumBipartiteMatching before fusion over the frozen correspondence sets.",
+        "resolver_reasoning": "This directly addresses ambiguous clusters without changing blocking or matching. Given one-to-many ratio 20.4% and ambiguity ratio 87.6% in discogs_lastfm, enforcing a one-to-one resolution should improve which records are fused together and reduce missing_fused values. StableMatching or GreedyOneToOne were alternatives, but MaximumBipartiteMatching is the stated top recommendation from the cluster analysis.",
+        "class": "improvable",
+        "expected_impact": 0.06
+      },
+      {
+        "attribute": "tracks_track_duration",
+        "issue": "Low accuracy is mostly structural: sources contain different or extra track durations, and exact list comparison penalizes otherwise plausible unions/preferences.",
+        "fix": "If adjusting, keep a simple source-preference rule rather than union; prefer discogs first based on exact rate evidence: strategy.add_attribute_fuser('tracks_track_duration', favour_sources, source_preferences=['discogs','musicbrainz','lastfm']).",
+        "resolver_reasoning": "The attribute is explicitly marked structurally_limited with ceiling ~64%. union would likely add extras and hurt exact-list evaluation further; intersection would drop true values; prefer_higher_trust is not always available/meaningful for list durations. Since discogs has the best exact rate for duration-related evidence, discogs-first source preference is the least harmful mitigation. Do not spend primary effort here before fixing label, release-date, track-name, and clustering.",
+        "class": "structurally_limited",
+        "expected_impact": 0.01
+      }
+    ]
+  },
+  "final_decision": "pipeline_adaption",
+  "timestamp": "2026-03-23T00:00:31.408859Z"
+}

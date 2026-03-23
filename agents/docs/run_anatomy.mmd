@@ -1,0 +1,84 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '14px', 'fontFamily': 'arial'}, 'flowchart': {'curve': 'basis', 'padding': 20, 'nodeSpacing': 30, 'rankSpacing': 40}}}%%
+flowchart TD
+    classDef startEnd fill:#1a237e,color:#fff,stroke:#0d47a1,stroke-width:2px,font-weight:bold
+    classDef process fill:#e3f2fd,color:#0d47a1,stroke:#1565c0,stroke-width:1px
+    classDef eval fill:#fff3e0,color:#e65100,stroke:#ef6c00,stroke-width:1px
+    classDef investigate fill:#fce4ec,color:#b71c1c,stroke:#c62828,stroke-width:1px
+    classDef success fill:#e8f5e9,color:#1b5e20,stroke:#2e7d32,stroke-width:2px
+    classDef frozen fill:#f3e5f5,color:#4a148c,stroke:#6a1b9a,stroke-width:1px
+    classDef accuracy fill:#fffde7,color:#f57f17,stroke:#f9a825,stroke-width:2px
+    classDef decision fill:#e0f2f1,color:#004d40,stroke:#00695c,stroke-width:1px
+
+    START(["Music Rule-Based Run<br/>20260322_171209_music<br/>3 Sources: Discogs + LastFM + MusicBrainz"]):::startEnd
+
+    SCHEMA["<b>Schema Alignment</b><br/>Discogs: 11 cols | LastFM: 7 cols | MusicBrainz: 9 cols<br/>Aligned to unified schema: 11 attributes<br/>Duration: 7 seconds"]:::process
+
+    NORM1["<b>Normalization (Attempt 1)</b><br/>LLM generates NormalizationSpec per source<br/>Discogs: release-date to datetime, country to name format<br/>LastFM: duration to string<br/>MusicBrainz: country alpha_2 to name, date to datetime<br/>All sources: strip whitespace on track columns"]:::process
+
+    BLOCK["<b>Blocking (Pre-loaded Config)</b><br/>discogs-lastfm: EmbeddingBlocker on name+artist = 225,831 candidates (PC=96.4%)<br/>discogs-musicbrainz: SortedNeighbourhood on name = 115,280 candidates (PC=90.0%)<br/>lastfm-musicbrainz: EmbeddingBlocker on name+artist+duration = 47,615 candidates (PC=92.4%)"]:::frozen
+
+    MATCH["<b>Matching (Pre-loaded Config)</b><br/>discogs-lastfm: F1=0.897 | discogs-musicbrainz: F1=0.873<br/>lastfm-musicbrainz: F1=0.865<br/>RuleBasedMatcher with StringComparator + NumericComparator"]:::frozen
+
+    CORR["<b>Correspondences</b><br/>discogs-lastfm: 4,356 pairs<br/>discogs-musicbrainz: 2,102 pairs<br/>lastfm-musicbrainz: 3,238 pairs"]:::process
+
+    subgraph CYCLE1 ["Cycle 1: Initial Pipeline"]
+        direction TB
+        PIPE1["<b>Pipeline Generation (Cycle 1)</b><br/>LLM generates full pipeline code<br/>ConnectedComponentClusterer<br/>Resolvers: most_complete, longest_string,<br/>favour_sources, maximum, voting"]:::process
+        EXEC1["<b>Execution</b><br/>Success on attempt 1<br/>Fusion output: 30,807 rows"]:::process
+        EVAL1["<b>Evaluation</b><br/>23 records, 9 attributes, 197 comparisons"]:::eval
+        ACC1(["<b>Attempt 1: 64.0% overall</b><br/>name=78.3% | artist=73.9% | country=82.6%<br/>release-date=60.9% | duration=73.9%<br/>label=37.5% | tracks_name=47.8%<br/>tracks_duration=40.0% | tracks_position=69.6%"]):::accuracy
+    end
+
+    INV1{"<b>Investigation 1</b><br/>Diagnosis: Wrong resolver choices<br/>+ suboptimal post-clustering<br/>Route: pipeline_adaption<br/>8 recommendations"}:::investigate
+
+    subgraph CYCLE2 ["Cycle 2: Fusion Strategy Fix"]
+        direction TB
+        SCAFFOLD2["<b>Pipeline Scaffold</b><br/>FROZEN: imports, loading, blocking, matching, correspondences<br/>MUTABLE: post-clustering + fusion resolvers only"]:::frozen
+        PIPE2["<b>Pipeline Re-generation (Cycle 2)</b><br/>MaximumBipartiteMatching post-clustering<br/>prefer_higher_trust for label, artist, duration<br/>shortest_string for name<br/>voting for release-date"]:::process
+        EXEC2["<b>Execution</b><br/>Success on attempt 1"]:::process
+        EVAL2["<b>Evaluation</b>"]:::eval
+        ACC2(["<b>Attempt 2: 73.1% overall (+9.1pp)</b><br/>name=95.7% | artist=95.7% | country=100%<br/>release-date=78.3% | duration=82.6%<br/>label=62.5% | tracks_name=0.0%<br/>tracks_duration=50.0% | tracks_position=87.0%"]):::accuracy
+    end
+
+    INV2{"<b>Investigation 2</b><br/>Diagnosis: List format/case<br/>mismatches, not resolver issues<br/>Route: normalization_node<br/>4 recommendations"}:::investigate
+
+    subgraph CYCLE3 ["Cycle 3: Normalization Pass"]
+        direction TB
+        NORM2["<b>Normalization (Attempt 2)</b><br/>Focus: track list canonicalization<br/>+ release-date timestamp completion"]:::process
+        PIPE3["<b>Pipeline Re-generation (Cycle 3)</b><br/>Same scaffold, adjusted resolvers"]:::process
+        EXEC3["<b>Execution</b><br/>Success"]:::process
+        EVAL3["<b>Evaluation</b>"]:::eval
+        ACC3(["<b>Attempt 3: 78.2% overall (+5.1pp)</b><br/>name=91.3% | artist=91.3% | country=87.0%<br/>release-date=73.9% | duration=87.0%<br/>label=56.3% | tracks_name=69.6%<br/>tracks_duration=50.0% | tracks_position=87.0%"]):::accuracy
+    end
+
+    INV3{"<b>Investigation 3</b><br/>Diagnosis: Remaining issues are<br/>normalization + structural limits<br/>Route: normalization_node<br/>Ceiling estimate: 84.5%"}:::investigate
+
+    subgraph CYCLE4 ["Cycle 4: Final Normalization"]
+        direction TB
+        NORM3["<b>Normalization (Attempt 3)</b><br/>Conservative label preservation<br/>+ date format completion"]:::process
+        PIPE4["Pipeline Re-generation"]:::process
+        EXEC4["Execution"]:::process
+        EVAL4["Evaluation"]:::eval
+        ACC4(["<b>Attempt 4: 77.7% overall</b><br/>Regression guard REJECTED<br/>tracks_name dropped 17.4pp<br/>Kept attempt 3 as best: 78.2%"]):::accuracy
+    end
+
+    REVIEW["<b>Human Review Export</b><br/>Wide-format review tables<br/>with source lineage"]:::process
+
+    SEALED["<b>Sealed Test Evaluation</b><br/>Held-out test set (never seen during optimization)<br/>Test accuracy: 66.2% overall<br/>name=87.0% | artist=82.6% | duration=87.0%<br/>release-date=73.9% | label=50.0% | tracks_position=78.3%"]:::eval
+
+    SAVE(["<b>Final Results Saved</b><br/>Validation: 78.2% | Test: 66.2%<br/>4 attempts, 3 investigations<br/>Run duration: ~27 minutes"]):::startEnd
+
+    START --> SCHEMA --> NORM1 --> BLOCK --> MATCH --> CORR
+    CORR --> PIPE1
+    PIPE1 --> EXEC1 --> EVAL1 --> ACC1
+    ACC1 --> INV1
+    INV1 -->|"pipeline_adaption"| SCAFFOLD2
+    SCAFFOLD2 --> PIPE2 --> EXEC2 --> EVAL2 --> ACC2
+    ACC2 --> INV2
+    INV2 -->|"normalization_node"| NORM2
+    NORM2 --> PIPE3 --> EXEC3 --> EVAL3 --> ACC3
+    ACC3 --> INV3
+    INV3 -->|"normalization_node"| NORM3
+    NORM3 --> PIPE4 --> EXEC4 --> EVAL4 --> ACC4
+    ACC4 -->|"max attempts reached"| REVIEW
+    REVIEW --> SEALED --> SAVE

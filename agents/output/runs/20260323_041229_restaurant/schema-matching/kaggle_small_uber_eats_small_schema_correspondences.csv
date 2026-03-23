@@ -1,0 +1,17 @@
+source_dataset,source_column,target_dataset,target_column,score,notes
+kaggle_small,id,uber_eats_small,id,0.95,llm_based_matching
+kaggle_small,source,uber_eats_small,source,0.95,llm_based_matching
+kaggle_small,name,uber_eats_small,name,0.95,llm_based_matching
+kaggle_small,name_norm,uber_eats_small,name_norm,0.95,llm_based_matching
+kaggle_small,address_line1,uber_eats_small,address_line1,0.95,llm_based_matching
+kaggle_small,address_line2,uber_eats_small,address_line2,0.95,llm_based_matching
+kaggle_small,street,uber_eats_small,street,0.95,llm_based_matching
+kaggle_small,house_number,uber_eats_small,house_number,0.95,llm_based_matching
+kaggle_small,city,uber_eats_small,city,0.95,llm_based_matching
+kaggle_small,state,uber_eats_small,state,0.95,llm_based_matching
+kaggle_small,postal_code,uber_eats_small,postal_code,0.95,llm_based_matching
+kaggle_small,country,uber_eats_small,country,0.95,llm_based_matching
+kaggle_small,latitude,uber_eats_small,latitude,0.95,llm_based_matching
+kaggle_small,longitude,uber_eats_small,longitude,0.95,llm_based_matching
+kaggle_small,categories,uber_eats_small,categories,0.95,llm_based_matching
+kaggle_small,rating,uber_eats_small,rating,0.95,llm_based_matching

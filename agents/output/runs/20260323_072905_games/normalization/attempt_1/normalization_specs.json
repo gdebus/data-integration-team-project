@@ -1,0 +1,57 @@
+{
+  "specs": {
+    "dbpedia": {
+      "releaseYear": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%d",
+        "on_failure": "keep"
+      },
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "metacritic": {
+      "releaseYear": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%d",
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "developer": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    },
+    "sales": {
+      "releaseYear": {
+        "output_type": "datetime",
+        "date_format": "%Y-%m-%d",
+        "on_failure": "keep"
+      },
+      "criticScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "userScore": {
+        "output_type": "string",
+        "on_failure": "keep"
+      },
+      "platform": {
+        "strip_whitespace": true,
+        "on_failure": "keep"
+      }
+    }
+  },
+  "list_columns": [
+    "genres_genre"
+  ],
+  "reasoning": "Target stores releaseYear as YYYY-MM-DD strings and criticScore/userScore as strings. Source metacritic and sales have numeric score types, so cast them to string. Dates in all sources are already date-like but should be formatted to match target style. Platform/developer mostly match target style; only safe whitespace cleanup is included. No ID columns were touched, and no aggressive case changes were applied because target preserves mixed case. genres_genre is list-like in the target schema."
+}

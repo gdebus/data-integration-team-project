@@ -1,0 +1,85 @@
+fused_id,attribute,fused_value,test_value,difference_type
+discogs_9800,artist,Baron,Baron|Pendulum (3),mismatch
+discogs_9800,duration,614.0,614,mismatch
+discogs_9800,genre,Electronic,,missing_test_value
+discogs_9800,id,discogs_9800,mbrainz_2222,mismatch
+discogs_9800,name,Guns At Dawn / Ratpack,Guns At Dawn,mismatch
+discogs_9800,release-date,2005-04-18,2005-04-18T00:00:00.000,mismatch
+discogs_12243,duration,2494.0,2494,mismatch
+discogs_12243,genre,Electronic,,missing_test_value
+discogs_12243,id,discogs_12243,mbrainz_2807,mismatch
+discogs_12243,release-date,2005-01-01,2005-01-01T00:00:00.000,mismatch
+discogs_14628,duration,2020.0,2020,mismatch
+discogs_14628,genre,Rock,,missing_test_value
+discogs_14628,id,discogs_14628,mbrainz_3388,mismatch
+discogs_14628,release-date,2006-05-01,2006-05-16T00:00:00.000,mismatch
+discogs_30446,duration,2798.0,2798,mismatch
+discogs_30446,genre,Hip Hop,,missing_test_value
+discogs_30446,id,discogs_30446,mbrainz_6891,mismatch
+discogs_30446,release-date,2003-01-01,2003-01-01T00:00:00.000,mismatch
+discogs_58657,duration,2733.0,2733,mismatch
+discogs_58657,genre,Jazz|Funk / Soul,,missing_test_value
+discogs_58657,id,discogs_58657,mbrainz_12766,mismatch
+discogs_58657,release-date,1998-01-01,1998-01-01T00:00:00.000,mismatch
+discogs_70907,duration,4680.0,4680,mismatch
+discogs_70907,genre,Rock,,missing_test_value
+discogs_70907,id,discogs_70907,mbrainz_15029,mismatch
+discogs_70907,release-date,2002-01-01,2002-01-01T00:00:00.000,mismatch
+discogs_71795,duration,1303.0,1303,mismatch
+discogs_71795,genre,Electronic,,missing_test_value
+discogs_71795,id,discogs_71795,mbrainz_15458,mismatch
+discogs_71795,release-date,2011-10-25,2011-10-25T00:00:00.000,mismatch
+discogs_96815,duration,2403.0,2403,mismatch
+discogs_96815,genre,Pop|Rock,,missing_test_value
+discogs_96815,id,discogs_96815,mbrainz_9858,mismatch
+discogs_96815,release-date,1990-01-01,1990-01-01T00:00:00.000,mismatch
+discogs_98622,duration,3100.0,3100,mismatch
+discogs_98622,genre,Electronic,,missing_test_value
+discogs_98622,id,discogs_98622,mbrainz_18462,mismatch
+discogs_98622,release-date,2013-02-01,2013-02-01T00:00:00.000,mismatch
+discogs_116139,artist,Pieces Of A Dream,Oleander,mismatch
+discogs_116139,duration,2517.0,2517,mismatch
+discogs_116139,genre,Electronic|Funk / Soul,,missing_test_value
+discogs_116139,id,discogs_116139,mbrainz_5463,mismatch
+discogs_116139,label,Manhattan Records,Sanctuary Records,mismatch
+discogs_116139,release-date,2003-01-01,2003-01-01T00:00:00.000,mismatch
+lastFM_10595,duration,4313.0,4313,mismatch
+lastFM_10595,id,lastFM_10595,mbrainz_5095,mismatch
+lastFM_10595,release-date,2007-01-01,2007-01-01T00:00:00.000,mismatch
+lastFM_19085,duration,2751.0,2751,mismatch
+lastFM_19085,id,lastFM_19085,mbrainz_8963,mismatch
+lastFM_19085,release-date,2004-10-04,2004-10-04T00:00:00.000,mismatch
+lastFM_29687,duration,958.0,958,mismatch
+lastFM_29687,id,lastFM_29687,mbrainz_13699,mismatch
+lastFM_29687,release-date,,2002-05-01T00:00:00.000,missing_fused_value
+lastFM_52562,duration,1513.0,1513,mismatch
+lastFM_52562,id,lastFM_52562,mbrainz_20856,mismatch
+lastFM_52562,release-date,,1998-02-01T00:00:00.000,missing_fused_value
+lastFM_53900,artist,G. Puccini,Deepfunk,mismatch
+lastFM_53900,duration,3641.0,868,mismatch
+lastFM_53900,id,lastFM_53900,mbrainz_10613,mismatch
+lastFM_53900,label,,Piemont Records,missing_fused_value
+lastFM_53900,release-date,2010-04-15,2010-04-15T00:00:00.000,mismatch
+lastFM_73829,duration,360.0,360,mismatch
+lastFM_73829,id,lastFM_73829,mbrainz_29595,mismatch
+lastFM_73829,release-date,1964-01-01,1964-01-01T00:00:00.000,mismatch
+mbrainz_159,duration,1088.0,1088,mismatch
+mbrainz_159,label,,Kurbel,missing_fused_value
+mbrainz_159,release-date,,1998-11-01T00:00:00.000,missing_fused_value
+mbrainz_1834,duration,3080.0,3080,mismatch
+mbrainz_1834,label,,Noise International,missing_fused_value
+mbrainz_1834,release-date,2004-04-26,2004-04-26T00:00:00.000,mismatch
+mbrainz_3787,duration,722.0,722,mismatch
+mbrainz_3787,name,Butterfly EP,Butterfly,mismatch
+mbrainz_3787,release-date,2006-01-01,2006-01-01T00:00:00.000,mismatch
+mbrainz_6947,duration,2292.0,2292,mismatch
+mbrainz_6947,label,,Columbia,missing_fused_value
+mbrainz_6947,release-date,1986-01-01,1987-10-01T00:00:00.000,mismatch
+mbrainz_9448,duration,3076.0,3076,mismatch
+mbrainz_9448,label,,Metal For Muthas,missing_fused_value
+mbrainz_9448,release-date,2003-06-20,2003-06-20T00:00:00.000,mismatch
+mbrainz_15127,duration,2295.0,2295,mismatch
+mbrainz_15127,label,,I.R.S. Records,missing_fused_value
+mbrainz_15127,release-date,1989-01-01,1989-01-01T00:00:00.000,mismatch
+mbrainz_25432,duration,3636.0,3636,mismatch
+mbrainz_25432,release-date,,2003-10-01T00:00:00.000,missing_fused_value
