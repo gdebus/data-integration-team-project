@@ -70,7 +70,15 @@
                         <li><a href="#agent-comparison">Comparison Summary</a></li>
                     </ul>
                 </li>
-                <li><a href="#methodology">Methodology</a></li>
+                <li>
+                    <a href="#methodology">Methodology</a>
+                    <ul>
+                        <li><a href="#experimental-setup">Experimental Setup</a></li>
+                        <li><a href="#ablation-design">Ablation Design</a></li>
+                        <li><a href="#controlled-variables">Controlled Variables</a></li>
+                        <li><a href="#evaluation-protocol">Evaluation Protocol</a></li>
+                    </ul>
+                </li>
                 <li>
                     <a href="#evaluation">Evaluation</a>
                     <ul>
@@ -509,7 +517,181 @@
         <!-- Methodology -->
         <section id="methodology">
             <h1>Methodology</h1>
-            <p><em>Documentation coming soon.</em></p>
+            <p>
+                This section describes the experimental methodology that governs all pipeline runs
+                reported in this project. It covers the software stack, the incremental design of
+                the agent variants, the variables that are held constant across experiments, and
+                the protocol used to measure pipeline quality.
+            </p>
+
+            <h2 id="experimental-setup">Experimental Setup</h2>
+            <p>
+                All experiments are built on a common software stack. The orchestration layer uses
+                <strong>LangGraph</strong>, a state-graph framework from the LangChain ecosystem
+                that models each pipeline as a directed graph of typed nodes with conditional
+                edges and retry loops. Every LLM call is routed to <strong>OpenAI GPT&nbsp;5.4</strong>,
+                which serves as the single generative model for schema analysis, code generation,
+                evaluation authoring, and reasoning. Where token-usage tracking is available, costs
+                are recorded via the LangChain <code>get_openai_callback</code> context manager.
+            </p>
+            <p>
+                The data integration logic itself is implemented with <strong>PyDI</strong>
+                (Python Data Integration), an in-house library that provides composable building
+                blocks for blocking, matching, and fusion. PyDI exposes several blocker
+                implementations (StandardBlocker, TokenBlocker, SortedNeighbourhoodBlocker, and
+                EmbeddingBlocker backed by <strong>sentence-transformers</strong>), comparator
+                types (StringComparator, NumericComparator, DateComparator), a
+                <code>RuleBasedMatcher</code> with weighted decision functions, an
+                <code>MLBasedMatcher</code> with scikit-learn classifiers, and a
+                <code>DataFusionEngine</code> with configurable per-attribute fuser strategies.
+            </p>
+            <p>
+                Generated pipeline code is written to disk and executed as a standalone Python
+                subprocess. This design ensures that the LLM-produced code runs in an isolated
+                environment and that execution errors (import failures, type mismatches, runtime
+                exceptions) are captured cleanly and fed back to the LLM for correction.
+            </p>
+
+            <h2 id="ablation-design">Ablation Design</h2>
+            <p>
+                The agent variants are designed as a cumulative ablation study. Rather than
+                testing isolated features, each new agent tier retains all capabilities of its
+                predecessor and adds exactly one new component or mode. This makes it possible to
+                attribute changes in fusion accuracy, token usage, and runtime to a specific
+                addition.
+            </p>
+            <p>
+                The progression is as follows:
+            </p>
+            <ol>
+                <li>
+                    <strong>Agent&nbsp;I</strong> establishes the baseline: the LLM receives
+                    dataset profiles and an example pipeline, and must infer blocking, matching,
+                    and fusion strategies entirely on its own. Only rule-based matching is
+                    supported.
+                </li>
+                <li>
+                    <strong>Agent&nbsp;II</strong> adds the Blocking Tester and Matching Tester
+                    nodes. These evaluate multiple strategies against gold-standard test sets
+                    before pipeline generation, providing the LLM with pre-computed, empirically
+                    validated configurations. This isolates the effect of <em>strategy
+                    selection</em> from the LLM's code-generation ability.
+                </li>
+                <li>
+                    <strong>Agents&nbsp;III (RB) and IV (ML)</strong> introduce the Reasoning
+                    Node, which analyses evaluation failures and produces structured improvement
+                    suggestions before looping back to pipeline generation. Agent&nbsp;IV
+                    additionally switches from rule-based to ML-based matching, enabling us to
+                    compare matcher paradigms under otherwise identical conditions.
+                </li>
+                <li>
+                    <strong>Agents&nbsp;V (RB) and VI (ML)</strong> add the Cluster Analysis node
+                    and the Search Documentation Tool. The cluster analysis diagnoses over-matching
+                    after each pipeline run, while the documentation tool gives the LLM access to
+                    PyDI API documentation at generation time, reducing hallucinated function calls.
+                </li>
+            </ol>
+            <p>
+                Because each tier is strictly additive, differences in evaluation metrics between
+                adjacent tiers can be attributed to the newly introduced component with reasonable
+                confidence. The main confound is the inherent non-determinism of LLM-generated
+                code; we mitigate this by running each agent variant across all four use cases and
+                reporting both per-domain and aggregate results.
+            </p>
+
+            <h2 id="controlled-variables">Controlled Variables</h2>
+            <p>
+                To ensure a fair comparison across agent variants, several variables are held
+                constant throughout the experiment suite.
+            </p>
+            <p>
+                <strong>Blocking and matching configurations.</strong> For Agents&nbsp;II through
+                VI, the optimal blocking and matching strategies are determined once per use case
+                by the tester nodes and then <em>reused identically</em> across all agent variants
+                that support them. This means that differences in fusion accuracy between, say,
+                Agent&nbsp;III and Agent&nbsp;V cannot be explained by different blocking keys or
+                matching thresholds.
+            </p>
+
+            <div class="admonition">
+                <span class="admonition-title">Exception: Agent VII</span>
+                <p>
+                    Agent&nbsp;VII introduces a dedicated
+                    normalization node that preprocesses attribute values before blocking and
+                    matching. Because normalization changes the surface form of the data, the
+                    blocking and matching configurations for this agent differ from the shared
+                    baseline. Results for Agent&nbsp;VII are therefore reported separately and
+                    should not be directly compared with the other variants on the controlled
+                    blocking/matching dimension.
+                </p>
+            </div>
+
+            <p>
+                <strong>LLM model and temperature.</strong> All agents use GPT&nbsp;5.4 with
+                temperature set to&nbsp;0, ensuring deterministic decoding for a given prompt. The
+                same model is used for schema matching, pipeline generation, evaluation code
+                generation, and the reasoning node.
+            </p>
+            <p>
+                <strong>Example pipelines and prompts.</strong> The example integration pipeline
+                and example evaluation script provided to the LLM are identical across all agent
+                variants for a given matcher mode (rule-based or ML). When the matcher mode is
+                switched to ML, a separate ML-specific example pipeline is used, but this example
+                is again shared across all ML-mode agents.
+            </p>
+            <p>
+                <strong>Retry budgets.</strong> Pipeline execution allows up to five retry attempts,
+                evaluation execution up to three, and the outer evaluation-reasoning loop runs for
+                at most three iterations. These limits are consistent across all agents.
+            </p>
+            <p>
+                <strong>Gold-standard test sets.</strong> The entity-matching and fusion test sets
+                are fixed per use case and shared across all runs. They are not regenerated
+                between experiments.
+            </p>
+
+            <h2 id="evaluation-protocol">Evaluation Protocol</h2>
+            <p>
+                Pipeline quality is measured through <strong>fusion accuracy</strong>, which
+                captures how well the final fused output matches the gold-standard reference.
+                The evaluation proceeds in two stages.
+            </p>
+            <p>
+                In the first stage, the agent generates an evaluation script that loads the fused
+                output CSV and the gold-standard test set. The script aligns records between the
+                two files using entity identifiers and computes <strong>per-column accuracy</strong>:
+                for each attribute in the fused output, the fraction of records where the fused
+                value matches the gold-standard value. Comparison is performed after basic
+                normalization (lowercasing, whitespace stripping) to avoid penalising trivial
+                formatting differences.
+            </p>
+            <p>
+                In the second stage, the per-column accuracies are aggregated into a single
+                <strong>overall accuracy</strong> score (the mean across all evaluated columns).
+                This overall accuracy is the primary metric used by the Evaluation Decision node
+                to determine whether the pipeline should be refined further or whether the run
+                should terminate. The termination threshold is set at 85% overall accuracy; if
+                the agent has not reached this threshold after three evaluation-reasoning
+                iterations, the run terminates and the best result is recorded.
+            </p>
+            <p>
+                In addition to accuracy, the evaluation infrastructure records structured
+                per-record debugging events in JSONL format. Each event captures the entity
+                identifiers, the expected and actual fused values, and the column-level match
+                status. These events are consumed by the Reasoning Node in Agents&nbsp;III–VI
+                to diagnose specific error patterns (false positives, false negatives,
+                preprocessing mismatches) and to produce targeted improvement suggestions for
+                the next pipeline iteration.
+            </p>
+            <p>
+                Separately from fusion accuracy, the Blocking Tester and Matching Tester nodes
+                use <strong>Pairs Completeness</strong> (PC) and <strong>F1 score</strong> as
+                their internal quality metrics. PC measures the recall of the blocking step (what
+                fraction of true matches survive candidate generation), while F1 measures the
+                balance of precision and recall for the matching step. These metrics guide
+                strategy selection but are not directly used as the final evaluation criterion;
+                the end-to-end fusion accuracy is the definitive measure of pipeline quality.
+            </p>
         </section>
 
         <section id="evaluation">
