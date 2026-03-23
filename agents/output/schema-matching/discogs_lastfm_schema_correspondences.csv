@@ -1,8 +1,0 @@
-source_dataset,source_column,target_dataset,target_column,score,notes
-discogs,id,lastfm,id,0.95,llm_based_matching
-discogs,name,lastfm,name,0.95,llm_based_matching
-discogs,artist,lastfm,artist,0.95,llm_based_matching
-discogs,duration,lastfm,duration,0.95,llm_based_matching
-discogs,tracks_track_name,lastfm,tracks_track_name,0.95,llm_based_matching
-discogs,tracks_track_position,lastfm,tracks_track_position,0.95,llm_based_matching
-discogs,tracks_track_duration,lastfm,tracks_track_duration,0.95,llm_based_matching
