@@ -703,6 +703,12 @@
                 blocking and matching strategy that the generated notebook actually used.
             </p>
 
+            <img src="images/mean_accuracy_by_usecase.png" alt="Mean accuracy by use case across pipeline families">
+            <p>
+                The figure above summarises the mean fusion accuracy for each use case and makes the
+                cross-domain performance gap visible before the per-pipeline analysis below.
+            </p>
+
             <h2 id="use-case-analysis">Use Case Analysis</h2>
 
             <h3 id="games-analysis">Games</h3>
@@ -975,15 +981,21 @@
             <h3 id="restaurants-analysis">Restaurants</h3>
             <p><em>Documentation coming soon.</em></p>
 
-            <h2 id="findings">Findings</h2>
         </section>
-
-        <section id="token-usage">
-            <h3>Token Usage</h3>
+        
+        <section id="findings">
+            <h2>Findings</h2>
+            <h3 id="token-usage">Token Usage</h3>
             <p>
                 The token analysis below is based on the <code>node_activity.json</code> logs for all
                 28 recorded <code>AdaptationPipeline_*</code> runs across the Games, Music, Books, and
                 Restaurant use cases.
+            </p>
+
+            <img src="images/token_usage.png" alt="Token usage across AdaptationPipeline notebook families">
+            <p>
+                This chart provides the aggregate token-usage view that complements the detailed family
+                breakdown in the table below.
             </p>
 
             <p>
