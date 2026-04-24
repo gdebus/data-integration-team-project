@@ -41,6 +41,45 @@
                         <li><a href="#agent-vii-reasoning-study">Reasoning Case Study (3&times; Games)</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="#methodology">Methodology</a>
+                    <ul>
+                        <li><a href="#experimental-setup">Experimental Setup</a></li>
+                        <li><a href="#ablation-design">Ablation Design</a></li>
+                        <li><a href="#controlled-variables">Controlled Variables</a></li>
+                        <li><a href="#evaluation-protocol">Evaluation Protocol</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#evaluation">Evaluation</a>
+                    <ul>
+                        <li>
+                            <a href="#use-case-analysis">Use Case Analysis</a>
+                            <ul>
+                                <li><a href="#games-analysis">Games</a></li>
+                                <li><a href="#music-analysis">Music</a></li>
+                                <li><a href="#books-analysis">Books</a></li>
+                                <li><a href="#restaurants-analysis">Restaurants</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#findings">Findings</a>
+                            <ul>
+                                <li><a href="#token-usage">Token Usage</a></li>
+                                <li><a href="#time-complexity">Time Complexity</a></li>
+                                <li><a href="#trial-and-error">Trial &amp; Error</a></li>
+                                <li>
+                                    <a href="#accuracy">Accuracy</a>
+                                    <ul>
+                                        <li><a href="#per-iteration-gains">Per Iteration Gains</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#llm-test-set-generation">LLM Test Set Generation</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#conclusion">Conclusion</a></li>
                 <li><a href="#notebooks">Notebooks</a></li>
             </ul>
         </nav>
@@ -2608,6 +2647,1068 @@
                     <tr><td>Matcher Type</td>               <td>RB</td><td>RB</td><td>RB</td><td>ML</td><td>RB</td><td>ML</td><td>RB</td><td>RB + ML</td></tr>
                 </tbody>
             </table>
+        </section>
+
+        <!-- Methodology -->
+        <section id="methodology">
+            <h1>Methodology</h1>
+            <p>
+                This section describes the experimental methodology that governs all pipeline runs
+                reported in this project. It covers the software stack, the incremental design of
+                the agent variants, the variables that are held constant across experiments, and
+                the protocol used to measure pipeline quality.
+            </p>
+
+            <h2 id="experimental-setup">Experimental Setup</h2>
+            <p>
+                All experiments are built on a common software stack. The orchestration layer uses
+                <strong>LangGraph</strong>, a state-graph framework from the LangChain ecosystem
+                that models each pipeline as a directed graph of typed nodes with conditional
+                edges and retry loops. Every LLM call is routed to <strong>OpenAI GPT&nbsp;5.4</strong>,
+                which serves as the single generative model for schema analysis, code generation,
+                evaluation authoring, and reasoning. Where token-usage tracking is available, costs
+                are recorded via the LangChain <code>get_openai_callback</code> context manager.
+            </p>
+            <p>
+                The data integration logic itself is implemented with <strong>PyDI</strong>
+                (Python Data Integration), an in-house library that provides composable building
+                blocks for blocking, matching, and fusion. PyDI exposes several blocker
+                implementations (StandardBlocker, TokenBlocker, SortedNeighbourhoodBlocker, and
+                EmbeddingBlocker backed by <strong>sentence-transformers</strong>), comparator
+                types (StringComparator, NumericComparator, DateComparator), a
+                <code>RuleBasedMatcher</code> with weighted decision functions, an
+                <code>MLBasedMatcher</code> with scikit-learn classifiers, and a
+                <code>DataFusionEngine</code> with configurable per-attribute fuser strategies.
+            </p>
+            <p>
+                Generated pipeline code is written to disk and executed as a standalone Python
+                subprocess. This design ensures that the LLM-produced code runs in an isolated
+                environment and that execution errors (import failures, type mismatches, runtime
+                exceptions) are captured cleanly and fed back to the LLM for correction.
+            </p>
+
+            <h2 id="ablation-design">Ablation Design</h2>
+            <p>
+                The agent variants are designed as a cumulative ablation study. Rather than
+                testing isolated features, each new agent tier retains all capabilities of its
+                predecessor and adds exactly one new component or mode. This makes it possible to
+                attribute changes in fusion accuracy, token usage, and runtime to a specific
+                addition.
+            </p>
+            <p>
+                The progression is as follows:
+            </p>
+            <ol>
+                <li>
+                    <strong>Agent&nbsp;I</strong> establishes the baseline: the LLM receives
+                    dataset profiles and an example pipeline, and must infer blocking, matching,
+                    and fusion strategies entirely on its own. Only rule-based matching is
+                    supported.
+                </li>
+                <li>
+                    <strong>Agent&nbsp;II</strong> adds the Blocking Tester and Matching Tester
+                    nodes. These evaluate multiple strategies against gold-standard test sets
+                    before pipeline generation, providing the LLM with pre-computed, empirically
+                    validated configurations. This isolates the effect of <em>strategy
+                    selection</em> from the LLM's code-generation ability.
+                </li>
+                <li>
+                    <strong>Agents&nbsp;III (RB) and IV (ML)</strong> introduce the Reasoning
+                    Node, which analyses evaluation failures and produces structured improvement
+                    suggestions before looping back to pipeline generation. Agent&nbsp;IV
+                    additionally switches from rule-based to ML-based matching, enabling us to
+                    compare matcher paradigms under otherwise identical conditions.
+                </li>
+                <li>
+                    <strong>Agents&nbsp;V (RB) and VI (ML)</strong> add the Cluster Analysis node
+                    and the Search Documentation Tool. The cluster analysis diagnoses over-matching
+                    after each pipeline run, while the documentation tool gives the LLM access to
+                    PyDI API documentation at generation time, reducing hallucinated function calls.
+                </li>
+            </ol>
+            <p>
+                Because each tier is strictly additive, differences in evaluation metrics between
+                adjacent tiers can be attributed to the newly introduced component with reasonable
+                confidence. The main confound is the inherent non-determinism of LLM-generated
+                code; we mitigate this by running each agent variant across all four use cases and
+                reporting both per-domain and aggregate results.
+            </p>
+
+            <h2 id="controlled-variables">Controlled Variables</h2>
+            <p>
+                To ensure a fair comparison across agent variants, several variables are held
+                constant throughout the experiment suite.
+            </p>
+            <p>
+                <strong>Blocking and matching configurations.</strong> For Agents&nbsp;II through
+                VI, the optimal blocking and matching strategies are determined once per use case
+                by the tester nodes and then <em>reused identically</em> across all agent variants
+                that support them. This means that differences in fusion accuracy between, say,
+                Agent&nbsp;III and Agent&nbsp;V cannot be explained by different blocking keys or
+                matching thresholds.
+            </p>
+
+            <div class="admonition">
+                <span class="admonition-title">Exception: Agent VII</span>
+                <p>
+                    Agent&nbsp;VII introduces a dedicated
+                    normalization node that preprocesses attribute values before blocking and
+                    matching. Because normalization changes the surface form of the data, the
+                    blocking and matching configurations for this agent differ from the shared
+                    baseline. Results for Agent&nbsp;VII are therefore reported separately and
+                    should not be directly compared with the other variants on the controlled
+                    blocking/matching dimension.
+                </p>
+            </div>
+
+            <p>
+                <strong>LLM model and temperature.</strong> All agents use GPT&nbsp;5.4 with
+                temperature set to&nbsp;0, ensuring deterministic decoding for a given prompt. The
+                same model is used for schema matching, pipeline generation, evaluation code
+                generation, and the reasoning node.
+            </p>
+            <p>
+                <strong>Example pipelines and prompts.</strong> The example integration pipeline
+                and example evaluation script provided to the LLM are identical across all agent
+                variants for a given matcher mode (rule-based or ML). When the matcher mode is
+                switched to ML, a separate ML-specific example pipeline is used, but this example
+                is again shared across all ML-mode agents.
+            </p>
+            <p>
+                <strong>Retry budgets.</strong> Pipeline and evaluation execution allows up to three retry attempts
+                and the outer evaluation-reasoning loop runs for
+                at most three iterations. These limits are consistent across all agents.
+            </p>
+            <p>
+                <strong>Gold-standard test sets.</strong> The entity-matching and fusion test sets
+                are fixed per use case and shared across all runs. They are not regenerated
+                between experiments.
+            </p>
+
+            <h2 id="evaluation-protocol">Evaluation Protocol</h2>
+            <p>
+                Pipeline quality is measured through <strong>fusion accuracy</strong>, which
+                captures how well the final fused output matches the gold-standard reference.
+                The evaluation proceeds in two stages.
+            </p>
+            <p>
+                In the first stage, the agent generates an evaluation script that loads the fused
+                output CSV and the gold-standard test set. The script aligns records between the
+                two files using entity identifiers and computes <strong>per-column accuracy</strong>:
+                for each attribute in the fused output, the fraction of records where the fused
+                value matches the gold-standard value. Comparison is performed after basic
+                normalization (lowercasing, whitespace stripping) to avoid penalising trivial
+                formatting differences.
+            </p>
+            <p>
+                In the second stage, the per-column accuracies are aggregated into a single
+                <strong>overall accuracy</strong> score (the mean across all evaluated columns).
+                This overall accuracy is the primary metric used by the Evaluation Decision node
+                to determine whether the pipeline should be refined further or whether the run
+                should terminate. The termination threshold is set at 85% overall accuracy; if
+                the agent has not reached this threshold after three evaluation-reasoning
+                iterations, the run terminates and the best result is recorded.
+            </p>
+            <p>
+                In addition to accuracy, the evaluation infrastructure records structured
+                per-record debugging events in JSONL format. Each event captures the entity
+                identifiers, the expected and actual fused values, and the column-level match
+                status. These events are consumed by the Reasoning Node in Agents&nbsp;III–VI
+                to diagnose specific error patterns (false positives, false negatives,
+                preprocessing mismatches) and to produce targeted improvement suggestions for
+                the next pipeline iteration.
+            </p>
+            <p>
+                Separately from fusion accuracy, the Blocking Tester and Matching Tester nodes
+                use <strong>Pairs Completeness</strong> (PC) and <strong>F1 score</strong> as
+                their internal quality metrics. PC measures the recall of the blocking step (what
+                fraction of true matches survive candidate generation), while F1 measures the
+                balance of precision and recall for the matching step. These metrics guide
+                strategy selection but are not directly used as the final evaluation criterion;
+                the end-to-end fusion accuracy is the definitive measure of pipeline quality.
+            </p>
+        </section>
+
+        <section id="evaluation">
+            <h1>Evaluation</h1>
+            <p>
+                This section compares the generated pipeline snapshots stored in the
+                <code>agents/output/results/AdaptationPipeline_*_pipelines.md</code> reports. For each
+                use case, we compare the observed snapshot accuracy trajectory together with the
+                blocking and matching strategy that the generated notebook actually used.
+            </p>
+
+            <img src="images/mean_accuracy_by_usecase.png" alt="Mean accuracy by use case across pipeline families">
+            <p>
+                The figure above summarises the mean fusion accuracy for each use case and makes the
+                cross-domain performance gap visible before the per-pipeline analysis below.
+            </p>
+
+            <h2 id="use-case-analysis">Use Case Analysis</h2>
+
+            <h3 id="games-analysis">Games</h3>
+            <p>
+                The <em>Games</em> use case is the most forgiving domain for the agent family. The three
+                sources share several strong identity signals such as <code>name</code>,
+                <code>platform</code>, <code>developer</code>, and <code>releaseYear</code>, and the
+                strongest pipelines exploit this structure consistently. The main pattern across the
+                snapshots is that exact-name blocking can occasionally work very well, but the more
+                reliable runs move to semantic blocking and then improve further through either
+                reasoning-guided rule calibration or pair-specific ML matching.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agent I</td>
+                        <td>Rule-based</td>
+                        <td>61.34% → 84.87% → 59.66%</td>
+                        <td>84.87%</td>
+                        <td>
+                            The baseline uses only <code>StandardBlocker</code> on
+                            <code>name_norm</code> and a small hand-written rule set over
+                            <code>name</code>, <code>developer</code>, <code>platform</code>, and
+                            <code>releaseYear</code>. This can produce a very strong single run when
+                            titles align closely, but the final drop shows that the approach is brittle
+                            once exact-name agreement breaks down.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent II</td>
+                        <td>Rule-based</td>
+                        <td>29.41% → 35.29% → 73.95%</td>
+                        <td>73.95%</td>
+                        <td>
+                            This notebook upgrades all three pairs to
+                            <code>EmbeddingBlocker</code> and uses richer comparator sets, including
+                            <code>criticScore</code> and <code>userScore</code> for the
+                            <code>metacritic-sales</code> pair. It recovers far more true matches than
+                            the naive baseline, but still leaves headroom because the weights and
+                            thresholds are not yet as stable as in the later reasoning runs.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>29.41% → 83.19% → 84.87%</td>
+                        <td>84.87%</td>
+                        <td>
+                            The reasoning-enhanced RB variant keeps the semantic blocking setup but
+                            calibrates the pair-specific weights more effectively, especially on
+                            <code>metacritic-sales</code>, where numeric review signals matter. The
+                            jump between the first and later snapshots suggests that reasoning feedback
+                            is valuable for correcting badly calibrated rule configurations.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent IV</td>
+                        <td>ML</td>
+                        <td>78.99% → 82.35% → 84.87%</td>
+                        <td>84.87%</td>
+                        <td>
+                            The ML version is one of the most consistent Games pipelines. It keeps
+                            semantic blocking for all pairs, extracts features from
+                            <code>name</code>, <code>platform</code>, <code>developer</code>,
+                            <code>releaseYear</code>, <code>criticScore</code>,
+                            <code>userScore</code>, and <code>ESRB</code>, and then searches across
+                            several classifiers. The steady improvement across snapshots indicates that
+                            Games has enough structured signal for supervised matching to converge.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>ML</td>
+                        <td>72.50% → 86.25%</td>
+                        <td>86.25%</td>
+                        <td>
+                            This is the strongest Games result. The generated pipeline combines a
+                            hybrid blocking strategy, with <code>StandardBlocker</code> on the easier
+                            <code>dbpedia-sales</code> pair and semantic blocking on the harder pairs,
+                            plus list normalization and per-pair model selection. In this domain that
+                            mix appears to remove unnecessary candidate noise without losing too much
+                            recall.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent V</td>
+                        <td>Rule-based</td>
+                        <td>72.58% → 78.45% → 78.65%</td>
+                        <td>78.65%</td>
+                        <td>
+                            The cluster-guided RB variant stays with semantic blocking and uses updated
+                            comparator weights. It is clearly better than the early blocker-only RB
+                            run, but it still underperforms the best reasoning variants, which suggests
+                            that the extra cluster feedback is not as helpful here as direct
+                            reasoning-based threshold correction.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VI</td>
+                        <td>ML</td>
+                        <td>78.99% → 74.79% → 74.79%</td>
+                        <td>78.99%</td>
+                        <td>
+                            The ML cluster variant starts from a strong first snapshot but then moves
+                            backwards. Since it already uses semantic blocking and a broad feature set,
+                            the regression suggests that cluster-derived updates added variance rather
+                            than useful new signal in a domain that was already well structured.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                Overall, Games rewards strong candidate generation and disciplined calibration much more
+                than heavy domain-specific repair. Once the notebooks move beyond exact-name blocking,
+                both matcher modes become competitive, but the best results come from the ML pipelines
+                that combine semantic blocking with per-pair feature extraction and model selection. At
+                the same time, the strong but unstable baseline snapshot shows that this domain can
+                occasionally be solved even with simple rules when the naming conventions happen to line
+                up.
+            </p>
+
+            <h3 id="music-analysis">Music</h3>
+            <p>
+                The <em>Music</em> use case is materially harder. The sources differ not only in naming
+                conventions, but also in how they represent artists, track lists, duration, release
+                dates, and release-country information. As a result, exact blocking on a single field
+                is too brittle, and even the better pipelines need a mix of semantic blocking, release
+                metadata, and list-aware comparison logic to reach acceptable accuracy.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agent I</td>
+                        <td>Rule-based</td>
+                        <td>36.04% → 26.90% → 26.90%</td>
+                        <td>36.04%</td>
+                        <td>
+                            The baseline uses <code>StandardBlocker</code> on
+                            <code>artist_norm</code> together with simple Jaccard-style rules over
+                            normalized artist, title, duration, and track names. That is not robust
+                            enough for artist aliases, collaborations, and differing track-list
+                            structure, so the baseline collapses quickly in this domain.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent II</td>
+                        <td>Rule-based</td>
+                        <td>50.76% → 34.52% → 51.27%</td>
+                        <td>51.27%</td>
+                        <td>
+                            Moving to mixed blocking already helps a lot: the pipeline uses
+                            <code>EmbeddingBlocker</code> for <code>discogs-lastfm</code> and
+                            <code>musicbrainz-lastfm</code>, plus
+                            <code>SortedNeighbourhoodBlocker</code> for
+                            <code>discogs-musicbrainz</code>. The comparator sets also incorporate
+                            <code>tracks_track_name</code>, <code>duration</code>,
+                            <code>release-date</code>, and <code>release-country</code>, which makes
+                            the pipeline much more domain-aware than the baseline.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>55.84% → 59.39% → 62.94%</td>
+                        <td>62.94%</td>
+                        <td>
+                            This is the best stable Music configuration. It keeps the same mixed
+                            blocking strategy as the blocker/matcher notebook, but the reasoning loop
+                            improves the thresholds and weight balance across title, artist, track-list,
+                            duration, and release metadata. Unlike the baseline, it improves
+                            monotonically across all recorded snapshots.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent IV</td>
+                        <td>ML</td>
+                        <td>65.48% → 33.50% → 36.55%</td>
+                        <td>65.48%</td>
+                        <td>
+                            The first ML reasoning snapshot reaches the best Music peak overall, which
+                            shows the potential of feature-based matching on this domain. However, the
+                            later snapshots regress sharply, so this notebook is much less stable than
+                            the RB reasoning variant. The recorded runs suggest that Music benefits from
+                            richer features, but that feature-based training is sensitive to
+                            configuration drift.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>ML</td>
+                        <td>57.60% → 59.60% → 58.40%</td>
+                        <td>59.60%</td>
+                        <td>
+                            The helper-style ML notebook adds more defensive preprocessing, including
+                            correspondence standardization, list-like column normalization, and a wider
+                            blocking mix of semantic, exact, and token-based strategies. It does not
+                            beat the best reasoning peak, but it is noticeably more controlled than the
+                            unstable reasoning-ML run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent V</td>
+                        <td>Rule-based</td>
+                        <td>52.28% → 52.28% → 52.28%</td>
+                        <td>52.28%</td>
+                        <td>
+                            The RB cluster variant preserves the same high-level blocker mix as the
+                            reasoning notebook, but the cluster-driven adjustments do not improve the
+                            outcome. The flat trajectory indicates that the later feedback did not
+                            materially change the quality of the generated music matcher.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VI</td>
+                        <td>ML</td>
+                        <td>44.67% → 48.22% → 50.25%</td>
+                        <td>50.25%</td>
+                        <td>
+                            The ML cluster variant improves gradually, but it still stays below both
+                            reasoning-led alternatives. In practice, the extra cluster feedback seems to
+                            help less than better domain-specific weighting of artist, title, track-list,
+                            duration, and release metadata.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                In contrast to Games, Music does not reward simple exact agreement. The strongest
+                pattern is the move from single-field blocking to mixed blocking plus richer comparison
+                logic. Rule-based reasoning is currently the safest option for this domain because it
+                combines the best stable score with the cleanest upward trajectory, while the ML runs
+                show higher peak potential but also much stronger variance across snapshots.
+            </p>
+
+            <h3 id="books-analysis">Books</h3>
+            <p>
+                The Books use case is difficult because the three sources
+                (<code>amazon_small</code>, <code>goodreads_small</code>, <code>metabooks_small</code>)
+                disagree on core identity fields in different ways. Author strings may include source-specific
+                suffixes, publishers appear under variant names, genres are often list-like text with inconsistent
+                formatting, and numeric fields such as <code>publish_year</code> and <code>page_count</code> can
+                conflict across sources. Because of that, strong performance usually needs semantic blocking, careful
+                text/number normalization, list-aware comparison for <code>genres</code>, and reliable
+                provenance-based ID mapping in evaluation.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agent I</td>
+                        <td>Rule-based</td>
+                        <td>59.29% → 53.57% → 53.57%</td>
+                        <td>59.29%</td>
+                        <td>
+                            This baseline declines from 59.29 to 53.57 and then stays there. The first major revision tightens thresholds (0.75 to 0.82), changes weights, and expands fusion from 4 core fields to 7 fields with custom <code>choose_*</code> functions. The next revision tightens thresholds again (to 0.86), switches blocker style, and changes <code>genres</code> fusion from simple union to a custom selector. These are meaningful edits, but they are broad and stacked.<br><br>The evaluation half also keeps evolving (more explicit eval-id mapping and typed evaluators), but those refinements do not recover the drop. In practice, this run mostly keeps retuning existing behavior without finding a stable correction path, so it ends as a net regression.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent II</td>
+                        <td>Rule-based</td>
+                        <td>69.29% → 66.43% → 60.00%</td>
+                        <td>69.29%</td>
+                        <td>
+                            This architecture starts higher than the baseline (69.29) but declines to 60.00. Blocking and matching settings are stable, and the main pipeline differences are small (most visibly, <code>language</code> fusion changes to voting and then back). That means the architecture does not make a strong targeted fusion correction while quality is falling.<br><br>The evaluation half becomes more detailed in the middle iteration (for example optional numeric/text field coverage), then simplifies again later. Since the score still drops each round, those evaluation improvements were not enough to offset weak fusion-side decisions. This architecture shows useful infrastructure, but not stable end-to-end learning in this run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>62.14% → 65.71% → 59.29%</td>
+                        <td>65.71%</td>
+                        <td>
+                            This run improves once and then drops: 62.14 to 65.71 to 59.29. The middle snapshot enables singletons and moves many fields to voting-style fusion, which helps initially. The final snapshot then flips many policies again (for example back to <code>longest_string</code> on major text fields, plus new numeric/list-specific selectors), creating another large behavior shift.<br><br>Evaluation mapping and comparators are also revised across iterations, including a change and reversal for <code>publish_year</code> comparison style. The pattern is clear: when updates are focused, score can rise; when many high-impact rules are rewritten together, stability drops and gains are lost.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent IV</td>
+                        <td>ML</td>
+                        <td>57.14% → 56.43% → 65.00%</td>
+                        <td>65.00%</td>
+                        <td>
+                            This architecture shows delayed but strong improvement: 57.14 to 56.43 to 65.00. The first step introduces structural changes (<code>include_singletons=True</code> and custom <code>fuse_*</code> functions), which causes a small short-term dip. The final step keeps the same high-level fusion structure but refines implementation behavior, and the score rises sharply.<br><br>The evaluation half also improves in a compatible way by strengthening eval-id alignment and broadening gold-prefix handling. Here, both halves of the generated pipeline move in the same direction, and the final jump indicates a real gain rather than a scoring artifact.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent V</td>
+                        <td>Rule-based</td>
+                        <td>55.00% → 55.00% → 55.00%</td>
+                        <td>55.00%</td>
+                        <td>
+                            This architecture is flat at 55.00 across five snapshots. Fusion behavior is effectively fixed, while the main pipeline edits are weight retunes in matching. That means the architecture keeps adjusting pair scoring without changing the downstream fusion logic in a meaningful way.<br><br>The evaluation half is refined across nodes (alignment and comparator registration become cleaner), but no measurable accuracy movement appears. This run shows stability in one sense (no further collapse), but it also shows limited corrective power: iterations do not convert into improvement.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VI</td>
+                        <td>ML</td>
+                        <td>59.29% → 55.71% → 53.57%</td>
+                        <td>59.29%</td>
+                        <td>
+                            This architecture declines steadily (59.29 to 55.71 to 53.57). The fusion side stays largely the same at feature level (same blocker family, matcher family, singleton setting, and fuser count), so there is no strong new fusion mechanism introduced to reverse the trend.<br><br>The evaluation half continues to adapt (alignment, reporting, and field grouping are refined), and later summaries explicitly point to fusion-stage weaknesses such as missing fused values and weak attribute selection. So this run still reflects full-pipeline iteration, but mostly on evaluation clarity, not on a stronger fusion policy that could recover accuracy.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>Rule-based</td>
+                        <td>76.25% → 91.25%</td>
+                        <td>91.25%</td>
+                        <td>
+                            This architecture delivers the best Books result: 76.25 to 91.25. The second snapshot adds post-clustering (<code>MaximumBipartiteMatching</code>), updates source trust priority, and changes <code>publisher</code> fusion to trust-aware selection. These changes are targeted and structurally meaningful.<br><br>The evaluation/investigator side then confirms a large jump and keeps that value through human-review and final-test stages. In this case, both fusion-side and evaluation-side updates align, and the gain is large and sustained.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent_VIII</td>
+                        <td>ML</td>
+                        <td>67.86% → 67.86% → 72.14%</td>
+                        <td>72.14%</td>
+                        <td>
+                            This helper-based architecture improves from 67.86 to 72.14. Its key strength is workflow control: normalization, blocking/matching tests, pipeline adaptation, evaluation, and investigator routing are explicit and connected. The middle phase introduces safer custom fusion wrappers and trust-aware field handling, then a later revision refines <code>genres</code> handling and thresholds.<br><br>The evaluation and investigator stages provide concrete weak-field diagnostics and coverage signals between iterations, so updates are guided rather than random. Even with one execution failure during the run, repair succeeds and the final score increases, which indicates robust iterative correction.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                Across Books, the difference is not just whether an architecture has advanced components, but whether
+                it changes them in a controlled way across both halves of the generated pipeline. Runs that repeatedly
+                rewrite many fusion rules tend to lose stability, even when they include reasoning nodes. Runs that use
+                guided diagnostics and targeted updates are more likely to improve.
+            </p>
+            <p>
+                A strong start is not a reliable signal by itself. A better signal is whether the architecture can keep
+                or improve accuracy across iterations without large reversals. In this Books set, Agent_VIII shows
+                controlled iterative improvement, while Agent VII remains the strongest result overall.
+            </p>
+
+            <h3 id="restaurants-analysis">Restaurants</h3>
+            <p>
+                The Restaurants use case is materially hard. The three sources
+                (<code>kaggle_small</code>, <code>uber_eats_small</code>, <code>yelp_small</code>) differ not only in
+                naming style, but also in how they represent phone numbers, postal codes, address structure, map URLs,
+                source IDs, and category lists. Because of that, exact blocking on one field is often brittle, and
+                strong performance usually needs a combination of semantic blocking, targeted exact constraints (for
+                example phone/postal where reliable), and list-aware comparison and fusion logic for fields like
+                <code>categories</code>.
+            </p>
+
+            <div class="table-scroll">
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Architecture</th>
+                        <th>Matcher</th>
+                        <th>Snapshot Trajectory</th>
+                        <th>Best Observed</th>
+                        <th>Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agent I</td>
+                        <td>Rule-based</td>
+                        <td>69.46% → 56.45% → 54.69%</td>
+                        <td>69.46%</td>
+                        <td>
+                            This baseline starts with a strong score (69.46), but it drops in the next two snapshots (69.46 -> 56.45 -> 54.69). The first update changed many things at once: blocker type (TokenBlocker to StandardBlocker), stricter thresholds (0.70 to 0.75), and many fusion-rule changes (for example voting or shortest-string choices for <code>source</code>, <code>city</code>, <code>state</code>, phone, and postal fields). Because too many core parts changed together, the model lost earlier gains.<br><br>In the next step, thresholds were relaxed back to 0.70, but fusion rules were changed again. At the same time, evaluation logic also changed (ID mapping fallbacks were added and then removed across refinements). So the system kept editing itself without a stable correction plan. It reacted, but not in a controlled way. In practice this run mostly retuned existing components rather than adding one stable improvement mechanism, and it ended as a net regression.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent II</td>
+                        <td>Rule-based</td>
+                        <td>45.89% → 40.52% → 42.55%</td>
+                        <td>45.89%</td>
+                        <td>
+                            This architecture adds dedicated blocking and matching stages, which should help candidate quality. But in this run the score still went down overall (45.89 -> 40.52 -> 42.55). In snapshot 2, fusion became more complex (fuser count 18 -> 23), including more ID/provenance fields and numeric aggregation. That expansion increased risk without enough safeguards, so performance dropped.<br><br>Snapshot 3 is better targeted: it adds practical, field-specific fusers like <code>fuse_phone</code>, <code>fuse_postal_code</code>, <code>fuse_house_number</code>, and <code>fuse_categories</code>. That gives a small recovery (40.52 -> 42.55), showing these targeted fusers are useful. Still, recovery is partial and does not beat the first snapshot, so the net ablation effect remains negative in this run.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>66.15% → 51.61% → 46.36%</td>
+                        <td>66.15%</td>
+                        <td>
+                            This version starts high but declines every round (66.15 -> 51.61 -> 46.36). Snapshot 2 introduces many advanced standardization and trust-voting helpers, plus deterministic cluster-ID logic, and enables singletons. These are meaningful techniques, but they are deployed across many columns at once, so interactions become hard to control.<br><br>Snapshot 3 rewrites many of those decisions again (<code>choose_first_non_null</code>, <code>choose_longest_non_null</code>, <code>trusted_text</code>, separate phone standardization functions). Evaluation keeps adapting ID mapping and diagnostics, but the architecture still does wide policy flips instead of focused fixes. It keeps changing, but not learning in a stable way, and the net result is strongly negative.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent IV</td>
+                        <td>ML</td>
+                        <td>50.19% → 77.60% → 45.18%</td>
+                        <td>77.60%</td>
+                        <td>
+                            This architecture shows the clearest rise-then-fall pattern: 50.19 -> 77.60 -> 45.18. The jump at snapshot 2 makes sense technically: it enables singleton retention and moves from generic longest-string fusion to consensus-style fusion (<code>most_frequent_non_null</code>, <code>shortest_non_null_string</code>, <code>median_numeric</code>, <code>union_resolver</code>). Evaluation also starts cleaning phone and scalar formats more carefully. Those combined changes improve both coverage and value selection.<br><br>Then snapshot 3 becomes too aggressive. Many fields switch to source-priority logic (<code>source_priority_text</code>, yelp-first rating selection, source-biased URL/category behavior). That overweights source preference and underweights cross-source agreement. Evaluation summaries then report severe failures in categories, provenance-linked fields, and value selection, and the score collapses. So reasoning helped when it was calibrated (snapshot 2), but hurt when it kept forcing broad rewrites after a major gain.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent V</td>
+                        <td>Rule-based</td>
+                        <td>75.47% → 51.69% → 51.69%</td>
+                        <td>75.47%</td>
+                        <td>
+                            This architecture starts strong, then drops and stays flat (75.47 -> 51.69 -> 51.69). Fusion policy mostly stays the same across snapshots. The main pipeline edits are matcher-weight retunes for the <code>uber_eats_small <-> yelp_small</code> pair. So the system tries to improve pair scoring, but does not significantly improve downstream fusion behavior.<br><br>Evaluation logic continues to evolve (ID alignment refinements, prefix handling, explicit categories set comparison), but those evaluation-side improvements cannot recover the large early drop caused by weak fusion behavior. This is a good example of why a strong first score is not enough: robustness means both halves of the generated pipeline must improve together.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VI</td>
+                        <td>ML</td>
+                        <td>74.72% → 72.59% → 57.07%</td>
+                        <td>74.72%</td>
+                        <td>
+                            <code>with_new_Cluster_Machine_Learning_260317_02</code> keeps the fusion-generation half almost fixed across snapshots (same code hash, same blockers, same matcher, same fusers), but it actively changes the evaluation-generation half. In later evaluation versions, fused rows are linked to gold rows more carefully by rebuilding <code>eval_id</code> from <code>_fusion_sources</code> with stricter prefix rules, phone fields are compared with a phone-specific matcher that removes punctuation and <code>.0</code> artifacts, and <code>categories</code> is compared as an unordered normalized set (so <code>["pizza","italian"]</code> and <code>["italian","pizza"]</code> are treated as equal).<br><br>So this run is still iterative pipeline work, but mostly on the evaluation half rather than the fusion half. The main gain is better error visibility and cleaner scoring logic; it does not show strong evidence that fused-data quality itself improved in the same way.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>Rule-based</td>
+                        <td>25.75% → 86.00%</td>
+                        <td>86.00%</td>
+                        <td>
+                            This architecture has the biggest improvement in the set (25.75 -> 86.00). The first critical step is failure recovery: the run hits empty correspondences for <code>kaggle_small_yelp_small</code>, then repairs this with fail-soft blocking fallback and scalar normalization (<code>stringify_scalar</code>, safe null handling, list flattening for blocking text). That prevents a blocking failure from poisoning the whole pipeline.<br><br>After recovery, snapshot 2 adds post-clustering (<code>MaximumBipartiteMatching</code>) and changes several fields to voting (<code>source</code>, <code>map_url</code>, <code>street</code>, <code>address_line1</code>, <code>rating</code>) while keeping trust-aware logic where useful. This combination improves both cluster structure and field-level value choice. The jump to 86.00 is consistent with those targeted structural fixes, and it is the strongest positive ablation result in the Restaurants set.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent_VIII</td>
+                        <td>ML</td>
+                        <td>78.22% → 85.11%</td>
+                        <td>85.11%</td>
+                        <td>
+                            This helper-based Machine_Learning architecture improves steadily from 78.22 to 85.11. The first snapshot already uses an orchestrated workflow with explicit normalization, blocking/matching testing, pipeline adaptation, evaluation, and investigator feedback. The next snapshot adds stronger trust-aware fusion on many identity and location fields and improves input cleanup with postal-code cleanup, phone-digit cleanup, name cleanup, category cleanup, and correspondence-column standardization.<br><br>The evaluation and investigator nodes provide concrete weak-field feedback (<code>_id</code>, <code>source</code>, <code>map_url</code>, <code>postal_code</code>) and cluster-size warnings, so the next update is focused instead of broad. That guided loop produces a real gain and stays stable enough to route to review, showing controlled iteration across both pipeline generation and evaluation generation.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p>
+                Across Restaurants, the difference is not just adding more advanced nodes, but whether updates stay
+                controlled across both pipeline generation and evaluation generation. Runs that repeatedly rewrite many
+                fusion decisions usually lose stability even when they add more reasoning or diagnostics.
+            </p>
+            <p>
+                A strong first score is not enough by itself. The stronger signal is whether the architecture can keep
+                improving, or at least avoid large reversals, across later iterations.
+            </p>
+            <p>
+                In Restaurants, the core problem is not just matching records in general; it is handling messy business
+                identity fields across <code>kaggle_small</code>, <code>uber_eats_small</code>, and
+                <code>yelp_small</code>. The hardest fields are phone, postal code, split address parts,
+                <code>map_url</code>, <code>source</code>, and list-like <code>categories</code>. This is why strict
+                blocking can break (as seen in the empty <code>kaggle_small_yelp_small</code> correspondences case),
+                and why pipelines that look good on one iteration can collapse when those fields are handled with
+                brittle rules.
+            </p>
+            <p>
+                The weaker runs show a clear pattern: they either changed too many fusion rules at once, or mostly
+                tuned matcher weights without fixing downstream value selection. That gave unstable behavior: strong
+                starts followed by drops (<code>75.47% → 51.69%</code> in cluster rule-based,
+                <code>50.19% → 77.60% → 45.18%</code> in Agent IV). In other words, better candidate
+                scoring alone was not enough if phone/postal/address/category reconciliation stayed weak or became
+                over-biased.
+            </p>
+            <p>
+                The strongest runs succeeded because they solved the specific failure points of this dataset with
+                controlled updates. <em>Agent_VIII</em> improved from <code>78.22%</code> to <code>85.11%</code> by
+                combining stronger cleanup with trust-aware field fusion under investigator guidance. <em>Agent VII</em>
+                then delivered the top score (<code>86.00%</code>) by repairing blocking failure first, then adding
+                cluster cleanup (<code>MaximumBipartiteMatching</code>) and targeted voting on key contested fields
+                (<code>source</code>, <code>map_url</code>, <code>street</code>, <code>address_line1</code>,
+                <code>rating</code>). In this use case, these two helper-driven architectures were the ones that
+                brought the critical pieces together most effectively.
+            </p>
+
+        </section>
+        
+        <section id="findings">
+            <h2>Findings</h2>
+            <h3 id="token-usage">Token Usage</h3>
+            <p>
+                The token analysis below is based on the <code>node_activity.json</code> logs for all
+                28 recorded <code>AdaptationPipeline_*</code> runs across the Games, Music, Books, and
+                Restaurant use cases.
+            </p>
+
+            <img src="images/token_usage.png" alt="Token usage across AdaptationPipeline notebook families">
+            <p>
+                This chart provides the aggregate token-usage view that complements the detailed family
+                breakdown in the table below.
+            </p>
+
+            <p>
+                At a family level, token usage grows almost monotonically with additional reflective
+                nodes. The cheapest family is the baseline <code>AdaptationPipeline</code> rule-based
+                notebook at roughly <strong>52.6k</strong> tokens per run on average. Adding blocker and
+                matcher testing raises this to <strong>83.5k</strong>, reasoning pushes the
+                rule-based and ML variants to roughly <strong>132.1k</strong> and
+                <strong>149.7k</strong>, and the cluster-based ML variant reaches
+                <strong>218.2k</strong>. The heaviest notebooks are
+                <code>AdaptationPipeline_Reasoning_Helper_ml</code> at
+                <strong>399.6k</strong> average tokens and
+                <code>AdaptationPipeline_with_new_Cluster</code> rule-based at
+                <strong>763.9k</strong>, driven by repeated reasoning and report-generation loops.
+            </p>
+
+            <p>
+                Looking by use case, Books, Games, and Music are very close in average tracked token
+                usage, all around <strong>273k-275k</strong> per run, while Restaurants is lower at
+                roughly <strong>205.1k</strong>. This means the most important predictor of token usage
+                is not the domain alone, but how many higher-level reasoning, investigation, and
+                summarization nodes a notebook family introduces.
+            </p>
+
+            <div class="table-scroll">
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Notebook Family</th>
+                        <th>Matcher</th>
+                        <th>Average Total Tokens / Run</th>
+                        <th>Main Token Sinks</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agent I</td>
+                        <td>Rule-based</td>
+                        <td>52,626</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code></td>
+                        <td>
+                            The baseline is comparatively cheap because it has no blocker tester,
+                            matching tester, reasoning loop, or cluster-analysis stage. Most token use
+                            is concentrated in writing the pipeline and the evaluation script.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent II</td>
+                        <td>Rule-based</td>
+                        <td>83,493</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code></td>
+                        <td>
+                            Token usage increases only moderately because the blocker and matcher tester
+                            nodes often reuse state and therefore contribute little or no additional LLM
+                            cost in the saved logs.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>132,146</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code>, <code>evaluation_reasoning</code></td>
+                        <td>
+                            The RB reasoning family pays a clear premium for the extra post-evaluation
+                            analysis loop, but still remains substantially cheaper than the helper and
+                            cluster-heavy families.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent IV</td>
+                        <td>ML</td>
+                        <td>149,664</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code>, <code>evaluation_reasoning</code></td>
+                        <td>
+                            The ML reasoning variant is only slightly more expensive than the RB
+                            version in token terms, because the extra complexity mainly appears in the
+                            generated code and local training workload rather than in much longer prompts.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VI</td>
+                        <td>ML</td>
+                        <td>218,186</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_adaption</code>, <code>evaluation_reasoning</code>, <code>save_results</code></td>
+                        <td>
+                            Cluster-aware ML runs add another reporting and refinement layer. Token
+                            usage is driven not only by pipeline rewrites, but also by repeated
+                            evaluation interpretation and result packaging.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>ML</td>
+                        <td>399,648</td>
+                        <td><code>investigator_node</code>, <code>pipeline_adaption</code>, <code>evaluation_node</code></td>
+                        <td>
+                            This family is expensive because it adds several language-heavy
+                            explanation layers on top of the pipeline loop. The
+                            <code>investigator_node</code> alone contributes around 132.7k tokens per
+                            run on average.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent V</td>
+                        <td>Rule-based</td>
+                        <td>763,939</td>
+                        <td><code>pipeline_adaption</code>, <code>evaluation_reasoning</code>, <code>cluster_analysis</code>, <code>save_results</code></td>
+                        <td>
+                            This is the strongest token outlier. The family repeatedly re-enters
+                            pipeline rewriting, cluster analysis, reasoning, and final reporting, so the
+                            token budget balloons even though the matcher itself is rule-based.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <h3 id="token-usage-anomalies">Anomalies</h3>
+            <p>
+                Several token patterns stand out and need interpretation rather than a literal reading.
+            </p>
+            <ul>
+                <li>
+                    <strong>Extreme token spike in cluster-based rule runs:</strong>
+                    <code>AdaptationPipeline_with_new_Cluster_rule_based</code>
+                    reaches <strong>1,145,538</strong> total tokens. The log shows five separate
+                    <code>pipeline_adaption</code> passes, two large
+                    <code>evaluation_reasoning</code> passes, three token-heavy
+                    <code>cluster_analysis</code> stages, and a final <code>save_results</code> step of
+                    <strong>131,549</strong> tokens. This is not a single oversized prompt; it is an
+                    accumulated effect from many refinement and reporting loops.
+                </li>
+                <li>
+                    <strong>Zero-token tester nodes are not actually “free”:</strong> many runs record
+                    <code>run_blocking_tester</code>, <code>run_matching_tester</code>,
+                    <code>cluster_analysis</code>, <code>normalization_node</code>, or
+                    <code>save_results</code> with zero prompt/completion tokens. In the logs this
+                    usually corresponds to state reuse, artifact reuse, or purely local processing. The
+                    node still performs work, but not new LLM work.
+                </li>
+                <li>
+                    <strong>The baseline understates total effort if read as “cheap overall”:</strong>
+                    the baseline family is cheap in tracked tokens because it delegates most of the hard
+                    work to the generated pipeline execution itself. Token cost and total system cost are
+                    therefore not interchangeable in this project.
+                </li>
+            </ul>
+        </section>
+
+        <section id="time-complexity">
+            <h3>Time Complexity</h3>
+            <p>
+                The runtime logs show a different story from the token logs. Across all 28 runs, the
+                average duration contribution of <code>execute_pipeline</code> is roughly
+                <strong>1,373.7 seconds</strong> whenever that node appears, which is far above the
+                average durations of <code>pipeline_adaption</code> at <strong>158.8 seconds</strong>,
+                <code>evaluation_reasoning</code> at <strong>76.9 seconds</strong>, or
+                <code>evaluation_adaption</code> at <strong>56.3 seconds</strong>. In practice, the
+                end-to-end time complexity is therefore dominated first by how often the system reruns
+                the generated integration pipeline, and only second by how many reasoning prompts it
+                issues.
+            </p>
+
+            <p>
+                The notebook families share the same basic scaling structure. With three sources, the
+                pipeline must process three pairwise matching tasks, so candidate generation and matching
+                already grow with the number of dataset pairs. Within each pair, semantic blocking,
+                feature extraction, classifier search, clustering, and fusion each add another layer of
+                work. The ML notebooks intensify this by running pair-specific feature extraction and
+                <code>GridSearchCV</code> over multiple classifiers, while the cluster and reasoning
+                variants multiply the cost further through iterative refinement. Empirically, the logs
+                behave like <em>iterations × pairwise execution cost</em> rather than simply
+                <em>prompt size</em>.
+            </p>
+
+            <p>
+                By use case, <strong>Games</strong> is the clear runtime outlier at roughly
+                <strong>3,540.0 seconds</strong> average per run, compared with
+                <strong>1,920.8 seconds</strong> for Books, <strong>1,267.4 seconds</strong> for Music,
+                and <strong>1,159.4 seconds</strong> for Restaurants. This matches the Games logs, where
+                semantic blocking configurations report candidate counts in the
+                <strong>409,504 to 929,573</strong> range, so even strong blocking still leaves large
+                local workloads for matching, clustering, and fusion.
+            </p>
+
+            <div class="table-scroll">
+            <table class="metrics-table">
+                <thead>
+                    <tr>
+                        <th>Notebook Family</th>
+                        <th>Matcher</th>
+                        <th>Average Runtime / Run</th>
+                        <th>Dominant Runtime Sink</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Agent I</td>
+                        <td>Rule-based</td>
+                        <td>679.1 s</td>
+                        <td><code>execute_pipeline</code> (522.1 s average)</td>
+                        <td>
+                            The baseline is the fastest family overall. Most of its runtime is simply
+                            the cost of running the generated pipeline once or twice, with relatively
+                            little additional orchestration overhead.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent II</td>
+                        <td>Rule-based</td>
+                        <td>2,409.2 s</td>
+                        <td><code>execute_pipeline</code> (2,028.1 s average)</td>
+                        <td>
+                            Runtime increases sharply once the pipeline must execute richer blocking and
+                            rule-based matching logic over all source pairs. The extra LLM cost is small
+                            compared with the local candidate-generation and fusion workload.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent III</td>
+                        <td>Rule-based</td>
+                        <td>1,985.8 s</td>
+                        <td><code>execute_pipeline</code> (1,639.7 s average)</td>
+                        <td>
+                            The RB reasoning family stays expensive mainly because each refinement still
+                            reruns the full pipeline. The reasoning node adds cost, but pipeline
+                            execution remains the main bottleneck.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent IV</td>
+                        <td>ML</td>
+                        <td>2,244.1 s</td>
+                        <td><code>execute_pipeline</code> (1,784.1 s average)</td>
+                        <td>
+                            ML adds runtime through feature extraction, classifier training, and model
+                            search, but the decisive cost is still repeated local execution of the full
+                            generated pipeline.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VI</td>
+                        <td>ML</td>
+                        <td>1,448.5 s</td>
+                        <td><code>execute_pipeline</code> (1,113.0 s average)</td>
+                        <td>
+                            The ML cluster family is cheaper than the reasoning-helper family because it
+                            adds fewer heavy analysis nodes. Its runtime still scales mostly with the
+                            cost of executing the learned matcher and clustering logic on the candidate
+                            sets.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent VII</td>
+                        <td>ML</td>
+                        <td>2,858.7 s</td>
+                        <td><code>execute_pipeline</code>, <code>normalization_node</code>, <code>investigator_node</code></td>
+                        <td>
+                            This family spreads runtime across more stages than any other ML notebook.
+                            In addition to the normal pipeline loop, it pays a heavy overhead for local
+                            normalization and long investigator passes that inspect and explain failures.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Agent V</td>
+                        <td>Rule-based</td>
+                        <td>2,178.0 s</td>
+                        <td><code>execute_pipeline</code> (1,762.7 s average)</td>
+                        <td>
+                            Even though the matcher is rule-based, the repeated cluster-analysis and
+                            refinement cycle keeps total runtime high. This family demonstrates that
+                            orchestration loops can dominate runtime even without ML training.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <h3 id="time-complexity-anomalies">Anomalies</h3>
+            <p>
+                The runtime traces contain several non-obvious outliers that are worth interpreting.
+            </p>
+            <ul>
+                <li>
+                    <strong>Very long runtime with relatively low token usage:</strong>
+                    <code>AdaptationPipeline_blocking_matching_extension_Final_Blocker_Matcher_rule_based</code>
+                    takes about <strong>5,633.5 seconds</strong> but only records <strong>60,128</strong>
+                    tokens. The reason is that the run executes the generated pipeline four times, with
+                    each <code>execute_pipeline</code> call taking roughly <strong>1,350-1,393
+                    seconds</strong>. This is a local execution bottleneck, not an LLM bottleneck.
+                </li>
+                <li>
+                    <strong>Games is the slowest domain without being the most token-heavy:</strong> the
+                    Games average runtime is far above the other use cases even though Games token usage
+                    is similar to Books and Music. The most plausible explanation, supported directly by
+                    the blocking summaries, is that the candidate sets remain much larger, so execution,
+                    clustering, and fusion dominate the wall clock.
+                </li>
+                <li>
+                    <strong>Reasoning-helper ML pays large fixed overheads outside the core matcher:</strong>
+                    in <code>AdaptationPipeline_Reasoning_Helper_ml</code>,
+                    <code>normalization_node</code> alone consumes about <strong>217.8</strong>,
+                    <strong>184.0</strong>, and <strong>181.0</strong> seconds across its three
+                    appearances, while <code>investigator_node</code> consumes up to
+                    <strong>365.9 seconds</strong>. The family is therefore slow partly because it adds
+                    expensive diagnostic infrastructure around the matching pipeline.
+                </li>
+                <li>
+                    <strong>Zero-duration or near-zero tester nodes should be read carefully:</strong>
+                    some <code>run_blocking_tester</code>, <code>run_matching_tester</code>, and
+                    <code>cluster_analysis</code> entries show almost no time because the run reused
+                    precomputed state or produced a no-op pass. They are not evidence that these stages
+                    are universally constant-time; they are evidence that the specific logged execution
+                    path reused prior artifacts.
+                </li>
+            </ul>
+        </section>
+
+        <section id="trial-and-error">
+            <h3>Trial &amp; Error</h3>
+            <p><em>Documentation coming soon.</em></p>
+        </section>
+
+        <section id="accuracy">
+            <h3>Accuracy</h3>
+            <p><em>Documentation coming soon.</em></p>
+
+            <h4 id="per-iteration-gains">Per Iteration Gains</h4>
+            <p><em>Documentation coming soon.</em></p>
+        </section>
+
+        <section id="llm-test-set-generation">
+            <h3>LLM Test Set Generation</h3>
+            <p><em>Documentation coming soon.</em></p>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion">
+            <h1>Conclusion</h1>
+            <p><em>Documentation coming soon.</em></p>
         </section>
 
         <!-- Components Wrapper (Logical grouping, no specific content needed but good for spacing) -->
