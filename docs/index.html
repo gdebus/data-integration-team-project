@@ -813,7 +813,9 @@
 
         <!-- Agent VII: Graph & Routing -->
         <section id="agent-vii-graph">
-            <h2>Graph Structure &amp; Routing</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Graph Structure &amp; Routing</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 Agent&nbsp;VII implements a LangGraph state machine in <code>pipeline_agent.py</code>
                 (~2080&nbsp;lines). The <code>SimpleModelAgent</code> class defines the graph, all node
@@ -1154,11 +1156,15 @@
 ├── snapshots/
 ├── schema-matching/
 └── results/</code></pre>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Normalization -->
         <section id="agent-vii-normalization">
-            <h2>Normalization Node</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Normalization Node</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 Agent&nbsp;VII introduces a dedicated normalization node that did not exist in
                 Agents&nbsp;I-VI. The normalization node uses LLM-generated
@@ -1257,11 +1263,15 @@
                     values are preserved rather than crashing.
                 </p>
             </div>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Investigation System -->
         <section id="agent-vii-investigation">
-            <h2>Investigation System</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Investigation System</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 The investigation system is the intelligence core of Agent&nbsp;VII. It replaces the
                 single-shot Reasoning Node of Agents&nbsp;III-VI with a multi-turn LLM-driven
@@ -1540,11 +1550,15 @@
                 suggestions serve as a safety net when the LLM generates suboptimal code without a
                 clear recommendation to override it.
             </p>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Probe System -->
         <section id="agent-vii-probes">
-            <h2>Probe System</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Probe System</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 Agent&nbsp;VII introduces a system of <strong>11 diagnostic probes</strong>
                 (<code>investigator_probe_runner.py</code>, ~1100&nbsp;lines) that run before each
@@ -1716,11 +1730,15 @@
                     for guardrail enforcement.
                 </p>
             </div>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Cluster Analysis -->
         <section id="agent-vii-cluster">
-            <h2>Cluster Analysis</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Cluster Analysis</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 The cluster analysis node was completely reworked for Agent&nbsp;VII. In
                 Agents&nbsp;V-VI, the cluster tester could only recommend
@@ -1849,11 +1867,15 @@
                 investigation LLM makes the final decision about whether to apply post-clustering and
                 which algorithm to use.
             </p>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Self-Review -->
         <section id="agent-vii-review">
-            <h2>Pipeline Self-Review</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Pipeline Self-Review</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 Agent&nbsp;VII introduces a <strong>two-stage self-review</strong> that runs inside the
                 pipeline generation node, between code generation and execution. This catches structural
@@ -1929,11 +1951,15 @@
                     reliable fixes and preserves the integrity of working pipeline sections.
                 </p>
             </div>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Code Guardrails -->
         <section id="agent-vii-guardrails">
-            <h2>Code Guardrails</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Code Guardrails</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 One of the most impactful innovations in Agent&nbsp;VII is the comprehensive code
                 guardrails system (<code>code_guardrails.py</code>, ~1200&nbsp;lines). In
@@ -2053,11 +2079,15 @@
                 <li><strong>Output path rewriting:</strong> redirects hardcoded paths to the run-scoped
                     directory.</li>
             </ul>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Pipeline Scaffold -->
         <section id="agent-vii-scaffold">
-            <h2>Pipeline Scaffold</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Pipeline Scaffold</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
             <p>
                 In Agents&nbsp;I-VI, every iteration regenerated the <em>entire</em> pipeline from
                 scratch, including blocking, matching, and fusion code. This was wasteful because the
@@ -2120,11 +2150,15 @@
                     actually need improvement, producing higher-quality changes because its attention
                     is not diluted across 250&nbsp;lines of boilerplate.</li>
             </ul>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Other Subsystems -->
         <section id="agent-vii-subsystems">
-            <h2>Other Subsystems</h2>
+            <details class="vii-collapse">
+
+                <summary><h2>Other Subsystems</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
 
             <h3>Regression Guard</h3>
             <p>
@@ -2264,6 +2298,8 @@
                 <li><strong>Stagnation:</strong> window=2 attempts, delta threshold=0.02</li>
                 <li><strong>Graph:</strong> <code>GRAPH_RECURSION_LIMIT=200</code></li>
             </ul>
+        
+            </details>
         </section>
 
         <!-- Agent VII: Reasoning Case Study -->
