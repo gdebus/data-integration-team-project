@@ -38,6 +38,7 @@
                         <li><a href="#agent-vii-guardrails">Code Guardrails</a></li>
                         <li><a href="#agent-vii-scaffold">Pipeline Scaffold</a></li>
                         <li><a href="#agent-vii-subsystems">Other Subsystems</a></li>
+                        <li><a href="#agent-vii-testset-generator">Test Set Generator (side experiment)</a></li>
                         <li>
                             <a href="#agent-vii-reasoning-study">Reasoning Case Study (28 runs)</a>
                             <ul>
@@ -2282,6 +2283,89 @@
                 <li><strong>Graph:</strong> <code>GRAPH_RECURSION_LIMIT=200</code></li>
             </ul>
         
+            </details>
+        </section>
+
+        <!-- Agent VII: LLM-Driven Test Set Generation (side experiment) -->
+        <section id="agent-vii-testset-generator">
+            <details class="vii-collapse">
+                <summary><h2>LLM-Driven Test Set Generation (Side Experiment)</h2><span class="vii-collapse-hint">(click to expand)</span></summary>
+            <p>
+                Alongside Agent&nbsp;VII we built an experimental test-set generator that
+                creates entity-matching evaluation sets without a human-curated gold
+                standard. The code lives in
+                <code><a href="https://github.com/gdebus/data-integration-team-project/blob/main/agents/blocking_test_set_generator.ipynb">blocking_test_set_generator.ipynb</a></code>
+                and <code>trainset_testing_2_newprompt.ipynb</code>. It is one of the
+                most interesting concept-connection ideas in the project, but
+                deliberately does not feed into the main Agent&nbsp;VII pipeline. Both
+                of those decisions are worth explaining.
+            </p>
+
+            <h3>The idea</h3>
+            <p>
+                Given two raw datasets, the generator's <code>BlockingTestSetAgent</code>
+                asks an LLM to analyse the schemas and produce a complete matching
+                strategy in one structured response: which blocker to apply
+                (<code>token</code>, <code>standard</code>, <code>sorted_neighbourhood</code>,
+                <code>embedding</code>), which columns to compare, which similarity
+                function per column (Jaro-Winkler, Levenshtein, token overlap, numeric
+                diff, geo distance, exact match, contains), and per-column weights.
+                Candidate pairs are then bucketed by aggregated similarity score
+                (<code>high</code>, <code>mid</code>, <code>low</code>) and stratified
+                sampling pulls a balanced test set with a target match percentage
+                (~20&nbsp;%). If class balance drifts, the agent re-samples from a
+                reserved candidate pool over up to five rounds.
+            </p>
+            <p>
+                This is the same concept-connection pattern that makes Agent&nbsp;VII
+                interesting: the LLM does not just pick one parameter; it composes
+                <em>blocker + comparator set + weight vector + bucket thresholds +
+                sampling strategy</em> into a single coherent decision, then the
+                deterministic infrastructure executes it and feeds the resulting class
+                balance back as evidence for the next round.
+            </p>
+
+            <h3>Why we did not use the generated sets in our reported results</h3>
+            <p>
+                Cross-agent comparability was the priority. Agents&nbsp;I&ndash;VIII and
+                Agent&nbsp;VII share fixed gold-standard test sets per use case, so
+                improvements between agents can be attributed to the agent rather than
+                to test-set drift. Substituting LLM-generated test sets would have
+                introduced a second stochastic variable into every comparison &mdash; the
+                generator's own LLM choices, model temperature, and sampling order
+                would all contribute noise on top of the agents themselves. We kept the
+                generated sets as a separate research artefact and ran the headline
+                evaluation against the curated sets.
+            </p>
+
+            <h3>Why it is not integrated into the Agent VII loop</h3>
+            <p>
+                Stability. The Lessons Learned section above explains why we
+                deliberately did not let Agent&nbsp;VII author arbitrary
+                Python-callable fusers; the same logic applies, even more strongly, to
+                test-set generation. A silently miscalibrated similarity weight or a
+                wrong column choice during generation would corrupt the very signal the
+                agent uses to decide whether to keep iterating, and the regression guard
+                cannot distinguish "real progress" from "evaluator drift". An LLM-built
+                test set is most useful when it is independently inspectable; embedding
+                it inside the same agent that is being evaluated against it removes
+                that property. The bounded extension we sketched for custom fusion
+                functions (sandboxed execution, static type checks, oracle-based
+                property tests, scope restriction) would apply here too if we ever did
+                integrate it.
+            </p>
+
+            <p>
+                Read together, the test-set generator and the custom-functions future
+                direction map out the same trade-off: <em>LLMs are very good at
+                composing strategies; they are still risky as authors of code that the
+                system depends on for correctness</em>. The pragmatic compromise we
+                shipped puts the LLM in the strategy seat (blocker choice, comparator
+                weights, fusion resolver picks, routing) and keeps deterministic Python
+                in the execution seat (PyDI building blocks, fixed test sets,
+                mechanical guardrails). Lifting that compromise is the most interesting
+                thing left to try in a future iteration.
+            </p>
             </details>
         </section>
 
