@@ -44,7 +44,7 @@
                                 <li><a href="#reasoning-domain-aware">Domain-Aware Reasoning</a></li>
                                 <li><a href="#reasoning-games-deep-dive">Games Deep Dive (3 Runs)</a></li>
                                 <li><a href="#reasoning-music-books">Music &amp; Books</a></li>
-                                <li><a href="#reasoning-habits">Reasoning Habits</a></li>
+                                <li><a href="#reasoning-habits">How Evidence Is Combined</a></li>
                                 <li><a href="#reasoning-weaknesses">Observed Weaknesses</a></li>
                                 <li><a href="#reasoning-future-work">Future Work</a></li>
                             </ul>
@@ -2510,50 +2510,67 @@
             </p>
 
             <!-- =================== Reasoning habits =================== -->
-            <h3 id="reasoning-habits">Reasoning Habits the Investigator Exhibits Consistently</h3>
+            <h3 id="reasoning-habits">How the Investigator Combines Its Evidence</h3>
             <p>
-                Beyond the routing pattern, the investigator displays a consistent set of
-                reasoning habits across all 28 runs. These are not guaranteed from a raw
-                LLM and form the strongest positive signal from this study: the diagnosis
-                is reproducible even when the final routing decision is not.
+                Each routing decision pulls together five separate Agent&nbsp;VII components
+                into a single reasoning step. This is the "concept-connection" pattern that
+                makes Agent&nbsp;VII more than the sum of its parts &mdash; the investigator
+                does not just <em>read</em> the metrics, it <em>synthesises</em>:
+            </p>
+            <div class="admonition" style="margin-top: 0.5rem;">
+                <p style="margin:0;">
+                    <strong>Cluster-analysis subnode</strong> (ambiguity ratio, max cluster
+                    size, recommended post-clustering strategy)<br>
+                    <span style="color:#888;">+</span>
+                    <strong>Probe system</strong> (blocking-recall checks,
+                    correspondence-density checks)<br>
+                    <span style="color:#888;">+</span>
+                    <strong>Source-vs-validation oracle</strong> (per-attribute exact-match
+                    rate per source &mdash; the closest thing to ground truth at decision time)<br>
+                    <span style="color:#888;">+</span>
+                    <strong>Pipeline scaffold</strong> (which stages are frozen vs editable
+                    given the current route)<br>
+                    <span style="color:#888;">+</span>
+                    <strong>Iteration history</strong> (what's been tried, what regressed,
+                    structural ceiling estimate trajectory)<br>
+                    <span style="color:#888;">=</span>
+                    <strong>One routing decision plus per-attribute fix recommendations,
+                    each tagged <code>improvable</code> or
+                    <code>structurally_limited</code></strong>.
+                </p>
+            </div>
+            <p>
+                Concretely, every diagnosis paragraph in the 28 runs blends these signals
+                rather than reading any one of them in isolation. Five reasoning habits
+                show up consistently &mdash; each one paired with a verbatim example from
+                the traces:
             </p>
             <ul>
                 <li>
-                    <strong>Anchoring in concrete mismatch examples.</strong> Diagnoses cite
-                    specific records by name ("Plants vs Zombies: Garden Warfare&nbsp;2 fused
-                    as Lego Star Wars", "NBA 2K12 fused as Madden NFL&nbsp;07", "Twilight
-                    Princess HD fused as Ocarina of Time"). The reasoning is grounded in
-                    output evidence, not in metric pattern-matching.
+                    <strong>Anchor in concrete mismatch examples.</strong> &mdash;
+                    <em>"Plants vs Zombies: Garden Warfare&nbsp;2 fused as Lego Star Wars;
+                    NBA 2K12 fused as Madden NFL&nbsp;07."</em>
                 </li>
                 <li>
-                    <strong>Distinguishing entity errors from formatting errors.</strong>
-                    Phrasings such as <em>"semantic substitutions across title/version/
-                    platform/year"</em> and <em>"cross-entity value mismatches rather than
-                    systematic formatting differences"</em> recur across Games and Music runs.
-                    This distinction drives the route choice between matching/adaption and
-                    normalization.
+                    <strong>Distinguish entity errors from formatting errors.</strong> &mdash;
+                    <em>"Cross-entity value mismatches rather than systematic formatting
+                    differences."</em>
                 </li>
                 <li>
-                    <strong>Quantifying evidence before deciding.</strong> Diagnoses cite
-                    one-to-many ratios, ambiguity ratios, cluster sizes, matcher F1 scores,
-                    and source-vs-validation exact-match rates. Apparent contradictions are
-                    explicitly resolved &mdash; e.g. "matching F1 around 0.86-0.89 looks
-                    decent globally, but cluster diagnostics reveal pairwise ambiguity severe
-                    enough to corrupt downstream entity fusion".
+                    <strong>Resolve apparent contradictions in the metrics.</strong> &mdash;
+                    <em>"Matching F1 around 0.86-0.89 looks decent globally, but cluster
+                    diagnostics reveal pairwise ambiguity severe enough to corrupt downstream
+                    entity fusion."</em>
                 </li>
                 <li>
-                    <strong>Protecting attributes already above target.</strong> Every run
-                    contains a sentence about not touching attributes that are already
-                    &ge;&nbsp;85&nbsp;%. This risk-aware framing is what makes the agent's
-                    iteration monotonic in practice rather than oscillating.
+                    <strong>Protect attributes already above target.</strong> &mdash;
+                    <em>"16 attributes are above 85%; recommendations should be narrowly
+                    targeted to avoid regressions."</em>
                 </li>
                 <li>
-                    <strong>Classifying improvability against the source oracle.</strong>
-                    Each per-attribute recommendation is tagged either <code>improvable</code>
-                    or <code>structurally_limited</code>; the latter is justified with
-                    variants of "source-vs-validation exact rates are near zero". This
-                    prevents the investigator from prescribing fixes that cannot work because
-                    no source holds the correct value.
+                    <strong>Classify improvability against the source oracle.</strong> &mdash;
+                    <em>"All sources are ~2-3% exact on developer against validation, so no
+                    trust map or resolver reliably recovers truth."</em>
                 </li>
             </ul>
             <img src="images/agent_vii_improvability_heatmap.png" alt="Heatmap of per-attribute improvability classifications across 28 runs, grouped by domain">
@@ -2798,6 +2815,22 @@
                 rather than the diagnostic capability &mdash; which is, in itself, a useful
                 finding for anyone building the next investigator loop.
             </p>
+
+            <div class="admonition" style="margin-top:1.5rem; background-color:#eef6ff; border-left-color:#2563eb;">
+                <span class="admonition-title" style="color:#1e40af;">What to take away</span>
+                <p style="margin:0;">
+                    Across 28 runs the investigator's <strong>diagnosis is reproducible</strong>
+                    and <strong>routes domain-aware</strong> &mdash; Books to normalization,
+                    Games to adaption/matching, Music to a mix &mdash; without ever being
+                    told what kind of failure to expect. Each routing decision is a fusion
+                    of cluster analysis, probe results, the source-vs-validation oracle,
+                    pipeline-scaffold constraints, and iteration history. The biggest
+                    open opportunities are tighter routing under stagnation and adding
+                    <em>custom</em> fusion / normalization functions on top of the existing
+                    PyDI catalogue &mdash; deliberately skipped this iteration to protect
+                    pipeline stability, but well-positioned as the next extension.
+                </p>
+            </div>
         </section>
 
         <!-- ============================================================ -->
