@@ -2329,6 +2329,7 @@
                     <tr><td>Books</td>   <td>4</td> <td>20&nbsp;%</td><td>0&nbsp;%</td> <td><strong>80&nbsp;%</strong></td><td>1 / 4</td> <td>0.783</td></tr>
                 </tbody>
             </table>
+            <img src="images/agent_vii_routing_by_domain.png" alt="Stacked bar chart of routing decisions by domain — Games leans on adaption and matching, Music on adaption and normalization, Books overwhelmingly on normalization">
             <p>
                 The asymmetry is large and consistent. Books triggers
                 <code>normalization_node</code> in 8 of 10 routing decisions; Games triggers
@@ -2376,6 +2377,16 @@
                 is responsible for the observed errors and routing the fix to the node that
                 owns that stage.
             </p>
+            <img src="images/agent_vii_routing_sankey.png" alt="Sankey-style flow of routing decisions across 28 runs over three attempts; band thickness reflects how many runs follow each path">
+            <p style="font-size: 0.9em; color:#555;">
+                The flow diagram traces every routing decision across all 28 runs.
+                <code>pipeline_adaption</code> dominates first attempts (16/28), but the
+                largest single transition is from a first attempt anywhere into the second
+                attempt's <code>pipeline_adaption</code>: even when the agent first tries
+                matching or normalization, it most often rebalances toward adaption on the
+                next iteration. By attempt&nbsp;3, nine runs have already exited via the
+                quality gate.
+            </p>
 
             <!-- =================== Games Deep Dive =================== -->
             <h3 id="reasoning-games-deep-dive">Games: A Three-Run Deep Dive</h3>
@@ -2402,6 +2413,17 @@
                     <tr><td>C (<code>111733</code>)</td><td><strong>2</strong></td><td><strong>0.900</strong></td><td>0.8319</td><td><strong>$0.44</strong></td><td><strong>adaption &rarr; gate</strong></td></tr>
                 </tbody>
             </table>
+            <img src="images/agent_vii_trajectory_by_route.png" alt="Per-attempt accuracy trajectory across all 28 runs, coloured by first-attempt routing decision">
+            <p style="font-size: 0.9em; color:#555;">
+                Across all 28 runs, the per-attempt accuracy trajectory tells a consistent
+                story: orange traces (<code>pipeline_adaption</code> as first decision) dominate
+                and cluster tightly toward the gate, red traces (<code>run_matching_tester</code>)
+                show the steepest single-step jumps after correspondences are regenerated, and
+                blue traces (<code>normalization_node</code>) include both the cleanest one-shot
+                Books win at the top of attempt&nbsp;1 and the dead-end Music plateau at the
+                bottom right. Almost every run improves monotonically &mdash; the regression
+                guard is doing its job.
+            </p>
             <p>
                 All three runs receive the same evidence. All three independently diagnose
                 the same root cause &mdash; over-linking of sequels, remasters, and platform
@@ -2534,6 +2556,18 @@
                     no source holds the correct value.
                 </li>
             </ul>
+            <img src="images/agent_vii_improvability_heatmap.png" alt="Heatmap of per-attribute improvability classifications across 28 runs, grouped by domain">
+            <p style="font-size: 0.9em; color:#555;">
+                The improvability heatmap visualises this last habit at scale. Each cell shows
+                how the investigator classified one attribute in one run: green for
+                <code>improvable</code>, red for <code>structurally_limited</code>, light grey
+                for not classified. The classification is broadly stable per attribute &mdash;
+                <code>name</code> and <code>publisher</code> consistently improvable in Games,
+                <code>tracks_track_duration</code> consistently structurally limited in Music
+                &mdash; and the domain separators (vertical black lines) align with attribute
+                relevance. This is the visual proof that the reasoning is reproducible even
+                when routing is not.
+            </p>
 
             <!-- =================== Weaknesses =================== -->
             <h3 id="reasoning-weaknesses">Observed Weaknesses</h3>
@@ -2565,6 +2599,27 @@
                     routing strategy.
                 </li>
             </ol>
+            <img src="images/agent_vii_ceiling_miscalibration.png" alt="Scatter of first-attempt structural ceiling estimate vs final achieved validation accuracy across 28 runs">
+            <p style="font-size: 0.9em; color:#555;">
+                The ceiling miscalibration is visible across all 28 runs: the overwhelming
+                majority of points sit well above the y=x line, meaning the agent's initial
+                "what's achievable" estimate is consistently lower than what it actually
+                reaches. The vertical spread on Games (red) at low ceiling values
+                (0.55&ndash;0.65) is most extreme &mdash; final accuracy lands at 0.85&ndash;0.90.
+                Books (blue) is closer to the diagonal because it tends to predict its own
+                ceiling more conservatively from the formatting evidence.
+            </p>
+            <img src="images/agent_vii_val_vs_test.png" alt="Scatter of validation vs sealed-test accuracy across 28 runs, with ±10pp sampling band shaded">
+            <p style="font-size: 0.9em; color:#555;">
+                The validation-vs-sealed-test scatter shows why the routing-decision noise
+                matters less than it might seem. The shaded ±10&nbsp;pp band represents the
+                sampling noise on a 10-record validation set: a single record flipping moves
+                the headline metric by that much. Almost every run lands inside the band, and
+                the runs that crossed the quality gate (right of the green dotted line) are
+                statistically indistinguishable from those that did not on the sealed test.
+                The lesson: the gate is a coarse threshold on a noisy signal, and "winning"
+                the gate is often a sampling outcome.
+            </p>
 
             <!-- =================== Future work =================== -->
             <h3 id="reasoning-future-work">Lessons Learned and Future Directions</h3>
