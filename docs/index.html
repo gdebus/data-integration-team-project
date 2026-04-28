@@ -3278,16 +3278,20 @@
                     </tr>
                     <tr>
                         <td>Agent VII</td>
-                        <td>ML</td>
-                        <td>72.50% → 86.25%</td>
-                        <td>86.25%</td>
+                        <td>Rule-based</td>
+                        <td>56.25% → 88.57%</td>
+                        <td>88.57%</td>
                         <td>
-                            This is the strongest Games result. The generated pipeline combines a
-                            hybrid blocking strategy, with <code>StandardBlocker</code> on the easier
-                            <code>dbpedia-sales</code> pair and semantic blocking on the harder pairs,
-                            plus list normalization and per-pair model selection. In this domain that
-                            mix appears to remove unnecessary candidate noise without losing too much
-                            recall.
+                            This is the strongest Games result. The reasoning-driven Agent VII run
+                            uses <code>EmbeddingBlocker</code> on all three source pairs with
+                            <code>RuleBasedMatcher</code> and pair-specific comparators for
+                            <code>name</code>, <code>developer</code>, <code>platform</code>,
+                            <code>releaseYear</code>, <code>criticScore</code>, and
+                            <code>userScore</code>. After a 56.25% first cycle, the investigator
+                            identified many-to-many correspondence fragmentation, routed through
+                            <code>run_matching_tester</code> to confirm matching health, then applied
+                            <code>MaximumBipartiteMatching</code> and recalibrated all fusion
+                            resolvers in cycle 2 for the jump to 88.57%.
                         </td>
                     </tr>
                     <tr>
@@ -3635,15 +3639,19 @@ strategy.add_attribute_fuser("criticScore", prefer_higher_trust, trust_map=trust
                     </tr>
                     <tr>
                         <td>Agent VII</td>
-                        <td>ML</td>
-                        <td>57.60% → 59.60% → 58.40%</td>
-                        <td>59.60%</td>
+                        <td>Rule-based</td>
+                        <td>58.38% → 78.57% → 78.65%</td>
+                        <td>78.65%</td>
                         <td>
-                            The helper-style ML notebook adds more defensive preprocessing, including
-                            correspondence standardization, list-like column normalization, and a wider
-                            blocking mix of semantic, exact, and token-based strategies. It does not
-                            beat the best reasoning peak, but it is noticeably more controlled than the
-                            unstable reasoning-ML run.
+                            The reasoning-driven Agent VII run uses a mixed blocking strategy —
+                            <code>EmbeddingBlocker</code> for <code>discogs-lastfm</code> and
+                            <code>lastfm-musicbrainz</code>, <code>SortedNeighbourhoodBlocker</code>
+                            for <code>discogs-musicbrainz</code> — and iterates over four pipeline
+                            cycles. The biggest single gain came in cycle 2 when
+                            <code>MaximumBipartiteMatching</code> and targeted source-attribution
+                            fixes for duration, label, and track-level fields produced a jump from
+                            58.38% to 78.17%. Further cycles refined the artist fusion resolver and
+                            source trust maps, reaching the final 78.65%.
                         </td>
                     </tr>
                     <tr>
