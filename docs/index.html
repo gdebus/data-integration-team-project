@@ -2557,11 +2557,125 @@
             </ol>
 
             <!-- =================== Future work =================== -->
-            <h3 id="reasoning-future-work">Future Work and Lessons Learned</h3>
+            <h3 id="reasoning-future-work">Lessons Learned and Future Directions</h3>
             <p>
-                The clearest opportunities for the next iteration of Agent&nbsp;VII fall out
-                of the weaknesses identified above:
+                Reading the 28 runs together suggests four lessons that we would carry
+                into a hypothetical Agent&nbsp;IX, plus a set of concrete next steps that
+                fall out of them.
             </p>
+
+            <h4>Lessons learned from this iteration</h4>
+            <ul>
+                <li>
+                    <strong>Reasoning quality and routing quality are decoupled.</strong>
+                    The investigator's <em>diagnosis</em> is reproducible across runs &mdash;
+                    same root cause, same protected-attribute set, same improvability
+                    classification &mdash; while the <em>routing decision</em> is partly
+                    sampling noise. The lesson for future agents: measure these two
+                    capabilities separately. A good diagnosis paired with a poor route is
+                    not the same failure mode as a confused diagnosis.
+                </li>
+                <li>
+                    <strong>The investigator behaves like a domain-aware analyst, not a
+                    template.</strong> Books triggers normalization in 80&nbsp;% of decisions,
+                    Games triggers matching/adaption in 94&nbsp;%. This was not engineered
+                    explicitly &mdash; it emerges from the evidence the investigator weighs.
+                    The lesson: routing heuristics should be data-driven, not domain-coded;
+                    LLM-grounded reasoning gives this for free if the evidence packet is
+                    structured.
+                </li>
+                <li>
+                    <strong>Stability matters more than peak accuracy.</strong> Several
+                    architectural choices in Agent&nbsp;VII (regression guard, frozen
+                    blocking/matching during adaption, code guardrails, the explicit
+                    "protected attributes" check in every diagnosis) deliberately trade peak
+                    achievable accuracy for monotonic iteration. The 28-run sealed-test
+                    distribution shows this paid off: no run regressed catastrophically,
+                    even when the validation signal was noisy. We accepted a stability ceiling
+                    rather than chasing the highest possible single-run number, and this
+                    choice also gated us out of two attractive but unstable extensions
+                    discussed in the next section.
+                </li>
+                <li>
+                    <strong>Validation-set noise is a first-class confound.</strong> At
+                    n=10 records the quality gate fires on what is effectively a 10-pp
+                    sampling band. Run&nbsp;C "winning" 0.90 vs Runs&nbsp;A/B's 0.85 is one
+                    record flipping &mdash; and all three runs land at the same ~83&nbsp;%
+                    sealed test. Future evaluation infrastructure should treat the gate
+                    threshold as a statistical decision, not a deterministic cutoff.
+                </li>
+            </ul>
+
+            <h4>Future direction: custom fusion and normalization functions</h4>
+            <p>
+                The single biggest expressive limitation of the current Agent&nbsp;VII is
+                that <strong>it cannot author new fusion or normalization <em>functions</em>;
+                it can only configure the ones PyDI already provides</strong>. The
+                investigator can choose between <code>prefer_higher_trust</code>,
+                <code>longest_string</code>, <code>voting</code>, <code>most_complete</code>,
+                <code>shortest_string</code>, etc., and tune their parameters &mdash; but it
+                cannot, for example, write a domain-specific fuser that strips a
+                "Goodreads-style" annotation from author strings, or a normalization step
+                that maps "PS3"/"PlayStation&nbsp;3"/"playstation 3" through a controlled
+                vocabulary.
+            </p>
+            <p>
+                We deliberately did not extend Agent&nbsp;VII to generate custom
+                Python-callable fusers and normalizers, even though several investigator
+                diagnoses (Books <code>20260323_034342</code>, Music <code>20260322_171209</code>)
+                explicitly identified the residual error as <em>"a formatting problem that
+                cannot be expressed by any built-in resolver."</em> The reason was
+                <strong>stability</strong>: an investigator that can write arbitrary callable
+                code at fusion time multiplies the surface area for silent failures
+                (type errors on non-string inputs, exceptions on null cells, lambdas that
+                reference out-of-scope variables, fusers that quietly drop rows). Within the
+                three-iteration retry budget and the regression-guard envelope, we judged
+                that the marginal accuracy gain did not justify the variance hit. The
+                Run&nbsp;A <code>maximum</code>-on-string regression, where a built-in
+                resolver was applied to the wrong column, is a pale preview of how much
+                worse this can get with arbitrary code.
+            </p>
+            <p>
+                A future iteration could plausibly add custom-function generation as a
+                bounded extension:
+            </p>
+            <ul>
+                <li>
+                    <strong>Sandboxed execution.</strong> Generated fusers and normalizers
+                    run inside a typed wrapper that asserts input/output types and catches
+                    exceptions per row, so a buggy fuser produces a missing value rather
+                    than an exception.
+                </li>
+                <li>
+                    <strong>Pre-generation guardrails.</strong> Static checks (no global
+                    state, no I/O, declared input column types match the actual schema, no
+                    forbidden imports) reject malformed fusers before they reach the
+                    pipeline.
+                </li>
+                <li>
+                    <strong>Property tests against the source-vs-validation oracle.</strong>
+                    Before a custom fuser is allowed into the pipeline, its output is
+                    evaluated on a held-out slice of the validation set; if the property
+                    "fused value matches at least one source" fails on more than a small
+                    fraction of records, the fuser is rejected.
+                </li>
+                <li>
+                    <strong>Restricted scope.</strong> Custom functions are only authored
+                    for attributes that are already classified <code>improvable</code> by
+                    the investigator and have a clear formatting symptom, never for
+                    <code>structurally_limited</code> attributes.
+                </li>
+            </ul>
+            <p>
+                With these guardrails the stability cost of custom functions becomes
+                bounded, and the agent could close the gap on attributes like
+                <code>genres</code> (Books) or <code>release-country</code> (Music) where
+                the right transformation is genuinely outside the built-in resolver
+                catalogue. It is the most promising single extension we deliberately left
+                on the table.
+            </p>
+
+            <h4>Other concrete next steps</h4>
             <ul>
                 <li>
                     <strong>Cluster-recommendation-aware routing.</strong> When the
@@ -2608,15 +2722,16 @@
                     threshold would make the early-exit decision more robust.
                 </li>
             </ul>
+
             <p>
                 Read in aggregate, the 28-run dataset supports a clear claim: Agent&nbsp;VII
                 is genuinely reasoning about the pipeline rather than narrating around a
                 random policy. Its diagnoses are reproducible, evidence-grounded,
                 domain-aware, and risk-conscious about regressions. The remaining weaknesses
                 are concrete enough to guide further work, and most of them are about the
-                <em>routing policy</em> rather than the diagnostic capability &mdash; which
-                is, in itself, a useful finding for anyone building the next investigator
-                loop.
+                <em>routing policy</em> and the <em>expressive scope of the fix language</em>
+                rather than the diagnostic capability &mdash; which is, in itself, a useful
+                finding for anyone building the next investigator loop.
             </p>
         </section>
 
