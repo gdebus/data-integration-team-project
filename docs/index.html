@@ -38,7 +38,17 @@
                         <li><a href="#agent-vii-guardrails">Code Guardrails</a></li>
                         <li><a href="#agent-vii-scaffold">Pipeline Scaffold</a></li>
                         <li><a href="#agent-vii-subsystems">Other Subsystems</a></li>
-                        <li><a href="#agent-vii-reasoning-study">Reasoning Case Study (3&times; Games)</a></li>
+                        <li>
+                            <a href="#agent-vii-reasoning-study">Reasoning Case Study</a>
+                            <ul>
+                                <li><a href="#reasoning-domain-aware">Domain-Aware Reasoning</a></li>
+                                <li><a href="#reasoning-games-deep-dive">Games Deep Dive (3 Runs)</a></li>
+                                <li><a href="#reasoning-music-books">Music &amp; Books</a></li>
+                                <li><a href="#reasoning-habits">Reasoning Habits</a></li>
+                                <li><a href="#reasoning-weaknesses">Observed Weaknesses</a></li>
+                                <li><a href="#reasoning-future-work">Future Work</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -2266,340 +2276,357 @@
             </ul>
         </section>
 
-        <!-- Agent VII: Reasoning Case Study (3x Games) -->
+        <!-- Agent VII: Reasoning Case Study -->
         <section id="agent-vii-reasoning-study">
-            <h2>Reasoning Case Study: Three Runs on the Games Dataset</h2>
+            <h2>Reasoning Case Study: How Agent&nbsp;VII Actually Thinks</h2>
             <p>
-                The preceding sections describe <em>what</em> Agent&nbsp;VII is capable of. This section
-                looks at <em>how it actually reasons</em> in practice, by observing three independent
-                runs of the agent on the Games benchmark and inspecting the investigator's trace at
-                each decision point. The goal is to move past headline accuracy numbers and ask
-                whether the agent is genuinely reasoning about the pipeline or merely narrating
-                around a randomised routing policy.
+                The preceding subsections describe <em>what</em> Agent&nbsp;VII is built to
+                do. This section asks the harder question: <em>does it actually reason</em>,
+                or is the structured "diagnosis" just narrative wrapping around a stochastic
+                routing policy? Because <code>investigator_node</code> writes a structured
+                JSON record at every turn &mdash; with a diagnosis paragraph, a reasoning
+                paragraph, a routing decision, a structural-ceiling estimate, and per-attribute
+                recommendations classified as <code>improvable</code> or <code>structurally_limited</code>
+                &mdash; the agent's thought process is directly inspectable.
             </p>
             <p>
-                Because <code>investigator_node</code> writes a structured JSON record at every turn &mdash;
-                containing a diagnosis, a reasoning paragraph, a routing decision, a structural-ceiling
-                estimate, and per-attribute recommendations with impact estimates and improvability
-                classes &mdash; the agent's thought process is directly inspectable. All quotes in this
-                section are verbatim from the investigator JSON files at
+                The analysis below draws on <strong>28 clean Agent&nbsp;VII runs</strong>
+                across three domains (Games&nbsp;n=14, Music&nbsp;n=10, Books&nbsp;n=4),
+                executed between 22 March and 23 April 2026 against the same dataset
+                inventory. All quotes in this section are verbatim from
                 <code>output/runs/&lt;run_id&gt;/investigation/investigation_*.json</code>.
+                Full per-attempt traces (every diagnosis, reasoning, recommendation across
+                eleven representative runs) are checked into the repository at
+                <code><a href="https://github.com/gdebus/data-integration-team-project/blob/nblazek_final/agents/reasoning_traces.md">agents/reasoning_traces.md</a></code>;
+                the website carries only the headline analysis.
             </p>
 
-            <h3>Experimental Setup</h3>
+            <!-- =================== Domain-Aware Reasoning =================== -->
+            <h3 id="reasoning-domain-aware">Domain-Aware Reasoning Across 28 Runs</h3>
             <p>
-                The agent was invoked three times in sequence on the Games dataset
-                (<code>dbpedia.xml</code>, <code>metacritic.xml</code>, <code>sales.xml</code>),
-                with the blocking and matching testers pre-loaded with validated configurations
-                so that only the pipeline-adaption / evaluation / investigator loop was exercised.
-                Datasets, test sets, matcher mode (rule-based), recursion limit, and the underlying
-                LLM (<code>gpt-5.4</code>) were held constant across all three runs. Each run produced
-                its own isolated <code>output/runs/&lt;run_id&gt;/</code> directory with a complete
-                decision trace.
+                The single strongest finding of this study is that
+                <strong>Agent&nbsp;VII routes investigation decisions in a domain-aware
+                way</strong>. The same investigator code, prompted with the same routing
+                options, makes systematically different choices when it diagnoses Games
+                vs Books vs Music &mdash; and those choices match what a human analyst
+                would predict from the structure of each domain.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domain</th>
+                        <th>n (clean runs)</th>
+                        <th><code>pipeline_adaption</code></th>
+                        <th><code>run_matching_tester</code></th>
+                        <th><code>normalization_node</code></th>
+                        <th>One-shot convergence</th>
+                        <th>Mean sealed-test</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Games</td>   <td>14</td><td>56&nbsp;%</td><td>38&nbsp;%</td><td>6&nbsp;%</td>  <td>3 / 14</td><td>0.800</td></tr>
+                    <tr><td>Music</td>   <td>10</td><td>64&nbsp;%</td><td>0&nbsp;%</td> <td>36&nbsp;%</td> <td>1 / 10</td><td>0.721</td></tr>
+                    <tr><td>Books</td>   <td>4</td> <td>20&nbsp;%</td><td>0&nbsp;%</td> <td><strong>80&nbsp;%</strong></td><td>1 / 4</td> <td>0.783</td></tr>
+                </tbody>
+            </table>
+            <p>
+                The asymmetry is large and consistent. Books triggers
+                <code>normalization_node</code> in 8 of 10 routing decisions; Games triggers
+                it in 2 of 32. Games triggers <code>run_matching_tester</code> in 12 of 32
+                decisions; Music and Books never trigger it once. These are not random
+                differences &mdash; they reflect different dominant failure modes that the
+                investigator picks up from the mismatch evidence.
+            </p>
+            <p>
+                Three short verbatim excerpts make the pattern concrete. Each is from a
+                <em>first-attempt</em> diagnosis, the moment when the investigator forms
+                its initial hypothesis from raw evaluation evidence:
+            </p>
+            <blockquote>
+                <strong>Games (run <code>20260423_103054_games</code>).</strong>
+                "The dominant error is not normalization or fusion resolver choice; it is
+                over-linking/ambiguous entity matching that merges different games into the
+                same cluster. … Plants vs Zombies: Garden Warfare&nbsp;2 fused as Lego Star
+                Wars: The Force Awakens; NBA 2K12 fused as Madden NFL&nbsp;07. Those are
+                wrong entity pairs, not formatting differences."
+            </blockquote>
+            <blockquote>
+                <strong>Music (run <code>20260322_233450_music</code>).</strong>
+                "The main remaining error is in fusion strategy, not blocking or matching.
+                Entity matching is already strong (pairwise F1 about 0.87-0.90, correspondence
+                files non-empty, blocking recall probe found no issues), while the worst
+                residual errors are caused by wrong attribute resolvers and source trust
+                choices after the correct entities are already linked."
+            </blockquote>
+            <blockquote>
+                <strong>Books (run <code>20260322_155058_books</code>).</strong>
+                "The main remaining errors are caused by fusion/post-fusion formatting
+                choices, but the first fix must be normalization because the worst
+                attribute with 0% accuracy (genres) is failing due to source/target format
+                mismatch before fusion. The validation set expects genres as a plain
+                comma-separated string/list of individual items, while the current pipeline
+                normalizes sources into list cells …"
+            </blockquote>
+            <p>
+                Each diagnosis names a structurally different problem &mdash; entity
+                substitution (Games), attribute-resolver choice (Music), source format
+                mismatch (Books) &mdash; and routes to the correspondingly different
+                node. This is the core "the agent thinks" claim: it is not pattern-matching
+                on the metric values, it is forming a causal model of which pipeline stage
+                is responsible for the observed errors and routing the fix to the node that
+                owns that stage.
             </p>
 
-            <h3>Headline Results</h3>
+            <!-- =================== Games Deep Dive =================== -->
+            <h3 id="reasoning-games-deep-dive">Games: A Three-Run Deep Dive</h3>
+            <p>
+                To see the routing logic at decision granularity, this subsection walks
+                through three independent runs on the Games benchmark on 2026-04-23, executed
+                with pre-loaded blocking and matching configurations so that only the
+                pipeline-adaption / evaluation / investigator loop was exercised.
+            </p>
             <table>
                 <thead>
                     <tr>
                         <th>Run</th>
-                        <th>Iterations</th>
+                        <th>Iters</th>
                         <th>Validation</th>
                         <th>Sealed Test</th>
-                        <th>Wall-clock</th>
                         <th>Cost</th>
                         <th>Investigator routing</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td>3</td><td>0.850</td><td>0.8235</td><td>22&nbsp;min</td><td>$0.67</td><td>matching &rarr; adaption &rarr; gate</td></tr>
-                    <tr><td>2</td><td>3</td><td>0.850</td><td>0.8319</td><td>25&nbsp;min</td><td>$0.69</td><td>matching &rarr; matching &rarr; gate</td></tr>
-                    <tr><td>3</td><td><strong>2</strong></td><td><strong>0.900</strong></td><td>0.8319</td><td>38&nbsp;min</td><td>$0.44</td><td><strong>adaption &rarr; gate</strong></td></tr>
+                    <tr><td>A (<code>103054</code>)</td><td>3</td><td>0.850</td><td>0.8235</td><td>$0.67</td><td>matching &rarr; adaption &rarr; gate</td></tr>
+                    <tr><td>B (<code>105253</code>)</td><td>3</td><td>0.850</td><td>0.8319</td><td>$0.69</td><td>matching &rarr; matching &rarr; gate</td></tr>
+                    <tr><td>C (<code>111733</code>)</td><td><strong>2</strong></td><td><strong>0.900</strong></td><td>0.8319</td><td><strong>$0.44</strong></td><td><strong>adaption &rarr; gate</strong></td></tr>
                 </tbody>
             </table>
             <p>
-                All three runs terminated by reaching the 85% validation quality gate and routing to
-                <code>human_review_export</code>. The sealed-test accuracies converge to ~83%
-                regardless of the path taken, which is the honest measure of the pipeline's
-                capability under the frozen blocking/matching configuration. Validation is
-                computed on only 10&nbsp;records &times; 8&nbsp;attributes = 80 individual
-                evaluations, so a single record flipping moves the headline number by 10 percentage
-                points &mdash; which is why Run&nbsp;3 "wins" validation at 0.90 but ties Run&nbsp;2 on
-                sealed test.
-            </p>
-
-            <h3>Run 1 &mdash; The Two-Stage Repair (48.75% &rarr; 75% &rarr; 85%)</h3>
-            <p>
-                The first attempt produced 48.75% overall accuracy. The investigator's diagnosis has
-                the structure of a well-written root-cause analysis: it first rules out two
-                hypotheses, then names the actual culprit, then produces evidence anchored in the
-                fused output itself with specific mismatch examples, then brings in quantitative
-                cluster statistics to corroborate the qualitative examples:
-            </p>
-            <blockquote>
-                "The dominant error is not normalization or fusion resolver choice; it is
-                over-linking/ambiguous entity matching that merges different games into the same
-                cluster. Evidence: worst mismatches are semantic substitutions across
-                title/version/platform/year (e.g. Plants vs Zombies: Garden Warfare&nbsp;2 fused as
-                Lego Star Wars: The Force Awakens; NBA 2K12 fused as Madden NFL&nbsp;07;
-                Civilization&nbsp;V fused as Civilization&nbsp;IV). Those are wrong entity pairs, not
-                formatting differences. Cluster diagnostics reinforce this: one-to-many ratios of
-                62-66%, ambiguity ratio &gt;71%, and extremely large clusters (max_size &gt;1000)
-                indicate many competing candidate links and insufficient disambiguation. The
-                current fusion then propagates wrong matched records, causing catastrophic
-                releaseYear/platform/name/developer errors. Normalization already aligns simple
-                formats, and the worst attributes are explicitly assessed as structurally limited at
-                current matching structure. Fusion changes alone cannot repair clusters that already
-                contain the wrong records."
-            </blockquote>
-            <p>
-                The investigator then routes to <code>run_matching_tester</code>, explicitly framing
-                the decision as a risk-minimisation problem over the attributes that are already
-                above 85%:
-            </p>
-            <blockquote>
-                "Matching should be fixed next because blocking/matching artifacts show high
-                ambiguity despite decent pairwise F1, and the observed output errors are classic
-                false-positive matches between related but distinct games/franchises/editions/
-                platform releases. The protected attributes above 85% should be preserved; changing
-                fusion globally risks regressing them while leaving the underlying wrong-entity
-                clusters untouched."
-            </blockquote>
-            <p>
-                On the second attempt, with overall accuracy now at 75%, the investigator does
-                something that distinguishes Run&nbsp;1 from the other two: it reads the generated
-                fusion code and identifies a genuine bug. The <code>maximum</code> resolver, which
-                is numeric, had been applied to the string-valued <code>name</code> column,
-                silently producing null outputs:
-            </p>
-            <blockquote>
-                "The primary actionable defect is in fusion logic, specifically the name attribute
-                being fused with the wrong resolver. The pipeline currently uses maximum for name,
-                which is a numeric-oriented resolver and is producing an entirely null name column
-                (100% null, 0% accuracy) despite all three sources having 100% non-null names and
-                metacritic matching the validation set exactly 65% of the time. This explains the
-                catastrophic regression of name_accuracy from 40% to 0%."
-            </blockquote>
-            <p>
-                This is no longer pattern-matching on metrics; it is a specific causal chain. The
-                investigator then routes to <code>pipeline_adaption</code> and proposes a concrete
-                textual replacement, with trust-map weights derived from the
-                source-vs-validation exact-match oracle:
-            </p>
-            <blockquote>
-                "Replace <code>strategy.add_attribute_fuser("name", maximum)</code> with
-                <code>strategy.add_attribute_fuser("name", prefer_higher_trust,
-                trust_map={"metacritic": 3, "sales": 2, "dbpedia": 1})</code>."
-            </blockquote>
-            <p>
-                The third attempt reaches 85%, the quality gate fires, and Run&nbsp;1 exits through
-                human review, landing at 82.4% on the sealed test.
-            </p>
-
-            <h3>Run 2 &mdash; The Conservative Loop (42.5% &rarr; 80% &rarr; 85%)</h3>
-            <p>
-                Run&nbsp;2 is the counterfactual. It starts from almost exactly the same position as
-                Run&nbsp;1 &mdash; similar overall accuracy, the same mismatch patterns, the same
-                cluster statistics &mdash; but the investigator never leaves the matching branch.
-                Both of its turns route to <code>run_matching_tester</code>, and the quality gate is
-                reached not by surgical intervention but by the matching rerun happening to produce
-                cleaner correspondences on the second try.
-            </p>
-            <p>
-                What is remarkable is that the investigator's first-attempt reasoning <em>does</em>
-                explicitly acknowledge the post-clustering recommendation that Run&nbsp;3 will later
-                act on:
-            </p>
-            <blockquote>
-                "Post-clustering recommendation of MaximumBipartiteMatching supports the same
-                conclusion, but the core issue still originates in overly permissive/ambiguous
-                matches; the matching stage must be tightened and re-evaluated."
-            </blockquote>
-            <p>
-                The investigator <em>sees</em> the suggestion from the cluster-evaluation subnode
-                and <em>mentions it by name</em>, but interprets it as a downstream symptom rather
-                than an actionable fix. The claim is that the root cause is upstream in matching,
-                so patching the post-clustering step would be treating the symptom. This is a
-                defensible reading of the evidence, but it defers the cheapest available fix.
-            </p>
-            <p>
-                An incidental but important observation from Run&nbsp;2: between attempts&nbsp;1 and
-                2 the investigator's <strong>structural-ceiling estimate rose from 0.575 to 0.8625</strong>.
-                The ceiling is not a fixed property of the data but a belief state that the agent
-                updates as more evidence arrives. That self-correcting behaviour is arguably more
-                interesting than the estimates themselves.
-            </p>
-
-            <h3>Run 3 &mdash; The Surgical Fix (52.5% &rarr; 90%)</h3>
-            <p>
-                Run&nbsp;3 is the most efficient of the three, converging in two iterations rather
-                than three. Its first-attempt diagnosis is structurally identical to Runs&nbsp;1 and
-                2 &mdash; same root cause, same evidence, same quantitative framing &mdash; but the
-                final clause of the reasoning paragraph makes a different routing choice, and
-                explicitly argues for it over the alternatives:
-            </p>
-            <blockquote>
-                "Because blocking and pairwise matching outputs are already reasonably dense and
-                non-empty, but downstream clusters are many-to-many and highly ambiguous, the most
-                surgical next fix is in frozen-stage-allowed fusion/post-clustering logic: add the
-                recommended MaximumBipartiteMatching post-clustering before fusion. This directly
-                addresses the observed cross-game contamination while preserving the 14 attributes
-                already above 85%. I am explicitly not recommending normalization first because
-                the evidence is not format-driven overall; and not routing to run_matching_tester
-                because the provided cluster analysis already identifies the actionable remedy
-                within pipeline adaptation: post-clustering."
-            </blockquote>
-            <p>
-                The phrase &ldquo;I am explicitly not recommending &hellip; and not routing to
-                <code>run_matching_tester</code>&rdquo; is notable because the investigator is
-                reasoning <em>over alternatives</em> rather than making a single best-match pick.
-                It considers three candidate routes, gives an explicit reason for rejecting two of
-                them, and lands on adaption. The fix moves validation accuracy from 52.5% to 90%
-                in a single iteration, the quality gate fires, and Run&nbsp;3 exits after just two
-                investigator turns &mdash; using 37% fewer tokens than the other two runs.
-            </p>
-
-            <h3>Same Evidence, Different Decisions</h3>
-            <p>
-                The most illuminating comparison is the final clause of each first-attempt reasoning
-                paragraph, placed side by side:
+                All three runs receive the same evidence. All three independently diagnose
+                the same root cause &mdash; over-linking of sequels, remasters, and platform
+                variants. The interesting divergence is in the <em>final clause</em> of each
+                first-attempt reasoning paragraph, which determines the route:
             </p>
             <table>
                 <thead>
-                    <tr><th>Run</th><th>Closing clause of first-attempt reasoning</th><th>Route</th></tr>
+                    <tr><th>Run</th><th>Closing clause of first-attempt reasoning (verbatim)</th><th>Route</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>"The cluster analysis already recommends MaximumBipartiteMatching; matching evaluation should tighten thresholds and disambiguate sequel/platform/version collisions <strong>before any further fusion tuning</strong>."</td>
-                        <td>matching</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>"Post-clustering recommendation of MaximumBipartiteMatching supports the same conclusion, but <strong>the matching stage must be tightened and re-evaluated</strong>."</td>
-                        <td>matching</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>"<strong>The most surgical next fix is in frozen-stage-allowed fusion/post-clustering logic: add the recommended MaximumBipartiteMatching post-clustering before fusion.</strong>"</td>
-                        <td>adaption</td>
-                    </tr>
+                    <tr><td>A</td><td>"matching evaluation should tighten thresholds and disambiguate sequel/platform/version collisions <strong>before any further fusion tuning</strong>"</td><td>matching</td></tr>
+                    <tr><td>B</td><td>"the core issue still originates in overly permissive/ambiguous matches; <strong>the matching stage must be tightened and re-evaluated</strong>"</td><td>matching</td></tr>
+                    <tr><td>C</td><td>"<strong>The most surgical next fix is in frozen-stage-allowed fusion/post-clustering logic: add the recommended MaximumBipartiteMatching post-clustering before fusion</strong>"</td><td>adaption</td></tr>
                 </tbody>
             </table>
             <p>
-                All three runs receive the same cluster-analysis output. All three mention
-                <code>MaximumBipartiteMatching</code> by name. All three describe the same root
-                cause in nearly identical language. The only difference is whether they treat the
-                post-clustering recommendation as something to apply immediately (Run&nbsp;3) or
-                something to defer until the matching stage is "properly" fixed first
-                (Runs&nbsp;1 and&nbsp;2).
+                Run&nbsp;C is the most efficient path. It explicitly weighs and rejects the
+                alternatives:
+            </p>
+            <blockquote>
+                "I am explicitly not recommending normalization first because the evidence is
+                not format-driven overall; and not routing to <code>run_matching_tester</code>
+                because the provided cluster analysis already identifies the actionable
+                remedy within pipeline adaptation: post-clustering."
+            </blockquote>
+            <p>
+                Run&nbsp;A is also notable because attempt&nbsp;2 caught a real bug in the
+                generated fusion code: the <code>maximum</code> resolver (numeric) had been
+                applied to the string-valued <code>name</code> column, silently producing
+                a 100&nbsp;% null output. The investigator identified the causal chain,
+                derived a trust map from the source-vs-validation oracle, and proposed a
+                specific textual replacement. This is the kind of in-the-loop code audit
+                that justifies keeping the investigator node beyond the prototype stage.
+            </p>
+            <p style="font-size: 0.95em; color:#555;">
+                Full attempt-by-attempt diagnoses and recommendations for all three runs are
+                in <code><a href="https://github.com/gdebus/data-integration-team-project/blob/nblazek_final/agents/reasoning_traces.md#games--run-a-matching--adaption--gate-val-085-test-0824">reasoning_traces.md</a></code>.
             </p>
 
-            <h3>Reasoning Habits the Investigator Exhibits Consistently</h3>
+            <!-- =================== Music & Books mini-cases =================== -->
+            <h3 id="reasoning-music-books">Music &amp; Books: Two Contrasting Mini-Cases</h3>
+
+            <h4>Music: a one-shot adaption win and a three-norm dead-end</h4>
             <p>
-                Across all three runs the investigator displays a set of reasoning habits that are
-                not at all guaranteed from a raw LLM. These are the stronger positive signal of
-                this experiment: the <em>diagnosis</em> is reproducible even when the <em>routing</em>
-                is not.
+                Music run <code>20260323_095052_music</code> reached the quality gate in a
+                single iteration by routing to <code>pipeline_adaption</code>. The first
+                diagnosis correctly identified that matching was already strong, and that
+                the failures were attribute-level resolver choices:
+            </p>
+            <blockquote>
+                "The main remaining error is in fusion strategy, not blocking or matching.
+                Entity matching is already strong (pairwise F1 about 0.87-0.90, correspondence
+                files non-empty, blocking recall probe found no issues), while the worst
+                residual errors are caused by wrong attribute resolvers and source trust
+                choices."
+            </blockquote>
+            <p>
+                The contrasting case is run <code>20260323_120322_music</code>, which routed
+                to <code>normalization_node</code> three times in a row and never escaped
+                a 0.726 validation plateau. Inspecting the traces, the investigator
+                <em>kept</em> classifying the residual errors as formatting issues even after
+                two normalization passes had failed to move the metric. This is the clearest
+                example in the data of the agent's main failure mode: <strong>repeating the
+                same routing decision under unchanged evidence rather than escalating to a
+                different stage</strong>. There is no stagnation override that triggers
+                a forced strategy switch after a node fails to improve metrics twice in a row.
+            </p>
+
+            <h4>Books: normalization-first reasoning, validated</h4>
+            <p>
+                Books shows the most striking domain bias: normalization in 80&nbsp;% of all
+                routing decisions. The reasoning is consistent across runs &mdash; the
+                investigator argues that source-vs-target format mismatches are the dominant
+                failure mode and must be fixed before fusion can produce correct values.
+                Run <code>20260323_035936_books</code> reached val=0.912 in a single
+                normalization pass; runs <code>120937</code> and <code>155058</code> took
+                longer but landed at sealed-test 0.706 and 0.825 respectively. The dominant
+                attribute responsible for these decisions is <code>genres</code>, which
+                consistently fails because the validation set expects a comma-separated
+                string of items while the source data contains list cells &mdash; a
+                pre-fusion representation problem the investigator correctly classifies as
+                in scope for normalization, not for adaption.
+            </p>
+
+            <!-- =================== Reasoning habits =================== -->
+            <h3 id="reasoning-habits">Reasoning Habits the Investigator Exhibits Consistently</h3>
+            <p>
+                Beyond the routing pattern, the investigator displays a consistent set of
+                reasoning habits across all 28 runs. These are not guaranteed from a raw
+                LLM and form the strongest positive signal from this study: the diagnosis
+                is reproducible even when the final routing decision is not.
             </p>
             <ul>
                 <li>
-                    <strong>Grounding in concrete mismatch examples.</strong> Every run quotes
-                    specific records from the fused output ("Plants vs Zombies: Garden Warfare&nbsp;2
-                    fused as Lego Star Wars", "NBA 2K12 fused as Madden NFL&nbsp;07", "Zelda Twilight
-                    Princess HD fused as Zelda&nbsp;II"). The diagnosis is anchored in what actually
-                    went wrong, not in a generic restatement of the metrics.
+                    <strong>Anchoring in concrete mismatch examples.</strong> Diagnoses cite
+                    specific records by name ("Plants vs Zombies: Garden Warfare&nbsp;2 fused
+                    as Lego Star Wars", "NBA 2K12 fused as Madden NFL&nbsp;07", "Twilight
+                    Princess HD fused as Ocarina of Time"). The reasoning is grounded in
+                    output evidence, not in metric pattern-matching.
                 </li>
                 <li>
-                    <strong>Distinguishing entity errors from formatting errors.</strong> Phrasings
-                    like <em>"semantic substitutions across title/version/platform/year"</em> and
-                    <em>"cross-entity value mismatches rather than systematic formatting differences"</em>
-                    appear across all three runs. This distinction is necessary to avoid pointless
-                    normalization reruns, and every investigator turn makes it correctly.
+                    <strong>Distinguishing entity errors from formatting errors.</strong>
+                    Phrasings such as <em>"semantic substitutions across title/version/
+                    platform/year"</em> and <em>"cross-entity value mismatches rather than
+                    systematic formatting differences"</em> recur across Games and Music runs.
+                    This distinction drives the route choice between matching/adaption and
+                    normalization.
                 </li>
                 <li>
-                    <strong>Quantifying the evidence.</strong> Diagnoses cite one-to-many ratios,
-                    ambiguity ratios, cluster sizes, matcher F1 scores, and source-vs-validation
-                    exact-match rates. When Run&nbsp;2 writes that "matching F1 around 0.86-0.89
-                    looks decent globally, but cluster diagnostics reveal pairwise ambiguity severe
-                    enough to corrupt downstream entity fusion", it is resolving an apparent
-                    contradiction with a specific mechanism.
+                    <strong>Quantifying evidence before deciding.</strong> Diagnoses cite
+                    one-to-many ratios, ambiguity ratios, cluster sizes, matcher F1 scores,
+                    and source-vs-validation exact-match rates. Apparent contradictions are
+                    explicitly resolved &mdash; e.g. "matching F1 around 0.86-0.89 looks
+                    decent globally, but cluster diagnostics reveal pairwise ambiguity severe
+                    enough to corrupt downstream entity fusion".
                 </li>
                 <li>
-                    <strong>Protecting good attributes from collateral damage.</strong> Every run
-                    contains at least one sentence about not touching attributes above 85%. This is
-                    what makes the agent's iteration monotonic in practice rather than oscillating.
+                    <strong>Protecting attributes already above target.</strong> Every run
+                    contains a sentence about not touching attributes that are already
+                    &ge;&nbsp;85&nbsp;%. This risk-aware framing is what makes the agent's
+                    iteration monotonic in practice rather than oscillating.
                 </li>
                 <li>
-                    <strong>Classifying improvability.</strong> Each attribute recommendation is
-                    tagged <code>improvable</code> or <code>structurally_limited</code>, the latter
-                    justified with variants of "source-vs-validation exact rates are near zero".
-                    This prevents the investigator from prescribing fixes that cannot work &mdash;
-                    no fusion strategy can recover a value none of the sources holds.
+                    <strong>Classifying improvability against the source oracle.</strong>
+                    Each per-attribute recommendation is tagged either <code>improvable</code>
+                    or <code>structurally_limited</code>; the latter is justified with
+                    variants of "source-vs-validation exact rates are near zero". This
+                    prevents the investigator from prescribing fixes that cannot work because
+                    no source holds the correct value.
                 </li>
             </ul>
 
-            <h3>Observed Weaknesses</h3>
+            <!-- =================== Weaknesses =================== -->
+            <h3 id="reasoning-weaknesses">Observed Weaknesses</h3>
+            <p>
+                Three weaknesses recur across runs and deserve attention.
+            </p>
             <ol>
                 <li>
-                    <strong>Structural-ceiling miscalibration.</strong> The first-attempt ceiling
-                    estimates were 0.575, 0.575, and 0.586. Actual achieved accuracies were 0.85,
-                    0.85, and 0.90 &mdash; the estimate is off by 25-30 percentage points. Inspecting
-                    the reasoning shows why: the ceiling is a "do nothing" estimate that does not
-                    account for the investigator's own proposed fixes. It is useful as a relative
-                    trend signal (Run&nbsp;2's ceiling rose from 0.575 to 0.8625 between attempts)
-                    but not as an absolute achievability cap.
+                    <strong>The structural-ceiling estimate is miscalibrated.</strong> First-
+                    attempt ceilings clustered around 0.575&ndash;0.586 on Games runs that
+                    ultimately reached 0.85&ndash;0.90. The estimate is a "do nothing" cap
+                    that does not account for the investigator's own proposed fixes. It is
+                    useful as a relative trend signal &mdash; in run B the ceiling was
+                    revised from 0.575 to 0.8625 between attempts &mdash; but not as an
+                    absolute achievability cap.
                 </li>
                 <li>
-                    <strong>Path-dependent routing under identical evidence.</strong> Runs&nbsp;1,
-                    2, and&nbsp;3 see the same cluster-analysis recommendation and reach different
-                    routing decisions. The choice is partly a function of LLM sampling variance,
-                    not purely of the evidence. In practice it is not catastrophic &mdash; all three
-                    runs converge on a reasonable outcome &mdash; but it means the routing policy is
-                    not reproducible even when the diagnosis is.
+                    <strong>Routing under identical evidence is path-dependent.</strong> Runs
+                    A, B, C in the Games deep dive all see the same cluster-analysis
+                    recommendation (<code>MaximumBipartiteMatching</code> post-clustering)
+                    and arrive at different routing decisions. The choice is partly a
+                    function of LLM sampling variance, not purely of the evidence.
+                </li>
+                <li>
+                    <strong>No stagnation override.</strong> Music run <code>120322</code>
+                    repeated the same <code>normalization_node</code> decision three times
+                    while metrics did not improve. The investigator should but does not
+                    treat repeated zero-delta iterations as evidence to forcibly switch
+                    routing strategy.
                 </li>
             </ol>
 
-            <h3>Implications for Agent&nbsp;VII</h3>
-            <ol>
-                <li>
-                    Agent&nbsp;VII's investigator is genuinely reasoning about the pipeline, not
-                    narrating around a random policy. The three runs independently converge on the
-                    same root cause using the same evidence, the same attribute classifications,
-                    and the same protected set. Structural properties of the correspondences drive
-                    the diagnosis, not the top-line accuracy number.
-                </li>
-                <li>
-                    The <strong>routing policy is the weak link</strong>. All three runs had access
-                    to the same cluster-analysis recommendation (<code>MaximumBipartiteMatching</code>
-                    post-clustering), and only Run&nbsp;3 acted on it within
-                    <code>pipeline_adaption</code>. A heuristic that weights cluster-analysis
-                    recommendations more heavily when they name a strategy applicable without
-                    rerunning matching would likely close this gap.
-                </li>
-                <li>
-                    The <strong>code-auditing capability is a genuine strength</strong>. Run&nbsp;1
-                    identified a specific bug in the generated fusion code (<code>maximum</code>
-                    resolver on a string column), explained the causal chain, and proposed a
-                    specific replacement with oracle-derived trust-map weights. That kind of in-the-
-                    loop code audit justifies keeping the investigator node even once the rest of
-                    the pipeline is stable.
-                </li>
-                <li>
-                    The <strong>quality gate fires on a noisy signal</strong>. At n=10 validation
-                    records a single flip moves overall accuracy by 10 percentage points. Run&nbsp;3's
-                    0.90 vs 0.85 validation "win" over the other two is sampling noise, not a
-                    capability gap &mdash; all three converge on ~83% sealed test. Interpreting
-                    validation improvements should take this into account.
-                </li>
-            </ol>
+            <!-- =================== Future work =================== -->
+            <h3 id="reasoning-future-work">Future Work and Lessons Learned</h3>
             <p>
-                In short: the investigator's reasoning is consistent, evidence-grounded, and
-                risk-aware. Its routing is not fully deterministic, but the decisions it reaches
-                are defensible variants of the same causal model. For a project assessment, this
-                is arguably the most meaningful outcome &mdash; the agent is not just producing
-                correct outputs, it is producing correct outputs <em>for the right reasons</em>,
-                and those reasons are directly readable from the investigator JSON trace.
+                The clearest opportunities for the next iteration of Agent&nbsp;VII fall out
+                of the weaknesses identified above:
+            </p>
+            <ul>
+                <li>
+                    <strong>Cluster-recommendation-aware routing.</strong> When the
+                    cluster-evaluation subnode names a strategy that is applicable inside
+                    <code>pipeline_adaption</code> without rerunning the matching tester
+                    (the <code>MaximumBipartiteMatching</code> case), bias the router toward
+                    adaption. Run&nbsp;C in the Games deep dive demonstrates the efficiency
+                    gain: one fewer iteration, 37&nbsp;% lower cost, highest validation
+                    accuracy.
+                </li>
+                <li>
+                    <strong>Stagnation-triggered route override.</strong> If a node has been
+                    selected on two consecutive attempts without raising overall accuracy,
+                    forcibly route to a different node on the third attempt. This addresses
+                    the Music three-norm dead-end pattern directly.
+                </li>
+                <li>
+                    <strong>Resolver-type guardrail.</strong> Run&nbsp;A's catch of the
+                    <code>maximum</code>-on-string bug is the kind of issue that can be
+                    detected statically: applying a numeric resolver to a non-numeric column
+                    should be rejected by <code>code_guardrails.py</code> before pipeline
+                    execution rather than discovered through a regression in
+                    <code>name_accuracy</code>.
+                </li>
+                <li>
+                    <strong>Fix-aware ceiling estimation.</strong> The current ceiling is
+                    computed as a property of the data alone. A more useful estimate would
+                    incorporate the impact of the investigator's own pending recommendations,
+                    so that the headroom-vs-effort comparison the agent uses for routing is
+                    grounded in achievable rather than passive accuracy.
+                </li>
+                <li>
+                    <strong>Cross-run reasoning memory.</strong> Run&nbsp;A caught a code
+                    bug; runs&nbsp;B and&nbsp;C never triggered it because the regenerated
+                    pipeline did not contain the same issue. A persistent
+                    "lessons-learned" cache that survives across runs would let later runs
+                    benefit from earlier findings without rediscovering them.
+                </li>
+                <li>
+                    <strong>Larger validation samples.</strong> At n=10 records a single
+                    flip moves overall accuracy by 10 percentage points, which is louder
+                    than the differences the quality gate is supposed to detect. Larger
+                    validation splits or bootstrap confidence intervals on the gate
+                    threshold would make the early-exit decision more robust.
+                </li>
+            </ul>
+            <p>
+                Read in aggregate, the 28-run dataset supports a clear claim: Agent&nbsp;VII
+                is genuinely reasoning about the pipeline rather than narrating around a
+                random policy. Its diagnoses are reproducible, evidence-grounded,
+                domain-aware, and risk-conscious about regressions. The remaining weaknesses
+                are concrete enough to guide further work, and most of them are about the
+                <em>routing policy</em> rather than the diagnostic capability &mdash; which
+                is, in itself, a useful finding for anyone building the next investigator
+                loop.
             </p>
         </section>
 
