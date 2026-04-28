@@ -337,3 +337,10 @@ table td:first-child {
     font-weight: normal;
     margin-left: 0.5rem;
 }
+
+/* Tight blockquotes inside reasoning-habits list */
+ul.reasoning-habits > li { margin-bottom: 0.6rem; }
+ul.reasoning-habits > li > blockquote {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.95em;
+}

@@ -39,7 +39,7 @@
                         <li><a href="#agent-vii-scaffold">Pipeline Scaffold</a></li>
                         <li><a href="#agent-vii-subsystems">Other Subsystems</a></li>
                         <li>
-                            <a href="#agent-vii-reasoning-study">Reasoning Case Study</a>
+                            <a href="#agent-vii-reasoning-study">Reasoning Case Study (28 runs)</a>
                             <ul>
                                 <li><a href="#reasoning-domain-aware">Domain-Aware Reasoning</a></li>
                                 <li><a href="#reasoning-games-deep-dive">Games Deep Dive (3 Runs)</a></li>
@@ -650,43 +650,26 @@
         <section id="agent-vii">
             <h1>Agent VII: Autonomous Investigation Pipeline</h1>
             <p>
-                Agent&nbsp;VII is a ground-up rebuild of the agent pipeline. Where Agents&nbsp;I-VI
-                incrementally added nodes to a shared notebook architecture, Agent&nbsp;VII restructures the
-                entire system into a modular Python codebase with dedicated helper modules, an LLM-driven
-                investigation agent that can execute diagnostic code, a comprehensive probe system,
-                mechanical code guardrails, and run-scoped output isolation. The result is a substantially
-                more capable and stable agent that achieves validation accuracy above&nbsp;80% across all
-                five use cases (companies, games, music, restaurants, books).
+                Agent&nbsp;VII is a ground-up rebuild of the pipeline. Earlier iterations
+                (Agents&nbsp;I&ndash;VI) suffered from three recurring problems: the
+                single-shot Reasoning Node could only <em>speculate</em> about what went
+                wrong without inspecting the fused data, the feedback loop always routed
+                back to &ldquo;regenerate the entire pipeline&rdquo; regardless of the
+                actual root cause, and LLM-generated code was executed verbatim, so trivial
+                mistakes (missing imports, invalid argument names) consumed entire retry
+                cycles. Agent&nbsp;VII restructures the system into a modular Python
+                codebase that addresses each of these limitations with a dedicated subsystem.
             </p>
-
             <p>
-                The motivation for this redesign stems from fundamental limitations observed in
-                Agents&nbsp;I-VI. Those earlier agents suffered from three recurring problems.
-                First, the single-shot Reasoning Node could only <em>speculate</em> about what went
-                wrong: it received aggregate metrics and a handful of debug events, but could
-                never actually inspect the fused data, trace a mismatched value back to its source, or
-                verify a hypothesis with code. Second, the feedback loop was a blunt instrument: no
-                matter what the problem was (bad blocking, wrong fusion resolver, format mismatch,
-                over-matching), the system always routed back to &ldquo;regenerate the entire
-                pipeline,&rdquo; forcing the LLM to rewrite hundreds of lines of working code just to
-                change a single fusion strategy. Third, LLM-generated code was executed verbatim, so
-                common mistakes (invalid <code>list_strategy</code> arguments, missing imports,
-                wrong output paths) would crash the pipeline and consume an entire retry cycle
-                before anyone discovered the problem.
-            </p>
-
-            <p>
-                Agent&nbsp;VII addresses each of these issues with a dedicated subsystem. The
-                investigation agent replaces passive reasoning with active, multi-turn diagnosis that
-                can write and execute Python code against the actual data. The routing system replaces
-                the single feedback loop with five distinct targets (normalization, blocking tester,
-                matching tester, pipeline generation, and human review), allowing the agent to fix
-                precisely the stage that is broken. The code guardrails system mechanically corrects
-                known LLM mistakes before execution, so that runtime failures reflect genuine data
-                problems rather than trivial code errors. Together with the probe system, the pipeline
-                scaffold, and regression protection, these innovations transform the agent from a
-                trial-and-error code generator into an empirical investigator that diagnoses root
-                causes and applies targeted fixes.
+                The new architecture combines an LLM-driven investigation agent that can
+                <em>write and execute Python code</em> to test hypotheses, a routing system
+                with five distinct targets (normalization, blocking, matching, pipeline
+                generation, human review), a comprehensive probe system that gathers
+                pre-computed evidence, mechanical code guardrails that catch known mistakes
+                before execution, and run-scoped output isolation. Validation accuracy lands
+                between 0.68 and 0.91 across the five use cases (mean 0.78 on the held-out
+                sealed test); more importantly, no run regressed catastrophically, which is
+                the property the regression guard was designed to protect.
             </p>
 
             <div class="admonition">
@@ -2304,28 +2287,49 @@
 
         <!-- Agent VII: Reasoning Case Study -->
         <section id="agent-vii-reasoning-study">
-            <h2>Reasoning Case Study: How Agent&nbsp;VII Actually Thinks</h2>
+            <h2>Reasoning Case Study: Cross-Domain Analysis of 28 Runs</h2>
             <p>
-                The preceding subsections describe <em>what</em> Agent&nbsp;VII is built to
-                do. This section asks the harder question: <em>does it actually reason</em>,
-                or is the structured "diagnosis" just narrative wrapping around a stochastic
-                routing policy? Because <code>investigator_node</code> writes a structured
-                JSON record at every turn &mdash; with a diagnosis paragraph, a reasoning
-                paragraph, a routing decision, a structural-ceiling estimate, and per-attribute
-                recommendations classified as <code>improvable</code> or <code>structurally_limited</code>
-                &mdash; the agent's thought process is directly inspectable.
+                The preceding subsections describe what Agent&nbsp;VII is built to do.
+                This section shows how it actually reasons in practice. Every time
+                <code>investigator_node</code> fires it writes a structured JSON record &mdash;
+                diagnosis, reasoning, routing decision, structural-ceiling estimate,
+                per-attribute recommendations &mdash; so the agent's thought process is
+                directly inspectable. The analysis below draws on <strong>28 clean
+                Agent&nbsp;VII runs</strong> across three domains (Games&nbsp;n=14,
+                Music&nbsp;n=10, Books&nbsp;n=4) executed between 22 March and 23 April 2026.
+                All quotes are verbatim from
+                <code>output/runs/&lt;run_id&gt;/investigation/investigation_*.json</code>;
+                the full per-attempt traces for eleven representative runs live in
+                <code><a href="https://github.com/gdebus/data-integration-team-project/blob/main/agents/reasoning_traces.md">agents/reasoning_traces.md</a></code>.
             </p>
-            <p>
-                The analysis below draws on <strong>28 clean Agent&nbsp;VII runs</strong>
-                across three domains (Games&nbsp;n=14, Music&nbsp;n=10, Books&nbsp;n=4),
-                executed between 22 March and 23 April 2026 against the same dataset
-                inventory. All quotes in this section are verbatim from
-                <code>output/runs/&lt;run_id&gt;/investigation/investigation_*.json</code>.
-                Full per-attempt traces (every diagnosis, reasoning, recommendation across
-                eleven representative runs) are checked into the repository at
-                <code><a href="https://github.com/gdebus/data-integration-team-project/blob/nblazek_final/agents/reasoning_traces.md">agents/reasoning_traces.md</a></code>;
-                the website carries only the headline analysis.
-            </p>
+
+            <div class="admonition" style="background-color:#eef6ff; border-left-color:#2563eb;">
+                <span class="admonition-title" style="color:#1e40af;">Headline findings</span>
+                <ul style="margin:0;">
+                    <li><strong>Domain-aware routing is emergent, not engineered.</strong>
+                        Books triggers <code>normalization_node</code> in 80&nbsp;% of decisions,
+                        Games triggers <code>pipeline_adaption</code> or
+                        <code>run_matching_tester</code> in 94&nbsp;%, Music splits 64/36 between
+                        adaption and normalization. The investigator picks up dominant failure
+                        modes from evidence alone
+                        (<a href="#reasoning-domain-aware">details</a>).</li>
+                    <li><strong>Diagnosis is reproducible, routing is not.</strong> All three
+                        Games runs A/B/C name the same root cause from identical evidence but
+                        disagree on which node to route to next; Run&nbsp;C's choice was the
+                        most efficient
+                        (<a href="#reasoning-games-deep-dive">details</a>).</li>
+                    <li><strong>The investigator combines five evidence sources per decision</strong>
+                        (cluster analysis, probes, source-vs-validation oracle, scaffold
+                        constraints, iteration history)
+                        (<a href="#reasoning-habits">details</a>).</li>
+                    <li><strong>Three observed weaknesses</strong> &mdash; miscalibrated structural
+                        ceiling, path-dependent routing, no stagnation override
+                        (<a href="#reasoning-weaknesses">details</a>).</li>
+                    <li><strong>Biggest open extension: custom fusion / normalization functions</strong>,
+                        deliberately not implemented this iteration to protect pipeline stability
+                        (<a href="#reasoning-future-work">details</a>).</li>
+                </ul>
+            </div>
 
             <!-- =================== Domain-Aware Reasoning =================== -->
             <h3 id="reasoning-domain-aware">Domain-Aware Reasoning Across 28 Runs</h3>
@@ -2492,6 +2496,30 @@
 
             <!-- =================== Music & Books mini-cases =================== -->
             <h3 id="reasoning-music-books">Music &amp; Books: Two Contrasting Mini-Cases</h3>
+            <p>
+                The Games deep dive isolated the routing-decision question. Music and Books
+                show the same reasoning machinery solving structurally different problems.
+                Four representative runs frame the contrast:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domain</th>
+                        <th>Run</th>
+                        <th>Iters</th>
+                        <th>Val</th>
+                        <th>Sealed Test</th>
+                        <th>Routing</th>
+                        <th>Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Music</td><td><code>095052</code></td><td><strong>1</strong></td><td>0.863</td><td>0.793</td><td>adaption</td><td>One-shot resolver fix</td></tr>
+                    <tr><td>Music</td><td><code>120322</code></td><td>3</td><td>0.726</td><td>0.645</td><td>3&times; norm</td><td><strong>Dead-end loop</strong></td></tr>
+                    <tr><td>Books</td><td><code>035936</code></td><td><strong>1</strong></td><td><strong>0.912</strong></td><td><strong>0.887</strong></td><td>norm</td><td>Best one-shot in dataset</td></tr>
+                    <tr><td>Books</td><td><code>155058</code></td><td>3</td><td>0.713</td><td>0.825</td><td>2&times; norm &rarr; adaption</td><td>Norm first, then resolver tweak</td></tr>
+                </tbody>
+            </table>
 
             <h4>Music: a one-shot adaption win and a three-norm dead-end</h4>
             <p>
@@ -2545,24 +2573,24 @@
             </p>
             <div class="admonition" style="margin-top: 0.5rem;">
                 <p style="margin:0;">
-                    <strong>Cluster-analysis subnode</strong> (ambiguity ratio, max cluster
-                    size, recommended post-clustering strategy)<br>
-                    <span style="color:#888;">+</span>
-                    <strong>Probe system</strong> (blocking-recall checks,
-                    correspondence-density checks)<br>
-                    <span style="color:#888;">+</span>
-                    <strong>Source-vs-validation oracle</strong> (per-attribute exact-match
-                    rate per source &mdash; the closest thing to ground truth at decision time)<br>
-                    <span style="color:#888;">+</span>
-                    <strong>Pipeline scaffold</strong> (which stages are frozen vs editable
-                    given the current route)<br>
-                    <span style="color:#888;">+</span>
-                    <strong>Iteration history</strong> (what's been tried, what regressed,
-                    structural ceiling estimate trajectory)<br>
-                    <span style="color:#888;">=</span>
-                    <strong>One routing decision plus per-attribute fix recommendations,
-                    each tagged <code>improvable</code> or
-                    <code>structurally_limited</code></strong>.
+                    <strong>Inputs (evidence the investigator reads).</strong><br>
+                    &bull; <strong>Cluster-analysis subnode</strong> &mdash; ambiguity ratio,
+                    max cluster size, recommended post-clustering strategy<br>
+                    &bull; <strong>Probe system</strong> &mdash; blocking-recall checks,
+                    correspondence-density checks, mismatch-reason breakdown<br>
+                    &bull; <strong>Source-vs-validation oracle</strong> &mdash; per-attribute
+                    per-source exact-match rate (the closest thing to ground truth at decision
+                    time)<br>
+                    &bull; <strong>Iteration history</strong> &mdash; what's been tried, what
+                    regressed, structural-ceiling-estimate trajectory<br><br>
+                    <strong>Constraint (the route's scope of action).</strong><br>
+                    &bull; <strong>Pipeline scaffold</strong> &mdash; defines which stages are
+                    frozen vs editable per route, so the investigator's recommendations are
+                    bounded to fixes the chosen node is actually allowed to make<br><br>
+                    <strong>Output.</strong><br>
+                    &bull; <strong>One routing decision</strong> + per-attribute fix
+                    recommendations, each tagged <code>improvable</code> or
+                    <code>structurally_limited</code> with an expected-impact estimate.
                 </p>
             </div>
             <p>
@@ -2571,32 +2599,33 @@
                 show up consistently &mdash; each one paired with a verbatim example from
                 the traces:
             </p>
-            <ul>
+            <ul class="reasoning-habits">
                 <li>
-                    <strong>Anchor in concrete mismatch examples.</strong> &mdash;
-                    <em>"Plants vs Zombies: Garden Warfare&nbsp;2 fused as Lego Star Wars;
-                    NBA 2K12 fused as Madden NFL&nbsp;07."</em>
+                    <strong>Anchor in concrete mismatch examples.</strong>
+                    <blockquote>&ldquo;Plants vs Zombies: Garden Warfare&nbsp;2 fused as Lego
+                    Star Wars; NBA 2K12 fused as Madden NFL&nbsp;07.&rdquo;</blockquote>
                 </li>
                 <li>
-                    <strong>Distinguish entity errors from formatting errors.</strong> &mdash;
-                    <em>"Cross-entity value mismatches rather than systematic formatting
-                    differences."</em>
+                    <strong>Distinguish entity errors from formatting errors.</strong>
+                    <blockquote>&ldquo;Cross-entity value mismatches rather than systematic
+                    formatting differences.&rdquo;</blockquote>
                 </li>
                 <li>
-                    <strong>Resolve apparent contradictions in the metrics.</strong> &mdash;
-                    <em>"Matching F1 around 0.86-0.89 looks decent globally, but cluster
-                    diagnostics reveal pairwise ambiguity severe enough to corrupt downstream
-                    entity fusion."</em>
+                    <strong>Resolve apparent contradictions in the metrics.</strong>
+                    <blockquote>&ldquo;Matching F1 around 0.86&ndash;0.89 looks decent globally,
+                    but cluster diagnostics reveal pairwise ambiguity severe enough to corrupt
+                    downstream entity fusion.&rdquo;</blockquote>
                 </li>
                 <li>
-                    <strong>Protect attributes already above target.</strong> &mdash;
-                    <em>"16 attributes are above 85%; recommendations should be narrowly
-                    targeted to avoid regressions."</em>
+                    <strong>Protect attributes already above target.</strong>
+                    <blockquote>&ldquo;16 attributes are above 85&nbsp;%; recommendations should
+                    be narrowly targeted to avoid regressions.&rdquo;</blockquote>
                 </li>
                 <li>
-                    <strong>Classify improvability against the source oracle.</strong> &mdash;
-                    <em>"All sources are ~2-3% exact on developer against validation, so no
-                    trust map or resolver reliably recovers truth."</em>
+                    <strong>Classify improvability against the source oracle.</strong>
+                    <blockquote>&ldquo;All sources are ~2&ndash;3&nbsp;% exact on developer
+                    against validation, so no trust map or resolver reliably recovers
+                    truth.&rdquo;</blockquote>
                 </li>
             </ul>
             <img src="images/agent_vii_improvability_heatmap.png" alt="Heatmap of per-attribute improvability classifications across 28 runs, grouped by domain">
@@ -2784,79 +2813,41 @@
             </p>
 
             <h4>Other concrete next steps</h4>
+            <p>
+                Beyond custom functions, three smaller but well-defined improvements drop
+                directly out of the observed weaknesses:
+            </p>
             <ul>
                 <li>
                     <strong>Cluster-recommendation-aware routing.</strong> When the
-                    cluster-evaluation subnode names a strategy that is applicable inside
-                    <code>pipeline_adaption</code> without rerunning the matching tester
-                    (the <code>MaximumBipartiteMatching</code> case), bias the router toward
-                    adaption. Run&nbsp;C in the Games deep dive demonstrates the efficiency
-                    gain: one fewer iteration, 37&nbsp;% lower cost, highest validation
-                    accuracy.
+                    cluster-evaluation subnode names a strategy that
+                    <code>pipeline_adaption</code> can apply without rerunning the matching
+                    tester, bias the router toward adaption. Run&nbsp;C in the Games deep
+                    dive demonstrates the gain: one fewer iteration, 37&nbsp;% lower cost,
+                    highest validation accuracy of the three runs.
                 </li>
                 <li>
-                    <strong>Stagnation-triggered route override.</strong> If a node has been
-                    selected on two consecutive attempts without raising overall accuracy,
-                    forcibly route to a different node on the third attempt. This addresses
-                    the Music three-norm dead-end pattern directly.
+                    <strong>Stagnation override.</strong> If a node is selected on two
+                    consecutive attempts without raising overall accuracy, forcibly route
+                    to a different node on the third attempt. Addresses the Music three-norm
+                    dead-end pattern directly.
                 </li>
                 <li>
-                    <strong>Resolver-type guardrail.</strong> Run&nbsp;A's catch of the
-                    <code>maximum</code>-on-string bug is the kind of issue that can be
-                    detected statically: applying a numeric resolver to a non-numeric column
-                    should be rejected by <code>code_guardrails.py</code> before pipeline
-                    execution rather than discovered through a regression in
-                    <code>name_accuracy</code>.
-                </li>
-                <li>
-                    <strong>Fix-aware ceiling estimation.</strong> The current ceiling is
-                    computed as a property of the data alone. A more useful estimate would
-                    incorporate the impact of the investigator's own pending recommendations,
-                    so that the headroom-vs-effort comparison the agent uses for routing is
-                    grounded in achievable rather than passive accuracy.
-                </li>
-                <li>
-                    <strong>Cross-run reasoning memory.</strong> Run&nbsp;A caught a code
-                    bug; runs&nbsp;B and&nbsp;C never triggered it because the regenerated
-                    pipeline did not contain the same issue. A persistent
-                    "lessons-learned" cache that survives across runs would let later runs
-                    benefit from earlier findings without rediscovering them.
-                </li>
-                <li>
-                    <strong>Larger validation samples.</strong> At n=10 records a single
-                    flip moves overall accuracy by 10 percentage points, which is louder
-                    than the differences the quality gate is supposed to detect. Larger
-                    validation splits or bootstrap confidence intervals on the gate
-                    threshold would make the early-exit decision more robust.
+                    <strong>Resolver-type guardrail.</strong> The <code>maximum</code>-on-string
+                    bug Run&nbsp;A caught at runtime can be rejected statically by
+                    <code>code_guardrails.py</code> before execution &mdash; numeric resolver
+                    on a non-numeric column is a one-line check.
                 </li>
             </ul>
 
             <p>
-                Read in aggregate, the 28-run dataset supports a clear claim: Agent&nbsp;VII
-                is genuinely reasoning about the pipeline rather than narrating around a
-                random policy. Its diagnoses are reproducible, evidence-grounded,
+                Across 28 runs Agent&nbsp;VII's diagnoses are reproducible, evidence-grounded,
                 domain-aware, and risk-conscious about regressions. The remaining weaknesses
-                are concrete enough to guide further work, and most of them are about the
-                <em>routing policy</em> and the <em>expressive scope of the fix language</em>
-                rather than the diagnostic capability &mdash; which is, in itself, a useful
-                finding for anyone building the next investigator loop.
+                are about the <em>routing policy</em> and the <em>expressive scope of the
+                fix language</em> rather than the diagnostic capability itself &mdash; which
+                is, in itself, a useful finding for anyone building the next investigator
+                loop.
             </p>
-
-            <div class="admonition" style="margin-top:1.5rem; background-color:#eef6ff; border-left-color:#2563eb;">
-                <span class="admonition-title" style="color:#1e40af;">What to take away</span>
-                <p style="margin:0;">
-                    Across 28 runs the investigator's <strong>diagnosis is reproducible</strong>
-                    and <strong>routes domain-aware</strong> &mdash; Books to normalization,
-                    Games to adaption/matching, Music to a mix &mdash; without ever being
-                    told what kind of failure to expect. Each routing decision is a fusion
-                    of cluster analysis, probe results, the source-vs-validation oracle,
-                    pipeline-scaffold constraints, and iteration history. The biggest
-                    open opportunities are tighter routing under stagnation and adding
-                    <em>custom</em> fusion / normalization functions on top of the existing
-                    PyDI catalogue &mdash; deliberately skipped this iteration to protect
-                    pipeline stability, but well-positioned as the next extension.
-                </p>
-            </div>
         </section>
 
         <!-- ============================================================ -->
