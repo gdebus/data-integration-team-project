@@ -372,3 +372,20 @@ ul.reasoning-habits > li > blockquote {
 #sidebar nav ul ul li { margin-bottom: 0.1rem; }
 #sidebar nav ul ul a { padding: 0.2rem 0; line-height: 1.25; }
 #sidebar nav ul ul ul { margin-top: 0.15rem; margin-bottom: 0.15rem; font-size: 0.95em; }
+
+/* Tone down h3s inside the Agent VII reasoning study so they read as
+   subsections of one analysis rather than as separate chapters. */
+#agent-vii-reasoning-study h3 {
+    font-size: 1.15rem;
+    margin-top: 2rem;
+    margin-bottom: 0.6rem;
+    color: var(--primary-color);
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+#agent-vii-reasoning-study h4 {
+    font-size: 1rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.4rem;
+    color: var(--primary-color);
+}
