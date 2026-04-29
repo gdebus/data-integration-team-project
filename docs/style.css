@@ -133,27 +133,45 @@ pre code {
     font-size: 100%;
 }
 
+/* Prism overrides inside code cells */
+.code-cell pre[class*="language-"],
+.code-cell code[class*="language-"] {
+    background: #2d2d2d !important;
+    font-size: 0.78rem !important;
+    line-height: 1.55 !important;
+    text-shadow: none !important;
+}
+
 .code-cell {
-    border: 1px solid var(--border-color);
+    border: 1px solid #3a3f4b;
     border-radius: 6px;
     margin: 1rem 0 1.5rem;
     overflow: hidden;
-    background-color: #f6f8fa;
+    background-color: #2d2d2d;
 }
 
 .code-cell-title {
-    background-color: #eef2f6;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--primary-color);
+    background-color: #1e1e2e;
+    border-bottom: 1px solid #3a3f4b;
+    color: #a0aec0;
     font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-    font-size: 0.82rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    padding: 0.55rem 0.8rem;
+    letter-spacing: 0.04em;
+    padding: 0.45rem 0.8rem;
 }
 
 .code-cell pre {
     border-radius: 0;
     margin-bottom: 0;
+    background: #2d2d2d !important;
+    padding: 0.9rem 1rem !important;
+}
+
+.code-cell pre code {
+    font-size: 0.78rem !important;
+    line-height: 1.55 !important;
+    background: transparent !important;
 }
 
 a {

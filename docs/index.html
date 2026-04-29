@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Project - LLM-Agents in Data Integration</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
 </head>
 <body>
@@ -1130,7 +1131,7 @@
                 <code>configure_run_output()</code> redirects all output paths at startup, so no two runs
                 can overwrite each other&rsquo;s artifacts. Inside each run directory:
             </p>
-            <pre><code>output/runs/20260320_143052_music/
+            <pre><code class="language-python">output/runs/20260320_143052_music/
 ├── agent.log
 ├── blocking-evaluation/
 ├── matching-evaluation/
@@ -1903,7 +1904,7 @@
                 and <strong>overcorrection risk</strong>.
                 It returns a JSON verdict:
             </p>
-            <pre><code>{
+            <pre><code class="language-python">{
   "verdict": "pass" | "revise",
   "summary": "short explanation",
   "problem_classes": ["..."],
@@ -3360,7 +3361,7 @@
 
             <div class="code-cell">
                 <div class="code-cell-title">Games column example: cycle 1 name fusion failure</div>
-                <pre><code># Source names in a multi-platform cluster
+                <pre><code class="language-python"># Source names in a multi-platform cluster
 dbpedia.name = "Dark Souls III"
 metacritic.name = "Dark Souls III"
 sales.name = "Dark Souls III - PC"
@@ -3380,7 +3381,7 @@ name = "Dark Souls III"
 
             <div class="code-cell">
                 <div class="code-cell-title">Games column example: cycle 1 criticScore fusion failure</div>
-                <pre><code># Source criticScore values in one cluster
+                <pre><code class="language-python"># Source criticScore values in one cluster
 metacritic.criticScore = 89.0
 sales.criticScore = 87.0
 
@@ -3422,7 +3423,7 @@ criticScore = 89.0  # metacritic is the authoritative score source
 
             <div class="code-cell">
                 <div class="code-cell-title">Games example: investigator evidence and routing decision</div>
-                <pre><code># What the investigator saw after cycle 1
+                <pre><code class="language-python"># What the investigator saw after cycle 1
 pairwise_matching_f1 = {
     "dbpedia_sales": 0.864,
     "metacritic_dbpedia": 0.887,
@@ -3455,7 +3456,7 @@ next_node = "run_matching_tester"
 
             <div class="code-cell">
                 <div class="code-cell-title">Games structural fix: per-pair post-clustering</div>
-                <pre><code># Cycle 1: no post-clustering
+                <pre><code class="language-python"># Cycle 1: no post-clustering
 all_rb_correspondences = pd.concat([
     rb_correspondences_dbpedia_metacritic,
     rb_correspondences_dbpedia_sales,
@@ -3476,7 +3477,7 @@ all_rb_correspondences = pd.concat([
 
             <div class="code-cell">
                 <div class="code-cell-title">Games column fix: name resolver</div>
-                <pre><code># Cycle 1
+                <pre><code class="language-python"># Cycle 1
 strategy.add_attribute_fuser("name", voting)
 
 # Cycle 2
@@ -3489,7 +3490,7 @@ strategy.add_attribute_fuser("name", shortest_string)
 
             <div class="code-cell">
                 <div class="code-cell-title">Games column fix: criticScore trust and resolver</div>
-                <pre><code># Source-attribution evidence
+                <pre><code class="language-python"># Source-attribution evidence
 criticScore_exact_match = {
     "metacritic": 0.94,
     "sales": 0.51,
@@ -3719,7 +3720,7 @@ strategy.add_attribute_fuser("criticScore", prefer_higher_trust, trust_map=trust
 
             <div class="code-cell">
                 <div class="code-cell-title">Music column example: initial track-level fusion</div>
-                <pre><code># Cycle 1: track-level fusion using favour_sources with musicbrainz first
+                <pre><code class="language-python"># Cycle 1: track-level fusion using favour_sources with musicbrainz first
 strategy.add_attribute_fuser(
     "tracks_track_name",
     favour_sources,
@@ -3738,7 +3739,7 @@ strategy.add_attribute_fuser(
 
             <div class="code-cell">
                 <div class="code-cell-title">Music column example: cycle 1 duration and label failure</div>
-                <pre><code># Cycle 1 resolvers
+                <pre><code class="language-python"># Cycle 1 resolvers
 strategy.add_attribute_fuser("duration", maximum)
 strategy.add_attribute_fuser("label", most_complete)
 
@@ -3776,7 +3777,7 @@ label_exact_match = {
 
             <div class="code-cell">
                 <div class="code-cell-title">Music example: investigator source attribution evidence</div>
-                <pre><code># Source attribution after cycle 1
+                <pre><code class="language-python"># Source attribution after cycle 1
 source_attribution = {
     "duration":  {"discogs": 0.81, "musicbrainz": 0.62, "lastfm": 0.44},
     "label":     {"discogs": 0.88, "musicbrainz": 0.71, "lastfm": 0.09},
@@ -3810,7 +3811,7 @@ next_node = "pipeline_adaption"
 
             <div class="code-cell">
                 <div class="code-cell-title">Music column fix: duration resolver</div>
-                <pre><code># Cycle 1
+                <pre><code class="language-python"># Cycle 1
 strategy.add_attribute_fuser("duration", maximum)
 
 # Cycle 2
@@ -3827,7 +3828,7 @@ strategy.add_attribute_fuser(
 
             <div class="code-cell">
                 <div class="code-cell-title">Music column fix: tracks_track_name source preference</div>
-                <pre><code># Cycle 1
+                <pre><code class="language-python"># Cycle 1
 strategy.add_attribute_fuser(
     "tracks_track_name",
     favour_sources,
@@ -3864,7 +3865,7 @@ strategy.add_attribute_fuser(
 
             <div class="code-cell">
                 <div class="code-cell-title">Music column fix: artist resolver (cycle 2 → cycle 3)</div>
-                <pre><code># Cycle 2
+                <pre><code class="language-python"># Cycle 2
 trust_map_artist = {"musicbrainz": 3, "discogs": 2, "lastfm": 1}
 strategy.add_attribute_fuser("artist", prefer_higher_trust, trust_map=trust_map_artist)
 
@@ -3891,7 +3892,7 @@ strategy.add_attribute_fuser("artist", longest_string)
 
             <div class="code-cell">
                 <div class="code-cell-title">Music column adjustments: cycle 4 (no further gain)</div>
-                <pre><code># Cycle 3
+                <pre><code class="language-python"># Cycle 3
 strategy.add_attribute_fuser(
     "duration",
     prefer_higher_trust,
@@ -4090,230 +4091,279 @@ strategy.add_attribute_fuser(
 
             <h4 id="books-in-depth-analysis">In-Depth Analysis: Agent VII</h4>
             <p>
-                Agent VII's Books run shows a different kind of correction than Restaurants. The first
-                executable pipeline already reached <strong>76.25%</strong>, and the evaluation did not show a
-                missing-record problem. Instead, <code>evaluation_node</code> found real value mismatches in
-                already matched entities. That distinction changed the whole reasoning path: the agent did not
-                need to rescue cluster identity first, it needed to understand which fused attributes were being
-                formatted or selected incorrectly.
+                <strong>Run:</strong> <code>20260323_035936_books</code> &middot;
+                amazon_small, goodreads_small, metabooks_small (10&thinsp;k rows each)<br>
+                <strong>Trajectory:</strong> 76.25% &rarr; 91.25% (validation) &rarr; 88.75% (sealed test)
             </p>
 
-            <h5>Cycle 1: Initial Pipeline and Failure</h5>
+            <h5>Setup: Normalization and Blocking</h5>
             <p>
-                In the first pass, <code>normalization_node</code> handled the obvious type and style differences.
-                It stripped whitespace, title-cased Amazon authors, and converted <code>publish_year</code> and
-                <code>page_count</code> from float-like values to integers where needed. Then
-                <code>run_blocking_tester</code> chose semantic blocking for all three source pairs because Books
-                had no reliable exact-match anchor like restaurant phone numbers. <code>run_matching_tester</code>
-                built pair-specific comparison rules around title, author, publisher, year, and genres.
+                Agent VII's Books run began with <code>build_dataset_probe()</code> sampling each source and
+                sending column type statistics to the LLM. Several mismatches were immediately visible:
+                <code>publish_year</code> and <code>page_count</code> were stored as floats in Goodreads and
+                Metabooks (<code>2001.0</code>, <code>256.0</code>) while the target schema expected integers,
+                and Amazon's author column was in all-caps initials. The LLM's recorded reasoning was:
+            </p>
+            <blockquote>
+                <p><em>"Target style preserves title/author/publisher capitalization in normal title case, uses
+                integer values for publish_year and page_count. Amazon author values visibly mismatch due to
+                all-caps initials (e.g. A.S. BYATT), so author is title-cased there; other text columns mainly
+                need safe whitespace cleanup."</em></p>
+            </blockquote>
+            <p>
+                One pattern the normalization LLM did not catch was <code>genres</code>. Goodreads and Metabooks
+                stored genres as comma-separated strings — <code>"fiction, romance, thriller"</code> — a
+                list-like structure. In the Restaurant run, <code>categories</code> had been correctly flagged
+                under <code>list_columns</code>, enabling token-level <code>union</code> at fusion. Here
+                <code>list_columns</code> came back empty, so <code>genres</code> would enter fusion as whole
+                strings. This omission set up the largest single error in Iteration 1.
+            </p>
+            <p>
+                A second normalization gap was handled differently. Goodreads author fields contained role
+                annotations (<code>"John Green (Goodreads Author)"</code>). The normalization spec has no regex
+                capability — it only supports <code>case</code>, <code>strip_whitespace</code>,
+                <code>output_type</code>. <code>pipeline_adaption</code> recognized the pattern during pipeline
+                code generation and added inline preprocessing in the mutable scaffold section:
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Books column example: numeric normalization</div>
-                <pre><code># Before normalization
-goodreads_small["publish_year"] = "2001.0"
-metabooks_small["page_count"] = "256.0"
-
-# normalization_node output
-goodreads_small["publish_year"] = 2001
-metabooks_small["page_count"] = 256
-
-# Reasoning:
-# validation expects integer-style bibliographic fields, not float-like strings.</code></pre>
+                <div class="code-cell-title">Author role-annotation cleanup — added by pipeline_adaption, not normalization_node</div>
+                <pre><code class="language-python">goodreads_small["author"] = (
+    goodreads_small["author"]
+    .astype("string")
+    .str.replace(r"\s*\(Goodreads Author\)\s*", "", regex=True)
+    .str.strip()
+)</code></pre>
             </div>
 
             <p>
-                The first generated pipeline was successful enough to produce a complete fused output, but its
-                fusion choices created two main value problems. <code>genres</code> used a union resolver with
-                <code>"; "</code> as the separator, so source genre strings were preserved as chunks instead of
-                being flattened into the comma-separated style expected by validation. <code>publisher</code> used
-                <code>longest_string</code>, which favored verbose imprint names over shorter canonical publisher
-                values. These decisions were not runtime failures; they were resolver and formatting choices that
-                only became visible after evaluation.
+                Books had no high-cardinality exact-match anchor — no ISBN in the evaluated schema, no phone
+                number. Every source pair followed the same two-attempt pattern: the first attempt used
+                token-based blocking and returned pair completeness around 0.85, below the 0.90 threshold. On
+                the second attempt, all three pairs switched to <code>semantic_similarity</code> via
+                EmbeddingBlocker with <code>top_k=15</code>. The same book title —
+                <em>"Harry Potter and the Sorcerer's Stone"</em> vs <em>"Harry Potter and the Philosopher's
+                Stone"</em> — embeds to nearly identical vectors and ends up as neighbors, where an exact
+                matcher sees two different strings. Final pair completeness: 99.8%, 99.4%, 99.5%. Blocking was
+                not the bottleneck going into the first evaluation.
+            </p>
+
+            <h5>Iteration 1 and Investigation</h5>
+            <p>
+                The Iteration 1 pipeline generated a fusion strategy with a global trust map
+                (<code>amazon=3, goodreads=2, metabooks=2</code>) and three resolver choices that would prove
+                directly harmful: <code>genres</code> with <code>union(separator="; ")</code>, and both
+                <code>publisher</code> and <code>author</code> with <code>longest_string</code>.
+            </p>
+            <p>
+                The pipeline ran without crashing and found all 10 validation records
+                (<code>missing_fused_value = 0%</code>, <code>mapped_coverage_ratio = 1.0</code>). The problems
+                were entirely in the values returned. <code>_probe_reason_distribution()</code> returned
+                0% <code>missing_fused_value</code>, 100% <code>mismatch</code> — a completely different failure
+                mode from Restaurants. <code>_probe_worst_attributes()</code> surfaced <code>genres</code> at
+                10%, <code>publisher</code> at 60%, and <code>page_count</code> at 70%.
+                <code>_probe_mismatch_sampler()</code> showed why <code>genres</code> failed so sharply:
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Books column example: cycle 1 genres failure</div>
-                <pre><code># Cycle 1 fused value
+                <div class="code-cell-title">Iteration 1 — genres serialization failure</div>
+                <pre><code class="language-python"># fused output  (union with separator="; ")
 genres = [
     "christian fiction, fiction, romance, christian, christian romance",
     "religion, spirituality, literature, fiction",
 ]
 
-# Expected validation style
+# validation expected
 genres = "christian fiction, fiction, romance, christian, christian romance, religion, spirituality, literature, fiction"
 
-# Problem:
-# union(separator="; ") preserved each source genre string as a separate chunk.</code></pre>
+# The union resolver treated each source's entire genre string as one indivisible item.
+# Content was mostly correct — _probe_source_attribution() showed 90% fuzzy match.
+# The serialization shape was wrong.</code></pre>
             </div>
 
-            <div class="code-cell">
-                <div class="code-cell-title">Books column example: cycle 1 publisher failure</div>
-                <pre><code># Source values in one cluster
-amazon_small.publisher = "Simon &amp; Schuster (Trade Division)"
-goodreads_small.publisher = "Simon &amp; Schuster"
-metabooks_small.publisher = "Simon &amp; Schuster"
-
-# Cycle 1 resolver
-publisher = longest_string([
-    amazon_small.publisher,
-    goodreads_small.publisher,
-    metabooks_small.publisher,
-])
-
-# Cycle 1 fused value
-publisher = "Simon &amp; Schuster (Trade Division)"
-
-# Expected value
-publisher = "Simon &amp; Schuster"</code></pre>
-            </div>
-
-            <h5>Evaluation and Investigation</h5>
             <p>
-                The evaluation result was <strong>76.25%</strong>. The important diagnostic signal was that
-                <code>_probe_reason_distribution()</code> reported no meaningful <code>missing_fused_value</code>
-                pattern. Through <code>run_investigator_probes()</code>, the investigator then used
-                <code>_probe_mismatch_sampler()</code> to inspect concrete errors and
-                <code>_probe_source_attribution()</code> to compare each source against validation. This separated
-                formatting problems from structural disagreements.
-            </p>
-
-            <p>
-                The reasoning was especially clear for <code>genres</code>. Exact matches were poor, but fuzzy
-                matches were high, so the content was mostly present and the serialization was wrong. That pointed
-                to a normalization and formatting issue rather than a matching issue. For <code>publisher</code>,
-                source attribution showed <code>metabooks_small</code> was closest to validation, while
-                <code>longest_string</code> was selecting overly verbose alternatives. The investigator therefore
-                routed the workflow back to <code>normalization_node</code> first, because the highest-impact
-                <code>genres</code> fix had to happen before or during pre-fusion formatting, not only by changing
-                a resolver.
-            </p>
-
-            <h5>Cycle 2: Acting on the Reasoning</h5>
-            <p>
-                In the second cycle, <code>normalization_node</code> adjusted the Books inputs by improving
-                <code>metabooks_small</code> genre casing. After that, <code>pipeline_adaption</code> acted on the
-                investigator's recommendations in the generated pipeline. It changed the <code>genres</code> union
-                separator from <code>"; "</code> to <code>", "</code>, changed <code>publisher</code> from
-                <code>longest_string</code> to <code>prefer_higher_trust</code>, and flipped the trust map so
-                <code>metabooks_small</code> became the preferred publisher source.
+                For <code>publisher</code>, <code>_probe_source_attribution()</code> showed the trust map was
+                pointing to the worst source:
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Books column fix: genres separator and flattening</div>
-                <pre><code># Cycle 1
-strategy.add_attribute_fuser("genres", union, separator="; ")
-
-cycle_1_output = [
-    "historical fiction, fiction, classics",
-    "young adult, literature, fiction",
-]
-
-# Cycle 2
-strategy.add_attribute_fuser("genres", union, separator=", ")
-
-cycle_2_output = "historical fiction, fiction, classics, young adult, literature, fiction"</code></pre>
-            </div>
-
-            <div class="code-cell">
-                <div class="code-cell-title">Books column fix: publisher source trust</div>
-                <pre><code># Source-attribution evidence
+                <div class="code-cell-title">Iteration 1 — publisher source attribution vs. trust map</div>
+                <pre><code class="language-python"># _probe_source_attribution() output
 publisher_exact_match = {
-    "amazon_small": 0.20,
+    "amazon_small":    0.20,   # global trust = 3  ← highest trust, worst alignment
     "goodreads_small": 0.60,
-    "metabooks_small": 0.89,
+    "metabooks_small": 0.89,   # global trust = 2  ← lowest trust, best alignment
 }
 
-# Cycle 1
-trust_map = {
-    "amazon_small": 3,
-    "goodreads_small": 2,
-    "metabooks_small": 2,
-}
+# longest_string examples
+longest_string_chose  = "Simon &amp; Schuster (Trade Division)"
+validation_expected   = "Simon &amp; Schuster"
 
-strategy.add_attribute_fuser("publisher", longest_string)
-
-# Cycle 2
-trust_map = {
-    "amazon_small": 1,
-    "goodreads_small": 2,
-    "metabooks_small": 3,
-}
-
-strategy.add_attribute_fuser("publisher", prefer_higher_trust, trust_map=trust_map)</code></pre>
+longest_string_chose  = "Vintage Books USA"
+validation_expected   = "Vintage"</code></pre>
             </div>
 
             <p>
-                <code>pipeline_adaption</code> also added <code>MaximumBipartiteMatching</code>, but more
-                conservatively than in Restaurants: it applied post-clustering per source pair before concatenating
-                correspondences. That kept book clusters stable while reducing a few ambiguous edition matches.
-                The important point is that the agent did not treat all weak columns equally. It protected fields
-                that were already stable, treated <code>page_count</code> as partly limited by edition differences,
-                and focused the second cycle on the two columns where probe evidence showed a realistic correction.
+                The investigator had two routing options: <code>normalization_node</code> or
+                <code>pipeline_adaption</code>. <code>_probe_mismatch_sampler()</code> classified the
+                <code>genres</code> failure as <code>list_format_mismatch</code> — content correct,
+                serialization wrong. <code>compute_normalization_routing()</code> in
+                <code>helpers/investigator_routing.py</code> enforced a pre-fusion fix first, because
+                <code>pipeline_adaption</code> cannot add preprocessing steps. The investigation's own
+                reasoning was explicit:
+            </p>
+            <blockquote>
+                <p><em>"Because pipeline_adaption cannot add preprocessing and genres failures are caused by
+                pre-fusion format handling, normalization must be fixed first."</em></p>
+            </blockquote>
+            <p>
+                This is where the routing took a materially different path from Restaurants. The Restaurant
+                investigator went directly to <code>pipeline_adaption</code> because the dominant problem was
+                structural (identity/clustering). Here, the investigator went to <code>normalization_node</code>
+                first because the dominant problem was serialization — something that had to be addressed before
+                any resolver change could take effect. The second normalization pass applied title casing to
+                <code>metabooks_small.genres</code>, then allowed <code>pipeline_adaption</code> to run.
+            </p>
+
+            <h5>Iteration 2 — Fixes, Results, and Generalization</h5>
+            <p>
+                With normalization attempt 2 in place, <code>pipeline_adaption</code> made three targeted changes.
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Books example: conservative per-pair post-clustering</div>
-                <pre><code>clusterer = MaximumBipartiteMatching()
+                <div class="code-cell-title">genres fix — one character made the difference</div>
+                <pre><code class="language-python"># Iteration 1
+strategy.add_attribute_fuser("genres", union, separator="; ")
+# Output: ["christian fiction, fiction, romance", "religion, spirituality, literature, fiction"]
 
-refined_amazon_goodreads = clusterer.cluster(rb_correspondences_amazon_goodreads)
-refined_amazon_metabooks = clusterer.cluster(rb_correspondences_amazon_metabooks)
+# Iteration 2
+strategy.add_attribute_fuser("genres", union, separator=", ")
+# Output: "christian fiction, fiction, romance, religion, spirituality, literature, fiction"
+# Result: 10% → 90%</code></pre>
+            </div>
+
+            <div class="code-cell">
+                <div class="code-cell-title">publisher fix — trust map reversal and resolver change (linked)</div>
+                <pre><code class="language-python"># Iteration 1
+trust_map = {"amazon_small": 3, "goodreads_small": 2, "metabooks_small": 2}
+strategy.add_attribute_fuser("publisher", longest_string)
+# longest_string ignores the trust map entirely — both changes had to happen together.
+
+# Iteration 2
+trust_map = {"amazon_small": 1.0, "goodreads_small": 2.0, "metabooks_small": 3.0}
+strategy.add_attribute_fuser("publisher", prefer_higher_trust, trust_map=trust_map)
+# prefer_higher_trust(metabooks=3) selects "Simon &amp; Schuster" over "Simon &amp; Schuster (Trade Division)"
+# Result: 60% → 90%</code></pre>
+            </div>
+
+            <p>
+                <code>pipeline_adaption</code> also added <code>MaximumBipartiteMatching</code>, but crucially
+                applied it <em>per source pair</em> before concatenating correspondences — not globally after.
+                This is the conservative choice that kept Books stable on the sealed test.
+            </p>
+
+            <div class="code-cell">
+                <div class="code-cell-title">Per-pair MBM — conservative by design (contrast with global MBM in Restaurants)</div>
+                <pre><code class="language-python">clusterer = MaximumBipartiteMatching()
+
+refined_amazon_goodreads    = clusterer.cluster(rb_correspondences_amazon_goodreads)
+refined_amazon_metabooks    = clusterer.cluster(rb_correspondences_amazon_metabooks)
 refined_goodreads_metabooks = clusterer.cluster(rb_correspondences_goodreads_metabooks)
 
 all_rb_correspondences = pd.concat([
     refined_amazon_goodreads,
     refined_amazon_metabooks,
     refined_goodreads_metabooks,
-], ignore_index=True)</code></pre>
+], ignore_index=True)
+
+# Per-pair: 1:1 alignment enforced within each pair.
+# A record in source A can still appear in both A↔B and A↔C independently.
+# Effect on page_count: 70% → 80% by removing spurious edition-level cross-pair matches.</code></pre>
+            </div>
+
+            <p>
+                <code>author</code> was deliberately left unchanged.
+                <code>_probe_attribute_improvability()</code> classified it as near-ceiling at 90% on the
+                10-record validation set, so the investigator prioritized <code>genres</code> (10%) and
+                <code>publisher</code> (60%) instead. This decision had a hidden cost visible only on the sealed
+                test:
+            </p>
+
+            <div class="code-cell">
+                <div class="code-cell-title">author — the deferred fix and its sealed-test cost</div>
+                <pre><code class="language-python"># The one failing example on validation (deprioritized)
+longest_string_fused  = "Dina Anastasio (Adaptation), Sharon Ross (Illustrator)"
+validation_expected   = "Dina Anastasio"
+
+# On the sealed test, more records carried this role-annotation pattern.
+# author accuracy: 90% (validation) → 60% (sealed test)
+# The 10-record validation set had underrepresented this class of error.</code></pre>
             </div>
 
             <div class="table-scroll">
             <table class="evaluation-table">
                 <thead>
                     <tr>
-                        <th>Problem Area</th>
-                        <th>Investigator Evidence</th>
-                        <th>Directed Action</th>
-                        <th>Effect</th>
+                        <th>Column</th>
+                        <th>Iteration 1</th>
+                        <th>Iteration 2</th>
+                        <th>Change</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><code>genres</code></td>
-                        <td>High fuzzy match but low exact match showed a serialization problem</td>
-                        <td><code>normalization_node</code> adjusted genre casing; <code>pipeline_adaption</code> changed union separator to <code>", "</code></td>
-                        <td><code>10%</code> to <strong>90%</strong></td>
+                        <td>10%</td>
+                        <td><strong>90%</strong></td>
+                        <td>Separator <code>"; "</code> &rarr; <code>", "</code></td>
                     </tr>
                     <tr>
                         <td><code>publisher</code></td>
-                        <td>Source attribution favored <code>metabooks_small</code>; <code>longest_string</code> picked verbose imprints</td>
-                        <td>Changed resolver to <code>prefer_higher_trust</code> with <code>metabooks_small</code> highest</td>
-                        <td><code>60%</code> to <strong>90%</strong></td>
+                        <td>60%</td>
+                        <td><strong>90%</strong></td>
+                        <td>Trust map reversed + <code>longest_string</code> &rarr; <code>prefer_higher_trust</code></td>
                     </tr>
                     <tr>
                         <td><code>page_count</code></td>
-                        <td>Errors reflected edition-level disagreement more than formatting</td>
-                        <td>Kept numeric fusion stable; per-pair post-clustering reduced a few bad alignments</td>
-                        <td><code>70%</code> to <strong>80%</strong></td>
+                        <td>70%</td>
+                        <td><strong>80%</strong></td>
+                        <td>Per-pair MBM removed noisy edition-level links</td>
+                    </tr>
+                    <tr>
+                        <td><code>title</code></td>
+                        <td>80%</td>
+                        <td>80%</td>
+                        <td>No change</td>
                     </tr>
                     <tr>
                         <td><code>author</code></td>
-                        <td>Mostly stable on validation, but role annotations remained a sealed-test risk</td>
-                        <td>No major resolver change in cycle 2</td>
-                        <td><code>90%</code> stayed <strong>90%</strong> on validation</td>
+                        <td>90%</td>
+                        <td>90%</td>
+                        <td>No change (sealed test: 60%)</td>
+                    </tr>
+                    <tr>
+                        <td><code>language</code></td>
+                        <td>100%</td>
+                        <td>100%</td>
+                        <td>Stable</td>
+                    </tr>
+                    <tr>
+                        <td><code>publish_year</code></td>
+                        <td>100%</td>
+                        <td>100%</td>
+                        <td>Stable</td>
                     </tr>
                 </tbody>
             </table>
             </div>
 
             <p>
-                The result was a jump from <strong>76.25%</strong> to <strong>91.25%</strong>, with the sealed
-                test staying close at <strong>88.75%</strong>. The key lesson is that Agent VII's reasoning was
-                not just a generic instruction to improve accuracy. The helper probes showed that Books had
-                matched entities with wrong attribute formatting and source selection. The investigator routed
-                that evidence to <code>normalization_node</code> first, then <code>pipeline_adaption</code>
-                converted it into specific resolver and separator changes. That targeted routing is what turned a
-                decent first pipeline into the strongest Books result.
+                <strong>Overall: 76.25% &rarr; 91.25% (validation) &rarr; 88.75% (sealed test).</strong>
+                The agent's own ceiling estimate after Iteration 1 was 77.5%. The actual result beat that by
+                13.75&nbsp;pp — both the genres serialization error and the publisher trust ordering were larger
+                problems than the investigator anticipated, and both proved fully fixable. The sealed test held
+                well because the fixes reflected real source data properties rather than artifacts of the 10
+                validation records, and because per-pair MBM preserved cluster stability on unseen data.
             </p>
 
             <h3 id="restaurants-analysis">Restaurants</h3>
@@ -4454,224 +4504,184 @@ all_rb_correspondences = pd.concat([
 
             <h4 id="restaurants-in-depth-analysis">In-Depth Analysis: Agent VII</h4>
             <p>
-                Agent VII's Restaurants run is the clearest example of investigation-driven recovery.
-                The first executable pipeline reached only <strong>25.75%</strong> accuracy, but the low score
-                did not mean that blocking and matching had failed. The evaluation output showed that most
-                errors were <code>missing_fused_value</code>, meaning validation records could not be reached
-                through the fused output identity. The agent therefore had to reason about the pipeline as a
-                full workflow: candidate generation was mostly healthy, but fusion and output identity were
-                hiding otherwise valid matches from the scorer.
+                <strong>Run:</strong> <code>20260323_041229_restaurant</code> &middot;
+                kaggle_small, uber_eats_small, yelp_small (10&thinsp;k rows each)<br>
+                <strong>Trajectory:</strong> 25.75% &rarr; 86.00% (validation) &rarr; 30.04% (sealed test)
             </p>
 
-            <h5>Cycle 1: Initial Pipeline and Failure</h5>
+            <h5>Setup and Pipeline Crash</h5>
             <p>
-                In the first pass, <code>normalization_node</code> standardized restaurant-specific fields such
-                as phone numbers, postal codes, house numbers, and list-like <code>categories</code>. This gave
-                the downstream tester nodes usable signals: <code>run_blocking_tester</code> selected exact
-                blocking where reliable, such as phone and postal code, and semantic blocking where exact address
-                agreement was too brittle. <code>run_matching_tester</code> then selected weighted comparators
-                around <code>name_norm</code>, address fields, phone, postal code, categories, and coordinates.
-                These stages built a reasonable matching base, but the first generated pipeline still failed at
-                the integration level.
+                The first substantive decision was in <code>normalization_node</code>, backed by
+                <code>build_dataset_probe()</code>. The LLM's observation was precise:
             </p>
-
+            <blockquote>
+                <p><em>"Main visible mismatches are numeric-looking fields represented as strings in sources:
+                phone fields in kaggle/yelp become integer digits in target, house_number and postal_code are
+                integers, and rating_count is float where present."</em></p>
+            </blockquote>
             <p>
-                The first execution exposed an internal pipeline issue before evaluation: the
-                <code>kaggle_small_yelp_small</code> correspondence file could become empty because normalized
-                scalar values were represented inconsistently, for example phone values loaded back as floats or
-                strings with different country-code formatting. <code>pipeline_adaption</code> acted on that
-                runtime evidence by adding scalar stringification, safer null handling, list flattening for
-                blocking text, and a fail-soft blocking fallback. This repair allowed the pipeline to complete,
-                but it did not yet solve the main accuracy problem.
+                It wrote coercion specs for <code>phone_raw</code> and <code>phone_e164</code> (to
+                <code>int</code>), <code>house_number</code> and <code>postal_code</code> (to
+                <code>int</code>), and <code>rating_count</code> (to <code>float</code>). It also flagged
+                <code>categories</code> as a list column — the step that the Books normalization missed for
+                <code>genres</code>. The phone coercions mattered immediately for blocking: Kaggle stored
+                <code>phone_raw</code> as <code>"15205559287"</code> while Yelp stored
+                <code>"+15205559287"</code>. After coercion to integer, both became
+                <code>15205559287</code>, and <code>_column_quality_score()</code> rated <code>phone_raw</code>
+                top of its preferred columns list — pair completeness = 1.0 on the first attempt.
+            </p>
+            <p>
+                The kaggle&harr;uber pair had no phone signal and required two blocking attempts. The first
+                — <code>exact_match_multi</code> on <code>["city", "street", "house_number"]</code> — returned
+                pair completeness of only 0.55. On the second attempt the LLM switched to
+                <code>semantic_similarity</code> on <code>["address_line1", "name_norm", "city"]</code> with
+                <code>top_k=15</code>. The reason exact blocking failed: Kaggle stored
+                <code>street = "W Huntington Dr"</code> while Uber stored <code>"Huntington Drive"</code> —
+                two different strings to an exact matcher, two near-identical vectors to an EmbeddingBlocker.
+            </p>
+            <p>
+                The first generated pipeline then crashed immediately:
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Restaurants column repair: phone_e164 and postal_code</div>
-                <pre><code># Cycle 1 problem
-kaggle_small.phone_e164 = 15205559287.0
-yelp_small.phone_e164 = "+15205559287"
-kaggle_small.postal_code = 85251.0
+                <div class="code-cell-title">Pipeline crash — phone_e164 type mismatch and the repair</div>
+                <pre><code class="language-python"># Root cause: phone_e164 normalized to int, then reloaded from CSV as float
+kaggle_small.phone_e164 = 15205559287.0   # float after CSV round-trip
+yelp_small.phone_e164   = "+15205559287"  # string with country prefix
+# StandardBlocker exact-matched float against string → ValueError: Empty correspondences
 
 # pipeline_adaption repair
-def stringify_scalar(value):
-    if pd.isna(value):
-        return value
-    if isinstance(value, float) and value.is_integer():
-        return str(int(value))
-    return str(value)
+def stringify_scalar(x):
+    if isinstance(x, float) and x.is_integer():
+        return str(int(x))   # 15205559287.0 → "15205559287"
+    return str(x)
 
 for df in [kaggle_small, yelp_small]:
     df["phone_e164"] = df["phone_e164"].apply(stringify_scalar)
     df["postal_code"] = df["postal_code"].apply(stringify_scalar)
 
-# After repair
-kaggle_small.phone_e164 = "15205559287"
-kaggle_small.postal_code = "85251"
-
-# Fail-soft fallback if phone + postal still produces no candidates
-candidates_kaggle_yelp = blocker_kaggle_yelp.materialize()
-
+# Fail-soft fallback if multi-column blocking still returns empty
 if candidates_kaggle_yelp.empty:
     blocker_kaggle_yelp = StandardBlocker(
-        kaggle_small,
-        yelp_small,
-        on=["phone_e164"],
-        id_column="id",
+        kaggle_small, yelp_small,
+        on=["phone_e164"], id_column="id",
     )
     candidates_kaggle_yelp = blocker_kaggle_yelp.materialize()</code></pre>
             </div>
 
-            <h5>Evaluation and Investigation</h5>
             <p>
-                After the repaired first pipeline ran, <code>evaluation_node</code> generated the mismatch log
-                and per-column accuracy report. The decisive signal was not one weak column, but the reason
-                distribution: almost all wrong cells were reported as <code>missing_fused_value</code>. Through
-                <code>run_investigator_probes()</code>, the investigator used helper probes such as
-                <code>_probe_reason_distribution()</code>, <code>_probe_source_attribution()</code>, and
-                correspondence-health checks to separate matching failure from fusion/output failure.
+                The pipeline now ran to completion and produced <code>fusion_data.csv</code> — but this repair
+                did not yet solve the main accuracy problem.
             </p>
 
+            <h5>Iteration 1 — Diagnosing the 25.75% Score</h5>
             <p>
-                The reasoning was direct: correspondence files were non-empty, blocking recall was acceptable,
-                and pairwise matching F1 was already strong. Therefore the agent concluded that the main defect
-                was not candidate generation. The fused records existed, but cluster construction and output ID
-                extraction did not expose the expected <code>kaggle380k-</code>, <code>uber_</code>, or
-                <code>yelp-</code> validation identities consistently. The investigator routed the correction to
-                <code>pipeline_adaption</code>, because this was a fusion and post-clustering problem rather than
-                a normalization problem.
+                The evaluation found 297 mismatches across all 20 validation records. Every single one had
+                <code>fused_id = NaN</code> and <code>reason = "missing_fused_value"</code>. The evaluation
+                script searched for validation IDs like <code>"yelp-06497"</code> in each fused entity's
+                <code>_fusion_sources</code> field and found nothing — not because the records didn't exist,
+                but because the clusters were structured in a way that didn't expose the right source IDs.
+            </p>
+            <p>
+                <code>run_investigator_probes()</code> ran its fixed probe sequence. The first probe —
+                <code>_probe_reason_distribution()</code> — returned a single number that redirected the
+                entire investigation before any per-attribute analysis began:
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Restaurants example: investigator evidence and routing decision</div>
-                <pre><code># What the investigator saw after the repaired cycle 1 pipeline
-reason_distribution = {
+                <div class="code-cell-title">Iteration 1 — reason distribution redirects the investigation</div>
+                <pre><code class="language-python">reason_distribution = {
     "missing_fused_value": 0.933,
+    "mismatch":            0.067,
 }
-
-matching_health = {
-    "blocking_recall": "acceptable",
-    "correspondence_files": "non_empty",
-    "pairwise_matching_f1": "strong",
-}
-
-next_node = "pipeline_adaption"
-
-# Reasoning:
-# Candidates and matches exist, so the failure is not blocking or matching.
-# The fused output does not expose validation IDs consistently.
-# Route to pipeline_adaption to change post-clustering and fusion behavior.</code></pre>
+# A 93.3% rate of unfindable records is not a resolver problem.
+# The investigator did not examine individual column values at all.</code></pre>
             </div>
 
-            <h5>Cycle 2: Acting on the Reasoning</h5>
-            <p>
-                In the second pipeline, <code>pipeline_adaption</code> added
-                <code>MaximumBipartiteMatching</code> before fusion. This was the highest-impact change because
-                it repaired fragmented restaurant clusters and made source IDs available to the evaluator through
-                a more coherent fused entity. The same adaptation step also changed field-level fusion behavior
-                based on source-attribution evidence. Instead of relying on one global trust order, the pipeline
-                used targeted resolver choices for contested columns such as <code>source</code>,
-                <code>map_url</code>, <code>street</code>, <code>address_line1</code>, and <code>rating</code>.
-            </p>
+            <div class="code-cell">
+                <div class="code-cell-title">Iteration 1 — fragmented cluster identity (why records were unfindable)</div>
+                <pre><code class="language-python"># Without MBM, "Cornish Pasty Co" existed as two separate clusters:
+#   cluster A: _fusion_sources = ["kaggle-00123", "uber_eats-00985"]
+#   cluster B: _fusion_sources = ["kaggle-00123", "yelp-06497"]
+# Neither cluster held all three source IDs.
+# The evaluator scanned cluster A for "yelp-06497", found nothing → fused_id = NaN.
+
+direct_id_coverage = 0.30   # only 6 of 20 records findable via single representative ID</code></pre>
+            </div>
 
             <p>
-                The agent's reasoning here was column-specific. For <code>street</code>, the source-attribution
-                probe showed that <code>kaggle_small</code> aligned best with validation, so the agent avoided
-                blindly trusting the global Yelp-first policy. For <code>address_line1</code>, longer values were
-                not always better, so <code>most_complete</code> was replaced by a voting-style resolver. For
-                <code>rating</code>, the investigator noted that median fusion created synthetic values that did
-                not necessarily appear in any source, so voting was safer. For <code>map_url</code> and
-                <code>source</code>, the evidence showed mixed source agreement, so the adaptation reduced
-                dependence on one fixed trust hierarchy.
+                <code>_probe_blocking_recall()</code> confirmed pair completeness was 1.0 for all three pairs
+                — matching was not the bottleneck. The investigator's diagnosis was unambiguous:
+            </p>
+            <blockquote>
+                <p><em>"The main failure is in fusion/output construction, not blocking or matching. Matching
+                is already strong (F1 0.89–0.98, no empty correspondence files, blocking recall probe clean),
+                while 93.3% of errors are missing_fused_value and direct ID coverage is only 30%.
+                Post-clustering guidance recommends MaximumBipartiteMatching, which is not applied."</em></p>
+            </blockquote>
+            <p>
+                Because the failure was structural rather than a format issue, the investigator routed directly
+                to <code>pipeline_adaption</code> — the opposite path from Books, where a serialization problem
+                required <code>normalization_node</code> first.
+            </p>
+
+            <h5>Iteration 2, Results, and the Sealed Test</h5>
+            <p>
+                The dominant change in Iteration 2 was global <code>MaximumBipartiteMatching</code>:
             </p>
 
             <div class="code-cell">
-                <div class="code-cell-title">Restaurants structural fix: cluster identity</div>
-                <pre><code># Cycle 1 symptom
-debug_mismatch = {
-    "expected_id": "yelp-06497",
-    "fused_id": None,
-    "reason": "missing_fused_value",
-}
-
-# Cycle 2 structural change
+                <div class="code-cell-title">Structural fix — global MBM collapses fragmented clusters</div>
+                <pre><code class="language-python"># Iteration 2
 post_clusterer = MaximumBipartiteMatching()
 all_rb_correspondences = post_clusterer.cluster(all_rb_correspondences)
 
-# Effect:
-# the fused cluster can expose source IDs through _fusion_sources,
-# so evaluation can map the fused row back to yelp-06497.</code></pre>
+# Effect: all three sources for the same restaurant collapse into one cluster.
+# _fusion_sources = ["kaggle-00123", "uber_eats-00985", "yelp-06497"]
+# The evaluator finds "yelp-06497" → record is now scorable.
+
+# 297 missing_fused_value mismatches → 56 real value mismatches
+# mapped_coverage_ratio = 1.0
+# Overall: 25.75% → 86.00%</code></pre>
             </div>
 
+            <p>
+                With identity fixed, the per-source evidence from <code>_probe_source_attribution()</code>
+                became actionable for each remaining low-accuracy column:
+            </p>
+
             <div class="code-cell">
-                <div class="code-cell-title">Restaurants column fix: street</div>
-                <pre><code># Source-attribution evidence
-street_exact_match = {
-    "kaggle_small": 1.00,
-    "yelp_small": 0.81,
-    "uber_eats_small": 0.25,
-}
-
-# Cycle 1
-strategy.add_attribute_fuser("street", most_complete)
-
-# Cycle 2
+                <div class="code-cell-title">Per-column resolver changes — evidence-driven</div>
+                <pre><code class="language-python"># street (25% → 100%)
+# kaggle=100%, yelp=81%, uber=25% — most_complete was picking verbose non-canonical forms
 strategy.add_attribute_fuser("street", voting)
+# kaggle's canonical "W Hollywood Blvd" wins via majority over "West Hollywood Boulevard"
 
-# Result:
-# street accuracy: 25% -> 100%</code></pre>
-            </div>
-
-            <div class="code-cell">
-                <div class="code-cell-title">Restaurants column fix: address_line1</div>
-                <pre><code># Cycle 1 problem
-fused_address_line1 = "410 Old Town St"
-expected_address_line1 = "410 Old Town Street"
-
-# Cycle 1
-strategy.add_attribute_fuser("address_line1", most_complete)
-
-# Cycle 2
+# address_line1 (25% → 80%)
+# most_complete examples:
+#   fused "130 Huntington Dr"  expected "130 W Huntington Dr"
+#   fused "410 Old Town St"    expected "410 Old Town Street"
+# Two of three sources agreed on the validation form
 strategy.add_attribute_fuser("address_line1", voting)
 
-# Result:
-# address_line1 accuracy: 25% -> 80%</code></pre>
-            </div>
-
-            <div class="code-cell">
-                <div class="code-cell-title">Restaurants column fix: rating</div>
-                <pre><code># Cycle 1 problem
-source_ratings = [4.3, 4.5, 4.6]
-median_output = 4.5
-expected_rating = 4.3
-
-# Cycle 1
-strategy.add_attribute_fuser("rating", median)
-
-# Cycle 2
+# rating (0% → 50%)
+# median produced 4.449999999999999 — floating-point artifact, not an observed value
+# source_ratings = [4.3, 4.5, 4.6] → median = 4.5 → expected = 4.3
 strategy.add_attribute_fuser("rating", voting)
 
-# Result:
-# rating accuracy: 0% -> 50%</code></pre>
+# map_url (0% → 50%)
+# Iteration 1 trust map: yelp=3, but probe showed yelp=62%, kaggle=50%
+# Validation alternates between Yelp URLs and Google Maps URLs — structural ceiling
+strategy.add_attribute_fuser("map_url", voting)</code></pre>
             </div>
 
-            <div class="code-cell">
-                <div class="code-cell-title">Restaurants column fix: map_url</div>
-                <pre><code># Cycle 1 problem
-kaggle_small.map_url = "https://www.google.com/maps/place/..."
-yelp_small.map_url = "https://www.yelp.com/biz/..."
-
-# A fixed Yelp-first or Kaggle-first trust map is brittle here:
-# validation sometimes expects Google Maps URLs and sometimes Yelp URLs.
-
-# Cycle 1
-strategy.add_attribute_fuser("map_url", prefer_higher_trust, trust_map=global_trust_map)
-
-# Cycle 2
-strategy.add_attribute_fuser("map_url", voting)
-
-# Result:
-# map_url accuracy: 0% -> 50%</code></pre>
-            </div>
+            <p>
+                Columns that had been at 0–30% in Iteration 1 — latitude, longitude, city, state,
+                <code>postal_code</code>, <code>house_number</code>, phone, country, website,
+                <code>rating_count</code>, <code>address_line2</code>, <code>categories</code> — all reached
+                100% in Iteration 2. These columns were not wrong; they were invisible. MBM made them
+                findable, and once findable, the existing resolver choices were already correct for them.
+            </p>
 
             <div class="table-scroll">
             <table class="evaluation-table">
@@ -4686,46 +4696,50 @@ strategy.add_attribute_fuser("map_url", voting)
                 <tbody>
                     <tr>
                         <td>Cluster identity</td>
-                        <td><code>missing_fused_value</code> dominated the mismatch log</td>
-                        <td><code>pipeline_adaption</code> added <code>MaximumBipartiteMatching</code></td>
-                        <td>Missing fused values were largely removed on validation</td>
+                        <td>93.3% <code>missing_fused_value</code>; direct ID coverage 30%</td>
+                        <td>Global <code>MaximumBipartiteMatching</code> on concatenated correspondences</td>
+                        <td>297 missing records &rarr; 56 real mismatches</td>
                     </tr>
                     <tr>
                         <td><code>street</code></td>
-                        <td>Source attribution favored <code>kaggle_small</code></td>
-                        <td>Changed away from generic longest/complete selection</td>
-                        <td><code>25%</code> to <strong>100%</strong></td>
+                        <td>kaggle = 100% exact; <code>most_complete</code> preferred verbose forms</td>
+                        <td><code>most_complete</code> &rarr; <code>voting</code></td>
+                        <td>25% &rarr; <strong>100%</strong></td>
                     </tr>
                     <tr>
                         <td><code>address_line1</code></td>
-                        <td>Longer strings were often non-canonical</td>
-                        <td>Changed <code>most_complete</code> to voting-style fusion</td>
-                        <td><code>25%</code> to <strong>80%</strong></td>
+                        <td>Longer strings were non-canonical; two sources agreed on validation form</td>
+                        <td><code>most_complete</code> &rarr; <code>voting</code></td>
+                        <td>25% &rarr; <strong>80%</strong></td>
                     </tr>
                     <tr>
                         <td><code>rating</code></td>
-                        <td>Median produced synthetic non-source values</td>
-                        <td>Changed numeric aggregation to voting-style selection</td>
-                        <td><code>0%</code> to <strong>50%</strong></td>
+                        <td>Median produced floating-point artifacts not present in any source</td>
+                        <td><code>median</code> &rarr; <code>voting</code></td>
+                        <td>0% &rarr; <strong>50%</strong></td>
                     </tr>
                     <tr>
                         <td><code>map_url</code></td>
-                        <td>No single source dominated consistently</td>
-                        <td>Reduced dependence on fixed source priority</td>
-                        <td><code>0%</code> to <strong>50%</strong></td>
+                        <td>No single source dominated; validation alternates between URL providers</td>
+                        <td>Trust map flipped + <code>voting</code></td>
+                        <td>0% &rarr; <strong>50%</strong></td>
                     </tr>
                 </tbody>
             </table>
             </div>
 
             <p>
-                The result was a jump from <strong>25.75%</strong> to <strong>86.00%</strong>. The important point
-                is not only the size of the gain, but how it was produced. Agent VII did not rewrite the whole
-                pipeline blindly after a bad score. It used helper-generated evidence to classify the failure,
-                routed the correction to the node that could actually change fusion behavior, and then applied
-                focused structural fixes. The later sealed-test collapse shows that this repair still had
-                generalization risk around output identity, but on the validation workflow the reasoning loop
-                correctly found the bottleneck and converted it into a targeted second-cycle improvement.
+                <strong>Overall: 25.75% &rarr; 86.00% (validation) &rarr; 30.04% (sealed test).</strong>
+                The sealed test used 40 records — double the validation set. 558 of 559 mismatches reverted to
+                <code>missing_fused_value</code>. The global MBM that had worked on 20 validation records
+                produced different cluster topologies on 40 records with a wider score distribution, so the
+                expected <code>"yelp-"</code> and <code>"uber_-"</code> prefixes were absent from
+                <code>_fusion_sources</code> on many sealed records. An earlier run from 2026-03-22 that had no
+                global MBM but a more robust ID extraction fallback still reached 89.5% on the sealed test.
+                The final run added post-clustering improvement but lost that extraction robustness — a
+                high-leverage change that was catastrophic when cluster topology differed on unseen data. The
+                Books run avoided this exactly by applying MBM per-pair rather than globally, a conservative
+                choice that held stable at 88.75%.
             </p>
         </section>
         
@@ -5251,5 +5265,8 @@ strategy.add_attribute_fuser("map_url", voting)
     </main>
 
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
 </body>
 </html>
