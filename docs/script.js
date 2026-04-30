@@ -22,13 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ─── Collapsible navigation ───
-    // For every <li> that has a child <ul>, wrap the <a> + chevron in a toggle
-    // and make the <ul> collapsible.
     const navItems = sidebar.querySelectorAll('nav li');
 
     navItems.forEach(li => {
         const childUl = li.querySelector(':scope > ul');
-        if (!childUl) return;                 // leaf node — skip
+        if (!childUl) return;
 
         const link = li.querySelector(':scope > a');
         if (!link) return;
@@ -44,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create chevron button
         const chevron = document.createElement('span');
         chevron.className = 'chevron';
-        chevron.innerHTML = '▼';
+        chevron.innerHTML = '▾';
         chevron.setAttribute('aria-label', 'Toggle submenu');
         wrapper.appendChild(chevron);
 
@@ -52,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         childUl.classList.add('collapsible');
 
         // Start collapsed for level-2+ (children of top-level items)
-        // Keep top-level sections expanded by default
         const isTopLevel = li.parentElement === sidebar.querySelector('nav > ul');
         if (!isTopLevel) {
             childUl.classList.add('collapsed');
@@ -67,9 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapper.classList.toggle('collapsed');
         });
 
-        // Also toggle when clicking the link text (but still navigate)
+        // Also toggle when clicking the link text
         link.addEventListener('click', (e) => {
-            // If collapsed, expand it
             if (childUl.classList.contains('collapsed')) {
                 childUl.classList.remove('collapsed');
                 wrapper.classList.remove('collapsed');
@@ -123,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let parent = link.closest('.collapsible');
                 while (parent) {
                     parent.classList.remove('collapsed');
-                    // Also update the toggle wrapper
                     const toggle = parent.previousElementSibling;
                     if (toggle && toggle.classList.contains('nav-toggle')) {
                         toggle.classList.remove('collapsed');
@@ -134,7 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    window.addEventListener('scroll', updateActiveSection);
+    // Debounce scroll handler for performance
+    let scrollTimer;
+    window.addEventListener('scroll', () => {
+        if (scrollTimer) cancelAnimationFrame(scrollTimer);
+        scrollTimer = requestAnimationFrame(updateActiveSection);
+    });
+
     // Run once on load to set initial state
     updateActiveSection();
 });

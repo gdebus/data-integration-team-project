@@ -6,7 +6,7 @@
     <title>Team Project - LLM-Agents in Data Integration</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>">
 </head>
 <body>
 
@@ -17,30 +17,31 @@
         <nav>
             <ul>
                 <li><a href="#home" class="active">Introduction</a></li>
-                <li><a href="#architecture">Architecture</a></li>
                 <li>
-                    <a href="#components">Components</a>
+                    <a href="#architecture">Architecture</a>
                     <ul>
-                        <li><a href="#schema-matching">Schema Matching</a></li>
-                        <li><a href="#entity-matching">Entity Matching</a></li>
-                        <li><a href="#data-fusion">Data Fusion</a></li>
-                    </ul>
-                </li>
-                <li><a href="#agent-viii">Agent VIII</a></li>
-                <li>
-                    <a href="#agent-vii">Agent VII</a>
-                    <ul>
-                        <li><a href="#agent-vii-graph">Graph &amp; Routing</a></li>
-                        <li><a href="#agent-vii-normalization">Normalization</a></li>
-                        <li><a href="#agent-vii-investigation">Investigation</a></li>
-                        <li><a href="#agent-vii-probes">Probe System</a></li>
-                        <li><a href="#agent-vii-cluster">Cluster Analysis</a></li>
-                        <li><a href="#agent-vii-review">Self-Review</a></li>
-                        <li><a href="#agent-vii-guardrails">Code Guardrails</a></li>
-                        <li><a href="#agent-vii-scaffold">Pipeline Scaffold</a></li>
-                        <li><a href="#agent-vii-subsystems">Other Subsystems</a></li>
-                        <li><a href="#agent-vii-testset-generator">Test Set Generator</a></li>
-                        <li><a href="#agent-vii-reasoning-study">Reasoning Case Study</a></li>
+                        <li><a href="#agent-i">Agent I</a></li>
+                        <li><a href="#agent-ii">Agent II</a></li>
+                        <li><a href="#agent-iii-iv">Agents III &amp; IV</a></li>
+                        <li><a href="#agent-v-vi">Agents V &amp; VI</a></li>
+                        <li><a href="#agent-viii">Agent VIII</a></li>
+                        <li>
+                            <a href="#agent-vii">Agent VII</a>
+                            <ul>
+                                <li><a href="#agent-vii-graph">Graph &amp; Routing</a></li>
+                                <li><a href="#agent-vii-normalization">Normalization</a></li>
+                                <li><a href="#agent-vii-investigation">Investigation</a></li>
+                                <li><a href="#agent-vii-probes">Probe System</a></li>
+                                <li><a href="#agent-vii-cluster">Cluster Analysis</a></li>
+                                <li><a href="#agent-vii-review">Self-Review</a></li>
+                                <li><a href="#agent-vii-guardrails">Code Guardrails</a></li>
+                                <li><a href="#agent-vii-scaffold">Pipeline Scaffold</a></li>
+                                <li><a href="#agent-vii-subsystems">Other Subsystems</a></li>
+                                <li><a href="#agent-vii-testset-generator">Test Set Generator</a></li>
+                                <li><a href="#agent-vii-reasoning-study">Reasoning Case Study</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#agent-comparison">Agent Comparison</a></li>
                     </ul>
                 </li>
                 <li>
@@ -84,21 +85,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="#findings">Findings</a>
-                            <ul>
-                                <li><a href="#token-usage">Token Usage</a></li>
-                                <li><a href="#time-complexity">Time Complexity</a></li>
-                                <li><a href="#trial-and-error">Trial &amp; Error</a></li>
-                                <li>
-                                    <a href="#accuracy">Accuracy</a>
-                                    <ul>
-                                        <li><a href="#per-iteration-gains">Per Iteration Gains</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#llm-test-set-generation">LLM Test Set Generation</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="#token-usage">Token Usage</a></li>
+                        <li><a href="#time-complexity">Time Complexity</a></li>
+                        <li><a href="#accuracy">Accuracy</a> </li>
                     </ul>
                 </li>
                 <li><a href="#conclusion">Conclusion</a></li>
@@ -223,17 +212,6 @@
                     datasets, from small restaurant directories to large game catalogues with hundreds
                     of thousands of candidate pairs.</li>
             </ul>
-
-            <h2>How to Read This Documentation</h2>
-            <p>
-                The <strong>Architecture</strong> section describes the shared graph structure and the
-                common nodes that all agents use. The subsequent agent sections
-                (I&nbsp;through&nbsp;VII) document each variant&rsquo;s additions in order of
-                increasing capability. Agent&nbsp;VII has the most detailed documentation, as it
-                represents the final, most complete system.
-                The <strong>Components</strong> section provides background on the PyDI building
-                blocks (schema matching, entity matching, data fusion) that the agents orchestrate.
-            </p>
         </section>
 
         <!-- Architecture -->
@@ -4743,9 +4721,8 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
             </p>
         </section>
         
-        <section id="findings">
-            <h2>Findings</h2>
-            <h3 id="token-usage">Token Usage</h3>
+        <section id="token-usage">
+            <h2>Token Usage</h2>
             <p>
                 The token analysis below is based on the <code>node_activity.json</code> logs for all
                 28 recorded <code>AdaptationPipeline_*</code> runs across the Games, Music, Books, and
@@ -4907,7 +4884,7 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
         </section>
 
         <section id="time-complexity">
-            <h3>Time Complexity</h3>
+            <h2>Time Complexity</h2>
             <p>
                 The runtime logs show a different story from the token logs. Across all 28 runs, the
                 average duration contribution of <code>execute_pipeline</code> is roughly
@@ -5076,13 +5053,8 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
             </ul>
         </section>
 
-        <section id="trial-and-error">
-            <h3>Trial &amp; Error</h3>
-            <p><em>Documentation coming soon.</em></p>
-        </section>
-
         <section id="accuracy">
-            <h3>Accuracy</h3>
+            <h2>Accuracy</h2>
             <p>
                 This section presents a comprehensive accuracy analysis across all eight agent
                 architectures, evaluated on four use cases: <strong>Books</strong>,
@@ -5090,7 +5062,7 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
                 Some runs are terminated early since they meet success criteria of final accuracy which is 85%.
             </p>
 
-            <h4 id="overall-performance">Overall Performance by Agent</h4>
+            <h3 id="overall-performance">Overall Performance by Agent</h3>
             <p>
                 The clearest signal in the data is a sharp generational break between early and
                 late agent designs. Agents I through VI — spanning both Rule-Based and ML matching
@@ -5132,7 +5104,7 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
                 line — is reliably cleared, not just occasionally reached.
             </p>
 
-            <h4 id="accuracy-by-use-case">Accuracy by Use Case</h4>
+            <h3 id="accuracy-by-use-case">Accuracy by Use Case</h3>
             <p>
                 Performance is not uniform across domains.
             </p>
@@ -5157,7 +5129,7 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
                 clears 80% on all four use cases.
             </p>
 
-            <h4 id="per-iteration-gains">Per-Iteration Gains</h4>
+            <h3 id="per-iteration-gains">Per-Iteration Gains</h3>
             <p>
                 The most important distinguishing property of the latest agents is not just where
                 they finish, but <strong>how they get there</strong>.
@@ -5186,7 +5158,7 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
                 gains rather than oscillate.
             </p>
 
-            <h4 id="stability-and-self-correction">Stability and Self-Correction</h4>
+            <h3 id="stability-and-self-correction">Stability and Self-Correction</h3>
             <p>
                 The capability that separates Agents VII and VIII from their predecessors is
                 <strong>in-iteration error correction</strong>. Earlier agents could detect that
@@ -5212,47 +5184,10 @@ strategy.add_attribute_fuser("map_url", voting)</code></pre>
             </p>
         </section>
 
-        <section id="llm-test-set-generation">
-            <h3>LLM Test Set Generation</h3>
-            <p><em>Documentation coming soon.</em></p>
-        </section>
-
         <!-- Conclusion -->
         <section id="conclusion">
             <h1>Conclusion</h1>
             <p><em>Documentation coming soon.</em></p>
-        </section>
-
-        <!-- Components Wrapper (Logical grouping, no specific content needed but good for spacing) -->
-        <section id="components">
-            <h1>Pipeline Components</h1>
-            <p>The system is built upon three main independent agents that collaborate to process data.</p>
-        </section>
-
-        <!-- Schema Matching -->
-        <section id="schema-matching">
-            <h2>Schema Matching</h2>
-            <p><em>Documentation coming soon.</em></p>
-            <p>This component handles the alignment of attributes from heterogeneous sources to a unified target schema.</p>
-        </section>
-
-        <!-- Entity Matching -->
-        <section id="entity-matching">
-            <h2>Entity Matching</h2>
-            <p><em>Documentation coming soon.</em></p>
-            <p>This component identifies records that refer to the same real-world entity across different datasets.</p>
-        </section>
-
-        <!-- Data Fusion -->
-        <section id="data-fusion">
-            <h2>Data Fusion</h2>
-            <p>Data Fusion is the final stage of our integration pipeline, where we reconcile conflicting values and merge information.</p>
-
-            <h3>Strategy</h3>
-            <ul>
-                <li><strong>Conflict Resolution:</strong> We use LLM-based reasoning to choose the most accurate value when sources disagree.</li>
-                <li><strong>Normalization:</strong> Standardizing formats for dates, currencies, and names.</li>
-            </ul>
         </section>
 
         <!-- Notebooks -->
